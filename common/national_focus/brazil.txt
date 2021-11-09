@@ -1,0 +1,252 @@
+### search_filters = {FOCUS_FILTER_POLITICAL}
+### search_filters = {FOCUS_FILTER_RESEARCH}
+### search_filters = {FOCUS_FILTER_INDUSTRY}
+### search_filters = {FOCUS_FILTER_STABILITY}
+### search_filters = {FOCUS_FILTER_WAR_SUPPORT}
+### search_filters = {FOCUS_FILTER_MANPOWER}
+### search_filters = {FOCUS_FILTER_ANNEXATION}
+
+focus_tree = {
+	id = brazil_focus
+	
+	country = {
+		factor = 0
+		
+		modifier = {
+			add = 10
+			tag = BRA
+		}
+	}
+	
+	initial_show_position = {
+		x = 0
+	}
+
+	continuous_focus_position = { x = 100 y = 2050 }
+	
+	default = no
+	
+	focus = {
+		id = BRA_invest_in_our_economy
+		icon = GFX_ARG_subsidize_industry
+		x = 8
+		y = 1
+		
+		cost = 4
+
+		available = {
+			has_civil_war = no 
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_1_civilian = yes 
+		}
+	}
+
+	focus = {
+		id = BRA_pave_the_roads
+		icon = GFX_goal_generic_construct_infrastructure
+		x = 0
+		y = 1
+		relative_position_id = BRA_invest_in_our_economy
+		prerequisite = { focus = BRA_invest_in_our_economy }
+
+		cost = 6
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes 
+				}
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes 
+				}
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes 
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = BRA_begin_industrializing_the_nation
+		icon = GFX_BRA_industrialize
+		x = -5
+		y = 1
+		relative_position_id = BRA_pave_the_roads 
+		prerequisite = { focus = BRA_pave_the_roads }
+		mutually_exclusive = { focus = BRA_maintain_our_agriculture }
+
+		cost = 10
+
+		available = {
+			has_idea = rural_economy
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = rural_economy
+				add_idea = semi_rural_economy
+			}
+			custom_effect_tooltip = BRA_coffee_dependency_decreases_10_tt
+			unlock_decision_tooltip = BRA_destroy_the_coffee_plantations_in_FROM
+			hidden_effect = {
+				subtract_from_variable = { BRA_dependency_on_coffee = 10 }
+				BRA_update_opinion_variable = yes 
+				BRA_set_dependency_on_coffee_idea = yes
+			}
+		}
+	}
+
+	focus = {
+		id = BRA_
+	}
+
+	focus = {
+		id = BRA_maintain_our_agriculture
+		icon = GFX_BRA_agriculture
+		x = 5
+		y = 1
+		relative_position_id = BRA_pave_the_roads
+		prerequisite = { focus = BRA_pave_the_roads }
+		mutually_exclusive = { focus = BRA_begin_industrializing_the_nation }
+
+		cost = 10
+
+		available = {
+			has_idea = rural_economy
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			unlock_decision_tooltip = BRA_expand_our_coffee_plantations_in_FROM
+		}
+	}
+
+	focus = {
+		id = BRA_the_brazilian_mining_industry
+		icon = GFX_goal_generic_construction2
+		x = 0
+		y = 2
+		relative_position_id = BRA_pave_the_roads
+		prerequisite = {
+			focus = BRA_begin_industrializing_the_nation
+			focus = BRA_maintain_our_agriculture
+		}
+
+		cost = 5
+
+		available = {
+			is_subject = no 
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_ideas = BRA_brazilian_mining_industry_1
+		}
+	}
+
+	focus = {
+		id = BRA_industrialize_the_amazons
+		icon = GFX_goal_generic_construct_civilian
+		x = 0
+		y = 1
+		relative_position_id = BRA_the_brazilian_mining_industry
+		prerequisite = { focus = BRA_the_brazilian_mining_industry }
+
+		cost = 6
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_better_than_semi_rural_tt
+				OR = {
+					has_idea = semi_rural_economy
+					has_idea = industrializing_economy
+					has_idea = industrialized_economy
+				}
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			
+		}
+	}
+
+	focus = {
+		id = BRA_establish_rubber_plantations
+		icon = GFX_focus_generic_rubber
+		x = 1
+		y = 1
+		relative_position_id = BRA_industrialize_the_amazons
+		prerequisite = { focus = BRA_industrialize_the_amazons }
+	}
+
+	focus = {
+		id = BRA_expand_our_roads_in_the_south
+		icon = GFX_goal_generic_construct_infrastructure
+		x = -1
+		y = 1
+		relative_position_id = BRA_industrialize_the_amazons
+		prerequisite = { focus = BRA_industrialize_the_amazons }
+	}
+
+	focus = {
+		id = BRA_an_industry_for_the_people
+		icon = GFX_goal_generic_construct_civ_factory
+		x = -4
+		y = 1
+		relative_position_id = BRA_the_brazilian_mining_industry
+		prerequisite = { focus = BRA_the_brazilian_mining_industry }
+
+		cost = 8
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_2_civilian = yes 
+		}
+	}
+
+	focus = {
+		id = BRA_expand_our_industry_in_the_south
+		icon = GFX_ARG_subsidize_industry
+		x = 1
+		y = 1
+		relative_position_id = BRA_an_industry_for_the_people
+		prerequisite = { focus = BRA_an_industry_for_the_people }
+	}
+
+	focus = {
+		id = BRA_establish_csn
+		icon = GFX_BRA_csn_focus
+		x = 1
+		y = 1
+		relative_position_id = BRA_expand_our_industry_in_the_south
+		prerequisite = { focus = BRA_expand_our_industry_in_the_south }
+		prerequisite = { focus = BRA_expand_our_roads_in_the_south }
+	}
+
+	focus = {
+		id = BRA_steel_for_the_army
+		icon = GFX_focus_generic_steel
+		x = 0
+		y = 1
+		relative_position_id = BRA_establish_csn
+		prerequisite = { focus = BRA_establish_csn }
+		#there will be one more focus here
+	}
+	
+}

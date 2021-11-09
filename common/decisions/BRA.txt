@@ -1,0 +1,426 @@
+BRA_economic_management = {
+    BRA_industrialize_the_economy_mission = {
+        priority = 80
+        icon = generic_factory
+
+        available = {
+            custom_trigger_tooltip = {
+                tooltip = BRA_industrializing_economy_tt
+                if = {
+                    limit = { has_idea = rural_economy }
+                    has_idea = semi_rural_economy
+                }
+                else_if = {
+                    limit = { has_idea = semi_rural_economy }
+                    has_idea = industrializing_economy
+                }
+                else = {
+                    has_idea = industrialized_economy
+                }
+            }
+        }
+
+        days_mission_timeout = 730
+
+        fire_only_once = no 
+
+        is_good = no 
+
+        activation = {
+            NOT = {
+                has_idea = industrialized_economy
+            }
+        }
+
+        timeout_effect = {
+            if = {
+                limit = { has_idea = BRA_economic_recession_2 }
+                swap_ideas = {
+                    remove_idea = BRA_economic_recession_2
+                    add_idea = BRA_economic_recession_3
+                }
+            }
+            else_if = {
+                limit = { has_idea = BRA_economic_recession_1 }
+                swap_ideas = {
+                    remove_idea = BRA_economic_recession_1
+                    add_idea = BRA_economic_recession_2
+                }
+            }
+            else = {
+                add_ideas = BRA_economic_recession_1
+            }
+        }
+    }
+
+    BRA_deal_with_the_recession = {
+        priority = 20
+        icon = eng_trade_unions_support
+
+        visible = {
+            OR = {
+                has_idea = BRA_economic_recession_1
+                has_idea = BRA_economic_recession_2
+                has_idea = BRA_economic_recession_3
+            }
+        }
+
+        available = {
+            has_civil_war = no 
+        }
+
+        cost = 50
+
+        days_remove = 180
+
+        modifier = { consumer_goods_factor = 0.05 }
+
+        remove_effect = {
+            if = {
+                limit = { has_idea = BRA_economic_recession_3 }
+                swap_ideas = {
+                    remove_idea = BRA_economic_recession_3
+                    add_idea = BRA_economic_recession_2
+                }
+            }
+            else_if = { 
+                limit = { has_idea = BRA_economic_recession_2 }
+                swap_ideas = {
+                    remove_idea = BRA_economic_recession_2
+                    add_idea = BRA_economic_recession_1
+                }
+            }
+            else = {
+                remove_ideas = BRA_economic_recession_1
+            }
+        }
+    }
+}
+
+
+BRA_dependency_on_our_coffee_productions = {
+    
+    BRA_invest_in_our_coffee_plantations = {
+        priority = 20
+        icon = eng_trade_unions_support
+
+        visible = {
+            BRA_coffee_plantations_active = yes 
+            check_variable = { BRA_dependency_on_coffee < 90 }
+        }
+
+        available = {
+            has_civil_war = no 
+            hidden_trigger = {
+                NOT = {
+                    has_country_flag = BRA_taking_action_with_coffee
+                }
+            }
+        }
+
+        cancel_trigger = {
+            custom_trigger_tooltip = {
+                tooltip = BRA_over_90_tt
+                check_variable = { BRA_dependency_on_coffee > 90 }
+            }
+        }
+
+        cost = 40
+
+        days_remove = 50
+
+        complete_effect = {
+            set_country_flag = BRA_taking_action_with_coffee
+        }
+
+        modifier = {
+            political_power_gain = -0.05
+        }
+
+        remove_effect = {
+            clr_country_flag = BRA_taking_action_with_coffee
+            custom_effect_tooltip = BRA_coffee_dependency_increases_10_tt
+            random_list = {
+                35 = {
+                    if = {
+                        limit = { has_idea = BRA_economic_recession_2 }
+                        swap_ideas = {
+                            remove_idea = BRA_economic_recession_2
+                            add_idea = BRA_economic_recession_3
+                        }
+                    }
+                    else_if = {
+                        limit = { has_idea = BRA_economic_recession_1 }
+                        swap_ideas = {
+                            remove_idea = BRA_economic_recession_1
+                            add_idea = BRA_economic_recession_2
+                        }
+                    }
+                    else = {
+                        add_ideas = BRA_economic_recession_1
+                    }
+                }
+                65 = {
+
+                }
+            }
+            hidden_effect = {
+                add_to_variable = { BRA_dependency_on_coffee = 10 }
+                BRA_update_opinion_variable = yes 
+				BRA_set_dependency_on_coffee_idea = yes
+            }
+        }
+    }
+
+    BRA_cut_back_from_our_coffee_plantations = {
+        priority = 20
+        icon = generic_break_treaty
+
+        visible = {
+            BRA_coffee_plantations_active = yes 
+            check_variable = { BRA_dependency_on_coffee > 10 }
+        }
+
+        available = {
+            has_civil_war = no 
+            hidden_trigger = {
+                NOT = {
+                    has_country_flag = BRA_taking_action_with_coffee
+                }
+            }
+        }
+
+        cancel_trigger = {
+            custom_trigger_tooltip = {
+                tooltip = BRA_less_than_10_tt
+                check_variable = { BRA_dependency_on_coffee < 10 }
+            }
+        }
+
+        cost = 40
+
+        days_remove = 50
+
+        complete_effect = {
+            set_country_flag = BRA_taking_action_with_coffee
+        }
+
+        modifier = {
+            political_power_gain = -0.05
+        }
+
+        remove_effect = {
+            clr_country_flag = BRA_taking_action_with_coffee
+            custom_effect_tooltip = BRA_coffee_dependency_decreases_10_tt
+            random_list = {
+                35 = {
+                    add_ideas = BRA_rebellious_coffee_plantations
+                }
+                65 = {
+
+                }
+            }
+            hidden_effect = {
+                subtract_from_variable = { BRA_dependency_on_coffee = 10 }
+                BRA_update_opinion_variable = yes 
+				BRA_set_dependency_on_coffee_idea = yes
+            }
+        }
+    }
+
+    BRA_expand_our_coffee_plantations_in_FROM = {
+        icon = generic_construction
+
+        state_target = yes 
+
+        targets = { 496 499 877 878 500 501 879 503 502 505 }
+
+        on_map_mode = map_and_decisions_view
+
+        target_trigger = {
+            FROM = {
+                is_fully_controlled_by = ROOT 
+                NOT = {
+                    has_dynamic_modifier = { modifier = BRA_widespread_coffee_plantations }
+                }
+            }
+        }
+
+        visible = {
+            BRA_coffee_plantations_active = yes 
+            check_variable = { BRA_dependency_on_coffee < 94 }
+            has_completed_focus = BRA_maintain_our_agriculture
+            NOT = {
+                has_country_flag = BRA_manipulating_coffee_plantations
+            }
+        }
+
+        cancel_trigger = {
+            custom_trigger_tooltip = {
+                tooltip = BRA_over_94_tt
+                check_variable = { BRA_dependency_on_coffee > 94 }
+            }
+        }
+
+        cost = 35
+
+        days_remove = 45
+
+        modifier = {
+            political_power_gain = -0.03
+            consumer_goods_factor = 0.01
+        }
+
+        complete_effect = {
+            set_country_flag = BRA_manipulating_coffee_plantations
+        }
+
+        remove_effect = {
+            clr_country_flag = BRA_manipulating_coffee_plantations
+            FROM = {
+                if = {
+                    limit = { has_dynamic_modifier = { modifier = BRA_small_coffee_plantations } }
+                    remove_dynamic_modifier = { modifier = BRA_small_coffee_plantations }
+                    add_dynamic_modifier = { modifier = BRA_widespread_coffee_plantations }
+                }
+                else = {
+                    add_dynamic_modifier = { modifier = BRA_small_coffee_plantations }
+                }
+            }
+            custom_effect_tooltip = BRA_coffee_dependency_increases_5_tt
+            random_list = {
+                15 = {
+                    if = {
+                        limit = { has_idea = BRA_economic_recession_2 }
+                        swap_ideas = {
+                            remove_idea = BRA_economic_recession_2
+                            add_idea = BRA_economic_recession_3
+                        }
+                    }
+                    else_if = {
+                        limit = { has_idea = BRA_economic_recession_1 }
+                        swap_ideas = {
+                            remove_idea = BRA_economic_recession_1
+                            add_idea = BRA_economic_recession_2
+                        }
+                    }
+                    else = {
+                        add_ideas = BRA_economic_recession_1
+                    }
+                }
+                85 = {
+
+                }
+            }
+            hidden_effect = {
+                add_to_variable = { BRA_dependency_on_coffee = 5 }
+                BRA_update_opinion_variable = yes 
+				BRA_set_dependency_on_coffee_idea = yes
+            }
+        }
+    }
+
+    BRA_destroy_the_coffee_plantations_in_FROM = {
+        icon = generic_scorched_earth
+
+        state_target = yes 
+
+        targets = { 496 499 877 878 500 501 879 503 502 505 }
+
+        on_map_mode = map_and_decisions_view
+
+        target_trigger = {
+            FROM = {
+                is_fully_controlled_by = ROOT 
+                OR = {
+                    has_dynamic_modifier = { modifier = BRA_small_coffee_plantations }
+                    has_dynamic_modifier = { modifier = BRA_widespread_coffee_plantations }
+                }
+            }
+        }
+
+        visible = {
+            BRA_coffee_plantations_active = yes 
+            check_variable = { BRA_dependency_on_coffee > 6 }
+            has_completed_focus = BRA_begin_industrializing_the_nation
+            NOT = {
+                has_country_flag = BRA_manipulating_coffee_plantations
+            }
+        }
+
+        cancel_trigger = {
+            custom_trigger_tooltip = {
+                tooltip = BRA_less_than_6_tt
+                check_variable = { BRA_dependency_on_coffee < 6 }
+            }
+        }
+
+        cost = 35
+
+        days_remove = 45
+
+        modifier = {
+            political_power_gain = -0.03
+            consumer_goods_factor = 0.01
+        }
+
+        complete_effect = {
+            set_country_flag = BRA_manipulating_coffee_plantations
+        }
+
+        remove_effect = {
+            clr_country_flag = BRA_manipulating_coffee_plantations
+            FROM = {
+                if = {
+                    limit = { has_dynamic_modifier = { modifier = BRA_widespread_coffee_plantations } }
+                    remove_dynamic_modifier = { modifier = BRA_widespread_coffee_plantations }
+                    add_dynamic_modifier = { modifier = BRA_small_coffee_plantations }
+                }
+                else = {
+                    remove_dynamic_modifier = { modifier = BRA_small_coffee_plantations } = { modifier = BRA_small_coffee_plantations }
+                }
+            }
+            custom_effect_tooltip = BRA_coffee_dependency_decreases_5_tt
+            random_list = {
+                15 = {
+                    add_ideas = BRA_rebellious_coffee_plantations
+                }
+                85 = {
+
+                }
+            }
+            hidden_effect = {
+                subtract_from_variable = { BRA_dependency_on_coffee = 5 }
+                BRA_update_opinion_variable = yes 
+				BRA_set_dependency_on_coffee_idea = yes
+            }
+        }
+    }
+
+    BRA_calm_down_the_coffee_plantations = {
+        icon = hol_exchange_intelligence_data
+
+        priority = 200
+
+        available = {
+            BRA_coffee_plantations_active = yes 
+        }
+
+        visible = {
+            has_idea = BRA_rebellious_coffee_plantations
+        }
+
+        cost = 60
+
+        days_remove = 55
+
+        modifier = {
+            political_power_gain = -0.05
+            stability_factor = -0.03
+        }
+
+        remove_effect = {
+            remove_ideas = BRA_rebellious_coffee_plantations
+        }
+    }
+}

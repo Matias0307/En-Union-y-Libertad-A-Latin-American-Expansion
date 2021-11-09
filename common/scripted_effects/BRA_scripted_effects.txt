@@ -1,0 +1,151 @@
+BRA_set_dependency_on_coffee_idea = {
+	hidden_effect = {
+		if = {
+			limit = { check_variable = { BRA_dependency_on_coffee > 84 } } 
+			remove_ideas = {
+				BRA_very_slight_dependency_on_coffee
+				BRA_slight_dependency_on_coffee
+				BRA_dependent_on_coffee
+				BRA_very_dependent_on_coffee
+				BRA_extremely_dependent_on_coffee
+			}
+			add_ideas = BRA_extremely_dependent_on_coffee
+		}
+		else_if = {
+			limit = { check_variable = { BRA_dependency_on_coffee > 64 } }
+			remove_ideas = {
+				BRA_very_slight_dependency_on_coffee
+				BRA_slight_dependency_on_coffee
+				BRA_dependent_on_coffee
+				BRA_very_dependent_on_coffee
+				BRA_extremely_dependent_on_coffee
+			}
+			add_ideas = BRA_very_dependent_on_coffee
+		}
+		else_if = {
+			limit = { check_variable = { BRA_dependency_on_coffee > 49 } }
+			remove_ideas = {
+				BRA_very_slight_dependency_on_coffee
+				BRA_slight_dependency_on_coffee
+				BRA_dependent_on_coffee
+				BRA_very_dependent_on_coffee
+				BRA_extremely_dependent_on_coffee
+			}
+			add_ideas = BRA_dependent_on_coffee
+		}
+		else_if = {
+			limit = { check_variable = { BRA_dependency_on_coffee > 34 } }
+			remove_ideas = {
+				BRA_very_slight_dependency_on_coffee
+				BRA_slight_dependency_on_coffee
+				BRA_dependent_on_coffee
+				BRA_very_dependent_on_coffee
+				BRA_extremely_dependent_on_coffee
+			}
+			add_ideas = BRA_slight_dependency_on_coffee
+		}
+		else = {
+			remove_ideas = {
+				BRA_very_slight_dependency_on_coffee
+				BRA_slight_dependency_on_coffee
+				BRA_dependent_on_coffee
+				BRA_very_dependent_on_coffee
+				BRA_extremely_dependent_on_coffee
+			}
+			add_ideas = BRA_very_slight_dependency_on_coffee
+		}
+	}
+}
+
+BRA_update_opinion_variable = {
+	hidden_effect = {
+		set_temp_variable = { BRA_coffee_states = 0 }
+		every_controlled_state = {
+			limit = { 
+				has_dynamic_modifier = { modifier = BRA_small_coffee_plantations }
+			}
+			add_to_temp_variable = { BRA_coffee_states = 1 }
+		}
+		every_controlled_state = {
+			limit = { 
+				has_dynamic_modifier = { modifier = BRA_widespread_coffee_plantations }
+			}
+			add_to_temp_variable = { BRA_coffee_states = 2 }
+		}
+		if = {
+			limit = {
+				OR = {
+					AND = {
+						check_variable = { BRA_coffee_states > 11 }
+						check_variable = { BRA_dependency_on_coffee > 64 }
+					}
+					AND = {
+						check_variable = { BRA_coffee_states > 8 }
+						check_variable = { BRA_dependency_on_coffee > 79 }
+					}
+				}
+				NOT = {
+					has_idea = BRA_rebellious_coffee_plantations
+				}
+			}
+			set_variable = { BRA_coffee_companies_opinion = 2 }
+		}
+		else_if = {
+			limit = {
+				OR = {
+					AND = {
+						check_variable = { BRA_coffee_states > 8 }
+						check_variable = { BRA_dependency_on_coffee > 54 }
+					}
+					AND = {
+						check_variable = { BRA_coffee_states > 6 }
+						check_variable = { BRA_dependency_on_coffee > 64 }
+					}
+				}
+				NOT = {
+					has_idea = BRA_rebellious_coffee_plantations
+				}
+			}
+			set_variable = { BRA_coffee_companies_opinion = 1 }
+		}
+		else_if = {
+			limit = {
+				OR = {
+					AND = {
+						check_variable = { BRA_coffee_states > 6 }
+						check_variable = { BRA_dependency_on_coffee > 39 }
+					}
+					AND = {
+						check_variable = { BRA_coffee_states > 4 }
+						check_variable = { BRA_dependency_on_coffee > 49 }
+					}
+				}
+				NOT = {
+					has_idea = BRA_rebellious_coffee_plantations
+				}
+			}
+			set_variable = { BRA_coffee_companies_opinion = 0 }
+		}
+		else_if = {
+			limit = {
+				OR = {
+					AND = {
+						check_variable = { BRA_coffee_states > 4 }
+						check_variable = { BRA_dependency_on_coffee > 19 }
+					}
+					AND = {
+						check_variable = { BRA_coffee_states > 1 }
+						check_variable = { BRA_dependency_on_coffee > 34 }
+					}
+				}
+				NOT = {
+					has_idea = BRA_rebellious_coffee_plantations
+				}
+			}
+			set_variable = { BRA_coffee_companies_opinion = -1 }
+		}
+		else = {
+			set_variable = { BRA_coffee_companies_opinion = -2 }
+		}
+	}
+}

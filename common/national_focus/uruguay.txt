@@ -1,0 +1,3947 @@
+### search_filters = {FOCUS_FILTER_POLITICAL}
+### search_filters = {FOCUS_FILTER_RESEARCH}
+### search_filters = {FOCUS_FILTER_INDUSTRY}
+### search_filters = {FOCUS_FILTER_STABILITY}
+### search_filters = {FOCUS_FILTER_WAR_SUPPORT}
+### search_filters = {FOCUS_FILTER_MANPOWER}
+### search_filters = {FOCUS_FILTER_ANNEXATION}
+
+focus_tree = {
+	id = uruguay_focus
+	
+	country = {
+		factor = 0
+		
+		modifier = {
+			add = 10
+			tag = URG
+		}
+	}
+	
+	initial_show_position = {
+		x = 0
+	}
+	
+	continuous_focus_position = { x = 100 y = 2050 }
+	
+	default = no
+
+	focus = {
+		id = URG_go_with_terra
+		icon = GFX_URG_go_terra
+		x = 10
+		y = 0
+		mutually_exclusive = { focus = URG_go_against_terra }
+		
+		cost = 6
+		
+		ai_will_do = {
+			factor = 200
+		}
+		
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = URG_has_more_prison
+				check_variable = { URG_politicians_arrested > 44 }
+			}
+		}
+		
+		continue_if_invalid = yes
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			custom_effect_tooltip = URG_3_in_prison
+			hidden_effect = {
+				add_to_variable = { URG_politicians_arrested = 3 }
+				URG_set_up_prisoners_modifier = yes 
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_go_against_terra
+		icon = GFX_URG_kill_terra
+		x = 10
+		y = 0
+		relative_position_id = URG_go_with_terra
+		mutually_exclusive = { focus = URG_go_with_terra }
+		
+		cost = 6
+		
+		ai_will_do = {
+			factor = 200
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+		
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = URG_has_more_free
+				check_variable = { URG_politicians_arrested < 42 }
+			}
+		}
+		
+		continue_if_invalid = yes
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			custom_effect_tooltip = CHL_pathcivilwar
+			custom_effect_tooltip = URG_3_set_free
+			hidden_effect = {
+				subtract_from_variable = { URG_politicians_arrested = 3 }
+				URG_set_up_prisoners_modifier = yes 
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_strengthen_the_ANCAP
+		icon = GFX_URG_strengthen_ancap
+		x = -5
+		y = 1
+		relative_position_id = URG_go_against_terra
+		prerequisite = {
+			focus = URG_go_against_terra
+			focus = URG_go_with_terra
+		}
+		
+		cost = 10
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = URG_payed_off_debt_tt
+				OR = {
+					NOT = {
+						has_idea = URG_debt_to_the_british
+					}
+					check_variable = { URG_debt_to_britain > 99 }
+				}
+			}
+		}
+	
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		
+		completion_reward = {
+			EUYL_add_1_civilian = yes 
+			add_tech_bonus = {
+				name = industrial_bonus
+				bonus = 1.0
+				uses = 1
+				category = industry
+			}
+			add_tech_bonus = {
+				name = GER_coal_liquidization
+				bonus = 1.0
+				uses = 1
+				category = synth_resources
+			}
+			custom_effect_tooltip = EUYL_available_as_industrial_concern_tt
+			show_ideas_tooltip = URG_ancap_concern
+		}
+	}
+	
+	focus = {
+		id = URG_build_the_teja_refinery
+		icon = GFX_goal_generic_oil_refinery 
+		x = -1
+		y = 1
+		relative_position_id = URG_strengthen_the_ANCAP
+		prerequisite = { focus = URG_strengthen_the_ANCAP }
+		
+		cost = 10
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes 
+				}
+				add_building_construction = {
+					type = synthetic_refinery
+					level = 1
+					instant_build = yes 
+				}
+				add_resource = {
+					type = oil
+					amount = 2
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_build_up_our_industry
+		icon = GFX_goal_generic_construct_civ_factory 
+		x = 1
+		y = 1
+		relative_position_id = URG_strengthen_the_ANCAP
+		prerequisite = { focus = URG_strengthen_the_ANCAP }
+		
+		cost = 10
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_1_civilian = yes 
+			EUYL_add_1_military = yes 
+		}
+	}
+	
+	focus = {
+		id = URG_open_up_our_foreign_policy
+		icon = GFX_goal_generic_political_pressure 
+		x = 0
+		y = 1
+		relative_position_id = URG_go_with_terra
+		prerequisite = { focus = URG_go_with_terra }
+		
+		cost = 5
+		
+		ai_will_do = {
+			factor = 20
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_political_power = 50 
+		}
+	}
+	
+	focus = {
+		id = URG_contact_german_officials
+		icon = GFX_focus_chi_mission_to_germany
+		x = 1
+		y = 1
+		relative_position_id = URG_open_up_our_foreign_policy
+		prerequisite = { focus = URG_open_up_our_foreign_policy }
+		
+		cost = 6
+		
+		ai_will_do = {
+			factor = 20
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY}
+		completion_reward = {
+			GER = { add_opinion_modifier = { modifier = URG_contacted_us target = URG } }
+			EUYL_add_1_military = yes 
+		}
+	}
+	
+	focus = {
+		id = URG_repay_our_debt_to_the_british
+		icon = GFX_focus_chi_british_cooperation
+		x = -1
+		y = 1
+		relative_position_id = URG_open_up_our_foreign_policy
+		prerequisite = { focus = URG_open_up_our_foreign_policy }
+		
+		cost = 6
+		
+		ai_will_do = {
+			factor = 20
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			custom_effect_tooltip = URG_unlock_debt_decisions
+		}
+	}
+	
+	focus = {
+		id = URG_construct_the_rincon_de_bonote
+		icon = GFX_goal_generic_construction
+		x = 2
+		y = 1
+		relative_position_id = URG_contact_german_officials
+		prerequisite = { focus = URG_contact_german_officials }
+		prerequisite = { focus = URG_build_the_teja_refinery }
+		
+		cost = 10
+		
+		ai_will_do = {
+			factor = 20
+		}
+		
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = URG_over_50
+				check_variable = { URG_politicians_arrested > 49 }
+			}
+		}
+		
+		cancel_if_invalid = no
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY}
+		completion_reward = {
+			EUYL_add_1_military = yes 
+			EUYL_add_1_civilian = yes 
+		}
+	}
+
+	focus = {
+		id = URG_build_up_the_steel_plants
+		icon = GFX_focus_generic_steel
+		x = -1
+		y = 1
+		relative_position_id  = URG_construct_the_rincon_de_bonote
+		prerequisite = { focus = URG_construct_the_rincon_de_bonote }
+
+		cost = 10
+
+		available = {
+			has_tech = excavation2
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_resource = {
+					type = steel
+					amount = 12
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_placate_to_the_allies
+		icon = GFX_ARG_placate_west 
+		x = -5
+		y = 1
+		relative_position_id = URG_repay_our_debt_to_the_british
+		mutually_exclusive = { focus = URG_placate_to_the_axis }
+		prerequisite = { focus = URG_repay_our_debt_to_the_british }
+		
+		cost = 8
+		
+		ai_will_do = {
+			factor = 20
+		}
+		
+		available = {
+			NOT = {
+				OR = {
+					has_war_with = ENG
+					has_war_with = USA
+					has_war_with = FRA
+				}
+			}
+		}
+		
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			USA = {
+				add_opinion_modifier = { target = URG modifier = placated_west }
+			}
+			FRA = {
+				add_opinion_modifier = { target = URG modifier = placated_west }
+			}
+			ENG = {
+				add_opinion_modifier = { target = URG modifier = placated_west }
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_placate_to_the_axis
+		icon = GFX_URG_placate_axis
+		x = -1
+		y = 1
+		relative_position_id = URG_contact_german_officials
+		prerequisite = { focus = URG_contact_german_officials }
+		mutually_exclusive = { focus = URG_placate_to_the_allies }
+		
+		cost = 8
+		
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+		
+		available = {
+			NOT = {
+				OR = {
+					has_war_with = GER 
+					has_war_with = ITA
+					has_war_with = JAP
+				}
+			}
+		}
+		
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			GER = {
+				add_opinion_modifier = { target = URG modifier = placated_west }
+			}
+			ITA = {
+				add_opinion_modifier = { target = URG modifier = placated_west }
+			}
+			JAP = {
+				add_opinion_modifier = { target = URG modifier = placated_west }
+			}
+			add_popularity = { ideology = fascism popularity = 0.07 }
+		}
+	}
+	
+	focus = {
+		id = URG_give_more_power_to_the_military
+		icon = GFX_focus_generic_manpower 
+		x = 0
+		y = 1
+		relative_position_id = URG_placate_to_the_axis
+		prerequisite = { focus = URG_placate_to_the_axis }
+		
+		cost = 10
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_popularity = { ideology = fascism popularity = 0.15 }
+			add_war_support = 0.05
+			army_experience = 20
+			if = {
+				limit = {
+					NOT = {
+						has_idea = limited_conscription
+					}
+				}
+				add_ideas = limited_conscription
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_overthrow_terras_regime
+		icon = GFX_URG_kill_terra
+		x = 0
+		y = 1
+		relative_position_id = URG_give_more_power_to_the_military
+		prerequisite = { focus = URG_give_more_power_to_the_military }
+		
+		cost = 10
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_popularity = { ideology = fascism popularity = 0.1 }
+			set_politics = { ruling_party = fascism }
+			custom_effect_tooltip = URG_terra_displeased
+			hidden_effect = { 
+				country_event = { id = uruguay.5 hours = 6 } 
+				if = {
+					limit = { has_country_flag = URG_terra }
+					clr_country_flag = URG_terra
+					remove_dynamic_modifier = { modifier = URG_the_terra_dictatorship }
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_consolidate_power
+		icon = GFX_URG_consolidate_uruguay
+		x = 0
+		y = 1
+		relative_position_id = URG_overthrow_terras_regime
+		prerequisite = { focus = URG_overthrow_terras_regime }
+		
+		cost = 10
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_timed_idea = { idea = URG_rebuilding_the_nation days = 365 }
+		}
+	}
+	
+	focus = {
+		id = URG_march_to_the_capital
+		icon = GFX_URG_montevideo_march 
+		x = -1
+		y = 1
+		relative_position_id = URG_consolidate_power
+		prerequisite = { focus = URG_consolidate_power }
+		
+		cost = 8
+		
+		available = {
+			300 = { 
+				has_dynamic_modifier = { modifier = URG_terra_loyalities } 
+				is_demilitarized_zone = yes 
+			}
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			300 = {
+				set_demilitarized_zone = no
+			}
+			847 = {
+				set_demilitarized_zone = no
+			}
+			custom_effect_tooltip = URG_unlock_stomp_out_capital
+		}
+	}
+	
+	focus = {
+		id = URG_march_to_paysandu
+		icon = GFX_URG_paysandu_march
+		x = 1
+		y = 1
+		relative_position_id = URG_consolidate_power
+		prerequisite = { focus = URG_consolidate_power }
+		
+		cost = 8
+		
+		available = {
+			827 = { 
+				has_dynamic_modifier = { modifier = URG_terra_loyalities } 
+				is_demilitarized_zone = yes 
+			}
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			827 = {
+				set_demilitarized_zone = no
+			}
+			custom_effect_tooltip = URG_unlock_stomp_out_paysandu
+		}
+	}
+	
+	focus = {
+		id = URG_focus_on_external_matters
+		icon = GFX_URG_focus_externally
+		x = -1
+		y = 1
+		relative_position_id = URG_march_to_paysandu
+		prerequisite = { focus = URG_march_to_paysandu }
+		prerequisite = { focus = URG_march_to_the_capital }
+		
+		cost = 15
+
+		available = {
+			all_owned_state = {
+				NOT = {
+					has_dynamic_modifier = { modifier = URG_terra_loyalities }
+				}
+			}
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_manpower = 35000
+			add_research_slot = 1
+			if = {
+				limit = { NOT = { has_idea = extensive_conscription } }
+				add_ideas = extensive_conscription
+			}
+			else = {
+				add_political_power = 150
+			}
+			add_war_support = 0.05
+			remove_ideas = URG_violent_protests
+		}
+	}
+	
+	focus = {
+		id = URG_roosevelts_visit_to_uruguay
+		icon = GFX_URG_roosevelts_visit
+		x = 0
+		y = 1
+		relative_position_id = URG_placate_to_the_allies
+		prerequisite = { focus = URG_placate_to_the_allies }
+		
+		cost = 8
+		
+		available = {
+			USA = {
+				is_subject = no 
+				NOT = { has_war_with = ROOT }
+			}
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			country_event = uruguay.6
+		}
+	}
+	
+	focus = {
+		id = URG_open_our_markets
+		icon = GFX_goal_generic_trade 
+		x = 0
+		y = 1
+		relative_position_id = URG_roosevelts_visit_to_uruguay
+		prerequisite = { focus = URG_roosevelts_visit_to_uruguay }
+		
+		cost = 6
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			if = {
+				limit = { NOT = { has_idea = free_trade } }
+				add_ideas = free_trade
+			}
+			else = { 
+				add_political_power = 150 
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_reform_the_constitution
+		icon = GFX_URG_new_constitution 
+		x = -2
+		y = 1
+		relative_position_id = URG_open_our_markets
+		prerequisite = { focus = URG_open_our_markets }
+		mutually_exclusive = { focus = URG_rule_with_an_iron_fist }
+		
+		cost = 10
+		
+		ai_will_do = {
+			factor = 20
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_political_power = 100
+			custom_effect_tooltip = URG_up_to_10_free
+			hidden_effect = {
+				random_list = {
+					20 = {
+						subtract_from_variable = { URG_politicians_arrested = 2 }
+					}
+					20 = {
+						subtract_from_variable = { URG_politicians_arrested = 4 }
+					}
+					20 = {
+						subtract_from_variable = { URG_politicians_arrested = 6 }
+					}
+					20 = {
+						subtract_from_variable = { URG_politicians_arrested = 8 }
+					}
+					20 = {
+						subtract_from_variable = { URG_politicians_arrested = 10 }
+					}
+				}
+				subtract_from_variable = { URG_politicians_arrested = 3 }
+				URG_set_up_prisoners_modifier = yes 
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_rule_with_an_iron_fist
+		icon = GFX_URG_rule_iron_fist
+		x = 2
+		y = 1
+		relative_position_id = URG_open_our_markets
+		prerequisite = { focus = URG_open_our_markets }
+		mutually_exclusive = { focus = URG_reform_the_constitution }
+		
+		cost = 10
+		
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_political_power = 100
+			custom_effect_tooltip = URG_up_to_10_prison
+			set_politics = { 
+				ruling_party = neutrality
+				elections_allowed = no 
+			}
+			hidden_effect = {
+				random_list = {
+					20 = {
+						add_to_variable = { URG_politicians_arrested = 2 }
+					}
+					20 = {
+						add_to_variable = { URG_politicians_arrested = 4 }
+					}
+					20 = {
+						add_to_variable = { URG_politicians_arrested = 6 }
+					}
+					20 = {
+						add_to_variable = { URG_politicians_arrested = 8 }
+					}
+					20 = {
+						add_to_variable = { URG_politicians_arrested = 10 }
+					}
+				}
+				subtract_from_variable = { URG_politicians_arrested = 3 }
+				URG_set_up_prisoners_modifier = yes 
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_allow_free_elections
+		icon = GFX_URG_allow_elections 
+		x = 0
+		y = 1
+		relative_position_id = URG_reform_the_constitution
+		prerequisite = { focus = URG_reform_the_constitution }
+		
+		cost = 10
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			country_event = uruguay.7
+			hidden_effect = {
+				clr_country_flag = URG_terra
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_economic_liberites_for_all
+		icon = GFX_focus_generic_the_giant_wakes 
+		x = 1
+		y = 1
+		relative_position_id = URG_allow_free_elections
+		prerequisite = { focus = URG_allow_free_elections }
+		
+		cost = 10
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_1_civilian = yes 
+			add_ideas = URG_economic_liberty
+			add_popularity = { ideology = democratic popularity = 0.03 }
+		}
+	}
+	
+	focus = {
+		id = URG_improve_our_research
+		icon = GFX_focus_research 
+		x = -1
+		y = 1
+		relative_position_id = URG_allow_free_elections
+		prerequisite = { focus = URG_allow_free_elections }
+		
+		cost = 10
+		
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_research_slot = 1
+			add_ideas = URG_improved_research
+		}
+	}
+	
+	focus = {
+		id = URG_build_up_the_military
+		icon = GFX_goal_generic_construct_mil_factory 
+		x = 0
+		y = 1
+		relative_position_id = URG_rule_with_an_iron_fist
+		prerequisite = {
+			focus = URG_rule_with_an_iron_fist 
+		}
+		
+		cost = 10
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_2_military = yes 
+		}
+	}
+	
+	focus = {
+		id = URG_expand_our_conscription
+		icon = GFX_ARG_quantity 
+		x = -1
+		y = 1
+		relative_position_id = URG_build_up_the_military
+		prerequisite = { focus = URG_build_up_the_military }
+		
+		cost = 10
+		
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_ideas = URG_expanded_consription
+		}
+	}
+	
+	focus = {
+		id = URG_adopt_an_aggresive_foreign_policy
+		icon = GFX_goal_generic_major_war 
+		x = 1
+		y = 1
+		relative_position_id = URG_build_up_the_military
+		prerequisite = {
+			focus = URG_build_up_the_military
+			focus = URG_consolidate_power
+		}
+		
+		cost = 10
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_ideas = ARG_expansionist_policy
+		}
+	}
+	
+	focus = {
+		id = URG_join_the_allies
+		icon = GFX_focus_eng_the_sun_never_sets 
+		x = -1
+		y = 1
+		relative_position_id = URG_improve_our_research
+		prerequisite = { focus = URG_improve_our_research }
+		prerequisite = { focus = URG_economic_liberites_for_all }
+		mutually_exclusive = { focus = URG_maintain_neutrality }
+		mutually_exclusive = { focus = URG_join_the_axis }
+		mutually_exclusive = { focus = URG_our_own_way }
+		
+		cost = 10
+		
+		ai_will_do = {
+			factor = 15
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+		
+		available = {
+			NOT = { has_war_with = ENG }
+		}
+		
+		bypass = {
+			has_completed_focus = URG_improve_our_research
+			has_completed_focus = URG_economic_liberites_for_all
+			is_in_faction_with = ENG 
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			if = {
+				limit = { has_idea = monroe_doctrine_idea }
+				remove_ideas = monroe_doctrine_idea
+			}
+			ENG = { country_event = { id = generic.2 hours = 6 } }
+		}
+	}
+	
+	focus = {
+		id = URG_maintain_neutrality 
+		icon = GFX_goal_generic_neutrality_focus
+		x = 1
+		y = 1
+		relative_position_id = URG_economic_liberites_for_all
+		prerequisite = {
+			focus = URG_improve_our_research
+			focus = URG_expand_our_conscription
+		}
+		mutually_exclusive = { focus = URG_join_the_allies }
+		mutually_exclusive = { focus = URG_join_the_axis }
+		mutually_exclusive = { focus = URG_our_own_way }
+		
+		cost = 10
+		
+		ai_will_do = {
+			factor = 15
+		}
+		
+		available = {
+			OR = {
+				AND = {
+					has_completed_focus = URG_expand_our_conscription
+					has_completed_focus = URG_adopt_an_aggresive_foreign_policy
+				}
+				AND = {
+					has_completed_focus = URG_improve_our_research
+					has_completed_focus = URG_economic_liberites_for_all
+				}
+			}
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		
+		completion_reward = {
+			if = {
+				limit = { NOT = { has_idea = neutrality_idea } }
+				add_ideas = neutrality_idea
+			}
+			add_stability = 0.05
+			add_war_support = -0.05
+		}
+	}
+	
+	focus = {
+		id = URG_join_the_axis
+		icon = GFX_focus_chi_mission_to_germany 
+		x = 1
+		y = 1
+		relative_position_id = URG_adopt_an_aggresive_foreign_policy
+		prerequisite = { 
+			focus = URG_adopt_an_aggresive_foreign_policy
+			focus = URG_expand_our_conscription
+			focus = URG_focus_on_external_matters
+		}
+		mutually_exclusive = { focus = URG_join_the_allies }
+		mutually_exclusive = { focus = URG_maintain_neutrality }
+		mutually_exclusive = { focus = URG_our_own_way }
+		
+		cost = 10
+		
+		ai_will_do = {
+			factor = 15
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+		
+		available = {
+			GER = {
+				has_government = fascism
+			}
+			OR = {
+				AND = {
+					has_completed_focus = URG_adopt_an_aggresive_foreign_policy
+					has_completed_focus = URG_expand_our_conscription
+				}
+				has_completed_focus = URG_focus_on_external_matters
+			}
+			NOT = {
+				has_war_with = GER 
+			}
+		}
+		
+		bypass = {
+			OR = {
+				AND = {
+					has_completed_focus = URG_adopt_an_aggresive_foreign_policy
+					has_completed_focus = URG_expand_our_conscription
+				}
+				has_completed_focus = URG_focus_on_external_matters
+			}
+			is_in_faction_with = GER 
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			if = {
+				limit = { has_idea = monroe_doctrine_idea }
+				remove_ideas = monroe_doctrine_idea
+			}
+			GER = {
+				country_event = { id = generic.2 hours = 6 }
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_our_own_way
+		icon = GFX_goal_generic_alliance 
+		x = 2
+		y = 1
+		relative_position_id = URG_focus_on_external_matters
+		prerequisite = { focus = URG_focus_on_external_matters }
+		mutually_exclusive = { focus = URG_join_the_allies }
+		mutually_exclusive = { focus = URG_maintain_neutrality }
+		mutually_exclusive = { focus = URG_join_the_axis }
+		
+		cost = 10
+		
+		ai_will_do = {
+			factor = 15
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			set_rule = { can_create_factions = yes }
+			create_faction = "El Eje Occidental"
+		}
+	}
+	
+	focus = {
+		id = URG_prepare_to_go_to_war_with_argentina
+		icon = GFX_focus_ARG_attack
+		x = 2
+		y = 1
+		relative_position_id = URG_our_own_way
+		prerequisite = {
+			focus = URG_our_own_way
+		}
+		mutually_exclusive = { focus = URG_treaty_with_the_argentines }
+		
+		cost = 10
+		
+		ai_will_do = {
+			factor = 10
+		}
+		
+		bypass = {
+			has_government = fascism 
+			has_country_flag = URG_second_cisplatine_War
+		}
+		
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			EUYL_add_2_military = yes 
+			add_ideas = URG_expanded_consription
+		}
+	}
+	
+	focus = {
+		id = URG_treaty_with_the_argentines
+		icon = GFX_focus_ARG_inv 
+		x = -2
+		y = 1
+		
+		relative_position_id = URG_our_own_way
+		prerequisite = {
+			focus = URG_our_own_way
+			focus = URG_join_the_axis
+		}
+		mutually_exclusive = { focus = URG_prepare_to_go_to_war_with_argentina }
+		
+		cost = 10
+		
+		ai_will_do = {
+			factor = 10
+		}
+		
+		available = {
+			NOT = {
+				has_war_with = ARG 
+			}
+			ARG = {
+				OR = {
+					has_government = fascism
+					has_government = neutrality 
+					has_government = communism
+				}
+			}
+		}
+		
+		bypass = {
+			OR = {
+				has_completed_focus = URG_build_up_the_military
+				has_completed_focus = URG_focus_on_external_matters
+			}
+			is_in_faction_with = ARG 
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			ARG = {
+				country_event = { id = uruguay.8 hours = 6 }
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_prepare_our_plan
+		icon = GFX_focus_prc_infiltration
+		x = 0
+		y = 1
+		relative_position_id = URG_prepare_to_go_to_war_with_argentina
+		prerequisite = { focus = URG_prepare_to_go_to_war_with_argentina }
+		
+		cost = 4
+		
+		available = {
+			ARG = {
+				is_subject = no 
+			}
+			is_subject = no 
+		}
+		
+		bypass = {
+			has_government = fascism
+			has_country_flag = URG_second_cisplatine_War
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			custom_effect_tooltip = URG_blow_up_troop_transport
+		}
+	}
+	
+	focus = {
+		id = URG_launch_the_plan 
+		icon = GFX_URG_execute_the_plan 
+		x = 0
+		y = 1
+		relative_position_id = URG_prepare_our_plan
+		prerequisite = { focus = URG_prepare_our_plan }
+		will_lead_to_war_with = ARG
+		
+		cost = 8
+		
+		available = {
+			NOT = {
+				is_in_faction_with = ARG 
+			}
+		}
+		
+		bypass = {
+			has_completed_focus = URG_prepare_our_plan
+			has_war_with = ARG 
+			has_country_flag = URG_second_cisplatine_War
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			add_manpower = -14
+			ARG = {
+				country_event = { id = uruguay.11 hours = 4 }
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_mobilize_the_reserves
+		icon = GFX_URG_mobilize_militias
+		x = -1
+		y = 1
+		relative_position_id = URG_launch_the_plan
+		prerequisite = { focus = URG_launch_the_plan }
+		
+		cost = 3
+		
+		available = {
+			has_country_flag = URG_second_cisplatine_War
+			has_war_with = ARG 
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			custom_effect_tooltip = URG_mobilize_reserves
+			hidden_effect = {
+				division_template = { 
+					name = "Reservas Militares" 
+					division_names_group = SPAN_INF_02 
+					is_locked = yes 
+					regiments = { 
+						infantry = { x = 0 y = 0 }  
+						infantry = { x = 0 y = 1 } 
+						infantry = { x = 0 y = 2 } 
+						infantry = { x = 0 y = 3 } 
+						infantry = { x = 0 y = 4 }
+					}
+				}
+				827 = {
+					create_unit = {
+						division = "name = \"Reservas Militares\" division_template = \"Reservas Militares\" start_experience_factor = 0 start_equipment_factor = 0.9" 
+						owner = ROOT
+					}
+					create_unit = {
+						division = "name = \"Reservas Militares\" division_template = \"Reservas Militares\" start_experience_factor = 0 start_equipment_factor = 0.85" 
+						owner = ROOT
+					}
+				}
+				300 = {
+					create_unit = {
+						division = "name = \"Reservas Militares\" division_template = \"Reservas Militares\" start_experience_factor = 0 start_equipment_factor = 0.8" 
+						owner = ROOT
+					}
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_fully_mobilize_our_economy
+		icon = GFX_CHL_military_economy 
+		x = 2
+		y = 0
+		relative_position_id = URG_mobilize_the_reserves
+		prerequisite = { focus = URG_launch_the_plan }
+		
+		cost = 8
+		
+		available = {
+			has_country_flag = URG_second_cisplatine_War
+			has_war_with = ARG 
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			if = {
+				limit = { NOT = { has_idea = tot_economic_mobilisation } }
+				add_ideas = tot_economic_mobilisation
+			}
+			else = {
+				add_political_power = 150 
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_ask_paraguay_to_join_the_war
+		icon = GFX_URG_invite_paraguay
+		x = 1
+		y = 1
+		relative_position_id = URG_fully_mobilize_our_economy
+		prerequisite = { focus =  URG_fully_mobilize_our_economy }
+		
+		cost = 5
+		
+		available = {
+			PAR = {
+				is_subject = no 
+				NOT = {
+					has_war_with = ROOT
+					has_war_with = BRA
+				}
+			}
+			has_country_flag = URG_second_cisplatine_War
+			has_war_with = ARG 
+		}
+		
+		bypass = {
+			PAR = {
+				has_war_with = ARG 
+			}
+			has_country_flag = URG_second_cisplatine_War
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			PAR = {
+				country_event = { id = uruguay.13 hours = 6 }
+			}
+			custom_effect_tooltip = ARG_iftheyaccept
+			effect_tooltip = {
+				PAR = {
+					declare_war_on = {
+						target = ARG 
+						type = annex_everything
+					}
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_split_up_argentina
+		icon = GFX_URG_split_argentina
+		x = -1
+		y = 1
+		relative_position_id = URG_fully_mobilize_our_economy
+		prerequisite = { focus = URG_fully_mobilize_our_economy }
+		prerequisite = { focus = URG_mobilize_the_reserves }
+		
+		cost = 1
+		
+		available = {
+			hidden_trigger = {
+				has_country_flag = URG_second_cisplatine_War
+			}
+			NOT = {
+				has_war_with = ARG 
+			}
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			hidden_effect = {
+				clr_country_flag = URG_second_cisplatine_War
+			}
+			BRA = {
+				country_event = { id = uruguay.15 hours = 6 }
+			}
+			custom_effect_tooltip = ARG_iftheyaccept
+			effect_tooltip = {
+				if = {
+					limit = { has_country_flag = PAR_declared_war }
+					ROOT = {
+						transfer_state = 823
+						transfer_state = 813
+						transfer_state = 278
+						transfer_state = 807
+						transfer_state = 812
+						transfer_state = 811
+						transfer_state = 512
+						transfer_state = 810
+						transfer_state = 809
+						transfer_state = 808
+					}
+					BRA = {
+						transfer_state = 824
+						transfer_state = 510
+						puppet = ARG 
+					}
+					PAR = {
+						transfer_state = 821
+					}
+				}
+				else = {
+					ROOT = {
+						transfer_state = 823
+						transfer_state = 813
+						transfer_state = 278
+						transfer_state = 807
+						transfer_state = 812
+						transfer_state = 811
+						transfer_state = 512
+						transfer_state = 810
+						transfer_state = 809
+						transfer_state = 808
+					}
+					BRA = {
+						transfer_state = 824
+						transfer_state = 510
+						puppet = ARG 
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = URG_form_the_rioplatense_empire
+		icon = GFX_goal_generic_attack_allies
+		x = 0
+		y = 1
+		relative_position_id = URG_split_up_argentina
+		prerequisite = { focus = URG_split_up_argentina }
+
+		cost = 10
+
+		available = {
+			is_subject = no 
+			has_capitulated = no 
+			controls_state = 823
+			controls_state = 813
+			controls_state = 278
+			controls_state = 807
+			controls_state = 812
+			controls_state = 811
+			controls_state = 512
+			controls_state = 810
+			controls_state = 809
+			controls_state = 808
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_stability = 0.05
+			unlock_decision_tooltip = form_rioplatense_empire
+			custom_effect_tooltip = URG_economy_officers_tt
+		}
+	}
+	
+	focus = {
+		id = URG_economic_pact_with_argentina
+		icon = GFX_focus_generic_tank_production 
+		x = 0
+		y = 1
+		relative_position_id = URG_treaty_with_the_argentines
+		prerequisite = { focus = URG_treaty_with_the_argentines }
+		
+		cost = 10
+		
+		available = {
+			has_country_flag = URG_ARG_agreement 
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			ARG = {
+				EUYL_add_1_military = yes 
+			}
+			EUYL_add_1_military = yes 
+		}
+	}
+	
+	focus = {
+		id = URG_study_the_british_navy
+		icon = GFX_goal_generic_navy_battleship 
+		x = -1
+		y = 1
+		relative_position_id = URG_join_the_allies
+		prerequisite = { focus = URG_join_the_allies }
+		
+		cost = 10
+		
+		available = {
+			is_in_faction_with = ENG 
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			navy_experience = 30
+			add_tech_bonus = {
+				name = URG_study_the_british_navy
+				bonus = 1.0
+				uses = 1
+				category = naval_doctrine
+			}
+			EUYL_add_2_dockyard = yes 
+		}
+	}
+	
+	focus = {
+		id = URG_a_mighty_industry
+		icon = GFX_goal_generic_construct_civ_factory 
+		x = -2
+		y = 1
+		relative_position_id = URG_maintain_neutrality
+		prerequisite = {
+			focus = URG_maintain_neutrality
+			focus = URG_join_the_allies
+		}
+		
+		cost = 10
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_2_civilian = yes 
+		}
+	}
+	
+	focus = {
+		id = URG_strengthen_economic_liberties
+		icon = GFX_goal_support_democracy 
+		x = -1
+		y = 1
+		relative_position_id = URG_a_mighty_industry
+		prerequisite = { focus = URG_a_mighty_industry }
+		
+		cost = 10
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = URG_economic_liberty
+				}
+				swap_ideas = {
+					remove_idea = URG_economic_liberty
+					add_idea = URG_economic_liberty_2
+				}
+			}
+			else = {
+				add_ideas = URG_economic_liberty
+			}
+			add_popularity = { ideology = democratic popularity = 0.04 }
+		}
+	}
+	
+	focus = {
+		id = URG_expand_our_armories
+		icon = GFX_goal_generic_construct_mil_factory 
+		x = 2
+		y = 1
+		relative_position_id = URG_maintain_neutrality
+		prerequisite = {
+			focus = URG_maintain_neutrality
+			focus = URG_join_the_axis
+		}
+		
+		cost = 10
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_2_military = yes 
+		}
+	}
+	
+	focus = {
+		id = URG_steel_for_our_forces
+		icon = GFX_focus_generic_steel 
+		x = 1
+		y = 1
+		relative_position_id = URG_expand_our_armories
+		prerequisite = { focus = URG_expand_our_armories }
+		
+		cost = 10
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes 
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes 
+				}
+				add_resource = {
+					type = steel
+					amount = 8
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_a_modern_uruguayan_economy
+		icon = GFX_ARG_develop_uruguayan 
+		x = 0
+		y = 4
+		relative_position_id = URG_maintain_neutrality
+		prerequisite = {
+			focus = URG_steel_for_our_forces
+			focus = URG_strengthen_economic_liberties
+		}
+		
+		cost = 15
+		
+		available = {
+			NOT = {
+				has_completed_focus = URG_launch_the_plan
+			}
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			every_owned_state = {
+				limit = { is_controlled_by = ROOT }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes 
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes 
+				}
+			}
+		}
+	}
+		
+	focus = {
+		id = URG_prepare_for_an_inevitable_conflict
+		icon = GFX_goal_generic_construct_mil_factory 
+		x = -4
+		y = 2
+		relative_position_id = URG_mobilize_the_reserves
+		prerequisite = { 
+			focus = URG_split_up_argentina
+			focus = URG_economic_pact_with_argentina
+			focus = URG_a_modern_uruguayan_economy
+		}
+		
+		cost = 10
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_2_military = yes 
+			EUYL_add_1_military = yes 
+		}
+	}
+	
+	focus = {
+		id = URG_backstab_the_brazilians
+		icon = GFX_ARG_attack_brazil 
+		x = 1
+		y = 1
+		relative_position_id = URG_prepare_for_an_inevitable_conflict
+		prerequisite = { focus = URG_prepare_for_an_inevitable_conflict }
+		mutually_exclusive = { focus = URG_allience_with_the_brazilians }
+		will_lead_to_war_with = BRA
+		
+		cost = 10
+		
+		available = {
+			BRA = {
+				is_subject = no 
+				NOT = {
+					is_in_faction_with = URG 
+				}
+			}
+		}
+		
+		bypass = {
+			has_completed_focus = URG_prepare_for_an_inevitable_conflict
+			has_war_with = BRA 
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			if = {
+				limit = { has_completed_focus = URG_maintain_neutrality }
+				custom_effect_tooltip = URG_breaking_neutrality
+				add_stability = -0.1
+				add_war_support = -0.1
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = BRA 
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_allience_with_the_brazilians
+		icon = GFX_URG_deal_brazil
+		x = -1
+		y = 1
+		relative_position_id = URG_prepare_for_an_inevitable_conflict
+		prerequisite = { focus = URG_prepare_for_an_inevitable_conflict }
+		mutually_exclusive = { focus = URG_backstab_the_brazilians }
+		
+		cost = 10
+		
+		available = {
+			BRA = {
+				is_subject = no
+				is_in_faction = no 
+				NOT = {
+					has_war_with = URG
+				}
+			}
+		}
+		
+		bypass = {
+			has_completed_focus = URG_prepare_for_an_inevitable_conflict
+			is_in_faction_with = BRA 
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			if = {
+				limit = { has_completed_focus = URG_maintain_neutrality }
+				custom_effect_tooltip = URG_breaking_neutrality
+				add_stability = -0.1
+				add_war_support = -0.1
+			}
+			if = {
+				limit = {
+					is_in_faction = yes 
+				}
+				BRA = {
+					country_event = { id = generic.5 hours = 6 }
+				}
+			}
+			else = {
+				add_political_power = 50
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_break_all_ties_with_the_axis
+		icon = GFX_focus_focus_fra_fascist_threat 
+		x = 0
+		y = 1
+		relative_position_id = URG_maintain_neutrality
+		prerequisite = { 
+			focus = URG_maintain_neutrality 
+			focus = URG_join_the_allies
+		}
+		
+		cost = 5
+		
+		available = {
+			GER = {
+				is_subject =  no 
+			}
+			JAP = {
+				is_subject = no 
+			}
+			ITA = {
+				is_subject = no 
+			}
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_opinion_modifier = { modifier = hostile_status target = GER }
+			add_opinion_modifier = { modifier = hostile_status target = ITA }
+			add_opinion_modifier = { modifier = hostile_status target = JAP }
+		}
+	}
+	
+	focus = {
+		id = URG_go_after_the_germans
+		icon = GFX_focus_attack_germany 
+		x = 0
+		y = 1
+		relative_position_id = URG_break_all_ties_with_the_axis
+		prerequisite = { focus = URG_break_all_ties_with_the_axis }
+		will_lead_to_war_with = GER
+		
+		cost = 10
+		
+		available = {
+			GER = {
+				is_subject = no 
+			}
+		}
+		
+		bypass = {
+			has_completed_focus = URG_break_all_ties_with_the_axis
+			has_war_with = GER 
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			if = {
+				limit = { has_completed_focus = URG_maintain_neutrality }
+				custom_effect_tooltip = URG_breaking_neutrality
+				add_stability = -0.1
+				add_war_support = -0.1
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = GER 
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_go_after_paraguay
+		icon = GFX_ARG_go_through_paraguay 
+		x = 1
+		y = 1
+		relative_position_id = URG_economic_pact_with_argentina
+		prerequisite = { focus = URG_economic_pact_with_argentina }
+		will_lead_to_war_with = PAR
+		
+		cost = 10
+		
+		available = {
+			is_in_faction_with = ARG
+			PAR = {
+				has_war = no
+				is_in_faction = no 
+			}
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = PAR 
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_expand_the_universities
+		icon = GFX_focus_research 
+		x = -1
+		y = 1
+		relative_position_id = URG_build_up_our_industry
+		prerequisite = { focus = URG_build_up_our_industry }
+		prerequisite = { focus = URG_build_the_teja_refinery }
+		
+		cost = 10
+		
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+	
+	focus = {
+		id = URG_begin_undoing_what_terra_did
+		icon = GFX_focus_renounce_the_treaty_of_trianon
+		x = 0
+		y = 1
+		relative_position_id = URG_go_against_terra
+		prerequisite = { focus = URG_go_against_terra }
+		
+		ai_will_do = {
+			factor = 10
+		}
+		
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = URG_less_than_40
+				check_variable = { URG_politicians_arrested < 40 }
+			}
+		}
+		
+		cancel_if_invalid = no
+		continue_if_invalid = yes
+		available_if_capitulated = no
+		
+		cost = 8
+		
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			custom_effect_tooltip = URG_terra_supporter_not_like
+			add_political_power = 75
+			custom_effect_tooltip = URG_up_to_10_free
+			add_popularity = { ideology = democratic popularity = 0.02 }
+			add_popularity = { ideology = communism popularity = 0.08 }
+			hidden_effect = {
+				random_list = {
+					20 = {
+						subtract_from_variable = { URG_politicians_arrested = 2 }
+					}
+					20 = {
+						subtract_from_variable = { URG_politicians_arrested = 4 }
+					}
+					20 = {
+						subtract_from_variable = { URG_politicians_arrested = 6 }
+					}
+					20 = {
+						subtract_from_variable = { URG_politicians_arrested = 8 }
+					}
+					20 = {
+						subtract_from_variable = { URG_politicians_arrested = 10 }
+					}
+				}
+				subtract_from_variable = { URG_politicians_arrested = 3 }
+				URG_set_up_prisoners_modifier = yes 
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_reestablish_the_parliament
+		icon = GFX_focus_generic_self_management 
+		x = -1
+		y = 1
+		relative_position_id = URG_begin_undoing_what_terra_did
+		prerequisite = { focus = URG_begin_undoing_what_terra_did }
+		
+		cost = 6 
+		
+		ai_will_do = {
+			factor = 10
+		}
+		
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			custom_effect_tooltip = URG_terra_supporter_not_like
+			add_political_power = 50
+			add_popularity = { ideology = democratic popularity = 0.03 }
+			add_popularity = { ideology = communism popularity = 0.05 }
+		}
+	}
+	
+	focus = {
+		id = URG_maintain_a_powerful_economy
+		icon = GFX_ARG_develop_uruguayan 
+		x = -2
+		y = 1
+		relative_position_id = URG_reestablish_the_parliament
+		prerequisite = { focus = URG_reestablish_the_parliament }
+		prerequisite = { focus = URG_build_up_our_industry }
+		
+		cost = 10
+		
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = URG_less_than_25
+				check_variable = { URG_politicians_arrested < 25 }
+			}
+		}
+		
+		
+		cancel_if_invalid = no
+		continue_if_invalid = yes
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_1_civilian = yes 
+			add_ideas = URG_maintaining_a_powerful_economy
+		}
+	}
+
+	focus = {
+		id = URG_improve_our_resource_extraction
+		icon = GFX_goal_generic_construction2
+		x = 1
+		y = 1
+		relative_position_id = URG_maintain_a_powerful_economy
+		prerequisite = { focus = URG_maintain_a_powerful_economy }
+
+		cost = 10
+
+		available = {
+			has_tech = excavation2
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_ideas = ARG_improved_mining_techniques
+		}
+	}
+	
+	focus = {
+		id = URG_invest_in_the_military
+		icon = GFX_goal_generic_construct_mil_factory 
+		x = -1
+		y = 1
+		relative_position_id = URG_expand_the_universities
+		prerequisite = { focus = URG_expand_the_universities }
+		
+		cost = 10
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			army_experience = 5
+			EUYL_add_2_military = yes 
+		}
+	}
+	
+	focus = {
+		id = URG_modernizing_the_army
+		icon = GFX_uruguayan_military 
+		x = 1
+		y = 1
+		relative_position_id = URG_expand_the_universities
+		prerequisite = { focus = URG_expand_the_universities }
+		
+		cost = 10
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			army_experience = 20
+			EUYL_add_1_military = yes 
+		}
+	}
+	
+	focus = {
+		id = URG_build_up_a_navy
+		icon = GFX_URG_build_navy
+		x = 0
+		y = 2
+		relative_position_id = URG_expand_the_universities
+		prerequisite = { focus = URG_modernizing_the_army }
+		prerequisite = { focus = URG_invest_in_the_military }
+		
+		cost = 10
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			navy_experience = 25
+			EUYL_add_2_dockyard = yes 
+		}
+	}
+	
+	focus = {
+		id = URG_modernize_our_light_ships 
+		icon = GFX_goal_generic_navy_cruiser 
+		x = 0
+		y = 1
+		relative_position_id = URG_build_up_a_navy
+		prerequisite = { focus = URG_build_up_a_navy }
+		
+		cost = 10
+		
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = {
+				name = URG_modernize_our_light_ships
+				bonus = 1.0
+				uses = 2
+				category = ss_tech
+			}
+			add_tech_bonus = {
+				name = URG_modernize_our_light_ships
+				bonus = 1.0
+				uses = 1
+				category = dd_tech
+			}
+			EUYL_add_1_dockyard = yes 
+		}
+	}
+	
+	focus = {
+		id = URG_build_up_an_airforce
+		icon = GFX_URG_build_air 
+		x = -1
+		y = 1
+		relative_position_id = URG_invest_in_the_military
+		prerequisite = { focus = URG_invest_in_the_military }
+		
+		cost = 10
+		
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_ideas = URG_building_up_an_airforce
+			add_tech_bonus = {
+				name = URG_build_up_an_airforce
+				bonus = 0.5
+				uses = 1
+				category = light_fighter
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = air_base
+					level = 2
+					instant_build = yes 
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_modernize_our_airforce
+		icon = GFX_goal_generic_air_fighter2 
+		x = 0
+		y = 1
+		relative_position_id = URG_build_up_an_airforce
+		prerequisite = { focus = URG_build_up_an_airforce }
+		
+		cost = 10
+		
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = {
+				name = URG_modernize_our_airforce
+				bonus = 1.0
+				uses = 1
+				category = light_fighter
+			}
+			add_tech_bonus = {
+				name = URG_modernize_our_airforce
+				bonus = 1.0
+				uses = 1
+				category = tactical_bomber
+			}
+			add_tech_bonus = {
+				name = URG_modernize_our_airforce
+				bonus = 1.0
+				uses = 1
+				category = cas_bomber
+			}
+			EUYL_add_1_military = yes 
+		}
+	}
+			
+	focus = {
+		id = URG_focus_on_tanks
+		icon = GFX_uruguayan_tanks 
+		x = 1
+		y = 1
+		relative_position_id = URG_modernizing_the_army
+		prerequisite = { focus = URG_modernizing_the_army }
+		
+		cost = 10
+		
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = {
+				name = URG_focus_on_tanks
+				bonus = 1.0
+				uses = 2
+				category = armor
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_produce_more_tanks
+		icon = GFX_goal_generic_build_tank 
+		x = 0
+		y = 1
+		relative_position_id = URG_focus_on_tanks
+		prerequisite = { focus = URG_focus_on_tanks }
+		
+		cost = 10
+		
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = {
+				name = URG_produce_more_tanks
+				bonus = 0.5
+				uses = 1
+				category = armor
+			}
+			EUYL_add_1_military = yes 
+		}
+	}
+	
+	focus = {
+		id = URG_a_modern_armed_forces
+		icon = GFX_URG_modern_army
+		x = 0
+		y = 1
+		relative_position_id = URG_modernize_our_light_ships
+		prerequisite = { focus = URG_modernize_our_light_ships }
+		prerequisite = { focus = URG_modernize_our_airforce }
+		prerequisite = { focus = URG_produce_more_tanks }
+		
+		cost = 10
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = {
+				name = URG_a_modern_armed_forces
+				bonus = 1.0
+				uses = 1
+				category = land_doctrine
+			}
+			add_tech_bonus = {
+				name = URG_a_modern_armed_forces
+				bonus = 1.0
+				uses = 1
+				category = air_doctrine
+			}
+			add_tech_bonus = {
+				name = URG_a_modern_armed_forces
+				bonus = 1.0
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+	}
+		
+	focus = {
+		id = URG_set_free_all_the_prisoners
+		icon = GFX_URG_set_free
+		x = 1
+		y = 1
+			
+		relative_position_id = URG_begin_undoing_what_terra_did
+		prerequisite = { focus = URG_begin_undoing_what_terra_did }
+		
+		cost = 6 
+		
+		ai_will_do = {
+			factor = 10
+		}
+					
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			custom_effect_tooltip = URG_terra_supporter_not_like
+			add_popularity = { ideology = democratic popularity = 0.07 }
+			add_popularity = { ideology = communism popularity = 0.1 }
+			custom_effect_tooltip = URG_6_set_free
+			hidden_effect = {
+				subtract_from_variable = { URG_politicians_arrested = 6 }
+				URG_set_up_prisoners_modifier = yes 
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_repay_the_british_debt
+		icon = GFX_focus_chi_british_cooperation
+		x = 3
+		y = 1
+		relative_position_id = URG_set_free_all_the_prisoners
+		prerequisite = { focus = URG_set_free_all_the_prisoners }
+		
+		cost = 8
+		
+		ai_will_do = {
+			factor = 15
+		}
+		
+		available = {
+			NOT = {
+				has_war_with = ENG 
+			}
+			has_civil_war = no 
+		}
+		
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			custom_effect_tooltip = URG_unlock_debt_decisions
+		}
+	}
+	
+	focus = {
+		id = URG_imprison_Terra
+		icon = GFX_URG_arrest_terra
+		x = -1
+		y = 1
+		relative_position_id = URG_set_free_all_the_prisoners
+		prerequisite = { focus = URG_set_free_all_the_prisoners }
+		prerequisite = { focus = URG_reestablish_the_parliament }
+		
+		cost = 10
+		
+		ai_will_do = {
+			factor = 10
+		}
+		
+		available = {
+			has_country_flag = URG_terra 
+			custom_trigger_tooltip = {
+				tooltip = URG_less_than_20
+				check_variable = { URG_politicians_arrested < 18 }
+			}
+		}
+		
+		cancel_if_invalid = no
+		continue_if_invalid = yes
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			custom_effect_tooltip = URG_terra_supporters_rise_up
+			start_civil_war = {
+				ruling_party = democratic
+				ideology = neutrality
+				size = 0.45
+				states = {
+					827
+				}
+			}
+			hidden_effect = {
+				clr_country_flag = URG_terra
+				remove_dynamic_modifier = { modifier = URG_the_terra_dictatorship }
+				country_event = { id = uruguay.17 days = 1 }
+				division_template = { 
+					name = "Nacionales" 
+					division_names_group = SPAN_INF_02 
+					is_locked = no
+					regiments = { 
+						infantry = { x = 0 y = 0 }  
+						infantry = { x = 0 y = 1 } 
+						infantry = { x = 0 y = 2 } 
+						infantry = { x = 0 y = 3 } 
+						infantry = { x = 0 y = 4 }
+					}
+				}
+				
+				300 = {
+					create_unit = {
+						division = "name = \"Nacionales\" division_template = \"Nacionales\" start_experience_factor = 0.2 start_equipment_factor = 1.0" 
+						owner = ROOT
+					}
+					create_unit = {
+						division = "name = \"Nacionales\" division_template = \"Nacionales\" start_experience_factor = 0.2 start_equipment_factor = 1.0" 
+						owner = ROOT
+					}
+					create_unit = {
+						division = "name = \"Nacionales\" division_template = \"Nacionales\" start_experience_factor = 0.2 start_equipment_factor = 1.0" 
+						owner = ROOT
+					}
+					create_unit = {
+						division = "name = \"Nacionales\" division_template = \"Nacionales\" start_experience_factor = 0.2 start_equipment_factor = 1.0" 
+						owner = ROOT
+					}
+					create_unit = {
+						division = "name = \"Nacionales\" division_template = \"Nacionales\" start_experience_factor = 0.2 start_equipment_factor = 1.0" 
+						owner = ROOT
+					}
+				}
+				
+				random_other_country = {
+					limit = {
+						has_civil_war = yes
+						has_government = neutrality
+					}
+					
+					division_template = { 
+						name = "Loyalists" 
+						division_names_group = SPAN_INF_02 
+						is_locked = no
+						regiments = { 
+							infantry = { x = 0 y = 0 }  
+							infantry = { x = 0 y = 1 } 
+							infantry = { x = 0 y = 2 } 
+							infantry = { x = 0 y = 3 } 
+							infantry = { x = 0 y = 4 }
+						}
+					}
+					827 = {
+						create_unit = {
+							division = "name = \"Loyalists\" division_template = \"Loyalists\" start_experience_factor = 0.1 start_equipment_factor = 1.0" 
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Loyalists\" division_template = \"Loyalists\" start_experience_factor = 0.1 start_equipment_factor = 1.0" 
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Loyalists\" division_template = \"Loyalists\" start_experience_factor = 0.1 start_equipment_factor = 1.0" 
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Loyalists\" division_template = \"Loyalists\" start_experience_factor = 0.1 start_equipment_factor = 1.0" 
+							owner = PREV
+						}
+					}
+				}
+			}
+		}
+	}
+		
+	focus = {
+		id = URG_the_will_of_the_people
+		icon = GFX_goal_support_democracy
+		x = 0
+		y = 1
+		relative_position_id = URG_imprison_Terra
+		prerequisite = { focus = URG_imprison_Terra }
+		mutually_exclusive = { focus = URG_a_new_path }
+		
+		available = {
+			always = no 
+		}
+		
+		cost = 5
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			effect_tooltip = {
+				set_politics = {
+					ruling_party = democratic
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_a_new_path
+		icon = GFX_goal_support_communism 
+		x = 6
+		y = 1
+		relative_position_id = URG_imprison_Terra
+		prerequisite = { focus = URG_imprison_Terra }
+		mutually_exclusive = { focus = URG_the_will_of_the_people }
+		
+		available = {
+			always = no 
+		}
+		
+		cost = 5
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			effect_tooltip = {
+				set_politics = {
+					ruling_party = communism
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_recover_from_the_civil_war
+		icon = GFX_URG_rebuilding_the_country
+		x = -3
+		y = 1
+		relative_position_id = URG_a_new_path
+		prerequisite = {
+			focus = URG_a_new_path
+			focus = URG_the_will_of_the_people
+		}
+		
+		available = {
+			has_civil_war = no 
+		}
+		
+		cost = 10
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_timed_idea = { idea = URG_rebuilding_the_nation days = 365 }
+		}
+	}
+	
+	focus = {
+		id = URG_contact_the_west
+		icon = GFX_ARG_placate_west 
+		x = 0
+		y = 1
+		relative_position_id = URG_the_will_of_the_people
+		prerequisite = { focus = URG_the_will_of_the_people }
+		
+		cost = 7
+		
+		available = {
+			NOT = {
+				has_war_with = USA
+				has_war_with = ENG 
+				has_war_with = FRA
+			}
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			USA = {
+				add_opinion_modifier = { target = URG modifier = URG_contacted_us }
+			}
+			FRA = {
+				add_opinion_modifier = { target = URG modifier = URG_contacted_us }
+			}
+			ENG = {
+				add_opinion_modifier = { target = URG modifier = URG_contacted_us }
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_invest_in_our_companies
+		icon = GFX_focus_mex_privatisation 
+		x = 0
+		y = 1
+		relative_position_id = URG_contact_the_west
+		prerequisite = { focus = URG_contact_the_west }
+		
+		cost = 10
+		
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_political_power = 50
+			EUYL_add_1_civilian = yes 
+		}
+	}
+	
+	focus = {
+		id = URG_privatize_our_industry
+		icon = GFX_URG_privatize_industry
+		x = -1
+		y = 1
+		relative_position_id = URG_invest_in_our_companies
+		prerequisite = { focus = URG_invest_in_our_companies }
+		mutually_exclusive = { focus = URG_keep_our_ecconomy_the_way_it_is }
+		
+		cost = 10
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_popularity = { ideology = democratic popularity = 0.1 }
+			add_ideas = URG_privatized_industry
+			custom_effect_tooltip = URG_unlock_companies
+		}
+	}
+	
+	focus = {
+		id = URG_keep_our_ecconomy_the_way_it_is
+		icon = GFX_goal_generic_construct_civilian 
+		x = 1
+		y = 1
+		relative_position_id =  URG_invest_in_our_companies
+		prerequisite = { focus = URG_invest_in_our_companies }
+		mutually_exclusive = { focus = URG_privatize_our_industry }
+		
+		cost = 10
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_1_civilian = yes 
+		}
+	}
+	
+	focus = {
+		id = URG_side_with_the_allies
+		icon = GFX_focus_eng_the_sun_never_sets 
+		x = -1
+		y = 1
+		relative_position_id = URG_privatize_our_industry
+		prerequisite = { 
+			focus = URG_privatize_our_industry 
+			focus = URG_keep_our_ecconomy_the_way_it_is
+		}
+		mutually_exclusive = { focus = URG_stay_within_the_continent }
+		
+		cost = 10
+		
+		available = {
+			NOT = { has_war_with = ENG }
+		}
+		
+		bypass = {
+			OR = {
+				has_completed_focus = URG_privatize_our_industry 
+				has_completed_focus = URG_keep_our_ecconomy_the_way_it_is
+			}
+			is_in_faction_with = ENG 
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			if = {
+				limit = { has_idea = monroe_doctrine_idea }
+				remove_ideas = monroe_doctrine_idea
+			}
+			ENG = { country_event = { id = generic.2 hours = 6 } }
+		}
+	}
+	
+	focus = {
+		id = URG_stay_within_the_continent
+		icon = GFX_focus_por_recover_latin_america 
+		x = 1
+		y = 1
+		relative_position_id = URG_keep_our_ecconomy_the_way_it_is
+		prerequisite = { 
+			focus = URG_privatize_our_industry 
+			focus = URG_keep_our_ecconomy_the_way_it_is
+		}
+		mutually_exclusive = { focus = URG_side_with_the_allies }
+		
+		cost = 10
+		
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			custom_effect_tooltip = URG_stay_continent
+			if = {
+				limit = {
+					ARG = {
+						is_in_faction = yes 
+						is_faction_leader = yes 
+						has_government = democratic
+					}
+				}
+				ARG = {
+					country_event = { id = generic.2 hours = 6 }
+				}
+			}
+			else_if = {
+				limit = {
+					CHL = {
+						is_in_faction = yes 
+						is_faction_leader = yes 
+						has_government = democratic
+					}
+				}
+				CHL = {
+					country_event = { id = generic.2 hours = 6 }
+				}
+			}
+			else = {
+				create_faction = "La Alianza Sudamericana"
+			}
+		}
+	}
+
+	focus = {
+		id = URG_prepare_the_uruguayan_army
+		icon = GFX_URG_mobilize_militias
+		x = -2
+		y = 2
+		relative_position_id = URG_keep_our_ecconomy_the_way_it_is
+		prerequisite = {
+			focus = URG_side_with_the_allies
+			focus = URG_stay_within_the_continent
+		}
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = {
+						OR = {
+							has_idea = URG_prepare_the_army_1
+							has_idea = URG_prepare_the_army_2
+						}
+					}
+				}
+				add_ideas = URG_prepare_the_army_1
+			}
+			else = {
+				add_ideas = URG_prepare_the_army_3
+			}
+		}
+	}
+
+	focus = {
+		id = URG_ramp_up_the_military_production
+		icon = GFX_URG_ramping_up_the_uruguayan_military
+		x = 3
+		y = 1
+		relative_position_id = URG_side_with_the_allies
+		prerequisite = {
+			focus = URG_side_with_the_allies
+			focus = URG_stay_within_the_continent
+		}
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_1_military = yes 
+			if = {
+				limit = {
+					NOT = {
+						OR = {
+							has_idea = URG_prepare_the_army_1
+							has_idea = URG_prepare_the_army_2
+						}
+					}
+				}
+				add_ideas = URG_prepare_the_army_2
+			}
+			else = {
+				add_ideas = URG_prepare_the_army_3
+			}
+		}
+	}
+	
+	
+	focus = {	
+		id = URG_remove_fascism_from_the_continent
+		icon = GFX_ARG_rid_fascism
+		x = -2
+		y =2
+		relative_position_id = URG_stay_within_the_continent
+		prerequisite = {
+			focus = URG_prepare_the_uruguayan_army
+		}
+		prerequisite = { focus = URG_ramp_up_the_military_production }
+		
+		cost = 10
+		
+		available = {
+			is_subject = no
+			has_government = democratic
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			custom_effect_tooltip = ARG_removefascismfromcontinent
+			hidden_effect = {
+				if = { 
+					limit = { 
+						PAR = {
+							has_government = fascism 
+						}
+					}
+					create_wargoal = {
+						type = puppet_wargoal_focus
+						target = PAR
+					}
+				}
+				if = { 
+					limit = { 
+						URG = {
+							has_government = fascism 
+						}
+					}
+					create_wargoal = {
+						type = puppet_wargoal_focus
+						target = URG
+					}
+				}
+				if = { 
+					limit = { 
+						CHL = {
+							has_government = fascism 
+						}
+					}
+					create_wargoal = {
+						type = puppet_wargoal_focus
+						target = CHL
+					}
+				}
+				if = { 
+					limit = { 
+						BRA = {
+							has_government = fascism 
+						}
+					}
+					create_wargoal = {
+						type = puppet_wargoal_focus
+						target = BRA
+					}
+				}
+				if = { 
+					limit = { 
+						PRU = {
+							has_government = fascism 
+						}
+					}
+					create_wargoal = {
+						type = puppet_wargoal_focus
+						target = PRU
+					}
+				}
+				if = { 
+					limit = { 
+						BOL = {
+							has_government = fascism 
+						}
+					}
+					create_wargoal = {
+						type = puppet_wargoal_focus
+						target = BOL
+					}
+				}
+				if = { 
+					limit = { 
+						ECU = {
+							has_government = fascism 
+						}
+					}
+					create_wargoal = {
+						type = puppet_wargoal_focus
+						target = ECU
+					}
+				}
+				if = { 
+					limit = { 
+						COL = {
+							has_government = fascism 
+						}
+					}
+					create_wargoal = {
+						type = puppet_wargoal_focus
+						target = COL
+					}
+				}
+				if = { 
+					limit = { 
+						VEN = {
+							has_government = fascism 
+						}
+					}
+					create_wargoal = {
+						type = puppet_wargoal_focus
+						target = VEN
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = URG_remove_communism_from_the_continent
+		icon = GFX_ARG_rid_communism
+		x = 0
+		y = 1
+		relative_position_id = URG_remove_fascism_from_the_continent
+		prerequisite = { focus = URG_remove_fascism_from_the_continent }
+		
+		cost = 10
+		
+		available = {
+			is_subject = no
+			has_government = democratic
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			custom_effect_tooltip = ARG_removecommunismfromcontinent
+			hidden_effect = {
+				if = { 
+					limit = { 
+						PAR = {
+							has_government = communism 
+						}
+					}
+					create_wargoal = {
+						type = puppet_wargoal_focus
+						target = PAR
+					}
+				}
+				if = { 
+					limit = { 
+						URG = {
+							has_government = communism 
+						}
+					}
+					create_wargoal = {
+						type = puppet_wargoal_focus
+						target = URG
+					}
+				}
+				if = { 
+					limit = { 
+						CHL = {
+							has_government = communism 
+						}
+					}
+					create_wargoal = {
+						type = puppet_wargoal_focus
+						target = CHL
+					}
+				}
+				if = { 
+					limit = { 
+						BRA = {
+							has_government = communism 
+						}
+					}
+					create_wargoal = {
+						type = puppet_wargoal_focus
+						target = BRA
+					}
+				}
+				if = { 
+					limit = { 
+						PRU = {
+							has_government = communism 
+						}
+					}
+					create_wargoal = {
+						type = puppet_wargoal_focus
+						target = PRU
+					}
+				}
+				if = { 
+					limit = { 
+						BOL = {
+							has_government = communism 
+						}
+					}
+					create_wargoal = {
+						type = puppet_wargoal_focus
+						target = BOL
+					}
+				}
+				if = { 
+					limit = { 
+						ECU = {
+							has_government = communism 
+						}
+					}
+					create_wargoal = {
+						type = puppet_wargoal_focus
+						target = ECU
+					}
+				}
+				if = { 
+					limit = { 
+						COL = {
+							has_government = communism 
+						}
+					}
+					create_wargoal = {
+						type = puppet_wargoal_focus
+						target = COL
+					}
+				}
+				if = { 
+					limit = { 
+						VEN = {
+							has_government = communism 
+						}
+					}
+					create_wargoal = {
+						type = puppet_wargoal_focus
+						target = VEN
+					}
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_studying_the_british_navy
+		icon = GFX_goal_generic_navy_battleship
+		x = -1
+		y = 1
+		relative_position_id = URG_side_with_the_allies
+		prerequisite = { focus = URG_side_with_the_allies }
+		
+		cost = 10
+		
+		available = {
+			is_in_faction_with = ENG 
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			navy_experience = 30
+			add_tech_bonus = {
+				name = URG_study_the_british_navy
+				bonus = 1.0
+				uses = 1
+				category = naval_doctrine
+			}
+			EUYL_add_2_dockyard = yes 
+		}
+	}
+
+	focus = {
+		id = URG_purchase_british_ships
+		icon = GFX_british_navy
+		x = 0
+		y = 1
+		relative_position_id = URG_studying_the_british_navy
+		prerequisite = { focus = URG_studying_the_british_navy }
+
+		cost = 10
+
+		available = {
+			is_in_faction_with = ENG 
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			unlock_decision_category_tooltip = URG_purchasing_british_ships
+		}
+	}
+	
+	focus = {
+		id = URG_invite_other_south_american_democracies
+		icon = GFX_focus_SA_demo 
+		x = 1
+		y = 1
+		relative_position_id = URG_stay_within_the_continent
+		prerequisite = { focus = URG_stay_within_the_continent }
+		
+		cost = 10
+		
+		available = {
+			has_government = democratic
+			is_subject = no 
+			is_in_faction = yes 
+			is_faction_leader = yes 
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL}
+		completion_reward = {
+			every_country = {
+				limit = {
+					has_government = democratic
+					is_in_faction = no 
+					NOT = {
+						has_war_with = ROOT 
+					}
+					OR = {
+						tag = ARG
+						tag = BRA
+						tag = COL
+						tag = BOL
+						tag = CHL
+						tag = PRU 
+						tag = ECU 
+						tag = PAR 
+						tag = VEN
+					}
+				}
+				country_event = { id = generic.5 hours = 6 }
+			}
+		}
+	}
+
+	focus = {
+		id = URG_economic_cooperation_with_our_allies
+		icon = GFX_goal_generic_intelligence_exchange
+		x = 0
+		y = 1
+		relative_position_id = URG_invite_other_south_american_democracies
+		prerequisite = { focus = URG_invite_other_south_american_democracies }
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			every_other_country = {
+				limit = {
+					capital_scope = { is_on_continent = south_america }
+					is_in_faction_with = ROOT 
+					has_capitulated = no 
+				}
+				EUYL_add_1_civilian = yes 
+				ROOT = {
+					EUYL_add_1_civilian = yes 
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_strengthen_our_military
+		icon = GFX_goal_generic_construct_mil_factory 
+		x = 0
+		y = 1
+		relative_position_id = URG_a_new_path
+		prerequisite = { focus = URG_a_new_path }
+		
+		cost = 10
+		
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_manpower = 30000
+			add_war_support = 0.1
+			army_experience = 20
+			EUYL_add_2_military = yes 
+		}
+	}
+	
+	focus = {
+		id = URG_all_adults_must_serve
+		icon = GFX_URG_mobilize_militias 
+		x = 2
+		y = 1
+		relative_position_id = URG_a_new_path
+		prerequisite = { focus = URG_a_new_path }
+		
+		cost = 10
+		
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_war_support = 0.1
+			if = {
+				limit = {
+					NOT = { has_idea = extensive_conscription }
+				}
+				add_ideas = extensive_conscription
+			}
+			add_ideas = URG_expanded_consription
+		}
+	}
+
+	focus = {
+		id = URG_secure_the_paraguayan_alliance
+		icon = GFX_URG_invite_paraguay 
+		x = 1
+		y = 1
+		relative_position_id = URG_strengthen_our_military
+		prerequisite = { focus = URG_strengthen_our_military }
+		prerequisite = { focus = URG_all_adults_must_serve }
+		
+		cost = 10
+		
+		available = {
+			PAR = {
+				is_subject = no 
+				is_in_faction = no
+				has_government = communism
+				NOT = {
+					has_war_with = ROOT 
+				}
+			}
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			create_faction = "Unión de Socialistas Sudamericanos"
+			PAR = {
+				hidden_effect = {
+					add_opinion_modifier = { modifier = URG_secured_alliance target = URG }
+				}
+				country_event = { id = generic.5 hours = 6 }
+			}
+		}
+	}
+		
+	focus = {
+		id = URG_attack_the_argentines
+		icon = GFX_focus_ARG_attack 
+		x = 0
+		y = 1
+		relative_position_id = URG_secure_the_paraguayan_alliance
+		prerequisite = { focus = URG_secure_the_paraguayan_alliance }
+		will_lead_to_war_with = ARG
+		
+		cost = 10
+		
+		available = {
+			NOT = {
+				is_in_faction_with = ARG 
+			}
+		}
+		
+		bypass = {
+			has_completed_focus = URG_secure_the_paraguayan_alliance
+			has_war_with = ARG 
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = ARG 
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_desperate_mobilization
+		icon = GFX_focus_generic_tank_production 
+		x = -1
+		y = 1
+		relative_position_id = URG_attack_the_argentines
+		prerequisite = { focus = URG_attack_the_argentines }
+		
+		cost = 3
+		
+		ai_will_do = {
+			factor = 8
+		}
+		
+		available = {
+			has_war_with = ARG 
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = { has_idea = war_economy }
+				}
+				add_ideas = war_economy
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_mutual_military_mobilization
+		icon = GFX_URG_mutual_buildup
+		x = 1
+		y = 1
+		relative_position_id = URG_attack_the_argentines
+		prerequisite = { focus = URG_attack_the_argentines }
+		
+		cost = 5
+		
+		ai_will_do = {
+			factor = 8
+		}
+		
+		available = {
+			has_war_with = ARG 
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			PAR = {
+				add_manpower = 10000
+				EUYL_add_1_military = yes 
+			}
+			add_manpower = 10000
+			EUYL_add_1_military = yes 	
+		}
+	}
+	
+	focus = {
+		id = URG_march_to_buenos_aires
+		icon = GFX_ARG_casa_marcha 
+		x = -1
+		y = 1
+		relative_position_id = URG_mutual_military_mobilization
+		prerequisite = { focus = URG_mutual_military_mobilization }
+		prerequisite = { focus = URG_desperate_mobilization }
+		
+		cost = 2
+		
+		ai_will_do = {
+			factor = 8
+		}
+		
+		available = {
+			has_war_with = ARG 
+		}
+		
+		bypass = {
+			has_completed_focus = URG_attack_the_argentines
+			has_war_with = ARG 
+			controls_state = 807
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			activate_mission = URG_capture_buenos_aires
+		}
+	}
+	
+	focus = {
+		id = URG_strengthen_our_relations_with_paraguay
+		icon = GFX_URG_invite_paraguay
+		x = -1
+		y = 1
+		relative_position_id = URG_march_to_buenos_aires
+		prerequisite = { focus = URG_march_to_buenos_aires }
+		mutually_exclusive = { focus = URG_backstab_the_paraguayans }
+		
+		cost = 10
+		
+		available = {
+			is_in_faction_with = PAR 
+			NOT = {
+				has_war_with = ARG 
+			}
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			PAR = {
+				add_opinion_modifier = { modifier = URG_secured_alliance target = URG }
+			}
+			add_opinion_modifier = { modifier = URG_secured_alliance target = PAR }
+		}
+	}
+	
+	focus = {
+		id = URG_backstab_the_paraguayans
+		icon = GFX_ARG_go_through_paraguay 
+		x = 1
+		y = 1
+		relative_position_id = URG_march_to_buenos_aires
+		prerequisite = { focus = URG_march_to_buenos_aires }
+		mutually_exclusive = { focus = URG_strengthen_our_relations_with_paraguay }
+		will_lead_to_war_with = PAR
+		
+		cost = 10
+		
+		available = {
+			is_in_faction_with = PAR 
+			NOT = {
+				has_war_with = ARG 
+			}
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			remove_from_faction = PAR 
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = PAR 
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_go_after_the_brazilians
+		icon = GFX_ARG_attack_brazil 
+		x = -1
+		y = 1
+		relative_position_id = URG_strengthen_our_relations_with_paraguay
+		prerequisite = {
+			focus = URG_strengthen_our_relations_with_paraguay
+			focus = URG_backstab_the_paraguayans
+		}
+		will_lead_to_war_with = BRA
+		
+		cost = 10
+		
+		available = {
+			NOT = {
+				is_in_faction_with = BRA 
+			}
+		}
+		
+		bypass = {
+			has_completed_focus = URG_march_to_buenos_aires
+			NOT = {
+				has_war_with = ARG 
+			}
+			has_war_with = BRA 
+		}
+		
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = BRA 
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_integrate_entre_rios
+		icon = GFX_goal_generic_position_armies 
+		x = 1
+		y = 1
+		relative_position_id = URG_backstab_the_paraguayans
+		prerequisite = { 
+			focus = URG_strengthen_our_relations_with_paraguay
+			focus = URG_backstab_the_paraguayans
+		}
+		
+		cost = 10
+		
+		available = {
+			controls_state = 823
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			add_state_core = 823
+			if = {
+				limit = {
+					controls_state = 813
+					controls_state = 278
+					controls_state = 807
+				}
+				813 = {
+					add_compliance = 15
+				}
+				278 = {
+					add_compliance = 15
+				}
+				807 = {
+					add_compliance = 10
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = URG_reform_the_liga_federal
+		icon = GFX_URG_strive_to_reform_liga_federal
+		x = -1
+		y = 5
+		relative_position_id = URG_backstab_the_paraguayans
+		prerequisite = { 
+			focus = URG_go_after_the_brazilians 
+			focus = URG_integrate_entre_rios
+			focus = URG_remove_communism_from_the_continent
+		}
+
+		cost = 10
+
+		available = {
+			has_capitulated = no 
+			is_subject = no 
+			controls_state = 502
+			controls_state = 824
+			controls_state = 823
+			controls_state = 510
+			controls_state = 813
+			controls_state = 814
+			OR = {
+				AND = {
+					has_completed_focus = URG_go_after_the_brazilians
+					has_completed_focus = URG_integrate_entre_rios
+				}
+				has_completed_focus = URG_remove_communism_from_the_continent
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_stability = 0.05
+			unlock_decision_tooltip = form_liga_federal
+			custom_effect_tooltip = URG_economy_officers_tt
+		}
+	}
+
+	focus = {
+		id = URG_restabilize_the_currency
+		icon = GFX_goal_generic_construct_civilian
+		x = -4
+		y = 1
+		relative_position_id = URG_reform_the_liga_federal
+		prerequisite = {
+			focus = URG_reform_the_liga_federal
+			focus = URG_form_the_rioplatense_empire
+		}
+
+		cost = 10
+
+		available = {
+			has_idea = URG_economic_instability
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			remove_ideas = URG_economic_instability
+		}
+	}
+
+	focus = {
+		id = URG_calm_down_the_officers
+		icon = GFX_goal_generic_military_deal
+		x = 4
+		y = 1
+		relative_position_id = URG_form_the_rioplatense_empire
+		prerequisite = {
+			focus = URG_reform_the_liga_federal
+			focus = URG_form_the_rioplatense_empire
+		}
+
+		cost = 10
+	
+		available = {
+			has_idea = URG_rebelling_officers
+		}
+
+		search_filters = { FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			remove_ideas = URG_rebelling_officers
+		}
+	}
+
+	focus = {
+		id = URG_expand_beyond_our_borders
+		icon = GFX_uruguayan_military
+		x = -2
+		y = 1
+		relative_position_id = URG_calm_down_the_officers
+		prerequisite = { focus = URG_calm_down_the_officers }
+		prerequisite = { focus = URG_restabilize_the_currency }
+		mutually_exclusive = { focus = URG_solidify_our_current_borders }
+
+		cost = 10
+
+		available = {
+			is_subject = no
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			custom_effect_tooltip = URG_unlocks_conquering_decisions_tt
+		}
+	}
+
+	focus = {
+		id = URG_gain_the_edge
+		icon = GFX_goal_generic_demand_territory
+		x = -1
+		y = 1
+		relative_position_id = URG_expand_beyond_our_borders
+		prerequisite = { focus = URG_expand_beyond_our_borders }
+
+		cost = 10
+
+		completion_reward = {
+			custom_effect_tooltip = URG_gain_edge_tt
+		}
+	}
+
+	focus = {
+		id = URG_integrate_our_conquered_lands
+		icon = GFX_focus_por_recover_latin_america
+		x = 1
+		y = 1
+		relative_position_id = URG_expand_beyond_our_borders
+		prerequisite = { focus = URG_expand_beyond_our_borders }
+
+		cost = 10
+
+		available = {
+			is_subject = no 
+			any_country = {
+				NOT = {
+					original_tag = ROOT 
+				}
+				capital_scope = { 
+					is_on_continent = south_america 
+					is_fully_controlled_by = ROOT
+				}
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			custom_effect_tooltip = ARG_unlock_integrate_territory
+		}
+	}
+
+	focus = {
+		id = URG_solidify_our_current_borders
+		icon = GFX_goal_generic_improve_relations
+		x = 2
+		y = 1
+		relative_position_id = URG_restabilize_the_currency
+		prerequisite = { focus = URG_calm_down_the_officers }
+		prerequisite = { focus = URG_restabilize_the_currency }
+		mutually_exclusive = { focus = URG_expand_beyond_our_borders }
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_political_power = 100
+			add_stability = 0.05
+		}
+	}
+
+	
+	focus = {
+		id = URG_maintain_peaceful_relationships
+		icon = GFX_goal_generic_national_unity
+		x = -1
+		y = 1
+		relative_position_id = URG_solidify_our_current_borders
+		prerequisite = { focus = URG_solidify_our_current_borders }
+
+		cost = 10
+
+		available = {
+			all_neighbor_country = {
+				NOT = {
+					has_war_with = ROOT
+				}
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_political_power = 75
+			every_neighbor_country = {
+                limit = {
+                    NOT = {
+                        has_war_with = ROOT 
+                    }
+                }
+                add_opinion_modifier = { target = ROOT modifier = BOL_improved_relations }
+            }
+		}
+	}
+
+	focus = {
+		id = URG_solidify_our_industry
+		icon = GFX_goal_generic_construct_civ_factory
+		x = 1
+		y = 1
+		relative_position_id = URG_solidify_our_current_borders
+		prerequisite = { focus = URG_solidify_our_current_borders }
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_2_civilian = yes 
+		}
+	}
+
+	focus = {
+		id = URG_join_the_british
+		icon = GFX_focus_chi_british_cooperation
+		x = 1
+		y = 1
+		relative_position_id = URG_solidify_our_industry
+		prerequisite = { focus = URG_solidify_our_industry }
+		prerequisite = { focus = URG_maintain_peaceful_relationships }
+		mutually_exclusive = { focus = URG_join_the_germans }
+		mutually_exclusive = { focus = URG_join_the_soviets }
+
+		cost = 10
+
+		available = {
+			ENG = {
+				has_government = democratic
+				NOT = {
+					has_war_with = ROOT 
+				}
+			}
+		}
+
+		bypass = {
+			has_completed_focus = URG_solidify_our_current_borders
+			is_in_faction_with = ENG
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			ENG = {
+				country_event = { id = generic.2 hours = 6 }
+			}
+		}
+	}
+
+	focus = {
+		id = URG_join_the_germans
+		icon = GFX_focus_chi_mission_to_germany
+		x = -1
+		y = 1
+		relative_position_id = URG_solidify_our_industry
+		prerequisite = { focus = URG_solidify_our_industry }
+		prerequisite = { focus = URG_maintain_peaceful_relationships }
+		mutually_exclusive = { focus = URG_join_the_british }
+		mutually_exclusive = { focus = URG_join_the_soviets }
+
+		cost = 10
+
+		available = {
+			GER = {
+				has_government = fascism
+				NOT = {
+					has_war_with = ROOT 
+				}
+			}
+		}
+
+		bypass = {
+			has_completed_focus = URG_solidify_our_current_borders
+			is_in_faction_with = GER
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			GER = {
+				country_event = { id = generic.2 hours = 6 }
+			}
+		}
+	}
+
+	focus = {
+		id = URG_join_the_soviets
+		icon = GFX_focus_chi_mission_to_the_soviet_union
+		x = -3
+		y = 1
+		relative_position_id = URG_solidify_our_industry
+		prerequisite = { focus = URG_solidify_our_industry }
+		prerequisite = { focus = URG_maintain_peaceful_relationships }
+		mutually_exclusive = { focus = URG_join_the_british }
+		mutually_exclusive = { focus = URG_join_the_germans }
+
+		cost = 10
+
+		available = {
+			SOV = {
+				has_government = communism
+				NOT = {
+					has_war_with = ROOT 
+				}
+			}
+		}
+
+		bypass = {
+			has_completed_focus = URG_solidify_our_current_borders
+			is_in_faction_with = SOV
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			SOV = {
+				country_event = { id = generic.2 hours = 6 }
+			}
+		}
+	}
+	
+	focus = {
+		id = URG_civilian_factories
+		icon = GFX_goal_generic_construct_civ_factory 
+		x = 1
+		y = 1
+		relative_position_id = URG_recover_from_the_civil_war
+		prerequisite = { focus = URG_recover_from_the_civil_war }
+		
+		cost = 10
+		
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_1_civilian = yes 
+		}
+	}
+	
+	focus = {
+		id = URG_military_factories
+		icon = GFX_goal_generic_construct_mil_factory 
+		x = -1
+		y = 1
+		relative_position_id = URG_recover_from_the_civil_war
+		prerequisite = { focus = URG_recover_from_the_civil_war }
+		
+		cost = 10
+		
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_1_military = yes
+		}
+	}
+		
+	focus = {
+		id = URG_a_country_of_intellectuals
+		icon = GFX_focus_research 
+		x = 0
+		y = 1
+		relative_position_id = URG_civilian_factories
+		prerequisite = { focus = URG_civilian_factories }
+		prerequisite = { focus = URG_military_factories }
+		
+		cost = 10
+		
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+	
+	focus = {
+		id = URG_declare_war_on_the_germans
+		icon = GFX_focus_attack_germany 
+		x = -5
+		y = 1
+		relative_position_id = URG_go_after_the_brazilians
+		prerequisite = {
+			focus = URG_remove_communism_from_the_continent
+		}
+		will_lead_to_war_with = GER
+		
+		cost = 10
+		
+		available = {
+			NOT = {
+				is_in_faction_with = GER 
+			}
+		}
+		
+		bypass = {
+			OR = {
+				has_completed_focus = URG_go_after_the_brazilians
+				has_completed_focus = URG_remove_communism_from_the_continent
+			}
+			has_war_with = GER 
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = GER 
+			}
+		}
+	}
+
+}
