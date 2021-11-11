@@ -48,6 +48,9 @@ country_event = {
 			check_variable = { BRA_dependency_on_coffee > 39 }
 			check_variable = { BRA_dependency_on_coffee < 95 }
 		}
+		NOT = {
+			has_idea = BRA_rebellious_coffee_plantations_idea
+		}
 		BRA_coffee_plantations_active = yes 
 	}
 
@@ -99,6 +102,9 @@ country_event = {
 		AND = {
 			check_variable = { BRA_dependency_on_coffee < 95 }
 			check_variable = { BRA_dependency_on_coffee > 4 }
+		}
+		NOT = {
+			has_idea = BRA_rebellious_coffee_plantations_idea
 		}
         BRA_coffee_plantations_active = yes 
     }
@@ -170,6 +176,40 @@ country_event = {
 			subtract_from_variable = { BRA_dependency_on_coffee = 3 }
 			BRA_update_opinion_variable = yes 
 			BRA_set_dependency_on_coffee_idea = yes
+		}
+	}
+}
+
+#Illegal plantation begins to rebel 
+country_event = {
+	id = brazil.4
+	title = brazil.4.t 
+	desc = brazil.4.d 
+	picture = GFX_report_event_generic_riot
+
+	fire_only_once = no 
+	trigger = {
+		original_tag = BRA 
+		BRA_coffee_plantations_active = yes 
+		has_idea = BRA_rebellious_coffee_plantations_idea
+	}
+
+	mean_time_to_happen = { days = 135 }
+
+	option = {
+		name = brazil.4.a 
+		add_stability = -0.01
+		random_owned_controlled_state = {
+			limit = {
+				NOT = {
+					has_dynamic_modifier = { modifier = BRA_rebelling_coffee_plantations }
+				}
+				AND = {
+					infrastructure > 2
+					infrastructure < 5
+				}
+			}
+			add_dynamic_modifier = { modifier = BRA_rebelling_coffee_plantations }
 		}
 	}
 }

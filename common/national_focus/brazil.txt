@@ -112,7 +112,58 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BRA_
+		id = BRA_construct_factories_for_an_army
+		icon = GFX_goal_generic_construction
+		x = 0
+		y = 1
+		relative_position_id = BRA_begin_industrializing_the_nation
+		prerequisite = { focus = BRA_begin_industrializing_the_nation }
+
+		cost = 10
+
+		available = {
+			has_idea = semi_rural_economy
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = semi_rural_economy
+				add_idea = industrializing_economy
+			}
+			EUYL_add_1_military = yes 
+			random_list = {
+				80 = {
+					add_ideas = BRA_rebellious_coffee_plantations_1
+				}
+				20 = {
+
+				}
+			}
+			custom_effect_tooltip = BRA_coffee_dependency_decreases_10_tt
+			unlock_decision_tooltip = BRA_destroy_the_coffee_plantations_in_FROM
+			hidden_effect = {
+				subtract_from_variable = { BRA_dependency_on_coffee = 10 }
+				BRA_update_opinion_variable = yes 
+				BRA_set_dependency_on_coffee_idea = yes
+			}
+		}
+	}
+
+	focus = {
+		id = BRA_expand_our_arsenal
+		icon = GFX_goal_generic_construct_mil_factory
+		x = -1
+		y = 1
+		relative_position_id = BRA_construct_factories_for_an_army
+		prerequisite = { focus = BRA_construct_factories_for_an_army }
+
+		cost = 8
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_2_military = yes 
+		}
 	}
 
 	focus = {
@@ -160,6 +211,22 @@ focus_tree = {
 	}
 
 	focus = {
+		id = BRA_expand_the_armys_arsenal
+		icon = GFX_goal_generic_construct_mil_factory
+		x = 4
+		y = 1
+		relative_position_id = BRA_the_brazilian_mining_industry
+		prerequisite = { focus = BRA_the_brazilian_mining_industry }
+
+		cost = 6
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_1_military = yes 
+		}
+	}
+
+	focus = {
 		id = BRA_industrialize_the_amazons
 		icon = GFX_goal_generic_construct_civilian
 		x = 0
@@ -178,11 +245,74 @@ focus_tree = {
 					has_idea = industrialized_economy
 				}
 			}
+			controls_state = 871
+			controls_state = 495
+			controls_state = 280
+			controls_state = 886
+			controls_state = 858
+			controls_state = 861
+			controls_state = 862
+			controls_state = 870
 		}
 
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
-			
+			871 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes 
+				}
+			}
+			495 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes 
+				}
+			}
+			280 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes 
+				}
+			}
+			886 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes 
+				}
+			}
+			858 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes 
+				}
+			}
+			861 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes 
+				}
+			}
+			862 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes 
+				}
+			}
+			870 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes 
+				}
+			}
 		}
 	}
 
@@ -205,6 +335,40 @@ focus_tree = {
 	}
 
 	focus = {
+		id = BRA_improve_the_mining_industry
+		icon = GFX_BRA_improve_mine_icon
+		x = -1
+		y = 1
+		relative_position_id = BRA_establish_rubber_plantations
+		prerequisite = { focus = BRA_expand_our_roads_in_the_south }
+		prerequisite = { focus = BRA_establish_rubber_plantations }
+
+		cost = 10
+
+		available = {
+			has_idea = BRA_brazilian_mining_industry_1
+			has_idea = industrialized_economy
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = BRA_brazilian_mining_industry_1
+				add_idea = BRA_brazilian_mining_industry_2
+			}
+		}
+	}
+
+	focus = {
+		id = BRA_expand_the_roads_along_the_coast
+		icon = GFX_goal_generic_construct_infrastructure
+		x = 0
+		y = 1
+		relative_position_id = BRA_improve_the_mining_industry
+		prerequisite = { focus = BRA_improve_the_mining_industry }
+	}
+
+	focus = {
 		id = BRA_an_industry_for_the_people
 		icon = GFX_goal_generic_construct_civ_factory
 		x = -4
@@ -212,11 +376,89 @@ focus_tree = {
 		relative_position_id = BRA_the_brazilian_mining_industry
 		prerequisite = { focus = BRA_the_brazilian_mining_industry }
 
-		cost = 8
+		cost = 6
 
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
-			EUYL_add_2_civilian = yes 
+			EUYL_add_1_civilian = yes 
+		}
+	}
+
+	focus = {
+		id = BRA_industrialize_fully_our_economy
+		icon = GFX_BRA_industrialized_fully
+		x = -1
+		y = 1
+		relative_position_id = BRA_an_industry_for_the_people
+		prerequisite = { focus = BRA_an_industry_for_the_people }
+		prerequisite = { focus = BRA_expand_our_arsenal }
+
+		cost = 10
+
+		available = {
+			has_idea = industrializing_economy
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			EUYL_add_1_civilian = yes 
+			EUYL_add_1_military = yes 
+			swap_ideas = {
+				remove_idea = industrializing_economy
+				add_idea = industrialized_economy
+			}
+			custom_effect_tooltip = BRA_coffee_plantations_rebel_tt
+			custom_effect_tooltip = BRA_coffee_dependency_decreases_15_tt
+			unlock_decision_tooltip = BRA_destroy_the_coffee_plantations_in_FROM
+			hidden_effect = {
+				every_controlled_state = {
+					limit = {
+						OR = {
+							has_dynamic_modifier = { modifier = BRA_small_coffee_plantations }
+							has_dynamic_modifier = { modifier = BRA_widespread_coffee_plantations }
+						}
+					}
+					if = {
+						limit = { has_dynamic_modifier = { modifier = BRA_small_coffee_plantations } }
+						remove_dynamic_modifier = { modifier = BRA_small_coffee_plantations }
+					}
+					else = {
+						remove_dynamic_modifier = { modifier = { BRA_widespread_coffee_plantations } }
+					}
+					add_dynamic_modifier = { modifier = BRA_rebelling_coffee_plantations }
+				}
+				subtract_from_variable = { BRA_dependency_on_coffee = 15 }
+				clamp_variable = {
+					var = BRA_dependency_on_coffee
+					min = 0
+					max = 100
+				}
+				BRA_update_opinion_variable = yes 
+				BRA_set_dependency_on_coffee_idea = yes
+			}
+			add_ideas = BRA_rebellious_coffee_plantations_idea
+		}
+	}
+
+	focus = {
+		id = BRA_an_industrialized_economy
+		icon = GFX_focus_generic_industry_3
+		x = 0
+		y = 1
+		relative_position_id = BRA_industrialize_fully_our_economy
+		prerequisite = { focus = BRA_industrialize_fully_our_economy }
+
+		cost = 10
+
+		available = {
+			NOT = {
+				has_idea = BRA_rebellious_coffee_plantations_idea
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_4_civilian = yes 
 		}
 	}
 
@@ -227,28 +469,119 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_an_industry_for_the_people
 		prerequisite = { focus = BRA_an_industry_for_the_people }
+
+		cost = 8
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			504 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex 
+					level = 1
+					instant_build = yes 
+				}
+			}
+			501 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex 
+					level = 2
+					instant_build = yes 
+				}
+			}
+		}
 	}
 
 	focus = {
 		id = BRA_establish_csn
 		icon = GFX_BRA_csn_focus
-		x = 1
+		x = 0
 		y = 1
 		relative_position_id = BRA_expand_our_industry_in_the_south
 		prerequisite = { focus = BRA_expand_our_industry_in_the_south }
 		prerequisite = { focus = BRA_expand_our_roads_in_the_south }
 
 		cost = 10
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_better_than_industrializing_tt
+				OR = {
+					has_idea = industrializing_economy
+					has_idea = industrialized_economy
+				}
+			}
+			is_subject = no 
+			has_civil_war = no 
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			custom_effect_tooltip = EUYL_available_as_industrial_concern_tt
+			show_ideas_tooltip = BRA_csn
+			add_political_power = 45
+			random_owned_controlled_state = {
+				add_resource = {
+					type = steel
+					amount = 6
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = BRA_expanded_armories
+		icon = GFX_goal_generic_construct_mil_factory
+		x = -1
+		y = 1
+		relative_position_id = BRA_establish_csn
+		prerequisite = { focus = BRA_establish_csn }
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_2_military = yes 
+			EUYL_add_1_military = yes 
+		}
+	}
+
+	focus = {
+		id = BRA_open_up_steel_mines
+		icon = GFX_BRA_steel_mines
+		x = 1
+		y = 1
+		relative_position_id = BRA_establish_csn
+		prerequisite = { focus = BRA_establish_csn }
+		prerequisite = { focus = BRA_improve_the_mining_industry }
 	}
 
 	focus = {
 		id = BRA_steel_for_the_army
 		icon = GFX_focus_generic_steel
-		x = 0
-		y = 1
+		x = 1
+		y = 2
 		relative_position_id = BRA_establish_csn
-		prerequisite = { focus = BRA_establish_csn }
-		#there will be one more focus here
+		prerequisite = { focus = BRA_open_up_steel_mines }
+		
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes 
+				}
+				add_resource = {
+					type = steel
+					amount = 8
+				}
+			}
+		}
 	}
 	
 }

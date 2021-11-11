@@ -1513,16 +1513,32 @@ CHL_the_1938_chilean_elections = {
 		}
 
 		timeout_effect = {
-			random_list = {
-				CHL_chance_of_f_winning = {
-					country_event = chile.36 #Nacistas win elections 
+			if = {
+				limit = { 
+					AND = {
+						check_variable = { CHL_chance_of_f_winning > CHL_chance_of_c_winning }
+						check_variable = { CHL_chance_of_f_winning > CHL_chance_of_d_winning }
+					}
 				}
-				CHL_chance_of_c_winning = {
-					country_event = chile.37 #Communists win elections
+				country_event = chile.36
+			}
+			else_if = {
+				limit = {
+					AND = {
+						check_variable = { CHL_chance_of_c_winning > CHL_chance_of_f_winning }
+						check_variable = { CHL_chance_of_c_winning > CHL_chance_of_d_winning }
+					}
 				}
-				CHL_chance_of_d_winning = {
-					country_event = chile.38 #Liberals win elections
+				country_event = chile.37
+			}
+			else_if = {
+				limit = {
+					AND = {
+						check_variable = { CHL_chance_of_d_winning > CHL_chance_of_f_winning }
+						check_variable = { CHL_chance_of_d_winning > CHL_chance_of_c_winning }
+					}
 				}
+				country_event = chile.38
 			}
 			hidden_effect = {
 				clr_country_flag = CHL_election_preperations
@@ -1960,137 +1976,6 @@ CHL_the_1938_chilean_elections = {
 				set_state_flag = CHL_won_support_in_province
 			}
 			add_popularity = { ideology = fascism popularity = 0.025 }
-		}
-	}
-
-	#Decision for if you get bamboozled by the election system 
-	CHL_launch_a_coup_against_current_government = {
-		priority = 10
-		icon = generic_political_rally
-
-		ai_will_do = {
-			base = 135
-		}
-
-		allowed = {
-			original_tag = CHL 
-		}
-
-		available = {
-			has_civil_war = no 
-			hidden_trigger = {
-				has_manpower > 2499
-			}
-		}
-
-		visible = {
-			OR = {
-				AND = {
-					check_variable = { CHL_chance_of_f_winning > CHL_chance_of_c_winning }
-					check_variable = { CHL_chance_of_f_winning > CHL_chance_of_d_winning }
-					NOT = {
-						has_government = fascism
-					}
-				}
-				AND = {
-					check_variable = { CHL_chance_of_c_winning > CHL_chance_of_f_winning }
-					check_variable = { CHL_chance_of_c_winning > CHL_chance_of_d_winning }
-					NOT = {
-						has_government = communism
-					}
-				}
-				AND = {
-					check_variable = { CHL_chance_of_d_winning > CHL_chance_of_f_winning }
-					check_variable = { CHL_chance_of_d_winning > CHL_chance_of_c_winning }
-					NOT = {
-						has_government = democratic
-					}
-				}
-			}
-			NOT = {
-				has_country_flag = CHL_succesful_coup
-			}
-			NOT = {
-				has_active_mission = CHL_the_1938_elections
-			}
-		}
-
-		custom_cost_trigger = {
-			has_manpower > 2499
-			has_political_power > 49
-		}
-
-		custom_cost_text = CHL_cost_man_and_pol
-
-		ai_will_do = {
-			factor = 120
-		}
-
-		days_remove = 15
-
-		complete_effect = {
-			hidden_effect = {
-				add_political_power = -50
-				add_manpower = -2500
-			}
-		}
-
-		remove_effect = {
-			random_list = {
-				95 = {
-					if = {
-						limit = {
-							check_variable = { CHL_chance_of_f_winning > CHL_chance_of_c_winning }
-							check_variable = { CHL_chance_of_f_winning > CHL_chance_of_d_winning }
-							NOT = {
-								has_government = fascism
-							}
-						}
-						set_politics = {
-							ruling_party = fascism
-						}
-						set_country_flag = CHL_fascists_win
-					}
-					else_if = {
-						limit = {
-							check_variable = { CHL_chance_of_c_winning > CHL_chance_of_f_winning }
-							check_variable = { CHL_chance_of_c_winning > CHL_chance_of_d_winning }
-							NOT = {
-								has_government = communism
-							}
-						}
-						set_politics = {
-							ruling_party = communism
-						}
-						set_country_flag = CHL_socialists_win
-					}
-					else = {
-						set_politics = {
-							ruling_party = democratic
-						}
-						retire_ideology_leader = democratic
-						create_country_leader = {
-							name = "Gustavo Ross Santa María"
-							desc = "POLITICS_GUSTAVO_ROSS_DESC"
-							picture = "gfx/leaders/CHL/portrait_CHL_gustavo_ross.dds"
-							expire = "1965.1.1"
-							ideology = liberalism
-							traits = {
-								economist
-							}
-						}
-						set_country_flag = CHL_democrats_win
-					}
-					hidden_effect = {
-						set_country_flag = CHL_succesful_coup
-					}
-				}
-				5 = {
-					custom_effect_tooltip = CHL_failed_coup
-					add_stability = -0.05
-					add_manpower = -1000
-				}
-			}
 		}
 	}
 }

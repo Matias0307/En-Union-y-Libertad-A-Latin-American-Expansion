@@ -107,6 +107,9 @@ BRA_dependency_on_our_coffee_productions = {
         visible = {
             BRA_coffee_plantations_active = yes 
             check_variable = { BRA_dependency_on_coffee < 90 }
+            NOT = {
+                has_completed_focus = BRA_industrialize_fully_our_economy
+            }
         }
 
         available = {
@@ -119,9 +122,12 @@ BRA_dependency_on_our_coffee_productions = {
         }
 
         cancel_trigger = {
-            custom_trigger_tooltip = {
-                tooltip = BRA_over_90_tt
-                check_variable = { BRA_dependency_on_coffee > 90 }
+            OR = {
+                custom_trigger_tooltip = {
+                    tooltip = BRA_over_90_tt
+                    check_variable = { BRA_dependency_on_coffee > 90 }
+                }
+                has_completed_focus = BRA_industrialize_fully_our_economy
             }
         }
 
@@ -191,9 +197,12 @@ BRA_dependency_on_our_coffee_productions = {
         }
 
         cancel_trigger = {
-            custom_trigger_tooltip = {
-                tooltip = BRA_less_than_10_tt
-                check_variable = { BRA_dependency_on_coffee < 10 }
+            OR = {
+                custom_trigger_tooltip = {
+                    tooltip = BRA_less_than_10_tt
+                    check_variable = { BRA_dependency_on_coffee < 10 }
+                }
+                has_completed_focus = BRA_industrialize_fully_our_economy
             }
         }
 
@@ -214,7 +223,7 @@ BRA_dependency_on_our_coffee_productions = {
             custom_effect_tooltip = BRA_coffee_dependency_decreases_10_tt
             random_list = {
                 35 = {
-                    add_ideas = BRA_rebellious_coffee_plantations
+                    add_ideas = BRA_rebellious_coffee_plantations_1
                 }
                 65 = {
 
@@ -256,9 +265,12 @@ BRA_dependency_on_our_coffee_productions = {
         }
 
         cancel_trigger = {
-            custom_trigger_tooltip = {
-                tooltip = BRA_over_94_tt
-                check_variable = { BRA_dependency_on_coffee > 94 }
+            OR = {
+                custom_trigger_tooltip = {
+                    tooltip = BRA_over_94_tt
+                    check_variable = { BRA_dependency_on_coffee > 94 }
+                }
+                has_completed_focus = BRA_industrialize_fully_our_economy
             }
         }
 
@@ -349,9 +361,12 @@ BRA_dependency_on_our_coffee_productions = {
         }
 
         cancel_trigger = {
-            custom_trigger_tooltip = {
-                tooltip = BRA_less_than_6_tt
-                check_variable = { BRA_dependency_on_coffee < 6 }
+            OR = {
+                custom_trigger_tooltip = {
+                    tooltip = BRA_less_than_6_tt
+                    check_variable = { BRA_dependency_on_coffee < 6 }
+                }
+                has_completed_focus = BRA_industrialize_fully_our_economy
             }
         }
 
@@ -383,7 +398,7 @@ BRA_dependency_on_our_coffee_productions = {
             custom_effect_tooltip = BRA_coffee_dependency_decreases_5_tt
             random_list = {
                 15 = {
-                    add_ideas = BRA_rebellious_coffee_plantations
+                    add_ideas = BRA_rebellious_coffee_plantations_1
                 }
                 85 = {
 
@@ -407,7 +422,7 @@ BRA_dependency_on_our_coffee_productions = {
         }
 
         visible = {
-            has_idea = BRA_rebellious_coffee_plantations
+            has_idea = BRA_rebellious_coffee_plantations_1
         }
 
         cost = 60
@@ -420,7 +435,59 @@ BRA_dependency_on_our_coffee_productions = {
         }
 
         remove_effect = {
-            remove_ideas = BRA_rebellious_coffee_plantations
+            remove_ideas = BRA_rebellious_coffee_plantations_1
+        }
+    }
+
+    BRA_deal_with_the_rebelling_plantations_in_FROM = {
+        icon = infiltrate_state
+
+        priority = 250
+
+        on_map_mode = map_and_decisions_view
+
+		state_target = yes
+
+		target_array = controlled_states
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT
+				has_dynamic_modifier = { modifier = BRA_rebelling_coffee_plantations}
+			}
+		}
+
+        available = {
+            divisions_in_state = {
+                size > 2
+                state = FROM
+            }
+        }
+
+        visible = {
+            has_completed_focus = BRA_industrialize_fully_our_economy
+            has_idea = BRA_rebellious_coffee_plantations_idea
+            NOT = {
+                FROM = {
+                    has_state_flag = BRA_plantation_dealt_with
+                }
+            }
+        }
+
+        cost = 25
+
+        days_remove = 70
+
+        modifier = {
+            weekly_manpower = -350
+        }
+
+        remove_effect = {
+            custom_effect_tooltip = BRA_plantation_will_no_longer_rebel_tt
+            FROM = {
+                remove_dynamic_modifier = { modifier = BRA_rebelling_coffee_plantations }
+                set_state_flag = BRA_plantation_dealt_with
+            }
         }
     }
 }

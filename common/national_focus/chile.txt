@@ -1104,6 +1104,7 @@ focus_tree = {
 				country_event = chile.46
 			}
 			custom_effect_tooltip = CHL_communists_friendly_tt
+			custom_effect_tooltip = CHL_communists_dissolve_into_frente_tt
 			custom_effect_tooltip = CHL_nacista_hostile_tt
 			custom_effect_tooltip = CHL_government_hostile_tt
 			add_political_power = 25
@@ -6567,6 +6568,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			custom_effect_tooltip = CHL_communists_friendly_tt
+			custom_effect_tooltip = CHL_communists_dissolve_into_frente_tt
 			custom_effect_tooltip = CHL_government_hostile_tt
 			hidden_effect = {
 				set_country_flag = CHL_communists_friendly 
@@ -7330,11 +7332,10 @@ focus_tree = {
 	focus = {
 		id = CHL_abandon_the_fp
 		icon = GFX_CHL_abandon_fp
-		x = 2
+		x = 8
 		y = 1
 		relative_position_id = CHL_join_the_comintern
 		prerequisite = {
-			focus = CHL_join_the_comintern
 			focus = CHL_deal_with_political_instability
 			focus = CHL_join_allies
 		}
@@ -7357,29 +7358,16 @@ focus_tree = {
 				idea = CHL_goodbye_frente_popular
 				days = 365
 			}
-			hidden_effect = {
-				retire_country_leader = yes 
-				create_country_leader = {
-					name = "Pedro Aguirre Cerda"
-					desc = "POLITICS_PEDRO_AGURRE_CERDA_DESC"
-					picture = "gfx/leaders/CHL/portrait_CHL_pedro_aguirre_cerda.dds"
-					expire = "1965.1.1"
-					ideology = social_democracy 
-					traits = {
-						CHL_leader_of_the_people
-					}
-				}
-			}
 		}
 	}
 
 	focus = {
 		id = CHL_stabilize_our_politics
 		icon = GFX_focus_generic_self_management
-		x = 0
+		x = 3
 		y = 1
-		relative_position_id = CHL_abandon_the_fp
-		prerequisite = { focus = CHL_abandon_the_fp }
+		relative_position_id = CHL_spread_propaganda_to_the_people
+
 		prerequisite = { focus = CHL_spread_propaganda_to_the_people }
 
 		cost = 10
@@ -9658,6 +9646,10 @@ focus_tree = {
 		prerequisite = { focus = CHL_join_allies }
 
 		cost = 8
+
+		available = {
+			has_completed_focus = CHL_abandon_the_fp
+		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
