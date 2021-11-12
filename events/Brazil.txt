@@ -213,3 +213,41 @@ country_event = {
 		}
 	}
 }
+
+#We have stopped the plantations
+country_event = {
+	id = brazil.5 
+	title = brazil.5.t 
+	desc = brazil.5.d 
+	picture = GFX_report_event_spr_anarchists2
+
+	fire_only_once = yes 
+	trigger = {
+		original_tag = BRA 
+		has_country_flag = BRA_rebelling_plantations
+		all_controlled_state = {
+			NOT = {
+				has_dynamic_modifier = { modifier = BRA_rebelling_coffee_plantations }
+			}
+		}
+	}
+
+	immediate = {
+		clr_country_flag = BRA_rebelling_plantations
+	}
+
+	option = {
+		name = brazil.5.a 
+		custom_effect_tooltip = BRA_coffee_dependency_no_longer_exists_tt
+		hidden_effect = {
+			remove_ideas = {
+				BRA_very_slight_dependency_on_coffee
+				BRA_slight_dependency_on_coffee
+				BRA_dependent_on_coffee
+				BRA_very_dependent_on_coffee
+				BRA_extremely_dependent_on_coffee
+			}
+			set_variable = { BRA_dependency_on_coffee = 0 }
+		}
+	}
+}
