@@ -184,12 +184,177 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
 			unlock_decision_tooltip = BRA_expand_our_coffee_plantations_in_FROM
+			custom_effect_tooltip = BRA_plantation_will_be_setup_tt
+			hidden_effect = {
+				random_owned_controlled_state = {
+					limit = {
+						OR = {
+							state = 496
+							state = 499
+							state = 877
+							state = 878
+							state = 500
+							state = 501
+							state = 879
+							state = 503
+							state = 502
+							state = 505
+						}
+					}
+					if = {
+						limit = { has_dynamic_modifier = { modifier = BRA_small_coffee_plantations } }
+						remove_dynamic_modifier = { modifier = BRA_small_coffee_plantations }
+						add_dynamic_modifier = { modifier = BRA_widespread_coffee_plantations }
+					}
+					else = {
+						add_dynamic_modifier = { modifier = BRA_small_coffee_plantations }
+					}
+				}
+			}
 		}
 	}
 
 	focus = {
 		id = BRA_work_out_an_agreement_with_farmers
+		icon = GFX_BRA_work_with_farmers
+		x = 0
+		y = 1
+		relative_position_id = BRA_maintain_our_agriculture
+		prerequisite = { focus = BRA_maintain_our_agriculture }
+
+		cost = 8
+
+		available = {
+			has_civil_war = no 
+			is_subject = no 
+			BRA_coffee_plantations_active = yes 
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			custom_effect_tooltip = BRA_depending_on_plantation_opinion_tt
+			custom_effect_tooltip = ARG_iftheyaccept
+			custom_effect_tooltip = BRA_cost_to_industrialize_tt
+			hidden_effect = {
+				set_temp_variable = { BRA_chance_to_agree = 0 }
+				set_temp_variable = { BRA_chance_to_disagree = 100 }
+				if = {
+					limit = {
+						check_variable = { BRA_coffee_companies_opinion = 2 }
+					}
+					set_temp_variable = { BRA_chance_to_agree = 100 }
+					set_temp_variable = { BRA_chance_to_disagree = 0 }
+				}
+				else_if = {
+					limit = {
+						check_variable = { BRA_coffee_companies_opinion = 1 }
+					}
+					set_temp_variable = { BRA_chance_to_agree = 75 }
+					set_temp_variable = { BRA_chance_to_disagree = 25 }
+				}
+				else_if = {
+					limit = {
+						check_variable = { BRA_coffee_companies_opinion = 0 }
+					}
+					set_temp_variable = { BRA_chance_to_agree = 50 }
+					set_temp_variable = { BRA_chance_to_disagree = 50 }
+				}
+				else_if = {
+					limit = {
+						check_variable = { BRA_coffee_companies_opinion = -1 }
+					}
+					set_temp_variable = { BRA_chance_to_agree = 25 }
+					set_temp_variable = { BRA_chance_to_disagree = 75 }
+				}
+				else = {
+
+				}
+				random_list = {
+					BRA_chance_to_agree = {
+						country_event = { id = brazil.6 hours = 6 }
+					}
+					BRA_chance_to_disagree = {
+						country_event = { id = brazil.7 hours = 6 }
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = BRA_try_to_delay_our_industrialization
+		icon = GFX_goal_generic_forceful_treaty
+		x = 1
+		y = 1
+		relative_position_id = BRA_work_out_an_agreement_with_farmers
+		prerequisite = { focus = BRA_work_out_an_agreement_with_farmers }
+
+		cost = 10
+
+		available = {
+			NOT = {
+				OR = {
+					has_idea = BRA_economic_recession_1
+					has_idea = BRA_economic_recession_2
+					has_idea = BRA_economic_recession_3
+				}
+			}
+			has_active_mission = BRA_industrialize_the_economy_mission
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_days_mission_timeout = {
+				mission = BRA_industrialize_the_economy_mission
+				days = 95
+			}
+			EUYL_add_1_civilian = yes 
+		}
+	}
+
+	focus = {
+		id = BRA_slow_path_to_industrialize
+		icon = GFX_BRA_slowly_industrialize
+		x = -1
+		y = 1
+		relative_position_id = BRA_try_to_delay_our_industrialization
+		prerequisite = { focus = BRA_try_to_delay_our_industrialization }
+		prerequisite = { focus = BRA_expand_the_armys_arsenal }
+
+		cost = 10
+
+		available = {
+			has_civil_war = no 
+			has_capitulated = no 
+			has_idea = rural_economy
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			unlock_decision_tooltip = BRA_industrialize_our_economy_1
+			EUYL_add_1_civilian = yes 
+		}
+	}
+
+	focus = {
+		id = BRA_a_balanced_economy
 		icon = GFX_
+		x = 0
+		y = 1
+		relative_position_id = BRA_slow_path_to_industrialize
+		prerequisite = { focus = BRA_slow_path_to_industrialize }
+
+		cost = 10
+
+		available = {
+			has_idea = industrialized_economy
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_2_civilian = yes 
+			EUYL_add_2_military = yes 
+		}
 	}
 
 	focus = {
@@ -228,6 +393,32 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
 			EUYL_add_1_military = yes 
+		}
+	}
+
+	focus = {
+		id = BRA_small_local_factories
+		icon = GFX_goal_generic_construct_civ_factory
+		x = -1
+		y = 1
+		relative_position_id = BRA_expand_the_armys_arsenal
+		prerequisite = { focus = BRA_expand_the_armys_arsenal }
+
+		cost = 7
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_better_than_industrializing_tt
+				OR = {
+					has_idea = industrializing_economy
+					has_idea = industrialized_economy
+				}
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_2_civilian = yes 
 		}
 	}
 
