@@ -341,7 +341,7 @@ focus_tree = {
 
 	focus = {
 		id = BRA_a_balanced_economy
-		icon = GFX_
+		icon = GFX_col_focus_ingenieria
 		x = 0
 		y = 1
 		relative_position_id = BRA_slow_path_to_industrialize
@@ -422,6 +422,33 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
 			EUYL_add_2_civilian = yes 
+		}
+	}
+
+	focus = {
+		id = BRA_support_private_rubber_companies
+		icon = GFX_URG_privatize_industry
+		x = 0
+		y = 1
+		relative_position_id = BRA_small_local_factories
+		prerequisite = { focus = BRA_small_local_factories }
+		prerequisite = { focus = BRA_establish_rubber_plantations }
+
+		cost = 10
+
+		available = {
+			has_idea = industrialized_economy
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_ideas = BRA_supporting_private_rubber_companies
+			495 = {
+				add_resource = [
+					type = rubber
+					amount = 4
+				]
+			}
 		}
 	}
 
@@ -632,6 +659,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_improve_the_mining_industry
 		prerequisite = { focus = BRA_improve_the_mining_industry }
+		prerequisite = { focus = BRA_support_private_rubber_companies }
 
 		cost = 10
 
