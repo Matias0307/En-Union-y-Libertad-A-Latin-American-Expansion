@@ -3491,19 +3491,70 @@ col_mandato_unificacion = {
 
 		complete_effect = {
 			set_cosmetic_tag = GRC_UNIFIED
-
-			# Ecuador
-			custom_effect_tooltip = form_grc_ecuador_coring_states_tt
+			unlock_decision_tooltip = COL_integrar_venezuela
+			unlock_decision_tooltip = COL_integrar_ecuador
+			unlock_decision_tooltip = COL_integrar_los_otros_territorios
 			hidden_effect = {
-				305 = { add_core_of = ROOT }
-				857 = { add_core_of = ROOT }
-				856 = { add_core_of = ROOT }
-				846 = { add_core_of = ROOT }
-				490 = { add_core_of = ROOT }
-				649 = { add_core_of = ROOT }
-			}	
-		
-			# Venezuela
+				add_timed_idea = { idea = COL_unificacion_reciente  days = 183 }
+				news_event = { id = colombia.91 hours = 12 }
+			}
+		}
+
+		ai_will_do = {
+			factor = 200
+		}
+	}
+
+	COL_integrar_venezuela = {
+
+		icon = generic_nationalism
+
+		fire_only_once = yes 
+
+		target_trigger = {
+			FROM = {
+				original_tag = VEN 
+			}
+		}
+
+		visible = {
+			has_cosmetic_tag = GRC_UNIFIED
+		}
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = form_grc_venezuela_required_states_tt
+				controls_state = 489
+				controls_state = 864
+				controls_state = 307
+				controls_state = 488
+				controls_state = 860
+				controls_state = 865
+				controls_state = 867
+				controls_state = 869
+				controls_state = 868
+				controls_state = 863
+				controls_state = 866
+			}
+			hidden_trigger = {
+				NOT = { has_country_flag = COL_integrando_pais }
+			}
+		}
+
+		cost = 75
+
+		days_remove = 220
+
+		modifier = {
+			weekly_manpower = -1250
+		}
+
+		complete_effect = {
+			set_country_flag = COL_integrando_pais
+		}
+
+		remove_effect = {
+			clr_country_flag = COL_integrando_pais
 			custom_effect_tooltip = form_grc_venezuela_coring_states_tt
 			hidden_effect = {
 				489 = { add_core_of = ROOT }
@@ -3518,7 +3569,101 @@ col_mandato_unificacion = {
 				863 = { add_core_of = ROOT }
 				866 = { add_core_of = ROOT }
 			}
+		}
+	}
 
+	COL_integrar_ecuador = {
+
+		icon = generic_nationalism
+
+		fire_only_once = yes 
+
+		target_trigger = {
+			FROM = {
+				original_tag = ECU 
+			}
+		}
+
+		visible = {
+			has_cosmetic_tag = GRC_UNIFIED
+		}
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = form_grc_ecuador_required_states_tt
+				controls_state = 305
+				controls_state = 857
+				controls_state = 856
+				controls_state = 846
+				controls_state = 649
+			}
+			hidden_trigger = {
+				NOT = { has_country_flag = COL_integrando_pais }
+			}
+		}
+
+		cost = 75
+
+		days_remove = 180
+
+		modifier = {
+			weekly_manpower = -1000
+		}
+
+		complete_effect = {
+			set_country_flag = COL_integrando_pais
+		}
+
+		remove_effect = {
+			clr_country_flag = COL_integrando_pais
+			custom_effect_tooltip = form_grc_ecuador_coring_states_tt
+			hidden_effect = {
+				305 = { add_core_of = ROOT }
+				857 = { add_core_of = ROOT }
+				856 = { add_core_of = ROOT }
+				846 = { add_core_of = ROOT }
+				490 = { add_core_of = ROOT }
+				649 = { add_core_of = ROOT }
+			}	
+		}
+	}
+
+	COL_integrar_los_otros_territorios = {
+		icon = generic_nationalism
+
+		fire_only_once = yes 
+
+		visible = {
+			has_cosmetic_tag = GRC_UNIFIED
+		}
+
+		available = {
+			controls_state = 304
+			controls_state = 685
+			controls_state = 858
+			controls_state = 886
+			controls_state = 887
+			controls_state = 859
+			controls_state = 695
+			hidden_trigger = {
+				NOT = { has_country_flag = COL_integrando_pais }
+			}
+		}
+
+		cost = 75
+
+		days_remove = 165
+
+		modifier = {
+			weekly_manpower = -850
+		}
+
+		complete_effect = {
+			set_country_flag = COL_integrando_pais
+		}
+
+		remove_effect = {
+			clr_country_flag = COL_integrando_pais
 			# Panamá y C. de Panamá
 			304 = { add_core_of = ROOT }
 			685 = { add_core_of = ROOT }
@@ -3535,15 +3680,6 @@ col_mandato_unificacion = {
 
 			# Curazao
 			695 = { add_core_of = ROOT }
-
-			hidden_effect = {
-				add_timed_idea = { idea = COL_unificacion_reciente  days = 183 }
-				news_event = { id = colombia.91 hours = 12 }
-			}
-		}
-
-		ai_will_do = {
-			factor = 200
 		}
 	}
 
