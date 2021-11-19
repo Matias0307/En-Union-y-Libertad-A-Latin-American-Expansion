@@ -1085,5 +1085,139 @@ focus_tree = {
 			unlock_decision_tooltip = extract_oil_in_the_amazons
 		}
 	}
+
+	focus = {
+		id = BRA_forcas_armadas_brasileiras
+		icon = GFX_BRA_forcas_armadas
+		x = 40
+		y = 0
+
+		cost = 4
+
+		available = {
+			exists = yes 
+			has_civil_war = no 
+			is_subject = no 
+		}
+
+		search_filters = { FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_war_support = 0.03
+			army_experience = 5
+			navy_experience = 10
+			air_experience = 25
+		}
+	}
+
+	focus = {
+		id = BRA_invest_in_the_army
+		icon = GFX_focus_generic_tank_production
+		x = -3
+		y = 1
+		relative_position_id = BRA_forcas_armadas_brasileiras
+		prerequisite = { focus = BRA_forcas_armadas_brasileiras }
+
+		cost = 6
+
+		available = {
+			has_idea = BRA_scars_of_the_1930_revolution_1
+			exists = yes 
+			has_civil_war = no 
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_1_military = yes 
+			swap_ideas = {
+				remove_idea = BRA_scars_of_the_1930_revolution_1
+				add_idea = BRA_scars_of_the_1930_revolution_2
+			}
+		}
+	}
+
+	focus = {
+		id = BRA_modernize_the_tank_korp
+		icon = GFX_goal_generic_army_tanks
+		x = 1
+		y = 1
+		relative_position_id = BRA_invest_in_the_army
+		prerequisite = { focus = BRA_invest_in_the_army }
+
+		cost = 7
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = {
+				name = BRA_modernize_the_tank_korp
+				bonus = 0.5
+				uses = 2
+				category = armor
+			}
+		}
+	}
+
+	focus = {
+		id = BRA_modern_mechanized_units
+		icon = GFX_goal_generic_build_tank
+		x = -1
+		y = 1
+		relative_position_id = BRA_modernize_the_tank_korp
+		prerequisite = { focus = BRA_modernize_the_tank_korp }
+
+		cost = 8
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = {
+				name = BRA_modern_mechanized_units
+				bonus = 1.5
+				uses = 1
+				category = cat_mechanized_equipment
+			}
+		}
+	}
+
+	focus = { #these focuses will focus on tank specific modules (might make it dlc exclusive)
+		id = BRA_
+	}
+
+	focus = {
+		id = BRA_keep_the_people_at_ease
+		icon = GFX_ARG_gain_back_trust
+		x = -3
+		y = 1
+		relative_position_id = BRA_invest_in_the_army
+		prerequisite = { focus = BRA_invest_in_the_army }
+
+		cost = 8
+	}
+
+	focus = {
+		id = BRA_modernize_the_infantry_equipment
+		icon = GFX_goal_generic_small_arms
+		x = 1
+		y = 1
+		relative_position_id = BRA_keep_the_people_at_ease
+		prerequisite = { focus = BRA_keep_the_people_at_ease }
+	}
+
+	focus = {
+		id = BRA_modern_motorized_units
+		icon = GFX_goal_generic_army_motorized
+		x = -1
+		y = 1
+		relative_position_id = BRA_modern_mechanized_units
+		prerequisite = { focus = BRA_modern_mechanized_units }
+		prerequisite = { focus = BRA_modernize_the_infantry_equipment }
+	}
+
+	focus = {
+		id = BRA_efficient_artillery_production
+		icon = GFX_goal_generic_army_artillery2
+		x = 0
+		y = 2
+		relative_position_id = BRA_modernize_the_infantry_equipment
+		prerequisite = { focus = BRA_modernize_the_infantry_equipment }
+	}
 	
 }
