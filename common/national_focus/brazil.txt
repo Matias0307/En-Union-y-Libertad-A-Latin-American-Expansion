@@ -1112,7 +1112,7 @@ focus_tree = {
 	focus = {
 		id = BRA_invest_in_the_army
 		icon = GFX_focus_generic_tank_production
-		x = -3
+		x = -4
 		y = 1
 		relative_position_id = BRA_forcas_armadas_brasileiras
 		prerequisite = { focus = BRA_forcas_armadas_brasileiras }
@@ -1127,7 +1127,7 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
-			EUYL_add_1_military = yes 
+			country_event = brazil.8
 			swap_ideas = {
 				remove_idea = BRA_scars_of_the_1930_revolution_1
 				add_idea = BRA_scars_of_the_1930_revolution_2
@@ -1194,7 +1194,22 @@ focus_tree = {
 		relative_position_id = BRA_invest_in_the_army
 		prerequisite = { focus = BRA_invest_in_the_army }
 
-		cost = 8
+		cost = 7
+
+		available = {
+			has_idea = BRA_scars_of_the_1930_revolution_2
+			exists = yes 
+			has_civil_war = no 
+			is_subject = no 
+		}
+
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = BRA_scars_of_the_1930_revolution_2
+				add_idea = BRA_scars_of_the_1930_revolution_3
+			}
+		}
 	}
 
 	focus = {
@@ -1204,16 +1219,35 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_keep_the_people_at_ease
 		prerequisite = { focus = BRA_keep_the_people_at_ease }
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = {
+				name = BRA_modernize_the_infantry_equipment
+				bonus = 1.0
+				uses = 2
+				category = infantry_weapons
+			}
+		}
 	}
 
 	focus = {
-		id = BRA_modern_motorized_units
+		id = BRA_produce_more_motorized
 		icon = GFX_goal_generic_army_motorized
 		x = -1
 		y = 1
 		relative_position_id = BRA_modern_mechanized_units
 		prerequisite = { focus = BRA_modern_mechanized_units }
 		prerequisite = { focus = BRA_modernize_the_infantry_equipment }
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_ideas = ARG_produce_motorized
+		}
 	}
 
 	focus = {
@@ -1223,6 +1257,105 @@ focus_tree = {
 		y = 2
 		relative_position_id = BRA_modernize_the_infantry_equipment
 		prerequisite = { focus = BRA_modernize_the_infantry_equipment }
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_ideas = ARG_cheaper_artillery
+		}
+	}
+
+	focus = {
+		id = BRA_train_special_jungle_regiments
+		icon = GFX_BRA_jungle_regiments
+		x = -1
+		y = 1
+		relative_position_id = BRA_efficient_artillery_production
+		prerequisite = { focus = BRA_efficient_artillery_production }
+
+		cost = 10
+
+		available = {
+			has_civil_war = no 
+			is_subject = no 
+		}
+
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_ideas = BRA_trained_jungle_regiments
+		}
+	}
+
+	focus = {
+		id = BRA_produce_more_support_equipment
+		icon = GFX_goal_generic_production
+		x = 1
+		y = 1
+		relative_position_id = BRA_efficient_artillery_production
+		prerequisite = { focus = BRA_efficient_artillery_production }
+	}
+
+	focus = {
+		id = BRA_modernize_our_tank_equipment
+		icon = GFX_focus_generic_army_tanks2
+		x = 3
+		y = 1
+		relative_position_id = BRA_efficient_artillery_production
+		prerequisite = { focus = BRA_efficient_artillery_production }
+		prerequisite = { focus = BRA_tank_lease_from_the_USA }
+		prerequisite = { focus = BRA_modern_mechanized_units }
+	}
+
+	focus = {
+		id = BRA_improve_our_tactics
+		icon = GFX_focus_chi_army_reform
+		x = -1
+		y = 1
+		relative_position_id = BRA_keep_the_people_at_ease
+		prerequisite = { focus = BRA_keep_the_people_at_ease }
+
+		cost = 8 
+
+		available = {
+			has_idea = BRA_scars_of_the_1930_revolution_3
+			exists = yes 
+			has_civil_war = no 
+			is_subject = no 
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = BRA_scars_of_the_1930_revolution_3
+				add_idea = BRA_scars_of_the_1930_revolution_4
+			}
+		}
+	}
+
+	focus = {
+		id = BRA_exerecito_nuovo
+		icon = GFX_BRA_new_army
+		x = 0
+		y = 1
+		relative_position_id = BRA_improve_our_tactics
+		prerequisite = { focus = BRA_improve_our_tactics }
+
+		cost = 10
+
+		available = {
+			has_idea = BRA_scars_of_the_1930_revolution_4
+			exists = yes 
+			has_civil_war = no 
+			is_subject = no 
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			add_stability = 0.05
+			add_war_support = 0.03
+			remove_ideas = BRA_scars_of_the_1930_revolution_4
+		}
 	}
 	
 }
