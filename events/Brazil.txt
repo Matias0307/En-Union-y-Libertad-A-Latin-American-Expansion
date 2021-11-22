@@ -366,5 +366,224 @@ country_event = {
 
 	is_triggered_only = yes 
 
-	
+	option = { #Accept license request
+		name = brazil.9.a
+		ai_chance = {
+			base = 10
+			modifier = {
+				add = 55
+				has_opinion = {
+					target = BRA
+					value > 50
+				}
+			}
+			modifier = {
+				add = 40
+				OR = {
+					has_equipment = {
+						light_tank_equipment > 400
+					}
+					has_equipment = {
+						medium_tank_equipment > 250
+					}
+					has_equipment = {
+						heavy_tank_equipment > 125
+					}
+				}
+			}
+			modifier = {
+				add = 35
+				num_of_military_factories > 24
+			}
+			modifier = {
+				add = 20
+				has_war = no 
+			}
+			modifier = {
+				add = 5
+				is_in_faction = yes
+			}
+		}
+		if = {
+			limit = {
+				has_dlc = "Death or Dishonor"
+			}
+			custom_effect_tooltip = BRA_create_licenses_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						has_tech = light_tank_equipment_3
+					}
+					create_production_license = {
+						target = FROM
+						equipment = {
+							type = light_tank_equipment_3
+							version = 0
+						}
+						cost_factor = 0
+					}
+				}
+				else_if = {
+					limit = {
+						has_tech = light_tank_equipment_2
+					}
+					create_production_license = {
+						target = FROM
+						equipment = {
+							type = light_tank_equipment_2
+							version = 0
+						}
+						cost_factor = 0
+					}
+				}
+				else = {
+					create_production_license = {
+						target = FROM
+						equipment = {
+							type = light_tank_equipment_1
+							version = 0
+						}
+						cost_factor = 0
+					}
+				}
+				if = {
+					limit = {
+						has_tech = medium_tank_equipment_3
+					}
+					create_production_license = {
+						target = FROM
+						equipment = {
+							type = medium_tank_equipment_3
+							version = 0
+						}
+						cost_factor = 0
+					}
+				}
+				else_if = {
+					limit = {
+						has_tech = medium_tank_equipment_2
+					}
+					create_production_license = {
+						target = FROM
+						equipment = {
+							type = medium_tank_equipment_2
+							version = 0
+						}
+						cost_factor = 0
+					}
+				}
+				else = {
+					create_production_license = {
+						target = FROM
+						equipment = {
+							type = medium_tank_equipment_1
+							version = 0
+						}
+						cost_factor = 0
+					}
+				}
+				if = {
+					limit = {
+						has_tech = heavy_tank_equipment_3
+					}
+					create_production_license = {
+						target = FROM
+						equipment = {
+							type = heavy_tank_equipment_3
+							version = 0
+						}
+						cost_factor = 0
+					}
+				}
+				else_if = {
+					limit = {
+						has_tech = heavy_tank_equipment_2
+					}
+					create_production_license = {
+						target = FROM
+						equipment = {
+							type = heavy_tank_equipment_2
+							version = 0
+						}
+						cost_factor = 0
+					}
+				}
+				else = {
+					create_production_license = {
+						target = FROM
+						equipment = {
+							type = heavy_tank_equipment_1
+							version = 0
+						}
+						cost_factor = 0
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_equipment = {
+					light_tank_equipment > 250
+				}
+			}
+			send_equipment = {
+				equipment = light_tank_equipment
+				amount = 250
+				target = BRA
+			}
+		}
+		if = {
+			limit = {
+				has_equipment = {
+					medium_tank_equipment > 125
+				}
+			}
+			send_equipment = {
+				equipment = medium_tank_equipment
+				amount = 125
+				target = BRA
+			}
+		}	
+		if = {
+			limit = {
+				has_equipment = {
+					heavy_tank_equipment > 75
+				}
+			}
+			send_equipment = {
+				equipment = heavy_tank_equipment
+				amount = 75
+				target = BRA
+			}
+		}
+		hidden_effect = {
+			BRA = {
+				country_event = { id = peru.16 hours = 6 }
+			}
+		}	
+	}
+
+	option = { #decline license request 
+		name = brazil.9.b 
+		ai_chance = {
+			base = 25
+			modifier = {
+				add = 40
+				has_war = yes 
+			}
+			modifier = {
+				add = 150
+				is_subject = yes 
+			}
+			modifier = {
+				add = 200
+				has_civil_war = yes 
+			}
+		}
+		hidden_effect = {
+			BRA = {
+				country_event = { id = peru.17 hours = 6 }
+			}
+		}
+	}
 }
