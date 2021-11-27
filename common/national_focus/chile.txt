@@ -495,7 +495,7 @@ focus_tree = {
 			focus = CHL_invest_more_in_the_military
 		}
 		
-		cost = 10
+		cost = 8
 		
 		cancel_if_invalid = yes
 		continue_if_invalid = no
@@ -513,6 +513,51 @@ focus_tree = {
 					instant_build = yes
 				}
 			}
+			build_railway = {
+				level = 1
+				start_state = ROOT.capital
+				target_state = 912
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_efficient_railway_building
+		icon = GFX_ARG_efficient_tansport
+		x = -1
+		y =  1
+		relative_position_id = CHL_industrialize_the_nation
+		prerequisite = { focus = CHL_industrialize_the_nation }
+
+		cost = 7
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_ideas = CHL_efficient_railway_production_idea
+		}
+	}
+
+	focus = {
+		id = CHL_modernize_our_trains
+		icon = GFX_CHL_modernize_trains
+		x = 1
+		y = 1
+		relative_position_id = CHL_industrialize_the_nation
+		prerequisite = { focus = CHL_industrialize_the_nation }
+
+		cost = 10
+
+		available = {
+			has_railway_level = {
+				state = ROOT.capital 
+				level = 5
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			EUYL_add_2_civilian = yes 
+			add_ideas = ARG_focus_on_trains_1
 		}
 	}
 	
@@ -520,9 +565,12 @@ focus_tree = {
 		id = CHL_invest_in_the_education
 		icon = GFX_focus_research
 		x = 0
-		y = 1
+		y = 2
 		relative_position_id = CHL_industrialize_the_nation
-		prerequisite = { focus = CHL_industrialize_the_nation }
+		prerequisite = { 
+			focus = CHL_modernize_our_trains
+			focus = CHL_efficient_railway_building
+		}
 		
 		cost = 10
 		
@@ -1049,7 +1097,7 @@ focus_tree = {
 		id = CHL_new_mining_techniques
 		icon = GFX_goal_generic_construction2 
 		x = 0
-		y = 2
+		y = 1
 		relative_position_id = CHL_invest_in_the_education
 		prerequisite = {
 			focus = CHL_the_chilean_military_economy

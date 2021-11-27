@@ -29,7 +29,7 @@ focus_tree = {
 		icon = GFX_goal_generic_construct_civilian
 		x = 1
 		y = 0
-		cost = 5
+		cost = 3
 	
 		cancel_if_invalid = yes
 		continue_if_invalid = no
@@ -39,7 +39,7 @@ focus_tree = {
 			901 = {
 				if = {
 					limit = { 
-						infrastructure < 10
+						infrastructure < 5
 						is_controlled_by = ROOT 
 					}
 					add_building_construction = {
@@ -52,7 +52,7 @@ focus_tree = {
 			900 = {
 				if = {
 					limit = { 
-						infrastructure < 10
+						infrastructure < 5
 						is_controlled_by = ROOT 
 					}
 					add_building_construction = {
@@ -166,31 +166,18 @@ focus_tree = {
 					}
 				}
 			}
-			902 = {
-				if = {
-					limit = { 
-						infrastructure < 10
-						is_controlled_by = ROOT 
-					}
-					add_building_construction = {
-						type = infrastructure
-						level = 1
-						instant_build = yes
-					}
-				}
-			}
 		}
 	}
 	
 	focus = {
 		id = ARG_invest_in_our_mining_industry
 		icon = GFX_goal_generic_construction2 
-		x = -2
+		x = 1
 		y = 1
 		relative_position_id = ARG_modernize_ruta_40
 		prerequisite = { focus = ARG_modernize_ruta_40 }
 		
-		cost = 10
+		cost = 8
 		
 		cancel_if_invalid = yes
 		continue_if_invalid = no
@@ -205,13 +192,13 @@ focus_tree = {
 	focus = {
 		id = ARG_industrialize_the_pampas
 		icon = GFX_goal_generic_construct_infrastructure  #change to custom
-		x = 1
+		x = -1
 		y = 1
 		
 		prerequisite = { focus = ARG_modernize_ruta_40 }
 		
 		
-		cost = 6
+		cost = 4
 		
 		cancel_if_invalid = yes
 		continue_if_invalid = no
@@ -253,19 +240,163 @@ focus_tree = {
 					instant_build = yes
 				}
 			}
-			901 = {
-				add_building_construction = {
-					type = infrastructure
-					level = 1
-					instant_build = yes
+		}
+	}
+
+	focus = {
+		id = ARG_establish_ferrocarriles_argentinos
+		icon = GFX_ARG_ferrocarriles
+		x = -1
+		y = 1
+		relative_position_id = ARG_industrialize_the_pampas
+		prerequisite = { focus = ARG_industrialize_the_pampas }
+
+		cost = 5
+
+		available = {
+			exists = yes 
+			has_civil_war = no 
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			build_railway = {
+				level = 1
+				start_state = ROOT.capital
+				target_state = 510
+			}
+			custom_effect_tooltip = EUYL_available_as_industrial_concern_tt
+			show_ideas_tooltip = ARG_ferrocarriles_argentinos
+		}
+	}
+
+	focus = {
+		id = ARG_expand_our_railways_in_the_patagonia
+		icon = GFX_goal_generic_construct_infrastructure
+		x = -1
+		y = 1
+		relative_position_id = ARG_establish_ferrocarriles_argentinos
+		prerequisite = { focus = ARG_establish_ferrocarriles_argentinos }
+
+		cost = 6
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			if = {
+				limit = {
+					can_build_railway = {
+						start_state = 512
+						target_state = 890
+						build_only_on_allied = yes 
+					}
+				}
+				build_railway = {
+					level = 2
+					start_state = 512
+					target_state = 890
 				}
 			}
-			900 = {
-				add_building_construction = {
-					type = infrastructure
-					level = 1
-					instant_build = yes
+			if = {
+				limit = {
+					can_build_railway = {
+						start_state = 511
+						target_state = 890
+						build_only_on_allied = yes 
+					}
 				}
+				build_railway = {
+					level = 2
+					start_state = 511
+					target_state = 890
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_focus_on_armored_trains
+		icon = GFX_ARG_armored_trains
+		x = -1
+		y = 1
+		relative_position_id = ARG_expand_our_railways_in_the_patagonia
+		prerequisite = { focus = ARG_expand_our_railways_in_the_patagonia }
+
+		cost = 7
+
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			EUYL_add_1_military = yes 
+			add_ideas = ARG_focus_on_trains_1
+		}
+	}
+
+	focus = {
+		id = ARG_build_railways_in_the_north
+		icon = GFX_goal_generic_construct_civilian
+		x = 1
+		y = 1
+		relative_position_id = ARG_expand_our_railways_in_the_patagonia
+		prerequisite = { focus = ARG_expand_our_railways_in_the_patagonia }
+
+		cost = 6
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			if = {
+				limit = {
+					can_build_railway = {
+						start_state = 508
+						target_state = 905
+						build_only_on_allied = yes 
+					}
+				}
+				build_railway = {
+					level = 2
+					start_state = 508
+					target_state = 905
+				}
+			}
+			if = {
+				limit = {
+					can_build_railway = {
+						start_state = 508
+						target_state = 901
+						build_only_on_allied = yes 
+					}
+				}
+				build_railway = {
+					level = 2
+					start_state = 508
+					target_state = 901
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_modern_railway_system
+		icon = GFX_ARG_modernize_train
+		x = -1
+		y = 1
+		relative_position_id = ARG_build_railways_in_the_north
+		prerequisite = { focus = ARG_build_railways_in_the_north }
+		prerequisite = { focus = ARG_focus_on_armored_trains }
+
+		cost = 10
+
+		available = {
+			has_railway_level = {
+				state = ROOT.capital 
+				level = 5
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			EUYL_add_2_civilian = yes 
+			swap_ideas = {
+				remove_idea = ARG_focus_on_trains_1
+				add_idea = ARG_focus_on_trains_2
 			}
 		}
 	}
@@ -279,7 +410,7 @@ focus_tree = {
 		prerequisite = { focus = ARG_industrialize_the_pampas }
 		
 		
-		cost = 10
+		cost = 6
 		
 		cancel_if_invalid = yes
 		continue_if_invalid = no
@@ -340,7 +471,7 @@ focus_tree = {
 		prerequisite = { focus = ARG_industrialize_the_north }
 		
 		
-		cost = 10
+		cost = 8
 		
 		available = {
 			has_tech = excavation2
@@ -360,12 +491,6 @@ focus_tree = {
 		completion_reward = {
 			901 = {
 				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = infrastructure
-					level = 1
-					instant_build = yes
-				}
-				
 				add_building_construction = {
 					type = industrial_complex
 					level = 1
@@ -389,13 +514,18 @@ focus_tree = {
 		prerequisite = { focus = ARG_industrialize_the_pampas }
 		
 		
-		cost = 10
+		cost = 6
 		
 		cancel_if_invalid = yes
 		continue_if_invalid = no
 		available_if_capitulated = no
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		completion_reward = {
+			build_railway = {
+				level = 1
+				start_state = ROOT.capital 
+				target_state = 512
+			}
 			512 = {
 				add_building_construction = {
 					type = infrastructure
@@ -553,6 +683,24 @@ focus_tree = {
 			add_ideas = ARG_improved_mining_techniques
 		}
 	}
+
+	focus = {
+		id = ARG_efficient_resource_transportation
+		icon = GFX_ARG_efficient_tansport
+		x = -2
+		y = 2
+		relative_position_id = ARG_improve_mining
+		prerequisite = { focus = ARG_improve_mining }
+		prerequisite = { focus =  ARG_modern_railway_system }
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_1_civilian = yes 
+			add_ideas = ARG_efficient_resource_transportation_idea
+		}
+	}
 	
 	focus = {
 		id = ARG_focus_economy
@@ -596,7 +744,7 @@ focus_tree = {
 		
 		prerequisite = { focus = ARG_focus_economy }
 		
-		cost = 6
+		cost = 5
 		
 		available = {
 			888 = {
@@ -1997,7 +2145,7 @@ focus_tree = {
 			factor = 280
 		}
 		
-		cost = 8
+		cost = 6
 		
 		available = {
 			is_subject = no

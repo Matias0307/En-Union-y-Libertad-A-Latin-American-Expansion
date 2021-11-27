@@ -122,6 +122,52 @@ focus_tree = {
 		}
 	}
 
+	focus = {
+		id = COL_establish_FNC
+		icon = GFX_COL_ferrocarril_nacional_colombia
+		x = 0
+		y = 1
+		relative_position_id = COL_la_revolucion_en_marcha
+		prerequisite = { focus = COL_la_revolucion_en_marcha }
+
+		cost = 7
+
+		available = {
+			exists = yes 
+			has_civil_war = no 
+		}
+
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			custom_effect_tooltip = EUYL_available_as_industrial_concern_tt
+			show_ideas_tooltip = COL_ferrocarril_nc
+		}
+	}
+
+	focus = {
+		id = COL_modernize_our_trains
+		icon = GFX_COL_modernize_train
+		x = 0
+		y = 1
+		relative_position_id = COL_establish_FNC
+		prerequisite = { focus = COL_establish_FNC }
+
+		cost = 10
+
+		available = {
+			has_railway_level = {
+				state = ROOT.capital
+				level = 5 
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			EUYL_add_2_civilian = yes 
+			add_ideas = ARG_focus_on_trains_1
+		}
+	}
+
 	#Integrar la Inversión Militar
 	focus = {
 		id = COL_integrar_la_inversion_militar
@@ -177,7 +223,7 @@ focus_tree = {
 	focus = {
 		id = COL_ley_de_movilizacion_militar
 		icon = GFX_focus_generic_manpower
-		x = 10
+		x = 8
 		y = 1
 		cost = 5
 		search_filters = {
@@ -424,7 +470,7 @@ focus_tree = {
 	focus = {
 		id = COL_la_mision_de_rojas_pinilla
 		icon = GFX_focus_generic_military_mission
-		x = 10
+		x = 9
 		y = 3
 		cost = 5
 		search_filters = {
@@ -515,7 +561,7 @@ focus_tree = {
 	focus = {
 		id = COL_ejercito_nacional
 		icon = GFX_col_focus_ejercito
-		x = 9
+		x = 8
 		y = 2
 		cost = 5
 		search_filters = {
@@ -1354,7 +1400,7 @@ focus_tree = {
 	#Ferrocarriles Nacionales de Colombia
 	focus = {
 		id = COL_ferrocarriles_nacionales_de_colombia
-		icon = GFX_goal_generic_construct_infrastructure
+		icon = GFX_COL_ferrocarriles_colombianos
 		x = 15
 		y = 3
 		cost = 10
@@ -1375,61 +1421,52 @@ focus_tree = {
 				has_full_control_of_state = 850 #NARIÑO
 				has_full_control_of_state = 306 #CUNDINAMARCA
 			}
+			has_completed_focus = COL_establish_FNC
 		}
 
 		completion_reward = {
 			if = {
 				limit = { has_full_control_of_state = 848 }
-				848 = {
-					add_building_construction = {
-						type = infrastructure
-						level = 2
-						instant_build = yes
-					}
+				build_railway = {
+					level = 1
+					start_state = ROOT.capital
+					target_state = 848
 				}
 			}
 
 			if = {
 				limit = { has_full_control_of_state = 493 }
-				493 = {
-					add_building_construction = {
-						type = infrastructure
-						level = 2
-						instant_build = yes
-					}
+				build_railway = {
+					level = 1
+					start_state = ROOT.capital
+					target_state = 493
 				}
 			}
 
 			if = {
 				limit = { has_full_control_of_state = 849 }
-				849 = {
-					add_building_construction = {
-						type = infrastructure
-						level = 2
-						instant_build = yes
-					}
+				build_railway = {
+					level = 1
+					start_state = ROOT.capital
+					target_state = 849
 				}
 			}
 
 			if = {
 				limit = { has_full_control_of_state = 850 }
-				850 = {
-					add_building_construction = {
-						type = infrastructure
-						level = 2
-						instant_build = yes
-					}
+				build_railway = {
+					level = 1
+					start_state = ROOT.capital
+					target_state = 850
 				}
 			}
 
 			if = {
 				limit = { has_full_control_of_state = 306 }
-				306 = {
-					add_building_construction = {
-						type = infrastructure
-						level = 2
-						instant_build = yes
-					}
+				build_railway = {
+					level = 1
+					start_state = ROOT.capital
+					target_state = 306
 				}
 			}
 			add_ideas = COL_ferronal_spirit
@@ -1933,7 +1970,7 @@ focus_tree = {
 		prerequisite = { focus = COL_una_colombia_moderna }
 
 		completion_reward = {
-			custom_effect_tooltip = available_designer
+			custom_effect_tooltip = EUYL_available_as_industrial_concern_tt
 			show_ideas_tooltip = etb
 			add_tech_bonus = {
 				name = COL_modern
