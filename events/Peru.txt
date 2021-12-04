@@ -88,7 +88,99 @@ country_event = {
 		add_stability = -0.05
 		add_political_power = -35
 		custom_effect_tooltip = PRU_union_revolucionaria_may_try_something_tt
+		hidden_effect = {
+			set_temp_variable = { PRU_chance_of_coup_attempt = 0 }
+			set_temp_variable = { PRU_nothing = 100 }
+			if = {
+				limit = { has_stability < 0.5 }
+				add_to_temp_variable = { PRU_chance_of_coup_attempt = 10 }
+			}
+			if = {
+				limit = { has_stability > 0.25 }
+				add_to_temp_variable = { PRU_chance_of_coup_attempt = 25 }
+			}
+			if = {
+				limit = { has_war_support < 0.3 }
+				add_to_temp_variable = { PRU_chance_of_coup_attempt = 10 }
+			}
+			if = {
+				limit = { fascism > 0.15 }
+				add_to_temp_variable = { PRU_chance_of_coup_attempt = 10 }
+			}
+			if = {
+				limit = { fascism > 0.3 }
+				add_to_temp_variable = { PRU_chance_of_coup_attempt = 20 }
+			}
+			if = {
+				limit = {
+					AND = {
+						GER = { has_government = fascism }
+						ITA = { has_government = fascism }
+						JAP = { has_government = fascism }
+					}
+				}
+				add_to_temp_variable = { PRU_chance_of_coup_attempt = 10 }
+			}
+			if = {
+				limit = {
+					OR = {
+						USA = { has_government = fascism }
+						ENG = { has_government = fascism }
+						FRA = { has_government = fascism }
+					}
+				}
+				add_to_temp_variable = { PRU_chance_of_coup_attempt = 15 }
+			}
+			if = {
+				limit = { threat > 0.2 }
+				add_to_temp_variable = { PRU_chance_of_coup_attempt = 10 }
+			}
+			if = {
+				limit = { 
+					any_neighbor_country = {
+						has_government = fascism
+					}
+				}
+				add_to_temp_variable = { PRU_chance_of_coup_attempt = 15 }
+			}
+			if = {
+				limit = { check_variable = { PRU_army_power > 14 } }
+				add_to_temp_variable = { PRU_chance_of_coup_attempt = 15 }
+			}
+			clamp_variable = {
+				var = PRU_chance_of_coup_attempt
+				min = 0
+				max = 100
+			}
+			subtract_from_temp_variable = { PRU_nothing = PRU_chance_of_coup_attempt }
+			random_list = {
+				PRU_chance_of_coup_attempt = {
+					country_event = { id = peru.80 days = 14 }
+				}
+				PRU_nothing = {
+				
+				}
+			}
+		}
 	}
+}
+
+#Fascist party begins planning a coup 
+country_event = {
+	id = peru.80 
+	title = peru.254.t 
+	desc = peru.254.d 
+	picture = GFX_report_event_generic_army 
+	
+	is_triggered_only = yes 
+	
+	option = {
+		name = peru.254.a 
+		custom_effect_tooltip = PRU_fascists_take_over_states_tt
+		set_country_flag = PRU_fascist_coup_attempt
+		unlock_decision_category_tooltip = PRU_coup_attempt_fascists
+	}
+	
 }
 
 #Peru Requests Investment!
@@ -2488,30 +2580,12 @@ country_event = {
 
 	is_triggered_only = yes 
 
-	option = { #choose Juan Velasco Alvarado
-		name = peru.28.a 
-		ai_chance = {
-			base = 10
-		}
-		retire_country_leader = yes
-		create_country_leader = {
-			name = "Juan Velasco Alvarado"
-			desc = ""
-			picture = "gfx/leaders/PRU/PRU_juan_velasco_alvarado.dds"
-			expire = "1965.1.1"
-			ideology = theocracy
-			traits = {
-				CHL_military_leader
-			}
-		}
-	}
-
 	option = { #choose Jose luis bustamante
 		name = peru.28.b 
 		ai_chance = {
 			base = 10
 		}
-		retire_country_leader = yes
+		retire_country_leader = yes 
 		create_country_leader = {
 			name = "José Luis Bustamante y Rivero"
 			desc = ""
@@ -2519,13 +2593,50 @@ country_event = {
 			expire = "1965.1.1"
 			ideology = theocracy
 			traits = {
-				CHL_economist
+				CHL_military_leader
+			}
+		}
+	}
+	
+	option = { #choose Pachacutec the II
+		name = peru.28.e 
+		ai_chance = {
+			base = 15
+		}
+		retire_country_leader = yes 
+		create_country_leader = {
+			name = "Pachacutec II"
+			desc = ""
+			picture = "gfx/leaders/PRU/PRU_Pachacutec_II.png"
+			expire = "1965.1.1"
+			ideology = theocracy
+			traits = {
+				driver_of_the_faithful
 			}
 		}
 	}
 
-	option = { #leave the sun god as leader
+	option = { #sun god as leader
 		name = peru.28.c  
+		ai_chance = {
+			base = 5
+		}
+		retire_country_leader = yes
+		create_country_leader = {
+			name = "Apu-punchau"
+			desc = "POLITICS_SUN_GOD_DESC"
+			picture = "gfx/leaders/PRU/INC_sun_god_portrait.dds"
+			expire = "1965.1.1"
+			ideology = theocracy
+			traits = {
+				PRU_godly_being
+				PRU_not_a_real_person
+			}
+		}
+	}
+	
+	option = { #keep current leader
+		name = peru.28.f
 		ai_chance = {
 			base = 5
 		}
@@ -2594,19 +2705,12 @@ country_event = {
 			ruling_party = fascism
 			ideology = ROOT 
 			size = PRU_size_of_government
-			keep_unit_leaders = {
-				44511
-			}
 		}
 
-		remove_unit_leader = 44512
 
 		set_country_flag = PRU_has_civil_war_fascism
 
 		hidden_effect = {
-			every_owned_state = {
-				set_state_flag = is_owned_by_PRU 
-			}
 			division_template = { 
 				name = "Milicias" 
 				division_names_group = SPAN_INF_02 
@@ -2618,6 +2722,30 @@ country_event = {
 					infantry = { x = 0 y = 3 } 
 				}
 			}	
+			random_other_country = {
+				limit = { 
+					original_tag = PRU 
+					has_civil_war = yes 
+				}
+				every_controlled_state = {
+					limit = {
+						is_core_of = PRU  
+						has_state_flag = PRU_state_is_fascist
+					}
+					set_state_controller_to = ROOT
+					set_state_owner_to = ROOT
+				}
+				ROOT = {
+					every_controlled_state = {
+						limit = {
+							is_core_of = PRU 
+							NOT = { has_state_flag = PRU_state_is_fascist }
+						}
+						set_state_controller_to = PREV.PREV
+					}
+				}
+			}
+			add_ideas = PRU_civil_war_f_idea
 			division_template = {
 				name = "División de Infanteria Peruana" 
 				division_names_group = SPAN_INF_02 
@@ -2647,21 +2775,7 @@ country_event = {
 				disband = yes
 			}
 
-			every_state = {
-				limit = {
-					is_core_of = PRU  
-					has_state_flag = PRU_state_is_fascist
-				}
-				clr_state_flag = is_owned_by_PRU
-				ROOT = {
-					transfer_state = PREV 
-				}
-			}
-
 			every_controlled_state = {
-				limit = {
-					has_state_flag = PRU_state_is_fascist
-				}
 				create_unit = {
 					division = "name = \"Milicias\" division_template = \"Milicias\" start_experience_factor = 0.04 start_equipment_factor = 0.9" 
 					owner = ROOT
@@ -2717,20 +2831,9 @@ country_event = {
 					original_tag = PRU 
 					has_civil_war = yes 
 				}
-				every_state = {
-					limit = {
-						is_core_of = PRU
-						has_state_flag = is_owned_by_PRU 
-						NOT = {
-							has_state_flag = PRU_state_is_fascist
-						}
-					}
-					PREV = {
-						transfer_state = PREV 
-					}
-				}
+				add_ideas = PRU_civil_war_d_idea
 				division_template = { 
-					name = "Milicias" 
+					name = "Milicias Leales" 
 					division_names_group = SPAN_INF_02 
 					is_locked = yes 
 					regiments = { 
@@ -2741,7 +2844,7 @@ country_event = {
 					}
 				}	
 				division_template = {
-					name = "División de Infanteria Peruana" 
+					name = "División de Infanteria Peruana Leales" 
 					division_names_group = SPAN_INF_02 
 					is_locked = no 
 					regiments = { 
@@ -2761,21 +2864,16 @@ country_event = {
 					}
 				}
 				every_controlled_state = {
-					limit = {
-						NOT = {
-							has_state_flag = PRU_state_is_fascist
-						}
-					}
 					create_unit = {
-						division = "name = \"Milicias\" division_template = \"Milicias\" start_experience_factor = 0.04 start_equipment_factor = 0.9" 
+						division = "name = \"Milicias Leales\" division_template = \"Milicias Leales\" start_experience_factor = 0.04 start_equipment_factor = 0.9" 
 						owner = PREV
 					}
 					create_unit = {
-						division = "name = \"Milicias\" division_template = \"Milicias\" start_experience_factor = 0.04 start_equipment_factor = 0.9" 
+						division = "name = \"Milicias Leales\" division_template = \"Milicias Leales\" start_experience_factor = 0.04 start_equipment_factor = 0.9" 
 						owner = PREV
 					}
 					create_unit = {
-						division = "name = \"Milicias\" division_template = \"Milicias\" start_experience_factor = 0.04 start_equipment_factor = 0.9" 
+						division = "name = \"Milicias Leales\" division_template = \"Milicias Leales\" start_experience_factor = 0.04 start_equipment_factor = 0.9" 
 						owner = PREV
 					}
 				}
@@ -2784,29 +2882,29 @@ country_event = {
 					 if = {
 						limit = { check_variable = { PRU_size_of_government < 0.5} }
 						create_unit = {
-							division = "name = \"División de Infanteria Peruana\" division_template = \"División de Infanteria Peruana\" start_experience_factor = 0.2 start_equipment_factor = 1" 
+							division = "name = \"División de Infanteria Peruana Leales\" division_template = \"División de Infanteria Peruana Leales\" start_experience_factor = 0.2 start_equipment_factor = 1" 
 							owner = PREV
 						}
 						create_unit = {
-							division = "name = \"División de Infanteria Peruana\" division_template = \"División de Infanteria Peruana\" start_experience_factor = 0.2 start_equipment_factor = 1" 
+							division = "name = \"División de Infanteria Peruana Leales\" division_template = \"División de Infanteria Peruana Leales\" start_experience_factor = 0.2 start_equipment_factor = 1" 
 							owner = PREV
 						}
 						create_unit = {
-							division = "name = \"División de Infanteria Peruana\" division_template = \"División de Infanteria Peruana\" start_experience_factor = 0.2 start_equipment_factor = 1" 
+							division = "name = \"División de Infanteria Peruana Leales\" division_template = \"División de Infanteria Peruana Leales\" start_experience_factor = 0.2 start_equipment_factor = 1" 
 							owner = PREV
 						}
 						create_unit = {
-							division = "name = \"División de Infanteria Peruana\" division_template = \"División de Infanteria Peruana\" start_experience_factor = 0.2 start_equipment_factor = 1" 
+							division = "name = \"División de Infanteria Peruana Leales\" division_template = \"División de Infanteria Peruana Leales\" start_experience_factor = 0.2 start_equipment_factor = 1" 
 							owner = PREV
 						}
 					}
 					else = {
 						create_unit = {
-							division = "name = \"División de Infanteria Peruana\" division_template = \"División de Infanteria Peruana\" start_experience_factor = 0.2 start_equipment_factor = 1" 
+							division = "name = \"División de Infanteria Peruana Leales\" division_template = \"División de Infanteria Peruana Leales\" start_experience_factor = 0.2 start_equipment_factor = 1" 
 							owner = PREV
 						}
 						create_unit = {
-							division = "name = \"División de Infanteria Peruana\" division_template = \"División de Infanteria Peruana\" start_experience_factor = 0.2 start_equipment_factor = 1" 
+							division = "name = \"División de Infanteria Peruana Leales\" division_template = \"División de Infanteria Peruana Leales\" start_experience_factor = 0.2 start_equipment_factor = 1" 
 							owner = PREV
 						}
 					}
@@ -2837,6 +2935,32 @@ country_event = {
 		}
 		hidden_effect = {
 			country_event = { id = peru.24 hours = 8 }
+		}
+	}
+}
+
+#Player chooses whether or not to have Ureta or Flores lead the nation 
+country_event = {
+	id = peru.32
+	title = peru.32.t 
+	desc = peru.32.d 
+	picture = GFX_PRU_event_32
+
+	is_triggered_only = yes 
+
+	option = { #Eloy Ureta
+		name = peru.32.a 
+		ai_chance = {
+			base = 5
+		}
+		retire_character = PRU_luis_a_flores
+		promote_character = PRU_eloy_ureta_montehermoso_leader
+	}
+
+	option = { #Luis stays president lol
+		name  = peru.32.b 
+		ai_chance = {
+			base = 5
 		}
 	}
 }

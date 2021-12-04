@@ -2297,10 +2297,15 @@ PRU_the_peruvian_civil_war = {
 		}
 		
 		available = {
-			always = no 
+			hidden_trigger = {
+				OR = {
+					has_completed_focus = PRU_launch_the_coup
+					has_civil_war = yes 
+				}
+			}
 		}
 
-		days_mission_timeout = 240
+		days_mission_timeout = 215
 		
 		is_good = no
 		
@@ -2312,6 +2317,13 @@ PRU_the_peruvian_civil_war = {
 		
 		visible = {
 			is_subject = no
+		}
+		
+		cancel_trigger = {
+			OR = {
+				has_completed_focus = PRU_launch_the_coup
+				has_civil_war = yes 
+			}
 		}
 
 		timeout_effect = {
@@ -2373,6 +2385,10 @@ PRU_the_peruvian_civil_war = {
 			set_country_flag = PRU_currently_appeasing_civil_war
 		}
 
+		cancel_trigger = {
+			has_civil_war = yes 
+		}
+
 		remove_effect = {
 			clr_country_flag = PRU_currently_appeasing_civil_war
 			custom_effect_tooltip = PRU_add_2_to_coup
@@ -2404,7 +2420,7 @@ PRU_the_peruvian_civil_war = {
 			}
 		}
 
-		cost = 25
+		cost = 20
 
 		days_remove = 15
 
@@ -2419,6 +2435,10 @@ PRU_the_peruvian_civil_war = {
 
 		modifier = {
 			political_power_factor = -0.05
+		}
+
+		cancel_trigger = {
+			has_civil_war = yes 
 		}
 
 		complete_effect = {
@@ -2464,7 +2484,7 @@ PRU_the_peruvian_civil_war = {
 			}
 		}
 
-		cost = 50
+		cost = 35
 
 		days_remove = 25
 
@@ -2479,6 +2499,10 @@ PRU_the_peruvian_civil_war = {
 					has_country_flag = PRU_currently_appeasing_civil_war 
 				}
 			}
+		}
+
+		cancel_trigger = {
+			has_civil_war = yes 
 		}
 
 		complete_effect = {
@@ -2598,7 +2622,7 @@ PRU_the_peruvian_civil_war = {
 			}
 		}
 
-		cost = 50 
+		cost = 40 
 
 		days_remove = 70
 
@@ -2608,6 +2632,10 @@ PRU_the_peruvian_civil_war = {
 
 		complete_effect = {
 			set_country_flag = PRU_focusing_on_state
+		}
+
+		cancel_trigger = {
+			has_civil_war = yes 
 		}
 
 		remove_effect = {
@@ -2665,6 +2693,10 @@ PRU_the_peruvian_civil_war = {
 			}
 		}
 
+		cancel_trigger = {
+			has_civil_war = yes 
+		}
+
 		days_remove = 1
 
 		remove_effect = {
@@ -2684,15 +2716,24 @@ PRU_civil_war = {
 		}
 		
 		available = {
+			command_power > 15
 			custom_trigger_tooltip = {
 				tooltip = ARG_decisioninprogress
 				NOT = {
-					has_country_flag = ARG_decision_already_in_progress
+					has_country_flag = PRU_decision_already_in_progress
 				}
 			}
 		}
 		
-		cost = 25
+		visible = {
+			has_civil_war = yes 
+		}
+		
+		custom_cost_trigger = {
+			command_power > 15
+		}
+
+		custom_cost_text = CHL_cost_15_cp
 		
 		fire_only_once = no
 		
@@ -2701,17 +2742,18 @@ PRU_civil_war = {
 		}
 		
 		ai_will_do = {
-			factor = 200
+			factor = 100
 		}
 		
 		days_remove = 35
 		
 		complete_effect = {
-			set_country_flag = ARG_decision_already_in_progress
+			add_command_power = -15
+			set_country_flag = PRU_decision_already_in_progress
 		}
 		
 		remove_effect = {
-			clr_country_flag = ARG_decision_already_in_progress
+			clr_country_flag = PRU_decision_already_in_progress
 		}
 	}
 
@@ -2724,15 +2766,24 @@ PRU_civil_war = {
 		}
 		
 		available = {
+			command_power > 15
 			custom_trigger_tooltip = {
 				tooltip = ARG_decisioninprogress
 				NOT = {
-					has_country_flag = ARG_decision_already_in_progress
+					has_country_flag = PRU_decision_already_in_progress
 				}
 			}
 		}
 		
-		cost = 25
+		visible = {
+			has_civil_war = yes 
+		}
+		
+		custom_cost_trigger = {
+			command_power > 15
+		}
+
+		custom_cost_text = CHL_cost_15_cp
 		
 		fire_only_once = no
 		
@@ -2741,17 +2792,18 @@ PRU_civil_war = {
 		}
 		
 		ai_will_do = {
-			factor = 200
+			factor = 100
 		}
 		
 		days_remove = 35
 		
 		complete_effect = {
-			set_country_flag = ARG_decision_already_in_progress
+			add_command_power = -15
+			set_country_flag = PRU_decision_already_in_progress
 		}
 		
 		remove_effect = {
-			clr_country_flag = ARG_decision_already_in_progress
+			clr_country_flag = PRU_decision_already_in_progress
 		}
 	}
 
@@ -2781,6 +2833,7 @@ PRU_civil_war = {
 
 		visible = {
 			has_completed_focus = PRU_the_army_of_the_sun
+			has_civil_war = yes
 		}
 
 		custom_cost_trigger = {
@@ -4563,4 +4616,262 @@ PRU_conquering_the_imperialist_europeans = {
 			defense_bonus_against = 0.1
 		}
 	}
+}
+
+PRU_coup_attempt_fascists = {
+
+	PRU_the_coup_attempt = {
+		priority = 100
+		icon = generic_ignite_civil_war
+		
+		available = {
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = PRU_coup_was_shut_down_tt
+					NOT = { has_country_flag = PRU_fascist_coup_attempt }
+				}
+				has_government = fascism
+				has_completed_focus = PRU_the_people_serve_the_state
+			}
+		}
+		
+		activation = { has_country_flag = PRU_fascist_coup_attempt }
+		
+		days_mission_timeout = 190	 
+		
+		is_good = no 
+		
+		visible = {
+			exists = yes 
+		}
+		
+		cancel_trigger = { 
+			OR = {
+				has_civil_war = yes 
+				NOT = {
+					controls_state = 838
+				}
+				NOT = {
+					controls_state = 839
+				}
+				NOT = {
+					controls_state = 887
+				}
+				NOT = {
+					controls_state = 491
+				}
+			}
+		}
+		
+		complete_effect = { add_war_support = 0.01 }
+		
+		timeout_effect = {
+			hidden_effect = {
+				division_template = { 
+					name = "Milicias" 
+					division_names_group = SPAN_INF_02 
+					is_locked = no 
+					regiments = { 
+						infantry = { x = 0 y = 0 }  
+						infantry = { x = 0 y = 1 } 
+						infantry = { x = 0 y = 2 } 
+						infantry = { x = 0 y = 3 } 
+					}
+				}
+			}
+			start_civil_war = {
+				ruling_party = ROOT
+				ideology = fascism 
+				size = 0.5
+				capital = 491
+				states = { 838 491 839 887 }
+			}
+			
+			hidden_effect = {
+				retire_country_leader = yes
+				create_country_leader = {
+					name = "Óscar Benavides"
+					desc = "POLITICS_OSCAR_BENAVIDES_DESC"
+					picture = "GFX_Portrait_peru_oscar_benavides"
+					expire = "1965.1.1"
+					ideology = militarism
+					traits = {
+						#
+					}
+				}
+				every_controlled_state = {
+					create_unit = {
+						division = "name = \"Milicias\" division_template = \"Milicias\" start_experience_factor = 0.04 start_equipment_factor = 0.9" 
+						owner = ROOT
+					}
+				}
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"Milicias\" division_template = \"Milicias\" start_experience_factor = 0.04 start_equipment_factor = 0.9" 
+						owner = ROOT
+					}
+				}
+				random_other_country = {
+					limit = { 
+						original_tag = PRU 
+						has_civil_war = yes 
+						has_government = fascism
+					}
+					491 = {
+						create_unit = {
+							division = "name = \"Milicias Fascistas\" division_template = \"Milicias\" start_experience_factor = 0.04 start_equipment_factor = 0.9" 
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Milicias Fascistas\" division_template = \"Milicias\" start_experience_factor = 0.04 start_equipment_factor = 0.9" 
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Milicias Fascistas\" division_template = \"Milicias\" start_experience_factor = 0.04 start_equipment_factor = 0.9" 
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Milicias Fascistas\" division_template = \"Milicias\" start_experience_factor = 0.04 start_equipment_factor = 0.9" 
+							owner = PREV
+						}
+					}
+					838 = {
+						create_unit = {
+							division = "name = \"Milicias Fascistas\" division_template = \"Milicias\" start_experience_factor = 0.04 start_equipment_factor = 0.9" 
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Milicias Fascistas\" division_template = \"Milicias\" start_experience_factor = 0.04 start_equipment_factor = 0.9" 
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Milicias Fascistas\" division_template = \"Milicias\" start_experience_factor = 0.04 start_equipment_factor = 0.9" 
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Milicias Fascistas\" division_template = \"Milicias\" start_experience_factor = 0.04 start_equipment_factor = 0.9" 
+							owner = PREV
+						}
+					}
+					every_controlled_state = {
+						create_unit = {
+							division = "name = \"Milicias Fascistas\" division_template = \"Milicias\" start_experience_factor = 0.04 start_equipment_factor = 0.9" 
+							owner = PREV
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	PRU_stop_the_coup = {
+		icon = oppression
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = PRU_all_states_were_dealt_with_tt
+				838 = {
+					has_state_flag = PRU_state_was_dealt_with
+				}
+				839 = {
+					has_state_flag = PRU_state_was_dealt_with
+				}
+				887 = {
+					has_state_flag = PRU_state_was_dealt_with
+				}
+				491 = {
+					has_state_flag = PRU_state_was_dealt_with
+				}
+			}
+		}
+
+		ai_will_do = {
+			factor = 200
+		}
+
+		visible = {
+			has_country_flag = PRU_fascist_coup_attempt
+			has_active_mission = PRU_the_coup_attempt
+		}
+
+		complete_effect = {
+			custom_effect_tooltip = PRU_coup_will_be_shut_down_tt
+			clr_country_flag = PRU_fascist_coup_attempt
+			add_stability = -0.03
+		}
+	}
+
+	PRU_march_in_the_province_of_FROM = {
+		icon = eng_blackshirt_march
+
+		visible = { 
+			has_country_flag = PRU_fascist_coup_attempt
+			has_active_mission = PRU_the_coup_attempt
+			FROM = {
+				NOT = {
+					has_state_flag = PRU_state_was_dealt_with
+				}
+			}
+		}
+
+		ai_will_do = {
+			factor = 180
+		}
+
+		highlight_states = {
+			highlight_states_trigger = {
+				state = 838
+				state = 839
+				state = 887
+				state = 491 
+			}
+		}
+
+		state_target = yes 
+
+		targets = { 839 838 491 887 }
+
+		on_map_mode = map_and_decisions_view
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+				NOT = {
+					has_state_flag = PRU_state_was_dealt_with
+				}
+			}
+		}
+
+		available = {
+			divisions_in_state = {
+				size > 3
+				state = FROM
+			}
+		}
+		
+		cancel_trigger = {
+			NOT = {
+				divisions_in_state = {
+					size > 2
+					state = FROM 
+				}
+			}
+		}
+
+		cost = 10
+
+		days_remove = 70
+
+		modifier = {
+			weekly_manpower = -450
+		}
+
+		remove_effect = {
+			custom_effect_tooltip = PRU_state_will_be_dealt_with_tt
+			FROM = {
+				set_state_flag = PRU_state_was_dealt_with
+			}
+		}
+	}
+		
 }
