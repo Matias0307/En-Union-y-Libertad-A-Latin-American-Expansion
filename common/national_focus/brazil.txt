@@ -1176,24 +1176,249 @@ focus_tree = {
 			focus = BRA_produce_better_naval_equipment
 		}
 
+		available = {
+			exists = yes 
+			is_subject = no 
+			has_civil_war = no 
+			has_navy_size = { size > 24 }
+		}
+
 		cost = 10
 
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
+			navy_experience = 75
+			add_ideas = BRA_strengthened_marinha_1
+		}
+	}
+
+	focus = {
+		id = BRA_heavy_ship_focus
+		icon = GFX_focus_generic_navy_battleship2
+		x = 2
+		y = 1
+		relative_position_id = BRA_strengthened_marinha_do_brasil
+		prerequisite = { focus = BRA_strengthened_marinha_do_brasil }
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
 			navy_experience = 50
-			add_ideas = BRA_strengthened_marinha
+			add_tech_bonus = {
+				name = BRA_heavy_ship_focus
+				bonus = 0.5
+				uses = 1
+				category = ca_tech
+			}
+			add_tech_bonus = {
+				name = BRA_heavy_ship_focus
+				bonus = 0.5
+				uses = 1
+				category = cl_tech
+			}
+		}
+	}
+
+	focus = {
+		id = BRA_improved_heavy_ships
+		icon = GFX_goal_generic_navy_cruiser
+		x = -1
+		y = 1
+		relative_position_id = BRA_heavy_ship_focus
+		prerequisite = { focus = BRA_heavy_ship_focus }
+
+		cost = 10
+
+		available = {
+			has_navy_size = { size > 34 }
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			EUYL_add_1_dockyard = yes 
+			add_ideas = ARG_improved_heavy_ships
+		}
+	}
+
+	focus = {
+		id = BRA_brazilian_carriers
+		icon = GFX_goal_generic_navy_carrier
+		x = 1
+		y = 1
+		relative_position_id = BRA_heavy_ship_focus
+		prerequisite = { focus = BRA_heavy_ship_focus }
+
+		cost = 10
+
+		available = {
+			exists = yes 
+			has_navy_size = { size > 29 }
+		}
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward =  {
+			add_tech_bonus = {
+				name = BRA_brazilian_carriers
+				bonus = 1.0
+				uses = 1
+				category = cv_tech
+			}
+		}
+	}
+
+	focus = {
+		id = BRA_marinha_nuova
+		icon = GFX_BRA_strengthened_navy
+		x = 0
+		y = 2
+		relative_position_id = BRA_modernize_our_battleships
+		prerequisite = {
+			focus = BRA_efficient_submarine_production
+			focus = BRA_efficient_destroyer_production
+			focus = BRA_improved_heavy_ships
+			focus = BRA_brazilian_carriers
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			EUYL_add_4_dockyard = yes 
+			add_war_support = 0.05
+			swap_ideas = {
+				remove_idea = BRA_strengthened_marinha_1
+				add_idea = BRA_strengthened_marinha_2
+			}
+		}
+	}
+
+	focus = {
+		id = BRA_crush_the_german_subs
+		icon = GFX_focus_attack_germany
+		x = 0
+		y = 1
+		relative_position_id = BRA_marinha_nuova
+		prerequisite = { focus = BRA_marinha_nuova }
+
+		cost = 10
+
+		available = { 
+			has_war_with = GER 
+			exists = yes  
+			has_capitulated = no  
+			has_navy_size = { size > 39 }
+		}
+
+		search_filters = { FOCUS_FILTER_HISTORICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			
 		}
 	}
 
 	focus = {
 		id = BRA_modernize_our_battleships
-		icon = GFX_
+		icon = GFX_goal_generic_navy_battleship
+		x = 0
+		y = 1
+		relative_position_id = BRA_strengthened_marinha_do_brasil
+		prerequisite = { focus = BRA_strengthened_marinha_do_brasil }
+
+		cost = 7
+
+		available = {
+			exists = yes  
+			is_subject = no 
+		}
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = {
+				name = BRA_modernize_our_battleships
+				bonus = 1.0
+				uses = 1
+				category = bb_tech
+			}
+		}
+	}
+
+	focus = {
+		id = BRA_south_american_naval_arms_race
+		icon = GFX_ARG_naval_arms_race
+		x = -2
+		y = 1
+		relative_position_id = BRA_strengthened_marinha_do_brasil
+		prerequisite = { focus = BRA_strengthened_marinha_do_brasil }
+
+		cost = 5
+
+		available = {
+			exists = yes 
+			is_subject = no 
+		}
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			navy_experience = 50
+			add_tech_bonus = {
+				name = BRA_south_american_naval_arms_race
+				bonus = 0.5
+				uses = 1
+				category = ss_tech
+			}
+			add_tech_bonus = {
+				name = BRA_south_american_naval_arms_race
+				bonus = 0.5
+				uses = 1
+				category = dd_tech
+			}
+		}
+	}
+
+	focus = {
+		id = BRA_efficient_submarine_production
+		icon = GFX_goal_generic_navy_submarine
+		x = -1
+		y = 1
+		relative_position_id = BRA_south_american_naval_arms_race
+		prerequisite = { focus = BRA_south_american_naval_arms_race }
+
+		cost = 10
+
+		available = {
+			exists = yes 
+			has_navy_size = { size > 29 }
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_ideas = ARG_increased_submarine_output
+		}
+	}
+
+	focus = {
+		id = BRA_efficient_destroyer_production
+		icon = GFX_focus_generic_destroyer
+		x = 1
+		y = 1
+		relative_position_id = BRA_south_american_naval_arms_race
+		prerequisite = { focus = BRA_south_american_naval_arms_race }
+
+		cost = 10 
+
+		available = {
+			exists = yes 
+			has_navy_size = { size > 29 }
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_ideas = ARG_increased_destroyer_output
+		}
 	}
 
 	focus = {
 		id = BRA_invest_in_the_army
 		icon = GFX_focus_generic_tank_production
-		x = -4
+		x = -5
 		y = 1
 		relative_position_id = BRA_forcas_armadas_brasileiras
 		prerequisite = { focus = BRA_forcas_armadas_brasileiras }

@@ -2964,3 +2964,133 @@ country_event = {
 		}
 	}
 }
+
+#Czechoslovakia gets Peruvian request to purchase tanks 
+country_event = {
+	id = peru.33 
+	title = peru.33.t 
+	desc = peru.33.d 
+	picture = GFX_report_event_tank_factory
+
+	is_triggered_only = yes 
+
+	option = { #give them proper light tanks 
+		name = peru.33.a 
+		ai_chance = {
+			base = 20
+			modifier = {
+				add = 30
+				has_opinion = {
+					target = FROM
+					value > 49
+				}
+			}
+			modifier = {
+				add = 50
+				has_opinion = {
+					target = FROM
+					value > 79
+				}
+			}
+			modifier = {
+				add = 40
+				has_war = no 
+			}
+		}
+		FROM = {
+			random_owned_controlled_state = {
+				limit = { industrial_complex > 1 }
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+			country_event = { id = peru.16 hours = 4 }
+		}
+		if = { 
+			limit = { has_dlc = "No Step Back" }
+			send_equipment = {
+				equipment = light_tank_chassis_2
+				amount = 150
+				target = FROM
+			}
+		}
+		else = {
+			send_equipment = {
+				equipment = light_tank_equipment_2
+				amount = 150
+				target = FROM
+			}
+		}
+		add_offsite_building = { 
+			type = industrial_complex 
+			level = 1
+		}
+	}
+
+	option = { #give them ok-ish light tanks 
+		name = peru.33.b
+		ai_chance = {
+			base = 20
+			modifier = {
+				add = 30
+				has_opinion = {
+					target = FROM
+					value > 49
+				}
+			}
+			modifier = {
+				add = 50
+				has_opinion = {
+					target = FROM
+					value > 79
+				}
+			}
+			modifier = {
+				add = 40
+				has_war = no 
+			}
+		}
+		FROM = {
+			random_owned_controlled_state = {
+				limit = { industrial_complex > 1 }
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+			country_event = { id = peru.16 hours = 4 }
+		}
+		if = { 
+			limit = { has_dlc = "No Step Back" }
+			send_equipment = {
+				equipment = light_tank_chassis_1
+				amount = 150
+				target = FROM
+			}
+		}
+		else = {
+			send_equipment = {
+				equipment = light_tank_equipment_1
+				amount = 150
+				target = FROM
+			}
+		}
+		add_offsite_building = { 
+			type = industrial_complex 
+			level = 1
+		}
+	}
+
+	option = { #decline
+		name = peru.33.c
+		ai_chance = {
+			base = 15
+			modifier = {
+				add = 100
+				has_war = yes #most countries won't be willing to give away their equipment whilst at war lol
+			}
+		}
+		FROM = { country_event = { id = peru.17 hours = 4 } }
+	}
+}

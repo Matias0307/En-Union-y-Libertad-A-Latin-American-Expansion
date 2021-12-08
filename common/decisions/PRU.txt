@@ -1080,49 +1080,103 @@ PRU_purchase_american_armaments = {
 			if = {
 				limit = {
 					USA = {
-						has_tech =	advanced_light_tank
+						OR = {
+							has_tech =	advanced_light_tank
+							has_tech = advanced_light_tank_chassis
+						}
 					}
 				}		
 				PRU = {
-					add_equipment_to_stockpile = {
-						type = light_tank_equipment_3
-						amount = 100
-						producer = USA
+					if = {
+						limit = {
+							NOT = {
+								has_dlc = "No Step Back"
+							}
+						}
+						add_equipment_to_stockpile = {
+							type = light_tank_equipment_3
+							amount = 100
+							producer = USA
+						}
+					}
+					else = {
+						add_equipment_to_stockpile = {
+							type = light_tank_chassis_3
+							amount = 100
+							producer = USA
+						}
 					}
 				}					
 				else = {
-				
 					if = {	
 						limit = {
 							USA = {
-								has_tech =	improved_light_tank
+								OR = {
+									has_tech = improved_light_tank
+									has_tech = improved_light_tank_chassis
+								}
 							}
 						}
-							PRU = {
-									add_equipment_to_stockpile = {
-									type = light_tank_equipment_2 
-									amount = 100
-									producer = USA
+						if = {
+							limit = {
+								NOT = {
+									has_dlc = "No Step Back"
 								}
-							}					
+							}
+							add_equipment_to_stockpile = {
+								type = light_tank_equipment_2
+								amount = 100
+								producer = USA
+							}
+						}
+						else = {
+							add_equipment_to_stockpile = {
+								type = light_tank_chassis_2
+								amount = 100
+								producer = USA
+							}
+						}				
 						else = {
 							if = {
 								limit = {
 									USA = {
-										has_tech = basic_light_tank
+										OR = {
+											has_tech = basic_light_tank
+											has_tech = basic_light_tank_chassis
+										}
 									}
 								}
-								PRU = {
+								if = {
+									limit = {
+										NOT = {
+											has_dlc = "No Step Back"
+										}
+									}
 									add_equipment_to_stockpile = {
 										type = light_tank_equipment_1
 										amount = 100
-										producer = USA			
+										producer = USA
 									}
 								}
 								else = {
-									PRU = {
+									add_equipment_to_stockpile = {
+										type = light_tank_chassis_1
+										amount = 100
+										producer = USA
+									}
+								}
+								else = {
+									if = {
+										limit = { NOT = { has_dlc = "No Step Back" } }
 										add_equipment_to_stockpile = {
 											type = gw_tank_equipment
+											amount = 100
+											producer = USA			
+										}
+									}
+									else = {
+										add_equipment_to_stockpile = {
+											type = light_tank_chassis_0
 											amount = 100
 											producer = USA			
 										}
@@ -2194,11 +2248,25 @@ PRU_social_democracy_investment = {
 		}
 
 		remove_effect = {
-			add_equipment_to_stockpile = {
-				type = light_tank_equipment_1
-				amount = 120
-				producer = FRA 
+			if = {
+				limit = {
+					NOT = {
+						has_dlc = "No Step Back"
+					}
+				}
+				add_equipment_to_stockpile = {
+					type = light_tank_equipment_1
+					amount = 120
+					producer = FRA 
+				}
 			}
+			else = {
+				add_equipment_to_stockpile = {
+					type = light_tank_chassis_1
+					amount = 120
+					producer = FRA 
+				}
+			}	
 		}
 	}
 
@@ -2235,11 +2303,25 @@ PRU_social_democracy_investment = {
 		}
 
 		remove_effect = {
-			add_equipment_to_stockpile = {
-				type = medium_tank_equipment_1
-				amount = 95
-				producer = FRA 
+			if = {
+				limit = {
+					NOT = {
+						has_dlc = "No Step Back"
+					}
+				}
+				add_equipment_to_stockpile = {
+					type = medium_tank_equipment_1
+					amount = 95
+					producer = FRA 
+				}
 			}
+			else = {
+				add_equipment_to_stockpile = {
+					type = medium_tank_chassis_1
+					amount = 95
+					producer = FRA 
+				}
+			}	
 		}
 	}
 
@@ -2276,11 +2358,25 @@ PRU_social_democracy_investment = {
 		}
 
 		remove_effect = {
-			add_equipment_to_stockpile = {
-				type = heavy_tank_equipment_1
-				amount = 70
-				producer = FRA 
+			if = {
+				limit = {
+					NOT = {
+						has_dlc = "No Step Back"
+					}
+				}
+				add_equipment_to_stockpile = {
+					type = heavy_tank_equipment_1
+					amount = 70
+					producer = FRA 
+				}
 			}
+			else = {
+				add_equipment_to_stockpile = {
+					type = heavy_tank_chassis_1
+					amount = 70
+					producer = FRA 
+				}
+			}	
 		}
 	}
 }
