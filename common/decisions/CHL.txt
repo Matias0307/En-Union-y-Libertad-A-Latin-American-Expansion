@@ -2078,6 +2078,14 @@ CHL_nacista_management = {
 			}
 		}
 
+		available = {
+			OR = {
+				exists = no 
+				is_subject = yes 
+				has_capitulated = yes 
+			}
+		}
+
 		is_good = yes 
 
 		days_mission_timeout = CHL_days_for_people_to_calm_down
@@ -2114,16 +2122,12 @@ CHL_nacista_management = {
 
 		available = {
 			has_government = fascism
+			has_capitulated = no 
+			is_subject = no 
 		}
 
 		visible = {
 			has_completed_focus = CHL_begin_mass_mobilization
-			OR = {
-				has_idea = CHL_mass_mobilization_1
-				has_idea = CHL_mass_mobilization_2
-				has_idea = CHL_mass_mobilization_3
-				has_idea = CHL_mass_mobilization_4
-			}
 		}
 
 		cost = CHL_cost_to_mobilize
@@ -2136,6 +2140,19 @@ CHL_nacista_management = {
 
 		remove_effect = {
 			if = {
+				limit = {
+					NOT = {
+						OR = {
+							has_idea = CHL_mass_mobilization_1
+							has_idea = CHL_mass_mobilization_2
+							has_idea = CHL_mass_mobilization_3
+							has_idea = CHL_mass_mobilization_4
+						}
+					}
+				}
+				add_ideas = CHL_mass_mobilization_1
+			}
+			else_if = {
 				limit = { 
 					has_idea = CHL_mass_mobilization_1
 				}
