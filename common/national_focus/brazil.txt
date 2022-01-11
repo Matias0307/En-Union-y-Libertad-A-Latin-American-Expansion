@@ -1110,6 +1110,120 @@ focus_tree = {
 	}
 
 	focus = {
+		id = BRA_forca_aerea
+		icon = GFX_BRA_air_force
+		x = 5
+		y = 1
+		relative_position_id = BRA_forcas_armadas_brasileiras
+		prerequisite = { focus = BRA_forcas_armadas_brasileiras }
+
+		cost = 4
+
+		available = {
+			exists = yes 
+			is_subject = no 
+		}
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			air_experience = 75
+		}
+	}
+
+	focus = {
+		id = BRA_increased_plane_production
+		icon = GFX_focus_generic_aircraft_production
+		x = 0
+		y = 1
+		relative_position_id = BRA_forca_aerea
+		prerequisite = { focus = BRA_forca_aerea }
+
+		cost = 7
+
+		available = {
+			exists = yes 
+			is_subject = no 
+			num_of_factories > 34
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_2_military = yes 
+		}
+	}
+
+	focus = {
+		id = BRA_foreign_plane_purchase
+		icon = GFX_BRA_purchase_planes
+		x = 0
+		y = 1
+		relative_position_id = BRA_increased_plane_production
+		prerequisite = { focus = BRA_increased_plane_production }
+
+		cost = 10
+
+		available = {
+			#check for plane count or something idk
+		}
+	}
+
+	focus = {
+		id = BRA_focus_on_bombers
+		icon = GFX_goal_generic_air_bomber
+		x = -2
+		y = 1
+		relative_position_id = BRA_forca_aerea
+		prerequisite = { focus = BRA_forca_aerea }
+	}
+
+	focus = {
+		id = BRA_focus_on_strat_bombers
+		icon = GFX_goal_generic_occupy_start_war
+		x = -1
+		y = 1
+		relative_position_id = BRA_focus_on_bombers
+		prerequisite = { focus = BRA_focus_on_bombers }
+	}
+
+	focus = {
+		id = BRA_naval_bomber_effort
+		icon = GFX_goal_generic_air_naval_bomber
+		x = -1
+		y = 2
+		relative_position_id = BRA_increased_plane_production
+		prerequisite = { focus = BRA_increased_plane_production }
+		prerequisite = { focus = BRA_focus_on_bombers }
+	}
+
+	focus = {
+		id = BRA_focus_on_fighters
+		icon = GFX_goal_generic_air_fighter2
+		x = 2
+		y = 1
+		relative_position_id = BRA_forca_aerea
+		prerequisite = { focus = BRA_forca_aerea }
+	}
+
+	focus = {
+		id = BRA_heavy_fighter_production
+		icon = GFX_goal_generic_air_fighter
+		x = 1
+		y = 2
+		relative_position_id = BRA_increased_plane_production
+		prerequisite = { focus = BRA_increased_plane_production }
+		prerequisite = { focus = BRA_focus_on_fighters }
+	}
+
+	focus = {
+		id = BRA_improve_our_pilots
+		icon = GFX_focus_generic_military_mission
+		x = 1
+		y = 1
+		relative_position_id = BRA_focus_on_fighters
+		prerequisite = { focus = BRA_focus_on_fighters }
+	}
+
+	focus = {
 		id = BRA_expand_our_naval_arsenal
 		icon = GFX_goal_generic_construct_naval_dockyard
 		x = 0
@@ -1247,7 +1361,10 @@ focus_tree = {
 		x = 1
 		y = 1
 		relative_position_id = BRA_heavy_ship_focus
-		prerequisite = { focus = BRA_heavy_ship_focus }
+		prerequisite = { 
+			focus = BRA_heavy_ship_focus 
+			focus = BRA_naval_bomber_effort
+		}
 
 		cost = 10
 
