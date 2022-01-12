@@ -503,3 +503,68 @@ country_event = {
 		}
 	}
 }
+
+#France gets event of Brazil asking for a Carrier 
+country_event = {
+	id = brazil.10
+	title = brazil.10.t 
+	desc = brazil.10.d 
+	picture = GFX_report_event_hitler_handshake 
+
+	is_triggered_only = yes 
+
+	option = { #accept
+		name = brazil.10.a 
+		ai_chance = {
+			base = 20
+			modifier = {
+				add = 20
+				has_navy_size = {
+					size > 79
+				}
+			}
+			modifier = {
+				add = 40
+				has_opinion = {
+					target = FROM
+					value > 79
+				}
+			}
+			modifier = {
+				add = 30
+				FROM = {
+					has_navy_size = {
+						size < 16
+					}
+				}
+			}
+			modifier = {
+				add = 20 
+				has_war = yes 
+			}
+			modifier = {
+				add = 40
+				num_of_factories > 24
+			}
+		}
+		transfer_ship = {
+			type = carrier
+			target = FROM
+		}
+		hidden_effect = {
+			FROM = { country_event = { id = peru.26 hours = 4 } }
+		}
+	}
+
+	option = { #decline
+		name = brazil.10.b 
+		ai_chance = {
+			base = 50
+		}
+		hidden_effect = {
+			FROM = {
+				country_event = { id = peru.27 hours = 4 }
+			}
+		}
+	}
+}

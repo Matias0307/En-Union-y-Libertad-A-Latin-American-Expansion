@@ -1149,6 +1149,11 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
 			EUYL_add_2_military = yes 
+			hidden_effect = {
+				set_variable = { BRA_cost_to_produce = 25 }
+			}
+			custom_effect_tooltip = BRA_unlock_plane_production_tt
+			unlock_decision_tooltip = BRA_increase_our_cas_production
 		}
 	}
 
@@ -1163,7 +1168,13 @@ focus_tree = {
 		cost = 10
 
 		available = {
-			#check for plane count or something idk
+			has_civil_war = no 
+			num_of_factories > 44
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			unlock_decision_category_tooltip = BRA_foreign_plane_purchases
 		}
 	}
 
@@ -1174,6 +1185,27 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_forca_aerea
 		prerequisite = { focus = BRA_forca_aerea }
+
+		cost = 5
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+		
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = {
+				name = BRA_focus_on_bombers
+				bonus = 1.0
+				uses = 2
+				category = tactical_bomber
+			}
+			custom_effect_tooltip = BRA_if_completed_plane_production_focus_tt
+			if = {
+				limit = { has_completed_focus = BRA_increased_plane_production }
+				unlock_decision_tooltip = BRA_increase_our_tac_bomber_production
+			}
+		}
 	}
 
 	focus = {
@@ -1183,6 +1215,27 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_focus_on_bombers
 		prerequisite = { focus = BRA_focus_on_bombers }
+
+		cost = 5
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+		
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = {
+				name = BRA_focus_on_startegic_bombers
+				bonus = 1.0
+				uses = 2
+				category = cat_strategic_bomber
+			}
+			custom_effect_tooltip = BRA_if_completed_plane_production_focus_tt
+			if = {
+				limit = { has_completed_focus = BRA_increased_plane_production }
+				unlock_decision_tooltip = BRA_increase_our_strat_bomber_production
+			}
+		}
 	}
 
 	focus = {
@@ -1193,6 +1246,23 @@ focus_tree = {
 		relative_position_id = BRA_increased_plane_production
 		prerequisite = { focus = BRA_increased_plane_production }
 		prerequisite = { focus = BRA_focus_on_bombers }
+
+		cost = 4
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = {
+				name = BRA_create_a_naval_air_fleet
+				bonus = 1.0
+				uses = 1
+				category = naval_air
+			}
+			custom_effect_tooltip = BRA_if_completed_plane_production_focus_tt
+			if = {
+				limit = { has_completed_focus = BRA_increased_plane_production }
+				unlock_decision_tooltip = BRA_increase_our_naval_bomber_production
+			}
+		}
 	}
 
 	focus = {
@@ -1202,6 +1272,27 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_forca_aerea
 		prerequisite = { focus = BRA_forca_aerea }
+
+		cost = 5
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+		
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = {
+				name = BRA_focus_on_fighters
+				bonus = 1.0
+				uses = 2
+				category = light_fighter
+			}
+			custom_effect_tooltip = BRA_if_completed_plane_production_focus_tt
+			if = {
+				limit = { has_completed_focus = BRA_increased_plane_production }
+				unlock_decision_tooltip = BRA_increase_our_fighter_production
+			}
+		}
 	}
 
 	focus = {
@@ -1212,6 +1303,74 @@ focus_tree = {
 		relative_position_id = BRA_increased_plane_production
 		prerequisite = { focus = BRA_increased_plane_production }
 		prerequisite = { focus = BRA_focus_on_fighters }
+
+		cost = 8
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+		
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = {
+				name = BRA_develop_better_heavy_fighters
+				bonus = 1.0
+				uses = 1
+				category = cat_heavy_fighter
+			}
+			EUYL_add_1_military = yes 
+			custom_effect_tooltip = BRA_if_completed_plane_production_focus_tt
+			if = {
+				limit = { has_completed_focus = BRA_increased_plane_production }
+				unlock_decision_tooltip = BRA_increase_our_heavy_fighter_production
+			}
+		}
+	}
+
+	focus = {
+		id = BRA_improve_our_air_bases 
+		icon = GFX_goal_generic_build_airforce
+		x = -1
+		y = 1
+		relative_position_id = BRA_heavy_fighter_production
+		prerequisite = { 
+			focus = BRA_heavy_fighter_production 
+			focus = BRA_naval_bomber_effort
+		}
+
+		cost = 8
+
+		available = {
+			exists = yes 
+			is_subject = no 
+			has_civil_war = no 
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = air_base
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = air_base
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = air_base
+					level = 1
+					instant_build = yes
+				}
+			}
+			air_experience = 25
+		}
 	}
 
 	focus = {
@@ -1221,6 +1380,13 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_focus_on_fighters
 		prerequisite = { focus = BRA_focus_on_fighters }
+
+		cost = 7
+
+		search_filters = { }
+		completion_reward = {
+			add_ideas = BRA_trained_pilots
+		}
 	}
 
 	focus = {
@@ -1385,6 +1551,49 @@ focus_tree = {
 	}
 
 	focus = {
+		id = BRA_purchase_the_sao_paulo
+		icon = GFX_BRA_sao_paulo_carrier
+		x = 0
+		y = 1
+		relative_position_id = BRA_brazilian_carriers
+		prerequisite = { focus = BRA_brazilian_carriers }
+
+		cost = 10
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = FRA_has_2_carriers_tt
+				FRA = {
+					has_navy_size = {
+						size > 1
+						type = carrier
+					}
+				}
+			}
+			FRA = {
+				has_war = no 
+				is_subject = no 
+				capital_scope = { is_fully_controlled_by = PREV }
+				has_capitulated = no 
+			}
+			exists = yes 
+			is_subject = no 
+			any_controlled_state = {
+				is_coastal = yes 
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			FRA = { country_event = brazil.10 }
+			custom_effect_tooltip = ARG_iftheyaccept
+			custom_effect_tooltip = FRA_transfer_carrier_tt
+			EUYL_add_1_dockyard = yes 
+			navy_experience = 35
+		}
+	}
+
+	focus = {
 		id = BRA_marinha_nuova
 		icon = GFX_BRA_strengthened_navy
 		x = 0
@@ -1427,7 +1636,14 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_HISTORICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH }
 		completion_reward = {
-			
+			EUYL_add_1_dockyard = yes 
+			add_ideas = BRA_anti_german_u_boat_campaign
+			add_tech_bonus = {
+				name = BRA_topple_the_german_subs
+				bonus = 1.0
+				uses = 1
+				category = dd_tech
+			}
 		}
 	}
 
