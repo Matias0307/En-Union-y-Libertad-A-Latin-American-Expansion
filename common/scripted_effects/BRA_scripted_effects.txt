@@ -149,3 +149,148 @@ BRA_update_opinion_variable = {
 		}
 	}
 }
+
+BRA_set_up_political_crisis = {
+	hidden_effect = {
+		set_temp_variable = { BRA_crisis_stability_factor_t = 0 }
+		set_temp_variable = { BRA_crisis_political_factor_t = 0 }
+		set_temp_variable = { BRA_crisis_advisor_cost_t = 0 }
+		set_temp_variable = { BRA_crisis_fascist = 0 }
+		set_temp_variable = { BRA_crisis_democratic = 0 }
+		set_temp_variable = { BRA_crisis_neutrality = 0 }
+
+		#Setting up a big part of the multiplication process with stability 
+		set_temp_variable = { BRA_amount_to_multiply = BRA_progress_to_dictatorship }
+		divide_temp_variable = { BRA_amount_to_multiply = 7 }
+		
+		#Setting up the Stability factor 
+		if = { limit = { check_variable = { BRA_playing_as_vargas = 1} }
+			if = {
+				limit = { 
+					AND = {
+						has_country_flag = BRA_hostile_congress
+						has_country_flag = BRA_active_congress
+					}
+				}
+				add_to_temp_variable = { BRA_crisis_stability_factor_t = BRA_congress_influence }
+			}
+			else_if = {
+				limit = {
+					AND = {
+						has_country_flag = BRA_friendly_congress
+						has_country_flag = BRA_active_congress
+					}
+				}
+				set_temp_variable = { BRA_congress_influence_t = BRA_congress_influence }
+				divide_temp_variable = { BRA_congress_influence_t = 4 }
+				add_to_temp_variable = { BRA_crisis_stability_factor_t = BRA_congress_influence_t }
+			}
+			else = {
+				add_to_temp_variable = { BRA_crisis_stability_factor_t = BRA_penalty_for_no_active_congress }
+			}
+			if = {
+				limit = { has_country_flag = BRA_friendly_integralists }
+				set_temp_variable = { BRA_integralist_influence_t = BRA_integralist_influence }
+				divide_temp_variable = { BRA_integralist_influence_t = 4 }
+				add_to_temp_variable = { BRA_crisis_stability_factor_t = BRA_integralist_influence_t }
+			}
+			else_if = {
+				limit = { has_country_flag = BRA_neutral_integralists }
+				set_temp_variable = { BRA_integralist_influence_t = BRA_integralist_influence }
+				divide_temp_variable = { BRA_integralist_influence_t = 2 }
+				add_to_temp_variable = { BRA_crisis_stability_factor_t = BRA_integralist_influence_t }
+			}
+			else = {
+				add_to_temp_variable = { BRA_crisis_stability_factor_t = BRA_integralist_influence }
+			}
+			divide_temp_variable = { BRA_crisis_stability_factor_t = BRA_vargas_influence }
+			multiply_temp_variable = { BRA_crisis_stability_factor_t = BRA_amount_to_multiply }
+			multiply_temp_variable = { BRA_crisis_stability_factor_t = -1 }
+			set_variable = { BRA_crisis_stability_factor = BRA_crisis_stability_factor_t }
+		}
+		else_if = {
+			limit = { check_variable = { BRA_playing_as_integralists = 1 } }
+			if = {
+				limit = { 
+					AND = {
+						has_country_flag = BRA_hostile_congress
+						has_country_flag = BRA_active_congress
+					}
+				}
+				add_to_temp_variable = { BRA_crisis_stability_factor_t = BRA_congress_influence }
+			}
+			else_if = {
+				limit = {
+					AND = {
+						has_country_flag = BRA_friendly_congress
+						has_country_flag = BRA_active_congress
+					}
+				}
+				set_temp_variable = { BRA_congress_influence_t = BRA_congress_influence }
+				divide_temp_variable = { BRA_congress_influence_t = 4 }
+				add_to_temp_variable = { BRA_crisis_stability_factor_t = BRA_congress_influence_t }
+			}
+			else = {
+				add_to_temp_variable = { BRA_crisis_stability_factor_t = BRA_penalty_for_no_active_congress }
+			}
+			if = {
+				limit = { has_country_flag = BRA_friendly_vargas }
+				set_temp_variable = { BRA_vargas_influence_t = BRA_vargas_influence }
+				divide_temp_variable = { BRA_vargas_influence_t = 4 }
+				add_to_temp_variable = { BRA_crisis_stability_factor_t = BRA_vargas_influence_t }
+			}
+			else = {
+				add_to_temp_variable = { BRA_crisis_stability_factor_t = BRA_vargas_influence }
+			}
+			divide_temp_variable = { BRA_crisis_stability_factor_t = BRA_integralist_influence }
+			multiply_temp_variable = { BRA_crisis_stability_factor_t = BRA_amount_to_multiply }
+			multiply_temp_variable = { BRA_crisis_stability_factor_t = -1 }
+			set_variable = { BRA_crisis_stability_factor = BRA_crisis_stability_factor_t }
+		}
+		else_if = {
+			limit = { check_variable = { BRA_playing_as_congress = 1 } }
+			if = {
+				limit = { has_country_flag = BRA_friendly_integralists }
+				set_temp_variable = { BRA_integralist_influence_t = BRA_integralist_influence }
+				divide_temp_variable = { BRA_integralist_influence_t = 4 }
+				add_to_temp_variable = { BRA_crisis_stability_factor_t = BRA_integralist_influence_t }
+			}
+			else_if = {
+				limit = { has_country_flag = BRA_neutral_integralists }
+				set_temp_variable = { BRA_integralist_influence_t = BRA_integralist_influence }
+				divide_temp_variable = { BRA_integralist_influence_t = 2 }
+				add_to_temp_variable = { BRA_crisis_stability_factor_t = BRA_integralist_influence_t }
+			}
+			else = {
+				add_to_temp_variable = { BRA_crisis_stability_factor_t = BRA_integralist_influence }
+			}
+			if = {
+				limit = { has_country_flag = BRA_friendly_vargas }
+				set_temp_variable = { BRA_vargas_influence_t = BRA_vargas_influence }
+				divide_temp_variable = { BRA_vargas_influence_t = 4 }
+				add_to_temp_variable = { BRA_crisis_stability_factor_t = BRA_vargas_influence_t }
+			}
+			else = {
+				add_to_temp_variable = { BRA_crisis_stability_factor_t = BRA_vargas_influence }
+			}
+			divide_temp_variable = { BRA_crisis_stability_factor_t = BRA_integralist_influence }
+			multiply_temp_variable = { BRA_crisis_stability_factor_t = BRA_amount_to_multiply }
+			multiply_temp_variable = { BRA_crisis_stability_factor_t = -1 }
+			set_variable = { BRA_crisis_stability_factor = BRA_crisis_stability_factor_t }
+		}
+
+		#Setting up Advisor cost 
+		set_temp_variable = { BRA_crisis_advisor_cost_t = BRA_crisis_stability_factor_t }
+		multiply_temp_variable = { BRA_crisis_advisor_cost_t = 1.25 }
+		set_variable = { BRA_crisis_advisor_cost = BRA_crisis_advisor_cost_t }
+
+		#Setting up Political Power Cost 
+		set_temp_variable = { BRA_crisis_political_factor_t = BRA_crisis_stability_factor_t }
+		multiply_temp_variable = { BRA_crisis_political_factor_t = 0.8 }
+		set_variable = { BRA_crisis_political_factor = BRA_crisis_political_factor_t }
+
+		#Setting up fascist drift  
+		set_temp_variable = { BRA_crisis_fascist = BRA_integralist_influence }
+		
+	}
+}
