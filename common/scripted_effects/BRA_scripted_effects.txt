@@ -196,3 +196,77 @@ BRA_set_up_political_crisis = {
 		}
 	}
 }
+
+BRA_increment_progress_to_dictatorship = {
+	if = {
+		limit = {
+			OR = {
+				AND = {
+					check_variable = { BRA_vargas_influence > 80 }
+					check_variable = { BRA_progress_to_dictatorship < 35 }
+				}
+				AND = {
+					check_variable = { BRA_vargas_influence > 65 }
+					check_variable = { BRA_progress_to_dictatorship < 15 }
+				}
+				AND = {
+					check_variable = { BRA_vargas_influence > 45 }
+					check_variable = { BRA_progress_to_dictatorship < 5 }
+				}
+			}
+		}
+		custom_effect_tooltip = BRA_increase_progress_by_4_tt
+		add_to_variable = { BRA_progress_to_dictatorship = 4 }
+	}
+	else_if = {
+		limit = {
+			OR = {
+				AND = {
+					check_variable = { BRA_vargas_influence > 65 }
+					check_variable = { BRA_progress_to_dictatorship < 45 }
+				}
+				AND = {
+					check_variable = { BRA_vargas_influence > 45 }
+					check_variable = { BRA_progress_to_dictatorship < 35 }
+				}
+				AND = {
+					check_variable = { BRA_vargas_influence > 30 }
+					check_variable = { BRA_progress_to_dictatorship < 25 }
+				}
+			}
+		}
+		custom_effect_tooltip = BRA_increase_progress_by_3_tt
+		add_to_variable = { BRA_progress_to_dictatorship = 3 }
+	}
+	else_if = {
+		limit = {
+			OR = {
+				AND = {
+					check_variable = { BRA_vargas_influence > 45 }
+					check_variable = { BRA_progress_to_dictatorship < 60 }
+				}
+				AND = {
+					check_variable = { BRA_vargas_influence > 35 }
+					check_variable = { BRA_progress_to_dictatorship < 45 }
+				}
+				AND = {
+					check_variable = { BRA_vargas_influence > 20 }
+					check_variable = { BRA_progress_to_dictatorship < 35 }
+				}
+			}
+		}
+		custom_effect_tooltip = BRA_increase_progress_by_2_tt
+		add_to_variable = { BRA_progress_to_dictatorship = 2 }
+	}
+	else = {
+		custom_effect_tooltip = BRA_increase_progress_by_1_tt
+		add_to_variable = { BRA_progress_to_dictatorship = 1 }
+	}
+	hidden_effect = {
+		clamp_variable = {
+            var = BRA_progress_to_dictatorship
+            min = 0
+            max = 100
+        }
+	}
+}
