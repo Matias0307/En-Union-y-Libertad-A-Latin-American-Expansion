@@ -116,7 +116,7 @@ BRA_political_manegement = {
             }
         }
 
-        cost = 30
+        cost = 35
 
         days_remove = 45
 
@@ -138,32 +138,32 @@ BRA_political_manegement = {
                 limit = { check_variable = { BRA_playing_as_vargas = 1 } }
                 if = {
                     limit = { has_country_flag = BRA_hostile_congress }
-                    custom_effect_tooltip = BRA_congress_influence_decrease_by_3_tt
+                    custom_effect_tooltip = BRA_congress_influence_decrease_by_4_tt
                     hidden_effect = {
-                        subtract_from_variable = { BRA_congress_influence = 3 }
+                        subtract_from_variable = { BRA_congress_influence = 4 }
                     }
                 }
                 if = {
                     limit = { has_country_flag = BRA_hostile_integralists }
-                    custom_effect_tooltip = BRA_integralist_influence_decrease_by_3_tt
+                    custom_effect_tooltip = BRA_integralist_influence_decrease_by_4_tt
                     hidden_effect = {
-                        subtract_from_variable = { BRA_integralist_influence = 3 }
+                        subtract_from_variable = { BRA_integralist_influence = 4 }
                     }
                 }
             }
             else = {
                 if = {
                     limit = { has_country_flag = BRA_hostile_congress }
-                    custom_effect_tooltip = BRA_congress_influence_decrease_by_3_tt
+                    custom_effect_tooltip = BRA_congress_influence_decrease_by_4_tt
                     hidden_effect = {
-                        subtract_from_variable = { BRA_congress_influence = 3 }
+                        subtract_from_variable = { BRA_congress_influence = 4 }
                     }
                 }
                 if = {
                     limit = { has_country_flag = BRA_hostile_vargas }
-                    custom_effect_tooltip = BRA_vargas_influence_decrease_by_3_tt
+                    custom_effect_tooltip = BRA_vargas_influence_decrease_by_4_tt
                     hidden_effect = {
-                        subtract_from_variable = { BRA_integralist_influence = 3 }
+                        subtract_from_variable = { BRA_integralist_influence = 4 }
                     }
                 }
             }
@@ -177,6 +177,12 @@ BRA_political_manegement = {
 
         visible = {
             NOT = { has_country_flag = BRA_state_of_anarchy }
+            NOT = { has_completed_focus = BRA_}
+            OR = {
+                check_variable = { BRA_playing_as_vargas = 1 }
+                check_variable = { BRA_playing_as_integralists = 1 }
+                check_variable = { BRA_playing_as_congress = 1 }
+            }
             has_stability < 0.4
         }
 
@@ -198,11 +204,27 @@ BRA_political_manegement = {
                     }
                     20 = {
                         if = {
-                            limit
+                            limit = { check_variable = { BRA_playing_as_vargas = 1} }
+                            add_to_variable = { BRA_congress_influence = 1 }
+                            add_to_variable = { BRA_integralist_influence = 1 }
                         }
+                        else_if = {
+                            limit = { check_variable = { BRA_playing_as_congress = 1 } }
+                            add_to_variable = { BRA_vargas_influence = 1 }
+                            add_to_variable = { BRA_integralist_influence = 1 }
+                        }
+                        else = {
+                            add_to_variable = { BRA_vargas_influence = 1 }
+                            add_to_variable = { BRA_congress_influence = 1 }
+                        }
+                        BRA_set_up_political_crisis = yes 
                     }
                 }
             }
+        }
+
+        remove_effect = {
+            add_stability = 0.05
         }
     }
 }
