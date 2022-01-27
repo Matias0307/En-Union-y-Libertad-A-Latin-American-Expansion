@@ -581,11 +581,23 @@ country_event = {
 	option = {
 		name = brazil.11.a 
 		if = {
-			limit = { NOT = { has_idea = BRA_protests_against_influence_increase_1 } }
+			limit = { 
+				NOT = {
+					OR = { 
+						has_idea = BRA_protests_against_influence_increase_1 
+						has_idea = BRA_protests_against_influence_increase_2
+					}
+				} 
+			}
 			add_ideas = BRA_protests_against_influence_increase_1
+			hidden_effect = {
+				set_variable = { BRA_cost_to_deal_with_protestors = 35 }
+				set_variable = { BRA_manpower_cost_to_deal_with_protestors = -750 }
+			}
 		}
-		else = {
-			custom_effect_tooltip = BRA_decrease_influence_by_1_tt
+		else_if = {
+			limit = { has_idea = BRA_protests_against_influence_increase_1 }
+			custom_effect_tooltip = BRA_decrease_influence_by_1_tt #Will be a scripted loc
 			swap_ideas = {
 				remove_idea = BRA_protests_against_influence_increase_1
 				add_idea = BRA_protests_against_influence_increase_2
@@ -602,6 +614,25 @@ country_event = {
 				else_if = {
 					limit = { check_variable = { BRA_playing_as_congress = 1}}
 					subtract_from_variable = { BRA_congress_influence = 1 }
+				}
+				set_variable = { BRA_cost_to_deal_with_protestors = 60 }
+				set_variable = { BRA_manpower_cost_to_deal_with_protestors = -1250 }
+			}
+		}
+		else = {
+			custom_effect_tooltip = BRA_decrease_influence_by_2_tt #Will be a scripted loc 
+			hidden_effect = {
+				if = {
+					limit = { check_variable = { BRA_playing_as_vargas = 1}}
+					subtract_from_variable = { BRA_vargas_influence = 2 }
+				}
+				else_if = {
+					limit = { check_variable = { BRA_playing_as_integralists = 1}}
+					subtract_from_variable = { BRA_integralist_influence = 2 }
+				}
+				else_if = {
+					limit = { check_variable = { BRA_playing_as_congress = 1}}
+					subtract_from_variable = { BRA_congress_influence = 2 }
 				}
 			}
 		}
