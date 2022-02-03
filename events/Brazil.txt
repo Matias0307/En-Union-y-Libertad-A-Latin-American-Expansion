@@ -644,4 +644,87 @@ country_event = {
 	id = brazil.12
 	title = brazil.12.t
 	desc = brazil.12.d 
+	picture = GFX_report_event_SOV_negotiations_japan_bukharin
+
+	is_triggered_only = yes 
+
+	option = { #Accept 
+		name = brazil.12.a 
+		ai_chance = {
+			base = 10
+			modifier = {
+				add = 55 
+				has_opinion = {
+					target = FROM 
+					value > 79
+				}
+			}
+			modifier = {
+				add = 40
+				num_of_factories > 29
+			}
+			modifier = {
+				add = 15
+				FROM = {
+					num_of_factories < 34
+				}
+			}
+			modifier = {
+				add = 25
+				FROM = {
+					has_manpower > 299999
+				}
+			}
+		}
+		FROM = {
+			country_event = { id = brazil.13 hours = 6 }
+		}
+		add_timed_idea = {
+			idea = EUYL_investing_in_the_brazilian
+			days = 100
+		}
+		custom_effect_tooltip = EUYL_effect_when_removed_tt
+		effect_tooltip = {
+			EUYL_add_1_civilian = yes 
+		}
+	}
+
+	option = { #decline
+		name = brazil.12.b 
+		ai_chance = {
+			base = 25
+			modifier = {
+				add = 20
+				FROM = {
+					num_of_factories > 49
+				}
+			}
+			modifier = {
+				add = 40
+				num_of_factories < 16
+			}
+			modifier = {
+				add = 50 
+				has_opinion = {
+					target = FROM 
+					value < 0
+				}
+			}
+		}
+		FROM = {
+			country_event = { id = brazil.14 hours = 4 }
+		}
+	}
+}
+
+#Brazil gets event of money invested in the country 
+country_event = {
+	id = brazil.13
+	title = brazil.13.t 
+	desc = brazil.13.d 
+	picture = GFX_report_event_generic_sign_treaty1
+
+	is_triggered_only = yes 
+
+	
 }
