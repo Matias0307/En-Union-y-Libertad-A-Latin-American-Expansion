@@ -56,6 +56,7 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
+			unlock_decision_tooltip = BRA_invest_in_our_infrastructure
 			random_owned_controlled_state = {
 				add_building_construction = {
 					type = infrastructure
@@ -318,7 +319,7 @@ focus_tree = {
 	focus = {
 		id = BRA_slow_path_to_industrialize
 		icon = GFX_BRA_slowly_industrialize
-		x = -1
+		x = 0
 		y = 1
 		relative_position_id = BRA_try_to_delay_our_industrialization
 		prerequisite = { focus = BRA_try_to_delay_our_industrialization }
@@ -380,6 +381,8 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			add_ideas = BRA_brazilian_mining_industry_1
+			custom_effect_tooltip = EUYL_available_as_industrial_concern_tt
+			show_ideas_tooltip = BRA_vale_company
 		}
 	}
 
@@ -402,7 +405,7 @@ focus_tree = {
 	focus = {
 		id = BRA_small_local_factories
 		icon = GFX_goal_generic_construct_civ_factory
-		x = -1
+		x = 0
 		y = 1
 		relative_position_id = BRA_expand_the_armys_arsenal
 		prerequisite = { focus = BRA_expand_the_armys_arsenal }
@@ -432,7 +435,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_small_local_factories
 		prerequisite = { focus = BRA_small_local_factories }
-		prerequisite = { focus = BRA_establish_rubber_plantations }
+		prerequisite = { focus = BRA_industrialize_the_amazons }
 
 		cost = 8
 
@@ -548,10 +551,12 @@ focus_tree = {
 		id = BRA_industrialize_the_amazons
 		icon = GFX_goal_generic_construct_civilian
 		x = 0
-		y = 1
+		y = 2
 		relative_position_id = BRA_the_brazilian_mining_industry
-		prerequisite = { focus = BRA_the_brazilian_mining_industry }
-
+		prerequisite = {
+			focus = BRA_invest_in_the_arms_industry
+			focus = BRA_open_up_investments_in_the_civilian_market 
+		}
 		cost = 6
 
 		available = {
@@ -575,17 +580,31 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
+			if = {
+				limit = {
+					can_build_railway = {
+						start_state = 280
+						target_state = 871
+						build_only_on_allied = yes 
+					}
+				}
+				build_railway = {
+					level = 2
+					start_state = 280
+					target_state = 871
+				}
+			}
 			871 = {
 				add_building_construction = {
 					type = infrastructure
-					level = 2
+					level = 1
 					instant_build = yes 
 				}
 			}
 			495 = {
 				add_building_construction = {
 					type = infrastructure
-					level = 2
+					level = 1
 					instant_build = yes 
 				}
 			}
@@ -637,7 +656,7 @@ focus_tree = {
 	focus = {
 		id = BRA_establish_rubber_plantations
 		icon = GFX_focus_generic_rubber
-		x = 1
+		x = 2
 		y = 1
 		relative_position_id = BRA_industrialize_the_amazons
 		prerequisite = { focus = BRA_industrialize_the_amazons }
@@ -665,7 +684,7 @@ focus_tree = {
 	focus = {
 		id = BRA_expand_our_roads_in_the_south
 		icon = GFX_goal_generic_construct_infrastructure
-		x = -1
+		x = -2
 		y = 1
 		relative_position_id = BRA_industrialize_the_amazons
 		prerequisite = { focus = BRA_industrialize_the_amazons }
@@ -685,36 +704,50 @@ focus_tree = {
 			501 = {
 				add_building_construction = {
 					type = infrastructure
-					level = 2
+					level = 1
 					instant_build = yes 
 				}
 			}
 			879 = {
 				add_building_construction = {
 					type = infrastructure
-					level = 2
+					level = 1
 					instant_build = yes 
 				}
 			}
 			906 = {
 				add_building_construction = {
 					type = infrastructure
-					level = 2
+					level = 1
 					instant_build = yes 
 				}
 			}
 			503 = {
 				add_building_construction = {
 					type = infrastructure
-					level = 2
+					level = 1
 					instant_build = yes 
 				}
 			}
 			502 = {
 				add_building_construction = {
 					type = infrastructure
-					level = 2
+					level = 1
 					instant_build = yes 
+				}
+			}
+			if = {
+				limit = {
+					can_build_railway = {
+						start_state = 501
+						target_state = 503
+						build_only_on_allied = yes 
+					}
+				}
+				build_railway = {
+					level = 2
+					start_state = 501
+					target_state = 502
 				}
 			}
 		}
@@ -723,7 +756,7 @@ focus_tree = {
 	focus = {
 		id = BRA_improve_the_mining_industry
 		icon = GFX_BRA_improve_mine_icon
-		x = -1
+		x = -2
 		y = 1
 		relative_position_id = BRA_establish_rubber_plantations
 		prerequisite = { focus = BRA_expand_our_roads_in_the_south }
@@ -813,6 +846,56 @@ focus_tree = {
 		}
 	}
 
+	
+	focus = {
+		id = BRA_open_up_investments_in_the_civilian_market
+		icon = GFX_col_focus_propiedad_social
+		x = -1
+		y = 1
+		relative_position_id = BRA_the_brazilian_mining_industry
+		prerequisite = { focus = BRA_the_brazilian_mining_industry }
+		mutually_exclusive = { focus = BRA_invest_in_the_arms_industry }
+	}
+
+	focus = {
+		id = BRA_railways_for_the_people
+		icon = GFX_ARG_efficient_tansport
+		x = -1
+		y = 1
+		relative_position_id = BRA_open_up_investments_in_the_civilian_market
+		prerequisite = { focus = BRA_open_up_investments_in_the_civilian_market }
+		prerequisite = { focus = BRA_an_industry_for_the_people }
+	}
+
+	focus = {
+		id = BRA_invest_in_the_arms_industry
+		icon = GFX_BRA_generic_military
+		x = 1
+		y = 1
+		relative_position_id = BRA_the_brazilian_mining_industry
+		prerequisite = { focus = BRA_the_brazilian_mining_industry }
+		mutually_exclusive = { focus = BRA_open_up_investments_in_the_civilian_market }
+	}
+
+	focus = {
+		id = BRA_foreign_investments
+		icon = GFX_PRU_unified_currency
+		x = 0
+		y = 1
+		relative_position_id = BRA_industrialize_the_amazons
+		prerequisite = { focus = BRA_industrialize_the_amazons }
+	}
+
+	focus = {
+		id = BRA_railways_for_the_military
+		icon = GFX_ARG_armored_trains
+		x = 1
+		y = 1
+		relative_position_id = BRA_invest_in_the_arms_industry
+		prerequisite = { focus = BRA_invest_in_the_arms_industry }
+		prerequisite = { focus = BRA_expand_the_armys_arsenal }
+	}
+
 	focus = {
 		id = BRA_an_industry_for_the_people
 		icon = GFX_goal_generic_construct_civ_factory
@@ -832,7 +915,7 @@ focus_tree = {
 	focus = {
 		id = BRA_industrialize_fully_our_economy
 		icon = GFX_BRA_industrialized_fully
-		x = -1
+		x = -2
 		y = 1
 		relative_position_id = BRA_an_industry_for_the_people
 		prerequisite = { focus = BRA_an_industry_for_the_people }
@@ -917,7 +1000,7 @@ focus_tree = {
 	focus = {
 		id = BRA_expand_our_industry_in_the_south
 		icon = GFX_ARG_subsidize_industry
-		x = 1
+		x = 0
 		y = 1
 		relative_position_id = BRA_an_industry_for_the_people
 		prerequisite = { focus = BRA_an_industry_for_the_people }
@@ -957,7 +1040,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_expand_our_industry_in_the_south
 		prerequisite = { focus = BRA_expand_our_industry_in_the_south }
-		prerequisite = { focus = BRA_expand_our_roads_in_the_south }
+		prerequisite = { focus = BRA_industrialize_the_amazons }
 
 		cost = 10
 
@@ -1011,7 +1094,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_establish_csn
 		prerequisite = { focus = BRA_establish_csn }
-		prerequisite = { focus = BRA_improve_the_mining_industry }
+		prerequisite = { focus = BRA_expand_our_roads_in_the_south }
 
 		cost = 10
 
@@ -1058,7 +1141,7 @@ focus_tree = {
 	focus = {
 		id = BRA_expand_our_petroleum_industry
 		icon = GFX_goal_generic_oil_refinery
-		x = 2
+		x = 3
 		y = 1
 		relative_position_id = BRA_steel_for_the_army
 		prerequisite = {
@@ -1485,6 +1568,7 @@ focus_tree = {
 		completion_reward = {
 			navy_experience = 75
 			add_ideas = BRA_strengthened_marinha_1
+			unlock_decision_tooltip = BRA_invest_in_our_navy
 		}
 	}
 
@@ -2138,6 +2222,10 @@ focus_tree = {
 
 		cost = 2
 
+	}
+
+	focus = {
+		id = BRA_
 	}
 	
 }

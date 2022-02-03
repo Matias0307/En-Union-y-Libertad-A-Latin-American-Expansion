@@ -265,23 +265,7 @@ BRA_economic_management = {
         }
 
         timeout_effect = {
-            if = {
-                limit = { has_idea = BRA_economic_recession_2 }
-                swap_ideas = {
-                    remove_idea = BRA_economic_recession_2
-                    add_idea = BRA_economic_recession_3
-                }
-            }
-            else_if = {
-                limit = { has_idea = BRA_economic_recession_1 }
-                swap_ideas = {
-                    remove_idea = BRA_economic_recession_1
-                    add_idea = BRA_economic_recession_2
-                }
-            }
-            else = {
-                add_ideas = BRA_economic_recession_1
-            }
+            BRA_add_economic_recession = yes 
         }
     }
 
@@ -458,6 +442,375 @@ BRA_economic_management = {
 				BRA_set_dependency_on_coffee_idea = yes
 			}
         }
+    }
+
+    BRA_invest_in_the_civilian_economy = {
+        icon = generic_factory
+
+        available = {
+            NOT = {
+                has_idea = BRA_economic_recession_1
+            }
+            custom_trigger_tooltip = {
+				tooltip = BRA_better_than_industrializing_tt
+				OR = {
+					has_idea = industrializing_economy
+					has_idea = industrialized_economy
+				}
+			}
+            hidden_trigger = {
+                NOT = {
+                    OR = {
+                        has_idea = BRA_economic_recession_1
+                        has_idea = BRA_economic_recession_2
+                        has_idea = BRA_economic_recession_3
+                    }
+                }
+                NOT = {
+                    has_country_flag = BRA_investing_in_economy
+                }
+            }
+        }
+
+        cost = BRA_cost_for_civ_boost
+
+        days_remove = 40
+
+        complete_effect = {
+            set_country_flag = BRA_investing_in_economy
+            custom_effect_tooltip = BRA_cost_increase_civilian_tt
+            hidden_effect = {
+                add_to_variable = { BRA_cost_for_civ_boost = BRA_amount_cost_increase_civ }
+            }
+        }
+
+        remove_effect = {
+            custom_effect_tooltip = BRA_modify_economy_by_4_civ_tt
+            random_list = {
+                15 = {
+                    BRA_add_economic_recession = yes 
+                }
+                85 = { 
+
+                }
+            }
+            hidden_effect = {
+                add_to_variable = { BRA_civilian_factory_boost = 0.04 }
+                add_to_variable = { BRA_industrial_capacity_factory_speed = 0.02 }
+                clr_country_flag = BRA_investing_in_economy
+            }
+        }
+    }
+
+    BRA_invest_in_the_military_economy = {
+        icon = generic_tank
+
+        available = {
+            NOT = {
+                has_idea = BRA_economic_recession_1
+            }
+            custom_trigger_tooltip = {
+				tooltip = BRA_better_than_industrializing_tt
+				OR = {
+					has_idea = industrializing_economy
+					has_idea = industrialized_economy
+				}
+			}
+            hidden_trigger = {
+                NOT = {
+                    OR = {
+                        has_idea = BRA_economic_recession_1
+                        has_idea = BRA_economic_recession_2
+                        has_idea = BRA_economic_recession_3
+                    }
+                }
+                NOT = {
+                    has_country_flag = BRA_investing_in_economy
+                }
+            }
+        }
+
+        cost = BRA_cost_for_mil_boost
+
+        days_remove = 40
+
+        complete_effect = {
+            set_country_flag = BRA_investing_in_economy
+            custom_effect_tooltip = BRA_cost_increase_military_tt
+            hidden_effect = {
+                add_to_variable = { BRA_cost_for_mil_boost = BRA_amount_cost_increase_mil }
+            }
+        }
+
+        remove_effect = {
+            custom_effect_tooltip = BRA_modify_economy_by_4_mil_tt
+            random_list = {
+                15 = {
+                    BRA_add_economic_recession = yes 
+                }
+                85 = { 
+                    
+                }
+            }
+            hidden_effect = {
+                add_to_variable = { BRA_military_factory_boost = 0.04 }
+                add_to_variable = { BRA_industrial_capacity_factory_speed = 0.02 }
+                clr_country_flag = BRA_investing_in_economy
+            }
+        }
+    }
+
+    BRA_invest_in_our_navy = {
+        icon = generic_naval
+
+        available = {
+            NOT = {
+                has_idea = BRA_economic_recession_1
+            }
+            custom_trigger_tooltip = {
+				tooltip = BRA_better_than_industrializing_tt
+				OR = {
+					has_idea = industrializing_economy
+					has_idea = industrialized_economy
+				}
+			}
+            hidden_trigger = {
+                NOT = {
+                    OR = {
+                        has_idea = BRA_economic_recession_1
+                        has_idea = BRA_economic_recession_2
+                        has_idea = BRA_economic_recession_3
+                    }
+                }
+                NOT = {
+                    has_country_flag = BRA_investing_in_economy
+                }
+            }
+        }
+
+        visible = {
+            has_completed_focus = BRA_strengthened_marinha_do_brasil
+        }
+
+        cost = BRA_cost_for_dock_boost
+
+        days_remove = 40
+
+        complete_effect = {
+            set_country_flag = BRA_investing_in_economy
+            custom_effect_tooltip = BRA_cost_increase_civilian_tt
+            hidden_effect = {
+                add_to_variable = { BRA_cost_for_dock_boost = BRA_amount_cost_increase_dock }
+            }
+        }
+
+        remove_effect = {
+            custom_effect_tooltip = BRA_modify_economy_by_4_dock_tt
+            random_list = {
+                15 = {
+                    BRA_add_economic_recession = yes 
+                }
+                85 = { 
+                    
+                }
+            }
+            hidden_effect = {
+                add_to_variable = { BRA_dockyard_construction_boost = 0.04 }
+                add_to_variable = { BRA_industrial_capacity_dockyard_speed = 0.02 }
+                clr_country_flag = BRA_investing_in_economy
+            }
+        }
+    }
+
+    BRA_invest_in_our_infrastructure = {
+        icon = generic_construction
+
+        available = {
+            NOT = {
+                has_idea = BRA_economic_recession_1
+            }
+            custom_trigger_tooltip = {
+				tooltip = BRA_better_than_semi_rural_tt
+				OR = {
+					has_idea = semi_rural_economy
+					has_idea = industrializing_economy
+					has_idea = industrialized_economy
+				}
+			}
+            hidden_trigger = {
+                NOT = {
+                    OR = {
+                        has_idea = BRA_economic_recession_1
+                        has_idea = BRA_economic_recession_2
+                        has_idea = BRA_economic_recession_3
+                    }
+                }
+                NOT = {
+                    has_country_flag = BRA_investing_in_economy
+                }
+            }
+        }
+
+        visible = {
+            has_completed_focus = BRA_pave_the_roads
+        }
+
+        cost = BRA_cost_for_infrastructure
+
+        days_remove = 40
+
+        complete_effect = {
+            set_country_flag = BRA_investing_in_economy
+            custom_effect_tooltip = BRA_cost_increase_civilian_tt
+            hidden_effect = {
+                add_to_variable = { BRA_cost_for_infrastructure = BRA_amount_cost_increase_infra }
+            }
+        }
+
+        remove_effect = {
+            custom_effect_tooltip = BRA_modify_economy_by_5_infra_tt
+            random_list = {
+                15 = {
+                    BRA_add_economic_recession = yes 
+                }
+                85 = { 
+                    
+                }
+            }
+            hidden_effect = {
+                add_to_variable = { BRA_infrastructure_construction_speed = 0.05 }
+                clr_country_flag = BRA_investing_in_economy
+            }
+        }
+    }
+
+    BRA_invest_in_our_railways = {
+        icon = railroad_construction
+
+        available = {
+            NOT = {
+                has_idea = BRA_economic_recession_1
+            }
+            hidden_trigger = {
+                NOT = {
+                    OR = {
+                        has_idea = BRA_economic_recession_1
+                        has_idea = BRA_economic_recession_2
+                        has_idea = BRA_economic_recession_3
+                    }
+                }
+                NOT = {
+                    has_country_flag = BRA_investing_in_economy
+                }
+            }
+        }
+
+        visible = {
+            OR = {
+                has_completed_focus = BRA_railways_for_the_people
+                has_completed_focus = BRA_railways_for_the_military
+            }
+        }
+
+        cost = BRA_cost_to_invest_in_railway_construction
+
+        days_remove = 40
+
+        complete_effect = {
+            set_country_flag = BRA_investing_in_economy
+            custom_effect_tooltip = BRA_cost_increase_civilian_tt
+            hidden_effect = {
+                add_to_variable = { BRA_cost_to_invest_in_railway_construction = BRA_increase_railway_cost_amount }
+            }
+        }
+
+        remove_effect = {
+            custom_effect_tooltip = BRA_modify_economy_by_5_railway_tt
+            random_list = {
+                15 = {
+                    BRA_add_economic_recession = yes 
+                }
+                85 = { 
+                    
+                }
+            }
+            hidden_effect = {
+                add_to_variable = { BRA_railway_construction_speed = 0.05 }
+                add_to_variable = { BRA_supply_node_construction_speed = 0.05 }
+                clr_country_flag = BRA_investing_in_economy
+            }
+        }
+    }
+
+    BRA_ask_FROM_to_invest_in_our_economy = {
+        icon = hol_attract_foreign_investors
+
+        cost = 50 
+
+        target_trigger = {
+			FROM = {
+				capital_scope = { 
+                    OR = {
+					    is_on_continent = south_america 
+                        is_on_continent = europe
+                    }
+					is_fully_controlled_by = PREV
+				}
+				NOT = {
+					OR = {
+						original_tag = PRU 
+						original_tag = HAI 
+						original_tag = DOM 
+						original_tag = HON 
+						original_tag = NIC 
+						original_tag = PAN 
+						original_tag = COS 
+						original_tag = ELS 
+					}
+				}
+				exists = yes 
+				num_of_civilian_factories > 7
+			}
+		}
+
+        available = {
+            exists = yes 
+            has_civil_war = no 
+            has_stability > 0.59
+            NOT = {
+                has_idea = BRA_economic_recession_1
+            }
+            hidden_trigger = {
+                NOT = {
+                    OR = {
+                        has_idea = BRA_economic_recession_1
+                        has_idea = BRA_economic_recession_2
+                        has_idea = BRA_economic_recession_3
+                    }
+                }
+                
+            }
+            FROM = {
+                has_war = no 
+                exists = yes
+                NOT = {
+                    has_idea = EUYL_investing_in_the_brazilian
+                } 
+            }
+        }
+
+        visible = {
+            has_completed_focus = BRA_foreign_investments
+        }
+
+        days_remove = 75
+
+        complete_effect = {
+            FROM = {
+                country_event = { id = brazil.12 hours = 8 }
+            }
+        }
+
     }
 }
 
