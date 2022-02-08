@@ -236,6 +236,100 @@ BRA_political_manegement = {
             add_stability = 0.05
         }
     }
+
+    BRA_deal_with_the_protestors_in_FROM = {
+        priority = 30
+        icon = opression 
+
+        ai_will_do = {
+			base = 200
+		}
+
+		state_target = yes
+
+		target_array = controlled_states
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+				is_core_of = ROOT  
+			}
+		}
+
+		available = {
+			hidden_trigger = {
+				has_manpower > 999
+			}
+		}
+
+		visible = {
+			FROM = {
+				has_dynamic_modifier = { modifier = BRA_protests }
+			}
+		}
+
+		custom_cost_trigger = {
+			has_manpower > 999
+		}
+
+        custom_cost_text = CHL_manpower_1000_tt
+
+		days_remove = 25
+
+		modifier = {
+			weekly_manpower = -20
+		}
+
+		complete_effect = {
+            add_stability = -0.01
+			hidden_effect = {
+				add_manpower = -1000
+			}
+		}
+
+		remove_effect = {
+			FROM = { 
+				remove_dynamic_modifier = { modifier = BRA_protests }
+			}
+		}
+    }
+
+    BRA_protests_disrupt_our_plans_vargas = {
+        priority = 40
+        icon = GFX_decision_generic_break_treaty
+
+        available = {
+            any_owned_state = {
+                NOT = { has_dynamic_modifier = { modifier = BRA_protests } }
+            }
+        }
+
+        activation = {
+            has_civil_war = no 
+            any_owned_state = {
+                has_dynamic_modifier = { modifier = BRA_protests }
+            }
+            check_variable = { BRA_playing_as_vargas = 1 }
+        }
+
+        visible = {
+            has_civil_war = no 
+        }
+
+        is_good = no 
+
+        days_mission_timeout = 50
+
+        fire_only_once = no 
+
+        timeout_effect = {
+            add_stability = -0.03
+            custom_effect_tooltip = BRA_decrease_dictatorship_by_3_tt
+            hidden_effect = {
+                subtract_from_variable = { BRA_progress_to_dictatorship = 3 }
+            }
+        }
+    }
 }
 
 BRA_imminent_civil_war = {

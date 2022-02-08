@@ -636,7 +636,16 @@ country_event = {
 				}
 			}
 		}
+		custom_effect_tooltip = BRA_people_protest_in_random_state_tt
 		unlock_decision_tooltip = BRA_deal_with_the_protestors
+		hidden_effect = {
+			random_owned_controlled_state = {
+				limit = { 
+					NOT = { has_dynamic_modifier = { modifier = BRA_protests } }
+				}
+				add_dynamic_modifier = { modifier = BRA_protests }
+			}
+		}
 	}
 }
 
@@ -799,6 +808,8 @@ country_event = {
 		NOT = { check_variable = { BRA_playing_as_vargas = 1 } }
 	}
 
+	fire_only_once = yes 
+
 	option = {
 		name = brazil.15.a 
 		set_country_flag = BRA_vargas_enemy_estado_novo
@@ -806,4 +817,27 @@ country_event = {
 	}
 }
 
-#Congress speaks out against vargas 
+#Congress speaks out against vargas || Generic anti-Vargas event 
+country_event = {
+	id = brazil.15 
+	title = brazil.15.t
+	desc = brazil.15.d 
+	picture = GFX_report_event_generic_parliament
+
+	trigger = {
+		original_tag = BRA 
+		check_variable = { BRA_playing_as_vargas = 1 }
+		has_country_flag = BRA_hostile_congress
+	}
+
+	mean_time_to_happen = { days = 60 }
+
+	option = {
+		name = brazil.15.a 
+		custom_effect_tooltip = BRA_vargas_influence_decrease_by_4_tt
+		hidden_effect = {
+			subtract_from_variable = { BRA_vargas_influence = 4 }
+			BRA_set_up_political_crisis = yes 
+		}
+	}
+}
