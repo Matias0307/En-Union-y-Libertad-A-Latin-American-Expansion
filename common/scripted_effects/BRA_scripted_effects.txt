@@ -4,7 +4,7 @@
 #BRA_increment_progress_to_dictatorship
 #BRA_chance_to_get_protest_to_influence_increase
 #BRA_add_economic_recession
-#
+#BRA_setting_up_subversive_communist_activity
 
 BRA_set_dependency_on_coffee_idea = {
 	hidden_effect = {
@@ -480,4 +480,33 @@ BRA_add_economic_recession = {
     else = {
         add_ideas = BRA_economic_recession_1
     }
+}
+
+BRA_setting_up_subversive_communist_activity = {
+	hidden_effect = {
+		set_temp_variable = { BRA_number_states_communists = 0 }
+		every_controlled_state = {
+			limit = {  
+				is_core_of = BRA 
+				is_owned_by = BRA 
+				has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+			}
+			add_to_temp_variable = { BRA_number_states_communists = 1 }
+		}
+		if = {
+			limit = { check_variable = { BRA_number_states_communists > 6 } }
+			set_variable = { BRA_communist_subversive_activity = 4 }
+		}
+		else_if = {
+			limit = { check_variable = { BRA_number_states_communists > 4 } }
+			set_variable = { BRA_communist_subversive_activity = 3 }
+		}
+		else_if = {
+			limit = { check_variable = { BRA_number_states_communists > 2 } }
+			set_variable = { BRA_communist_subversive_activity = 2 }
+		}
+		else = {
+			set_variable = { BRA_communist_subversive_activity = 1 }
+		}
+	}
 }

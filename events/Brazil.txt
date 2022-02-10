@@ -819,10 +819,12 @@ country_event = {
 
 #Congress speaks out against vargas || Generic anti-Vargas event 
 country_event = {
-	id = brazil.15 
-	title = brazil.15.t
-	desc = brazil.15.d 
+	id = brazil.16 
+	title = brazil.16.t
+	desc = brazil.16.d 
 	picture = GFX_report_event_generic_parliament
+
+	fire_only_once = no 
 
 	trigger = {
 		original_tag = BRA 
@@ -830,13 +832,43 @@ country_event = {
 		has_country_flag = BRA_hostile_congress
 	}
 
-	mean_time_to_happen = { days = 60 }
+	mean_time_to_happen = { days = 70 }
 
 	option = {
-		name = brazil.15.a 
+		name = brazil.16.a 
 		custom_effect_tooltip = BRA_vargas_influence_decrease_by_4_tt
 		hidden_effect = {
 			subtract_from_variable = { BRA_vargas_influence = 4 }
+			BRA_set_up_political_crisis = yes 
+		}
+	}
+}
+
+#Congress intervenes in Vargas's progress to a dictatorship 
+country_event = {
+	id = brazil.17 
+	title = brazil.17.t 
+	desc = brazil.17.d 
+	picture = GFX_report_event_generic_rally_3
+
+	fire_only_once = no 
+
+	trigger = {
+		original_tag = BRA 
+		NOT = { check_variable = { BRA_playing_as_vargas = 1 } }
+		has_country_flag = BRA_hostile_congress
+		check_variable = { BRA_congress_influence > 24 }
+	}
+
+	mean_time_to_happen = { days = 55 }
+
+	option = {
+		name = brazil.17.a 
+		custom_effect_tooltip = BRA_progress_dictatorship_decrease_3_tt
+		custom_effect_tooltip = BRA_vargas_influence_decrease_by_1_tt
+		hidden_effect = {
+			subtract_from_variable = { BRA_progress_to_dictatorship = 3 }
+			subtract_from_variable = { BRA_vargas_influence = 1 }
 			BRA_set_up_political_crisis = yes 
 		}
 	}
