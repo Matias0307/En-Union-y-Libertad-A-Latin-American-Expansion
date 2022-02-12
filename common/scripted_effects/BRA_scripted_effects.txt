@@ -189,19 +189,13 @@ BRA_set_up_political_crisis = {
 		#Setting up the Neutrality drift 
 		set_temp_variable = { BRA_crisis_neutrality = BRA_vargas_influence }
 		if = {
-			limit = { has_cosmetic_tag = BRI_UNITED } #Monarchists would cause conflict with Vargas's supporters
-			set_variable = { BRA_crisis_congress_influence = 0 }
+			limit = { check_variable = { BRA_playing_as_vargas = 1 } } #checks if player is playing as Vargas
+			divide_temp_variable = { BRA_crisis_neutrality = 1050 }
 		}
 		else = {
-			if = {
-				limit = { check_variable = { BRA_playing_as_vargas = 1 } } #checks if player is playing as Vargas
-				divide_temp_variable = { BRA_crisis_neutrality = 1050 }
-			}
-			else = {
-				divide_temp_variable = { BRA_crisis_neutrality = 800 }
-			}
-			set_variable = { BRA_crisis_vargas_influence = BRA_crisis_neutrality }
+			divide_temp_variable = { BRA_crisis_neutrality = 800 }
 		}
+		set_variable = { BRA_crisis_vargas_influence = BRA_crisis_neutrality }
         clamp_variable = {
             var = BRA_vargas_influence
             min = 0
