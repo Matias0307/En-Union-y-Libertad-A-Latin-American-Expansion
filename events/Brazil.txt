@@ -1072,6 +1072,7 @@ country_event = {
 	option = {
 		name = brazil.20.a 
 		custom_effect_tooltip = BRA_state_with_activity_will_rebel_tt
+		activate_mission_tooltip = BRA_deal_with_the_protestors_in_FROM
 	}
 }
 
@@ -1093,5 +1094,116 @@ country_event = {
 	id = brazil.22
 	title = brazil.22.t 
 	desc = brazil.22.d 
-	picture
+	picture = GFX_BRA_integralist_generic_increase_influence_pic
+
+	fire_only_once = no 
+
+	trigger = {
+		original_tag = BRA 
+		has_civil_war = no 
+		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
+	}
+
+	mean_time_to_happen = {
+		days = 55
+		modifier = {
+			factor = 0.6
+			check_variable = { BRA_integralist_influence > 34 }
+		}
+	}
+
+	option = {
+		name = brazil.22.a
+		custom_effect_tooltip = BRA_increase_integralist_by_4_tt
+		hidden_effect = {
+			add_to_variable = { BRA_integralist_influence = 4 }
+			BRA_set_up_political_crisis = yes 
+		}
+	}
+}
+
+#Congress drafts reforms to control nation more effectively
+country_event = {
+	id = brazil.23
+	title = brazil.23.t 
+	desc = brazil.23.d 
+	picture = GFX_BRA_integralist_generic_increase_influence_pic
+
+	fire_only_once = no 
+
+	trigger = {
+		original_tag = BRA 
+		has_civil_war = no 
+		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
+	}
+
+	mean_time_to_happen = {
+		days = 55
+		modifier = {
+			factor = 0.6
+			check_variable = { BRA_congress_influence > 34 }
+		}
+	}
+
+	option = {
+		name = brazil.23.a
+		custom_effect_tooltip = BRA_increase_congress_by_4_tt
+		hidden_effect = {
+			add_to_variable = { BRA_congress_influence = 4 }
+			BRA_set_up_political_crisis = yes 
+		}
+	}
+}
+
+#Spies succesful in subverbing communist activiy in FROM 
+country_event = {
+	id = brazil.23 
+	title = brazil.23.t 
+	desc = brazil.23.d 
+	picture = GFX_URG_event_2
+
+	is_triggered_only = yes 
+
+	option = {
+		name = brazil.23.a 
+		random_owned_controlled_state = {
+			limit = {
+				has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+				has_state_flag = BRA_spy_infiltrating
+			}
+			clr_state_flag = BRA_spy_infiltrating
+			remove_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+		}
+		BRA_setting_up_subversive_communist_activity = yes 
+	}
+}
+
+#Spies countered in FROM 
+country_event = {
+	id = brazil.24 
+	title = brazil.24.t 
+	desc = brazil.24.d 
+	picture = GFX_report_event_gre_city_siege
+
+	is_triggered_only = yes 
+
+	option = {
+		name = brazil.24 
+		random_owned_controlled_state = {
+			limit = { has_state_flag = BRA_spy_infiltrating }
+			clr_state_flag = BRA_spy_infiltrating
+		}
+		custom_effect_tooltip = BRA_state_with_activity_will_rebel_tt
+		activate_mission_tooltip = BRA_deal_with_the_protestors_in_FROM
+		hidden_effect = {
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT 
+					has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+					NOT = { has_state_flag = BRA_communists_will_revolt_in_state_tt }
+				}
+				set_state_flag = BRA_communists_will_revolt_in_state_tt
+			}
+		}
+	}
 }

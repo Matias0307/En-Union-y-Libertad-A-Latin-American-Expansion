@@ -73,7 +73,7 @@ BRA_political_manegement = {
 
         cost = 15
 
-        days_remove = 30
+        days_remove = 25
 
         complete_effect = {
             if = {
@@ -532,6 +532,61 @@ BRA_political_manegement = {
                     set_country_flag = BRA_failed_counter
                     add_political_power = -35
                     add_stability = -0.01
+                }
+            }
+        }
+    }
+
+    BRA_send_spies_to_subverb_communist_activity_in_FROM = {
+        priority = 55
+        icon = generic_civil_support
+
+        state_target = yes 
+
+        target_array = controlled_states
+
+        on_map_mode = map_and_decisions_view
+
+        target_trigger = {
+            FROM = {
+                is_fully_controlled_by = ROOT 
+                is_core_of = ROOT 
+                has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+            }
+        }
+
+        available = {
+            has_civil_war = no
+            network_strength = {
+                target = BRA 
+                value > 0.9
+            } 
+        }
+
+        visible = {
+            #will add focus requirements here
+            ### TEMPORARY ### 
+            always = yes 
+            ################# 
+        }
+
+        cost = 40
+
+        days_remove = 40 
+
+        complete_effect = {
+            FROM = {
+                set_state_flag = BRA_spy_infiltrating
+            }
+        }
+
+        remove_effect = {
+            random_list = {
+                80 = {
+                    country_event = brazil.23
+                }
+                20 = {
+                    country_event = brazil.24
                 }
             }
         }
