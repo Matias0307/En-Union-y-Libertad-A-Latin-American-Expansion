@@ -1269,4 +1269,82 @@ country_event = {
 		NOT = { check_variable = { BRA_playing_as_integralists = 1 } }
 		has_country_flag = BRA_hostile_integralists
 	}
+
+	mean_time_to_happen = { days = 50 }
+
+	option = {
+		name = brazil.27.a 
+		custom_effect_tooltip = BRA_integralists_occupy_random_state_tt
+		hidden_effect = {
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT 
+					NOT = {
+						OR = {
+							has_dynamic_modifier = { modifier = BRA_integralists_occupation }
+							has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+						}
+					}
+				}
+				add_dynamic_modifier = { modifier = BRA_integralists_occupation }
+			}
+		}
+	}
+}
+
+#Integralists reek havoc in one of their occupied states 
+country_event = {
+	id = brazil.28 
+	title = brazil.28.t 
+	desc = brazil.28.d 
+	picture = GFX_  #Will have a unique picture
+
+	fire_only_once = no 
+
+	trigger = {
+		original_tag = BRA 
+		NOT = { check_variable = { BRA_playing_as_integralists = 1 } }
+		any_controlled_state = {
+			has_dynamic_modifier = { modifier = BRA_integralists_occupation }
+		}
+		has_country_flag = BRA_hostile_integralists
+	}
+
+	mean_time_to_happen = { 
+		days = 45
+	}
+
+	option = {
+		name = brazil.28.a 
+		random_owned_controlled_state = {
+			limit = { has_dynamic_modifier = { modifier = BRA_integralists_occupation } }
+			if = {
+                limit = {
+                    infrastructure > 0
+                }
+                damage_building = {
+                    type = infrastructure
+                    damage = 1
+                }
+            }
+            if = {
+                limit = {
+                    industrial_complex > 0
+                }
+                damage_building = {
+                    type = industrial_complex
+                    damage = 1
+                }
+            }
+            if = {
+                limit = {
+                    arms_factory > 0
+                }
+                damage_building = {
+                    type = arms_factory
+                    damage = 1
+                }
+            }
+		}
+	}
 }
