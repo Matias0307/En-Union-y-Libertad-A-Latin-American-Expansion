@@ -839,8 +839,10 @@ country_event = {
 	option = {
 		name = brazil.16.a 
 		custom_effect_tooltip = BRA_vargas_influence_decrease_by_4_tt
+		custom_effect_tooltip = BRA_congress_increase_influence_1_tt
 		hidden_effect = {
 			subtract_from_variable = { BRA_vargas_influence = 4 }
+			add_to_variable = { BRA_congress_influence = 1 }
 			BRA_set_up_political_crisis = yes 
 		}
 	}
@@ -869,8 +871,10 @@ country_event = {
 		name = brazil.17.a 
 		custom_effect_tooltip = BRA_progress_dictatorship_decrease_3_tt
 		custom_effect_tooltip = BRA_vargas_influence_decrease_by_1_tt
+		custom_effect_tooltip = BRA_congress_increase_influence_2_tt
 		hidden_effect = {
 			subtract_from_variable = { BRA_progress_to_dictatorship = 3 }
+			add_to_variable = { BRA_congress_influence = 2 }
 			subtract_from_variable = { BRA_vargas_influence = 1 }
 			BRA_set_up_political_crisis = yes 
 		}
@@ -1138,10 +1142,16 @@ country_event = {
 	}
 
 	mean_time_to_happen = {
-		days = 55
+		days = 65
 		modifier = {
 			factor = 0.6
 			check_variable = { BRA_congress_influence > 34 }
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = BRA_congress_drafted_reforms
 		}
 	}
 
@@ -1151,21 +1161,28 @@ country_event = {
 		hidden_effect = {
 			add_to_variable = { BRA_congress_influence = 4 }
 			BRA_set_up_political_crisis = yes 
+			clr_country_flag = BRA_congress_drafted_reforms
 		}
 	}
 }
 
 #Spies succesful in subverbing communist activiy in FROM 
 country_event = {
-	id = brazil.23 
-	title = brazil.23.t 
-	desc = brazil.23.d 
+	id = brazil.24
+	title = brazil.24.t 
+	desc = brazil.24.d 
 	picture = GFX_URG_event_2
 
 	is_triggered_only = yes 
 
+	immediate = {
+		hidden_effect = {
+			set_country_flag = BRA_spies_succesfully_countered
+		}
+	}
+
 	option = {
-		name = brazil.23.a 
+		name = brazil.24.a 
 		random_owned_controlled_state = {
 			limit = {
 				has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
@@ -1180,15 +1197,21 @@ country_event = {
 
 #Spies countered in FROM 
 country_event = {
-	id = brazil.24 
-	title = brazil.24.t 
-	desc = brazil.24.d 
+	id = brazil.25 
+	title = brazil.25.t 
+	desc = brazil.25.d 
 	picture = GFX_report_event_gre_city_siege
 
 	is_triggered_only = yes 
 
+	immediate = {
+		hidden_effect = {
+			set_country_flag = BRA_spies_defeated
+		}
+	}
+
 	option = {
-		name = brazil.24 
+		name = brazil.25 
 		random_owned_controlled_state = {
 			limit = { has_state_flag = BRA_spy_infiltrating }
 			clr_state_flag = BRA_spy_infiltrating

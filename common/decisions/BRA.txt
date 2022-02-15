@@ -48,9 +48,12 @@ BRA_political_manegement = {
 
         cancel_trigger = {
             OR = {
-                has_civil_war = yes 
-                exists = no
+                hidden_trigger = {
+                    has_civil_war = yes 
+                    exists = no
+                }
                 NOT = { has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis } }
+                has_country_flag = BRA_congress_drafted_reforms
             }
         }
 
@@ -74,6 +77,15 @@ BRA_political_manegement = {
         cost = 15
 
         days_remove = 25
+
+        cancel_trigger = {
+            if = {
+                limit = {
+                    NOT = { check_variable = { BRA_playing_as_congress = 1 } }
+                }
+                has_country_flag = BRA_congress_drafted_reforms
+            }
+        }
 
         complete_effect = {
             if = {
@@ -165,6 +177,10 @@ BRA_political_manegement = {
                 subtract_from_variable = { BRA_crisis_stability_factor = 0.01 }
                 subtract_from_variable = { BRA_crisis_political_factor = 0.02 }
             }
+        }
+
+        cancel_trigger = {
+            has_country_flag = BRA_congress_drafted_reforms
         }
 
         remove_effect = {
@@ -557,10 +573,25 @@ BRA_political_manegement = {
 
         available = {
             has_civil_war = no
-            network_national_coverage = {
-                target = BRA 
-                value > 0.9
-            } 
+            if = {
+                limit = {
+                    has_dlc = "La Resistance"
+                }
+                custom_trigger_tooltip = {
+                    tooltip = BRA_network_coverage_over_90_tt
+                    network_national_coverage = {
+                        target = BRA 
+                        value > 0.9
+                    }
+                }
+            }
+            else = {
+                divisions_in_state = {
+                    size > 3
+                    state = FROM
+                }
+            }
+                 
         }
 
         visible = {
@@ -575,20 +606,14 @@ BRA_political_manegement = {
         days_remove = 40 
 
         complete_effect = {
+            add_to_variable = { BRA_times_spies_were_sent_to_counter = 1 }
             FROM = {
                 set_state_flag = BRA_spy_infiltrating
             }
         }
 
         remove_effect = {
-            random_list = {
-                80 = {
-                    country_event = brazil.23
-                }
-                20 = {
-                    country_event = brazil.24
-                }
-            }
+            BRA_get_chances_of_spies_countering_communists = yes 
         }
     }
 }

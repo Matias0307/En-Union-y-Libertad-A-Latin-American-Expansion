@@ -5,6 +5,7 @@
 #BRA_chance_to_get_protest_to_influence_increase
 #BRA_add_economic_recession
 #BRA_setting_up_subversive_communist_activity
+#BRA_get_chances_of_spies_countering_communists
 
 BRA_set_dependency_on_coffee_idea = {
 	hidden_effect = {
@@ -501,6 +502,49 @@ BRA_setting_up_subversive_communist_activity = {
 		}
 		else = {
 			set_variable = { BRA_communist_subversive_activity = 1 }
+		}
+	}
+}
+
+BRA_get_chances_of_spies_countering_communists = {
+	set_temp_variable = { BRA_chance_succeed = 0 }
+	set_temp_variable = { BRA_chance_fail = 100 }
+	if = {
+		limit = {
+			check_variable = { BRA_times_spies_were_sent_to_counter > 4 }
+		}
+		add_to_temp_variable = { BRA_chance_succeed = 30 }
+		subtract_from_temp_variable = { BRA_chance_fail = 30 }
+	}
+	else_if = {
+		limit = {
+			check_variable = { BRA_times_spies_were_sent_to_counter > 0 }
+		}
+		add_to_temp_variable = { BRA_chance_succeed = 55 }
+		subtract_from_temp_variable = { BRA_chance_fail = 55 }
+	}
+	else = {
+		add_to_temp_variable = { BRA_chance_succeed = 70 }
+		subtract_from_temp_variable = { BRA_chance_fail = 70 }
+	}
+	if = {
+		limit = { has_country_flag = BRA_spies_defeated }
+		add_to_temp_variable = { BRA_chance_succeed = 20 }
+		subtract_from_temp_variable = { BRA_chance_fail = 20 }
+		hidden_effect = { clr_country_flag = BRA_spies_defeated }
+	}
+	if = {
+		limit = { has_country_flag = BRA_spies_succesfully_countered }
+		subtract_from_temp_variable = { BRA_chance_succeed = 5 }
+		add_to_temp_variable = { BRA_chance_fail = 5 }
+		hidden_effect = { clr_country_flag = BRA_spies_succesfully_countered }
+	}
+	random_list = {
+		BRA_chance_succeed = {
+			country_event = brazil.24
+		}
+		BRA_chance_fail = {
+			country_event = brazil.25
 		}
 	}
 }
