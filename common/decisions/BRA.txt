@@ -616,6 +616,55 @@ BRA_political_manegement = {
             BRA_get_chances_of_spies_countering_communists = yes 
         }
     }
+
+    BRA_integralists_expecting_plinio_to_become_advisor = {
+        priority = 75
+        icon = eng_trade_unions_support
+
+        activation = {
+            has_country_flag = BRA_integralists_expect_advisor
+        }
+
+        available = {
+            has_country_flag = BRA_plinio_appointed
+        }
+
+        cancel_trigger = {
+            custom_trigger_tooltip = {
+                tooltip = BRA_playing_as_integralists_tt 
+                check_variable = { BRA_playing_as_integralists = 1 }
+            }
+        }
+
+        visible = {
+            exists = yes 
+            has_civil_war = no 
+        }
+
+        days_mission_timeout = 185
+
+        complete_effect = {
+            add_popularity = { ideology = fascism popularity = 0.02 }
+            custom_effect_tooltip = BRA_increase_integralist_by_2_tt 
+            custom_effect_tooltip = BRA_integralists_will_become_friendly_tt
+            hidden_effect = {
+                clr_country_flag = BRA_neutral_integralists
+                set_country_flag = BRA_friendly_integralists
+                add_to_variable = { BRA_integralist_influence = 2 }
+                BRA_set_up_political_crisis = yes 
+            }
+        }
+
+        remove_effect = {
+            add_stability = -0.01
+            custom_effect_tooltip = BRA_integralists_become_hostile_tt
+            hidden_effect = {
+                clr_country_flag = BRA_neutral_integralists
+                set_country_flag = BRA_hostile_integralists
+            }
+        }
+
+    }
 }
 
 BRA_imminent_civil_war = {
