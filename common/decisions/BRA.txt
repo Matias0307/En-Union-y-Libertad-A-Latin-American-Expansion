@@ -53,7 +53,10 @@ BRA_political_manegement = {
                     exists = no
                 }
                 NOT = { has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis } }
-                has_country_flag = BRA_congress_drafted_reforms
+                if = {
+                    limit = { check_variable = { BRA_playing_as_vargas = 1 } }
+                    has_country_flag = BRA_congress_drafted_reforms
+                }
             }
         }
 
@@ -421,9 +424,9 @@ BRA_political_manegement = {
 
         is_good = no 
 
-        fire_only_once = no
+        fire_only_once = yes 
 
-        days_mission_timeout = 40
+        days_mission_timeout = 50
 
         on_map_mode = map_and_decisions_view
 
@@ -483,7 +486,7 @@ BRA_political_manegement = {
 
     BRA_try_to_counter_the_communists_in_FROM = {
         priority = 35
-        icon = generic_civil_support
+        icon = oppression
 
         state_target = yes 
 
@@ -500,7 +503,6 @@ BRA_political_manegement = {
         }
 
         visible = {
-            has_active_mission = BRA_communists_planning_to_take_FROM
             any_controlled_state = {
                 has_state_flag = BRA_communists_will_revolt_in_state_tt
             }
@@ -641,6 +643,8 @@ BRA_political_manegement = {
             has_civil_war = no 
         }
 
+        is_good = no
+
         days_mission_timeout = 185
 
         complete_effect = {
@@ -655,7 +659,7 @@ BRA_political_manegement = {
             }
         }
 
-        remove_effect = {
+        timeout_effect = {
             add_stability = -0.01
             custom_effect_tooltip = BRA_integralists_become_hostile_tt
             hidden_effect = {

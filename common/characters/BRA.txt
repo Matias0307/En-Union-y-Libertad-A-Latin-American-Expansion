@@ -103,6 +103,12 @@ characters={
 			allowed  = {
 				original_tag  = BRA
 			}
+			available = {
+				custom_trigger_tooltip = {
+					tooltip = BRA_integralists_not_hostile_tt
+					NOT = { has_country_flag = BRA_hostile_integralists }
+				}
+			}
 			traits  = {
 				minister_of_education 
 			}
@@ -119,21 +125,89 @@ characters={
 		}
 		country_leader={
 			desc="POLITICS_PLINIO_SALGADO_DESC"
-			ideology=fascism_ideology
+			ideology=integralism
 			expire="1965.1.1.1"
 			id=-1
 		}
 	}
-	BRA_luís_carlos_prestes={
-		name="Luís Carlos Prestes"
-		portraits={
+	BRA_gustavo_barroso = {
+		name = "Gustavo Barroso"
+		portraits = {
 			civilian={
-				large="gfx/leaders/Europe/Portrait_Europe_Generic_land_1.dds"
+				large="gfx/leaders/BRA/portrait_BRA_Gustavo_Barroso.png"
+			}
+			army={
+				small="GFX_BRA_gustavo_barroso"
+			}
+		}
+		advisor = {
+			slot = political_advisor
+			idea_token = BRA_gustavo_barr
+			allowed  = {
+				original_tag = BRA
+			}
+			available = {
+				custom_trigger_tooltip = {
+					tooltip = BRA_integralists_not_hostile_tt
+					NOT = { has_country_flag = BRA_hostile_integralists }
+				}
+			}
+			traits  = {
+				EUYL_ambassador_of_brazilian_integralism 
+			}
+			ai_will_do = {
+				factor = 1
 			}
 		}
 		country_leader={
+			desc="POLITICS_GUSTAVO_BARROSO_DESC"
+			ideology=integralism
+			expire="1965.1.1.1"
+			id=-1
+		}
+	}
+	BRA_luis_carlos_prestes={
+		name="Luís Carlos Prestes"
+		portraits={
+			civilian={
+				large="gfx/leaders/BRA/BRA_Luis_Carlos_Prestes.png"
+			}
+			army = {
+				large ="gfx/leaders/BRA/BRA_General_Prestes.png"
+				small = "GFX_BRA_luis_carlos"
+			}
+		}
+		advisor = {
+			slot = political_advisor
+			idea_token = BRA_luis_carlos
+			allowed = {
+				original_tag = BRA 
+			}
+			available = {
+				custom_trigger_tooltip = {
+					tooltip = BRA_is_commune_of_brasil_tt
+					tag = BRC
+				}
+			}
+			traits = {
+				communist_revolutionary
+			}
+			on_add = {
+				add_popularity = { ideology = communism popularity = 0.03 }
+			}
+		}
+		corps_commander={
+			traits={ cavalry_officer }
+			skill=2
+			attack_skill=1
+			defense_skill=2
+			planning_skill=1
+			logistics_skill=3
+			legacy_id=-1
+		}
+		country_leader={
 			desc="POLITICS_LUIS_CARLOS_PRESTES_DESC"
-			ideology=marxism
+			ideology=tenentism
 			expire="1965.1.1.1"
 			id=-1
 		}
@@ -431,16 +505,29 @@ characters={
 			slot = political_advisor
 			idea_token = BRA_washington_luis_pereira
 			allowed  = {
-					original_tag  = BRA
+				original_tag  = BRA
+			}
+			available = {
+				custom_trigger_tooltip = {
+					tooltip = BRA_not_living_exterior_tt
+					NOT = { has_character_flag = BRA_living_in_the_exterior }
 				}
-				traits  = {
-					backroom_backstabber 
+				custom_trigger_tooltip = {
+					tooltip = BRA_better_than_industrializing_tt
+					OR = {
+						has_idea = industrializing_economy
+						has_idea = industrialized_economy
+					}
 				}
+			}
+			traits  = {
+				EUYL_collectivization_expert 
+			}
 		}
 		name="BRA_washington_luis_pereira"
 		portraits={
 			army={
-				small="GFX_idea_generic_political_advisor_south_america_1"
+				small="GFX_BRA_Washington_Luis"
 			}
 		}
 	}
