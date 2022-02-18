@@ -3000,27 +3000,6 @@ BOL_taking_antofagasta = {
         fire_only_once = yes 
 
         timeout_effect = {
-            if = {
-                limit = {
-                    check_variable = { BOL_claim_strength = 1 }
-                }
-                set_variable = { BOL_chance_of_taking_state = 33 }
-                set_variable = { BOL_chance_of_not_taking_state = 67 }
-            }
-            else_if = {
-                limit = {
-                    check_variable = { BOL_claim_strength = 2 }
-                }
-                set_variable = { BOL_chance_of_taking_state = 66 }
-                set_variable = { BOL_chance_of_not_taking_state = 34 }
-            }
-            else_if = {
-                limit = {
-                    check_variable = { BOL_claim_strength = 3 }
-                }
-                set_variable = { BOL_chance_of_taking_state = 100 }
-                set_variable = { BOL_chance_of_not_taking_state = 0 }
-            }
             custom_effect_tooltip = BOL_because_of_current_claim_strength_tt
             random_list = {
                 BOL_chance_of_taking_state = {
@@ -3157,6 +3136,9 @@ BOL_taking_antofagasta = {
                 custom_effect_tooltip = BOL_claim_strength_increase_1_tt
                 hidden_effect = {
                     add_to_variable = { BOL_claim_strength = 1 }
+                    CHL = { add_to_variable = CHL_bol_claim_strength = 1 }
+                    add_to_variable = { BOL_chance_of_taking_state = 33 }
+                    subtract_from_variable = { BOL_chance_of_not_taking_state = 33 }
                     CHL = {
                         clr_country_flag = BOL_claiming_state
                     }
@@ -3190,7 +3172,7 @@ BOL_taking_antofagasta = {
             }
             custom_trigger_tooltip = {
                 tooltip = BOL_chile_attempt_countered
-                CHL = { has_country_flag = BOL_countered_us }
+                has_country_flag = we_countered_chile
             }
         }
 
@@ -3232,6 +3214,11 @@ BOL_taking_antofagasta = {
                         days = 1
                         value = 1
                     }
+                }
+                set_country_flag = {
+                    flag = we_countered_chile
+                    days = 1
+                    value = 1
                 }
                 clr_country_flag = CHL_trying_to_counter
             }
@@ -3335,7 +3322,7 @@ CHL_countering_bolivias_plan = {
             }
         }
 
-        days_mission_timeout = BOL_days_to_claim_state
+        days_mission_timeout = CHL_bol_days_to_claim_state
 
         is_good = no 
 
