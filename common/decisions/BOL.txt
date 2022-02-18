@@ -3002,14 +3002,14 @@ BOL_taking_antofagasta = {
         timeout_effect = {
             custom_effect_tooltip = BOL_because_of_current_claim_strength_tt
             random_list = {
-                BOL_chance_of_taking_state = {
+                chance_of_taking_state = {
                     transfer_state = 909
                     add_war_support = 0.03
                     CHL = {
                         add_war_support = -0.05
                     }
                 }
-                BOL_chance_of_not_taking_state = {
+                chance_of_not_taking_state = {
                     add_war_support = -0.05
                     CHL = {
                         add_war_support = 0.03
@@ -3025,8 +3025,8 @@ BOL_taking_antofagasta = {
                 clear_variable = BOL_cost_to_claim_state
                 clear_variable = BOL_days_to_claim_state
                 clear_variable = CHL_cost_to_counter_claim
-                clear_variable = BOL_chance_of_taking_state
-                clear_variable = BOL_chance_of_not_taking_state
+                clear_variable = chance_of_taking_state
+                clear_variable = chance_of_not_taking_state
             }
         }
     }
@@ -3136,9 +3136,24 @@ BOL_taking_antofagasta = {
                 custom_effect_tooltip = BOL_claim_strength_increase_1_tt
                 hidden_effect = {
                     add_to_variable = { BOL_claim_strength = 1 }
-                    CHL = { add_to_variable = CHL_bol_claim_strength = 1 }
-                    add_to_variable = { BOL_chance_of_taking_state = 33 }
-                    subtract_from_variable = { BOL_chance_of_not_taking_state = 33 }
+                    CHL = { add_to_variable = { CHL_bol_claim_strength = 1 } }
+                    if = {
+                        limit = { check_variable = { BOL_claim_strength < 3 } }
+                        add_to_variable = { chance_of_taking_state = 33 }
+                        subtract_from_variable = { chance_of_not_taking_state = 33 }
+                        CHL = {
+                            add_to_variable = { CHL_chance_of_taking_state = 33 }
+                            subtract_from_variable = { CHL_chance_of_not_taking_state = 33 }
+                        }
+                    }
+                    else = {
+                        add_to_variable = { CHL_chance_of_taking_state = 34 }
+                        subtract_from_variable = { CHL_chance_of_not_taking_state = 34 }
+                        CHL = {
+                            add_to_variable = { chance_of_taking_state = 34 }
+                            subtract_from_variable = { CHL_chance_of_not_taking_state = 34 }
+                        }
+                    }
                     CHL = {
                         clr_country_flag = BOL_claiming_state
                     }
@@ -3164,12 +3179,6 @@ BOL_taking_antofagasta = {
         }
 
         cancel_trigger = {
-            hidden_trigger = {
-                OR = {
-                    has_war_with = BOL 
-                    NOT = { controls_state = 909 }
-                }
-            }
             custom_trigger_tooltip = {
                 tooltip = BOL_chile_attempt_countered
                 has_country_flag = we_countered_chile
@@ -3277,11 +3286,11 @@ CHL_countering_bolivias_plan = {
             custom_effect_tooltip = CHL_depending_on_bol_claim_strength_tt
             effect_tooltip = {
                 random_list = {
-                    BOL_chance_of_taking_state = {
-                        transfer_state = 909
+                    CHL_chance_of_not_taking_state = {
+                        BOL = { transfer_state = 909 }
                         add_war_support = -0.05
                     }
-                    BOL_chance_of_not_taking_state = {
+                    CHL_chance_of_taking_state = {
                         add_war_support = 0.03
                         CHL = {
                             create_wargoal = {
@@ -3308,12 +3317,6 @@ CHL_countering_bolivias_plan = {
             }
         }
         cancel_trigger = {
-            hidden_trigger = {
-                OR = {
-                    has_war_with = BOL 
-                    NOT = { controls_state = 909 }
-                }
-            }
             custom_trigger_tooltip = {
                 tooltip = CHL_sccesfully_countered_bolivia_tt
                 BOL = {
