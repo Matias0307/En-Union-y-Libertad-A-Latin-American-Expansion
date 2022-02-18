@@ -2965,3 +2965,467 @@ BOL_tejadas_incompetence = {
         }
     }
 }
+
+BOL_taking_antofagasta = {
+
+    BOL_time_until_we_execute_the_plan = {
+        priority = 100
+        icon = infiltrate_state
+
+        activation = {
+            has_completed_focus = BOL_draft_plans_to_take_antofagasta
+        }
+
+        available = {
+            hidden_trigger = {
+                always = no 
+            }
+        }
+
+        cancel_trigger = {
+            OR = {
+                has_war_with = CHL 
+                CHL = {
+                    NOT = {
+                        controls_state = 909
+                    }
+                }
+            }
+        }
+
+        days_mission_timeout = 165
+
+        is_good = yes 
+
+        fire_only_once = yes 
+
+        timeout_effect = {
+            set_temp_variable = { BOL_chance_of_taking_state = 0 }
+            set_temp_variable = { BOL_chance_of_not_taking_state = 100 }
+            if = {
+                limit = {
+                    check_variable = { BOL_claim_strength = 1 }
+                }
+                set_temp_variable = { BOL_chance_of_taking_state = 33 }
+                set_temp_variable = { BOL_chance_of_not_taking_state = 67 }
+            }
+            else_if = {
+                limit = {
+                    check_variable = { BOL_claim_strength = 2 }
+                }
+                set_temp_variable = { BOL_chance_of_taking_state = 66 }
+                set_temp_variable = { BOL_chance_of_not_taking_state = 34 }
+            }
+            else_if = {
+                limit = {
+                    check_variable = { BOL_claim_strength = 3 }
+                }
+                set_temp_variable = { BOL_chance_of_taking_state = 100 }
+                set_temp_variable = { BOL_chance_of_not_taking_state = 0 }
+            }
+            custom_effect_tooltip = BOL_because_of_current_claim_strength_tt
+            random_list = {
+                BOL_chance_of_taking_state = {
+                    transfer_state = 909
+                    add_war_support = 0.03
+                    CHL = {
+                        add_war_support = -0.05
+                    }
+                }
+                BOL_chance_of_not_taking_state = {
+                    add_war_support = -0.05
+                    CHL = {
+                        add_war_support = 0.03
+                        create_wargoal = {
+                            type = annex_everything
+                            target = BOL
+                        }
+                    }
+                }
+            }
+            hidden_effect = {
+                clear_variable = BOL_claim_strength
+                clear_variable = BOL_cost_to_claim_state
+                clear_variable = BOL_days_to_claim_state
+            }
+        }
+    }
+
+    BOL_claim_the_state_of_antofagasta = {
+        icon = {
+			key = GFX_BOL_claim_anto_0
+			trigger = {
+				check_variable = {
+					var = BOL_claim_strength
+					value = 0
+					compare = equals
+				}
+			}
+		}
+        icon = {
+			key = GFX_BOL_claim_anto_1
+			trigger = {
+				check_variable = {
+					var = BOL_claim_strength
+					value = 1
+					compare = equals
+				}
+			}
+		}
+        icon = {
+			key = GFX_BOL_claim_anto_2
+			trigger = {
+				check_variable = {
+					var = BOL_claim_strength
+					value = 2
+					compare = equals
+				}
+			}
+		}
+        icon = {
+			key = GFX_BOL_claim_anto_3
+			trigger = {
+				check_variable = {
+					var = BOL_claim_strength
+					value = 3
+					compare = equals
+				}
+			}
+		}
+
+        state_target = yes 
+
+        ai_will_do = {
+            base = 135
+        }
+
+        target_trigger = {
+            FROM = {
+                state = 909
+            }
+        }
+
+        available = {
+            has_army_manpower = { size > 999 }
+        }
+
+        visible = {
+            NOT = {
+                OR = {
+                    has_war_with = CHL 
+                    CHL = {
+                        NOT = {
+                            controls_state = 909
+                        }
+                    }
+                }
+            }
+        }
+
+        on_map_mode = map_only
+
+        cost = BOL_cost_to_claim_state
+
+        days_remove = BOL_days_to_claim_state
+
+        modifier = {
+            political_power_factor = -0.1
+            weekly_manpower = -100
+        }
+
+        cancel_trigger = {
+            custom_trigger_tooltip = {
+                tooltip = CHL_countered_us_tt
+                has_country_flag = CHL_countered_us
+            }
+        }
+
+        complete_effect = {
+            custom_effect_tooltip = BOL_cost_will_increase_by_15_tt
+            hidden_effect = {
+                add_to_variable = { BOL_cost_to_claim_state = 15 }
+                CHL = {
+                    set_country_flag = BOL_claiming_state
+                }
+            }
+        }
+
+        remove_effect = {
+            if = {
+                limit = { check_variable = { BOL_claim_strength < 3 } }
+                custom_effect_tooltip = BOL_claim_strength_increase_1_tt
+                hidden_effect = {
+                    add_to_variable = { BOL_claim_strength = 1 }
+                    CHL = {
+                        clr_country_flag = BOL_claiming_state
+                    }
+                }
+            }
+            else = {
+                custom_effect_tooltip = BOL_this_decision_will_do_nothing_tt
+            }
+        }
+    }
+
+    BOL_chile_trying_to_counter_us = {
+        icon = generic_prepare_civil_war
+
+        activation = {
+            has_country_flag = CHL_trying_to_counter
+        }
+
+        available = {
+            hidden_trigger = {
+                always = no 
+            }
+        }
+
+        cancel_trigger = {
+            hidden_trigger = {
+                OR = {
+                    has_war_with = BOL 
+                    NOT = { controls_state = 909 }
+                }
+            }
+            custom_trigger_tooltip = {
+                tooltip = BOL_chile_attempt_countered
+                CHL = { has_country_flag = BOL_countered_us }
+            }
+        }
+
+        days_mission_timeout = 20
+
+        is_good = no 
+
+        timeout_effect = {
+            custom_effect_tooltip = CHL_will_counter_our_claim_attempt_tt
+        }
+    }
+
+    BOL_counter_the_chilean_counterattempt = {
+        icon = oppression
+
+        visible = {
+            has_country_flag = CHL_trying_to_counter
+        }
+
+        cancel_trigger = {
+            OR = {
+                has_war_with = BOL 
+                NOT = { controls_state = 909 }
+            }
+        }
+
+        cost = 30
+
+        ai_will_do = {
+            base = 110
+        }
+
+        complete_effect = {
+            custom_effect_tooltip = BOL_chile_counter_attempt_will_be_stopped_tt
+            hidden_effect = {
+                CHL = {
+                    set_country_flag = {
+                        flag = BOL_countered_us
+                        days = 1
+                        value = 1
+                    }
+                }
+                clr_country_flag = CHL_trying_to_counter
+            }
+        }
+    }
+
+    BOL_delay_our_plan = {
+        icon = eng_trade_unions_support
+
+        visible = {
+            has_active_mission = BOL_time_until_we_execute_the_plan
+        }
+
+        cost = 35
+
+        ai_will_do = {
+            base = 65
+        }
+
+        complete_effect = {
+            add_days_mission_timeout = {
+                mission = BOL_time_until_we_execute_the_plan
+                days = 30
+            }
+        }
+    }
+}
+
+CHL_countering_bolivias_plan = {
+    CHL_bolivia_time_until_execute_plan = {
+        priority = 100
+        icon = infiltrate_state
+
+        activation = {
+            BOL = { has_completed_focus = BOL_draft_plans_to_take_antofagasta }
+        }
+
+        available = {
+            hidden_trigger = {
+                always = no 
+            }
+        }
+
+        cancel_trigger = {
+            OR = {
+                has_war_with = BOL 
+                NOT = { controls_state = 909 }
+            }
+        }
+
+        days_mission_timeout = 165
+
+        is_good = no 
+
+        timeout_effect = {
+            custom_effect_tooltip = CHL_depending_on_bol_claim_strength_tt
+            effect_tooltip = {
+                random_list = {
+                    BOL_chance_of_taking_state = {
+                        transfer_state = 909
+                        add_war_support = -0.05
+                    }
+                    BOL_chance_of_not_taking_state = {
+                        add_war_support = 0.03
+                        CHL = {
+                            create_wargoal = {
+                                type = annex_everything
+                                target = BOL
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    CHL_bol_attempting_to_strengthen_claim = {
+        icon = generic_nationalism
+
+        activation = {
+            has_country_flag = BOL_claiming_state
+        }
+
+        available = {
+            hidden_trigger = {
+                always = no 
+            }
+        }
+        cancel_trigger = {
+            hidden_trigger = {
+                OR = {
+                    has_war_with = BOL 
+                    NOT = { controls_state = 909 }
+                }
+            }
+            custom_trigger_tooltip = {
+                tooltip = CHL_sccesfully_countered_bolivia_tt
+                BOL = {
+                    has_country_flag = CHL_countered_us
+                }
+            }
+        }
+
+        days_mission_timeout = BOL_days_to_claim_state
+
+        is_good = no 
+
+        timeout_effect = {
+            custom_effect_tooltip = CHL_bol_claim_strength_increase_1_tt
+        }
+    }
+
+    CHL_counter_bolivias_claim_attempts = {
+        icon = generic_prepare_civil_war
+
+        visible = {
+            has_country_flag = BOL_claiming_state
+        }
+
+        ai_will_do = {
+            base = 15
+            modifier = {
+                add = 65
+                has_government = fascism
+            }
+        }
+
+        cost = 10
+
+        state_target = yes 
+
+        target_trigger = {
+            FROM = {
+                state = 909
+            }
+        }
+
+        cost = 15
+
+        days_remove = 20
+
+        cancel_trigger = {
+            custom_trigger_tooltip = {
+                tooltip = CHL_bol_countered_our_attempt
+                has_country_flag = BOL_countered_us
+            }
+        }
+
+        modifier = {
+            political_power_factor = -0.25
+        }
+
+        complete_effect = {
+            BOL = {
+                set_country_flag = CHL_trying_to_counter
+            }
+        }
+
+        remove_effect = {
+            custom_effect_tooltip = CHL_if_not_react_20_days_counter_claim_tt
+            hidden_effect = {
+                BOL = {
+                    set_country_flag = {
+                        flag = CHL_countered_us
+                        days = 1
+                        value = 1
+                    }
+                    clr_country_flag = CHL_trying_to_counter
+                }
+            }
+        }
+    }
+
+    CHL_force_bolivians_to_have_to_speed_up = {
+        icon = generic_police_action
+
+        visible = {
+            BOL = {
+                has_active_mission = BOL_time_until_we_execute_the_plan
+            }
+        }
+
+        ai_will_do = {
+            base = 5
+            add = 35
+            has_government = fascism
+        }
+
+        cost = 50
+
+        complete_effect = {
+            add_days_mission_timeout = {
+                mission = BOL_time_until_we_execute_the_plan
+                days = -25
+            }
+        }
+    }
+}

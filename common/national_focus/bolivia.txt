@@ -3147,7 +3147,7 @@ focus_tree = {
     focus = {
         id = BOL_tackle_toro_directly
         icon = GFX_focus_generic_support_the_left_right
-        x = 1
+        x = 5
         y = 1
         relative_position_id = BOL_make_our_ideals_official
         prerequisite = { focus = BOL_make_our_ideals_official }
@@ -3228,6 +3228,7 @@ focus_tree = {
             focus = BOL_continue_with_toro
             focus = BOL_make_our_ideals_official
         }
+        mutually_exclusive = { focus = BOL_focusing_on_internal_politics }
 
         cost = 6
 
@@ -3243,6 +3244,291 @@ focus_tree = {
                 add_opinion_modifier = { modifier = URG_contacted_us target = ROOT }
             }
             add_opinion_modifier = { modifier = URG_contacted_us target = PRU }
+        }
+    }
+
+    focus = {
+        id = BOL_focusing_on_internal_politics
+        icon = GFX_goal_generic_neutrality_focus
+        x = 2
+        y = 1 
+        relative_position_id = BOL_make_our_ideals_official
+        prerequisite = { focus = BOL_make_our_ideals_official }
+        mutually_exclusive = { focus = BOL_contact_the_peruvians }
+
+        cost = 7
+
+        available = {
+            has_war = no 
+            has_government = fascism
+        }
+
+        search_filters = { FOCUS_FILTER_STABILITY }
+        completion_reward = {
+            add_stability = 0.05
+        }
+    }
+
+    focus = {
+        id = BOL_close_down_the_economy
+        icon = GFX_ARG_limit_exports
+        x = -1
+        y = 1
+        relative_position_id = BOL_focusing_on_internal_politics
+        prerequisite = { focus = BOL_focusing_on_internal_politics }
+
+        cost = 8
+
+        bypass = {
+            has_idea = closed_economy
+        }
+
+        search_filters = { FOCUS_FILTER_INDUSTRY }
+
+        completion_reward = {
+            add_ideas = closed_economy
+        }
+    }
+
+    focus = {
+        id = BOL_nationalize_our_industry
+        icon = GFX_ARG_nationalize_industry
+        x = 0
+        y = 1
+        relative_position_id = BOL_close_down_the_economy
+        prerequisite = { focus = BOL_close_down_the_economy }
+
+        cost = 10
+
+        available = {
+            has_idea = closed_economy 
+        }
+
+        search_filters = { FOCUS_FILTER_INDUSTRY }
+        completion_reward = {
+            EUYL_add_1_civilian = yes 
+            EUYL_add_1_military = yes 
+            custom_effect_tooltip = BOL_completed_focus_on_what_good_at_tt
+            effect_tooltip = {
+                EUYL_add_1_civilian = yes 
+            }
+            hidden_effect = {
+                if = {
+                    limit = { has_completed_focus = BOL_focus_on_what_were_good_at }
+                    EUYL_add_1_civilian = yes 
+                }
+            }
+        }
+    }
+
+    focus = {
+        id = BOL_support_from_the_catholic_church
+        icon = GFX_focus_spa_no_compromise_on_carlist_ideals
+        x = 1
+        y = 1
+        relative_position_id = BOL_focusing_on_internal_politics
+        prerequisite = { focus = BOL_focusing_on_internal_politics }
+
+        cost = 10
+
+        available = {
+            has_war = no 
+            is_subject = no 
+        }
+
+        search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_WAR_SUPPORT }
+        completion_reward = {
+            add_ideas = BOL_catholic_support_1
+        }
+    }
+
+    focus = {
+        id = BOL_draft_plans_to_take_antofagasta
+        icon = GFX_BOL_take_anto
+        x = 1
+        y = 1
+        relative_position_id = BOL_support_from_the_catholic_church
+        prerequisite = { focus = BOL_support_from_the_catholic_church }
+        prerequisite = { focus = BOL_imprison_toro }
+
+        cost = 10
+
+        available = {
+            exists = yes 
+            NOT = {
+                has_war_with = CHL 
+            }
+        }
+
+        bypass = {
+            controls_state = 909
+        }
+
+        search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION }
+        completion_reward = {
+            activate_mission_tooltip = BOL_time_until_we_execute_the_plan
+            custom_effect_tooltip = BOL_unlock_decision_to_take_state_progressively_tt
+            hidden_effect = {
+                set_variable = { BOL_cost_to_claim_state = 35 }
+                set_variable = { BOL_days_to_claim_state = 40 }
+                set_variable = { BOL_claim_strength = 0 }
+                CHL = { country_event = { id = bolivia.9 hours = 4 } }
+            }
+        }
+    }
+
+    focus = {
+        id = BOL_focus_all_our_efforts_on_the_plan
+        icon = GFX_focus_generic_treaty
+        x = 2
+        y = 1
+        relative_position_id = BOL_draft_plans_to_take_antofagasta
+        prerequisite = { focus = BOL_draft_plans_to_take_antofagasta }
+
+        cost = 8
+
+        available = {
+            has_active_mission = BOL_time_until_we_execute_the_plan
+        }
+
+        search_filters = { FOCUS_FILTER_ANNEXATION }
+        completion_reward = {
+            custom_effect_tooltip = BOL_cost_and_days_reduced_tt
+            hidden_effect = {
+                subtract_from_variable = { BOL_cost_to_claim_state = 15 }
+                subtract_from_variable = { BOL_days_to_claim_state = 10 }
+            }
+        }
+    }
+
+    focus = {
+        id = BOL_prepare_our_forces_for_worst_case
+        icon = GFX_focus_generic_manpower
+        x = 0
+        y = 1
+        relative_position_id = BOL_draft_plans_to_take_antofagasta
+        prerequisite = { focus = BOL_draft_plans_to_take_antofagasta }
+
+        cost = 5
+
+        available = {
+            exists = yes 
+            has_civil_war = no 
+        }
+
+        search_filters = { FOCUS_FILTER_MANPOWER }
+        completion_reward = {
+            add_manpower = 44500
+        }
+    }
+
+    focus = {
+        id = BOL_connect_the_country
+        icon = GFX_goal_generic_construct_infrastructure
+        x = -2
+        y = 1
+        relative_position_id = BOL_draft_plans_to_take_antofagasta
+        prerequisite = { 
+            focus = BOL_draft_plans_to_take_antofagasta
+            focus = BOL_nationalize_our_industry
+        }
+
+        cost = 7
+
+        available = {
+            exists = yes 
+            has_civil_war = no 
+            any_controlled_state = {
+                is_core_of = ROOT 
+            }
+        }
+
+        search_filters = { FOCUS_FILTER_INDUSTRY }
+        completion_reward = {
+            add_ideas = BOL_connect_the_country_idea 
+        }
+    }
+
+    focus = {
+        id = BOL_total_success
+        icon = GFX_BOL_total_victory_ic
+        x = 0
+        y = 1
+        relative_position_id = BOL_prepare_our_forces_for_worst_case
+        prerequisite = { focus = BOL_prepare_our_forces_for_worst_case }
+
+        cost = 8
+
+        available = {
+            controls_state = 909
+            has_war = no 
+        }
+
+        search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
+        completion_reward = {
+            add_political_power = 75
+            add_stability = 0.03
+            add_war_support = 0.05
+        }
+    }
+
+    focus = {
+        id = BOL_develop_antofagasta
+        icon = GFX_goal_generic_construction2
+        x = 1
+        y = 1
+        relative_position_id = BOL_total_success
+        prerequisite = { focus = BOL_total_success }
+
+        cost = 10
+
+        available = {
+            controls_state = 909
+        }
+
+        search_filters = { FOCUS_FILTER_INDUSTRY }
+        completion_reward = {
+            909 = {
+                add_compliance = 10
+                add_building_construction = {
+                    type = industrial_complex
+                    level = 1
+                    instant_build = yes 
+                }
+                add_building_construction = {
+                    type = arms_factory
+                    level = 1
+                    instant_build = yes 
+                }
+                add_building_construction = {
+                    type = dockyard
+                    level = 1
+                    instant_build = yes 
+                }
+            }
+        }
+    }
+
+    focus = {
+        id = BOL_strengthen_our_catholic_support
+        icon = GFX_focus_mex_restore_the_army_of_christ
+        x = -1
+        y = 1
+        relative_position_id = BOL_total_success
+        prerequisite = { focus = BOL_total_success }
+
+        cost = 10
+
+        available = {
+            exists = yes 
+        }
+
+        search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_INDUSTRY FOCUS_FILTER_WAR_SUPPORT }
+        completion_reward = {
+            swap_ideas = {
+                remove_idea = BOL_catholic_support_1 
+                add_idea = BOL_catholic_support_2
+            }
         }
     }
 
@@ -3609,10 +3895,13 @@ focus_tree = {
     focus = {
         id = BOL_alliance_with_peru
         icon = GFX_peru-bolivia_alliance
-        x = 4
+        x = 5
         y = 1
         relative_position_id = BOL_victor_of_the_war_of_the_pacific
-        prerequisite = { focus = BOL_victor_of_the_war_of_the_pacific }
+        prerequisite = { 
+            focus = BOL_victor_of_the_war_of_the_pacific 
+            focus = BOL_strengthen_our_catholic_support
+        }
         mutually_exclusive = { focus = BOL_forge_our_own_path }
 
         cost = 8
@@ -3621,6 +3910,7 @@ focus_tree = {
             NOT = {
                 has_war_with = PRU 
             }
+            controls_state = 909
         }
 
         bypass = {
