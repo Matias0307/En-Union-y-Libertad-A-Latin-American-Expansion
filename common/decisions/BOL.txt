@@ -3047,6 +3047,7 @@ BOL_taking_antofagasta = {
                 clear_variable = BOL_claim_strength
                 clear_variable = BOL_cost_to_claim_state
                 clear_variable = BOL_days_to_claim_state
+                clear_variable = CHL_cost_to_counter_claim
             }
         }
     }
@@ -3351,14 +3352,18 @@ CHL_countering_bolivias_plan = {
         }
 
         ai_will_do = {
-            base = 15
+            base = 45
             modifier = {
                 add = 65
                 has_government = fascism
             }
+            modifier = {
+                add = 500
+                has_government = neutrality #no way in HELL will the anarchists allow the Bolivians to do this
+            }
         }
 
-        cost = 10
+        cost = CHL_cost_to_counter_claim
 
         state_target = yes 
 
@@ -3372,6 +3377,10 @@ CHL_countering_bolivias_plan = {
 
         days_remove = 20
 
+        available = {
+            has_army_manpower = { size > 499 }
+        }
+
         cancel_trigger = {
             custom_trigger_tooltip = {
                 tooltip = CHL_bol_countered_our_attempt
@@ -3384,8 +3393,12 @@ CHL_countering_bolivias_plan = {
         }
 
         complete_effect = {
+            add_manpower = -500
             BOL = {
                 set_country_flag = CHL_trying_to_counter
+            }
+            hidden_effect = {
+                add_to_variable = { CHL_cost_to_counter_claim = 5 }
             }
         }
 
@@ -3415,11 +3428,17 @@ CHL_countering_bolivias_plan = {
 
         ai_will_do = {
             base = 5
-            add = 35
-            has_government = fascism
+            modifier = {
+                add = 35
+                has_government = fascism
+            }
+            modifier = {
+                add = 100
+                has_government = neutrality #again, the anarchists wouldn't allow this lmao
+            }
         }
 
-        cost = 50
+        cost = 40
 
         complete_effect = {
             add_days_mission_timeout = {
