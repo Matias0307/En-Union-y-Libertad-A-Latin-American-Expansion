@@ -1272,25 +1272,11 @@ country_event = {
 		has_country_flag = BRA_hostile_integralists
 	}
 
-	mean_time_to_happen = { days = 65 }
+	mean_time_to_happen = { days = 60 }
 
 	option = {
 		name = brazil.27.a 
-		custom_effect_tooltip = BRA_integralists_occupy_random_state_tt
-		hidden_effect = {
-			random_owned_controlled_state = {
-				limit = {
-					is_core_of = ROOT 
-					NOT = {
-						OR = {
-							has_dynamic_modifier = { modifier = BRA_integralists_occupation }
-							has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
-						}
-					}
-				}
-				add_dynamic_modifier = { modifier = BRA_integralists_occupation }
-			}
-		}
+		BRA_add_integralist_occupation_to_random_state = yes 
 	}
 }
 
@@ -1313,7 +1299,7 @@ country_event = {
 	}
 
 	mean_time_to_happen = { 
-		days = 50
+		days = 45
 	}
 
 	option = {
@@ -1348,5 +1334,31 @@ country_event = {
                 }
             }
 		}
+	}
+}
+
+#Integralist protests ensue 
+country_event = {
+	id = brazil.29
+	title = brazil.29.t 
+	desc = brazil.29.d 
+	picture = GFX_BRA_integralist_protests_event
+
+	fire_only_once = yes 
+
+	trigger = {
+		original_tag = BRA 
+		NOT = { check_variable = BRA_playing_as_integralists = 1 }
+		check_variable = { BRA_number_of_states_integralist_protesting >= 2 }
+		has_country_flag = BRA_hostile_integralists
+	}
+
+	mean_time_to_happen = { days = 14 }
+
+	option = {
+		name = brazil.29.a 
+		add_ideas = BRA_integralist_protests_1 
+		BRA_add_integralist_occupation_to_random_state = yes 
+		# will kickstart a series of missions and unlock decisions #
 	}
 }

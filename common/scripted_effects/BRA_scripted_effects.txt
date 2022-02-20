@@ -7,6 +7,7 @@
 #BRA_setting_up_subversive_communist_activity
 #BRA_get_chances_of_spies_countering_communists
 #BRA_neutral_character
+#BRA_add_integralist_occupation_to_random_state
 
 BRA_set_dependency_on_coffee_idea = {
 	hidden_effect = {
@@ -556,4 +557,23 @@ BRA_neutral_character = {
 	set_character_flag = BRA_integralist
 	set_character_flag = BRA_congress_supporter
 	set_character_flag = BRA_imperialist
+}
+
+BRA_add_integralist_occupation_to_random_state = {
+	custom_effect_tooltip = BRA_integralists_occupy_random_state_tt
+	hidden_effect = {
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT 
+				NOT = {
+					OR = {
+						has_dynamic_modifier = { modifier = BRA_integralists_occupation }
+						has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+					}
+				}
+			}
+			add_dynamic_modifier = { modifier = BRA_integralists_occupation }
+			add_to_variable = { BRA_number_of_states_integralist_protesting = 1 }
+		}
+	}
 }
