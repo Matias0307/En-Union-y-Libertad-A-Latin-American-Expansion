@@ -8,6 +8,7 @@
 #BRA_get_chances_of_spies_countering_communists
 #BRA_neutral_character
 #BRA_add_integralist_occupation_to_random_state
+#BRA_set_up_generic_civil_war_divisions_democratic
 
 BRA_set_dependency_on_coffee_idea = {
 	hidden_effect = {
@@ -574,6 +575,83 @@ BRA_add_integralist_occupation_to_random_state = {
 			}
 			add_dynamic_modifier = { modifier = BRA_integralists_occupation }
 			add_to_variable = { BRA_number_of_states_integralist_protesting = 1 }
+		}
+	}
+}
+
+BRA_set_up_generic_civil_war_divisions_democratic = {
+	hidden_effect = {
+		subtract_from_variable = { BRA_congress_influence = 25 }
+		clamp_variable = {
+			var = BRA_congress_influence
+			min = 0
+			max = 100
+		}
+		every_controlled_state = {
+			create_unit = {
+				division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+				owner = ROOT
+			}
+			create_unit = {
+				division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+				owner = ROOT
+			}
+			random_owned_controlled_state = {
+				create_unit = {
+					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.2 start_equipment_factor = 0.95" 
+					owner = ROOT
+				}
+				create_unit = {
+					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.2 start_equipment_factor = 0.95" 
+					owner = ROOT
+				}
+				create_unit = {
+					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.2 start_equipment_factor = 0.95" 
+					owner = ROOT
+				}
+				create_unit = {
+					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.2 start_equipment_factor = 0.95" 
+					owner = ROOT
+				}
+			}
+		}
+		random_other_country = {
+			limit = {
+				original_tag = BRA 
+				has_government = democratic
+				has_civil_war = yes 
+			}
+			every_controlled_state = {
+				create_unit = {
+					division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+				create_unit = {
+					division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.2 start_equipment_factor = 0.95" 
+						owner = PREV
+					}
+					create_unit = {
+						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.2 start_equipment_factor = 0.95" 
+						owner = PREV
+					}
+					create_unit = {
+						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.2 start_equipment_factor = 0.95" 
+						owner = PREV
+					}
+				}
+				if = {
+					limit = { check_variable = { BRA_democratic_popularity > 0.4 } }
+					create_unit = {
+						division = "name = \"Milícias Nacionalistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+						owner = PREV
+					}
+				}
+			}
 		}
 	}
 }
