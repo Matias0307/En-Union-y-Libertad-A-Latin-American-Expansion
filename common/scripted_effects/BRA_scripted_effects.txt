@@ -9,6 +9,7 @@
 #BRA_neutral_character
 #BRA_add_integralist_occupation_to_random_state
 #BRA_set_up_generic_civil_war_divisions_democratic
+#BRA_set_up_generic_civil_war_divisions_fascist
 
 BRA_set_dependency_on_coffee_idea = {
 	hidden_effect = {
@@ -630,24 +631,153 @@ BRA_set_up_generic_civil_war_divisions_democratic = {
 					division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
 					owner = PREV
 				}
-				random_owned_controlled_state = {
-					create_unit = {
-						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.2 start_equipment_factor = 0.95" 
-						owner = PREV
-					}
-					create_unit = {
-						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.2 start_equipment_factor = 0.95" 
-						owner = PREV
-					}
-					create_unit = {
-						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.2 start_equipment_factor = 0.95" 
-						owner = PREV
-					}
-				}
 				if = {
 					limit = { check_variable = { BRA_democratic_popularity > 0.4 } }
 					create_unit = {
 						division = "name = \"Milícias Nacionalistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+						owner = PREV
+					}
+				}
+			}
+			random_owned_controlled_state = {
+				create_unit = {
+					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.2 start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+				create_unit = {
+					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.2 start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+				create_unit = {
+					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.2 start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+			}
+		}
+	}
+}
+
+BRA_set_up_generic_civil_war_divisions_fascist = {
+	hidden_effect = {
+		subtract_from_variable = { BRA_integralist_influence = 25 }
+		clamp_variable = {
+			var = BRA_integralist_influence
+			max = 100
+			min = 0
+		}
+		set_temp_variable = { BRA_integralist_militia_experience = BRA_integralist_influence }
+		divide_temp_variable = { BRA_integralist_militia_experience = 100 }
+		if = {
+			limit = { check_variable = { BRA_playing_as_vargas = 1 } }
+			add_ideas = BRA_civil_war_vargas
+		}
+		else_if = {
+			limit = { check_variable = { BRA_playing_as_congress = 1 } }
+			add_ideas = BRA_civil_war_democratic
+		}
+		else_if = {
+			limit = { check_variable = { BRA_playing_as_communists = 1 } }
+			add_ideas = BRA_civil_war_communist 
+		}
+		random_other_country = {
+			limit = { 
+				original_tag = BRA 
+				has_civil_war = yes
+				has_government = fascism 
+			}
+			every_controlled_state = {
+				limit = {
+					is_core_of = BRA  
+					has_dynamic_modifier = { modifier = BRA_integralist_occupation }
+				}
+				set_state_controller_to = ROOT
+				set_state_owner_to = ROOT
+			}
+			ROOT = {
+				every_controlled_state = {
+					limit = {
+						is_core_of = BRA 
+						NOT = { has_dynamic_modifier = { modifier = BRA_integralist_occupation } }
+					}
+					set_state_controller_to = PREV.PREV
+				}
+			}
+		}
+		every_controlled_state = {
+			create_unit = {
+				division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+				owner = ROOT
+			}
+			create_unit = {
+				division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+				owner = ROOT
+			}
+		}
+		random_other_country = {
+			limit = {
+				original_tag = BRA 
+				has_civil_war = yes 
+				has_government = fascism 
+			}
+			add_ideas = BRA_civil_war_integralists
+			every_controlled_state = {
+				create_unit = {
+					division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+				create_unit = {
+					division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+			}
+			random_owned_controlled_state = {
+				create_unit = {
+					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+				create_unit = {
+					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+				create_unit = {
+					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+				if = {
+					limit = { check_variable = { BRA_extra_integralist_troops > 0 } }
+					create_unit = {
+						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+						owner = PREV
+					}
+				}
+				if = {
+					limit = { check_variable = { BRA_extra_integralist_troops > 1 } }
+					create_unit = {
+						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+						owner = PREV
+					}
+				}
+				if = {
+					limit = { check_variable = { BRA_extra_integralist_troops > 2 } }
+					create_unit = {
+						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+						owner = PREV
+					}
+				}
+			}
+			if = {
+				limit = { check_variable = { BRA_fascist_popularity > 0.4 } }
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+						owner = PREV
+					}
+					create_unit = {
+						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+						owner = PREV
+					}
+					create_unit = {
+						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
 						owner = PREV
 					}
 				}
