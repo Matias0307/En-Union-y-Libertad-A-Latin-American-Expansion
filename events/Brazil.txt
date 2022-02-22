@@ -840,16 +840,19 @@ country_event = {
 		has_civil_war = no 
 		check_variable = { BRA_playing_as_vargas = 1 }
 		has_country_flag = BRA_hostile_congress
+		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
 	}
 
-	mean_time_to_happen = { days = 105 }
+	mean_time_to_happen = { days = 150 }
 
 	option = {
 		name = brazil.16.a 
 		custom_effect_tooltip = BRA_vargas_influence_decrease_by_4_tt
+		custom_effect_tooltip = BRA_progress_dictatorship_decrease_2_tt
 		custom_effect_tooltip = BRA_congress_increase_influence_1_tt
 		hidden_effect = {
 			subtract_from_variable = { BRA_vargas_influence = 4 }
+			subtract_from_variable = { BRA_progress_to_dictatorship = 2 }
 			add_to_variable = { BRA_congress_influence = 1 }
 			BRA_set_up_political_crisis = yes 
 		}
@@ -871,6 +874,7 @@ country_event = {
 		check_variable = { BRA_playing_as_vargas = 1 }
 		has_country_flag = BRA_hostile_congress
 		check_variable = { BRA_congress_influence > 24 }
+		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
 	}
 
 	mean_time_to_happen = { days = 80 }
@@ -903,6 +907,7 @@ country_event = {
 		has_civil_war = no
 		NOT = { check_variable = {BRA_playing_as_communists = 1 } }
 		check_variable = { BRA_communist_subversive_activity > 2 }
+		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
 	}
 
 	mean_time_to_happen = { days = 135 }
@@ -1014,6 +1019,7 @@ country_event = {
 		any_controlled_state = {
 			has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
 		}
+		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
 	}
 
 	fire_only_once = no 
@@ -1057,6 +1063,7 @@ country_event = {
 		any_controlled_state = {
 			has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
 		}
+		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
 	}
 
 	fire_only_once = no 
@@ -1116,6 +1123,7 @@ country_event = {
 		original_tag = BRA 
 		has_civil_war = no 
 		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
+		NOT = { has_country_flag = BRA_integralists_shutdown }
 	}
 
 	mean_time_to_happen = {
@@ -1256,6 +1264,7 @@ country_event = {
 		check_variable = { BRA_playing_as_vargas = 1 }
 		date > 1936.4.5
 		NOT = { has_country_flag = BRA_plinio_appointed }
+		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
 	}
 
 	option = { #activates mission to appoint plinio
@@ -1278,9 +1287,28 @@ country_event = {
 		original_tag = BRA 
 		NOT = { check_variable = { BRA_playing_as_integralists = 1 } }
 		has_country_flag = BRA_hostile_integralists
+		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
+		NOT = { has_active_mission = BRA_integralists_planning_uprising }
+		NOT = { has_country_flag = BRA_integralists_shutdown }
 	}
 
-	mean_time_to_happen = { days = 60 }
+	mean_time_to_happen = { 
+		days = 105
+		modifier = {
+			factor = 0.6
+			has_active_mission = BRA_integralist_protests_worsen
+		} 
+	}
+
+	immediate = {
+		if = {
+			limit = { has_active_mission = BRA_integralist_protests_worsen }
+			add_days_mission_timeout = {
+				mission = BRA_integralist_protests_worsen
+				days = -10
+			}
+		}
+	}
 
 	option = {
 		name = brazil.27.a 
@@ -1304,6 +1332,8 @@ country_event = {
 			has_dynamic_modifier = { modifier = BRA_integralists_occupation }
 		}
 		has_country_flag = BRA_hostile_integralists
+		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
+		NOT = { has_active_mission = BRA_integralists_planning_uprising }
 	}
 
 	mean_time_to_happen = { 
@@ -1359,6 +1389,7 @@ country_event = {
 		NOT = { check_variable = BRA_playing_as_integralists = 1 }
 		check_variable = { BRA_number_of_states_integralist_protesting >= 2 }
 		has_country_flag = BRA_hostile_integralists
+		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
 	}
 
 	mean_time_to_happen = { days = 14 }
@@ -1368,5 +1399,32 @@ country_event = {
 		add_ideas = BRA_integralist_protests_1 
 		BRA_add_integralist_occupation_to_random_state = yes 
 		# will kickstart a series of missions and unlock decisions #
+		set_variable = { BRA_extra_integralist_troops = 0 }
 	}
+}
+
+#Integralists strengthen their uprising 
+country_event = {
+	id = brazil.30
+	title = brazil.30.t 
+	desc = brazil.30.d 
+	picture = GFX_BRA_integralist_generic_increase_influence_pic 
+
+	trigger = {
+		original_tag = BRA 
+		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
+		has_active_mission = BRA_integralists_planning_uprising
+		NOT = { check_variable = BRA_playing_as_integralists = 1 }
+		has_civil_war = no 
+	}
+
+	mean_time_to_happen = { days = 75 }
+
+	immediate = {
+		add_days_mission_timeout = {
+			mission = BRA_integralists_planning_uprising
+			days = -15
+		}
+	}
+
 }

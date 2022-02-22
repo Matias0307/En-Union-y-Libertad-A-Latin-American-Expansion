@@ -671,7 +671,231 @@ BRA_political_manegement = {
 
     BRA_integralist_protests_worsen = {
         priority = 65
-        icon = 
+        icon = revolt
+
+        activation = {
+            NOT = { check_variable = { BRA_playing_as_integralists = 1 } }
+            OR = {
+                has_idea = BRA_integralist_protests_1
+                has_idea = BRA_integralist_protests_2
+            }
+        }
+
+        available = {
+            custom_trigger_tooltip = {
+                tooltip = BRA_no_states_with_integralists_tt
+                every_controlled_state = {
+                    NOT = { has_dynamic_modifier = { modifier = BRA_integralists_occupation } }
+                }
+            }
+        }
+
+        visible = {
+            has_civil_war = no 
+            exists = yes 
+        }
+
+        cancel_trigger = {
+            OR = {
+                NOT = { has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis } }
+                check_variable = { BRA_playing_as_integralists = 1 }
+            }
+        }
+
+        is_good = no 
+
+        days_mission_timeout = 120
+
+        complete_effect = {
+            add_stability = 0.01
+            add_war_support = 0.01
+            custom_effect_tooltip = BRA_integralist_influence_decrease_by_5_tt
+            hidden_effect = {
+                subtract_from_variable = { BRA_integralist_influence = 5 }
+                BRA_set_up_political_crisis = yes 
+            }
+        }
+        timeout_effect = {
+            if = {
+                limit = { has_idea = BRA_integralist_protests_1 }
+                swap_ideas = {
+                    remove_idea = BRA_integralist_protests_1
+                    add_idea = BRA_integralist_protests_2
+                }
+            }
+            else = {
+                swap_ideas = {
+                    remove_idea = BRA_integralist_protests_2
+                    add_idea = BRA_integralist_protests_3
+                }
+                activate_mission_tooltip = 
+            }
+            BRA_add_integralist_occupation_to_random_state = yes 
+            custom_effect_tooltip = BRA_integralist_influence_increase_by_5_tt
+            hidden_effect = {
+                add_to_variable = { BRA_integralist_influence = 5 }
+                BRA_set_up_political_crisis = yes 
+            }
+        }
+    }
+
+    BRA_integralists_planning_uprising = {
+        priority = 20
+        icon = generic_ignite_civil_war
+
+        activation = {
+            NOT = { check_variable = { BRA_playing_as_integralists = 1 } }
+            has_idea = BRA_integralist_protests_3
+        }
+
+        available = {
+            custom_trigger_tooltip = {
+                tooltip = BRA_no_states_with_integralists_tt
+                every_controlled_state = {
+                    NOT = { has_dynamic_modifier = { modifier = BRA_integralists_occupation } }
+                }
+            }
+            has_country_flag = BRA_integralist_uprising_shutdown
+        }
+
+        visible = {
+            has_civil_war = no 
+            exists = yes 
+        }
+
+        cancel_trigger = {
+            OR = {
+                NOT = { has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis } }
+                check_variable = { BRA_playing_as_integralists = 1 }
+            }
+        }
+
+        is_good = no 
+
+        days_mission_timeout = 200
+
+
+        complete_effect = {
+            custom_effect_tooltip = BRA_integralist_movement_will_be_shattered_tt
+        }
+
+        timeout_effect = {
+
+        }
+
+    }
+    BRA_deal_with_the_integralists_in_FROM = {
+        priority = 25
+        icon = eng_trade_unions_demand 
+
+        ai_will_do = {
+			base = 145
+		}
+
+		state_target = yes
+
+		target_array = controlled_states
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+				is_core_of = ROOT  
+			}
+		}
+
+		available = {
+			divisions_in_state = {
+                size > 3
+                state = FROM
+            }
+		}
+
+		visible = {
+			FROM = {
+				has_dynamic_modifier = { modifier = BRA_integralists_occupation }
+			}
+		}
+
+		cost = 15
+
+		days_remove = 40
+
+		modifier = {
+			weekly_manpower = -450
+		}
+
+		remove_effect = {
+			FROM = { 
+				remove_dynamic_modifier = { modifier = BRA_integralists_occupation }
+			}
+		}
+    }
+    BRA_delay_the_integralists = {
+        priority = 20
+        icon = generic_assassination
+
+        visible = {
+            NOT = { check_variable = { BRA_playing_as_integralists = 1 } }
+            has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
+            OR = {
+                has_active_mission = BRA_integralist_protests_worsen
+                has_active_mission = BRA_integralists_planning_uprising
+            }
+        }
+
+        cost = 35
+
+        days_remove = 40
+
+        complete_effect = {
+            if = {
+                limit = { has_active_mission = BRA_integralist_protests_worsen }
+                add_days_mission_timeout = {
+                    mission = BRA_integralist_protests_worsen
+                    days = 35
+                }
+            }
+            else = {
+                add_days_mission_timeout = {
+                    mission = BRA_integralists_planning_uprising
+                    days = 25
+                }
+            }
+        }
+    }
+
+    BRA_shut_down_the_integralist_uprising = {
+        icon = GFX_BRA_shut_down_integralist_coup
+        priority = 40
+
+        available = {
+            custom_trigger_tooltip = {
+                tooltip = BRA_no_states_with_integralists_tt
+                every_controlled_state = {
+                    NOT = { has_dynamic_modifier = { modifier = BRA_integralists_occupation } }
+                }
+            }
+        }
+
+        visible = {
+            OR = {
+                has_active_mission = BRA_integralists_planning_uprising
+                #will be used for the historical 1938 integralist coup attempt
+            }
+        }
+
+        complete_effect = {
+            custom_effect_tooltip = BRA_integralist_movement_will_be_shattered_tt
+            add_stability = 0.03
+            add_war_support = 0.05
+            hidden_effect = {
+                subtract_from_variable = { BRA_integralist_influence = 15 }
+                add_popularity = { ideology = fascism popularity = -0.1 }
+                BRA_set_up_political_crisis = yes 
+                set_country_flag = BRA_integralist_uprising_shutdown
+                set_country_flag = BRA_integralists_shutdown
+            }
+        }
     }
 }
 
@@ -679,6 +903,9 @@ BRA_imminent_civil_war = {
     
 }
 
+BRA_tenentist_revolt = {
+
+}
 
 BRA_economic_management = {
     BRA_industrialize_the_economy_mission = {
