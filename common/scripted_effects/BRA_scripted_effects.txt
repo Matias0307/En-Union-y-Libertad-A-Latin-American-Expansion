@@ -10,6 +10,7 @@
 #BRA_add_integralist_occupation_to_random_state
 #BRA_set_up_generic_civil_war_divisions_democratic
 #BRA_set_up_generic_civil_war_divisions_fascist
+#BRA_start_communist_civil_war
 
 BRA_set_dependency_on_coffee_idea = {
 	hidden_effect = {
@@ -799,5 +800,98 @@ BRA_set_up_generic_civil_war_divisions_fascist = {
 			}
 		}
 		clear_variable = BRA_extra_integralist_troops
+	}
+}
+
+BRA_start_communist_civil_war = {
+	every_state = {
+		limit = { has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state } }
+		BRC = {
+			transfer_state = PREV 
+		}
+	}
+	add_ideas = BRA_civil_war_vargas
+	transfer_units_fraction = {
+		target = BRC
+		stockpile_ratio = BRA_communist_civil_war_strength
+		army_ratio = BRA_communist_civil_war_strength
+		navy_ratio = BRA_communist_civil_war_strength
+		air_ratio = BRA_communist_civil_war_strength
+		keep_unit_leaders_trigger = {
+		}
+	}
+	every_character = {
+		limit = { has_character_flag = BRA_communist }
+		set_nationality = BRC
+	}
+	every_controlled_state = {
+		create_unit = {
+			division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+			owner = ROOT
+		}
+		create_unit = {
+			division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+			owner = ROOT
+		}
+	}
+
+	BRC = {
+		load_focus_tree = {
+			tree = brazil_focus
+			keep_completed = yes 
+		}
+		set_politics = {
+			ruling_party = communism
+		}
+		set_popularities = {
+			communism = 90
+			democratic = 10
+		}
+		### Will test this out, if variables do not work, then I will have to set them up manually :/ ###
+		add_ideas = BRA_civil_war_communist
+		declare_war_on = {
+			target = BRA 
+			type = civil_war
+		}
+		add_civil_war_target = BRA 
+		every_other_country = {
+			limit = { 
+				original_tag = BRA 
+				NOT = { has_war_with = PREV }
+			}
+			declare_war_on = {
+				target = PREV 
+				type = civil_war
+			}
+			add_civil_war_target = THIS 
+		}
+		if = {
+			limit = {
+				BRA_luis_carlos_prestes = {
+					NOT = { has_character_flag = BRA_imprisoned }
+				}
+				promote_character = BRA_luis_carlos_prestes
+			}
+		}
+		else = {
+			promote_character = BRA_ewert_arthur
+		}
+		every_controlled_state = {
+			create_unit = {
+				division = "name = \"Milícias Comunistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+				owner = PREV
+			}
+			create_unit = {
+				division = "name = \"Milícias Comunistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+				owner = PREV
+			}
+		}
+		### ADD IF STATEMENTS FOR FUTURE FOCUSES, FUTURE ME, SINCE THIS WILL ALSO BE THE EXACT SAME EFFECT USED FOR THE PLAYER SIDE ###
+	}
+	if = { #one way to tag switch, will hoever try the other way and see if it's more efficient
+		limit = {
+			has_country_flag = BRA_active_communist_revolt
+		}
+		BRC = { change_tag_from = BRA }
 	}
 }

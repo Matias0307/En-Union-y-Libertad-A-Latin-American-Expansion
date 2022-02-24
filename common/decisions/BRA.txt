@@ -1009,7 +1009,99 @@ BRA_imminent_civil_war = {
 
 BRA_peasant_revolt = {
     BRA_communist_peasant_revolt_ai = {
-        
+        priority = 100
+        icon = POL_looming_peasants_strike
+
+        activation = {
+            NOT = { check_variable = BRA_playing_as_communists = 1 }
+            has_country_flag = BRA_active_communist_revolt_ai
+        }
+
+        available = {
+            OR = {
+                custom_trigger_tooltip = {
+                    tooltip = BRA_no_states_with_communists_tt
+                    every_controlled_state = {
+                        NOT = { has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state } }
+                    }
+                }
+                has_country_flag = BRA_communist_uprising_cancelled
+            }
+        }
+
+        visible = {
+            exists = yes 
+            is_subject = no 
+        }
+
+        is_good = no 
+        days_mission_timeout = 215 
+
+        complete_effect = {
+            custom_effect_tooltip = BRA_communists_will_be_disbanded_tt
+            hidden_effect = {
+                set_country_flag = BRA_communists_shutdown
+            }
+        }
+
+        cancel_trigger = {
+            has_civil_war = yes 
+            BRC = {
+                has_war_with = BRA 
+            }
+        }
+
+        timeout_effect = {
+            effect_tooltip = {
+                start_civil_war = {
+                    ruling_party = ROOT 
+                    ideology = communism
+                    size = 0.4
+                }
+            }
+            hidden_effect = {
+                BRA_start_communist_civil_war = yes 
+            }
+        }
+    }
+
+    BRA_try_delaying_the_peasant_revolt = {
+        icon = eng_trade_unions_demand
+
+        visible = {
+            OR = {
+                has_active_mission = BRA_communist_peasant_revolt_ai
+                # will include the player misson #
+            }
+        }
+
+        cost = BRA_cost_to_delay_communists
+
+        complete_effect = {
+            custom_effect_tooltip = BRA_cost_will_increase_by_15_tt
+            if = {
+                limit = { has_active_mission = BRA_communist_peasant_revolt_ai }
+                add_days_mission_timeout = {
+                    mission = BRA_communist_peasant_revolt_ai
+                    days = 30
+                }
+            }
+            else = {
+
+            }
+            hidden_effect = {
+                add_to_variable = { BRA_cost_to_delay_communists = 15 }
+            }
+        }
+
+        days_remove = 40
+
+        cancel_trigger = {
+            has_civil_war = yes 
+            BRC = {
+                has_war_with = BRA 
+            }
+        }
     }
 }
 
