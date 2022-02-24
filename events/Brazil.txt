@@ -1484,3 +1484,112 @@ country_event = {
 		}
 	}
 }
+
+#Vargas arrests Carlos Prestes ###this event is mostly to prevent the player from delaying the communist route too much##
+country_event = {
+	id = brazil.31 
+	title = brazi.31.t 
+	desc = brazil.31.d 
+	picture = GFX_BRA_imprisonment_of_prestes
+
+	fire_only_once = yes 
+
+	trigger = {
+		original_tag = BRA 
+		NOT = {
+			has_completed_focus = BRA_the_path_to_estado_novo
+		}
+		check_variable = { BRA_playing_as_vargas = 1 }
+		date > 1937.05.02
+	}
+
+	option = {
+		name = brazil.31.a 
+		custom_effect_tooltip = BRA_carlos_will_be_imprisoned_tt
+		custom_effect_tooltip = BRA_state_with_activity_will_rebel_tt
+		custom_effect_tooltip = BRA_communists_will_be_shutdown_tt
+		activate_mission_tooltip = BRA_communists_planning_to_take_FROM
+		hidden_effect = {
+			BRA_luis_carlos_prestes = {
+				set_character_flag = BRA_imprisoned
+			}
+			set_country_flag = BRA_communists_shutdown
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT 
+					has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+					NOT = { has_state_flag = BRA_communists_will_revolt_in_state_tt }
+				}
+				set_state_flag = BRA_communists_will_revolt_in_state_tt
+			}
+		}
+	}
+}
+
+#Vargas arrests Prestes #event generated via focus#
+country_event = {
+	id = brazil.32
+	title = brazil.31.t 
+	desc = brazil.31.d 
+	picture = GFX_BRA_imprisonment_of_prestes
+
+	is_triggered_only = yes 
+
+	option = {
+		name = brazil.31.a 
+		custom_effect_tooltip = BRA_carlos_will_be_imprisoned_tt
+		custom_effect_tooltip = BRA_state_with_activity_will_rebel_tt
+		custom_effect_tooltip = BRA_communists_will_be_shutdown_tt
+		activate_mission_tooltip = BRA_communists_planning_to_take_FROM
+		hidden_effect = {
+			BRA_luis_carlos_prestes = {
+				set_character_flag = BRA_imprisoned
+			}
+			set_country_flag = BRA_communists_shutdown
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT 
+					has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+					NOT = { has_state_flag = BRA_communists_will_revolt_in_state_tt }
+				}
+				set_state_flag = BRA_communists_will_revolt_in_state_tt
+			}
+		}
+	}
+}
+
+#Prestes begins plans for a revolt 
+country_event = {
+	id = brazil.33
+	title = brazil.33.t 
+	desc = brazil.33.d 
+	picture = GFX_report_event_generic_rifles
+
+	fire_only_once = yes 
+
+	trigger = {
+		original_tag = BRA 
+		OR = {
+			check_variable = { BRA_playing_as_vargas = 1 }
+			check_variable = { BRA_playing_as_congress = 1 }
+		}
+		if = {
+			limit = { check_variable = BRA_playing_as_congress = 1 }
+			NOT = { has_country_flag = BRA_proposed_a_deal_with_communists }
+		}
+		if = {
+			limit = { check_variable = BRA_playing_as_vargas = 1 }
+			NOT = { has_country_flag = BRA_communists_shutdown }
+		}
+		date > 1938.02.01
+	}
+
+	immediate = {
+		set_country_flag = BRA_active_communist_revolt_ai
+	}
+
+	option = {
+		name = brazil.33.a 
+		activate_mission_tooltip = BRA_communist_peasant_revolt_ai
+	}
+}
