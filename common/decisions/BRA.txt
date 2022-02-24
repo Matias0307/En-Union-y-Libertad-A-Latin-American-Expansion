@@ -69,6 +69,96 @@ BRA_political_manegement = {
         }
     }
 
+    BRA_strengthen_our_police_force = {
+        icon = generic_army_support
+
+        visible = {
+            has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
+            has_civil_war = no 
+            OR = {
+                has_idea = BRA_police_brutality_1
+                has_idea = BRA_police_brutality_2
+            }
+            check_variable = { BRA_playing_as_vargas = 1 }
+            NOT = { has_country_flag = BRA_disbanded_police_force }
+        }
+
+        cost = 35
+
+        complete_effect = {
+            if = {
+                limit = { has_idea = BRA_police_brutality_1 }
+                swap_ideas = {
+                    remove_idea = BRA_police_brutality_1
+                    add_idea = BRA_police_brutality_2
+                }
+                custom_effect_tooltip = BRA_less_likely_for_people_to_protest_tt
+            }
+            else = {
+                swap_ideas = {
+                    remove_idea = BRA_police_brutality_2
+                    add_idea = BRA_police_brutality_3
+                }
+                custom_effect_tooltip = BRA_people_straight_up_not_protest_tt
+            }
+            hidden_effect = {
+                set_country_flag = BRA_increasing_police_force
+                add_to_variable = { BRA_cost_to_disband_the_police_force = 35 }
+            }
+        }
+
+        days_remove = 50
+
+        modifier = {
+            stability_weekly = -0.005
+            weekly_manpower = -250
+        }
+    }
+
+    BRA_disband_the_police_force = {
+        icon = eng_trade_unions_support
+
+        cost = BRA_cost_to_disband_the_police_force
+
+        visible = {
+            has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
+            has_civil_war = no 
+            OR = {
+                has_idea = BRA_police_brutality_1
+                has_idea = BRA_police_brutality_2
+                has_idea = BRA_police_brutality_3
+            }
+            check_variable = { BRA_playing_as_vargas = 1 }
+        }
+        
+        available = {
+            has_manpower > 9999
+        }
+
+        days_remove = 75
+
+        modifier = {
+            weekly_manpower = -1000 #police force will rebel around this time 
+        }
+
+        complete_effect = {
+            if = {
+                limit = { has_idea = BRA_police_brutality_1 }
+                remove_ideas = BRA_police_brutality_1
+            }
+            else_if = {
+                limit = { has_idea = BRA_police_brutality_2 }
+                remove_ideas = BRA_police_brutality_2
+            }
+            else = {
+                remove_ideas = BRA_police_brutality_3
+            }
+            hidden_effect = {
+                set_country_flag = BRA_disbanded_police_force
+            }
+        }
+    }
+
     BRA_increase_our_influence = { #dynamic decision that changes depending on who controls the nation 
         icon = eng_propaganda_campaigns
 
@@ -231,7 +321,12 @@ BRA_political_manegement = {
 
         visible = {
             NOT = { has_country_flag = BRA_state_of_anarchy }
-            #NOT = { has_completed_focus = BRA_}
+            NOT = {
+                OR = {
+                    has_completed_focus = BRA_manipulate_behind_the_scenes
+                    has_completed_focus = BRA_reject_the_estado_navo
+                }
+            }
             OR = {
                 check_variable = { BRA_playing_as_vargas = 1 }
                 check_variable = { BRA_playing_as_integralists = 1 }

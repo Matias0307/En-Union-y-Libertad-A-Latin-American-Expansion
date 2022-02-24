@@ -841,9 +841,20 @@ country_event = {
 		check_variable = { BRA_playing_as_vargas = 1 }
 		has_country_flag = BRA_hostile_congress
 		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
+		NOT = { has_idea = BRA_police_brutality_3 }
 	}
 
-	mean_time_to_happen = { days = 150 }
+	mean_time_to_happen = { 
+		days = 150 
+		modifier = {
+			factor = 1.15
+			has_idea = BRA_police_brutality_1
+		}
+		modifier = {
+			factor = 1.4
+			has_idea = BRA_police_brutality_2
+		}	
+	}
 
 	option = {
 		name = brazil.16.a 
@@ -875,9 +886,20 @@ country_event = {
 		has_country_flag = BRA_hostile_congress
 		check_variable = { BRA_congress_influence > 24 }
 		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
+		NOT = { has_idea = BRA_police_brutality_3 }
 	}
 
-	mean_time_to_happen = { days = 80 }
+	mean_time_to_happen = { 
+		days = 80 
+		modifier = {
+			factor = 1.1
+			has_idea = BRA_police_brutality_1
+		}
+		modifier = {
+			factor = 1.45
+			has_idea = BRA_police_brutality_2
+		}
+	}
 
 	option = {
 		name = brazil.17.a 
@@ -955,12 +977,25 @@ country_event = {
 			}
 			if = {
 				limit = {
-					network_strength = {
-						target = ROOT 
-						value > 0.5
-					}
+					has_dlc = "La Resistance"
 				}
-				add_to_temp_variable = { BRA_chance_to_succeed = 40 }
+				if = {
+					limit = {
+						network_strength = {
+							target = ROOT 
+							value > 0.5
+						}
+					}
+					add_to_temp_variable = { BRA_chance_to_succeed = 40 }
+				}
+			}
+			else = {
+				if = {
+					limit = {
+						has_manpower = { size > 199999 }
+					}
+					add_to_temp_variable = { BRA_chance_to_succeed = 40 }
+				}
 			}
 			if = {
 				limit = {
@@ -1124,6 +1159,7 @@ country_event = {
 		has_civil_war = no 
 		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
 		NOT = { has_country_flag = BRA_integralists_shutdown }
+		NOT = { has_idea = BRA_police_brutality_3 }
 	}
 
 	mean_time_to_happen = {
@@ -1157,6 +1193,7 @@ country_event = {
 		original_tag = BRA 
 		has_civil_war = no 
 		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
+		NOT = { has_idea = BRA_police_brutality_3 }
 	}
 
 	mean_time_to_happen = {
@@ -1164,6 +1201,14 @@ country_event = {
 		modifier = {
 			factor = 0.6
 			check_variable = { BRA_congress_influence > 34 }
+		}
+		modifier = {
+			factor = 1.2
+			has_idea = BRA_police_brutality_1
+		}
+		modifier = {
+			factor = 1.6
+			has_idea = BRA_police_brutality_2
 		}
 	}
 
@@ -1337,7 +1382,7 @@ country_event = {
 	}
 
 	mean_time_to_happen = { 
-		days = 45
+		days = 55
 	}
 
 	option = {
