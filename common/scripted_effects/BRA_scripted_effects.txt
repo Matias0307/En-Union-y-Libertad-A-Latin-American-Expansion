@@ -836,10 +836,6 @@ BRA_start_communist_civil_war = {
 	}
 
 	BRC = {
-		load_focus_tree = {
-			tree = brazil_focus
-			keep_completed = yes 
-		}
 		set_politics = {
 			ruling_party = communism
 		}
@@ -848,7 +844,6 @@ BRA_start_communist_civil_war = {
 			democratic = 10
 		}
 		### Will test this out, if variables do not work, then I will have to set them up manually :/ ###
-		add_ideas = BRA_civil_war_communist
 		declare_war_on = {
 			target = BRA 
 			type = civil_war
@@ -865,17 +860,7 @@ BRA_start_communist_civil_war = {
 			}
 			add_civil_war_target = THIS 
 		}
-		if = {
-			limit = {
-				BRA_luis_carlos_prestes = {
-					NOT = { has_character_flag = BRA_imprisoned }
-				}
-				promote_character = BRA_luis_carlos_prestes
-			}
-		}
-		else = {
-			promote_character = BRA_ewert_arthur
-		}
+		
 		every_controlled_state = {
 			create_unit = {
 				division = "name = \"Milícias Comunistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
@@ -888,10 +873,35 @@ BRA_start_communist_civil_war = {
 		}
 		### ADD IF STATEMENTS FOR FUTURE FOCUSES, FUTURE ME, SINCE THIS WILL ALSO BE THE EXACT SAME EFFECT USED FOR THE PLAYER SIDE ###
 	}
-	if = { #one way to tag switch, will hoever try the other way and see if it's more efficient
+	if = { #one way to tag switch, will however try the other way and see if it's more efficient
 		limit = {
 			has_country_flag = BRA_active_communist_revolt
 		}
 		BRC = { change_tag_from = BRA }
+	}
+	if = {
+		limit = { has_idea = rural_economy }
+		add_ideas = rural_economy
+	}
+	else_if = {
+		limit = { has_idea = industrializing_economy }
+		add_ideas = industrializing_economy
+	}
+	BRC = {
+		add_ideas = BRA_civil_war_communist
+		load_focus_tree = {
+			tree = brazil_focus
+			keep_completed = yes 
+		}
+		create_country_leader = {
+			name = "Luís Carlos Prestes"
+			desc = "POLITICS_LUIS_CARLOS_PRESTES_DESC"
+			picture = "gfx/leaders/BRA/BRA_General_Prestes.png"
+			expire = "1965.1.1"
+			ideology = tenentism
+			traits = {
+				#
+			}
+		}
 	}
 }
