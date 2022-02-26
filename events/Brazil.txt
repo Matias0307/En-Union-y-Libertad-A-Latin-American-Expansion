@@ -992,7 +992,7 @@ country_event = {
 			else = {
 				if = {
 					limit = {
-						has_manpower = { size > 199999 }
+						has_army_manpower = { size > 199999 }
 					}
 					add_to_temp_variable = { BRA_chance_to_succeed = 40 }
 				}
@@ -1078,7 +1078,7 @@ country_event = {
 			add_popularity = { ideology = communism popularity = 0.025 }
 		}
 		else = {
-			add_popularity = { ideology = communism popularity 0.005}
+			add_popularity = { ideology = communism popularity = 0.005 }
 		}
 	}
 }
@@ -1431,8 +1431,8 @@ country_event = {
 
 	trigger = {
 		original_tag = BRA 
-		NOT = { check_variable = BRA_playing_as_integralists = 1 }
-		check_variable = { BRA_number_of_states_integralist_protesting >= 2 }
+		NOT = { check_variable = { BRA_playing_as_integralists = 1 } }
+		check_variable = { BRA_number_of_states_integralist_protesting > 1 }
 		has_country_flag = BRA_hostile_integralists
 		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
 	}
@@ -1459,7 +1459,7 @@ country_event = {
 		original_tag = BRA 
 		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
 		has_active_mission = BRA_integralists_planning_uprising
-		NOT = { check_variable = BRA_playing_as_integralists = 1 }
+		NOT = { check_variable = { BRA_playing_as_integralists = 1 } }
 		has_civil_war = no 
 	}
 
@@ -1574,11 +1574,11 @@ country_event = {
 			check_variable = { BRA_playing_as_congress = 1 }
 		}
 		if = {
-			limit = { check_variable = BRA_playing_as_congress = 1 }
+			limit = { check_variable = { BRA_playing_as_congress = 1 } }
 			NOT = { has_country_flag = BRA_proposed_a_deal_with_communists }
 		}
 		if = {
-			limit = { check_variable = BRA_playing_as_vargas = 1 }
+			limit = { check_variable = { BRA_playing_as_vargas = 1 } }
 			NOT = { has_country_flag = BRA_communists_shutdown }
 		}
 		date > 1938.02.01
