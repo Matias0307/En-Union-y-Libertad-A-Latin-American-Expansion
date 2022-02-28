@@ -11,7 +11,7 @@ BRA_political_manegement = {
         available = {
             OR = {
                 has_civil_war = yes 
-                has_country_flag = BRA_vargas_defeated #will be given when vargas has 0 influence / focus maybe idk yet
+                has_country_flag = BRA_vargas_is_dead #will be given when vargas has 0 influence / focus maybe idk yet
             }
         }
 
@@ -29,7 +29,18 @@ BRA_political_manegement = {
         fire_only_once = yes 
 
         timeout_effect = {
-            #will think about this later on 
+            custom_effect_tooltip = BRA_political_parties_shutdown_tt
+            hidden_effect = {
+                clr_country_flag = BRA_neutral_integralists
+                clr_country_flag = BRA_hostile_congress
+                clr_country_flag = BRA_hostile_communists
+                set_country_flag = BRA_congress_shutdown
+                set_country_flag = BRA_integralists_shutdown
+                set_country_flag = BRA_communists_shutdown
+                set_variable = { BRA_congress_influence = 0 }
+                set_variable = { BRA_integralist_influence = 0 }
+                BRA_set_up_political_crisis = yes 
+            }
         } 
     }
 
@@ -42,6 +53,7 @@ BRA_political_manegement = {
         }
 
         activation = {
+            #has_active_mission = BRA_estado_novo_mission
             exists = yes 
             NOT = { has_country_flag = BRA_vargas_is_dead } #will be a chance event in the civil war route
         }
@@ -693,10 +705,7 @@ BRA_political_manegement = {
         }
 
         visible = {
-            #will add focus requirements here
-            ### TEMPORARY ### 
-            always = yes 
-            ################# 
+            has_country_flag = BRA_able_to_stop_communists
         }
 
         cost = 40
@@ -885,7 +894,10 @@ BRA_political_manegement = {
                 ideology = fascism
                 size = BRA_fascist_popularity
             }
-            BRA_set_up_generic_civil_war_divisions_fascist = yes 
+            BRA_set_up_generic_civil_war_divisions_fascist_ai = yes 
+            hidden_effect = {
+                news_event = { id = news.361 days = 1 } 
+            }
         }
     }
     BRA_deal_with_the_integralists_in_FROM = {
@@ -912,6 +924,8 @@ BRA_political_manegement = {
                 size > 3
                 state = FROM
             }
+            has_civil_war = no 
+            command_power > 15
 		}
 
 		visible = {
@@ -920,7 +934,11 @@ BRA_political_manegement = {
 			}
 		}
 
-		cost = 15
+        custom_cost_trigger = {
+			command_power > 15
+		}
+
+		custom_cost_text = CHL_cost_15_cp
 
 		days_remove = 40
 

@@ -9,7 +9,7 @@
 #BRA_neutral_character
 #BRA_add_integralist_occupation_to_random_state
 #BRA_set_up_generic_civil_war_divisions_democratic
-#BRA_set_up_generic_civil_war_divisions_fascist
+#BRA_set_up_generic_civil_war_divisions_fascist_ai
 #BRA_start_communist_civil_war
 
 BRA_set_dependency_on_coffee_idea = {
@@ -582,7 +582,12 @@ BRA_add_integralist_occupation_to_random_state = {
 	hidden_effect = {
 		random_owned_controlled_state = {
 			limit = {
-				is_core_of = ROOT 
+				is_core_of = ROOT
+				any_neighbor_state = {
+					is_fully_controlled_by = ROOT 
+					is_core_of = ROOT 
+					has_dynamic_modifier = { modifier = BRA_integralists_occupation }
+				}
 				NOT = {
 					OR = {
 						has_dynamic_modifier = { modifier = BRA_integralists_occupation }
@@ -591,8 +596,8 @@ BRA_add_integralist_occupation_to_random_state = {
 				}
 			}
 			add_dynamic_modifier = { modifier = BRA_integralists_occupation }
-			add_to_variable = { BRA_number_of_states_integralist_protesting = 1 }
 		}
+		add_to_variable = { BRA_number_of_states_integralist_protesting = 1 }
 	}
 }
 
@@ -675,7 +680,7 @@ BRA_set_up_generic_civil_war_divisions_democratic = {
 	}
 }
 
-BRA_set_up_generic_civil_war_divisions_fascist = {
+BRA_set_up_generic_civil_war_divisions_fascist_ai = {
 	hidden_effect = {
 		set_temp_variable = { BRA_integralist_militia_experience = BRA_integralist_influence }
 		divide_temp_variable = { BRA_integralist_militia_experience = 100 }
@@ -696,6 +701,10 @@ BRA_set_up_generic_civil_war_divisions_fascist = {
 		else_if = {
 			limit = { check_variable = { BRA_playing_as_communists = 1 } }
 			add_ideas = BRA_civil_war_communist 
+		}
+		every_character = {
+			limit = { has_character_flag = BRA_integralist }
+			retire_character = THIS 
 		}
 		random_other_country = {
 			limit = { 
@@ -731,6 +740,57 @@ BRA_set_up_generic_civil_war_divisions_fascist = {
 				owner = ROOT
 			}
 		}
+		### GENERIC VARIABLE SET UP ### # BRIN = Integralist Brazil #
+		set_temp_variable = { BRIN_dependency_on_coffee = BRA_dependency_on_coffee }
+		set_temp_variable = { BRIN_coffee_companies_opinion = BRA_coffee_companies_opinion }
+		set_temp_variable = { BRIN_civilian_factory_boost = BRA_civilian_factory_boost }
+		set_temp_variable = { BRIN_military_factory_boost = BRA_military_factory_boost }
+		set_temp_variable = { BRIN_dockyard_construction_boost = BRA_dockyard_construction_boost }
+		set_temp_variable = { BRIN_industrial_capacity_factory_speed = BRA_industrial_capacity_factory_speed }
+		set_temp_variable = { BRIN_industrial_capacity_dockyard_speed = BRA_industrial_capacity_dockyard_speed }
+		set_temp_variable = { BRIN_infrastructure_construction_speed = BRA_infrastructure_construction_speed }
+		set_temp_variable = { BRIN_railway_construction_speed = BRA_railway_construction_speed }
+		set_temp_variable = { BRIN_supply_node_construction_speed = BRA_supply_node_construction_speed }   
+		set_temp_variable = { BRIN_cost_for_civ_boost = BRA_cost_for_civ_boost }
+		set_temp_variable = { BRIN_amount_cost_increase_civ = BRA_amount_cost_increase_civ }
+		set_temp_variable = { BRIN_cost_for_mil_boost = BRA_cost_for_mil_boost }
+		set_temp_variable = { BRIN_amount_cost_increase_mil = BRA_amount_cost_increase_mil }
+		set_temp_variable = { BRIN_cost_for_dock_boost = BRA_cost_for_dock_boost }
+		set_temp_variable = { BRIN_amount_cost_increase_dock = BRA_amount_cost_increase_dock }
+		set_temp_variable = { BRIN_cost_for_infrastructure = BRA_cost_for_infrastructure }
+		set_temp_variable = { BRIN_amount_cost_increase_infra = BRA_amount_cost_increase_infra }
+		set_temp_variable = { BRIN_cost_to_invest_in_railway_construction = BRA_cost_to_invest_in_railway_construction }
+		set_temp_variable = { BRIN_increase_railway_cost_amount = BRA_increase_railway_cost_amount }
+		random_other_country = {
+			limit = {
+				original_tag = BRA 
+				has_civil_war = yes 
+				has_government = fascism 
+			}
+			set_variable = { BRA_coffee_companies_opinion = BRIN_coffee_companies_opinion }
+			set_variable = { BRA_dependency_on_coffee = BRIN_dependency_on_coffee }
+			set_variable = { BRA_civilian_factory_boost = BRIN_civilian_factory_boost }
+			set_variable = { BRA_military_factory_boost = BRIN_military_factory_boost }
+			set_variable = { BRA_dockyard_construction_boost = BRIN_dockyard_construction_boost }
+			set_variable = { BRA_industrial_capacity_factory_speed = BRIN_industrial_capacity_factory_speed }
+			set_variable = { BRA_industrial_capacity_dockyard_speed = BRIN_industrial_capacity_dockyard_speed }
+			set_variable = { BRA_infrastructure_construction_speed = BRIN_infrastructure_construction_speed }
+			set_variable = { BRA_railway_construction_speed = BRIN_railway_construction_speed }
+			set_variable = { BRA_supply_node_construction_speed = BRIN_supply_node_construction_speed }   
+			set_variable = { BRA_cost_for_civ_boost = BRIN_cost_for_civ_boost }
+			set_variable = { BRA_amount_cost_increase_civ = BRIN_amount_cost_increase_civ }
+			set_variable = { BRA_cost_for_mil_boost = BRIN_cost_for_mil_boost }
+			set_variable = { BRA_amount_cost_increase_mil = BRIN_amount_cost_increase_mil }
+			set_variable = { BRA_cost_for_dock_boost = BRIN_cost_for_dock_boost }
+			set_variable = { BRA_amount_cost_increase_dock = BRIN_amount_cost_increase_dock }
+			set_variable = { BRA_cost_for_infrastructure = BRIN_cost_for_infrastructure }
+			set_variable = { BRA_amount_cost_increase_infra = BRIN_amount_cost_increase_infra }
+			set_variable = { BRA_cost_to_invest_in_railway_construction = BRIN_cost_to_invest_in_railway_construction }
+			set_variable = { BRA_increase_railway_cost_amount = BRIN_increase_railway_cost_amount }
+			BRA_set_dependency_on_coffee_idea = yes #please god work
+			BRA_update_opinion_variable = yes 
+		}
+		### GENERIC VARIABLE SET UP ###
 		random_other_country = {
 			limit = {
 				original_tag = BRA 
@@ -738,6 +798,14 @@ BRA_set_up_generic_civil_war_divisions_fascist = {
 				has_government = fascism 
 			}
 			add_ideas = BRA_civil_war_integralists
+			load_focus_tree = {
+				tree = brazil_focus
+				keep_completed = no 
+			}
+			### WILL ADD THE INTEGRALIST FOCUSES HERE ###
+			unlock_national_focus = BRA_invest_in_our_economy
+			unlock_national_focus = BRA_pave_the_roads
+			unlock_national_focus = BRA_reject_the_estado_navo
 			every_controlled_state = {
 				create_unit = {
 					division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
@@ -904,7 +972,10 @@ BRA_start_communist_civil_war = {
 		set_nationality = BRC 
 	}
 	BRC = {
-		retire_character = BRA_dom_pedro_iii #idk why this guy constantly appears
+		every_character = {
+			limit = { NOT = { has_character_flag = BRA_communist } }
+			retire_character = THIS 
+		}
 		inherit_technology = BRA #gets the techs the player originally researched 
 		set_politics = {
 			ruling_party = communism
@@ -984,5 +1055,4 @@ BRA_start_communist_civil_war = {
 			### WILL ADD POLITICAL FOCUSES FROM THE COMMUNIST BRANCH HERE ###
 		}
 	}
-	
 }

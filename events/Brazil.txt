@@ -82,17 +82,20 @@ country_event = {
 				remove_dynamic_modifier = { modifier = BRA_widespread_coffee_plantations }
 				add_dynamic_modifier = { modifier = BRA_small_coffee_plantations }
 			}
-			custom_effect_tooltip = BRA_coffee_dependency_decreases_5_tt
-			add_building_construction = {
-				type = infrastructure
-				level = 1
-				instant_build = yes 
+			if = {
+				limit = { infrastructure < 3 }
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes 
+				}
 			}
-			hidden_effect = {
-				subtract_from_variable = { BRA_dependency_on_coffee = 5 }
-				BRA_update_opinion_variable = yes 
-				BRA_set_dependency_on_coffee_idea = yes
-			}
+		}
+		custom_effect_tooltip = BRA_coffee_dependency_decreases_5_tt
+		hidden_effect = {
+			subtract_from_variable = { BRA_dependency_on_coffee = 5 }
+			BRA_update_opinion_variable = yes 
+			BRA_set_dependency_on_coffee_idea = yes
 		}
 	}
 }
@@ -161,12 +164,12 @@ country_event = {
 			else = {
 				add_dynamic_modifier = { modifier = BRA_small_coffee_plantations }
 			}
-			custom_effect_tooltip = BRA_coffee_dependency_increases_5_tt
-			hidden_effect = {
-				add_to_variable = { BRA_dependency_on_coffee = 5 }
-				BRA_update_opinion_variable = yes 
-				BRA_set_dependency_on_coffee_idea = yes
-			}
+		}
+		custom_effect_tooltip = BRA_coffee_dependency_increases_5_tt
+		hidden_effect = {
+			add_to_variable = { BRA_dependency_on_coffee = 5 }
+			BRA_update_opinion_variable = yes 
+			BRA_set_dependency_on_coffee_idea = yes
 		}
 	}
 
@@ -842,6 +845,8 @@ country_event = {
 		has_country_flag = BRA_hostile_congress
 		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
 		NOT = { has_idea = BRA_police_brutality_3 }
+		NOT = { has_country_flag = BRA_congress_shutdown }
+		date > 1936.2.1
 	}
 
 	mean_time_to_happen = { 
@@ -887,6 +892,7 @@ country_event = {
 		check_variable = { BRA_congress_influence > 24 }
 		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
 		NOT = { has_idea = BRA_police_brutality_3 }
+		NOT = { has_country_flag = BRA_congress_shutdown }
 	}
 
 	mean_time_to_happen = { 
@@ -928,6 +934,7 @@ country_event = {
 		original_tag = BRA 
 		has_civil_war = no
 		NOT = { check_variable = {BRA_playing_as_communists = 1 } }
+		NOT = { has_country_flag = BRA_communists_shutdown }
 		check_variable = { BRA_communist_subversive_activity > 2 }
 		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
 	}
@@ -1050,7 +1057,9 @@ country_event = {
 	trigger = {
 		original_tag = BRA 
 		has_civil_war = no
+		date > 1936.2.10
 		NOT = { check_variable = {BRA_playing_as_communists = 1 } }
+		NOT = { has_country_flag = BRA_communists_shutdown }
 		any_controlled_state = {
 			has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
 		}
@@ -1060,7 +1069,7 @@ country_event = {
 	fire_only_once = no 
 
 	mean_time_to_happen = {
-		days = 95
+		days = 100
 	}
 
 	option = {
@@ -1099,6 +1108,7 @@ country_event = {
 			has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
 		}
 		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
+		NOT = { has_country_flag = BRA_communists_shutdown }
 	}
 
 	fire_only_once = no 
@@ -1194,6 +1204,7 @@ country_event = {
 		has_civil_war = no 
 		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
 		NOT = { has_idea = BRA_police_brutality_3 }
+		NOT = { has_country_flag = BRA_congress_shutdown }
 	}
 
 	mean_time_to_happen = {
@@ -1299,7 +1310,7 @@ country_event = {
 country_event = {
 	id = brazil.26
 	title = brazil.26.t 
-	desc = brazi.26.d
+	desc = brazil.26.d
 	picture = GFX_BRA_brazil_26
 
 	fire_only_once = yes 
@@ -1325,7 +1336,7 @@ country_event = {
 	id = brazil.27
 	title = brazil.27.t 
 	desc = brazil.27.d 
-	picture = GFX_report_event_generic_riot
+	picture = GFX_report_event_generic_army
 
 	fire_only_once = no 
 
@@ -1339,9 +1350,9 @@ country_event = {
 	}
 
 	mean_time_to_happen = { 
-		days = 105
+		days = 110
 		modifier = {
-			factor = 0.6
+			factor = 0.85
 			has_active_mission = BRA_integralist_protests_worsen
 		} 
 	}
@@ -1358,7 +1369,28 @@ country_event = {
 
 	option = {
 		name = brazil.27.a 
-		BRA_add_integralist_occupation_to_random_state = yes 
+		if = {
+			limit = { check_variable = { BRA_number_of_states_integralist_protesting = 0 } }
+			custom_effect_tooltip = BRA_integralists_occupy_random_state_tt
+			hidden_effect = {
+				random_owned_controlled_state = {
+					limit = {
+						is_core_of = ROOT 
+						NOT = {
+							OR = {
+								has_dynamic_modifier = { modifier = BRA_integralists_occupation }
+								has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+							}
+						}
+					}
+					add_dynamic_modifier = { modifier = BRA_integralists_occupation }
+				}
+				add_to_variable = { BRA_number_of_states_integralist_protesting = 1 }
+			}
+		} 
+		else = {
+			BRA_add_integralist_occupation_to_random_state = yes 
+		}
 	}
 }
 
@@ -1367,7 +1399,7 @@ country_event = {
 	id = brazil.28 
 	title = brazil.28.t 
 	desc = brazil.28.d 
-	picture = GFX_  #Will have a unique picture
+	picture = GFX_report_event_generic_riot
 
 	fire_only_once = no 
 
@@ -1380,10 +1412,15 @@ country_event = {
 		has_country_flag = BRA_hostile_integralists
 		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
 		NOT = { has_active_mission = BRA_integralists_planning_uprising }
+		NOT = { has_country_flag = BRA_integralists_shutdown }
 	}
 
 	mean_time_to_happen = { 
-		days = 55
+		days = 60
+		modifier = {
+			factor = 1.4
+			check_variable = { BRA_number_of_states_integralist_protesting > 2 }
+		}
 	}
 
 	option = {
@@ -1435,6 +1472,7 @@ country_event = {
 		NOT = { check_variable = { BRA_playing_as_integralists = 1 } }
 		check_variable = { BRA_number_of_states_integralist_protesting > 1 }
 		has_country_flag = BRA_hostile_integralists
+		NOT = { has_country_flag = BRA_integralists_shutdown }
 		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
 	}
 
@@ -1464,7 +1502,7 @@ country_event = {
 		has_civil_war = no 
 	}
 
-	mean_time_to_happen = { days = 75 }
+	mean_time_to_happen = { days = 70 }
 
 	immediate = {
 		add_days_mission_timeout = {
@@ -1486,7 +1524,7 @@ country_event = {
 	}
 }
 
-#Vargas arrests Carlos Prestes ###this event is mostly to prevent the player from delaying the communist route too much##
+#Vargas arrests Carlos Prestes ### this event is mostly to prevent the player from delaying the communist route too much ###
 country_event = {
 	id = brazil.31 
 	title = brazi.31.t 
