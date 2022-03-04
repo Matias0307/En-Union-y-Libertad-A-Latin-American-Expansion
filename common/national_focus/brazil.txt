@@ -2529,11 +2529,18 @@ focus_tree = {
 	focus = {
 		id = BRA_soviet_volunteers
 		icon = GFX_BRA_soviet_volunteers
-		x = -1
+		x = 0
 		y = 2
 		relative_position_id = BRA_soviet_logistic_advisors
 		prerequisite = { focus = BRA_soviet_logistic_advisors }
-		prerequisite = { focus = BRA_bring_in_soviet_tanks }
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_is_playing_as_communists_tt
+				check_variable = { BRA_playing_as_communists = 1 }
+			}
+			has_civil_war = no 
+		}
 
 		#will spawn in divisions at the start of the civil war, and will be removed once its over 
 	}
@@ -2578,10 +2585,53 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_organize_countrywide_strikes
 		prerequisite = { focus = BRA_organize_countrywide_strikes }
+
+		#will prevent desertion of anarchists mid civil war 
 	}
 
 	focus = {
-		id = BRA_
+		id = BRA_strengthen_support_in_our_provinces
+		icon = GFX_focus_SOV_mobilization_plan
+		x = 0
+		y = 1
+		relative_position_id = BRA_cooperation_with_the_anarchists
+		prerequisite = { focus = BRA_cooperation_with_the_anarchists }
+
+		#spawn an extra militia in every controlled state 
+	}
+
+	focus = {
+		id = BRA_assasinate_vargas
+		icon = GFX_BRA_assasinate_vargas
+		x = 0
+		y = 1
+		relative_position_id = BRA_strengthen_support_in_our_provinces
+		prerequisite = { focus = BRA_strengthen_support_in_our_provinces }
+	}
+
+	focus = {
+		id = BRA_soviet_war_administration
+		icon = GFX_focus_SOV_organize_wreckers
+		x = 6
+		y = 1
+		relative_position_id = BRA_assasinate_vargas
+		prerequisite = { focus = BRA_assasinate_vargas }
+		prerequisite = { focus = BRA_soviet_logistic_advisors }
+
+		available = {
+			has_civil_war = yes 
+		}
+	}
+
+	focus = {
+		id = BRA_switch_to_a_war_economy
+		icon = GFX_BRA_generic_military
+		x = -4
+		y =1 
+		relative_position_id = BRA_assasinate_vargas
+		prerequisite = { focus = BRA_assasinate_vargas }
+		prerequisite = { focus = BRA_save_up_coffee_profits }
+		prerequisite = { focus = BRA_build_up_defenses_in_plantations }
 	}
 
 }
