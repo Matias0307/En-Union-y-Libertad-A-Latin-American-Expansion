@@ -108,6 +108,7 @@ focus_tree = {
 			}
 			custom_effect_tooltip = BRA_coffee_dependency_decreases_10_tt
 			unlock_decision_tooltip = BRA_destroy_the_coffee_plantations_in_FROM
+			BRA_industrialize_economy_slightly = yes 
 			hidden_effect = {
 				subtract_from_variable = { BRA_dependency_on_coffee = 10 }
 				BRA_update_opinion_variable = yes 
@@ -137,6 +138,7 @@ focus_tree = {
 				add_idea = industrializing_economy
 			}
 			EUYL_add_1_military = yes 
+			BRA_industrialize_economy_slightly = yes 
 			random_list = {
 				80 = {
 					add_ideas = BRA_rebellious_coffee_plantations_1
@@ -1008,6 +1010,7 @@ focus_tree = {
 			custom_effect_tooltip = BRA_coffee_plantations_rebel_tt
 			custom_effect_tooltip = BRA_coffee_dependency_decreases_15_tt
 			unlock_decision_tooltip = BRA_destroy_the_coffee_plantations_in_FROM
+			BRA_industrialize_economy_slightly = yes 
 			hidden_effect = {
 				every_controlled_state = {
 					limit = {
@@ -1243,7 +1246,7 @@ focus_tree = {
 	focus = {
 		id = BRA_forcas_armadas_brasileiras
 		icon = GFX_BRA_forcas_armadas
-		x = 68
+		x = 80
 		y = 0
 
 		cost = 4
@@ -2267,7 +2270,7 @@ focus_tree = {
 	focus = {
 		id = BRA_the_path_to_estado_novo #vargas and democratic route
 		icon = GFX_BRA_support_vargas
-		x = 38
+		x = 44
 		y = 0
 		mutually_exclusive = { focus = BRA_reject_the_estado_navo }
 		available = {
@@ -2287,7 +2290,7 @@ focus_tree = {
 	focus = {
 		id = BRA_reject_the_estado_navo #integralist and imperialist path
 		icon = GFX_BRA_go_against_vargas
-		x = 53
+		x = 65
 		y = 0
 		mutually_exclusive = { focus = BRA_the_path_to_estado_novo }
 
@@ -2332,9 +2335,253 @@ focus_tree = {
 		
 		cost = 2
 
+		#will trigger the peasant revolt mission, player side 
 		completion_reward = {
 
 		}
+	}
+
+	focus = {
+		id = BRA_set_up_intelligence_agency
+		icon = GFX_goal_generic_intelligence_exchange
+		x = 3
+		y = 1
+		relative_position_id = BRA_manipulate_behind_the_scenes
+		prerequisite = { focus = BRA_manipulate_behind_the_scenes }
+
+		#find command to start intelligence agency 
+	}
+
+	focus = {
+		id = BRA_work_in_secret_with_coffee_farmers 
+		icon = GFX_goal_generic_dangerous_deal
+		x = -4
+		y = 1
+		relative_position_id = BRA_manipulate_behind_the_scenes
+		prerequisite = { focus = BRA_manipulate_behind_the_scenes }
+
+		#will unlock decisions to convince farmers in plantations to join your side 
+	}
+
+	focus = {
+		id = BRA_offer_labor_rights_post_civil_war 
+		icon = GFX_focus_generic_treaty
+		x = -2
+		y = 1
+		relative_position_id = BRA_work_in_secret_with_coffee_farmers
+		prerequisite = { focus = BRA_work_in_secret_with_coffee_farmers }
+	}
+
+	focus = {
+		id = BRA_secret_conscription
+		icon = GFX_focus_SOV_builder_of_the_red_army
+		x = 1
+		y = 1
+		relative_position_id = BRA_work_in_secret_with_coffee_farmers
+		prerequisite = { focus = BRA_work_in_secret_with_coffee_farmers }
+
+		#will unlock conscription decisions in states where you convinced farmers to join your side 
+	}
+
+	focus = {
+		id = BRA_offer_proper_training_to_farmers
+		icon = GFX_BRA_offer_proper_training
+		x = -2
+		y = 1
+		relative_position_id = BRA_secret_conscription
+		prerequisite = { focus = BRA_secret_conscription }
+
+		#either give more divisions or a national spirit for army buffs
+	}
+
+	focus = {
+		id = BRA_secure_all_coffee_plantations
+		icon = GFX_BRA_secure_plantations 
+		x = 0
+		y = 1
+		relative_position_id = BRA_offer_proper_training_to_farmers
+		prerequisite = { focus = BRA_offer_proper_training_to_farmers }
+		prerequisite = { focus = BRA_work_out_an_agreement_with_farmers }
+
+		#farmers needed to have accepted, and must have convinced the farmers enough 
+	}
+
+	focus = {
+		id = BRA_save_up_coffee_profits
+		icon = GFX_BRA_coffee_profit
+		x = -1
+		y = 1
+		relative_position_id = BRA_secure_all_coffee_plantations
+		prerequisite = { focus = BRA_secure_all_coffee_plantations }
+
+		#give idea for economic boost during and after civil war 
+	}
+
+	focus = {
+		id = BRA_build_up_defenses_in_plantations
+		icon = GFX_goal_generic_fortify_city
+		x = 1
+		y =1 
+		relative_position_id = BRA_secure_all_coffee_plantations
+		prerequisite = { focus = BRA_secure_all_coffee_plantations }
+
+		#build forts and increase VPS 
+	}
+
+	focus = {
+		id = BRA_hide_weapons_inside_the_plantations
+		icon = GFX_BRA_hide_weapons_in_plantation
+		x = 0
+		y = 1
+		relative_position_id = BRA_secret_conscription
+		prerequisite = { focus = BRA_secret_conscription }
+
+		#will unlock a decision to store infantry equipment in plantations 
+	}
+
+	focus = {
+		id = BRA_destabilize_the_government
+		icon = GFX_focus_r56_goal_generic_uprising
+		x = 1
+		y = 1
+		relative_position_id = BRA_set_up_intelligence_agency
+		prerequisite = { focus = BRA_set_up_intelligence_agency }
+
+		#lowers stability 
+	}
+
+	focus = {
+		id = BRA_interfere_with_vargas_plans
+		icon = GFX_BRA_imprison_vargas
+		x = 1
+		y = 1
+		relative_position_id = BRA_destabilize_the_government
+		prerequisite = { focus = BRA_destabilize_the_government}
+	}
+	
+	focus = {
+		id = BRA_secretely_spread_support
+		icon = GFX_BRA_spread_supp
+		x = -1
+		y = 1
+		relative_position_id = BRA_set_up_intelligence_agency
+		prerequisite = { focus = BRA_set_up_intelligence_agency }
+
+		#unlocks map decisions to spread subversive influence to other states 
+	}
+
+	focus = {
+		id = BRA_convince_the_army
+		icon = GFX_focus_generic_manpower
+		x = -1
+		y = 1
+		relative_position_id = BRA_secretely_spread_support
+		prerequisite = { focus = BRA_secretely_spread_support }
+
+		#will give some characters the communist sympathizer thingy 
+	}
+
+	focus = {
+		id = BRA_organize_countrywide_strikes
+		icon = GFX_focus_POL_riot_of_37
+		x = 0
+		y = 1
+		relative_position_id = BRA_secret_supply_build_up
+		prerequisite = {
+			focus = BRA_secret_supply_build_up
+		}
+		prerequisite = { focus = BRA_convince_the_army }
+	}
+
+	focus = {
+		id = BRA_secret_supply_build_up #gracias tito por la idea XD
+		icon = GFX_focus_POL_warsaw_main_station
+		x = -3
+		y =1
+		relative_position_id = BRA_secretely_spread_support
+		prerequisite = { focus = BRA_secretely_spread_support }
+		prerequisite = { focus = BRA_secret_conscription }
+
+		#creates supply nodes and railways 
+	}
+
+	focus = {
+		id = BRA_ask_for_soviet_support
+		icon = GFX_focus_chi_mission_to_the_soviet_union
+		x = -1
+		y = 2
+		relative_position_id = BRA_destabilize_the_government
+		prerequisite = { focus = BRA_destabilize_the_government }
+		prerequisite = { focus = BRA_secretely_spread_support }
+	}
+
+	focus = {
+		id = BRA_soviet_logistic_advisors
+		icon = GFX_focus_generic_military_academy
+		x = 3
+		y = 1
+		relative_position_id = BRA_ask_for_soviet_support
+		prerequisite = { focus = BRA_ask_for_soviet_support }
+
+		#will invite soviet advisors over to help in the war 
+	}
+
+	focus = {
+		id = BRA_soviet_volunteers
+		icon = GFX_BRA_soviet_volunteers
+		x = -1
+		y = 2
+		relative_position_id = BRA_soviet_logistic_advisors
+		prerequisite = { focus = BRA_soviet_logistic_advisors }
+		prerequisite = { focus = BRA_bring_in_soviet_tanks }
+
+		#will spawn in divisions at the start of the civil war, and will be removed once its over 
+	}
+
+	focus = {
+		id = BRA_bring_soviet_weaponry_in_bulk
+		icon = GFX_BRA_soviet_armaments_fast
+		x = 1
+		y = 1
+		relative_position_id = BRA_ask_for_soviet_support
+		prerequisite = { focus = BRA_ask_for_soviet_support }
+		mutually_exclusive = { focus = BRA_secretly_bring_soviet_weaponry }
+
+		#will unlock decision to bring soviet guns in bulk, however there will be a chance of brazilian government finding out 
+	}
+
+	focus = {
+		id = BRA_secretly_bring_soviet_weaponry
+		icon = GFX_BRA_soviet_armaments_slow
+		x = -1
+		y =1 
+		relative_position_id = BRA_ask_for_soviet_support
+		prerequisite = { focus = BRA_ask_for_soviet_support }
+	}
+
+	focus = {
+		id = BRA_bring_in_soviet_tanks
+		icon = GFX_BRA_soviet_tanks
+		x = -1
+		y = 1
+		relative_position_id = BRA_bring_soviet_weaponry_in_bulk 
+		prerequisite = {
+			focus = BRA_secretly_bring_soviet_weaponry
+			focus = BRA_bring_soviet_weaponry_in_bulk
+		}
+	}
+
+	focus = {
+		id = BRA_cooperation_with_the_anarchists
+		icon = GFX_focus_spr_torchbearers_of_tomorrow
+		x = 0
+		y = 1
+		relative_position_id = BRA_organize_countrywide_strikes
+		prerequisite = { focus = BRA_organize_countrywide_strikes }
+	}
+
+	focus = {
+		id = BRA_
 	}
 
 }

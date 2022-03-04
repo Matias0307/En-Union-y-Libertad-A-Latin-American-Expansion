@@ -11,6 +11,7 @@
 #BRA_set_up_generic_civil_war_divisions_democratic
 #BRA_set_up_generic_civil_war_divisions_fascist_ai
 #BRA_start_communist_civil_war
+#BRA_industrialize_economy_slightly
 
 BRA_set_dependency_on_coffee_idea = {
 	hidden_effect = {
@@ -620,15 +621,8 @@ BRA_set_up_generic_civil_war_divisions_democratic = {
 				division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
 				owner = ROOT
 			}
-			random_owned_controlled_state = {
-				create_unit = {
-					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.2 start_equipment_factor = 0.95" 
-					owner = ROOT
-				}
-				create_unit = {
-					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.2 start_equipment_factor = 0.95" 
-					owner = ROOT
-				}
+		}
+		random_owned_controlled_state = {
 				create_unit = {
 					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.2 start_equipment_factor = 0.95" 
 					owner = ROOT
@@ -638,7 +632,6 @@ BRA_set_up_generic_civil_war_divisions_democratic = {
 					owner = ROOT
 				}
 			}
-		}
 		random_other_country = {
 			limit = {
 				original_tag = BRA 
@@ -704,7 +697,7 @@ BRA_set_up_generic_civil_war_divisions_fascist_ai = {
 		}
 		every_character = {
 			limit = { has_character_flag = BRA_integralist }
-			retire_character = THIS 
+			ROOT = { retire_character = PREV }
 		}
 		random_other_country = {
 			limit = { 
@@ -974,7 +967,7 @@ BRA_start_communist_civil_war = {
 	BRC = {
 		every_character = {
 			limit = { NOT = { has_character_flag = BRA_communist } }
-			retire_character = THIS 
+			BRC = { retire_character = PREV }
 		}
 		inherit_technology = BRA #gets the techs the player originally researched 
 		set_politics = {
@@ -1054,5 +1047,12 @@ BRA_start_communist_civil_war = {
 			set_country_flag = BRA_farmers_agreed #for ai, lets just say they did things right ;)
 			### WILL ADD POLITICAL FOCUSES FROM THE COMMUNIST BRANCH HERE ###
 		}
+	}
+}
+
+BRA_industrialize_economy_slightly = {
+	hidden_effect = {
+		set_country_flag = BRA_industrialized_economy
+		country_event = { id = brazil.34 days = 1 }
 	}
 }

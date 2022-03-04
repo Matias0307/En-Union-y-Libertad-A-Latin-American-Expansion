@@ -1095,8 +1095,8 @@ country_event = {
 #event that tells the game what state will be affected by communists 
 country_event = {
 	id = brazil.20 
-	title = brazil.20
-	desc = brazil.20 
+	title = brazil.20.t
+	desc = brazil.20.d
 	picture = GFX_report_event_generic_battle
 
 	trigger = {
@@ -1631,5 +1631,96 @@ country_event = {
 	option = {
 		name = brazil.33.a 
 		activate_mission_tooltip = BRA_communist_peasant_revolt_ai
+	}
+}
+
+#hidden event to clear industrialized country flag 
+country_event = {
+	id = brazil.34 
+
+	hidden = yes 
+
+	is_triggered_only = yes 
+
+	immediate = {
+		clr_country_flag = BRA_industrialized_economy
+	}
+}
+
+#Hostile coffee farmers speak up against your party 
+country_event = {
+	id = brazil.35
+	title = brazil.35.t 
+	desc = brazil.35.d 
+	picture = GFX_report_event_SOV_demands
+
+	mean_time_to_happen = { days = 215 }
+
+	trigger = {
+		original_tag = BRA 
+		check_variable = { BRA_coffee_companies_opinion < 0 }
+		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
+	}
+
+	option = {
+		name = brazil.35.a 
+		if = {
+			limit = { check_variable = { BRA_playing_as_congress = 1 } }
+			custom_effect_tooltip = BRA_decerase_congress_by_4_tt
+			hidden_effect = {
+				subtract_from_variable = { BRA_congress_influence = 4 }
+				BRA_set_up_political_crisis = yes 
+			}
+		}
+		else_if = {
+			limit = { check_variable = { BRA_playing_as_vargas = 1 } }
+			custom_effect_tooltip = BRA_decerase_vargas_by_4_tt
+			hidden_effect = {
+				subtract_from_variable = { BRA_vargas_influence = 4 }
+				BRA_set_up_political_crisis = yes 
+			}
+		}
+		else_if = {
+			limit = { check_variable = { BRA_playing_as_integralists = 1 } }
+			custom_effect_tooltip = BRA_decrease_integralists_by_4_tt
+			hidden_effect = {
+				subtract_from_variable = { BRA_integralist_influence = 4 }
+				BRA_set_up_political_crisis = yes 
+			}
+		}
+		else_if = {
+			limit = { check_variable = { BRA_playing_as_communists = 1 } }
+			add_popularity = { ideology = communism popularity = -0.02 }
+		}
+	}
+}
+
+#Hostile Coffee plantations purposefully harm our economy 
+country_event = {
+	id = brazil.36 
+	title = brazil.36.t 
+	desc = brazil.36.d 
+	picture = GFX_report_event_generic_conference
+
+	trigger = {
+		original_tag = BRA 
+		check_variable = { BRA_coffee_companies_opinion < 0 }
+		has_dynamic_modifier = { modifier = BRA_brazilian_economy }
+		has_civil_war = no 
+		BRA_coffee_plantations_active = yes 
+	}
+
+	mean_time_to_happen = { days = 285 }
+
+	option = {
+		name = brazil.36.a 
+		custom_effect_tooltip = BRA_modify_ind_cap_arms_fact_dock_tt
+		hidden_effect = {
+			subtract_from_variable = { BRA_civilian_factory_boost = 0.05 }
+			subtract_from_variable = { BRA_military_factory_boost = 0.05 }
+			subtract_from_variable = { BRA_dockyard_construction_boost = 0.05 }
+			subtract_from_variable = { BRA_industrial_capacity_factory_speed = 0.03 }
+			subtract_from_variable = { BRA_industrial_capacity_dockyard_speed = 0.03 }
+		}
 	}
 }
