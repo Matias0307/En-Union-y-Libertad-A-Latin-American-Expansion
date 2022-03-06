@@ -1724,3 +1724,95 @@ country_event = {
 		}
 	}
 }
+
+#Vargas suppreses our party 
+country_event = {
+	id = brazil.37
+	title = brazil.37.t 
+	desc = brazil.37.d 
+	picture = GFX_BRA_brazil_15
+
+	fire_only_once = no 
+
+	trigger = {
+		original_tag = BRA 
+		NOT = { check_variable = { BRA_playing_as_vargas = 1 } }
+		has_civil_war = no 
+		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
+	}
+
+	mean_time_to_happen = {
+		days = 190 
+		modifier = {
+			factor = 0.7
+			check_variable = { BRA_vargas_influence > 39 }
+		}
+	}
+
+	immediate = {
+		BRA_increment_progress_to_dictatorship = yes 
+	}
+
+	option = {
+		name = brazil.37.a 
+		if = {
+			limit = {
+				OR = {
+					check_variable = { BRA_playing_as_congress = 1 }
+					check_variable = { BRA_playing_as_integralists = 1 }
+				}
+			}
+			custom_effect_tooltip = BRA_decrease_our_influence_by_5_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						check_variable = { BRA_playing_as_congress = 1 }
+					}
+					subtract_from_variable = { BRA_congress_influence = 5 } 
+				}
+				else = {
+					subtract_from_variable = { BRA_integralist_influence = 5 }
+				}
+				BRA_set_up_political_crisis = yes
+			}
+		}
+		else = {
+			custom_effect_tooltip = BRA_subversive_activity_halted_in_a_state_tt
+			hidden_effect = {
+				random_owned_controlled_state = {
+					limit = {
+						has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+					}
+					remove_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state}
+				}
+			}
+		}
+	}
+}
+
+#Vargas forces communists to speed up revolt 
+country_event = {
+	id = brazil.38 
+	title = brazil.38.t 
+	desc = brazil.38.d 
+	picture = GFX_BRA_vargas_interfere_civil_war
+
+	fire_only_once = no 
+
+	trigger = {
+		original_tag = BRA 
+		has_civil_war = no 
+		check_variable = { BRA_playing_as_communists = 1 }
+		has_active_mission = BRA_communist_peasant_revolt
+	}
+
+	mean_time_to_happen = { days = 100 }
+
+	option = {
+		name = brazil.38.a 
+		add_days_mission_timeout = {
+			mission = BRA_communist_peasant_revolt
+			days = -45
+		}
+	}
+}
