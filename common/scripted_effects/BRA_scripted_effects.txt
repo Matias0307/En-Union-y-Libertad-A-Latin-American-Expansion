@@ -12,6 +12,7 @@
 #BRA_set_up_generic_civil_war_divisions_fascist_ai
 #BRA_start_communist_civil_war
 #BRA_industrialize_economy_slightly
+#BRA_improve_militia_training
 
 BRA_set_dependency_on_coffee_idea = {
 	hidden_effect = {
@@ -780,7 +781,7 @@ BRA_set_up_generic_civil_war_divisions_fascist_ai = {
 			set_variable = { BRA_amount_cost_increase_infra = BRIN_amount_cost_increase_infra }
 			set_variable = { BRA_cost_to_invest_in_railway_construction = BRIN_cost_to_invest_in_railway_construction }
 			set_variable = { BRA_increase_railway_cost_amount = BRIN_increase_railway_cost_amount }
-			BRA_set_dependency_on_coffee_idea = yes #please god work
+			BRA_set_dependency_on_coffee_idea = yes 
 			BRA_update_opinion_variable = yes 
 		}
 		### GENERIC VARIABLE SET UP ###
@@ -1016,12 +1017,9 @@ BRA_start_communist_civil_war = {
 		}
 		### ADD IF STATEMENTS FOR FUTURE FOCUSES, FUTURE ME, SINCE THIS WILL ALSO BE THE EXACT SAME EFFECT USED FOR THE PLAYER SIDE ###
 	}
+	add_ideas = BRA_poorly_trained_militias_5
 	BRC = {
 		add_ideas = BRA_civil_war_communist
-		load_focus_tree = {
-			tree = brazil_focus
-			keep_completed = no 
-		}
 		create_country_leader = {
 			name = "Luís Carlos Prestes"
 			desc = "POLITICS_LUIS_CARLOS_PRESTES_DESC"
@@ -1032,6 +1030,31 @@ BRA_start_communist_civil_war = {
 				#
 			}
 		}
+	}
+	if = {
+		limit = {
+			has_completed_focus = BRA_offer_proper_training_to_farmers
+		}
+		BRC = {
+			add_ideas = BRA_poorly_trained_militias_4
+			unlock_national_focus = BRA_offer_proper_training_to_farmers
+		}
+	}
+	else = {
+		BRC = { add_ideas = BRA_poorly_trained_militias_5 }
+	}
+	BRC = {
+		unlock_national_focus = BRA_assasinate_vargas
+		unlock_national_focus = BRA_strengthen_support_in_our_provinces
+		unlock_national_focus = BRA_cooperation_with_the_anarchists
+		unlock_national_focus = BRA_organize_countrywide_strikes
+		unlock_national_focus = BRA_secret_supply_build_up
+		unlock_national_focus = BRA_convince_the_army
+		unlock_national_focus = BRA_secretely_spread_support
+		unlock_national_focus = BRA_set_up_intelligence_agency
+		unlock_national_focus = BRA_secret_conscription
+		unlock_national_focus = BRA_work_in_secret_with_coffee_farmers
+		unlock_national_focus = BRA_manipulate_behind_the_scenes
 	}
 	if = { #one way to tag switch, and although there's another way that paradox uses for Spain, I think I'll just stick to this one 
 		limit = {
@@ -1049,7 +1072,16 @@ BRA_start_communist_civil_war = {
 			set_country_flag = BRA_farmers_agreed #for ai, lets just say they did things right ;)
 			### WILL ADD POLITICAL FOCUSES FROM THE COMMUNIST BRANCH HERE ###
 			unlock_national_focus = BRA_manipulate_behind_the_scenes
-			
+			unlock_national_focus = BRA_assasinate_vargas
+			unlock_national_focus = BRA_strengthen_support_in_our_provinces
+			unlock_national_focus = BRA_cooperation_with_the_anarchists
+			unlock_national_focus = BRA_organize_countrywide_strikes
+			unlock_national_focus = BRA_secret_supply_build_up
+			unlock_national_focus = BRA_convince_the_army
+			unlock_national_focus = BRA_secretely_spread_support
+			unlock_national_focus = BRA_set_up_intelligence_agency
+			unlock_national_focus = BRA_secret_conscription
+			unlock_national_focus = BRA_work_in_secret_with_coffee_farmers
 		}
 	}
 }
@@ -1058,5 +1090,58 @@ BRA_industrialize_economy_slightly = {
 	hidden_effect = {
 		set_country_flag = BRA_industrialized_economy
 		country_event = { id = brazil.34 days = 1 }
+	}
+}
+
+BRA_improve_militia_training = {
+	if = {
+		limit = { 
+			has_idea = BRA_poorly_trained_militias_5
+		}
+		swap_ideas = {
+			remove_idea = BRA_poorly_trained_militias_5
+			add_idea = BRA_poorly_trained_militias_4
+		}
+	}
+	else_if = {
+		limit = { 
+			has_idea = BRA_poorly_trained_militias_4
+		}
+		swap_ideas = {
+			remove_idea = BRA_poorly_trained_militias_4
+			add_idea = BRA_poorly_trained_militias_3
+		}
+	}
+	else_if = {
+		limit = { 
+			has_idea = BRA_poorly_trained_militias_3
+		}
+		swap_ideas = {
+			remove_idea = BRA_poorly_trained_militias_3
+			add_idea = BRA_poorly_trained_militias_2
+		}
+	}
+	else_if = {
+		limit = { 
+			has_idea = BRA_poorly_trained_militias_2
+		}
+		swap_ideas = {
+			remove_idea = BRA_poorly_trained_militias_2
+			add_idea = BRA_poorly_trained_militias_1
+		}
+	}
+	else_if = {
+		limit = { 
+			has_idea = BRA_poorly_trained_militias_1
+		}
+		remove_ideas = BRA_poorly_trained_militias_1
+	}
+	else = {
+		random_owned_controlled_state = {
+			create_unit = {
+				division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+				owner = ROOT
+			}
+		}
 	}
 }

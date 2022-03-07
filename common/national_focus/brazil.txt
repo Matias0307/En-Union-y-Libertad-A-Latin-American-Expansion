@@ -2337,7 +2337,11 @@ focus_tree = {
 
 		#will trigger the peasant revolt mission, player side 
 		completion_reward = {
-
+			activate_mission_tooltip = BRA_communist_peasant_revolt
+			hidden_effect = {
+				set_country_flag = BRA_active_communist_revolt
+				set_variable = { BRA_farmers_agreement_to_uprising = 10 }
+			}
 		}
 	}
 
@@ -2350,6 +2354,7 @@ focus_tree = {
 		prerequisite = { focus = BRA_manipulate_behind_the_scenes }
 
 		#find command to start intelligence agency 
+		## MAKE SURE TO ADD UNLOCK_NATIONAL_FOCUS IN COMPLETION_REWARD FOR BRC SO THAT IT ALSO COMPLETES SAID FOCUS AT THE SAME TIME ##
 	}
 
 	focus = {
@@ -2360,7 +2365,22 @@ focus_tree = {
 		relative_position_id = BRA_manipulate_behind_the_scenes
 		prerequisite = { focus = BRA_manipulate_behind_the_scenes }
 
+		cost = 5
+
 		#will unlock decisions to convince farmers in plantations to join your side 
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_is_playing_as_communists_tt
+				check_variable = { BRA_playing_as_communists = 1 }
+			}
+			custom_trigger_tooltip = {
+				tooltip = BRA_coffee_plantations_not_hostile_tt
+				check_variable = { BRA_coffee_companies_opinion > -1 }
+			}
+			has_civil_war = no 
+			has_active_mission = BRA_communist_peasant_revolt
+		}
 	}
 
 	focus = {
@@ -2370,6 +2390,21 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_work_in_secret_with_coffee_farmers
 		prerequisite = { focus = BRA_work_in_secret_with_coffee_farmers }
+
+		#set_country_flag = BRA_offered_post_civil_war_labor_rights
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_is_playing_as_communists_tt
+				check_variable = { BRA_playing_as_communists = 1 }
+			}
+			custom_trigger_tooltip = {
+				tooltip = BRA_coffee_plantations_not_hostile_tt
+				check_variable = { BRA_coffee_companies_opinion > -1 }
+			}
+			has_civil_war = no 
+			has_active_mission = BRA_communist_peasant_revolt
+		}
 	}
 
 	focus = {
@@ -2380,7 +2415,8 @@ focus_tree = {
 		relative_position_id = BRA_work_in_secret_with_coffee_farmers
 		prerequisite = { focus = BRA_work_in_secret_with_coffee_farmers }
 
-		#will unlock conscription decisions in states where you convinced farmers to join your side 
+		#will unlock conscription decisions in states where you convinced farmers to join your side
+		 
 	}
 
 	focus = {
@@ -2391,7 +2427,18 @@ focus_tree = {
 		relative_position_id = BRA_secret_conscription
 		prerequisite = { focus = BRA_secret_conscription }
 
+		cost = 8
+
 		#either give more divisions or a national spirit for army buffs
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_is_playing_as_communists_tt
+				check_variable = { BRA_playing_as_communists = 1 }
+			}
+			has_civil_war = no 
+			has_active_mission = BRA_communist_peasant_revolt
+		}
 	}
 
 	focus = {
@@ -2403,7 +2450,22 @@ focus_tree = {
 		prerequisite = { focus = BRA_offer_proper_training_to_farmers }
 		prerequisite = { focus = BRA_work_out_an_agreement_with_farmers }
 
+		cost = 10
+
 		#farmers needed to have accepted, and must have convinced the farmers enough 
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_is_playing_as_communists_tt
+				check_variable = { BRA_playing_as_communists = 1 }
+			}
+			custom_trigger_tooltip = {
+				tooltip = BRA_coffee_plantations_not_hostile_tt
+				check_variable = { BRA_coffee_companies_opinion > -1 }
+			}
+			has_civil_war = no 
+			has_active_mission = BRA_communist_peasant_revolt
+		}
 	}
 
 	focus = {
@@ -2513,6 +2575,24 @@ focus_tree = {
 		relative_position_id = BRA_destabilize_the_government
 		prerequisite = { focus = BRA_destabilize_the_government }
 		prerequisite = { focus = BRA_secretely_spread_support }
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_is_playing_as_communists_tt
+				check_variable = { BRA_playing_as_communists = 1 }
+			}
+			has_civil_war = no 
+			has_active_mission = BRA_communist_peasant_revolt
+			SOV = {
+				exists = yes 
+				has_war = no 
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			SOV = { country_event = { id = brazil.39 hours = 4 } }
+		}
 	}
 
 	focus = {
@@ -2607,6 +2687,96 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_strengthen_support_in_our_provinces
 		prerequisite = { focus = BRA_strengthen_support_in_our_provinces }
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_is_playing_as_communists_tt
+				check_variable = { BRA_playing_as_communists = 1 }
+			}
+			has_civil_war = no 
+			has_active_mission = BRA_communist_peasant_revolt
+		}
+
+		cost = 6
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			hidden_effect = {
+				set_temp_variable = { BRA_chance_kill_vargas = 0 }
+				set_temp_variable = { BRA_chance_not_kill_vargas = 100 }
+				if = {
+					limit = { check_variable = { BRA_}}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = BRA_women_in_the_army
+		icon = GFX_focus_generic_women_in_military
+		x = 4
+		y = 1
+		relative_position_id = BRA_assasinate_vargas
+		prerequisite = { focus = BRA_assasinate_vargas }
+	}
+
+	focus = {
+		id = BRA_save_ewert
+		icon = GFX_BRA_save_ewrt
+		x = -1
+		y = 1
+		relative_position_id = BRA_assasinate_vargas
+		prerequisite = { focus = BRA_assasinate_vargas }
+	}
+
+	focus = {
+		id = BRA_strike_a_deal_with_the_seperatists
+		icon = GFX_BRA_cooperate_with_sao_paulo
+		x = -1
+		y = 1
+		relative_position_id = BRA_save_ewert
+		prerequisite = { focus = BRA_save_ewert }
+		mutually_exclusive = { focus = BRA_crush_the_seperatists }
+	}
+
+	focus = {
+		id = BRA_crush_the_seperatists
+		icon = GFX_BRA_crush_the_sao_paulo_uprising
+		x = 1
+		y = 1
+		relative_position_id = BRA_save_ewert
+		prerequisite = { focus = BRA_save_ewert }
+		mutually_exclusive = { focus = BRA_strike_a_deal_with_the_seperatists }
+	}
+
+	focus = {
+		id = BRA_contact_other_south_american_countries ## ask for support from south america ##
+		icon = GFX_PRU_ally_with_south_america
+		x = 2
+		y = 1
+		relative_position_id = BRA_assasinate_vargas
+		prerequisite =  { focus = BRA_assasinate_vargas }
+
+		#will send an event to every communist country in south america, and if they accept they will unlock various decisions to send equipment shipments and divisions
+	}
+
+	focus = {
+		id = BRA_new_training_regiments
+		icon = GFX_focus_generic_military_mission
+		x = -1
+		y = 1
+		relative_position_id = BRA_women_in_the_army
+		prerequisite = { focus = BRA_women_in_the_army }
+		prerequisite = { focus = BRA_contact_other_south_american_countries }
+	}
+
+	focus = {
+		id = BRA_la_bestia_roja
+		icon = GFX_PRU_invite_bolivia
+		x = 0
+		y = 2
+		relative_position_id = BRA_contact_other_south_american_countries
+		prerequisite = { focus = BRA_contact_other_south_american_countries }
 	}
 
 	focus = {
@@ -2626,14 +2796,36 @@ focus_tree = {
 	}
 
 	focus = {
+		id = BRA_strategic_supply_hub_construction
+		icon = GFX_goal_generic_construction2
+		x = 1
+		y = 1
+		relative_position_id = BRA_soviet_war_administration
+		prerequisite = { focus = BRA_soviet_war_administration}
+	}
+
+	focus = {
 		id = BRA_switch_to_a_war_economy
 		icon = GFX_BRA_generic_military
 		x = -4
 		y =1 
 		relative_position_id = BRA_assasinate_vargas
 		prerequisite = { focus = BRA_assasinate_vargas }
-		prerequisite = { focus = BRA_save_up_coffee_profits }
-		prerequisite = { focus = BRA_build_up_defenses_in_plantations }
+		prerequisite = { 
+			focus = BRA_save_up_coffee_profits 
+			focus = BRA_build_up_defenses_in_plantations
+		}
+
+		#will cause heavy side-effects post civil war 
+	}
+
+	focus = {
+		id = BRA_emergency_railroad_construction
+		icon = GFX_goal_generic_construct_infrastructure
+		x = 0
+		y = 1
+		relative_position_id = BRA_switch_to_a_war_economy
+		prerequisite = { focus = BRA_switch_to_a_war_economy }
 	}
 
 }
