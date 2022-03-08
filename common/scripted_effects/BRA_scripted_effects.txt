@@ -6,6 +6,7 @@
 #BRA_add_economic_recession
 #BRA_setting_up_subversive_communist_activity
 #BRA_get_chances_of_spies_countering_communists
+#BRA_get_chance_of_vargas_interfering
 #BRA_neutral_character
 #BRA_add_integralist_occupation_to_random_state
 #BRA_set_up_generic_civil_war_divisions_democratic
@@ -561,6 +562,16 @@ BRA_get_chances_of_spies_countering_communists = {
 		add_to_temp_variable = { BRA_chance_fail = 5 }
 		hidden_effect = { clr_country_flag = BRA_spies_succesfully_countered }
 	}
+	clamp_variable = {
+		var = BRA_chance_succeed
+        min = 0
+        max = 100
+	}
+	clamp_variable = {
+		var = BRA_chance_fail
+        min = 0
+        max = 100
+	}
 	random_list = {
 		BRA_chance_succeed = {
 			country_event = brazil.24
@@ -568,6 +579,115 @@ BRA_get_chances_of_spies_countering_communists = {
 		BRA_chance_fail = {
 			country_event = brazil.25
 		}
+	}
+}
+
+BRA_get_chance_of_vargas_interfering = {
+	set_temp_variable = { BRA_chance_succeed = 0 }
+	set_temp_variable = { BRA_chance_fail = 100 }
+	if = {
+		limit = { has_dlc = "La Resistance"}
+		if = {
+			limit = {
+				network_national_coverage = {
+                    target = BRA 
+                    value > 0.20
+                }
+			}
+			add_to_temp_variable = { BRA_chance_succeed = 10 }
+			subtract_from_temp_variable = { BRA_chance_fail = 10 }
+		}
+		if = {
+			limit = {
+				network_national_coverage = {
+                    target = BRA 
+                    value > 0.40
+                }
+			}
+			add_to_temp_variable = { BRA_chance_succeed = 15 }
+			subtract_from_temp_variable = { BRA_chance_fail = 15 }
+		}
+		if = {
+			limit = {
+				network_national_coverage = {
+                    target = BRA 
+                    value > 0.65
+                }
+			}
+			add_to_temp_variable = { BRA_chance_succeed = 20 }
+			subtract_from_temp_variable = { BRA_chance_fail = 20 }
+		}
+	}
+	if = {
+		limit = {
+			has_stability = < 0.3
+		}
+		add_to_temp_variable = { BRA_chance_succeed = 15 }
+		add_to_temp_variable = { BRA_chance_fail = 15 }
+	}
+	if = {
+		limit = {
+			has_completed_focus = BRA_interfere_with_vargas_plans 
+		}
+		add_to_temp_variable = { BRA_chance_succeed = 75 }
+		subtract_from_temp_variable = { BRA_chance_fail = 75 }
+	}
+	if = {
+		limit = { check_variable = { BRA_farmers_agreement_to_uprising > 35 } }
+		add_to_temp_variable = { BRA_chance_succeed = 10 }
+		subtract_from_temp_variable = { BRA_chance_fail = 10 }
+	}
+	if = {
+		limit = {
+			has_stability < 0.5
+		}
+		add_to_temp_variable = { BRA_chance_succeed = 10 }
+		subtract_from_temp_variable = { BRA_chance_fail = 10 }
+	}
+	if = {
+		limit = {
+			communism > 0.1
+		}
+		add_to_temp_variable = { BRA_chance_succeed = 5 }
+		subtract_from_temp_variable = { BRA_chance_fail = 5 }
+	}
+	if = {
+		limit = {
+			communism > 0.24
+		}
+		add_to_temp_variable = { BRA_chance_succeed = 10 }
+		subtract_from_temp_variable = { BRA_chance_fail = 10 }
+	}
+	if = {
+		limit = {
+			check_variable = { BRA_vargas_influence < 35 }
+		}
+		add_to_temp_variable = { BRA_chance_succeed = 5 }
+		subtract_from_temp_variable = { BRA_chance_fail = 5 }
+	}
+	if = {
+		limit = {
+			check_variable = { BRA_coffee_companies_opinion > 0 }
+		}
+		add_to_temp_variable = { BRA_chance_succeed = 5 }
+		subtract_from_temp_variable = { BRA_chance_fail = 5 }
+	}
+	if = {
+		limit = {
+			has_completed_focus = BRA_destabilize_the_government
+		}
+		add_to_temp_variable = { BRA_chance_succeed = 15 }
+		subtract_from_temp_variable = { BRA_chance_fail = 15 }
+	}
+	clamp_variable = {
+		var = BRA_chance_succeed
+        min = 0
+        max = 100
+	}
+	clamp_variable = {
+		var = BRA_chance_fail
+        min = 0
+        max = 100
 	}
 }
 

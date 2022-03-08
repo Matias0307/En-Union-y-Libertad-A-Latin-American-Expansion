@@ -2335,12 +2335,21 @@ focus_tree = {
 		
 		cost = 2
 
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+
 		#will trigger the peasant revolt mission, player side 
 		completion_reward = {
 			activate_mission_tooltip = BRA_communist_peasant_revolt
+			add_popularity = { ideology = communism popularity = 0.02}
 			hidden_effect = {
 				set_country_flag = BRA_active_communist_revolt
 				set_variable = { BRA_farmers_agreement_to_uprising = 10 }
+				set_variable = { BRA_cost_to_delay_communists = 20 }
+				set_variable = { BRA_amount_of_equipment_hidden = 0 }
+
+				set_country_flag = BRA_vargas_interfering
+
+				BRC = { unlock_national_focus = BRA_manipulate_behind_the_scenes }
 			}
 		}
 	}
@@ -2355,6 +2364,22 @@ focus_tree = {
 
 		#find command to start intelligence agency 
 		## MAKE SURE TO ADD UNLOCK_NATIONAL_FOCUS IN COMPLETION_REWARD FOR BRC SO THAT IT ALSO COMPLETES SAID FOCUS AT THE SAME TIME ##
+
+		cost = 5
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_is_playing_as_communists_tt
+				check_variable = { BRA_playing_as_communists = 1 }
+			}
+			has_civil_war = no 
+			has_active_mission = BRA_communist_peasant_revolt
+		}
+
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		completion_reward = {
+
+		}
 	}
 
 	focus = {
@@ -2381,6 +2406,11 @@ focus_tree = {
 			has_civil_war = no 
 			has_active_mission = BRA_communist_peasant_revolt
 		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			unlock_decision_tooltip = BRA_coerce_the_farmers_to_our_movement
+		}
 	}
 
 	focus = {
@@ -2392,6 +2422,8 @@ focus_tree = {
 		prerequisite = { focus = BRA_work_in_secret_with_coffee_farmers }
 
 		#set_country_flag = BRA_offered_post_civil_war_labor_rights
+
+		cost = 8
 
 		available = {
 			custom_trigger_tooltip = {
@@ -2405,6 +2437,19 @@ focus_tree = {
 			has_civil_war = no 
 			has_active_mission = BRA_communist_peasant_revolt
 		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+
+		completion_reward = {
+			custom_effect_tooltip = BRA_farmer_agreement_increase_15_tt
+			custom_effect_tooltip = BRA_once_civil_war_over_gain_following_tt
+			effect_tooltip = {
+				add_ideas = BRA_labor_rights
+			}
+			hidden_effect = {
+				add_to_variable = { BRA_farmers_agreement_to_uprising = 15 }
+			}
+		}
 	}
 
 	focus = {
@@ -2416,6 +2461,15 @@ focus_tree = {
 		prerequisite = { focus = BRA_work_in_secret_with_coffee_farmers }
 
 		#will unlock conscription decisions in states where you convinced farmers to join your side
+
+		cost = 6
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_farmer_acceptance_over_30_tt
+				check_variable = { BRA_farmers_agreement_to_uprising > 30 }
+			}
+		}
 		 
 	}
 
@@ -2438,6 +2492,14 @@ focus_tree = {
 			}
 			has_civil_war = no 
 			has_active_mission = BRA_communist_peasant_revolt
+		}
+
+		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		completion_reward = {
+			custom_effect_tooltip = BRA_20_percent_more_equipment_tt
+			hidden_effect = {
+				add_to_variable = { BRA_communist_civil_war_strength = 0.2 }
+			}
 		}
 	}
 
@@ -2463,8 +2525,31 @@ focus_tree = {
 				tooltip = BRA_coffee_plantations_not_hostile_tt
 				check_variable = { BRA_coffee_companies_opinion > -1 }
 			}
+			custom_trigger_tooltip = {
+				tooltip = BRA_farmer_acceptance_over_60_tt
+				check_variable = { BRA_farmers_agreement_to_uprising > 60 }
+			}
 			has_civil_war = no 
 			has_active_mission = BRA_communist_peasant_revolt
+		}
+
+		search_filters = {  FOCUS_FILTER_ANNEXATION FOCUS_FILTER_MANPOWER FOCUS_FILTER_INDUSTRY FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		completion_reward = {
+			custom_effect_tooltip = BRA_we_will_control_every_state_with_plantation_tt
+			hidden_effect = {
+				every_controlled_state = {
+					limit = {
+						NOT = {
+							has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+						}
+						OR = {
+							has_dynamic_modifier = { modifier = BRA_small_coffee_plantations }
+							has_dynamic_modifier = { modifier = BRA_widespread_coffee_plantations }
+						}
+					}
+					add_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+				}
+			}
 		}
 	}
 
@@ -2499,6 +2584,18 @@ focus_tree = {
 		prerequisite = { focus = BRA_secret_conscription }
 
 		#will unlock a decision to store infantry equipment in plantations 
+
+		cost = 5
+
+		available = {
+			has_civil_war = no 
+			has_active_mission = BRA_communist_peasant_revolt
+		}
+
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		completion_reward = {
+			unlock_decision_tooltip = BRA_hide_weapons_in_FROM
+		}
 	}
 
 	focus = {
@@ -2510,6 +2607,20 @@ focus_tree = {
 		prerequisite = { focus = BRA_set_up_intelligence_agency }
 
 		#lowers stability 
+
+		cost = 6
+
+		available = {
+			custom_trigger_tooltip = {
+                tooltip = BRA_network_coverage_over_50_tt
+                network_national_coverage = {
+                    target = BRA 
+                    value > 0.5
+                }
+            }
+			has_civil_war = no 
+			has_active_mission = BRA_communist_peasant_revolt
+		}
 	}
 
 	focus = {
@@ -2519,6 +2630,28 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_destabilize_the_government
 		prerequisite = { focus = BRA_destabilize_the_government}
+
+		cost = 8
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_network_coverage_over_60_tt
+				network_national_coverage = {
+					target = BRA 
+					value > 0.6
+				}
+			}
+			has_civil_war = no 
+			has_active_mission = BRA_communist_peasant_revolt
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		completion_reward = {
+			custom_effect_tooltip = BRA_vargas_will_stop_interfering_with_our_plans
+			hidden_effect = {
+				clr_country_flag = BRA_vargas_interfering
+			}
+		}
 	}
 	
 	focus = {
@@ -2530,6 +2663,26 @@ focus_tree = {
 		prerequisite = { focus = BRA_set_up_intelligence_agency }
 
 		#unlocks map decisions to spread subversive influence to other states 
+
+		cost = 10
+
+		available = {
+			custom_trigger_tooltip = {
+                tooltip = BRA_network_coverage_over_35_tt
+                network_national_coverage = {
+                    target = BRA 
+                    value > 0.35
+                }
+            }
+			has_civil_war = no 
+			has_active_mission = BRA_communist_peasant_revolt
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		completion_reward = {
+			unlock_decision_tooltip = BRA_spread_our_movement_in_FROM
+			add_popularity = { ideology = communism popularity = 0.04 }
+		}
 	}
 
 	focus = {
@@ -2541,6 +2694,8 @@ focus_tree = {
 		prerequisite = { focus = BRA_secretely_spread_support }
 
 		#will give some characters the communist sympathizer thingy 
+
+		cost = 6
 	}
 
 	focus = {
@@ -2553,6 +2708,8 @@ focus_tree = {
 			focus = BRA_secret_supply_build_up
 		}
 		prerequisite = { focus = BRA_convince_the_army }
+
+		cost = 10
 	}
 
 	focus = {
@@ -2565,6 +2722,16 @@ focus_tree = {
 		prerequisite = { focus = BRA_secret_conscription }
 
 		#creates supply nodes and railways 
+
+		available = {
+			any_controlled_state = {
+				has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+			}
+			has_civil_war = no 
+			has_active_mission = BRA_communist_peasant_revolt
+		}
+
+		cost = 8
 	}
 
 	focus = {
@@ -2575,6 +2742,8 @@ focus_tree = {
 		relative_position_id = BRA_destabilize_the_government
 		prerequisite = { focus = BRA_destabilize_the_government }
 		prerequisite = { focus = BRA_secretely_spread_support }
+
+		cost = 5
 
 		available = {
 			custom_trigger_tooltip = {
@@ -2592,6 +2761,16 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			SOV = { country_event = { id = brazil.39 hours = 4 } }
+			hidden_effect = {
+
+				# POST CIVIL WAR SOVIET WAR PAYMENT #
+				set_variable = { BRA_SOV_time_to_pay_back = 210 }
+				set_variable = { BRA_SOV_consumer_goods = 0.05 }
+				set_variable = { BRA_SOV_local_resources_factor = -0.05 }
+				# POST CIVIL WAR SOVIET WAR PAYMENT #
+
+				BRC = { unlock_national_focus = BRA_ask_for_soviet_support }
+			}
 		}
 	}
 
@@ -2604,6 +2783,8 @@ focus_tree = {
 		prerequisite = { focus = BRA_ask_for_soviet_support }
 
 		#will invite soviet advisors over to help in the war 
+
+		cost = 7
 	}
 
 	focus = {
@@ -2623,6 +2804,8 @@ focus_tree = {
 		}
 
 		#will spawn in divisions at the start of the civil war, and will be removed once its over 
+
+		cost = 10
 	}
 
 	focus = {
@@ -2635,6 +2818,8 @@ focus_tree = {
 		mutually_exclusive = { focus = BRA_secretly_bring_soviet_weaponry }
 
 		#will unlock decision to bring soviet guns in bulk, however there will be a chance of brazilian government finding out 
+
+		cost = 6
 	}
 
 	focus = {
@@ -2644,6 +2829,8 @@ focus_tree = {
 		y =1 
 		relative_position_id = BRA_ask_for_soviet_support
 		prerequisite = { focus = BRA_ask_for_soviet_support }
+
+		cost = 6
 	}
 
 	focus = {
@@ -2656,6 +2843,8 @@ focus_tree = {
 			focus = BRA_secretly_bring_soviet_weaponry
 			focus = BRA_bring_soviet_weaponry_in_bulk
 		}
+
+		cost = 8
 	}
 
 	focus = {
@@ -2667,6 +2856,8 @@ focus_tree = {
 		prerequisite = { focus = BRA_organize_countrywide_strikes }
 
 		#will prevent desertion of anarchists mid civil war 
+
+		cost = 10
 	}
 
 	focus = {
@@ -2677,7 +2868,9 @@ focus_tree = {
 		relative_position_id = BRA_cooperation_with_the_anarchists
 		prerequisite = { focus = BRA_cooperation_with_the_anarchists }
 
-		#spawn an extra militia in every controlled state 
+		#will spawn 4 proper divisions once civil war starts and give communist popularity
+
+		cost = 10
 	}
 
 	focus = {

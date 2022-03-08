@@ -1828,11 +1828,39 @@ country_event = {
 
 	option = { #accept 
 		name = brazil.39.a 
+		ai_chance = {
+			base = 1
+			modifier = {
+				add = 75
+				has_opinion = {
+					target = FROM 
+					value > 79
+				}
+			}
+			modifier = {
+				add = 45
+				has_opinion = {
+					target = FROM 
+					value > 49
+				}
+			}
+		}
 		BRA = { country_event = brazil.40 }
 	}
 
 	option = { #decline 
 		name = brazil.39.b 
+		ai_chance = {
+			base = 1
+			modifier = {
+				add = 50
+				has_war = yes 
+			}
+			modifier = {
+				add = 350
+				has_civil_war = yes 
+			}
+		}
 		BRA = { country_event = brazil.41 }
 	}
 }
@@ -1861,5 +1889,30 @@ country_event = {
 
 	option = {
 		name = brazil.41.a 
+	}
+}
+
+#Vargas finds out about subversive activity (will be generic)
+country_event = {
+	id = brazil.42
+	title = brazil.42.t 
+	desc = brazil.42.d 
+	picture = GFX_BRA_vargas_interfere_civil_war
+
+	is_triggered_only = yes 
+
+	immediate = {
+		set_country_flag = BRA_vargas_interfered_with_activity
+	}
+
+	option = {
+		name = brazil.42.a 
+		add_days_mission_timeout = {
+			mission = BRA_communist_peasant_revolt
+			days = -5
+		}
+		hidden_effect = {
+			clr_country_flag = BRA_vargas_interfered_with_activity
+		}
 	}
 }

@@ -1051,7 +1051,7 @@ BRA_peasant_revolt = {
 
         visible = {
             exists = yes 
-            is_subject = no  = no 
+            is_subject = no
         }
 
         days_mission_timeout = 435 
@@ -1068,6 +1068,331 @@ BRA_peasant_revolt = {
             }
             hidden_effect = {
                 BRA_start_communist_civil_war = yes 
+            }
+        }
+    }
+
+    BRA_coerce_the_farmers_to_our_movement = {
+        icon = generic_political_discourse
+
+        visible = {
+            has_active_mission = BRA_communist_peasant_revolt
+            has_completed_focus = BRA_work_in_secret_with_coffee_farmers
+        }
+
+        available = {
+            custom_trigger_tooltip = {
+				tooltip = BRA_coffee_plantations_not_hostile_tt
+				check_variable = { BRA_coffee_companies_opinion > -1 }
+			}
+        }
+
+        cost = 35
+
+        days_remove = 45
+
+        complete_effect = {
+            custom_effect_tooltip = BRA_farmer_agreement_increase_10_tt
+            hidden_effect = {
+                add_to_variable = { BRA_farmers_agreement_to_uprising = 10 }
+            }
+        }
+
+        cancel_trigger = {
+            OR = {
+                has_civil_war = yes 
+                NOT = { has_active_mission = BRA_communist_peasant_revolt }
+            }
+        }
+    }
+
+    BRA_secret_conscription_in_FROM = {
+        icon = generic_military
+
+        on_map_mode = map_only
+
+        state_target = yes 
+
+        target_array = controlled_states
+
+        target_trigger = {
+            FROM = {
+                is_core_of = BRA 
+                is_fully_controlled_by = BRA 
+                has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+            }
+        }
+
+        available = {
+            has_civil_war = no 
+            has_active_mission = BRA_communist_peasant_revolt
+        }
+
+        visible = {
+            has_completed_focus = BRA_secret_conscription
+            FROM = {
+                NOT = {
+                    has_state_flag = BRA_conscripted_in_FROM
+                }
+            }
+        }
+
+        cost = 40
+
+        days_remove = 60
+
+        complete_effect = {
+            BRA_get_chance_of_vargas_interfering = yes 
+            random_list = {
+                BRA_chance_fail = {
+                    country_event = brazil.42
+                }
+                BRA_chance_succeed = {
+                    
+                }
+            }
+            hidden_effect = {
+                FROM = {
+                    set_state_flag = BRA_conscripted_in_FROM
+                }
+            }
+        }
+
+        remove_effect = {
+            custom_effect_tooltip = BRA_extra_militia_will_spawn_in_state_tt
+            hidden_effect = {
+                FROM = { set_state_flag = BRA_secret_conscription_in_state }
+            }
+        }
+
+        cancel_trigger = {
+            OR = {
+                has_civil_war = yes 
+                NOT = { has_active_mission = BRA_communist_peasant_revolt }
+                has_country_flag = BRA_vargas_interfered_with_activity
+            }
+        }
+    }
+
+    BRA_spread_our_movement_in_FROM = {
+        icon = eng_propaganda_campaigns
+
+        on_map_mode = map_only
+
+        state_target = yes 
+
+        target_array = controlled_states
+
+        target_trigger = {
+            FROM = {
+                is_core_of = BRA 
+                is_fully_controlled_by = BRA 
+                any_neighbor_state = {
+                    has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+                }
+            }
+        }
+
+        available = {
+            has_active_mission = BRA_communist_peasant_revolt
+            if = {
+                limit = {
+                    has_dlc = "La Resistance"
+                }
+                custom_trigger_tooltip = {
+                    tooltip = BRA_network_coverage_over_40_tt
+                    network_national_coverage = {
+                        target = BRA 
+                        value > 0.40
+                    }
+                }
+            }
+            else = {
+                custom_trigger_tooltip = {
+                    tooltip = BRA_farmer_acceptance_over_35_tt
+                    check_variable = { BRA_farmers_agreement_to_uprising > 35
+                }
+            }
+        }
+
+        visible = {
+            hidden_trigger = {
+                NOT = { has_country_flag = BRA_spreading_support_in_state }
+            }
+        }
+
+        cost = 50
+        days_remove = 45
+
+        complete_effect = {
+            BRA_get_chance_of_vargas_interfering = yes 
+            random_list = {
+                BRA_chance_fail = {
+                    country_event = brazil.42
+                }
+                BRA_chance_succeed = {
+
+                }
+            }
+            hidden_effect = {
+                set_country_flag = BRA_spreading_support_in_state
+            }
+        }
+
+        remove_effect = {
+            hidden_effect = {
+                clr_country_flag = BRA_spreading_support_in_state
+            }
+            FROM = {
+                add_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+            }
+        }
+
+        cancel_trigger = {
+            OR = {
+                has_civil_war = yes 
+                NOT = { has_active_mission = BRA_communist_peasant_revolt }
+                has_country_flag = BRA_vargas_interfered_with_activity
+            }
+        }
+    }
+
+    BRA_hide_weapons_in_FROM = {
+        icon = POL_organize_strike_two
+
+        on_map_mode = map_and_decisions_view
+
+        state_target = yes 
+
+        target_array = controlled_states
+
+        target_trigger = {
+            FROM = {
+                is_core_of = BRA 
+                is_fully_controlled_by = BRA 
+                AND = {
+                    has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+                    OR = {
+                        has_dynamic_modifier = { modifier = BRA_small_coffee_plantations }
+                        has_dynamic_modifier = { modifier = BRA_widespread_coffee_plantations }
+                    }
+                }
+            }
+        }
+
+        visible = {
+            has_completed_focus = BRA_hide_weapons_inside_the_plantations
+            FROM = {
+                NOT = {
+                    has_state_flag = { BRA_already_hid_weapons }
+                }
+            }
+        }
+
+        available = { has_active_mission = BRA_communist_peasant_revolt }
+
+        cost = 35
+
+        days_remove = 70
+
+        complete_effect = {
+            BRA_get_chance_of_vargas_interfering = yes 
+            random_list = {
+                BRA_chance_fail = {
+                    country_event = brazil.42
+                }
+                BRA_chance_succeed = {
+
+                }
+            }
+        }
+
+        remove_effect = {
+            hidden_effect = {
+                set_state_flag = BRA_already_hid_weapons 
+            }
+            if = {
+                limit = { has_dynamic_modifier = { modifier = BRA_small_coffee_plantations } }
+                custom_effect_tooltip = BRA_hide_250_weapons_tt
+                hidden_effect = {
+                    add_to_variable = { BRA_amount_of_equipment_hidden = 250 }
+                }
+            }
+            else = {
+                custom_effect_tooltip = BRA_hide_500_weapons_tt
+                hidden_effect = {
+                    add_to_variable = { BRA_amount_of_equipment_hidden = 500 }
+                }
+            }
+        }
+
+        cancel_trigger = {
+            OR = {
+                has_civil_war = yes 
+                NOT = { has_active_mission = BRA_communist_peasant_revolt }
+                has_country_flag = BRA_vargas_interfered_with_activity
+            }
+        }
+    }
+
+    BRA_vargas_planning_to_shut_us_down_in_FROM = {
+        icon = ## < --- will have a unique icon 
+
+        priority = 90
+
+        activation = {
+            has_active_mission = BRA_communist_peasant_revolt
+            has_country_flag = BRA_vargas_interfering
+        }
+
+        available = {
+            has_completed_focus = BRA_interfere_with_vargas_plans
+        }
+
+        is_good = no 
+
+        fire_only_once = yes 
+
+        state_target = yes 
+
+        days_mission_timeout = 110
+
+        on_map_mode = map_and_decisions_view
+
+        target_array = controlled_states
+
+        cancel_trigger = {
+            OR = {
+                has_completed_focus = BRA_interfere_with_vargas_plans
+                NOT = { has_active_mission = BRA_communist_peasant_revolt }
+                has_civil_war = yes 
+            }
+        }
+
+        target_trigger = {
+            FROM = {
+                has_state_flag = BRA_vargas_planning_to_take_state
+                has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+            }
+        }
+
+        visible = {
+            exists = yes 
+        }
+
+        timeout_effect = {
+            FROM = {
+                remove_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+                clr_state_flag = BRA_vargas_planning_to_take_state
+            }
+            custom_effect_tooltip = BRA_vargas_will_plan_to_shut_us_down_in_another_state_tt
+            hidden_effect = {
+                random_owned_controlled_state = {
+                    limit = {
+                        has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+                    }
+                    set_state_flag = BRA_vargas_planning_to_take_state
+                }
             }
         }
     }
@@ -1137,7 +1462,7 @@ BRA_peasant_revolt = {
         visible = {
             OR = {
                 has_active_mission = BRA_communist_peasant_revolt_ai
-                # will include the player misson #
+                has_active_mission = BRA_communist_peasant_revolt
             }
         }
 
