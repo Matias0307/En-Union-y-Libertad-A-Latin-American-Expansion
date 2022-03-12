@@ -1,7 +1,9 @@
-political_actions = {
+foreing_immigration = {
 
 	EUYL_take_in_war_refugees = {
 		icon = GFX_EUYL_attract_refugees
+
+		priority = 15
 
 		allowed = { always = no }
 
@@ -46,6 +48,155 @@ political_actions = {
 		}
 	}
 
+	expand_slightly_our_population = {
+		priority = 10
+		icon = eng_blackshirt_march
+		
+		available = {
+			has_war = no 
+			has_stability > 0.4
+		}
+		
+		visible = {
+			OR = {
+				tag = CHL 
+				tag = ARG
+				tag = BRA
+				tag = URG
+				tag = PAR
+				tag = PRU
+				tag = BOL
+				tag = ECU
+				tag = COL
+				tag = VEN
+			}
+		}
+		
+		fire_only_once = no
+
+		modifier = {
+			monthly_population = 0.5
+			consumer_goods_factor = 0.05
+		}
+
+		days_remove = 365
+		
+		cost = 50 
+		
+		ai_will_do = {
+			base = 15
+			modifier = {
+				add = 25
+				has_manpower < 5000
+			}
+		}
+	}	
+	
+	EUYL_attract_many_immigrants = {
+		priority = 8
+		icon = eng_blackshirt_march
+		
+		available = {
+			has_war = no 
+			OR = {
+				AND = {
+					has_stability > 0.65
+					num_of_factories > 19
+				}
+				AND = {
+					has_stability > 0.4
+					num_of_factories > 29
+				}
+				AND = {
+					has_stability > 0.25
+					num_of_factories > 39
+				}
+			}
+			if = {
+				limit = { 
+					NOT = {
+						original_tag = ARG 
+					}
+				}
+				has_government = democratic
+			}
+			else = {
+				OR = {
+					has_government = democratic
+					has_government = peronism
+				}
+			}
+		}
+		
+		fire_only_once = no
+
+		modifier = {
+			monthly_population = 0.75
+			consumer_goods_factor = 0.075
+			stability_factor = -0.05
+		}
+
+		days_remove = 365
+		
+		cost = 100 
+		
+		ai_will_do = {
+			base = 15
+			modifier = {
+				add = 25
+				has_manpower < 5000
+			}
+		}
+	}
+	
+	EUYL_attract_some_immigrants = {
+		priority = 6
+		icon = eng_blackshirt_march
+		
+		available = {
+			has_war = no 
+			has_stabilisty > 0.4
+		}
+		
+		visible = {
+			OR = {
+				tag = CHL 
+				tag = ARG
+				tag = BRA
+				tag = URG
+				tag = PAR
+				tag = PRU
+				tag = BOL
+				tag = ECU
+				tag = COL
+				tag = VEN
+			}
+		}
+		
+		fire_only_once = no
+
+		modifier = {
+			monthly_population = 1.0
+			consumer_goods_factor = 0.1
+			stability_factor = -0.1
+		}
+
+		days_remove = 365
+		
+		cost = 150
+		
+		ai_will_do = {
+			base = 15
+			modifier = {
+				add = 25
+				has_manpower < 5000
+			}
+		}
+	}
+
+}
+
+political_actions = {
 	
 	targeted_race_for_the_bomb = {
 
@@ -213,140 +364,6 @@ political_actions = {
 				factor = 0
 				original_tag = SPR
 				NOT = { has_global_flag = spanish_civil_war }
-			}
-		}
-	}
-	
-	expand_slightly_our_population = {
-		priority = 10
-		icon = eng_blackshirt_march
-		
-		available = {
-			has_war = no 
-			has_stability > 0.4
-		}
-		
-		visible = {
-			OR = {
-				tag = CHL 
-				tag = ARG
-				tag = BRA
-				tag = URG
-				tag = PAR
-				tag = PRU
-				tag = BOL
-				tag = ECU
-				tag = COL
-				tag = VEN
-			}
-		}
-		
-		fire_only_once = no
-
-		modifier = {
-			monthly_population = 0.5
-			consumer_goods_factor = 0.05
-		}
-
-		days_remove = 365
-		
-		cost = 50 
-		
-		ai_will_do = {
-			base = 15
-			modifier = {
-				add = 25
-				has_manpower < 5000
-			}
-		}
-	}	
-	
-	expand_our_population = {
-		priority = 8
-		icon = eng_blackshirt_march
-		
-		available = {
-			has_war = no 
-			has_stability > 0.4
-		}
-		
-		visible = {
-			OR = {
-				tag = CHL 
-				tag = ARG
-				tag = BRA
-				tag = URG
-				tag = PAR
-				tag = PRU
-				tag = BOL
-				tag = ECU
-				tag = COL
-				tag = VEN
-			}
-		}
-		
-		fire_only_once = no
-
-		modifier = {
-			monthly_population = 0.75
-			consumer_goods_factor = 0.075
-			stability_factor = -0.05
-		}
-
-		days_remove = 365
-		
-		cost = 100 
-		
-		ai_will_do = {
-			base = 15
-			modifier = {
-				add = 25
-				has_manpower < 5000
-			}
-		}
-	}
-	
-	expand_massively_our_population = {
-		priority = 6
-		icon = eng_blackshirt_march
-		
-		available = {
-			has_war = no 
-			has_stability > 0.4
-		}
-		
-		visible = {
-			OR = {
-				tag = CHL 
-				tag = ARG
-				tag = BRA
-				tag = URG
-				tag = PAR
-				tag = PRU
-				tag = BOL
-				tag = ECU
-				tag = COL
-				tag = VEN
-			}
-		}
-		
-		fire_only_once = no
-
-		modifier = {
-			monthly_population = 1.0
-			consumer_goods_factor = 0.1
-			stability_factor = -0.1
-		}
-
-		days_remove = 365
-		
-		cost = 150
-		
-		ai_will_do = {
-			base = 15
-			modifier = {
-				add = 25
-				has_manpower < 5000
 			}
 		}
 	}

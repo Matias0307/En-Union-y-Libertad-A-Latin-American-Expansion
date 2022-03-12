@@ -93,67 +93,74 @@ country_event = {
 			set_temp_variable = { PRU_chance_of_coup_attempt = 0 }
 			set_temp_variable = { PRU_nothing = 100 }
 			if = {
-				limit = { has_stability < 0.5 }
-				add_to_temp_variable = { PRU_chance_of_coup_attempt = 10 }
-			}
-			if = {
-				limit = { has_stability > 0.25 }
-				add_to_temp_variable = { PRU_chance_of_coup_attempt = 25 }
-			}
-			if = {
-				limit = { has_war_support < 0.3 }
-				add_to_temp_variable = { PRU_chance_of_coup_attempt = 10 }
-			}
-			if = {
-				limit = { fascism > 0.15 }
-				add_to_temp_variable = { PRU_chance_of_coup_attempt = 10 }
-			}
-			if = {
-				limit = { fascism > 0.3 }
-				add_to_temp_variable = { PRU_chance_of_coup_attempt = 20 }
-			}
-			if = {
 				limit = {
-					AND = {
-						GER = { has_government = fascism }
-						ITA = { has_government = fascism }
-						JAP = { has_government = fascism }
-					}
+					is_historical_focus_on = yes 
 				}
-				add_to_temp_variable = { PRU_chance_of_coup_attempt = 10 }
 			}
-			if = {
-				limit = {
-					OR = {
-						USA = { has_government = fascism }
-						ENG = { has_government = fascism }
-						FRA = { has_government = fascism }
-					}
+			else = {
+				if = {
+					limit = { has_stability < 0.5 }
+					add_to_temp_variable = { PRU_chance_of_coup_attempt = 10 }
 				}
-				add_to_temp_variable = { PRU_chance_of_coup_attempt = 15 }
-			}
-			if = {
-				limit = { threat > 0.2 }
-				add_to_temp_variable = { PRU_chance_of_coup_attempt = 10 }
-			}
-			if = {
-				limit = { 
-					any_neighbor_country = {
-						has_government = fascism
-					}
+				if = {
+					limit = { has_stability > 0.25 }
+					add_to_temp_variable = { PRU_chance_of_coup_attempt = 25 }
 				}
-				add_to_temp_variable = { PRU_chance_of_coup_attempt = 15 }
+				if = {
+					limit = { has_war_support < 0.3 }
+					add_to_temp_variable = { PRU_chance_of_coup_attempt = 10 }
+				}
+				if = {
+					limit = { fascism > 0.15 }
+					add_to_temp_variable = { PRU_chance_of_coup_attempt = 10 }
+				}
+				if = {
+					limit = { fascism > 0.3 }
+					add_to_temp_variable = { PRU_chance_of_coup_attempt = 20 }
+				}
+				if = {
+					limit = {
+						AND = {
+							GER = { has_government = fascism }
+							ITA = { has_government = fascism }
+							JAP = { has_government = fascism }
+						}
+					}
+					add_to_temp_variable = { PRU_chance_of_coup_attempt = 10 }
+				}
+				if = {
+					limit = {
+						OR = {
+							USA = { has_government = fascism }
+							ENG = { has_government = fascism }
+							FRA = { has_government = fascism }
+						}
+					}
+					add_to_temp_variable = { PRU_chance_of_coup_attempt = 15 }
+				}
+				if = {
+					limit = { threat > 0.2 }
+					add_to_temp_variable = { PRU_chance_of_coup_attempt = 10 }
+				}
+				if = {
+					limit = { 
+						any_neighbor_country = {
+							has_government = fascism
+						}
+					}
+					add_to_temp_variable = { PRU_chance_of_coup_attempt = 15 }
+				}
+				if = {
+					limit = { check_variable = { PRU_army_power > 14 } }
+					add_to_temp_variable = { PRU_chance_of_coup_attempt = 15 }
+				}
+				clamp_variable = {
+					var = PRU_chance_of_coup_attempt
+					min = 0
+					max = 100
+				}
+				subtract_from_temp_variable = { PRU_nothing = PRU_chance_of_coup_attempt }
 			}
-			if = {
-				limit = { check_variable = { PRU_army_power > 14 } }
-				add_to_temp_variable = { PRU_chance_of_coup_attempt = 15 }
-			}
-			clamp_variable = {
-				var = PRU_chance_of_coup_attempt
-				min = 0
-				max = 100
-			}
-			subtract_from_temp_variable = { PRU_nothing = PRU_chance_of_coup_attempt }
 			random_list = {
 				PRU_chance_of_coup_attempt = {
 					country_event = { id = peru.80 days = 14 }
