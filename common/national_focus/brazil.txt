@@ -3000,8 +3000,62 @@ focus_tree = {
 			hidden_effect = {
 				set_temp_variable = { BRA_chance_kill_vargas = 0 }
 				set_temp_variable = { BRA_chance_not_kill_vargas = 100 }
+				set_temp_variable = { BRA_number_of_commie_states = 0 }
+				every_controlled_state = {
+					limit = { has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state } }
+					ROOT = {
+						add_to_temp_variable = { BRA_number_of_commie_states = 1 }
+					}
+				}
 				if = {
-					limit = { check_variable = { BRA_}}
+					limit = { has_stability < 0.1 }
+					add_to_temp_variable = { BRA_chance_kill_vargas = 40 }
+					subtract_from_temp_variable = { BRA_chance_not_kill_vargas = 40 }
+				}
+				else_if = {
+					limit = { has_stability < 0.25 }
+					add_to_temp_variable = { BRA_chance_kill_vargas = 25 }
+					subtract_from_temp_variable = { BRA_chance_not_kill_vargas = 25 }
+				}
+				else_if = {
+					limit = { has_stability < 0.4 }
+					add_to_temp_variable = { BRA_chance_kill_vargas = 15 }
+					subtract_from_temp_variable = { BRA_chance_not_kill_vargas = 15 }
+				}
+				else = {
+					add_to_temp_variable = { BRA_chance_kill_vargas = 5 }
+					subtract_from_temp_variable = { BRA_chance_not_kill_vargas = 5 }
+				}
+				if = {
+					limit = { communism > 0.3 }
+					add_to_temp_variable = { BRA_chance_kill_vargas = 20 }
+					subtract_from_temp_variable = { BRA_chance_not_kill_vargas = 20 }
+				}
+				if = {
+					limit = {
+						check_variable = { BRA_number_of_commie_states > 7 }
+					}
+					add_to_temp_variable = { BRA_chance_kill_vargas = 30 }
+					subtract_from_temp_variable = { BRA_chance_not_kill_vargas = 30 }
+				}
+				else_if = {
+					limit = {
+						check_variable = { BRA_number_of_commie_states > 3 }
+					}
+					add_to_temp_variable = { BRA_chance_kill_vargas = 15 }
+					subtract_from_temp_variable = { BRA_chance_not_kill_vargas = 15 }
+				}
+				else = {
+					add_to_temp_variable = { BRA_chance_kill_vargas = 5 }
+					subtract_from_temp_variable = { BRA_chance_not_kill_vargas = 5 }
+				}
+				random_list = {
+					BRA_chance_kill_vargas = {
+						country_event = brazil.43
+					}
+					BRA_chance_not_kill_vargas = {
+						country_event = brazil.44
+					}
 				}
 			}
 		}
