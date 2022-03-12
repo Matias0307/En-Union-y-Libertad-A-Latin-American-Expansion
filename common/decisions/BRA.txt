@@ -1094,7 +1094,7 @@ BRA_peasant_revolt = {
         complete_effect = {
             custom_effect_tooltip = BRA_farmer_agreement_increase_10_tt
             hidden_effect = {
-                add_to_variable = { BRA_farmers_agreement_to_uprising = 10 }
+                BRC = { add_to_variable = { BRA_farmers_agreement_to_uprising = 10 } }
             }
         }
 
@@ -1289,7 +1289,24 @@ BRA_peasant_revolt = {
             }
         }
 
-        available = { has_active_mission = BRA_communist_peasant_revolt }
+        available = { 
+            has_active_mission = BRA_communist_peasant_revolt 
+            if = {
+                limit = {
+                    FROM = {
+                        has_dynamic_modifier = { modifier = BRA_widespread_coffee_plantations }
+                    }
+                }
+                has_equipment = {
+                    infantry_equipment > 499
+                }
+            }
+            else = {
+                has_equipment = {
+                    infantry_equipment > 249
+                }
+            }
+        }
 
         cost = 35
 
@@ -1314,14 +1331,24 @@ BRA_peasant_revolt = {
             if = {
                 limit = { has_dynamic_modifier = { modifier = BRA_small_coffee_plantations } }
                 custom_effect_tooltip = BRA_hide_250_weapons_tt
+                add_equipment_to_stockpile = {
+                    type = infantry_equipment
+                    amount = -250
+                    producer = BRA
+                }
                 hidden_effect = {
-                    add_to_variable = { BRA_amount_of_equipment_hidden = 250 }
+                    BRC = { add_to_variable = { BRA_amount_of_equipment_hidden = 250 } }
                 }
             }
             else = {
                 custom_effect_tooltip = BRA_hide_500_weapons_tt
+                add_equipment_to_stockpile = {
+                    type = infantry_equipment
+                    amount = -500
+                    producer = BRA
+                }
                 hidden_effect = {
-                    add_to_variable = { BRA_amount_of_equipment_hidden = 500 }
+                    BRC = { add_to_variable = { BRA_amount_of_equipment_hidden = 500 } }
                 }
             }
         }

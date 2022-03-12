@@ -1108,7 +1108,10 @@ BRA_start_communist_civil_war = {
 		add_civil_war_target = BRA 
 		every_other_country = {
 			limit = { 
-				original_tag = BRA 
+				OR = {
+					original_tag = BRA 
+					original_tag = SAO #only releasable that could cause an uprising
+				}
 				NOT = { has_war_with = PREV }
 			}
 			declare_war_on = {
@@ -1128,9 +1131,52 @@ BRA_start_communist_civil_war = {
 				owner = PREV
 			}
 			if = {
-				limit = { check_variable = { BRA_communist_popularity > 0.3 } }
+				limit = { check_variable = { BRA_communist_popularity > 0.35 } }
 				create_unit = {
 					division = "name = \"Milícias Comunistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+			}
+			if = {
+				limit = { check_variable = { BRA_farmers_agreement_to_uprising > 75 } }
+				create_unit = {
+					division = "name = \"Milícias Comunistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+			}
+			if = {
+				limit = { has_state_flag = BRA_conscripted_in_FROM }
+				create_unit = {
+					division = "name = \"Milícias Comunistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+				clr_state_flag = BRA_conscripted_in_FROM
+			}
+		}
+		add_equipment_to_stockpile = {
+			type = infantry_equipment
+			amount = BRA_amount_of_equipment_hidden
+			producer = BRA #doesn't really matter lol
+		}
+		if = {
+			limit = {
+				has_country_flag = BRC_strengthened_support
+			}
+			random_owned_controlled_state = {
+				create_unit = {
+					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+				create_unit = {
+					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+				create_unit = {
+					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+				create_unit = {
+					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
 					owner = PREV
 				}
 			}
@@ -1162,6 +1208,17 @@ BRA_start_communist_civil_war = {
 	}
 	else = {
 		BRC = { add_ideas = BRA_poorly_trained_militias_5 }
+	}
+	if = {
+		limit = {
+			has_completed_focus = BRA_save_up_coffee_profits
+		}
+		BRC = {
+			add_timed_idea = {
+				idea = BRA_exploiting_coffee_profits
+				days = 365
+			}
+		}
 	}
 	BRC = {
 		unlock_national_focus = BRA_assasinate_vargas
@@ -1202,6 +1259,19 @@ BRA_start_communist_civil_war = {
 			unlock_national_focus = BRA_set_up_intelligence_agency
 			unlock_national_focus = BRA_secret_conscription
 			unlock_national_focus = BRA_work_in_secret_with_coffee_farmers
+		}
+	}
+	BRA = {
+		if = {
+			limit = { has_country_flag = BRA_active_communist_revolt }
+			load_focus_tree = {
+				tree = brazil_focus
+				keep_completed = no 
+			}
+			complete_national_focus = BRA_the_path_to_estado_novo
+			complete_national_focus = BRA_invest_in_our_economy
+			complete_national_focus = BRA_pave_the_roads
+			complete_national_focus = BRA_begin_industrializing_the_nation
 		}
 	}
 }
