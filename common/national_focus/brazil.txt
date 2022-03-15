@@ -2349,6 +2349,8 @@ focus_tree = {
 					set_variable = { BRA_amount_of_equipment_hidden = 0 } 
 					set_variable = { BRA_farmers_agreement_to_uprising = 10 }
 				}
+				set_variable = { BRA_farmers_agreement_to_uprising = 10 }
+				set_variable = { BRA_amount_of_equipment_hidden = 0 }
 
 				set_country_flag = BRA_vargas_interfering
 
@@ -2463,7 +2465,20 @@ focus_tree = {
 			}
 			hidden_effect = {
 				add_to_variable = { BRA_farmers_agreement_to_uprising = 15 }
-				BRC = { unlock_national_focus = BRA_offer_labor_rights_post_civil_war }
+				BRC = { 
+					unlock_national_focus = BRA_offer_labor_rights_post_civil_war 
+					add_to_variable = { BRA_farmers_agreement_to_uprising = 15 }
+				}
+				every_country = {
+                    limit = {
+                        original_tag = BRA 
+                    }
+                    clamp_variable = {
+                        var = BRA_farmers_agreement_to_uprising
+                        min = 0
+                        max = 100
+                    }
+                }
 			}
 		}
 	}
@@ -2697,7 +2712,8 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
 		completion_reward = {
-
+			add_stability = -0.08
+			add_popularity = { ideology = communism popularity = 0.03 }
 		}
 	}
 
@@ -2747,10 +2763,10 @@ focus_tree = {
 
 		available = {
 			custom_trigger_tooltip = {
-                tooltip = BRA_network_coverage_over_35_tt
+                tooltip = BRA_network_coverage_over_40_tt
                 network_national_coverage = {
                     target = BRA 
-                    value > 0.35
+                    value > 0.40
                 }
             }
 			has_civil_war = no 
@@ -2760,7 +2776,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_ANNEXATION FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
 		completion_reward = {
 			unlock_decision_tooltip = BRA_spread_our_movement_in_FROM
-			add_popularity = { ideology = communism popularity = 0.04 }
+			add_popularity = { ideology = communism popularity = 0.05 }
 		}
 	}
 
@@ -2775,6 +2791,27 @@ focus_tree = {
 		#will give some characters the communist sympathizer thingy 
 
 		cost = 6
+
+		available = {
+			has_civil_war = no 
+			has_active_mission = BRA_communist_peasant_revolt
+		}
+
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			BRA_amaro_soares_bittencourt = {
+				add_unit_leader_trait = trait_BRA_communist_loyalty
+				hidden_effect = {
+					set_character_flag = BRA_communist
+				}
+			}
+			BRA_emilio_garratzu = {
+				add_unit_leader_trait = trait_BRA_communist_loyalty
+				hidden_effect = {
+					set_character_flag = BRA_communist
+				}
+			}
+		}
 	}
 
 	focus = {

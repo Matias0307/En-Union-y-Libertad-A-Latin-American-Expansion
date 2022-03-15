@@ -2867,8 +2867,33 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-			ARG = {
-				country_event = { id = generic.5 hours = 4 }
+			if = {
+				limit = {
+					is_in_faction = no 
+					ARG = {
+						is_in_faction = no 
+					}
+				}
+				create_faction = "Lima-Buenos Aires Axis"
+				ARG = {
+					country_event = { id = generic.5 hours = 4 }
+				}
+			}
+			else_if = {
+				limit = {
+					ARG = {
+						is_in_faction = yes 
+						is_faction_leader = yes 
+					}
+				}
+				ARG = {
+					country_event = { id = generic.2 hours = 4 }
+				}
+			}
+			else = {
+				ARG = {
+					country_event = { id = generic.5 hours = 4 }
+				}
 			}
 		}
 	}
