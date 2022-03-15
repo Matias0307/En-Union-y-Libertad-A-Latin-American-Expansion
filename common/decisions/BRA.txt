@@ -37,6 +37,7 @@ BRA_political_manegement = {
                 set_country_flag = BRA_congress_shutdown
                 set_country_flag = BRA_integralists_shutdown
                 set_country_flag = BRA_communists_shutdown
+                set_country_flag = BRA_all_parties_shutdown ## IMPORTANT COUNTRY FLAG ##
                 set_variable = { BRA_congress_influence = 0 }
                 set_variable = { BRA_integralist_influence = 0 }
                 BRA_set_up_political_crisis = yes 
@@ -53,7 +54,10 @@ BRA_political_manegement = {
         }
 
         activation = {
-            #has_active_mission = BRA_estado_novo_mission
+            OR = {
+                #has_active_mission = BRA_estado_novo_mission
+                has_active_mission = BRA_estado_novo_mission_enemy
+            }
             exists = yes 
             NOT = { has_country_flag = BRA_vargas_is_dead } #will be a chance event in the civil war route
         }

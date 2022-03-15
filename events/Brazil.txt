@@ -1739,6 +1739,7 @@ country_event = {
 		NOT = { check_variable = { BRA_playing_as_vargas = 1 } }
 		has_civil_war = no 
 		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
+		has_active_mission = BRA_estado_novo_mission_enemy
 	}
 
 	mean_time_to_happen = {
@@ -1801,6 +1802,7 @@ country_event = {
 
 	trigger = {
 		original_tag = BRA 
+		has_country_flag = BRA_vargas_interfering
 		has_civil_war = no 
 		check_variable = { BRA_playing_as_communists = 1 }
 		has_active_mission = BRA_communist_peasant_revolt
@@ -1920,9 +1922,70 @@ country_event = {
 #Event of Vargas's Assasination 
 country_event = {
 	id = brazil.43
+	title = brazil.43.t 
+	desc = brail.43.d 
+	picture = GFX_BRA_brazil_43
+
+	is_triggered_only = yes 
+	fire_only_once = yes 
+
+	option = { 
+		name = brazil.43.a 
+		kill_country_leader = yes 
+		set_country_flag = BRA_vargas_is_dead
+		effect_tooltip = {
+			start_civil_war = {
+				ruling_party = communism
+				ideology = ROOT 
+				size = 0.4
+			}
+			BRA = {
+				add_stability = -0.05
+			}
+		}
+		custom_effect_tooltip = BRA_military_junta_lead_brazil_tt
+		hidden_effect = {	
+			retire_character = BRA_getúlio_vargas
+			BRA_start_communist_civil_war = yes 
+			BRA = {
+				retire_country_leader = yes 
+				create_country_leader = {
+                    name = "Brazilian Military Junta"
+                    desc = "POLITICS_BRAZILIAN_MILITARY_JUNTA_DESC"
+                    picture = "gfx/leaders/BRA/BRA_brazilian_military_junta.png"
+                    expire = "1965.1.1"
+                    ideology = despotism
+                    traits = {
+                        BRA_disorganized_leadership
+                    }
+                }
+				add_stability = -0.05
+			}
+		}
+	}
 }
 
 #Event of failed assasination attempt 
 country_event = {
 	id = brazil.44 
+	title = brazil.44.t 
+	desc = brazil.44.d 
+	picture = GFX_report_event_generic_army
+
+	is_triggered_only = yes 
+	fire_only_once = yes 
+
+	option = {
+		name = brazil.44.a 
+		effect_tooltip = {
+			start_civil_war = {
+				ruling_party = communism
+				ideology = ROOT 
+				size = 0.4
+			}
+		}
+		hidden_effect = {
+			BRA_start_communist_civil_war = yes 
+		}
+	}
 }
