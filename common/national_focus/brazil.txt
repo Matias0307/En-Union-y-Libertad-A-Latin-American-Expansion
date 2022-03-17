@@ -45,6 +45,7 @@ focus_tree = {
 			}
 			custom_effect_tooltip = BRA_add_brazilian_economy_tt
 			EUYL_add_1_civilian = yes 
+			add_political_power = 50
 		}
 	}
 
@@ -109,6 +110,7 @@ focus_tree = {
 			custom_effect_tooltip = BRA_coffee_dependency_decreases_10_tt
 			unlock_decision_tooltip = BRA_destroy_the_coffee_plantations_in_FROM
 			BRA_industrialize_economy_slightly = yes 
+			add_political_power = 25
 			hidden_effect = {
 				subtract_from_variable = { BRA_dependency_on_coffee = 10 }
 				BRA_update_opinion_variable = yes 
@@ -245,6 +247,7 @@ focus_tree = {
 			custom_effect_tooltip = BRA_depending_on_plantation_opinion_tt
 			custom_effect_tooltip = ARG_iftheyaccept
 			custom_effect_tooltip = BRA_cost_to_industrialize_tt
+			add_political_power = 40
 			hidden_effect = {
 				set_temp_variable = { BRA_chance_to_agree = 0 }
 				set_temp_variable = { BRA_chance_to_disagree = 100 }
@@ -2273,6 +2276,7 @@ focus_tree = {
 		x = 44
 		y = 0
 		mutually_exclusive = { focus = BRA_reject_the_estado_navo }
+		mutually_exclusive = { focus = BRA_manipulate_behind_the_scenes }
 		available = {
 			has_civil_war = no 
 			custom_trigger_tooltip = {
@@ -2308,8 +2312,8 @@ focus_tree = {
 		y = 0
 		mutually_exclusive = { 
 			focus = BRA_the_path_to_estado_novo 
-			focus = BRA_reject_the_estado_navo
 		}
+		mutually_exclusive = { focus = BRA_reject_the_estado_navo }
 
 		available = {
 			custom_trigger_tooltip = {
@@ -2340,7 +2344,8 @@ focus_tree = {
 		#will trigger the peasant revolt mission, player side 
 		completion_reward = {
 			activate_mission_tooltip = BRA_communist_peasant_revolt
-			add_popularity = { ideology = communism popularity = 0.02}
+			add_popularity = { ideology = communism popularity = 0.02 }
+			add_political_power = 30
 			hidden_effect = {
 				set_country_flag = BRA_active_communist_revolt
 				
@@ -2351,6 +2356,8 @@ focus_tree = {
 				}
 				set_variable = { BRA_farmers_agreement_to_uprising = 10 }
 				set_variable = { BRA_amount_of_equipment_hidden = 0 }
+				set_variable = { BRA_playing_as_vargas = 0 }
+				set_variable = { BRA_playing_as_communists = 1 }
 
 				set_country_flag = BRA_vargas_interfering
 
@@ -2425,7 +2432,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
 		completion_reward = {
 			unlock_decision_tooltip = BRA_coerce_the_farmers_to_our_movement
-
+			add_political_power = 15
 			custom_effect_tooltip = BRA_higher_agreement_better_tt #detail why it is better for farmers to agree
 		}
 	}
@@ -2699,19 +2706,14 @@ focus_tree = {
 		cost = 6
 
 		available = {
-			custom_trigger_tooltip = {
-                tooltip = BRA_network_coverage_over_50_tt
-                network_national_coverage = {
-                    target = BRA 
-                    value > 0.5
-                }
-            }
+			
 			has_civil_war = no 
 			has_active_mission = BRA_communist_peasant_revolt
 		}
 
 		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
 		completion_reward = {
+			add_political_power = 10
 			add_stability = -0.08
 			add_popularity = { ideology = communism popularity = 0.03 }
 		}
@@ -2728,13 +2730,7 @@ focus_tree = {
 		cost = 8
 
 		available = {
-			custom_trigger_tooltip = {
-				tooltip = BRA_network_coverage_over_60_tt
-				network_national_coverage = {
-					target = BRA 
-					value > 0.6
-				}
-			}
+			
 			has_civil_war = no 
 			has_active_mission = BRA_communist_peasant_revolt
 		}
@@ -2762,19 +2758,14 @@ focus_tree = {
 		cost = 10
 
 		available = {
-			custom_trigger_tooltip = {
-                tooltip = BRA_network_coverage_over_40_tt
-                network_national_coverage = {
-                    target = BRA 
-                    value > 0.40
-                }
-            }
+			
 			has_civil_war = no 
 			has_active_mission = BRA_communist_peasant_revolt
 		}
 
 		search_filters = { FOCUS_FILTER_ANNEXATION FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
 		completion_reward = {
+			add_political_power = 25
 			unlock_decision_tooltip = BRA_spread_our_movement_in_FROM
 			add_popularity = { ideology = communism popularity = 0.05 }
 		}
@@ -2801,15 +2792,11 @@ focus_tree = {
 		completion_reward = {
 			BRA_amaro_soares_bittencourt = {
 				add_unit_leader_trait = trait_BRA_communist_loyalty
-				hidden_effect = {
-					set_character_flag = BRA_communist
-				}
+				set_character_flag = BRA_communist
 			}
 			BRA_emilio_garratzu = {
 				add_unit_leader_trait = trait_BRA_communist_loyalty
-				hidden_effect = {
-					set_character_flag = BRA_communist
-				}
+				set_character_flag = BRA_communist
 			}
 		}
 	}
@@ -2817,15 +2804,27 @@ focus_tree = {
 	focus = {
 		id = BRA_organize_countrywide_strikes
 		icon = GFX_focus_POL_riot_of_37
-		x = 0
+		x = -2
 		y = 1
-		relative_position_id = BRA_secret_supply_build_up
+		relative_position_id = BRA_convince_the_army
 		prerequisite = {
 			focus = BRA_secret_supply_build_up
 		}
 		prerequisite = { focus = BRA_convince_the_army }
 
+		available = {
+			has_civil_war = no 
+			has_active_mission = BRA_communist_peasant_revolt
+		}
+
 		cost = 10
+
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+
+		completion_reward = {
+			add_political_power = 50
+			add_stability = -0.1
+		}
 	}
 
 	focus = {
@@ -2910,6 +2909,28 @@ focus_tree = {
 		#will invite soviet advisors over to help in the war 
 
 		cost = 7
+
+		available = {
+			has_civil_war = no 
+			has_active_mission = BRA_communist_peasant_revolt
+			has_country_flag = BRA_soviet_accepted
+		}
+
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			custom_effect_tooltip = BRA_soviet_council_advisors_tt
+			hidden_effect = {
+				BRC = { unlock_national_focus = BRA_soviet_logistic_advisors }
+
+				# POST CIVIL WAR SOVIET WAR PAYMENT #
+				BRC = {
+					add_to_variable = { BRA_SOV_time_to_pay_back = 35 }
+					add_to_variable = { BRA_SOV_consumer_goods = 0.02 }
+					add_to_variable = { BRA_SOV_local_resources_factor = -0.02 }
+				}
+				# POST CIVIL WAR SOVIET WAR PAYMENT #
+			}
+		}
 	}
 
 	focus = {
@@ -2926,11 +2947,61 @@ focus_tree = {
 				check_variable = { BRA_playing_as_communists = 1 }
 			}
 			has_civil_war = no 
+			has_active_mission = BRA_communist_peasant_revolt
+			has_country_flag = BRA_soviet_accepted
 		}
 
 		#will spawn in divisions at the start of the civil war, and will be removed once its over 
 
 		cost = 10
+
+		select_effect = {
+			hidden_effect = {
+				every_country = {
+					limit = { original_tag = BRA }
+					division_template = { 
+						name = "Soviet Volunteers" 
+						division_names_group = SPAN_INF_02 
+						is_locked = yes 
+						regiments = { 
+							infantry = { x = 0 y = 0 }  
+							infantry = { x = 0 y = 1 } 
+							infantry = { x = 0 y = 2 } 
+							infantry = { x = 0 y = 3 } 
+							infantry = { x = 1 y = 0 }  
+							infantry = { x = 1 y = 1 } 
+							infantry = { x = 1 y = 2 } 
+							infantry = { x = 1 y = 3 } 
+						}
+						support = {
+							artillery = { x = 0 y = 0 }
+						}
+					}
+				}
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			custom_effect_tooltip = BRA_gain_4_volunteer_divs_start_civil_war_tt
+			SOV = {
+				add_manpower = -30000
+			}
+			hidden_effect = {
+				BRC = {
+					unlock_national_focus = BRA_soviet_volunteers
+					set_country_flag = BRA_soviet_volunteers_taken
+				}
+
+				# POST CIVIL WAR SOVIET WAR PAYMENT #
+				BRC = {
+					add_to_variable = { BRA_SOV_time_to_pay_back = 35 }
+					add_to_variable = { BRA_SOV_consumer_goods = 0.02 }
+					add_to_variable = { BRA_SOV_local_resources_factor = -0.02 }
+				}
+				# POST CIVIL WAR SOVIET WAR PAYMENT #
+			}
+		}
 	}
 
 	focus = {
@@ -2942,9 +3013,46 @@ focus_tree = {
 		prerequisite = { focus = BRA_ask_for_soviet_support }
 		mutually_exclusive = { focus = BRA_secretly_bring_soviet_weaponry }
 
-		#will unlock decision to bring soviet guns in bulk, however there will be a chance of brazilian government finding out 
-
 		cost = 6
+
+		available = {
+			has_active_mission = BRA_communist_peasant_revolt
+			has_civil_war = no 
+			has_country_flag = BRA_soviet_accepted
+		}
+
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		completion_reward = {
+			random_list = {
+				50 = {
+					country_event = brazil.42
+				}
+				50 = {
+					custom_effect_tooltip = EUYL_start_of_civil_war_gain_following_tt
+					effect_tooltip = {
+						add_equipment_to_stockpile = {
+							type = infantry_equipment
+							amount = 2000
+							producer = SOV 
+						}
+					}
+					hidden_effect = {
+						BRC = { set_country_flag = BRA_brought_weapons_in_bulk }
+					}
+				}
+			}
+			hidden_effect = {
+				BRC = { unlock_national_focus = BRA_bring_soviet_weaponry_in_bulk }
+
+				# POST CIVIL WAR SOVIET WAR PAYMENT #
+				BRC = {
+					add_to_variable = { BRA_SOV_time_to_pay_back = 35 }
+					add_to_variable = { BRA_SOV_consumer_goods = 0.02 }
+					add_to_variable = { BRA_SOV_local_resources_factor = -0.02 }
+				}
+				# POST CIVIL WAR SOVIET WAR PAYMENT #
+			}
+		}
 	}
 
 	focus = {
@@ -2954,8 +3062,48 @@ focus_tree = {
 		y =1 
 		relative_position_id = BRA_ask_for_soviet_support
 		prerequisite = { focus = BRA_ask_for_soviet_support }
+		mutually_exclusive = { focus = BRA_bring_soviet_weaponry_in_bulk }
 
 		cost = 6
+
+		available = {
+			has_active_mission = BRA_communist_peasant_revolt
+			has_civil_war = no 
+			has_country_flag = BRA_soviet_accepted
+		}
+
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		completion_reward = {
+			random_list = {
+				15 = {
+					country_event = brazil.42
+				}
+				85 = {
+					custom_effect_tooltip = EUYL_start_of_civil_war_gain_following_tt
+					effect_tooltip = {
+						add_equipment_to_stockpile = {
+							type = infantry_equipment
+							amount = 750
+							producer = SOV 
+						}
+					}
+					hidden_effect = {
+						BRC = { set_country_flag = BRA_secretely_brought_weapons }
+					}
+				}
+			}
+			hidden_effect = {
+				BRC = { unlock_national_focus = BRA_secretly_bring_soviet_weaponry }
+
+				# POST CIVIL WAR SOVIET WAR PAYMENT #
+				BRC = {
+					add_to_variable = { BRA_SOV_time_to_pay_back = 35 }
+					add_to_variable = { BRA_SOV_consumer_goods = 0.02 }
+					add_to_variable = { BRA_SOV_local_resources_factor = -0.02 }
+				}
+				# POST CIVIL WAR SOVIET WAR PAYMENT #
+			}
+		}
 	}
 
 	focus = {
@@ -2970,6 +3118,58 @@ focus_tree = {
 		}
 
 		cost = 8
+
+		available = { 
+			has_civil_war = no 
+			has_active_mission = BRA_communist_peasant_revolt
+		}
+
+		select_effect = {
+			hidden_effect = {
+				every_country = {
+					limit = { original_tag = BRA }
+					division_template = { 
+						name = "Soviet Volunteer Tank Korp" 
+						division_names_group = SPAN_INF_02 
+						is_locked = yes 
+						regiments = { 
+							light_armor = { x = 0 y = 0 }
+							light_armor = { x = 0 y = 1 }
+							light_armor = { x = 0 y = 2 }
+							motorized = { x = 1 y = 0 }
+							motorized = { x = 1 y = 1 }
+							motorized = { x = 1 y = 2 }
+						}
+					}
+				}
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		completion_reward = {
+			custom_effect_tooltip = EUYL_start_of_civil_war_gain_following_tt
+			effect_tooltip = {
+				create_unit = {
+					division = "name = \"Soviet Volunteer Tank Korp\" division_template = \"Soviet Volunteer Tank Korp\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+					owner = ROOT
+				}
+			}
+			hidden_effect = {
+				BRC = { 
+					unlock_national_focus = BRA_bring_in_soviet_tanks
+					set_country_flag = BRA_soviet_tanks
+				}
+
+				# POST CIVIL WAR SOVIET WAR PAYMENT #
+				BRC = {
+					add_to_variable = { BRA_SOV_time_to_pay_back = 35 }
+					add_to_variable = { BRA_SOV_consumer_goods = 0.02 }
+					add_to_variable = { BRA_SOV_local_resources_factor = -0.02 }
+				}
+				# POST CIVIL WAR SOVIET WAR PAYMENT #
+
+			}
+		}
 	}
 
 	focus = {
@@ -2983,6 +3183,19 @@ focus_tree = {
 		#will prevent desertion of anarchists mid civil war 
 
 		cost = 10
+
+		available = {
+			has_civil_war = no 
+			has_active_mission = BRA_communist_peasant_revolt
+		}
+
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			custom_effect_tooltip = BRA_anarchist_supporters_wont_desert_tt
+			hidden_effect = {
+				BRC = { set_country_flag = BRA_cooperated_with_anarchists }
+			}
+		}
 	}
 
 	focus = {
