@@ -938,6 +938,12 @@ BRA_political_manegement = {
 		}
 
 		visible = {
+            NOT = {
+                OR = {
+                    has_completed_focus = BRA_manipulate_behind_the_scenes
+                    has_completed_focus = BRA_reject_the_estado_navo
+                }
+            }
 			FROM = {
 				has_dynamic_modifier = { modifier = BRA_integralists_occupation }
 			}
@@ -1032,6 +1038,196 @@ BRA_political_manegement = {
 
 BRA_imminent_civil_war = {
     
+}
+
+BRA_the_brazilian_civil_war = {
+    BRA_impending_paulista_revolt = {
+        priority = 75
+        icon = revolt 
+
+        state_target = yes 
+
+        target_array = controlled_states
+
+        activation = {
+            has_country_flag = BRA_paulista_revolt_active
+        }
+
+        available = {
+            has_completed_focus = BRA_strike_a_deal_with_the_seperatists
+        }
+
+        target_trigger = {
+            FROM = {
+                has_dynamic_modifier = { modifier = BRA_sao_paulo_seperatist_movement }
+            }
+        }
+
+        visible = {
+            has_civil_war = yes 
+            exists = yes 
+        }
+
+        cancel_trigger = {
+            exists = no 
+        }
+
+        is_good = no 
+        fire_only_once = yes 
+        on_map_mode = map_and_decisions_view
+        days_mission_timeout = 95
+
+        complete_effect = {
+            set_global_flag = paulistas_revolted
+            add_stability = 0.01
+            hidden_effect = {
+                set_country_flag = BRA_paulistas_pacified
+            }
+        }
+
+        timeout_effect = {
+            set_global_flag = paulistas_revolted
+            clr_country_flag = BRA_paulista_revolt_active
+            custom_effect_tooltip = BRA_paulistas_will_start_uprising_tt
+            add_manpower = -28000
+            random_owned_controlled_state = {
+                limit = {
+                    AND = {
+                        divisions_in_state = {
+                            size > 0
+                            state = THIS 
+                        }
+                        divisions_in_state = {
+                            size < 3
+                            state = THIS 
+                        }
+                    }
+                }
+                delete_unit = {
+                    state = THIS 
+                }
+            }
+            hidden_effect = {
+                SAO = {
+                    division_template = {
+                        name = "Milicias Paulistas" 
+						division_names_group = SPAN_INF_02 
+						is_locked = yes 
+						regiments = { 
+							infantry = { x = 0 y = 0 }  
+							infantry = { x = 0 y = 1 } 
+							infantry = { x = 0 y = 2 } 
+							infantry = { x = 0 y = 3 }  
+						}
+						support = {
+							artillery = { x = 0 y = 0 }
+						}
+                    }
+                    transfer_state = 501
+                    every_other_country = {
+                        limit = { original_tag = BRA }
+                        declare_war_on = {
+                            target = PREV 
+                            type = civil_war
+                        }
+                        add_civil_war_target = THIS
+                    }
+                    add_ideas = SAO_war_of_independence_idea
+                    501 = {
+                        create_unit = {
+                            division = "name = \"Milícias Paulistas\" division_template = \"Milicias Paulistas\" start_experience_factor = 0.1 start_equipment_factor = 1" 
+                            owner = PREV
+                        }
+                        create_unit = {
+                            division = "name = \"Milícias Paulistas\" division_template = \"Milicias Paulistas\" start_experience_factor = 0.1 start_equipment_factor = 1" 
+                            owner = PREV
+                        }
+                        create_unit = {
+                            division = "name = \"Milícias Paulistas\" division_template = \"Milicias Paulistas\" start_experience_factor = 0.1 start_equipment_factor = 1" 
+                            owner = PREV
+                        }
+                        create_unit = {
+                            division = "name = \"Milícias Paulistas\" division_template = \"Milicias Paulistas\" start_experience_factor = 0.1 start_equipment_factor = 1" 
+                            owner = PREV
+                        }
+                        create_unit = {
+                            division = "name = \"Milícias Paulistas\" division_template = \"Milicias Paulistas\" start_experience_factor = 0.1 start_equipment_factor = 1" 
+                            owner = PREV
+                        }
+                        create_unit = {
+                            division = "name = \"Milícias Paulistas\" division_template = \"Milicias Paulistas\" start_experience_factor = 0.1 start_equipment_factor = 1" 
+                            owner = PREV
+                        }
+                        create_unit = {
+                            division = "name = \"Milícias Paulistas\" division_template = \"Milicias Paulistas\" start_experience_factor = 0.1 start_equipment_factor = 1" 
+                            owner = PREV
+                        }
+                        remove_dynamic_modifier = { modifier = BRA_sao_paulo_seperatist_movement }
+                    }
+                }
+            }
+        }
+    }
+    BRA_crush_the_integralists_in_FROM = {
+        priority = 25
+        icon = eng_trade_unions_demand 
+
+        ai_will_do = {
+			base = 145
+		}
+
+		state_target = yes
+
+		target_array = controlled_states
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+				is_core_of = ROOT  
+			}
+		}
+
+		available = {
+			divisions_in_state = {
+                size > 4
+                state = FROM
+            }
+            has_civil_war = no 
+            command_power > 15
+		}
+
+        cancel_trigger = {
+            divisions_in_state = {
+                size < 3
+                state = FROM 
+            }
+        }
+
+		visible = {
+            has_completed_focus = BRA_crush_the_integralists
+			FROM = {
+				has_dynamic_modifier = { modifier = BRA_integralists_occupation }
+			}
+		}
+
+        custom_cost_trigger = {
+			command_power > 15
+		}
+
+		custom_cost_text = CHL_cost_15_cp
+
+		days_remove = 40
+
+		modifier = {
+			weekly_manpower = -450
+		}
+
+		remove_effect = {
+			FROM = { 
+				remove_dynamic_modifier = { modifier = BRA_integralists_occupation }
+			}
+		}
+    }
 }
 
 BRA_peasant_revolt = {
