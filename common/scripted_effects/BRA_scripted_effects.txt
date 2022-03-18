@@ -805,17 +805,23 @@ BRA_set_up_generic_civil_war_divisions_fascist_ai = {
 			max = 100
 			min = 0
 		}
-		if = {
-			limit = { check_variable = { BRA_playing_as_vargas = 1 } }
-			add_ideas = BRA_civil_war_vargas
+		if = { #you'll already have the ideas if the civil war started before 
+			limit = { has_global_flag = BRA_civil_war_in_progress }
+			add_war_support = 0.02
 		}
-		else_if = {
-			limit = { check_variable = { BRA_playing_as_congress = 1 } }
-			add_ideas = BRA_civil_war_democratic
-		}
-		else_if = {
-			limit = { check_variable = { BRA_playing_as_communists = 1 } }
-			add_ideas = BRA_civil_war_communist 
+		else = {
+			if = {
+				limit = { check_variable = { BRA_playing_as_vargas = 1 } }
+				add_ideas = BRA_civil_war_vargas
+			}
+			else_if = {
+				limit = { check_variable = { BRA_playing_as_congress = 1 } }
+				add_ideas = BRA_civil_war_democratic
+			}
+			else_if = {
+				limit = { check_variable = { BRA_playing_as_communists = 1 } }
+				add_ideas = BRA_civil_war_communist 
+			}
 		}
 		every_character = {
 			limit = { has_character_flag = BRA_integralist }
@@ -913,6 +919,21 @@ BRA_set_up_generic_civil_war_divisions_fascist_ai = {
 				has_government = fascism 
 			}
 			add_ideas = BRA_civil_war_integralists
+			add_ideas = BRA_poorly_trained_militias_5
+			every_other_country = {
+				limit = { 
+					OR = {
+						original_tag = BRA 
+						if = { limit = { SAO = { exists = yes } } original_tag = SAO } #only releasable that could cause an uprising
+					}
+					NOT = { has_war_with = PREV }
+				}
+				declare_war_on = {
+					target = PREV 
+					type = civil_war
+				}
+				PREV = { add_civil_war_target = THIS }
+			}
 			load_focus_tree = {
 				tree = brazil_focus
 				keep_completed = no 
@@ -1136,7 +1157,7 @@ BRA_start_communist_civil_war = {
 			limit = { 
 				OR = {
 					original_tag = BRA 
-					original_tag = SAO #only releasable that could cause an uprising
+					if = { limit = { SAO = { exists = yes } } original_tag = SAO } #only releasable that could cause an uprising
 				}
 				NOT = { has_war_with = PREV }
 			}
@@ -1144,7 +1165,7 @@ BRA_start_communist_civil_war = {
 				target = PREV 
 				type = civil_war
 			}
-			add_civil_war_target = THIS 
+			PREV = { add_civil_war_target = THIS } 
 		}
 		
 		every_controlled_state = {
