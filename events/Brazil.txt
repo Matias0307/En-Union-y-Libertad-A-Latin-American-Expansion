@@ -2005,9 +2005,49 @@ country_event = {
 
 	mean_time_to_happen = { days = 24 }
 
+	immediate = { 
+		set_country_flag = BRA_paulista_revolt_active
+	}
+
 	option = {
 		name = brazil.45.a 
-		set_country_flag = BRA_paulista_revolt_active
 		activate_mission_tooltip = BRA_impending_paulista_revolt
+	}
+}
+
+#Integralists see their chance to launch a full-scale uprising 
+country_event = {
+	id = brazil.46
+	title = brazil.46.t 
+	desc = brazil.46.d 
+	picture = GFX_
+
+	fire_only_once = yes 
+
+	trigger = {
+		original_tag = BRA 
+		AND = {
+			has_civil_war = yes 
+			has_war_with = BRA 
+		}
+		has_government = communism
+		has_global_flag = BRA_civil_war_in_progress
+		has_country_flag = BRA_paulista_revolt_active
+	}
+
+	mean_time_to_happen = { days = 35 }
+
+	immediate = {
+		hidden_effect = {
+			set_variable = { BRA_extra_integralist_troops = 1 }
+			set_variable = { BRA_integralist_influence = 25 }
+		}
+		set_country_flag = BRA_integralist_uprising_active
+	}
+
+	option = {
+		name = brazil.46.a 
+		set_country_flag = BRC_integralists_planning_uprising
+		
 	}
 }
