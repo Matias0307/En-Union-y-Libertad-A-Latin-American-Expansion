@@ -2744,6 +2744,30 @@ focus_tree = {
 			}
 		}
 	}
+
+	focus = {
+		id = BRA_compromise_with_the_democrats
+		icon = GFX_goal_generic_dangerous_deal
+		x = 0
+		y = 1
+		relative_position_id = BRA_interfere_with_vargas_plans
+		prerequisite = { focus = BRA_interfere_with_vargas_plans }
+
+		cost = 10
+
+		available = {
+			has_civil_war = no 
+			has_active_mission = BRA_communist_peasant_revolt
+		}
+
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			custom_effect_tooltip = BRA_deomocrats_will_not_rise_up_in_civil_war_however_tt
+			BRC = {
+				set_country_flag = BRC_avoided_democrat_civil_war
+			}
+		}
+	}
 	
 	focus = {
 		id = BRA_secretely_spread_support
@@ -3320,6 +3344,8 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_assasinate_vargas
 		prerequisite = { focus = BRA_assasinate_vargas }
+
+		#improve slightly ill-trained militias and add manpower 
 	}
 
 	focus = {
@@ -3330,6 +3356,8 @@ focus_tree = {
 		relative_position_id = BRA_women_in_the_army
 		prerequisite = { focus = BRA_soviet_war_administration }
 		prerequisite = { focus = BRA_women_in_the_army }
+
+		#improve slightly ill-trained militias and add idea that improves air combat slightly 
 	}
 
 	focus = {
@@ -3380,6 +3408,8 @@ focus_tree = {
 		relative_position_id = BRA_women_in_the_army
 		prerequisite = { focus = BRA_women_in_the_army }
 		prerequisite = { focus = BRA_contact_other_south_american_countries }
+
+		#improve slightly ill-trained militias 
 	}
 
 	focus = {
@@ -3401,6 +3431,17 @@ focus_tree = {
 			focus = BRA_crush_the_seperatists
 			focus = BRA_strike_a_deal_with_the_seperatists
 		}
+
+		#will add infantry equipment and create 2 militias 
+	}
+
+	focus = {
+		id = BRA_the_final_push
+		icon = GFX_
+		x = 0
+		y = 1
+		relative_position_id = BRA_confiscate_paulista_weaponry
+		prerequisite = { focus = BRA_confiscate_paulista_weaponry }
 	}
 
 	focus = {
@@ -3434,7 +3475,19 @@ focus_tree = {
 		x = 1
 		y = 1
 		relative_position_id = BRA_soviet_war_administration
-		prerequisite = { focus = BRA_soviet_war_administration}
+		prerequisite = { focus = BRA_soviet_war_administration }
+
+		available = {
+			has_government = communism
+			has_civil_war = yes 
+		}
+
+		cost = 8
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		completion_reward = {
+			BRA_build_2_supply_hubs_random = yes
+		}
 	}
 
 	focus = {
@@ -3453,6 +3506,18 @@ focus_tree = {
 	}
 
 	focus = {
+		id = BRA_resources_for_the_army
+		icon = GFX_focus_generic_tank_production
+		x = -2
+		y = 1
+		relative_position_id = BRA_switch_to_a_war_economy
+		prerequisite = { focus = BRA_switch_to_a_war_economy }
+		prerequisite = { focus = BRA_establish_mines_for_other_resources }
+
+		#will give a temporary idea that improves factory output 
+	}
+
+	focus = {
 		id = BRA_emergency_railroad_construction
 		icon = GFX_goal_generic_construct_infrastructure
 		x = 0
@@ -3468,6 +3533,8 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_strategic_supply_hub_construction
 		prerequisite = { focus = BRA_strategic_supply_hub_construction }
+
+		#will add mills 
 	}
 
 	focus = {
@@ -3477,6 +3544,8 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_strategic_supply_hub_construction
 		prerequisite = { focus = BRA_strategic_supply_hub_construction }
+
+		#will build railways
 	}
 
 	focus = {
@@ -3503,13 +3572,15 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BRA_suppy_hubs_in_sao_paulo
+		id = BRA_supply_hubs_in_sao_paulo
 		icon = GFX_col_focus_silos
 		x = -1
 		y = 1
 		relative_position_id = BRA_strike_a_deal_with_the_seperatists
 		prerequisite = { focus = BRA_strike_a_deal_with_the_seperatists }
 		prerequisite = { focus = BRA_emergency_railroad_construction }
+
+		#will build supply hubs 
 	}
 
 	focus = {
@@ -3519,6 +3590,308 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_emergency_railroad_construction
 		prerequisite = { focus = BRA_emergency_railroad_construction }
+
+		#just gives mills 
+	}
+
+	focus = {
+		id = BRA_victors_at_last
+		icon = GFX_
+		x = 3
+		y = 1
+		relative_position_id = BRA_the_final_push
+		prerequisite = { focus = BRA_the_final_push}
+	}
+
+	focus = {
+		id = BRA_the_peasants_represent_democracy
+		icon = GFX_PRU_left_and_right_united
+		x = 4
+		y = 1
+		relative_position_id = BRA_victors_at_last
+		prerequisite = { focus = BRA_victors_at_last }
+		mutually_exclusive = { focus = BRA_establish_our_dominance }
+		
+		#social democracy path (will be shared with vargas path)
+	}
+
+	focus = {
+		id = BRA_establish_our_dominance
+		icon = GFX_
+		x = -4
+		y = 1
+		relative_position_id = BRA_victors_at_last
+		prerequisite = { focus = BRA_victors_at_last }
+		mutually_exclusive = { focus = BRA_the_peasants_represent_democracy }
+
+		#war path 
+	}
+
+	focus = {
+		id = BRA_army_preperations
+		icon = GFX_ 
+		x = 0
+		y = 1
+		relative_position_id = BRA_establish_our_dominance
+		prerequisite = { focus = BRA_establish_our_dominance }
+	}
+
+	focus = {
+		id = BRA_efficient_supply_consumption
+		icon = GFX_ 
+		x = -2
+		y = 1
+		relative_position_id = BRA_army_preperations
+		prerequisite = { focus = BRA_army_preperations }
+		prerequisite = { focus = BRA_invest_heavily_in_the_military }
+		prerequisite = { focus = BRA_supply_hubs_in_sao_paulo }
+	}
+
+	focus = {
+		id = BRA_the_inevitable_spread_of_communism
+		icon = GFX_ 
+		x = 0
+		y = 2
+		relative_position_id = BRA_army_preperations
+		prerequisite = { focus = BRA_army_preperations }
+		prerequisite = { focus = BRA_expand_the_peasant_markets }
+
+		#will unlcok the mechanic to spread communism to other countries and instigate communist civil wars within them 
+	}
+
+	focus = {
+		id = BRA_establish_agrarian_reforms
+		icon = GFX_
+		x = 0
+		y = 2
+		relative_position_id = BRA_victors_at_last
+		prerequisite = {
+			focus = BRA_establish_our_dominance
+			focus = BRA_the_peasants_represent_democracy
+		}
+
+		#will improve post-civil war economic situation slightly and cause a mission that improves resource efficiency and trade output at the cost of factory output
+	}
+
+	focus = {
+		id = BRA_expand_our_plantations_even_further
+		icon = GFX_
+		x = 2
+		y = 1
+		relative_position_id = BRA_establish_agrarian_reforms
+		prerequisite = { focus = BRA_establish_agrarian_reforms } 
+	}
+
+	focus = {
+		id = BRA_expand_the_peasant_markets
+		icon = GFX_ 
+		x = -2
+		y = 1
+		relative_position_id = BRA_establish_agrarian_reforms
+		prerequisite = { focus = BRA_establish_agrarian_reforms}
+	}
+
+	focus = {
+		id = BRA_limit_our_exports
+		icon = GFX_ 
+		x = 0
+		y = 1
+		relative_position_id = BRA_establish_agrarian_reforms
+		prerequisite = { focus = BRA_establish_agrarian_reforms }
+	}
+
+	focus = {
+		id = BRA_strengthen_our_intelligence_agency
+		icon = GFX_ 
+		x = 1
+		y = 1
+		relative_position_id = BRA_the_inevitable_spread_of_communism
+		prerequisite = { focus = BRA_the_inevitable_spread_of_communism }
+	}
+
+	focus = {
+		id = BRA_form_volunteer_korps
+		icon = GFX_ 
+		x = -1
+		y = 1
+		relative_position_id = BRA_the_inevitable_spread_of_communism
+		prerequisite = { focus = BRA_the_inevitable_spread_of_communism }
+	}
+
+	focus = {
+		id = BRA_everyone_united_under_one_banner
+		icon = GFX_
+		x = -1
+		y = 1
+		relative_position_id = BRA_strengthen_our_intelligence_agency
+		prerequisite = { focus = BRA_strengthen_our_intelligence_agency }
+		prerequisite = { focus = BRA_form_volunteer_korps }
+
+		#will unlock decisions to cause civil wars in nations that have a decent amount of communism 
+	}
+
+	focus = { #yeap, this focus will basically revert the industrialization 
+		id = BRA_re_establish_a_fully_agrarian_economy
+		icon = GFX_ 
+		x = 0
+		y = 1
+		relative_position_id = BRA_limit_our_exports
+		prerequisite = {
+			focus = BRA_expand_the_peasant_markets
+			focus = BRA_expand_our_plantations_even_further
+		}
+	}
+
+	focus = {
+		id = BRA_establish_an_agrarian_syndicate_council
+		icon = GFX_ 
+		x = 0
+		y = 1
+		relative_position_id = BRA_re_establish_a_fully_agrarian_economy
+		prerequisite = { focus = BRA_re_establish_a_fully_agrarian_economy }
+
+		#will unlock even more decisions and a nifty mechanic to balance out the debuffs while still not being too OP 
+	}
+
+	focus = {
+		id = BRA_slowly_subjegate_our_neighbors
+		icon = GFX_ 	
+		x = 3
+		y = 1
+		relative_position_id = BRA_everyone_united_under_one_banner
+		prerequisite = { focus = BRA_everyone_united_under_one_banner }
+		prerequisite = { focus = BRA_establish_an_agrarian_syndicate_council }
+		mutually_exclusive = { focus = BRA_form_the_latin_bloc }
+		mutually_exclusive = { focus = BRA_join_the_soviets }
+
+		#will unlock a subjegation mechanic, allowing you to turn communist countries in south america to puppets using your economy 
+	}
+
+	focus = {
+		id = BRA_industrial_build_up_in_the_cisplatine
+		icon = GFX_ 
+		x = 1
+		y = 1
+		relative_position_id = BRA_slowly_subjegate_our_neighbors
+		prerequisite = { focus = BRA_slowly_subjegate_our_neighbors }
+	}
+
+	focus = {
+		id = BRA_integrate_uruguay
+		icon = GFX_ 
+		x = 0
+		y = 2
+		relative_position_id = 	BRA_industrial_build_up_in_the_cisplatine
+		prerequisite = { focus = BRA_industrial_build_up_in_the_cisplatine }
+	}
+
+	focus = {
+		id = BRA_push_past_the_darien_gap
+		icon = GFX_ 
+		x = -1
+		y = 1
+		relative_position_id = BRA_slowly_subjegate_our_neighbors
+		prerequisite = { focus = BRA_slowly_subjegate_our_neighbors }
+	}
+
+	focus = {
+		id = BRA_the_revolution_beyond_south_america
+		icon = GFX_ 
+		x = 0
+		y = 1
+		relative_position_id = BRA_push_past_the_darien_gap
+		prerequisite = { focus = BRA_push_past_the_darien_gap }
+	}
+
+	focus = {
+		id = BRA_push_past_mexico
+		icon = GFX_
+		x = 0
+		y = 1
+		relative_position_id = BRA_the_revolution_beyond_south_america
+		prerequisite = { focus = BRA_the_revolution_beyond_south_america }
+	}
+
+	focus = {
+		id = BRA_the_union_of_south_american_socialist_republics
+		icon = GFX_ 
+		x = -1
+		y = 1
+		relative_position_id = BRA_integrate_uruguay
+		prerequisite = { focus = BRA_integrate_uruguay }
+		prerequisite = { focus = BRA_push_past_mexico }
+	}
+
+	focus = {
+		id = BRA_take_out_the_capitalist_pigs
+		icon = GFX_ 
+		x = 0
+		y = 1
+		relative_position_id = BRA_the_union_of_south_american_socialist_republics
+		prerequisite = { focus = BRA_the_union_of_south_american_socialist_republics }
+	}
+
+	focus = {
+		id = BRA_form_the_latin_bloc
+		icon = GFX_ 
+		x = 0
+		y = 1
+		relative_position_id = 	BRA_everyone_united_under_one_banner
+		prerequisite = { focus = BRA_everyone_united_under_one_banner }
+		mutually_exclusive = { focus = BRA_join_the_soviets }
+		mutually_exclusive = { focus = BRA_slowly_subjegate_our_neighbors }
+
+		#will form an allience and invite communist countries in south america 
+	}
+
+	focus = {
+		id = BRA_invite_our_brothers_beyond_south_america
+		icon = GFX_ 
+		x = 0
+		y = 1
+		relative_position_id = BRA_form_the_latin_bloc
+		prerequisite = { focus = BRA_form_the_latin_bloc }
+	}
+
+	focus = {
+		id = BRA_join_the_soviets
+		icon = GFX_ 
+		x = -3
+		y = 1
+		relative_position_id = BRA_everyone_united_under_one_banner
+		prerequisite = { focus = BRA_everyone_united_under_one_banner }
+		mutually_exclusive = { focus = BRA_form_the_latin_bloc }
+		mutually_exclusive = { focus = BRA_slowly_subjegate_our_neighbors }
+	}
+
+	focus = {
+		id = BRA_send_the_soviets_armaments
+		icon = GFX_ 
+		x = -1
+		y =1
+		relative_position_id = BRA_join_the_soviets
+		prerequisite = { focus = BRA_join_the_soviets }
+	}
+
+	focus = {
+		id = BRA_join_in_against_the_germans
+		icon = GFX_ 
+		x = 0
+		y = 1
+		relative_position_id = BRA_send_the_soviets_armaments
+		prerequisite = { focus = BRA_send_the_soviets_armaments }
+	}
+
+	focus = {
+		id = BRA_peasants_helping_peasants
+		icon = GFX_ 
+		x = -2
+		y = 1
+		relative_position_id = BRA_form_the_latin_bloc
+		prerequisite = {
+			focus = BRA_join_the_soviets
+			focus = BRA_form_the_latin_bloc
+		}
 	}
 
 }
