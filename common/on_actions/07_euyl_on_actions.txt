@@ -14,6 +14,34 @@ on_actions = {
 			}
         }
     }
+    on_weekly = { #to fix that god damnned bug, also making it weekly to not slow down the game that much
+        effect = {
+            if = {
+                limit = { 
+                    NOT = {
+                        original_tag = ARG 
+                    }
+                    exists = yes 
+                    peronsim > 0
+                }
+                set_temp_variable = { EUYL_peronist_popularity = party_popularity@peronism }
+                multiply_temp_variable = { EUYL_peronist_popularity = -1 }
+                add_popularity = { ideology = peronism popularity = EUYL_peronist_popularity }
+            }
+            if = {
+                limit = {
+                    NOT = { 
+                        original_tag = ARG 
+                    }
+                    exists = yes 
+                    has_government = peronism
+                }
+                set_politics = {
+                    ruling_party = neutrality
+                }
+            }
+        }
+    }
 	on_declare_war = {
         effect = { #Peru-Bolivian Confederation gets event of nation attacking an ally nation with the defense pact idea
 			if = {
