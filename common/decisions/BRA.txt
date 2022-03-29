@@ -818,7 +818,7 @@ BRA_political_manegement = {
 
         is_good = no 
 
-        days_mission_timeout = 120
+        days_mission_timeout = 100
 
         complete_effect = {
             add_stability = 0.01
@@ -886,7 +886,7 @@ BRA_political_manegement = {
 
         is_good = no 
 
-        days_mission_timeout = 200
+        days_mission_timeout = 175
 
 
         complete_effect = {
@@ -1037,7 +1037,124 @@ BRA_political_manegement = {
 }
 
 BRA_imminent_civil_war = {
-    
+    BRA_strengthen_our_protests = {
+        icon = generic_civil_support
+
+        available = {
+            has_completed_focus = BRA_organize_integralist_protests
+        }
+
+        visible = {
+            check_variable = { BRA_playing_as_integralists = 1 }
+            has_country_flag = BRA_integralist_player_planning_uprising
+            OR = {
+                has_idea = BRA_integralist_protests_1
+                has_idea = BRA_integralist_protests_2
+            }
+            has_civil_war = no 
+        }
+
+        cancel_trigger = {
+            OR = {
+                has_civil_war = yes 
+                exists = no 
+            }
+        }
+
+        cost = BRA_cost_integralist_protest
+
+        complete_effect = {
+            add_to_variable = { BRA_cost_integralist_protest = 35 }
+            if = {
+                limit = { has_idea = BRA_integralist_protests_1 }
+                swap_ideas = {
+                    remove_idea = BRA_integralist_protests_1
+                    add_idea = BRA_integralist_protests_2
+                }
+            }
+            else = {
+                swap_ideas = {
+                    remove_idea = BRA_integralist_protests_2
+                    add_idea = BRA_integralist_protests_3
+                }
+            }
+            custom_effect_tooltip = BRA_progress_to_civil_war_increase_15_tt
+            hidden_effect = { add_to_variable = { BRA_progress_to_a_civil_war = 15 } }
+        }
+
+        days_remove = 80
+    }
+
+    BRA_let_the_voice_of_integralism_be_heard_in_FROM = {
+        icon = eng_propaganda_campaigns
+        state_target = yes 
+
+        target_array = controlled_states
+
+        target_trigger = {
+            FROM = {
+                any_neighbor_state = {
+                    has_dynamic_modifier = { modifier = BRA_integralists_occupation }
+                }
+                is_core_of = ROOT 
+                is_fully_controlled_by = ROOT
+                NOT = { has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state } } 
+            }
+        }
+
+        visible = { 
+            has_completed_focus = BRA_organize_integralist_protests 
+            has_civil_war = no 
+        }
+
+        available = {
+            hidden_trigger = {
+                NOT = { has_country_flag = BRA_spreading_integralism_in_FROM }
+            }
+        }
+
+        cancel_trigger = {
+            OR = {
+                has_civil_war = yes 
+                exists = no 
+            }
+        }
+
+        cost = 25
+
+        days_remove = 45
+
+        complete_effect = {
+            set_country_flag = BRA_spreading_integralism_in_FROM
+        }
+
+        remove_effect = {
+            clr_country_flag = BRA_spreading_integralism_in_FROM
+            if = {
+                limit = { 
+                    FROM = {
+                        NOT = {
+                            has_dynamic_modifier = { modifier = BRA_integralists_occupation }
+                        }
+                    }
+                }
+                FROM = {
+                    add_dynamic_modifier = { modifier = BRA_integralists_occupation }
+                }
+                add_popularity = { ideology = fascism popularity = 0.01 }
+            }
+            else = {
+                add_popularity = { ideology = fascism popularity = 0.03 }
+            }
+            custom_effect_tooltip = BRA_integralist_influence_increase_2_tt
+            custom_effect_tooltip = BRA_progress_to_civil_war_increase_5_tt
+            hidden_effect = {
+                add_to_variable = { BRA_integralist_influence = 2 }
+                add_to_variable = { BRA_progress_to_a_civil_war = 5 }
+                BRA_set_up_political_crisis = yes 
+            }
+        }
+    }
 }
 
 BRA_the_brazilian_civil_war = {
@@ -1089,7 +1206,7 @@ BRA_the_brazilian_civil_war = {
             set_global_flag = paulistas_revolted
             clr_country_flag = BRA_paulista_revolt_active
             custom_effect_tooltip = BRA_paulistas_will_start_uprising_tt
-            add_manpower = -28000
+            add_manpower = -20000
             random_other_country = {
                 limit = { 
                     original_tag = BRA 
@@ -1180,8 +1297,206 @@ BRA_the_brazilian_civil_war = {
 
     BRA_impending_integralist_uprising = {
         priority = 80
-        
+        icon = generic_ignite_civil_war 
+
+        activation = {
+            always = no #need to test this 
+        }
+
+        visible = {
+            has_global_flag = BRA_civil_war_in_progress
+            tag = BRC
+            exists = yes 
+        }
+
+        available = {
+            custom_trigger_tooltip = {
+                tooltip = BRA_no_states_with_integralists_tt
+                all_core_states = {
+                    NOT = {
+                        has_dynamic_modifier = { modifier = BRA_integralists_occupation }
+                    }
+                }
+            }
+        }
+
+        is_good = no 
+        days_mission_timeout = 225
+
+        timeout_effect = {
+            effect_tooltip = {
+                start_civil_war = {
+                    ruling_party = ROOT 
+                    ideology = fascism
+                    size = 0.4
+                }
+            }
+            hidden_effect = {
+                start_civil_war = {
+                    ruling_party = ROOT 
+                    ideology = fascism
+                    size = 0.4 
+                }
+                BRA_set_up_generic_civil_war_divisions_fascist_ai = yes 
+            }
+        }
     }
+
+    BRA_integralists_seeking_to_strengthen_their_uprising = {
+        priority = 50
+        icon = generic_civil_support
+
+        activation = {
+            always = no #need to test this 
+        }
+
+        visible = {
+            has_global_flag = BRA_civil_war_in_progress
+            exists = yes 
+        }
+
+        available = {
+            has_completed_focus = BRA_crush_the_integralists
+        }
+
+        is_good = no 
+        days_mission_timeout = 140
+
+        timeout_effect = {
+            country_event = brazil.47
+        }
+    }
+
+    BRA_anarchists_planning_to_desert = {
+        priority = 100
+        icon = eng_blackshirt_march
+
+        activation = {
+            original_tag = BRA 
+            AND = {
+                has_civil_war = yes 
+                has_war_with = BRA 
+            }
+            has_government = communism
+            has_global_flag = BRA_civil_war_in_progress
+            NOT = { has_country_flag = BRA_cooperated_with_anarchists }
+        }
+
+        visible = {
+            has_global_flag = BRA_civil_war_in_progress
+            exists = yes 
+        }
+
+        is_good = no 
+        days_mission_timeout = 75
+
+        timeout_effect = {
+            add_manpower = -25000
+            add_timed_idea = {
+                idea = BRA_anarchist_seperatists
+                days = 90
+            }
+        }
+    }
+
+    BRA_focus_on_attack = {
+		icon = generic_military
+		
+		ai_will_do = {
+			base = 130
+		}
+		
+		allowed = {
+			original_tag = BRA 
+		}
+		
+		available = {
+			command_power > 15
+			custom_trigger_tooltip = {
+				tooltip = ARG_decisioninprogress
+				NOT = {
+					has_country_flag = ARG_decision_already_in_progress
+				}
+			}
+		}
+		
+		custom_cost_trigger = {
+			command_power > 15
+		}
+
+		custom_cost_text = CHL_cost_15_cp
+		
+		fire_only_once = no
+		
+		modifier = {
+			army_attack_factor = 0.1
+		}
+		
+		ai_will_do = {
+			factor = 100
+		}
+		
+		days_remove = 35
+		
+		complete_effect = {
+			add_command_power = -15
+			set_country_flag = ARG_decision_already_in_progress
+		}
+		
+		remove_effect = {
+			clr_country_flag = ARG_decision_already_in_progress
+		}
+	}
+
+	BRA_focus_on_defense = {
+		priority = 10
+		icon = generic_military
+		
+		ai_will_do = {
+			base = 130
+		}
+		
+		allowed = {
+			original_tag = BRA 
+		}
+		
+		available = {
+			command_power > 15
+			custom_trigger_tooltip = {
+				tooltip = ARG_decisioninprogress
+				NOT = {
+					has_country_flag = ARG_decision_already_in_progress
+				}
+			}
+		}
+		
+		custom_cost_trigger = {
+			command_power > 15
+		}
+
+		custom_cost_text = CHL_cost_15_cp
+		
+		fire_only_once = no
+		
+		modifier = {
+			army_defence_factor =  0.1
+		}
+		
+		ai_will_do = {
+			factor = 100
+		}
+		
+		days_remove = 35
+		
+		complete_effect = {
+			add_command_power = -15
+			set_country_flag = ARG_decision_already_in_progress
+		}
+		
+		remove_effect = {
+			clr_country_flag = ARG_decision_already_in_progress
+		}
+	}
 
     BRA_crush_the_integralists_in_FROM = {
         priority = 25
@@ -1289,6 +1604,7 @@ BRA_peasant_revolt = {
             hidden_effect = {
                 BRA_start_communist_civil_war = yes 
                 set_global_flag = BRA_civil_war_in_progress
+                clr_country_flag = BRA_active_communist_revolt
             }
         }
     }
@@ -1686,6 +2002,7 @@ BRA_peasant_revolt = {
             custom_effect_tooltip = BRA_communists_will_be_disbanded_tt
             hidden_effect = {
                 set_country_flag = BRA_communists_shutdown
+                clr_country_flag = BRA_active_communist_revolt_ai
             }
         }
 
@@ -1706,6 +2023,7 @@ BRA_peasant_revolt = {
             }
             hidden_effect = {
                 BRA_start_communist_civil_war = yes 
+                clr_country_flag = BRA_active_communist_revolt_ai
             }
         }
     }

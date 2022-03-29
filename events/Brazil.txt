@@ -1983,6 +1983,7 @@ country_event = {
 		}
 		hidden_effect = {
 			BRA_start_communist_civil_war = yes 
+			set_global_flag = BRA_civil_war_in_progress
 		}
 	}
 }
@@ -2003,7 +2004,7 @@ country_event = {
 		NOT = { has_global_flag = paulistas_revolted }
 	}
 
-	mean_time_to_happen = { days = 24 }
+	mean_time_to_happen = { days = 14 }
 
 	immediate = { 
 		set_country_flag = BRA_paulista_revolt_active
@@ -2035,11 +2036,11 @@ country_event = {
 		has_country_flag = BRA_paulista_revolt_active
 	}
 
-	mean_time_to_happen = { days = 35 }
+	mean_time_to_happen = { days = 25 }
 
 	immediate = {
 		hidden_effect = {
-			set_variable = { BRA_extra_integralist_troops = 1 }
+			set_variable = { BRA_extra_integralist_troops = 0 }
 			set_variable = { BRA_integralist_influence = 25 }
 		}
 		set_country_flag = BRA_integralist_uprising_active
@@ -2048,6 +2049,44 @@ country_event = {
 	option = {
 		name = brazil.46.a 
 		set_country_flag = BRC_integralists_planning_uprising
-		
+		activate_mission = BRA_impending_integralist_uprising
+		hidden_effect = {
+			activate_mission = BRA_integralists_seeking_to_strengthen_their_uprising
+			879 = {
+				add_dynamic_modifier = { modifier = BRA_integralists_occupation }
+			}
+			906 = {
+				add_dynamic_modifier = { modifier = BRA_integralists_occupation }
+			}
+			503 = {
+				add_dynamic_modifier = { modifier = BRA_integralists_occupation }
+			}
+			502 = {
+				add_dynamic_modifier = { modifier = BRA_integralists_occupation }
+			}
+			881 = {
+				add_dynamic_modifier = { modifier = BRA_integralists_occupation }
+			}
+		}
+	}
+}
+
+country_event = { #integralists strengthen their 
+	id = brazil.47
+	title = brazil.47.t 
+	desc = brazil.47.d 
+	picture = GFX_BRA_integralist_generic_increase_influence_pic
+
+	is_triggered_only = yes 
+
+	immediate = {
+		hidden_effect = {
+			set_variable = { BRA_extra_integralist_troops = 4 }
+		}
+	}
+
+	option = {
+		name = brazil.47.a 
+		BRA_add_integralist_occupation_to_random_state = yes 
 	}
 }

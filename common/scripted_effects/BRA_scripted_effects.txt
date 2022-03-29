@@ -734,31 +734,55 @@ BRA_set_up_generic_civil_war_divisions_democratic = {
 			min = 0
 			max = 100
 		}
-		every_controlled_state = {
-			create_unit = {
-				division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
-				owner = ROOT
+		if = {
+			limit = { has_global_flag = BRA_civil_war_in_progress }
+			every_controlled_state = {
+				create_unit = {
+					division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+					owner = ROOT
+				}
+				create_unit = {
+					division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+					owner = ROOT
+				}
 			}
-			create_unit = {
-				division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
-				owner = ROOT
+		}
+		else = {
+			random_owned_controlled_state = {
+				create_unit = {
+					division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+					owner = ROOT
+				}
+				create_unit = {
+					division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+					owner = ROOT
+				}
 			}
 		}
 		random_owned_controlled_state = {
-				create_unit = {
-					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.2 start_equipment_factor = 0.95" 
-					owner = ROOT
-				}
-				create_unit = {
-					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.2 start_equipment_factor = 0.95" 
-					owner = ROOT
-				}
+			create_unit = {
+				division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.2 start_equipment_factor = 0.95" 
+				owner = ROOT
 			}
+			create_unit = {
+				division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.2 start_equipment_factor = 0.95" 
+				owner = ROOT
+			}
+		}
 		random_other_country = {
 			limit = {
 				original_tag = BRA 
 				has_government = democratic
 				has_civil_war = yes 
+			}
+			if = {
+				limit = { has_global_flag = BRA_civil_war_in_progress }
+				add_ideas = BRA_poorly_trained_militias_5
+				add_ideas = BRA_civil_war_democratic
+			}
+			load_focus_tree = {
+				tree = brazil_focus
+				keep_completed = no 
 			}
 			every_controlled_state = {
 				create_unit = {
@@ -852,7 +876,7 @@ BRA_set_up_generic_civil_war_divisions_fascist_ai = {
 			}
 		}
 		if = {
-			limit = { has_global_flag = BRA_civil_war_in_progress }
+			limit = { has_global_flag = BRA_civil_war_in_progress } #this is for integralist uprising in the communist civil war 
 			random_owned_controlled_state = {
 				create_unit = {
 					division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
@@ -939,7 +963,12 @@ BRA_set_up_generic_civil_war_divisions_fascist_ai = {
 				limit = { 
 					OR = {
 						original_tag = BRA 
-						if = { limit = { SAO = { exists = yes } } original_tag = SAO } #only releasable that could cause an uprising
+						AND = {
+							original_tag = SAO 
+							SAO = {
+								exists = yes 
+							}
+						}
 					}
 					NOT = { has_war_with = PREV }
 				}
@@ -957,6 +986,30 @@ BRA_set_up_generic_civil_war_divisions_fascist_ai = {
 			unlock_national_focus = BRA_invest_in_our_economy
 			unlock_national_focus = BRA_pave_the_roads
 			unlock_national_focus = BRA_reject_the_estado_navo
+			unlock_national_focus = BRA_challenge_vargass_influence
+			unlock_national_focus = BRA_gain_the_armys_support
+			unlock_national_focus = BRA_organize_integralist_protests
+			unlock_national_focus = BRA_let_our_voices_be_heard
+			unlock_national_focus = BRA_trained_militia_regiments
+			unlock_national_focus = BRA_the_integralist_army
+			unlock_national_focus = BRA_attack_the_guanabara_palace
+			unlock_national_focus = BRA_integralism_shall_rule
+			if = {
+				limit = { has_global_flag = BRA_civil_war_in_progress }
+				unlock_national_focus = BRA_follow_barrosos_principals
+				unlock_national_focus = BRA_the_jews_are_our_common_enemy
+				unlock_national_focus = BRA_arm_up_the_industrial_workers
+				unlock_national_focus = BRA_secure_the_heavy_industry_provinces
+				retire_country_leader = yes 
+				promote_character = BRA_gustavo_barroso
+			}
+			else = {
+				unlock_national_focus = BRA_plinio_to_victory
+				unlock_national_focus = BRA_seek_cooperation_with_prestes
+				unlock_national_focus = BRA_learn_subversive_techniques_from_the_communists
+				unlock_national_focus = BRA_farmers_to_arms
+				unlock_national_focus = BRA_try_to_convince_plantations
+			}
 			every_controlled_state = {
 				create_unit = {
 					division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
@@ -988,14 +1041,21 @@ BRA_set_up_generic_civil_war_divisions_fascist_ai = {
 					}
 				}
 				if = {
-					limit = { check_variable = { BRA_extra_integralist_troops > 1 } }
+					limit = { BRA = { check_variable = { BRA_extra_integralist_troops > 1 } } }
 					create_unit = {
 						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
 						owner = PREV
 					}
 				}
 				if = {
-					limit = { check_variable = { BRA_extra_integralist_troops > 2 } }
+					limit = { BRA = { check_variable = { BRA_extra_integralist_troops > 2 } } }
+					create_unit = {
+						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+						owner = PREV
+					}
+				}
+				if = {
+					limit = { BRA = { check_variable = { BRA_extra_integralist_troops > 3 } } }
 					create_unit = {
 						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
 						owner = PREV
@@ -1003,7 +1063,7 @@ BRA_set_up_generic_civil_war_divisions_fascist_ai = {
 				}
 			}
 			if = {
-				limit = { check_variable = { BRA_fascist_popularity > 0.4 } }
+				limit = { check_variable = { BRA_fascist_popularity > 0.4 } } 
 				random_owned_controlled_state = {
 					create_unit = {
 						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
@@ -1042,39 +1102,76 @@ BRA_start_communist_civil_war = {
 		keep_unit_leaders_trigger = {
 		}
 	}
-	every_controlled_state = {
-		create_unit = {
-			division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
-			owner = ROOT
+	if = { #this is if communist uprising is the first one
+		limit = { has_country_flag = BRA_active_communist_revolt }
+		every_controlled_state = {
+			create_unit = {
+				division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+				owner = ROOT
+			}
+			create_unit = {
+				division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+				owner = ROOT
+			}
+			if = {
+				limit = { check_variable = { BRA_farmers_agreement_to_uprising < 35 } }
+				create_unit = {
+					division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+					owner = ROOT
+				}
+			}
 		}
-		create_unit = {
-			division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
-			owner = ROOT
-		}
-		if = {
-			limit = { check_variable = { BRA_farmers_agreement_to_uprising < 35 } }
+	}
+	else = { #this is if communist uprising happens during civil war 
+		random_owned_controlled_state = {
+			create_unit = {
+				division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+				owner = ROOT
+			}
 			create_unit = {
 				division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
 				owner = ROOT
 			}
 		}
+		random_owned_controlled_state = {
+			create_unit = {
+				division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+				owner = ROOT
+			}
+		}
+		if = {
+			limit = { check_variable = { BRA_vargas_influence > 40 } }
+			random_owned_controlled_state = {
+				create_unit = {
+					division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+					owner = ROOT
+				}
+				create_unit = {
+					division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+					owner = ROOT
+				}
+			}
+		}
 	}
-	random_owned_controlled_state = {
-		create_unit = {
-			division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
-			owner = ROOT
-		}
-		create_unit = {
-			division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
-			owner = ROOT
-		}
-		create_unit = {
-			division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
-			owner = ROOT
-		}
-		create_unit = {
-			division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
-			owner = ROOT
+	if = {
+		limit = { has_country_flag = BRA_active_communist_revolt }
+		random_owned_controlled_state = {
+			create_unit = {
+				division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+				owner = ROOT
+			}
+			create_unit = {
+				division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+				owner = ROOT
+			}
+			create_unit = {
+				division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+				owner = ROOT
+			}
+			create_unit = {
+				division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+				owner = ROOT
+			}
 		}
 	}
 	if = {
