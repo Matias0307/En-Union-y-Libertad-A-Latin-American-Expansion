@@ -1192,7 +1192,7 @@ BRA_the_brazilian_civil_war = {
         is_good = no 
         fire_only_once = yes 
         on_map_mode = map_and_decisions_view
-        days_mission_timeout = 95
+        days_mission_timeout = 85
 
         complete_effect = {
             set_global_flag = paulistas_revolted
@@ -1214,36 +1214,33 @@ BRA_the_brazilian_civil_war = {
                 }
                 add_manpower = -14000 #u aint getting away either lmfao
             }
-            random_owned_controlled_state = {
-                limit = {
-                    AND = {
-                        divisions_in_state = {
-                            size > 0
-                            state = THIS 
-                        }
-                        divisions_in_state = {
-                            size < 3
-                            state = THIS 
-                        }
-                    }
-                }
-                ROOT = {
-                    delete_unit = {
-                        state = PREV 
-                    }
-                }
-            }
             hidden_effect = {
+                news_event = { id = news.362 days = 1 }
                 SAO = {
                     division_template = {
                         name = "Milicias Paulistas" 
-						division_names_group = SPAN_INF_02 
+						division_names_group = BRA_INF_01 
 						is_locked = yes 
 						regiments = { 
 							infantry = { x = 0 y = 0 }  
 							infantry = { x = 0 y = 1 } 
 							infantry = { x = 0 y = 2 } 
 							infantry = { x = 0 y = 3 }  
+						}
+                    }
+                    division_template = {
+                        name = "Divisão Paulistas" 
+						division_names_group = BRA_INF_01 
+						is_locked = yes 
+						regiments = { 
+							infantry = { x = 0 y = 0 }  
+							infantry = { x = 0 y = 1 } 
+							infantry = { x = 0 y = 2 } 
+							infantry = { x = 0 y = 3 } 
+                            infantry = { x = 1 y = 0 }  
+							infantry = { x = 1 y = 1 } 
+							infantry = { x = 1 y = 2 } 
+							infantry = { x = 1 y = 3 }  
 						}
 						support = {
 							artillery = { x = 0 y = 0 }
@@ -1288,6 +1285,18 @@ BRA_the_brazilian_civil_war = {
                             division = "name = \"Milícias Paulistas\" division_template = \"Milicias Paulistas\" start_experience_factor = 0.1 start_equipment_factor = 1" 
                             owner = PREV
                         }
+                        create_unit = {
+                            division = "name = \"Milícias Paulistas\" division_template = \"Milicias Paulistas\" start_experience_factor = 0.1 start_equipment_factor = 1" 
+                            owner = PREV
+                        }
+                        create_unit = {
+                            division = "name = \"Divisão Paulistas\" division_template = \"Divisão Paulistas\" start_experience_factor = 0.1 start_equipment_factor = 1" 
+                            owner = PREV
+                        }
+                        create_unit = {
+                            division = "name = \"Divisão Paulistas\" division_template = \"Divisão Paulistas\" start_experience_factor = 0.1 start_equipment_factor = 1" 
+                            owner = PREV
+                        }
                         remove_dynamic_modifier = { modifier = BRA_sao_paulo_seperatist_movement }
                     }
                 }
@@ -1304,7 +1313,30 @@ BRA_the_brazilian_civil_war = {
         }
 
         visible = {
-            
+            has_global_flag = BRA_civil_war_in_progress
+            original_tag = BRA 
+            has_government = fascism
+        }
+
+        available = { #might change, but for now it will stay like this 
+            always = no 
+        }
+
+        is_good = no 
+        fire_only_once = yes 
+        days_mission_timeout = 195
+
+        timeout_effect = {
+            effect_tooltip = {
+                start_civil_war = {
+                    ruling_party = ROOT 
+                    ideology = communist
+                    size = 0.4
+                }
+            }
+            hidden_effect = {
+                BRA_start_communist_civil_war = yes 
+            }
         }
     }
 
@@ -1335,6 +1367,7 @@ BRA_the_brazilian_civil_war = {
 
         is_good = no 
         days_mission_timeout = 225
+        fire_only_once = yes 
 
         timeout_effect = {
             effect_tooltip = {
@@ -1602,7 +1635,7 @@ BRA_peasant_revolt = {
             is_subject = no
         }
 
-        days_mission_timeout = 435 
+        days_mission_timeout = 405 
 
         fire_only_once = yes 
 
