@@ -5044,19 +5044,33 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
 		completion_reward = {
 			custom_effect_tooltip = BRA_every_state_with_widespread_plantation_will_gain_following_tt
-			every_controlled_state = {
-				limit = {
-					AND = {
-						has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
-						has_dynamic_modifier = { modifier = BRA_widespread_coffee_plantations }
+			effect_tooltip = {
+				random_owned_controlled_state = {
+					add_building_construction = {
+						type = bunker
+						level = 1
+						instant_build = yes
+						province = {
+							all_provinces = yes
+						}
 					}
 				}
-				add_building_construction = {
-					type = bunker
-					level = 1
-					instant_build = yes
-					province = {
-						all_provinces = yes
+			}
+			hidden_effect = {
+				every_controlled_state = {
+					limit = {
+						AND = {
+							has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+							has_dynamic_modifier = { modifier = BRA_widespread_coffee_plantations }
+						}
+					}
+					add_building_construction = {
+						type = bunker
+						level = 1
+						instant_build = yes
+						province = {
+							all_provinces = yes
+						}
 					}
 				}
 			}
@@ -5802,6 +5816,32 @@ focus_tree = {
 		mutually_exclusive = { focus = BRA_crush_the_seperatists }
 
 		cost = 6
+
+		available = {
+			BRA_is_the_commune_of_brazil = yes 
+			has_civil_war = yes 
+			has_active_mission = BRA_impending_paulista_revolt
+			NOT = { has_war_with = SAO }
+		}
+
+		bypass = {
+			has_completed_focus = BRA_save_ewert
+			OR = {
+				has_global_flag = paulistas_revolted
+				has_war_with = SAO 
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		completion_reward = {
+			custom_effect_tooltip = BRA_paulistas_stop_revolt_at_expense_of_becoming_autonomous_state_tt
+			hidden_effect = {
+				501 = {
+					remove_dynamic_modifier = { modifier = BRA_sao_paulo_seperatist_movement }
+					add_dynamic_modifier = { modifier = autonomous_state }
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -6012,6 +6052,19 @@ focus_tree = {
 		prerequisite = { focus = BRA_switch_to_a_war_economy }
 
 		cost = 4
+
+		available = {
+			BRA_is_the_commune_of_brazil = yes 
+			has_civil_war = yes 
+		}
+
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR  FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_timed_idea = {
+				idea = BRA_railroad_construction
+				days = 240
+			}
+		}
 	}
 
 	focus = {
@@ -6099,7 +6152,31 @@ focus_tree = {
 
 		#will build supply hubs 
 
-		cost = 8
+		available = {
+			BRA_is_the_commune_of_brazil = yes 
+			has_civil_war = yes 
+			has_global_flag = paulistas_revolted
+			NOT = { has_active_mission = BRA_impending_paulista_revolt }
+			controls_state = 501
+		}
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		completion_reward = {
+			501 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = supply_node
+					province = {
+						all_provinces = yes
+						limit_to_victory_point = yes
+					}
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -6112,7 +6189,17 @@ focus_tree = {
 
 		#just gives mills 
 
-		cost = 7.2
+		cost = 8
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_2_military = yes 
+			custom_effect_tooltip = BRA_modify_economy_by_4_mil_tt
+			hidden_effect = {
+				add_to_variable = { BRA_military_factory_boost = 0.04 }
+                add_to_variable = { BRA_industrial_capacity_factory_speed = 0.02 }
+			}
+		}
 	}
 
 	focus = {
