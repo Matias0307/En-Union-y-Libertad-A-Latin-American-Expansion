@@ -1,11 +1,70 @@
 BRA_political_manegement = {
 
+    BRA_the_1938_elections = {
+        priority = 200
+        icon = generic_political_rally
+
+        activation = {
+            exists = yes 
+        }
+
+        available = {
+            OR = {
+                has_completed_focus = BRA_manipulate_behind_the_scenes
+                has_completed_focus = BRA_reject_the_estado_navo
+                has_country_flag = BRA_estado_novo_established
+            }
+        }
+
+        fire_only_once = yes 
+
+        cancel_trigger = {
+            has_global_flag = BRA_civil_war_in_progress
+        }
+
+        days_mission_timeout = 715
+        is_good = no 
+
+        timeout_effect = {
+            hidden_effect = {
+                set_temp_variable = { BRA_integralist = party_popularity@fascism }
+                set_temp_variable = { BRA_neutral = party_popularity@neutrality }
+                set_temp_variable = { BRA_democratic = party_popularity@democratic }
+                BRA_clear_vargas_opinion = yes 
+                set_variable = { BRA_playing_as_vargas = 0 }
+                set_variable = { BRA_vargas_influence = 0 }
+                retire_country_leader = yes 
+            }
+            if = {
+                limit = {
+                    AND = {
+                        check_variable = { BRA_integralist > BRA_neutral }
+                        check_variable = { BRA_integralist > BRA_democratic }
+                    }
+                }
+                country_event = brazil.48
+            }
+            else_if = {
+                limit = {
+                    AND = {
+                        check_variable = { BRA_neutral > BRA_integralist }
+                        check_variable = { BRA_neutral > BRA_democratic }
+                    }
+                }
+                country_event = brazil.49 
+            }
+            else = {
+                country_event = brazil.50 
+            }
+        }
+    }
+
     BRA_estado_novo_mission_enemy = {
         priority = 150
         icon = GFX_BRA_vargas_estado_novo
 
         activation = {
-            has_country_flag = BRA_vargas_enemy_estado_novo
+            always = no #manually triggered 
         }
 
         available = {
@@ -31,13 +90,14 @@ BRA_political_manegement = {
         timeout_effect = {
             custom_effect_tooltip = BRA_political_parties_shutdown_tt
             hidden_effect = {
-                clr_country_flag = BRA_neutral_integralists
-                clr_country_flag = BRA_hostile_congress
+                BRA_clear_integralist_opinion = yes 
+                BRA_clear_congress_opinion = yes 
                 clr_country_flag = BRA_hostile_communists
                 set_country_flag = BRA_congress_shutdown
                 set_country_flag = BRA_integralists_shutdown
                 set_country_flag = BRA_communists_shutdown
                 set_country_flag = BRA_all_parties_shutdown ## IMPORTANT COUNTRY FLAG ##
+                set_country_flag = BRA_estado_novo_established
                 set_variable = { BRA_congress_influence = 0 }
                 set_variable = { BRA_integralist_influence = 0 }
                 BRA_set_up_political_crisis = yes 
@@ -1258,10 +1318,6 @@ BRA_the_brazilian_civil_war = {
                     }
                     add_ideas = SAO_war_of_independence_idea
                     501 = {
-                        create_unit = {
-                            division = "name = \"Milícias Paulistas\" division_template = \"Milicias Paulistas\" start_experience_factor = 0.1 start_equipment_factor = 1" 
-                            owner = PREV
-                        }
                         create_unit = {
                             division = "name = \"Milícias Paulistas\" division_template = \"Milicias Paulistas\" start_experience_factor = 0.1 start_equipment_factor = 1" 
                             owner = PREV
