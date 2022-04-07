@@ -2380,6 +2380,8 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_an_era_of_democracy
 		prerequisite = { focus = BRA_an_era_of_democracy }
+
+		
 	}
 
 	focus = {
@@ -2466,6 +2468,8 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_follow_liberal_ideals
 		prerequisite = { focus = BRA_follow_liberal_ideals }
+
+		#if there's a civil war, will add military factories 
 	}
 
 	focus = {
@@ -4743,6 +4747,7 @@ focus_tree = {
 			add_political_power = 30
 			hidden_effect = {
 				set_country_flag = BRA_active_communist_revolt
+				set_global_flag = BRA_communist_civil_war_chosen
 				activate_mission = BRA_estado_novo_mission_enemy
 				set_variable = { BRA_cost_to_delay_communists = 20 }
 				BRC = { 
@@ -4755,7 +4760,7 @@ focus_tree = {
 				set_variable = { BRA_playing_as_communists = 1 }
 
 				set_country_flag = BRA_vargas_interfering
-
+				set_country_flag = BRA_hostile_vargas
 				BRC = { unlock_national_focus = BRA_manipulate_behind_the_scenes }
 			}
 		}
@@ -4919,7 +4924,7 @@ focus_tree = {
 		relative_position_id = BRA_secret_conscription
 		prerequisite = { focus = BRA_secret_conscription }
 
-		cost = 7
+		cost = 5
 
 		#either give more divisions or a national spirit for army buffs
 
@@ -4951,7 +4956,7 @@ focus_tree = {
 		prerequisite = { focus = BRA_offer_proper_training_to_farmers }
 		prerequisite = { focus = BRA_work_out_an_agreement_with_farmers }
 
-		cost = 10
+		cost = 4
 
 		#farmers needed to have accepted, and must have convinced the farmers enough 
 
@@ -5003,7 +5008,7 @@ focus_tree = {
 
 		#give idea for economic boost during and after civil war 
 
-		cost = 6
+		cost = 7
 
 		available = {
 			has_civil_war = no 
@@ -5177,7 +5182,7 @@ focus_tree = {
 			custom_effect_tooltip = BRA_deomocrats_will_not_rise_up_in_civil_war_however_tt
 			BRC = {
 				set_country_flag = BRC_avoided_democrat_civil_war
-				unlock_national_focus = BRA_compromise_with_the_democrats
+				hidden_effect = { unlock_national_focus = BRA_compromise_with_the_democrats }
 			}
 		}
 	}
@@ -5254,13 +5259,26 @@ focus_tree = {
 			has_active_mission = BRA_communist_peasant_revolt
 		}
 
-		cost = 7.2
+		cost = 8
 
 		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
 
 		completion_reward = {
 			add_political_power = 100
 			add_stability = -0.1
+			custom_effect_tooltip = BRA_gain_support_in_sao_paulo_tt
+			hidden_effect = {
+				if = {
+					limit = { 
+						501 = {
+							NOT = { has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state } }
+						}
+					}
+					501 = {
+						add_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+					}
+				}
+			}
 		}
 	}
 
@@ -5627,7 +5645,7 @@ focus_tree = {
 
 		#will prevent desertion of anarchists mid civil war 
 
-		cost = 10
+		cost = 8
 
 		available = {
 			has_civil_war = no 
@@ -5793,6 +5811,17 @@ focus_tree = {
 		cost = 7.2
 
 		#improve slightly ill-trained militias and add idea that improves air combat slightly 
+
+		available = {
+			has_government = communism 
+			has_civil_war = yes 
+		}
+
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		completion_reward = {
+			air_experience = 50
+			BRA_improve_militia_training = yes 
+		}
 	}
 
 	focus = {
@@ -5804,6 +5833,30 @@ focus_tree = {
 		prerequisite = { focus = BRA_assasinate_vargas }
 
 		cost = 2
+
+		available = {
+			BRA_is_the_commune_of_brazil = yes 
+			has_civil_war = yes 
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		complete_effect = {
+			if = {
+				limit = { 
+					controls_state = 500
+				}
+				add_stability = 0.03
+				custom_effect_tooltip = BRA_ewert_will_be_freed_tt
+				hidden_effect = {
+					BRA_ewert_arthur = {
+						clr_character_flag = BRA_imprisoned
+					}
+				}
+			}
+			else = {
+				activate_mission = BRA_save_ewert
+			}
+		}
 	}
 
 	focus = {
@@ -5822,14 +5875,6 @@ focus_tree = {
 			has_civil_war = yes 
 			has_active_mission = BRA_impending_paulista_revolt
 			NOT = { has_war_with = SAO }
-		}
-
-		bypass = {
-			has_completed_focus = BRA_save_ewert
-			OR = {
-				has_global_flag = paulistas_revolted
-				has_war_with = SAO 
-			}
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
@@ -5854,6 +5899,33 @@ focus_tree = {
 		mutually_exclusive = { focus = BRA_strike_a_deal_with_the_seperatists }
 
 		cost = 3
+
+		available = {
+			BRA_is_the_commune_of_brazil = yes 
+			has_civil_war = yes 
+			has_active_mission = BRA_impending_paulista_revolt
+			NOT = { has_war_with = SAO }
+		}
+		
+		bypass = {
+			has_completed_focus = BRA_save_ewert
+			OR = {
+				has_global_flag = paulistas_revolted
+				has_war_with = SAO 
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		completion_reward = {
+			custom_effect_tooltip = BRA_upon_start_of_sao_paulo_tt
+			effect_tooltip = {
+				add_ideas = BRA_crush_the_paulistas
+			}
+			add_days_mission_timeout = {
+				mission = BRA_impending_paulista_revolt
+				days = -35
+			}
+		}
 	}
 
 	focus = {
@@ -5913,7 +5985,50 @@ focus_tree = {
 			focus = BRA_strike_a_deal_with_the_seperatists
 		}
 
+		cost = 5
+
+		available = {
+			has_civil_war = yes 
+			has_global_flag = paulistas_revolted
+			NOT = { has_active_mission = BRA_impending_paulista_revolt }
+			controls_state = 501
+		}
+
+		select_effect = {
+			hidden_effect = {
+				division_template = {
+                    name = "Milicias Paulistas" 
+					division_names_group = BRA_INF_01 
+					is_locked = yes 
+					regiments = { 
+						infantry = { x = 0 y = 0 }  
+						infantry = { x = 0 y = 1 } 
+						infantry = { x = 0 y = 2 } 
+						infantry = { x = 0 y = 3 }  
+					}
+                }
+			}
+		}
+
 		#will add infantry equipment and create 2 militias 
+
+		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		completion_reward = {
+			add_equipment_to_stockpile = {
+				type = infantry_equipment 
+				amount = 1000
+			}
+			501 = {
+				create_unit = {
+                    division = "name = \"Milícias Paulistas\" division_template = \"Milicias Paulistas\" start_experience_factor = 0.1 start_equipment_factor = 1" 
+                    owner = ROOT
+                }
+                create_unit = {
+                    division = "name = \"Milícias Paulistas\" division_template = \"Milicias Paulistas\" start_experience_factor = 0.1 start_equipment_factor = 1" 
+                    owner = ROOT
+                }
+			}
+		}
 	}
 
 	focus = {
@@ -6076,6 +6191,17 @@ focus_tree = {
 		prerequisite = { focus = BRA_strategic_supply_hub_construction }
 
 		#will add mills 
+
+		cost = 7.2
+
+		available = {
+			has_civil_war = yes 
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_2_military = yes 
+		}
 	}
 
 	focus = {
@@ -6096,9 +6222,9 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_train_female_pilots
 		
-		#allow_branch = {
-		#	has_active_mission = BRA_impending_integralist_uprising
-		#}
+		allow_branch = {
+			has_active_mission = BRA_impending_integralist_uprising
+		}
 
 		available = {
 			BRA_is_the_commune_of_brazil = yes 
@@ -6209,6 +6335,19 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_the_final_push
 		prerequisite = { focus = BRA_the_final_push}
+
+		available = {
+			has_global_flag = BRA_civil_war_concluded
+			has_civil_war = no 
+		}
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			add_stability = 0.05
+			add_war_support = 0.08
+		}
 	}
 
 	focus = {
@@ -6439,6 +6578,15 @@ focus_tree = {
 		mutually_exclusive = { focus = BRA_the_peasants_represent_democracy }
 
 		#war path 
+
+		available = {
+			has_civil_war = no 
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			
+		}
 	}
 
 	focus = {
