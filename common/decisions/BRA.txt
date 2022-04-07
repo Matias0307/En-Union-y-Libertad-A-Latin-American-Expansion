@@ -1454,6 +1454,14 @@ BRA_the_brazilian_civil_war = {
             }
         }
 
+        cancel_trigger = {
+            any_enemy_country = {
+                original_tag = BRA 
+                has_government = fascism
+                has_civil_war = yes 
+            }
+        }
+
         is_good = no 
         days_mission_timeout = 205
         fire_only_once = yes 
@@ -1467,10 +1475,12 @@ BRA_the_brazilian_civil_war = {
                 }
             }
             hidden_effect = {
-                start_civil_war = {
-                    ruling_party = ROOT 
-                    ideology = fascism
-                    size = 0.4 
+                BRA = {
+                    start_civil_war = {
+                        ruling_party = ROOT 
+                        ideology = fascism
+                        size = 0.4 
+                    }
                 }
                 BRA_set_up_generic_civil_war_divisions_fascist_ai = yes 
             }
@@ -1495,7 +1505,7 @@ BRA_the_brazilian_civil_war = {
         }
 
         is_good = no 
-        days_mission_timeout = 140
+        days_mission_timeout = 125
         fire_only_once = yes 
 
         timeout_effect = {
@@ -1536,7 +1546,7 @@ BRA_the_brazilian_civil_war = {
         }
     }
 
-    BRA_impending_democratic_insurrection = {
+    BRA_impending_democratic_insurrection = { #actual mission 
         priority = 80 
         icon = generic_ignite_civil_war
 
@@ -1838,6 +1848,78 @@ BRA_the_brazilian_civil_war = {
         timeout_effect = {
             add_stability = -0.02
         }
+    }
+
+    BRA_try_to_get_aid_from_FROM = {
+        icon = hol_exchange_intelligence_data
+        priority = 50
+
+        ai_will_do = {
+            base = 100
+        }
+
+        allowed = {
+            original_tag = BRA 
+        }
+
+        visible = {
+            has_global_flag = BRA_civil_war_in_progress
+            if = {
+                limit = { has_government = communism }
+                has_completed_focus = BRA_contact_other_south_american_countries
+            }
+            if = {
+                limit = { has_government = fascism }
+                has_completed_focus = BRA_ask_for_foreign_aid
+            }
+            if = {
+                limit = { has_government = democratic }
+                has_completed_focus = BRA_open_our_markets 
+            }
+            FROM = {
+                NOT = { has_country_flag = BRA_agreed_to_help }
+            }
+        }
+
+        target_trigger = {
+            FROM = {
+                exists = yes
+                OR = {
+                    capital_scope = { is_on_continent = south_america }
+                    capital_scope = { is_on_continent = north_america }
+                }
+                has_war = no 
+                num_of_civilian_factories > 
+                NOT = { has_country_flag = BRA_agreed_to_help }
+            }
+        }
+
+        available = {
+            hidden_trigger = {
+                has_political_power > 24
+                command_power > 24
+            }
+        }
+
+        custom_cost_trigger = {
+            has_political_power > 24
+            command_power > 24
+        }
+
+        custom_cost_text = BRA_cost_25_pol_command
+
+        days_remove = 120
+
+        complete_effect = {
+            hidden_effect = {
+                add_political_power = -25
+                add_command_power = -25
+            }
+            FROM = {
+                set_country_flag = BRA_was_asked_for_help
+                country_event = { id = brazil.51 hours = 4 }
+            }
+        }
     } 
 
     BRA_focus_on_attack = {
@@ -1999,6 +2081,306 @@ BRA_the_brazilian_civil_war = {
 			}
 		}
     }
+}
+
+BRA_aiding_the_brazilians = {
+    FROM_send_small_arms_to_BRA = {
+        icon = generic_industry
+
+        target_trigger = {
+            if = {
+                limit = { has_country_flag = BRA_is_helping_communists }
+                FROM = {
+                    tag = BRC 
+                    has_war = yes 
+                    exists = yes 
+                }
+            }
+            if = {
+                limit = { has_country_flag = BRA_is_helping_democrats }
+                FROM = {
+                    tag = BUS 
+                    has_war = yes 
+                    exists = yes 
+                }
+            }
+            if = {
+                limit = { has_country_flag = BRA_is_helping_fascists }
+                FROM = {
+                    original_tag = BRA 
+                    has_civil_war = yes 
+                    has_government = fascism
+                    has_capitulated = no 
+                }
+            }
+            if = {
+                limit = { has_country_flag = BRA_is_helping_vargas }
+                FROM = {
+                    original_tag = BRA 
+                    has_country_flag = BRA_original_country
+                    has_civil_war = yes 
+                    has_capitulated = no 
+                }
+            }
+            if = {
+                limit = { has_country_flag = BRA_is_helping_monarchists }
+                FROM = {
+                    tag = BZE 
+                    has_war = yes 
+                    exists = yes 
+                }
+            }
+        }
+
+        ai_will_do = {
+            base = 150
+            modifier = {
+                add = 80
+                FROM = { #more inclined to help if faction is losing  
+                    surrender_progress > 0.3
+                }
+            }
+        }
+
+        cost = 35
+        days_remove = 50
+
+        available = {
+            has_equipment = {
+                infantry_equipment > 999
+            }
+        }
+
+        complete_effect = {
+            add_equipment_to_stockpile = {
+                type = infantry_equipment
+                amount = -1000
+            }
+            FROM = {
+                add_equipment_to_stockpile = {
+                    type = infantry_equipment
+                    amount = 1000
+                }
+                hidden_effect = {
+                    country_event = brazil.54
+                }
+            }
+        }
+    }
+
+    FROM_send_war_bonds_to_BRA = {
+        icon = hol_attract_foreign_investors
+
+        target_trigger = {
+            if = {
+                limit = { has_country_flag = BRA_is_helping_communists }
+                FROM = {
+                    tag = BRC 
+                    has_war = yes 
+                    exists = yes 
+                }
+            }
+            if = {
+                limit = { has_country_flag = BRA_is_helping_democrats }
+                FROM = {
+                    tag = BUS 
+                    has_war = yes 
+                    exists = yes 
+                }
+            }
+            if = {
+                limit = { has_country_flag = BRA_is_helping_fascists }
+                FROM = {
+                    original_tag = BRA 
+                    has_civil_war = yes 
+                    has_government = fascism
+                    has_capitulated = no 
+                }
+            }
+            if = {
+                limit = { has_country_flag = BRA_is_helping_vargas }
+                FROM = {
+                    original_tag = BRA 
+                    has_country_flag = BRA_original_country
+                    has_civil_war = yes 
+                    has_capitulated = no 
+                }
+            }
+            if = {
+                limit = { has_country_flag = BRA_is_helping_monarchists }
+                FROM = {
+                    tag = BZE 
+                    has_war = yes 
+                    exists = yes 
+                }
+            }
+        }
+
+        ai_will_do = {
+            base = 115
+            modifier = {
+                add = 40
+                FROM = { #more inclined to help if faction is losing  
+                    surrender_progress > 0.3
+                }
+            }
+        }
+
+        available = {
+            num_of_available_civilian_factories > 2
+        }
+
+        cost = 40
+
+        days_remove = 90
+
+        modifier = {
+            consumer_goods_factor = 0.1
+        }
+
+        complete_effect = {
+            FROM = {
+                add_timed_idea = {
+                    idea = FROM_war_bonds
+                    days = 90 
+                }
+                hidden_effect = { 
+                    country_event = brazil.55
+                }
+            }
+        }
+    }
+
+    FROM_send_volunteers_to_BRA = {
+        icon = generic_military
+
+        target_trigger = {
+            if = {
+                limit = { has_country_flag = BRA_is_helping_communists }
+                FROM = {
+                    tag = BRC 
+                    has_war = yes 
+                    exists = yes 
+                }
+            }
+            if = {
+                limit = { has_country_flag = BRA_is_helping_democrats }
+                FROM = {
+                    tag = BUS 
+                    has_war = yes 
+                    exists = yes 
+                }
+            }
+            if = {
+                limit = { has_country_flag = BRA_is_helping_fascists }
+                FROM = {
+                    original_tag = BRA 
+                    has_civil_war = yes 
+                    has_government = fascism
+                    has_capitulated = no 
+                }
+            }
+            if = {
+                limit = { has_country_flag = BRA_is_helping_vargas }
+                FROM = {
+                    original_tag = BRA 
+                    has_country_flag = BRA_original_country
+                    has_civil_war = yes 
+                    has_capitulated = no 
+                }
+            }
+            if = {
+                limit = { has_country_flag = BRA_is_helping_monarchists }
+                FROM = {
+                    tag = BZE 
+                    has_war = yes 
+                    exists = yes 
+                }
+            }
+        }
+
+        ai_will_do = {
+            base = 115
+            modifier = {
+                add = 40
+                FROM = { #more inclined to help if faction is losing  
+                    surrender_progress > 0.3
+                }
+            }
+        }
+
+        custom_cost_trigger = {
+            has_political_power > 9
+            has_manpower > 24999
+        }
+
+        custom_cost_text = BRA_pol_10_and_man_25000
+
+        available = {
+            hidden_trigger = {
+                has_political_power > 9
+                has_manpower > 24999
+            }
+        }
+
+        days_remove = 100
+
+        complete_effect = {
+            hidden_effect = {
+                add_political_power = -10
+                add_manpower = -25000
+            }
+            FROM = {
+                if = {
+                    limit = {
+                        NOT = {
+                            has_template = "Foreign Volunteers"
+                        }
+                    }
+                    hidden_effect = {
+                        division_template = { 
+                            name = "Foreign Volunteers" 
+                            division_names_group = SPAN_INF_02 
+                            is_locked = yes 
+                            regiments = { 
+                                infantry = { x = 0 y = 0 }  
+                                infantry = { x = 0 y = 1 } 
+                                infantry = { x = 0 y = 2 } 
+                                infantry = { x = 0 y = 3 } 
+                                infantry = { x = 1 y = 0 }  
+                                infantry = { x = 1 y = 1 } 
+                                infantry = { x = 1 y = 2 } 
+                                infantry = { x = 1 y = 3 } 
+                            }
+                        }
+                    }
+                }
+                effect_tooltip = {
+                    random_owned_controlled_state = {
+                        create_unit = {
+                            division = "name = \"Foreign Volunteers\" division_template = \"Foreign Volunteers\" start_experience_factor = 0.15 start_equipment_factor = 1" 
+                            owner = ROOT
+                        }
+                    }
+                    random_owned_controlled_state = {
+                        create_unit = {
+                            division = "name = \"Foreign Volunteers\" division_template = \"Foreign Volunteers\" start_experience_factor = 0.15 start_equipment_factor = 1" 
+                            owner = ROOT
+                        }
+                    }
+                    random_owned_controlled_state = {
+                        create_unit = {
+                            division = "name = \"Foreign Volunteers\" division_template = \"Foreign Volunteers\" start_experience_factor = 0.15 start_equipment_factor = 1" 
+                            owner = ROOT
+                        }
+                    }
+                }
+                hidden_effect = {
+                    country_event = brazil.56
+                }
+            }
+        }
+    }   
 }
 
 BRA_peasant_revolt = {

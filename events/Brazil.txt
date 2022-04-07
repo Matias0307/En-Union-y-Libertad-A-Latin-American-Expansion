@@ -2178,3 +2178,168 @@ country_event = { #democratic union party wins elections
 		}
 	}
 }
+
+country_event = { #FROM gets event of a Brazilian faction in the civil war for assistance
+	id = brazil.51
+	title = brazil.51.t 
+	desc = brazil.51.d 
+	picture = GFX_report_event_generic_army
+
+	is_triggered_only = yes 
+
+	option = { #We'll help!
+		name = brazil.51.a 
+		set_country_flag = BRA_agreed_to_help
+		unlock_decision_category_tooltip = BRA_aiding_the_brazilians
+		hidden_effect = {
+			FROM = {
+				country_event = { id = brazil.52 hours = 4 }
+				if = { 
+					limit = {
+						has_government = fascism 
+					}
+					PREV = {
+						set_country_flag = BRA_is_helping_fascists
+					}
+				}
+				if = {
+					limit = {
+						tag = BRC 
+					}
+					PREV = {
+						set_country_flag = BRA_is_helping_communists
+					}
+				}
+				if = {
+					limit = {
+						tag = BUS 
+					}
+					PREV = {
+						set_country_flag = BRA_is_helping_democrats
+					}
+				}
+				if = {
+					limit = {
+						AND = {
+							has_government = neutrality
+							has_country_flag = BRA_original_country
+						}
+					}
+					PREV = {
+						set_country_flag = BRA_is_helping_vargas
+					}
+				}
+				if = {
+					limit = {
+						tag = BZE 
+					}
+					PREV = {
+						set_country_flag = BRA_is_helping_monarchists
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = brazil.51.b 
+		FROM = {
+			country_event = { id = brazil.53 hours = 4 }
+		}
+	}
+}
+
+country_event = { #Brazil gets event of FROM agreeing to help 
+	id = brazil.52
+	title = brazil.52.t 
+	desc = brazil.52.d 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = brazil.52.a 
+		add_stability = 0.01
+	}
+}
+
+country_event = { #Brazil gets event of FROM not agreeing to help 
+	id = brazil.53
+	title = brazil.53.t 
+	desc = brazil.53.d 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = brazil.53.a 
+		add_stability = -0.01
+	}
+}
+
+country_event = { #Brazil gets event of FROM sending equipment 
+	id = brazil.54
+	title = brazil.54.t 
+	desc = brazil.54.d 
+	picture =    # will use the arms generic image 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = brazil.54.a 
+		effect_tooltip = {
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 1000
+			}
+		}
+	}
+}
+
+country_event = { #Brazil gets event of FROM sending war bonds 
+	id = brazil.55
+	title = brazil.55.t 
+	desc = brazil.55.d 	
+	picture =  # will use a generic img, idk yet lololol future me deal with this 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = brazil.55.a 
+		effect_tooltip = {
+			add_timed_idea = {
+				idea = FROM_war_bonds
+				days = 90
+			}
+		}
+	}
+}
+
+country_event = { #Brazil gets event of FROM sending volunteers 
+	id = brazil.56
+	title = brazil.56.t 
+	desc = brazil.56.d 
+	picture = GFX_report_event_generic_army
+
+	is_triggered_only = yes 
+
+	option = {
+		name = brazil.56.a 
+		random_owned_controlled_state = {
+            create_unit = {
+                division = "name = \"Foreign Volunteers\" division_template = \"Foreign Volunteers\" start_experience_factor = 0.15 start_equipment_factor = 1" 
+                owner = ROOT
+            }
+        }
+        random_owned_controlled_state = {
+            create_unit = {
+                division = "name = \"Foreign Volunteers\" division_template = \"Foreign Volunteers\" start_experience_factor = 0.15 start_equipment_factor = 1" 
+                owner = ROOT
+            }
+        }
+        random_owned_controlled_state = {
+            create_unit = {
+                division = "name = \"Foreign Volunteers\" division_template = \"Foreign Volunteers\" start_experience_factor = 0.15 start_equipment_factor = 1" 
+                owner = ROOT
+            }
+        }
+	}
+}

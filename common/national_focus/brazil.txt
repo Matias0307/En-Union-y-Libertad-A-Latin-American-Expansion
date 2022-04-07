@@ -2380,8 +2380,6 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_an_era_of_democracy
 		prerequisite = { focus = BRA_an_era_of_democracy }
-
-		
 	}
 
 	focus = {
@@ -2453,7 +2451,7 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BRA_open_our_markets
+		id = BRA_open_our_markets #name changes to Ask for Foreign Aid if in civil war 
 		icon = GFX_ARG_open_our_borders 
 		x = 0
 		y = 1
@@ -2462,14 +2460,12 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BRA_strengthen_our_foreign_investments
+		id = BRA_strengthen_our_foreign_investments #changes to Mobilize the Economy if in civil war 
 		icon = GFX_focus_generic_the_giant_wakes
 		x = 2
 		y = 1
 		relative_position_id = BRA_follow_liberal_ideals
 		prerequisite = { focus = BRA_follow_liberal_ideals }
-
-		#if there's a civil war, will add military factories 
 	}
 
 	focus = {
@@ -4747,7 +4743,6 @@ focus_tree = {
 			add_political_power = 30
 			hidden_effect = {
 				set_country_flag = BRA_active_communist_revolt
-				set_global_flag = BRA_communist_civil_war_chosen
 				activate_mission = BRA_estado_novo_mission_enemy
 				set_variable = { BRA_cost_to_delay_communists = 20 }
 				BRC = { 
@@ -5008,7 +5003,7 @@ focus_tree = {
 
 		#give idea for economic boost during and after civil war 
 
-		cost = 7
+		cost = 7.2
 
 		available = {
 			has_civil_war = no 
@@ -5182,7 +5177,7 @@ focus_tree = {
 			custom_effect_tooltip = BRA_deomocrats_will_not_rise_up_in_civil_war_however_tt
 			BRC = {
 				set_country_flag = BRC_avoided_democrat_civil_war
-				hidden_effect = { unlock_national_focus = BRA_compromise_with_the_democrats }
+				unlock_national_focus = BRA_compromise_with_the_democrats
 			}
 		}
 	}
@@ -5269,9 +5264,11 @@ focus_tree = {
 			custom_effect_tooltip = BRA_gain_support_in_sao_paulo_tt
 			hidden_effect = {
 				if = {
-					limit = { 
+					limit = {
 						501 = {
-							NOT = { has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state } }
+							NOT = {
+								has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+							}
 						}
 					}
 					501 = {
@@ -5301,7 +5298,7 @@ focus_tree = {
 			has_active_mission = BRA_communist_peasant_revolt
 		}
 
-		cost = 6
+		cost = 5
 
 		completion_reward = {
 			custom_effect_tooltip = BRC_start_civil_war_with_better_railways_and_supply_node_tt
@@ -5906,7 +5903,7 @@ focus_tree = {
 			has_active_mission = BRA_impending_paulista_revolt
 			NOT = { has_war_with = SAO }
 		}
-		
+
 		bypass = {
 			has_completed_focus = BRA_save_ewert
 			OR = {
@@ -5915,9 +5912,9 @@ focus_tree = {
 			}
 		}
 
-		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-			custom_effect_tooltip = BRA_upon_start_of_sao_paulo_tt
+			custom_effect_tooltip = BRA_at_start_of_paulista_war_gain_following_tt
 			effect_tooltip = {
 				add_ideas = BRA_crush_the_paulistas
 			}
@@ -5939,6 +5936,16 @@ focus_tree = {
 		#will send an event to every communist country in south america, and if they accept they will unlock various decisions to send equipment shipments and divisions
 
 		cost = 5
+
+		available = {
+			has_government = communism
+			has_civil_war = yes 
+		}
+
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			unlock_decision_tooltip = BRA_try_to_get_aid_from_FROM
+		}
 	}
 
 	focus = {
@@ -6049,6 +6056,23 @@ focus_tree = {
 		prerequisite = { focus = BRA_contact_other_south_american_countries }
 
 		cost = 5
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_BOL_accepted_aid
+				BOL = {
+					AND = {
+						has_country_flag = BRA_agreed_to_help
+						has_country_flag = BRA_is_helping_communists
+					}
+				}
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			BRA_improve_militia_training = yes 
+		}
 	}
 
 	focus = {
@@ -6222,9 +6246,9 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_train_female_pilots
 		
-		allow_branch = {
-			has_active_mission = BRA_impending_integralist_uprising
-		}
+		#allow_branch = {
+		#	has_active_mission = BRA_impending_integralist_uprising
+		#}
 
 		available = {
 			BRA_is_the_commune_of_brazil = yes 
