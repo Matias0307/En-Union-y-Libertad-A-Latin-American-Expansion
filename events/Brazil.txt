@@ -2343,3 +2343,82 @@ country_event = { #Brazil gets event of FROM sending volunteers
         }
 	}
 }
+
+country_event = { #event that gets triggered once civil war has concluded
+	id = brazil.57
+	title = brazil.57.t
+	desc = brazil.57.d 
+	picture = GFX_ 
+
+	fire_only_once = yes 
+
+	trigger = {
+		original_tag = BRA 
+		has_global_flag = BRA_civil_war_in_progress
+		has_civil_war = no 
+		NOT = {
+			OR = {
+				has_war_with = BRC 
+				has_war_with = BUS 
+				has_war_with = BZE 
+				has_war_with = SAO 
+			}
+		}
+		NOT = {
+			OR = {
+				has_active_mission = BRA_impending_democratic_insurrection
+				has_active_mission = BRA_impending_integralist_uprising
+				has_active_mission = BRA_impending_communist_uprising
+				has_active_mission = BRA_impending_paulista_revolt
+			}
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			clr_global_flag = BRA_civil_war_in_progress
+			set_global_flag = BRA_civil_war_concluded
+			if = {
+				limit = { has_government = communism }
+				every_state = {
+					limit = {
+						is_core_of = BRA 
+						is_fully_controlled_by = ROOT 
+						NOT = { has_state_flag = BRA_communist_state }
+					}
+					add_dynamic_modifier = { modifier = BRA_post_civil_war_resistance}
+				}
+			}
+			if = {
+				limit = { has_government = fascism }
+				every_state = {
+					limit = {
+						is_core_of = BRA 
+						is_fully_controlled_by = ROOT 
+						NOT = { has_state_flag = BRA_fascist_state }
+					}
+					add_dynamic_modifier = { modifier = BRA_post_civil_war_resistance}
+				}
+			}
+			if = {
+				limit = { has_government = democratic }
+				every_state = {
+					limit = {
+						is_core_of = BRA 
+						is_fully_controlled_by = ROOT 
+						NOT = { has_state_flag = BRA_democratic_influence_state }
+					}
+					add_dynamic_modifier = { modifier = BRA_post_civil_war_resistance}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = brazil.57.a 
+		custom_effect_tooltip = BRA_post_civil_war_resistance_tt
+		hidden_effect = {
+			
+		}
+	}
+}

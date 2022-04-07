@@ -5959,7 +5959,7 @@ focus_tree = {
 
 		#improve slightly ill-trained militias 
 
-		cost = 6
+		cost = 7.2
 
 		available = {
 			BRA_is_the_commune_of_brazil = yes 
@@ -5979,6 +5979,44 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_new_training_regiments
 		prerequisite = { focus = BRA_new_training_regiments }
+
+		cost = 8
+
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		completion_reward = {
+			army_experience = 25
+			if = {
+				limit = { 
+					NOT = { has_completed_focus = BRA_forcas_armadas_brasileiras }
+				}
+				unlock_national_focus = BRA_forcas_armadas_brasileiras
+			}
+			if = {
+				limit = {
+					NOT = { has_completed_focus = BRA_invest_in_the_army }
+				}
+				unlock_national_focus = BRA_invest_in_the_army
+			}
+			if = {
+				limit = {
+					NOT = { has_completed_focus = BRA_keep_the_people_at_ease }
+				}
+				unlock_national_focus = BRA_keep_the_people_at_ease 
+			}
+			custom_effect_tooltip = BRA_create_2_proper_divisions_tt
+			hidden_effect = {
+				random_owned_controlled_state = {
+					create_unit = {
+                        division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+                        owner = ROOT
+                    }
+                    create_unit = {
+                        division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+                        owner = ROOT
+                    }
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -6045,6 +6083,18 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_confiscate_paulista_weaponry
 		prerequisite = { focus = BRA_confiscate_paulista_weaponry }
+
+		cost = 7.2
+
+		available = {
+			has_civil_war = yes 
+			has_capitulated = no 
+		}
+
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			activate_mission = BRA_the_final_push_mission
+		}
 	}
 
 	focus = {
@@ -6071,6 +6121,13 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER }
 		completion_reward = {
+			BOL = {
+				add_timed_idea = {
+					idea = BRA_brazilian_civil_war_commitments
+					days = 400
+				}
+				add_opinion_modifier = { target = ROOT modifier = BRA_brazilian_civil_war_commitment }
+			}
 			BRA_improve_militia_training = yes 
 		}
 	}
@@ -6100,6 +6157,7 @@ focus_tree = {
 				days = 450
 			}
 			BRA_improve_militia_training = yes 
+			EUYL_add_1_military = yes 
 			custom_effect_tooltip = BRA_post_civil_war_repayment_will_get_more_expensive_tt
 			hidden_effect = {
 				
@@ -6127,7 +6185,7 @@ focus_tree = {
 			has_civil_war = yes 
 		}
 
-		cost = 8
+		cost = 6
 
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
 		completion_reward = {
@@ -6180,6 +6238,21 @@ focus_tree = {
 		prerequisite = { focus = BRA_establish_mines_for_other_resources }
 
 		#will give a temporary idea that improves factory output 
+
+		cost = 7.2
+
+		available = {
+			has_civil_war = yes 
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			EUYL_add_1_military = yes 
+			add_timed_idea = {
+				idea = BRA_resouces_for_the_army
+				days = 465
+			}
+		}
 	}
 
 	focus = {
@@ -6225,6 +6298,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
 			EUYL_add_2_military = yes 
+			EUYL_add_1_military = yes 
 		}
 	}
 
@@ -6237,6 +6311,31 @@ focus_tree = {
 		prerequisite = { focus = BRA_strategic_supply_hub_construction }
 
 		#will build railways
+
+		cost = 6
+
+		available = {
+			has_civil_war = yes 
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_timed_idea = {
+				idea = BRA_soviet_railways
+				days = 365
+			}
+			custom_effect_tooltip = BRA_post_civil_war_repayment_will_get_more_expensive_tt
+			hidden_effect = {
+				
+				# POST CIVIL WAR SOVIET WAR PAYMENT #
+
+				add_to_variable = { BRA_SOV_time_to_pay_back = 30 }
+				add_to_variable = { BRA_SOV_consumer_goods = 0.02 }
+				add_to_variable = { BRA_SOV_local_resources_factor = -0.02 }
+				
+				# POST CIVIL WAR SOVIET WAR PAYMENT #
+			}
+		}
 	}
 
 	focus = {
@@ -6602,6 +6701,8 @@ focus_tree = {
 		mutually_exclusive = { focus = BRA_the_peasants_represent_democracy }
 
 		#war path 
+
+		cost = 6
 
 		available = {
 			has_civil_war = no 

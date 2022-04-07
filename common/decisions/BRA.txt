@@ -1850,12 +1850,53 @@ BRA_the_brazilian_civil_war = {
         }
     }
 
+    BRA_the_final_push_mission = {
+        priority = 250
+        icon = generic_tank
+
+        activation = {
+            always = no 
+        }
+
+        is_good = yes 
+        available = {
+            has_global_flag = BRA_civil_war_concluded
+        }
+
+        visible = {
+            has_government = communism
+        }
+
+        days_mission_timeout = 365
+        fire_only_once = yes 
+
+        modifier = {
+            army_attack_factor = 0.05
+            army_defence_factor = 0.05
+            army_speed_factor = 0.1
+        }
+
+        complete_effect = {
+            add_stability = 0.05
+            add_war_support = 0.05
+        }
+
+        timeout_effect = {
+            add_stability = -0.03
+            add_war_support = -0.07
+        }
+    }
+
     BRA_try_to_get_aid_from_FROM = {
         icon = hol_exchange_intelligence_data
         priority = 50
 
         ai_will_do = {
-            base = 100
+            base = 135
+            modifier = {
+                add = 75
+                surrender_progress > 0.3
+            }
         }
 
         allowed = {
@@ -1922,6 +1963,62 @@ BRA_the_brazilian_civil_war = {
         }
     } 
 
+    BRA_mobilize_a_militia_in_FROM = {
+        icon = generic_army_support
+
+        ai_will_do = {
+            base = 145
+        }
+
+        state_target = yes 
+
+        target_array = controlled_states
+
+        on_map_mode = map_only
+
+        target_trigger = {
+            FROM = {
+                is_fully_controlled_by = ROOT 
+                is_core_of = ROOT 
+            }
+        }
+
+        visible = {
+            has_global_flag = BRA_civil_war_in_progress
+            has_completed_focus = BRA_new_training_regiments
+            ## might make an OR here and add a fascist/monarchist focus ##
+            FROM = {
+                NOT = {
+                    has_state_flag = BRA_conscripted_in_state
+                }
+            }
+        }
+
+        cost = 20
+
+        available = {
+            has_manpower > 1999
+        }
+
+        days_remove = 35
+
+        complete_effect = {
+            FROM = {
+                set_state_flag =BRA_conscripted_in_state
+            }
+        }
+
+        remove_effect = {
+            FROM = {
+                create_unit = {
+                    division = "name = \"Milícia\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+                    owner = ROOT
+                }
+            }
+        }
+
+    }
+
     BRA_focus_on_attack = {
 		icon = generic_military
 		
@@ -1977,6 +2074,10 @@ BRA_the_brazilian_civil_war = {
 		
 		ai_will_do = {
 			base = 130
+            modifier = {
+                add = 100
+                surrender_progress > 0.5
+            }
 		}
 		
 		allowed = {
