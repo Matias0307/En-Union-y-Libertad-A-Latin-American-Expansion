@@ -18,6 +18,7 @@
 #BRA_clear_integralist_opinion
 #BRA_clear_congress_opinion
 #BRA_clear_vargas_opinion
+#BRA_set_up_post_civil_war_idea
 
 BRA_set_dependency_on_coffee_idea = {
 	hidden_effect = {
@@ -530,6 +531,32 @@ BRA_setting_up_subversive_communist_activity = {
 		else = {
 			set_variable = { BRA_communist_subversive_activity = 1 }
 		}
+	}
+}
+
+BRA_set_up_post_civil_war_idea = {
+	hidden_effect = {
+		set_temp_variable = { BRA_number_states_resistance = 0 }
+		set_temp_variable = { BRA_stability_multiplier = 0.011 }
+		set_temp_variable = { BRA_pp_multiplier = 0.0125 }
+		set_temp_variable = { BRA_buildings_multiplier = 0.01 }
+		set_temp_variable = { BRA_infra_rail_multiplier = 0.015 }
+		every_controlled_state = {
+			limit = {
+				is_core_of = BRA 
+				has_dynamic_modifier = { modifier = BRA_post_civil_war_resistance }
+			}
+			add_to_temp_variable = { BRA_number_states_resistance = 1 }
+		}
+		multiply_temp_variable = { BRA_stability_multiplier = BRA_number_states_resistance }
+		multiply_temp_variable = { BRA_pp_multiplier = BRA_number_states_resistance }
+		multiply_temp_variable = { BRA_buildings_multiplier = BRA_number_states_resistance }
+		multiply_temp_variable = { BRA_infra_rail_multiplier = BRA_number_states_resistance }
+		set_variable = { BRA_post_civil_war_stabilitty = BRA_stability_multiplier }
+		set_variable = { BRA_post_civil_war_pp = BRA_pp_multiplier }
+		set_variable = { BRA_post_civil_war_buildings = BRA_buildings_multiplier }
+		set_variable = { BRA_post_civil_war_infrastructure = BRA_infra_rail_multiplier }
+		set_variable = { BRA_post_civil_war_rail_way = BRA_infra_rail_multiplier }
 	}
 }
 

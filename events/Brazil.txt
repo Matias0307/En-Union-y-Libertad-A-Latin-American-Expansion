@@ -2386,7 +2386,7 @@ country_event = { #event that gets triggered once civil war has concluded
 						is_fully_controlled_by = ROOT 
 						NOT = { has_state_flag = BRA_communist_state }
 					}
-					add_dynamic_modifier = { modifier = BRA_post_civil_war_resistance}
+					add_dynamic_modifier = { modifier = BRA_post_civil_war_resistance }
 				}
 			}
 			if = {
@@ -2397,7 +2397,7 @@ country_event = { #event that gets triggered once civil war has concluded
 						is_fully_controlled_by = ROOT 
 						NOT = { has_state_flag = BRA_fascist_state }
 					}
-					add_dynamic_modifier = { modifier = BRA_post_civil_war_resistance}
+					add_dynamic_modifier = { modifier = BRA_post_civil_war_resistance }
 				}
 			}
 			if = {
@@ -2408,17 +2408,43 @@ country_event = { #event that gets triggered once civil war has concluded
 						is_fully_controlled_by = ROOT 
 						NOT = { has_state_flag = BRA_democratic_influence_state }
 					}
-					add_dynamic_modifier = { modifier = BRA_post_civil_war_resistance}
+					add_dynamic_modifier = { modifier = BRA_post_civil_war_resistance }
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						has_government = neutrality
+						has_completed_focus = BRA_a_visit_to_the_past
+					}
+				}
+				every_state = {
+					limit = {
+						is_core_of = BRA 
+						is_fully_controlled_by = ROOT 
+						NOT = { has_state_flag = BRA_imperial_state }
+					}
+					add_dynamic_modifier = { modifier = BRA_post_civil_war_resistance }
 				}
 			}
 		}
+		BRA_set_up_post_civil_war_idea = yes 
 	}
 
 	option = {
 		name = brazil.57.a 
 		custom_effect_tooltip = BRA_post_civil_war_resistance_tt
-		hidden_effect = {
-			
+		if = {
+			limit = { 
+				AND = {
+					has_completed_focus = BRA_switch_to_a_war_economy
+					has_idea = war_economy
+				}
+			}
+			add_ideas = BRA_post_civil_war_economic_recession_4
+		}
+		else = {
+			add_ideas = BRA_post_civil_war_economic_recession_3
 		}
 	}
 }
