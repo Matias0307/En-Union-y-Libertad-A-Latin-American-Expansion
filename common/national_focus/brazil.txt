@@ -5256,7 +5256,7 @@ focus_tree = {
 
 		cost = 8
 
-		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_ANNEXATION }
 
 		completion_reward = {
 			add_political_power = 100
@@ -5317,7 +5317,7 @@ focus_tree = {
 		prerequisite = { focus = BRA_destabilize_the_government }
 		prerequisite = { focus = BRA_secretely_spread_support }
 
-		cost = 5
+		cost = 3
 
 		available = {
 			custom_trigger_tooltip = {
@@ -6222,9 +6222,21 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
+			hidden_effect = {
+				if = {
+					limit = {
+						OR = {
+							has_idea = rural_economy
+							has_idea = semi_rural_economy
+							has_idea = industrializing_economy
+							has_idea = industrialized_economy
+						}
+					}
+				}
+			}
 			add_ideas = war_economy
-			
 			custom_effect_tooltip = BRA_switiching_war_economy_will_cause_serious_consequences_tt
+			
 		}
 	}
 
@@ -6581,7 +6593,6 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_social_democratic_brazil
 		prerequisite = { focus = BRA_social_democratic_brazil }
-		prerequisite = { focus = BRA_expand_our_plantations_even_further }
 	}
 
 	focus = {
@@ -6710,7 +6721,63 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-			
+			add_war_support = 0.05
+			add_political_power = 50
+			add_popularity = {
+				ideology = communism
+				popularity = 0.05
+			}
+			if = {
+				limit = {
+					has_completed_focus = BRA_compromise_with_the_democrats
+				}
+				custom_effect_tooltip = BRA_because_we_made_compromise_civil_war_tt
+				hidden_effect = {
+					start_civil_war = {
+						ruling_party = ROOT 
+						ideology = democratic
+						size = 0.25
+					}
+					random_other_country = {
+						limit = {
+							original_tag = BRA 
+							has_government = democratic
+							has_civil_war = yes 
+						}
+						retire_country_leader = yes 
+						create_country_leader = {
+							name = "Civis Armados"
+							desc="POLITICS_ARMED_CIVILIANS_DESC"
+							picture = "gfx/leaders/South America/EUYL_armed_civilians.dds"
+							expire = "1965.1.1"
+							ideology = conservatism
+							traits = {
+								BRA_disorganized_leadership
+							}
+						}
+						division_template = {
+							name = "Milicias" 
+							division_names_group = BRA_INF_01 
+							is_locked = yes 
+							regiments = { 
+								infantry = { x = 0 y = 0 }  
+								infantry = { x = 0 y = 1 } 
+								infantry = { x = 0 y = 2 } 
+							}
+						}
+						every_controlled_state = {
+							create_unit = {
+								division = "name = \"Milícias Democraticas\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 1" 
+								owner = PREV
+							}
+							create_unit = {
+								division = "name = \"Milícias Democraticas\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 1" 
+								owner = PREV
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 
@@ -6721,6 +6788,17 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_establish_our_dominance
 		prerequisite = { focus = BRA_establish_our_dominance }
+
+		cost = 10
+
+		available = {
+			has_civil_war = no 
+		}
+
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_ideas = BRA_rapid_army_expansion_idea
+		}
 	}
 
 	focus = {
@@ -6757,6 +6835,8 @@ focus_tree = {
 			focus = BRA_the_peasants_represent_democracy
 		}
 
+		cost = 5
+
 		#will improve post-civil war economic situation slightly and cause a mission that improves resource efficiency and trade output at the cost of factory output
 	}
 	
@@ -6771,6 +6851,16 @@ focus_tree = {
 			focus = BRA_the_peasants_represent_democracy
 		}
 
+		cost = 5
+
+		available = {
+			has_civil_war = no 
+		}
+
+		search_filters = { FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			unlock_decision_tooltip = BRA_deal_with_the_resistance_in_FROM
+		}
 	}
 
 	focus = {
@@ -6800,6 +6890,13 @@ focus_tree = {
 		prerequisite = { 
 			focus = BRA_establish_agrarian_reforms
 			focus = BRA_post_civil_war_recovery
+		}
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_research_slot = 1
 		}
 	}
 

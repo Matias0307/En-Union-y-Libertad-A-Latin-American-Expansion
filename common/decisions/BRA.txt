@@ -1096,6 +1096,78 @@ BRA_political_manegement = {
     }
 }
 
+BRA_post_civil_war_recovery_category = {
+
+    BRA_deal_with_the_resistance_in_FROM = {
+        icon = generic_civil_support
+
+        state_target = yes 
+
+        target_array = controlled_states
+
+        target_trigger = {
+            FROM = {
+                has_dynamic_modifier = { modifier = BRA_post_civil_war_resistance }
+            }
+        }
+
+        available = {
+			divisions_in_state = {
+                size > 4
+                state = FROM
+            }
+            has_civil_war = no 
+            hidden_trigger = {
+                has_political_power > 9
+                has_manpower > 2499
+            }
+		}
+
+        cancel_trigger = {
+            divisions_in_state = {
+                size < 3
+                state = FROM 
+            }
+        }
+
+        visible = { #will add other focuses later on 
+            FROM = {
+                has_dynamic_modifier = { modifier = BRA_post_civil_war_resistance }
+            }
+            if = {
+                limit = { has_government = communism }
+                has_completed_focus = BRA_post_civil_war_recovery
+            }
+        }
+
+        custom_cost_text = BRA_pol_10_and_man_2500
+
+        custom_cost_trigger = {
+            has_manpower > 2499
+            has_political_power > 9
+        }
+
+        complete_effect = {
+            add_manpower = -2500
+            add_political_power = -10
+        }
+
+        days_remove = 40
+
+        modifier = {
+            weekly_manpower = -150
+        }
+
+        remove_effect = {
+            FROM = {
+                remove_dynamic_modifier = { modifier = BRA_post_civil_war_resistance }
+            }
+            custom_effect_tooltip = BRA_post_civil_war_resistance_weakened_tt
+            BRA_set_up_post_civil_war_idea = yes 
+        }
+    }
+}
+
 BRA_imminent_civil_war = {
     BRA_strengthen_our_protests = {
         icon = generic_civil_support
@@ -1425,6 +1497,7 @@ BRA_the_brazilian_civil_war = {
             }
             hidden_effect = {
                 BRA_start_communist_civil_war = yes 
+                news_event = { id = news.363 days = 1 }
             }
         }
     }
@@ -1463,7 +1536,7 @@ BRA_the_brazilian_civil_war = {
         }
 
         is_good = no 
-        days_mission_timeout = 205
+        days_mission_timeout = 225
         fire_only_once = yes 
 
         timeout_effect = {
@@ -1482,7 +1555,8 @@ BRA_the_brazilian_civil_war = {
                         size = 0.4 
                     }
                 }
-                BRA_set_up_generic_civil_war_divisions_fascist_ai = yes 
+                BRA_set_up_generic_civil_war_divisions_fascist_ai = yes
+                news_event = { id = news.361 days = 1 } 
             }
         }
     }
@@ -1564,7 +1638,7 @@ BRA_the_brazilian_civil_war = {
 
         is_good = no 
         fire_only_once = yes 
-        days_mission_timeout = 180
+        days_mission_timeout = 200
 
         timeout_effect = {
             effect_tooltip = {
@@ -1658,6 +1732,7 @@ BRA_the_brazilian_civil_war = {
                         limit = { has_character_flag = BRA_congress_supporter }
                         set_nationality = BUS 
                     }
+                    add_manpower = -27000
                 }
                 if = {
                     limit = { has_government = communism }
@@ -1811,6 +1886,7 @@ BRA_the_brazilian_civil_war = {
                     limit = { has_dynamic_modifier = { modifier = BRA_democratic_influence_in_state } }
                     remove_dynamic_modifier = { modifier = BRA_democratic_influence_in_state }
                 }
+                news_event = { id = news.364 days = 1 }
             }
         }
     }  
@@ -2137,7 +2213,8 @@ BRA_the_brazilian_civil_war = {
 		target_trigger = {
 			FROM = {
 				is_fully_controlled_by = ROOT 
-				is_core_of = ROOT  
+				is_core_of = ROOT
+                has_dynamic_modifier = { modifier = BRA_integralists_occupation }  
 			}
 		}
 
@@ -2993,6 +3070,27 @@ BRA_peasant_revolt = {
 }
 
 BRA_economic_management = {
+    BRA_repaying_the_soviet_debt = {
+        priority = 150
+        icon = hol_attract_foreign_investors
+
+        available = {
+            always = no 
+        }
+
+        activation = {
+            always = no 
+        }
+
+        days_mission_timeout = BRA_SOV_time_to_pay_back
+
+        is_good = yes 
+
+        timeout_effect = {
+            remove_dynamic_modifier = { modifier = BRA_soviet_civil_war_repayment}
+        }
+    }
+
     BRA_industrialize_the_economy_mission = {
         priority = 80
         icon = generic_factory

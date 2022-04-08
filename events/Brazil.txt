@@ -289,6 +289,9 @@ country_event = {
 		name = brazil.6.a 
 		hidden_effect = {
 			set_country_flag = BRA_farmers_agreed
+			BRC = {
+				set_country_flag = BRA_farmers_agreed
+			}
 		}
 	}
 }
@@ -1875,6 +1878,9 @@ country_event = {
 	option = {
 		name = brazil.40.a 
 		set_country_flag = BRA_soviet_accepted
+		BRC = {
+			set_country_flag = BRA_soviet_accepted
+		}
 	}
 }
 
@@ -2354,7 +2360,7 @@ country_event = { #event that gets triggered once civil war has concluded
 
 	trigger = {
 		original_tag = BRA 
-		has_global_flag = BRA_civil_war_in_progress
+		has_global_flag = BRA_civil_war_in_progress #this is to make sure this triggers only after a pre-definied civil war 
 		has_civil_war = no 
 		NOT = {
 			OR = {
@@ -2426,7 +2432,20 @@ country_event = { #event that gets triggered once civil war has concluded
 					}
 					add_dynamic_modifier = { modifier = BRA_post_civil_war_resistance }
 				}
+			} #will later add the other militias from the other civil wars to disband 
+			delete_unit_template_and_units = {
+				division_template = "Soviet Volunteers"
+                disband = yes
 			}
+			delete_unit_template_and_units = {
+				division_template = "Milicias Paulistas"
+                disband = yes
+			}
+			delete_unit_template_and_units = {
+				division_template = "Milícia"
+                disband = yes
+			}
+			add_dynamic_modifier = { modifier = BRA_post_civil_war_social_crisis }
 		}
 		BRA_set_up_post_civil_war_idea = yes 
 	}
@@ -2446,5 +2465,97 @@ country_event = { #event that gets triggered once civil war has concluded
 		else = {
 			add_ideas = BRA_post_civil_war_economic_recession_3
 		}
+		if = {
+			limit = {
+				AND = {
+					has_government = communism
+					has_country_flag = BRA_soviet_accepted
+				}
+			}
+			activate_mission = BRA_repaying_the_soviet_debt
+			add_dynamic_modifier = { modifier = BRA_soviet_civil_war_repayment }
+		}
+	}
+}
+
+# Basil Easter Egg Part 1 (A Young Boy with a Big Dream)
+country_event = {
+	id = brazil.58
+	title = brazil.58.t 
+	desc = brazil.58.d 
+	picture = GFX_BRA_brazil_3
+
+	fire_only_once = yes 
+	trigger = {
+		original_tag = BRA 
+		has_government = communism
+		has_civil_war = yes 
+		has_global_flag = BRA_civil_war_in_progress
+		check_variable = { BRA_farmers_agreement_to_uprising > 69 }
+		check_variable = { BRA_amount_of_equipment_hidden > 1499 }
+		500 = { 
+			has_dynamic_modifier = { modifier = BRA_widespread_coffee_plantations }
+		}
+		has_country_flag = BRA_farmers_agreed
+	}
+
+	immediate = {
+		set_country_flag = BRA_basil_easter_egg_active
+	}
+
+	option = { #why should we care about thi boy? 
+		name = brazil.58.a 
+	}
+
+	option = { #interesting story, we should see where this goes 
+		name = brazil.58.b 
+		hidden_effect = {
+			country_event = { id = brazil.59 days = 12 }
+		}
+	}
+}
+
+# Basil Easter Egg Part 2 (gains popularity amongst the farmers)
+country_event = {
+	id = brazil.59
+	title = brazil.59.t 
+	desc = brazil.59.d 
+	picture = GFX_report_event_generic_rally2
+
+	is_triggered_only = yes 
+
+	option = { #why do they care so much about a young boy?
+		name = brazil.59.a 
+	}
+
+	option = {
+		name = brazil.59.b 
+		hidden_effect = {
+			country_event = { id = brazil.60 days = 10 }
+		}
+	}
+}
+
+# Basil Easter Egg Finale (The Peopl want Basil as Leader)
+country_event = {
+	id = brazil.60 
+	title = brazil.60.t 
+	desc = brazil.60.d 
+	picture = GFX_report_event_generic_parliament
+
+	is_triggered_only = yes 
+
+	option = { #A boy can't lead the nation!
+		name = brazil.60.a 
+		add_political_power = 25
+		add_stability = -0.05
+	}
+
+	option = { #The people want Basil! 
+		name = brazil.60.b 
+		add_political_power = -25
+		add_stability = 0.05
+		retire_country_leader = yes 
+		promote_character = BRA_basil_do_santos
 	}
 }

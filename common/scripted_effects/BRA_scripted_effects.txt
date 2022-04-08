@@ -19,6 +19,7 @@
 #BRA_clear_congress_opinion
 #BRA_clear_vargas_opinion
 #BRA_set_up_post_civil_war_idea
+#BRA_improve_civil_war_recession
 
 BRA_set_dependency_on_coffee_idea = {
 	hidden_effect = {
@@ -766,7 +767,7 @@ BRA_set_up_generic_civil_war_divisions_democratic = {
 		}
 		if = {
 			limit = { has_global_flag = BRA_civil_war_in_progress }
-			every_controlled_state = {
+			random_owned_controlled_state = {
 				create_unit = {
 					division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
 					owner = ROOT
@@ -778,7 +779,7 @@ BRA_set_up_generic_civil_war_divisions_democratic = {
 			}
 		}
 		else = {
-			random_owned_controlled_state = {
+			every_controlled_state = {
 				create_unit = {
 					division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
 					owner = ROOT
@@ -814,6 +815,17 @@ BRA_set_up_generic_civil_war_divisions_democratic = {
 				tree = brazil_focus
 				keep_completed = no 
 			}
+			unlock_national_focus = BRA_the_path_to_estado_novo
+            unlock_national_focus = BRA_solidify_control_over_the_state
+            unlock_national_focus = BRA_political_censorship_vargas
+            unlock_national_focus = BRA_political_cooperation_with_plinio
+            unlock_national_focus = BRA_cut_back_on_our_censorship
+            unlock_national_focus = BRA_an_era_of_democracy
+            unlock_national_focus = BRA_convince_washington_to_come_back
+            unlock_national_focus = BRA_empower_the_congress
+            unlock_national_focus = BRA_freedom_of_the_press
+            unlock_national_focus = BRA_a_free_brazil
+            unlock_national_focus = BRA_follow_liberal_ideals
 			every_controlled_state = {
 				create_unit = {
 					division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = BRA_democratic_militia_experience start_equipment_factor = 0.95" 
@@ -1734,4 +1746,46 @@ BRA_clear_vargas_opinion = {
 	clr_country_flag = BRA_hostile_vargas
 	clr_country_flag = BRA_neutral_vargas
 	clr_country_flag = BRA_friendly_vargas
+}
+
+BRA_improve_civil_war_recession = {
+	if = {
+		limit = {
+			has_idea = BRA_post_civil_war_economic_recession_5
+		}
+		swap_ideas = {
+			remove_idea = BRA_post_civil_war_economic_recession_5
+			add_idea = BRA_post_civil_war_economic_recession_4
+		}
+	}
+	else_if = {
+		limit = {
+			has_idea = BRA_post_civil_war_economic_recession_4
+		}
+		swap_ideas = {
+			remove_idea = BRA_post_civil_war_economic_recession_4
+			add_idea = BRA_post_civil_war_economic_recession_3
+		}
+	}
+	else_if = {
+		limit = {
+			has_idea = BRA_post_civil_war_economic_recession_3
+		}
+		swap_ideas = {
+			remove_idea = BRA_post_civil_war_economic_recession_3
+			add_idea = BRA_post_civil_war_economic_recession_2
+		}
+	}
+	else_if = {
+		limit = {
+			has_idea = BRA_post_civil_war_economic_recession_2
+		}
+		swap_ideas = {
+			remove_idea = BRA_post_civil_war_economic_recession_2
+			add_idea = BRA_post_civil_war_economic_recession_1
+		}
+	}
+	else = {
+		remove_ideas = BRA_post_civil_war_economic_recession_1
+	}
 }

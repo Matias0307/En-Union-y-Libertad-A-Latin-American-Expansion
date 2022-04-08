@@ -123,6 +123,12 @@ BRA_political_manegement = {
         NOT = { has_country_flag = BRA_state_of_anarchy } #State of Anarchy will be for the Integralist path / Civil war path
         NOT = { has_country_flag = BRA_all_parties_shutdown }
         has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
+        NOT = {
+            OR = {
+                has_global_flag = BRA_civil_war_in_progress
+                has_global_flag = BRA_civil_war_concluded
+            }
+        }
     }
 }
 
@@ -195,11 +201,54 @@ BRA_aiding_the_brazilians = {
 
     allowed = {
         exists = yes 
-        has_global_flag = BRA_civil_war_in_progress
+        capital_scope = {
+            OR = {
+                is_on_continent = south_america
+                is_on_continent = north_america
+            }
+        }
     }
 
     visible = {
         has_global_flag = BRA_civil_war_in_progress
         has_country_flag = BRA_agreed_to_help
+    }
+}
+
+BRA_post_civil_war_recovery_category = {
+    priority = 150
+    icon = GFX_decision_category_generic_political_actions
+
+    allowed = {
+        original_tag = BRA 
+    }
+
+    visible_when_empty = yes 
+
+    on_map_area = {
+		target_array = owned_states
+		target_trigger = {
+			FROM = {
+                has_dynamic_modifier = { modifier = BRA_post_civil_war_resistance }
+			}
+		}
+		name = BRA_states_with_resistance_tt
+		zoom = 150
+	}
+
+    visible = {
+        has_global_flag = BRA_civil_war_concluded
+        NOT = {
+            OR = {
+                has_war_with = BRA 
+                has_war_with = BUS 
+                has_war_with = BRC 
+                has_war_with = BZE
+                has_war_with = SAO
+            }
+        }
+        any_controlled_state = {
+            has_dynamic_modifier = { modifier = BRA_post_civil_war_resistance }
+        }
     }
 }
