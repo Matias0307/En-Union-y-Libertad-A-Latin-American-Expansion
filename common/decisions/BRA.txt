@@ -2600,6 +2600,103 @@ BRA_aiding_the_brazilians = {
     }   
 }
 
+BRA_the_spread_of_communism = {
+
+    BRA_spread_communism_to_FROM = {
+        icon = eng_propaganda_campaigns
+
+        target_trigger = {
+            FROM = {
+                capital_scope = { is_on_continent = south_america }
+                is_neighbor_of = ROOT 
+                NOT = { has_government = communism }
+            }
+        }
+
+        cost = 40
+
+        visible = {
+            has_completed_focus = BRA_the_inevitable_spread_of_communism
+            FROM = {
+                exists = yes 
+            }
+        }
+
+        days_remove = 60
+
+        modifier = {
+            political_power_factor = -0.1
+        }
+
+        remove_effect = {
+            FROM = {
+                add_popularity = { ideology = communism popularity = 0.05 }
+            }
+        }
+    }
+
+    BRA_instigate_a_communist_uprising_in_FROM = {
+        icon = generic_civil_support
+
+        target_trigger = {
+            FROM = {
+                NOT = { has_government = communism }
+                is_neighbor_of = ROOT 
+                capital_scope = { is_on_continent = south_america }
+            }
+        }
+
+        fire_only_once = yes 
+
+        visible = {
+            exists = yes 
+            has_completed_focus = BRA_everyone_united_under_one_banner
+            has_government = communism
+        }
+
+        available = {
+            FROM = {
+                communism > 0.3
+                stability < 0.5
+            }
+            has_equipment = {
+                infantry_equipment > 1499
+            }
+        }
+
+        cost = 50
+
+        days_remove = 75
+
+        modifier = {
+            consumer_goods_factor = 0.05
+            political_power_factor = -0.15
+        }
+
+        complete_effect = {
+            add_equipment_to_stockpile = {
+                type = infantry_equipment
+                amount = 1500
+            }
+        }
+
+        remove_effect = {
+            FROM = {
+                start_civil_war = {
+                    ruling_party = PREV
+                    ideology = communism
+                    size = 0.35
+                }
+            }
+            hidden_effect = {
+                FROM = {
+                    set_country_flag = BRA_instigated_uprising_in_country
+                }
+            }
+        }
+    }
+}
+
 BRA_peasant_revolt = {
     BRA_communist_peasant_revolt = {
         priority = 100
