@@ -6810,6 +6810,14 @@ focus_tree = {
 		prerequisite = { focus = BRA_army_preperations }
 		prerequisite = { focus = BRA_invest_heavily_in_the_military }
 		prerequisite = { focus = BRA_supply_hubs_in_sao_paulo }
+		
+		cost = 10
+
+		search_filters = { }
+		completion_reward = {
+			army_experience = 10
+			add_ideas = BRA_efficient_supply_consumption_idea
+		}
 	}
 
 	focus = {
@@ -6821,7 +6829,7 @@ focus_tree = {
 		prerequisite = { focus = BRA_army_preperations }
 		prerequisite = { focus = BRA_expand_the_peasant_markets }
 
-		#will unlcok the mechanic to spread communism to other countries and instigate communist civil wars within them 
+		#will unlock the mechanic to spread communism to other countries and instigate communist civil wars within them 
 	}
 
 	focus = {
@@ -6838,6 +6846,16 @@ focus_tree = {
 		cost = 5
 
 		#will improve post-civil war economic situation slightly and cause a mission that improves resource efficiency and trade output at the cost of factory output
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_timed_idea = {
+				idea = BRA_active_agrarian_reforms
+				days = 540 
+			}
+			unlock_decision_tooltip = BRA_redistribute_plantation_profits_to_the_nation
+			custom_effect_tooltip = BRA_while_agrarian_reforms_active_tt
+		}
 	}
 	
 	focus = {
@@ -6870,6 +6888,78 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_establish_agrarian_reforms
 		prerequisite = { focus = BRA_establish_agrarian_reforms } 
+
+		cost = 8
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_coffee_plantations_not_hostile_tt
+				check_variable = { BRA_coffee_companies_opinion > -1 }
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			custom_effect_tooltip = BRA_coffee_dependency_increases_20_tt
+			random_owned_controlled_state = {
+				limit = {
+					has_dynamic_modifier = { modifier = BRA_small_coffee_plantations }
+				}
+				remove_dynamic_modifier = { modifier = BRA_small_coffee_plantations }
+				add_dynamic_modifier = { modifier = BRA_widespread_coffee_plantations }
+			}
+			random_owned_controlled_state = {
+				limit = {
+					has_dynamic_modifier = { modifier = BRA_small_coffee_plantations }
+				}
+				remove_dynamic_modifier = { modifier = BRA_small_coffee_plantations }
+				add_dynamic_modifier = { modifier = BRA_widespread_coffee_plantations }
+			}
+			random_owned_controlled_state = {
+				limit = {
+					any_neighbor_state = {
+						OR = {
+							has_dynamic_modifier = { modifier = BRA_small_coffee_plantations }
+							has_dynamic_modifier = { modifier = BRA_widespread_coffee_plantations }
+						}
+					}
+					NOT = { 
+						OR = {
+							has_dynamic_modifier = { modifier = BRA_small_coffee_plantations }
+							has_dynamic_modifier = { modifier = BRA_widespread_coffee_plantations }
+						}
+					}
+				}
+				add_dynamic_modifier = { modifier = BRA_small_coffee_plantations }
+			}
+			random_owned_controlled_state = {
+				limit = {
+					any_neighbor_state = {
+						OR = {
+							has_dynamic_modifier = { modifier = BRA_small_coffee_plantations }
+							has_dynamic_modifier = { modifier = BRA_widespread_coffee_plantations }
+						}
+					}
+					NOT = { 
+						OR = {
+							has_dynamic_modifier = { modifier = BRA_small_coffee_plantations }
+							has_dynamic_modifier = { modifier = BRA_widespread_coffee_plantations }
+						}
+					}
+				}
+				add_dynamic_modifier = { modifier = BRA_small_coffee_plantations }
+			}
+			hidden_effect = {
+				add_to_variable = { BRA_dependency_on_coffee = 20 }
+				clamp_variable = {
+					var = BRA_dependency_on_coffee
+					min = 0
+					max = 100
+				}
+				BRA_update_opinion_variable = yes 
+				BRA_set_dependency_on_coffee_idea = yes
+			}
+		}
 	}
 
 	focus = {
@@ -6879,6 +6969,13 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_establish_agrarian_reforms
 		prerequisite = { focus = BRA_post_civil_war_recovery }
+
+		cost = 7.2
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_2_civilian = yes 
+		}
 	}
 
 	focus = {
@@ -6940,6 +7037,44 @@ focus_tree = {
 			focus = BRA_expand_the_peasant_markets
 			focus = BRA_expand_our_plantations_even_further
 		}
+
+		cost = 8
+
+		available = {
+			custom_trigger_tooltip = {
+                tooltip = BRA_over_94_tt
+                check_variable = { BRA_dependency_on_coffee > 94 }
+            }
+			custom_trigger_tooltip = {
+				tooltip = BRA_coffee_plantations_not_hostile_tt
+				check_variable = { BRA_coffee_companies_opinion > -1 }
+			}
+			NOT = {
+				OR = {
+					has_idea = BRA_post_civil_war_economic_recession_5
+					has_idea = BRA_post_civil_war_economic_recession_3
+				}
+			}
+			hidden_trigger = {
+				NOT = {
+					OR = {
+						has_idea = BRA_post_civil_war_economic_recession_5
+						has_idea = BRA_post_civil_war_economic_recession_4
+						has_idea = BRA_post_civil_war_economic_recession_3
+						has_idea = BRA_post_civil_war_economic_recession_2
+						has_idea = BRA_post_civil_war_economic_recession_1
+					}
+				}
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_ideas = rural_economy 
+			hidden_effect = {
+				set_country_flag = BRA_chose_rural
+			}
+		}
 	}
 
 	focus = {
@@ -6950,7 +7085,16 @@ focus_tree = {
 		relative_position_id = BRA_re_establish_a_fully_agrarian_economy
 		prerequisite = { focus = BRA_re_establish_a_fully_agrarian_economy }
 
-		#will unlock even more decisions and a nifty mechanic to balance out the debuffs while still not being too OP 
+		cost = 5
+
+		available = {
+			has_idea = rural_economy
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_ideas = BRA_the_agrarian_syndicate_council
+		}
 	}
 
 	focus = {
