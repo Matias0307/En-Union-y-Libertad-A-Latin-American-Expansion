@@ -7336,6 +7336,45 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_slowly_subjegate_our_neighbors
 		prerequisite = { focus = BRA_slowly_subjegate_our_neighbors }
+
+		will_lead_to_war_with = PAN 
+		will_lead_to_war_with = COS
+		
+		cost = 10
+		
+		available = {
+			is_subject = no
+		}
+		
+		bypass = {
+			has_completed_focus = BRA_slowly_subjegate_our_neighbors
+			OR = {
+				has_war_with = PAN
+				has_war_with = COS
+				is_in_faction_with = PAN
+				is_in_faction_with = COS
+				AND = {
+					controls_state = 304
+					controls_state = 316
+				}
+			}
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = PAN
+			}
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = COS
+			}
+		}
 	}
 
 	focus = {
@@ -7345,6 +7384,53 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_push_past_the_darien_gap
 		prerequisite = { focus = BRA_push_past_the_darien_gap }
+
+		will_lead_to_war_with = HON 
+		will_lead_to_war_with = NIC 
+		will_lead_to_war_with = GUA
+		
+		cost = 10
+		
+		available = {
+			is_subject = no
+		}
+		
+		bypass = {
+			has_completed_focus = BRA_slowly_subjegate_our_neighbors
+			OR = {
+				AND = {
+					controls_state = 312
+					controls_state = 313
+					controls_state = 317
+				}
+				has_war_with = HON 
+				has_war_with = NIC 
+				has_war_with = GUA 
+				is_in_faction_with = HON
+				is_in_faction_with = NIC
+				is_in_faction_with = GUA
+			}
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = HON
+			}
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = NIC
+			}
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = GUA
+			}
+		}
 	}
 
 	focus = {
@@ -7354,6 +7440,33 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_the_revolution_beyond_south_america
 		prerequisite = { focus = BRA_the_revolution_beyond_south_america }
+
+		cost = 10
+
+		available = {
+			NOT = {
+				is_in_faction_with = MEX 
+			}
+		}
+
+		bypass = {
+			has_completed_focus = BRA_the_revolution_beyond_south_america
+			OR = {
+				MEX = {
+					is_subject_of = ROOT 
+					has_war_with = ROOT 
+					capital_scope = { is_fully_controlled_by = ROOT }
+				}
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = MEX 
+			}
+		}
 	}
 
 	focus = {
@@ -7364,6 +7477,8 @@ focus_tree = {
 		relative_position_id = BRA_integrate_uruguay
 		prerequisite = { focus = BRA_integrate_uruguay }
 		prerequisite = { focus = BRA_push_past_mexico }
+
+		cost = 2.8
 	}
 
 	focus = {

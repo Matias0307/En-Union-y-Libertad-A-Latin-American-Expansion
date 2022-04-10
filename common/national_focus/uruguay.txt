@@ -1091,7 +1091,10 @@ focus_tree = {
 		
 		bypass = {
 			has_government = fascism 
-			has_country_flag = URG_second_cisplatine_War
+			OR = {
+				has_country_flag = URG_second_cisplatine_War
+				has_war_with = ARG 
+			}
 		}
 		
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
@@ -1172,7 +1175,10 @@ focus_tree = {
 		
 		bypass = {
 			has_government = fascism
-			has_country_flag = URG_second_cisplatine_War
+			OR = {
+				has_country_flag = URG_second_cisplatine_War
+				has_war_with = ARG 
+			}
 		}
 		
 		cancel_if_invalid = yes
@@ -1235,6 +1241,17 @@ focus_tree = {
 			has_country_flag = URG_second_cisplatine_War
 			has_war_with = ARG 
 		}
+
+		bypass = {
+			has_completed_focus = URG_launch_the_plan
+			ARG = {
+				OR = {
+					exists = no 
+					is_subject_of = ROOT 
+					capital_scope = { is_fully_controlled_by = ROOT }
+				}
+			}
+		}
 		
 		cancel_if_invalid = yes
 		continue_if_invalid = no
@@ -1289,6 +1306,17 @@ focus_tree = {
 		available = {
 			has_country_flag = URG_second_cisplatine_War
 			has_war_with = ARG 
+		}
+
+		bypass = {
+			has_completed_focus = URG_launch_the_plan
+			ARG = {
+				OR = {
+					exists = no 
+					is_subject_of = ROOT 
+					capital_scope = { is_fully_controlled_by = ROOT }
+				}
+			}
 		}
 		
 		cancel_if_invalid = yes
@@ -1369,11 +1397,30 @@ focus_tree = {
 		cost = 1
 		
 		available = {
-			hidden_trigger = {
-				has_country_flag = URG_second_cisplatine_War
-			}
 			NOT = {
 				has_war_with = ARG 
+			}
+			OR = {
+				URG = {
+					any_owned_state = {
+						is_core_of = ARG 
+					}
+				}
+				CHL = {
+					any_owned_state = {
+						is_core_of = ARG 
+					}
+				}
+				BRA = {
+					any_owned_state = {
+						is_core_of = ARG 
+					}
+				}
+				PAR = {
+					any_owned_state = {
+						is_core_of = ARG 
+					}
+				}
 			}
 		}
 		
@@ -3531,6 +3578,7 @@ focus_tree = {
 			focus = URG_go_after_the_brazilians 
 			focus = URG_integrate_entre_rios
 			focus = URG_remove_communism_from_the_continent
+			focus = URG_split_up_argentina
 		}
 
 		cost = 10
