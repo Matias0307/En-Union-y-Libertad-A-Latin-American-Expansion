@@ -2447,6 +2447,10 @@ country_event = { #event that gets triggered once civil war has concluded
 				division_template = "Milícia"
                 disband = yes
 			}
+			delete_unit_template_and_units = {
+				division_template = "Foreign Volunteers"
+                disband = yes
+			}
 			add_dynamic_modifier = { modifier = BRA_post_civil_war_social_crisis }
 		}
 		BRA_set_up_post_civil_war_idea = yes 
@@ -2538,7 +2542,7 @@ country_event = {
 	}
 }
 
-# Basil Easter Egg Finale (The Peopl want Basil as Leader)
+# Basil Easter Egg Finale (The People want Basil as Leader)
 country_event = {
 	id = brazil.60 
 	title = brazil.60.t 
@@ -2559,5 +2563,222 @@ country_event = {
 		add_stability = 0.05
 		retire_country_leader = yes 
 		promote_character = BRA_basil_do_santos
+	}
+}
+
+#FROM gets event of Communist Brazil demanding subjegation 
+country_event = {
+	id = brazil.61
+	title = brazil.61.t 
+	desc = brazil.61.d 
+	picture = GFX_report_event_bul_troops_dobrudja
+
+	is_triggered_only = yes 
+
+	option = { #Cave in to their demands 
+		name = brazil.61.a 
+		ai_chance = {
+			base = 5
+			modifier = {
+				add = 50
+				strength_ratio = {
+					tag = FROM
+					ratio < 0.34
+				}
+			}
+			modifier = {
+				add = 35
+				has_army_manpower = { size > 349999 }
+			}
+			modifier = {
+				add = 20
+				num_of_factories > 54
+			}
+			modifier = {
+				add = 30
+				has_opinion = {
+					target = FROM
+					value > 79
+				}
+			}
+			modifier = {
+				add = 50
+				has_country_flag = BRA_industrial_buildup
+			}
+		}
+		add_stability = -0.02
+		add_war_support = -0.03
+		effect_tooltip = {
+			FROM = {
+				puppet = ROOT 
+			}
+		}
+		hidden_effect = {
+			FROM = {
+				country_event = brazil.62
+			}
+		}
+	}
+
+	option = { #We will never succumb!
+		name = brazil.61.b 
+		ai_chance = {
+			base = 40
+			modifier = {
+				add = 60 
+				strength_ratio = {
+					tag = FROM
+					ratio > 1
+				}
+			}
+		}
+		add_war_support = 0.05
+		custom_effect_tooltip = BRA_may_invade_us_tt
+		hidden_effect = {
+			FROM = {
+				country_event = peru.17
+			}
+		}
+	}
+}
+
+#Brazil gets event of FROM accepting the demands to become puppets 
+country_event = {
+	id = brazil.62
+	title = brazil.62.t 
+	desc = brazil.62.d 
+	picture = GFX_report_event_generic_sign_treaty1
+
+	is_triggered_only = yes 
+
+	option = { #Great!
+		name = brazil.62.a 
+		puppet = FROM 
+	}
+}
+
+#Argentina gets option to intervene in Brazilian war plans 
+country_event = {
+	id = brazil.63
+	title = brazil.63.t 
+	desc = brazil.63.d 
+	picture = GFX_report_event_ast_army
+	
+	is_triggered_only = yes
+	
+	option = { #step in
+		name = argentina.2.a
+		ai_chance = { 
+			base = 100 
+			modifier = {
+				factor = 0
+				ARG = {
+					OR = {
+						is_subject = yes 
+						has_war = yes 
+						has_civil_war = yes
+					}
+				}
+			}
+		}
+		random_other_country = {
+			limit = { original_tag = BRA }
+			ARG = {
+				declare_war_on = {
+					target = PREV
+					type = annex_everything
+				}
+				add_ideas = ARG_the_second_cisplatine_war
+			}
+		}
+		BRA = {
+			country_event = { id = brazil.64 hours = 4 }
+		}
+		hidden_effect = {
+			news_event = { days = 2 id = news.338 }
+		}
+	}
+	
+	option = { #dont step in
+		name = argentina.2.b
+		ai_chance = { 
+			base = 10
+			modifier = {
+				add = 75
+				has_active_mission = ARG_the_possible_coup
+			}
+		}
+		ARG = {
+			add_political_power = -20
+			add_war_support = -0.01
+		}
+	}
+}
+
+#Brazil gets notification of Argentinian intervention 
+country_event = {
+	id = brazil.64 
+	title = brazil.64.t 
+	desc = brazil.64.d 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = brazil.64.a 
+		BRA = {
+			add_ideas = BRA_the_second_cisplatine_war_1
+		}
+	}
+}
+
+#Argentina gets event of possible surrender 
+country_event = {
+	id = brazil.65
+	title = brazil.65.t 
+	desc = brazil.65.d 	
+	picture = GFX_report_event_generic_conference
+
+	fire_only_once = yes 
+
+	trigger = {
+		original_tag = ARG 
+		OR = {
+			has_war_with = BRA 
+			has_war_with = BRC 
+			has_war_with = BUS 
+			has_war_with = BZE 
+		}
+		has_global_flag = second_cisplatine_war
+		surrender_progress > 0.2
+		OR = {
+			casualties_inflicted_by = {
+				opponent = BRC
+				thousands > 75
+			}
+			casualties_inflicted_by = {
+				opponent = BRA
+				thousands > 75
+			}
+			casualties_inflicted_by = {
+				opponent = BUS
+				thousands > 75
+			}
+			casualties_inflicted_by = {
+				opponent = BZE
+				thousands > 75
+			}
+		}
+	}
+
+	option = { #ask for peace 
+		name = brazil.65.a 
+		custom_effect_tooltip = ARG_iftheyaccept 
+		effect_tooltip = {
+			white_peace = BRA 
+		}
+		random_other_country = {
+			limit = { original_tag = BRA }
+			country_event = { id = argentina.5 hours = 8 }
+		}
 	}
 }

@@ -4787,9 +4787,7 @@ focus_tree = {
 		completion_reward = {
 			if = {
 				limit = {
-					NOT = {
-						has_intelligence_agency = yes 
-					}
+					has_intelligence_agency = no 
 				}
 				create_intelligence_agency = yes 
 			}
@@ -7024,7 +7022,30 @@ focus_tree = {
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
-		completion_reward = {}
+		completion_reward = {
+			if = {
+				limit = { 
+					AND = {
+						has_dlc = "La Resistance"
+						has_intelligence_agency = yes 
+					}
+				}
+				upgrade_intelligence_agency = upgrade_blueprint_stealing
+				upgrade_intelligence_agency = upgrade_invisible_ink
+				upgrade_intelligence_agency = upgrade_portable_radios
+			}
+			else_if = {
+				limit = {
+					has_dlc = "La Resistance"
+					has_intelligence_agency = no 
+				}
+				add_political_power = 25
+				create_intelligence_agency = yes 
+			}
+			else = {
+				add_political_power = 75
+			}
+		}
 	}
 
 	focus = {
@@ -7040,7 +7061,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			set_rule = { can_send_volunteers = yes }
-			add_timed_idea = { idea = ARG_send_volunteers days = 560 }
+			add_timed_idea = { idea = ARG_send_volunteers days = 1080 }
 		}
 	}
 
@@ -7054,6 +7075,20 @@ focus_tree = {
 		prerequisite = { focus = BRA_form_volunteer_korps }
 
 		#will unlock decisions to cause civil wars in nations that have a decent amount of communism 
+
+		cost = 5
+
+		available = {
+			exists = yes 
+			num_of_factories > 44
+			has_army_manpower = { size > 249999 }
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			custom_effect_tooltip = BRA_unlock_instigate_civil_wars_tt
+			set_rule = { can_create_factions = yes }
+		}
 	}
 
 	focus = { #yeap, this focus will basically revert the industrialization 
@@ -7147,6 +7182,25 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_slowly_subjegate_our_neighbors
 		prerequisite = { focus = BRA_slowly_subjegate_our_neighbors }
+
+		available = {
+			URG = {
+				has_government = communism
+				NOT = {
+					has_war_with = ROOT 
+				}
+			}
+		}
+
+		cost = 7.2
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			URG = {
+				EUYL_add_2_civilian = yes 
+				EUYL_add_2_military = yes 
+			}
+		}
 	}
 
 	focus = {
@@ -7159,6 +7213,38 @@ focus_tree = {
 			focus = BRA_industrial_build_up_in_the_cisplatine 
 			focus = BRA_recover_the_cisplatine
 		}
+
+		available = {
+			OR = {
+				URG = {
+					is_subject_of = ROOT 
+				}
+				URG = {
+					all_owned_state = {
+						is_fully_controlled_by = ROOT 
+					}
+				}
+			}
+		}
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			if = {
+				limit = {
+					URG = { is_subject_of = ROOT }
+				}
+				annex_country = {
+					target = URG
+					transfer_troops = yes
+				}
+			}
+			every_state = {
+				limit = { is_core_of = URG }
+				add_core_of = ROOT 
+			}
+		}
 	}
 
 	focus = {
@@ -7170,6 +7256,58 @@ focus_tree = {
 		prerequisite = {
 			focus = BRA_the_union_of_south_american_socialist_republics
 			focus = BRA_joint_military_buildup
+		}
+
+		cost = 10
+
+		available = {
+			NOT = {
+				is_in_faction_with = POR
+			}
+			any_other_country = {
+				41 = {
+					is_fully_controlled_by = PREV 
+					is_core_of = PREV
+				}
+				NOT = {
+					is_in_faction_with = ROOT
+				}
+			}
+		}
+
+		bypass = {
+			OR = {
+				has_completed_focus = BRA_joint_military_buildup
+				has_completed_focus = BRA_the_union_of_south_american_socialist_republics
+			}
+			AND = {
+				has_war_with = POR 
+				has_war_with = SPR 
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = POR
+			}
+			random_other_country = {
+				limit = {
+					original_tag = SPR 
+					41 = {
+						is_fully_controlled_by = PREV 
+						is_core_of = PREV
+					}
+					has_civil_war = no
+				}
+				ROOT = {
+					create_wargoal = {
+						type = puppet_wargoal_focus
+						target = PREV
+					}
+				}
+			}
 		}
 	}
 
@@ -7229,7 +7367,28 @@ focus_tree = {
 		mutually_exclusive = { focus = BRA_join_the_soviets }
 		mutually_exclusive = { focus = BRA_slowly_subjegate_our_neighbors }
 
-		#will form an allience and invite communist countries in south america 
+		#will form an allience and invite communist countries in south america
+
+		cost = 10
+
+		available = {
+			exists = yes 
+			has_civil_war = no 
+		} 
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			create_faction = "Latin Bloc"
+			every_other_country = {
+				limit = { 
+					capital_scope = { is_on_continent = south_america }
+					has_government = communism
+					is_in_faction = no 
+					NOT = { has_war_with = ROOT }
+				}
+				country_event = { id = generic.5 hours = 4 }
+			}
+		}
 	}
 
 	focus = {
@@ -7239,6 +7398,31 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_form_the_latin_bloc
 		prerequisite = { focus = BRA_form_the_latin_bloc }
+
+		cost = 10
+
+		available = {
+			is_in_faction = yes 
+			is_faction_leader = yes 
+			num_faction_members > 1
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			every_other_country = {
+				limit = {
+					OR = {
+						capital_scope = { is_on_continent = north_america }
+						original_tag = SPR
+						original_tag = POR 
+					}
+					is_in_faction = no 
+					NOT = { has_war_with = ROOT }
+					has_civil_war = no 
+				}
+				country_event = { id = generic.5 hours = 4 }
+			}
+		}
 	}
 
 	focus = {
@@ -7252,6 +7436,36 @@ focus_tree = {
 			focus = BRA_invite_our_brothers_beyond_south_america
 		}
 		will_lead_to_war_with = URG
+		will_lead_to_war_with = ARG 
+
+		cost = 5
+
+		available = {
+			NOT = {
+				is_in_faction_with = URG 
+			}
+		}
+
+		bypass = {
+			has_completed_focus = BRA_invite_our_brothers_beyond_south_america
+			OR = {
+				has_war_with = URG 
+				URG = {
+					capital_scope = { is_fully_controlled_by = ROOT }
+				}
+				URG = {
+					is_subject_of = ROOT 
+				}
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = URG
+			}
+		}
 	}
 
 	focus = {
@@ -7263,6 +7477,35 @@ focus_tree = {
 		prerequisite = { focus = BRA_everyone_united_under_one_banner }
 		mutually_exclusive = { focus = BRA_form_the_latin_bloc }
 		mutually_exclusive = { focus = BRA_slowly_subjegate_our_neighbors }
+
+		cost = 10
+
+		available = {
+			NOT = {
+				has_war_with = SOV 
+			}
+			SOV = {
+				exists = yes 
+				has_capitulated = no 
+				capital_scope = { is_fully_controlled_by = PREV }
+			}
+			exists = yes 
+			has_civil_war = no 
+			is_in_faction = no 
+		}
+
+		bypass = {
+			has_completed_focus = BRA_everyone_united_under_one_banner
+			is_in_faction_with = SOV 
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_political_power = 40
+			SOV = {
+				country_event = { id = generic.5 hours = 4 }
+			}
+		}
 	}
 
 	focus = {
@@ -7272,6 +7515,32 @@ focus_tree = {
 		y =1
 		relative_position_id = BRA_join_the_soviets
 		prerequisite = { focus = BRA_join_the_soviets }
+
+		cost = 5
+
+		available = {
+			SOV = {
+				has_war_with = GER 
+			}
+			is_in_faction_with = SOV
+			has_equipment = {
+				infantry_equipment > 1999
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			add_war_support = 0.05
+			send_equipment = {
+				equipment = infantry_equipment
+				amount = 2000
+				target = SOV
+			}
+			SOV = {
+				add_opinion_modifier = { modifier = strengthened_ties target = ROOT  }
+			}
+			add_opinion_modifier = { modifier = strengthened_ties target = SOV }
+		}
 	}
 
 	focus = {
@@ -7281,6 +7550,31 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_send_the_soviets_armaments
 		prerequisite = { focus = BRA_send_the_soviets_armaments }
+
+		cost = 7.2
+
+		available = {
+			NOT = {
+				is_in_faction_with = GER 
+			}
+			is_in_faction_with = SOV 
+			SOV = {
+				has_war_with = GER 
+			}
+		}
+
+		bypass = {
+			has_completed_focus = BRA_send_the_soviets_armaments
+			has_war_with = GER 
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = GER
+			}
+		}
 	}
 
 	focus = {
@@ -7295,6 +7589,31 @@ focus_tree = {
 		}
 
 		#shared currency idea 
+
+		cost = 7.2
+
+		available = {
+			is_in_faction = yes 
+			is_faction_leader = yes 
+		}
+		
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			custom_effect_tooltip = PRU_every_allied_nation_recieve
+			effect_tooltip = {
+				add_ideas = PRU_unified_currency
+			}
+			hidden_effect = {
+				add_ideas = PRU_unified_currency
+				every_other_country = {
+					limit = {
+						is_in_faction_with = ROOT 
+						NOT = { has_idea = PRU_unified_currency }
+					}
+					add_ideas = PRU_unified_currency
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -7306,6 +7625,30 @@ focus_tree = {
 		prerequisite = {
 			focus = BRA_peasants_helping_peasants
 			focus = BRA_invite_our_brothers_beyond_south_america
+		}
+
+		cost = 8
+
+		available = {
+			is_faction_leader = yes 
+			num_faction_members > 2
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER FOCUS_FILTER_ARMY_NAVY_RIVALRY }
+		completion_reward = {
+			custom_effect_tooltip = PRU_every_allied_nation_recieve
+			effect_tooltip = {
+				add_ideas = PRU_arming_up_our_nations
+			}
+			hidden_effect = {
+				add_ideas = PRU_arming_up_our_nations
+				every_other_country = {
+					limit = {
+						is_in_faction_with = ROOT 
+					}
+					add_ideas = PRU_arming_up_our_nations
+				}
+			}
 		}
 	}
 

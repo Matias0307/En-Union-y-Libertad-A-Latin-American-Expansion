@@ -13,6 +13,36 @@ on_actions = {
                 }
 			}
         }
+        effect = { #To remove any organized resistance of ideology that is currently in power 
+            if = {
+                limit = {
+                    original_tag = CHL 
+                    has_government = fascism
+                }
+                CHL = {
+                    every_controlled_state = {
+                        limit = { 
+                            has_dynamic_modifier = { modifier = CHL_organized_nacista_rebellion }
+                        }
+                        remove_dynamic_modifier = { modifier = CHL_organized_nacista_rebellion }
+                    }
+                }
+            }
+            if = {
+                limit = { 
+                    original_tag = CHL 
+                    has_government = communism
+                }
+                CHL = {
+                    every_controlled_state = {
+                        limit = { 
+                            has_dynamic_modifier = { modifier = CHL_organized_communist_rebellion }
+                        }
+                        remove_dynamic_modifier = { modifier = CHL_organized_communist_rebellion }
+                    }
+                }
+            }
+        }
     }
     on_weekly = { #to fix that god damnned bug, also making it weekly to not slow down the game that much
         effect = {
@@ -80,6 +110,23 @@ on_actions = {
                         }
                     }
                     country_event = { id = perubolivia.6 hours = 8 }
+                }
+            }
+        }
+        effect = { #Brazil starts war with Uruguay 
+            if = {
+                limit = {
+                    original_tag = BRA 
+                    NOT = { has_global_flag = second_cisplatine_war }
+                    FROM = {
+                        original_tag = URG 
+                    }
+                }
+                hidden_effect = {
+                    ARG = {
+                        country_event = { id = brazil.63 hours = 10 }
+                    }
+                    set_global_flag = second_cisplatine_war
                 }
             }
         }

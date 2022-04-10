@@ -1717,6 +1717,76 @@ operations = {
 			}
 		}
 	}
+
+	CHL_deal_with_rebellion_in_FROM = {
+		icon = oppression
+
+		ai_will_do = {
+			base = 200
+		}
+
+		state_target = yes
+
+		target_array = controlled_states
+
+		on_map_mode = map_and_decisions_view
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+				is_core_of = ROOT 
+				is_demilitarized_zone = yes 
+			}
+		}
+
+		available = {
+			hidden_trigger = {
+				has_manpower > 999
+			}
+		}
+
+		visible = {
+			NOT = { has_dynamic_modifier = { modifier = CHL_political_instability } }
+			FROM = {
+				OR = {
+					has_dynamic_modifier = { modifier = CHL_organized_nacista_rebellion }
+					has_dynamic_modifier = { modifier = CHL_organized_communist_rebellion }
+				}
+			}
+		}
+
+		custom_cost_trigger = {
+			has_manpower > 999
+		}
+
+		custom_cost_text = CHL_manpower_1000_tt
+
+		days_remove = 60
+
+		modifier = {
+			weekly_manpower = -20
+		}
+
+		complete_effect = {
+			add_stability = -0.01
+			hidden_effect = {
+				add_manpower = -1000
+			}
+		}
+
+		remove_effect = {
+			FROM = {
+				set_demilitarized_zone = no 
+				if = {
+					limit = { has_dynamic_modifier = { modifier = CHL_organized_nacista_rebellion } }
+					remove_dynamic_modifier = { modifier = CHL_organized_nacista_rebellion }
+				}
+				else = {
+					remove_dynamic_modifier = { modifier = CHL_organized_communist_rebellion }
+				}
+			}
+		}
+	}
 			
 }
 
