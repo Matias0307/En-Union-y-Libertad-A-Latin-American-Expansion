@@ -1912,9 +1912,29 @@ country_event = {
 
 	option = {
 		name = brazil.42.a 
-		add_days_mission_timeout = {
-			mission = BRA_communist_peasant_revolt
-			days = -5
+		if = {
+			limit = { has_active_mission = BRA_communist_peasant_revolt }
+			add_days_mission_timeout = {
+				mission = BRA_communist_peasant_revolt
+				days = -5
+			}
+		}
+		else = {
+			add_days_mission_timeout = {
+				mission = BRA_estado_novo_mission_enemy
+				days = -10
+			}
+		}
+		if = {
+			limit = {
+				has_country_flag = BRA_integralist_player_planning_uprising
+			}
+			custom_effect_tooltip = BRA_decrease_influence_by_1_tt
+			add_popularity = { ideology = fascism popularity = -0.005 }
+			hidden_effect = {
+				subtract_from_variable = { BRA_integralist_influence = 1 }
+				BRA_set_up_political_crisis = yes 
+			}
 		}
 		hidden_effect = {
 			clr_country_flag = BRA_vargas_interfered_with_activity

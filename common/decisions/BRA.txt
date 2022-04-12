@@ -1356,8 +1356,15 @@ BRA_imminent_civil_war = {
                     add_idea = BRA_integralist_protests_3
                 }
             }
+            custom_effect_tooltip = BRA_cost_to_expand_decrease_5_tt
+            custom_effect_tooltip = BRA_integralist_influence_increase_by_5_tt
             custom_effect_tooltip = BRA_progress_to_civil_war_increase_15_tt
-            hidden_effect = { add_to_variable = { BRA_progress_to_a_civil_war = 15 } }
+            hidden_effect = { 
+                add_to_variable = { BRA_progress_to_a_civil_war = 15 } 
+                add_to_variable = { BRA_integralist_influence = 5 }
+                subtract_from_variable = { BRA_cost_to_expand = 5 }
+                BRA_set_up_political_crisis = yes 
+            }
         }
 
         days_remove = 80
@@ -1368,6 +1375,8 @@ BRA_imminent_civil_war = {
         state_target = yes 
 
         target_array = controlled_states
+
+        on_map_mode = map_only
 
         target_trigger = {
             FROM = {
@@ -1398,7 +1407,7 @@ BRA_imminent_civil_war = {
             }
         }
 
-        cost = 25
+        cost = BRA_cost_to_expand
 
         days_remove = 45
 
@@ -1430,6 +1439,92 @@ BRA_imminent_civil_war = {
                 add_to_variable = { BRA_integralist_influence = 2 }
                 add_to_variable = { BRA_progress_to_a_civil_war = 5 }
                 BRA_set_up_political_crisis = yes 
+            }
+        }
+    }
+
+    BRA_convince_an_army_general = {
+        icon = generic_army_support
+
+        visible = {
+            has_completed_focus = BRA_gain_the_armys_support
+            NOT = { has_country_flag = BRA_improving_army }
+        }
+
+        cost = 35
+
+        days_remove = 50
+
+        modifier = {
+            political_power_factor = -0.05
+        }
+
+        complete_effect = {
+            hidden_effect = {
+                set_country_flag = BRA_improving_army
+            }
+        }
+
+        remove_effect = {
+            clr_country_flag = BRA_improving_army
+            random_army_leader = {
+				limit = {
+					NOT = {
+						OR = {
+							has_trait = trait_BRA_communist_loyalty
+							has_trait = trait_BRA_democratic_loyalty
+							has_trait = trait_BRA_imperial_loyalty
+                            has_trait = trait_BRA_integralist_loyalty
+                            has_trait = trait_BRA_vargas_loyalty
+						}
+					}
+				}
+				add_unit_leader_trait = trait_BRA_integralist_loyalty
+			}
+            custom_effect_tooltip = BRA_increase_army_support_by_8_tt
+            hidden_effect = {
+                add_to_variable = { BRA_current_army_support = 8 }
+                clamp_variable = {
+                    var = BRA_current_army_support
+                    min = 0 
+                    max = 100
+                }
+            }
+        }
+    }
+
+    BRA_convince_the_soldiers = {
+        icon = generic_military
+
+        visible = {
+            has_completed_focus = BRA_gain_the_armys_support
+            NOT = { has_country_flag = BRA_improving_army }
+        }
+
+        cost = 30
+
+        days_remove = 45
+
+        modifier = {
+            political_power_factor = -0.05
+        }
+
+        complete_effect = {
+            hidden_effect = {
+                set_country_flag = BRA_improving_army
+            }
+        }
+
+        remove_effect = {
+            clr_country_flag = BRA_improving_army
+            custom_effect_tooltip = BRA_increase_army_support_by_10_tt
+            hidden_effect = {
+                add_to_variable = { BRA_current_army_support = 10 }
+                clamp_variable = {
+                    var = BRA_current_army_support
+                    min = 0 
+                    max = 100
+                }
             }
         }
     }
