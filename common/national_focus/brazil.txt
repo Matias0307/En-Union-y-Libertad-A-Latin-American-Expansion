@@ -6493,6 +6493,23 @@ focus_tree = {
 		mutually_exclusive = { focus = BRA_establish_our_dominance }
 		
 		#social democracy path (will be shared with vargas path)
+
+		cost = 5
+
+		available = {
+			has_government = communism
+		}
+
+		bypass = {
+			has_completed_focus = BRA_victors_at_last
+			has_government = democratic
+		}
+
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_ideas = BRA_the_transition_to_democracy_1
+			custom_effect_tooltip = BRA_switching_to_democracy_cause_communists_tt
+		}
 	}
 
 	focus = {
@@ -6503,7 +6520,37 @@ focus_tree = {
 		relative_position_id = BRA_the_peasants_represent_democracy
 		prerequisite = { focus = BRA_the_peasants_represent_democracy }
 
-		#will unlock decisions to increase democratic popularity 
+		cost = 6
+
+		available = {
+			has_government = communism
+		}
+
+		bypass = {
+			has_completed_focus = BRA_victors_at_last
+			has_government = democratic
+		}
+
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			custom_effect_tooltip = BRA_our_voices_will_be_heard_tt
+			if = {
+				limit = { 
+					has_idea = BRA_the_transition_to_democracy_1
+				}
+				swap_ideas = {
+					remove_idea = BRA_the_transition_to_democracy_1
+					add_idea = BRA_the_transition_to_democracy_2
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = BRA_the_transition_to_democracy_2
+					add_idea = BRA_the_transition_to_democracy_3
+				}
+			}
+			add_popularity = { ideology = democratic popularity = 0.07 }
+		}
 	}
 
 	focus = {
@@ -6513,6 +6560,52 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_the_peasants_represent_democracy
 		prerequisite = { focus = BRA_the_peasants_represent_democracy }
+
+		cost = 7.2
+
+		available = {
+			has_government = communism
+		}
+
+		bypass = {
+			has_completed_focus = BRA_victors_at_last
+			has_government = democratic
+		}
+
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			custom_effect_tooltip = BRA_our_voices_will_be_heard_tt
+			custom_effect_tooltip = BRA_prestes_will_be_overthrown_tt
+			if = {
+				limit = { 
+					has_idea = BRA_the_transition_to_democracy_1
+				}
+				swap_ideas = {
+					remove_idea = BRA_the_transition_to_democracy_1
+					add_idea = BRA_the_transition_to_democracy_2
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = BRA_the_transition_to_democracy_2
+					add_idea = BRA_the_transition_to_democracy_3
+				}
+			}
+			add_popularity = { ideology = democratic popularity = 0.08 }
+			hidden_effect = {
+				retire_country_leader = yes 
+				create_country_leader = {
+                    name = "Brazilian Military Junta"
+                    desc = "POLITICS_BRAZILIAN_MILITARY_JUNTA_DESC"
+                    picture = "gfx/leaders/BRA/BRA_brazilian_military_junta.png"
+                    expire = "1965.1.1"
+                    ideology = leninism
+                    traits = {
+                        BRA_disorganized_leadership
+                    }
+                }
+			}
+		}
 	}
 
 	focus = {
@@ -6523,6 +6616,32 @@ focus_tree = {
 		relative_position_id = BRA_the_blue_purge
 		prerequisite = { focus = BRA_the_blue_purge }
 		prerequisite = { focus = BRA_begin_deradicalization }
+
+		cost = 5
+
+		available = {
+			has_government = communism
+		}
+
+		bypass = {
+			has_completed_focus = BRA_the_peasants_represent_democracy
+			has_government = democratic 
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_ideas = BRA_re_established_congress
+			add_popularity = { ideology = democratic popularity = 0.05 }
+			custom_effect_tooltip = BRA_democratic_politicians_re_join_tt
+			hidden_effect = {
+				BRA = {
+					every_character = {
+						limit = { has_character_flag = BRA_congress_supporter }
+						set_nationality = ROOT
+					}
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -6535,6 +6654,54 @@ focus_tree = {
 			focus = BRA_re_establish_the_congress 
 			focus = BRA_welfare_to_the_farmers
 		}
+
+		cost = 10
+
+		available = {
+			democratic > 0.5
+			if = {
+				limit = { has_completed_focus = BRA_manipulate_behind_the_scenes }
+				has_country_leader = "Brazilian Military Junta"
+				custom_trigger_tooltip = {
+					tooltip = BRA_prestes_not_rebelling
+					NOT = {
+						OR = {
+							has_idea = BRA_rebelling_prestes_1
+							has_idea = BRA_rebelling_prestes_2 
+							has_idea = BRA_rebelling_prestes_3
+						}
+					}
+				}
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_stability = 0.05
+			if = {
+				limit = { 
+					NOT = { has_government = democratic }
+				}
+				set_politics = {
+					ruling_party = democratic
+				}
+				hidden_effect = {
+					retire_country_leader = yes 
+					create_country_leader = {
+						name = "João Mangabeira"
+						desc = "POLITICS_JOAO_MANGABEIRA_DESC"
+						picture = "gfx/leaders/South America/Portrait_South_America_Generic_3.dds"
+						expire = "1965.1.1"
+						ideology = socialism
+						traits = {
+							BRA_compassionate_leader
+						}
+					}
+					set_cosmetic_tag = RBR_UNIFIED
+				}
+			}
+		}
+		
 	}
 
 	focus = {
@@ -6544,6 +6711,18 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_social_democratic_brazil
 		prerequisite = { focus = BRA_social_democratic_brazil}
+
+		cost = 6
+
+		available = {
+			stability > 0.44
+		}
+
+		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_stability = 0.05
+			add_ideas = ARG_open_our_borders
+		}
 	}
 
 	focus = {
@@ -6553,26 +6732,86 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_open_our_borders
 		prerequisite = { focus = BRA_open_our_borders }
+
+		cost = 7.2 
+
+		available = {
+			has_government = democratic
+			has_stability > 0.6
+		}
+
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			custom_effect_tooltip = ARG_cost_to_attract_immigrants_reduced_tt
+			hidden_effect = {
+				subtract_from_variable = { EUYL_cost_many_immigrants = 35 }
+				subtract_from_variable = { EUYL_cost_some_immigrants = 20 }
+				subtract_from_variable = { EUYL_cost_few_immigrants = 10 }
+			}
+		}
 	}
 
 	focus = {
 		id = BRA_learn_from_italian_immigrants
 		icon = GFX_ARG_invite_italy_intellect
-		x = -1
+		x = 0
 		y = 1
 		relative_position_id = BRA_promote_immmigration
 		prerequisite = { focus = BRA_promote_immmigration }
 		mutually_exclusive = { focus = BRA_learn_from_german_immigrants }
+
+		cost = 8
+
+		available = {
+			is_subject = no
+			ITA = {
+				is_subject = no
+			}
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = {
+				bonus = 1.0
+				uses = 2
+				name = ARG_invite_italian_intellectuals
+				category = bb_tech
+			}
+			navy_experience = 80
+		}
 	}
 
 	focus = {
 		id = BRA_learn_from_german_immigrants
 		icon = GFX_ARG_invite_german_intellect
-		x = 1
+		x = 2
 		y = 1
 		relative_position_id = BRA_promote_immmigration
 		prerequisite = { focus = BRA_promote_immmigration }
 		mutually_exclusive = { focus = BRA_learn_from_italian_immigrants }
+	}
+
+	focus = {
+		id = BRA_learn_from_the_immigrants
+		icon = GFX_focus_research
+		x = -1
+		y = 1
+		relative_position_id = BRA_learn_from_german_immigrants
+		prerequisite = {
+			focus = BRA_learn_from_german_immigrants
+			focus = BRA_learn_from_italian_immigrants
+		}
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_research_slot = 1
+		}
 	}
 
 	focus = {
@@ -6582,6 +6821,15 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_social_democratic_brazil
 		prerequisite = { focus = BRA_social_democratic_brazil }
+
+		cost = 5
+
+		available = { has_government = democratic }
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			country_event = brazil.66
+		}
 	}
 
 	focus = {
@@ -6591,6 +6839,31 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_social_democratic_brazil
 		prerequisite = { focus = BRA_social_democratic_brazil }
+
+		cost = 8
+
+		available = {
+			num_of_factories > 39
+			custom_trigger_tooltip = {
+                tooltip = BRA_over_90_tt
+                check_variable = { BRA_dependency_on_coffee > 90 }
+            }
+			custom_trigger_tooltip = {
+				tooltip = BRA_coffee_plantations_not_hostile_tt
+				check_variable = { BRA_coffee_companies_opinion > -1 }
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = { has_idea = free_trade }
+				}
+				add_ideas = free_trade 
+			}
+			add_ideas = BRA_coffee_exportations
+		}
 	}
 
 	focus = {
@@ -6600,6 +6873,17 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_export_our_coffee
 		prerequisite = { focus = BRA_export_our_coffee }
+
+		cost = 10
+
+		available = {
+			has_idea = BRA_coffee_exportations
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_4_civilian = yes 
+		}
 	}
 
 	focus = {
@@ -6612,25 +6896,83 @@ focus_tree = {
 			focus = BRA_redistrubute_the_profits_amongst_the_classes
 			focus = BRA_closer_ties_with_other_social_democracies
 		}
+
+		cost = 8
+
+		available = {
+			has_stability > 0.5
+		}
+
+		select_effect = {
+			hidden_effect = {
+				set_variable = { BRA_num_countries_invested = 0 }
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			custom_effect_tooltip = ARG_unlockivestment
+			hidden_effect = {	
+				set_country_flag = ARG_investments
+			}
+		}
 	}
 
 	focus = {
-		id = BRA_invest_in_the_army_f
+		id = BRA_invest_in_the_army_f #invest in the armed forces
 		icon = GFX_goal_generic_construct_mil_factory
 		x = 1
 		y = 1
 		relative_position_id = BRA_invest_in_foreign_economies
 		prerequisite = { focus = BRA_invest_in_foreign_economies }
+
+		cost = 10
+
+		available = {
+			num_of_factories > 44
+			threat > 0.4
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_2_military = yes 
+			EUYL_add_2_dockyard = yes 
+		}
 	}
 
 	focus = {
-		id = BRA_expand_our_civilian_economy
+		id = BRA_expand_our_civilian_economy 
 		icon = GFX_focus_generic_industry_3
 		x = -1
 		y = 1
 		relative_position_id = BRA_invest_in_foreign_economies
 		prerequisite = { focus = BRA_invest_in_foreign_economies }
 		prerequisite = { focus = BRA_establish_an_agrarian_syndicate_council }
+
+		cost = 10
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_invested_in_at_least_3_countries_tt
+				check_variable = { BRA_num_countries_invested > 2 }
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			custom_effect_tooltip = ARG_investmentcivilianfactories
+			hidden_effect = {
+				every_other_country = {
+					limit = { 
+						has_country_flag = invested_in_BRA 
+						NOT = { has_war_with = ROOT }
+					}
+					BRA = {
+						EUYL_add_2_civilian = yes 
+					}
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -6641,6 +6983,33 @@ focus_tree = {
 		relative_position_id = BRA_choose_our_leader
 		prerequisite = { focus = BRA_choose_our_leader }
 		prerequisite = { focus = BRA_export_our_coffee }
+
+		cost = 6
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		completion_reward = {	
+			add_political_power = 50
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = SWE
+						original_tag = DEN
+						original_tag = NOR
+						original_tag = FRA
+						original_tag = NZL
+						original_tag = AST
+					}
+					NOT = {
+						has_war_with = ROOT
+					}
+				}
+				add_opinion_modifier = { modifier = URG_contacted_us target = ROOT }
+				ROOT = {
+					add_opinion_modifier = { modifier = URG_contacted_us target = PREV }
+				}
+			}		
+		}
 	}
 
 	focus = {
@@ -6650,6 +7019,31 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_closer_ties_with_other_social_democracies
 		prerequisite = { focus = BRA_closer_ties_with_other_social_democracies }
+
+		cost = 8
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			set_rule = { can_create_factions = yes }
+			create_faction = "Global Defense Pact"
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = SWE
+						original_tag = DEN
+						original_tag = NOR
+						original_tag = FRA
+						original_tag = NZL
+						original_tag = AST
+					}
+					NOT = {
+						has_war_with = ROOT
+					}
+					is_in_faction = no
+				}
+				country_event = { id = generic.5 hours = 4 }
+			}
+		}
 	}
 
 	focus = {
@@ -6660,7 +7054,25 @@ focus_tree = {
 		relative_position_id = BRA_formalize_a_proper_allience
 		prerequisite = { focus = BRA_formalize_a_proper_allience }
 
-		#will just do what the peru-bolivian confederation focus does 
+		#will just do what the peru-bolivian confederation focus does lol
+
+		cost = 8
+
+		available = {
+			FRA = {
+				capital_scope = { is_controlled_by = GER }
+				has_capitulated = yes 
+			}
+			NOT = { has_war_with = FRA }
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_ideas = PBC_cooperating_with_french_resistance
+			FRA = {
+				add_ideas = PBC_cooperating_with_french_resistance
+			}
+		}
 	}
 
 	focus = {
@@ -6670,6 +7082,27 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_help_out_the_french_resistance
 		prerequisite = { focus = BRA_help_out_the_french_resistance }
+
+		cost = 7.2
+
+		available = {
+			has_equipment = {
+				infantry_equipment > 1999
+			}
+			SOV = {
+				has_war_with = GER
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			send_equipment = {
+				equipment = infantry_equipment
+				amount = 2000
+				target = SOV
+			}
+			EUYL_add_1_military = yes 
+		}
 	}
 
 	focus = {
@@ -6679,6 +7112,24 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_formalize_a_proper_allience
 		prerequisite = { focus = BRA_formalize_a_proper_allience }
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			every_other_country = {
+				limit = {
+					NOT = {
+						OR = {
+							has_war_with = ROOT 
+							is_in_faction_with = ROOT 
+						}
+					}
+					has_government = fascism
+				}
+				add_opinion_modifier = { target = ARG modifier = ARG_against_us }
+			}
+		}
 	}
 
 	focus = {
@@ -6689,6 +7140,31 @@ focus_tree = {
 		relative_position_id = BRA_the_anti_fascist_movement
 		prerequisite = { focus = BRA_the_anti_fascist_movement }
 		prerequisite = { focus = BRA_invest_in_the_army_f }
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			custom_effect_tooltip = ARG_removefascismfromcontinent
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						capital_scope = { is_on_continent = south_america }
+						has_government = fascism
+						NOT = {
+							is_in_faction_with = ROOT 
+							has_war_with = ROOT
+						}
+					}
+					ROOT = {
+						create_wargoal = {
+							type = puppet_wargoal_focus
+							target = PREV
+						}
+					}
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -6698,6 +7174,27 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_cleanse_the_continent_of_fascism
 		prerequisite = { focus = BRA_cleanse_the_continent_of_fascism }
+
+		cost = 10
+
+		available = {
+			NOT = {
+				is_in_faction_with = GER 
+			}
+		}
+
+		bypass = {
+			has_completed_focus = BRA_cleanse_the_continent_of_fascism
+			has_war_with = BRA_decimate_the_beacon_of_fascism
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = GER
+			}
+		}
 	}
 
 	focus = {
@@ -6980,11 +7477,11 @@ focus_tree = {
 		relative_position_id = BRA_establish_agrarian_reforms
 		prerequisite = { focus = BRA_post_civil_war_recovery }
 
-		cost = 7.2
+		cost = 8
 
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
-			EUYL_add_2_civilian = yes 
+			EUYL_add_4_civilian = yes 
 		}
 	}
 
@@ -7478,7 +7975,46 @@ focus_tree = {
 		prerequisite = { focus = BRA_integrate_uruguay }
 		prerequisite = { focus = BRA_push_past_mexico }
 
-		cost = 2.8
+		cost = 5
+
+		available = {
+			num_of_factories > 60
+			num_subjects > 1
+			URG = {
+				capital_scope = { is_fully_controlled_by = ROOT }
+			}
+			exists = yes 
+			has_civil_war = no 
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			unlock_decision_category_tooltip = ARG_integrate_our_territories
+			custom_effect_tooltip = BRA_annex_every_subject_tt
+			custom_effect_tooltip = BRA_gain_claims_on_every_sa_state_tt
+			set_cosmetic_tag = SAU_UNIFIED
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						is_subject_of = ROOT 
+						has_government = communism
+					}
+					ROOT = {
+						annex_country = {
+							target = PREV 
+							transfer_troops = yes 
+						}
+					}
+				}
+				every_state = {
+					limit = {
+						NOT = { is_owned_by = ROOT }
+						is_on_continent = south_america
+					}
+					add_claim_by = ROOT
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -7488,6 +8024,27 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_the_union_of_south_american_socialist_republics
 		prerequisite = { focus = BRA_the_union_of_south_american_socialist_republics }
+
+		cost = 10
+
+		available = {
+			num_of_factories > 99
+			has_army_manpower = { size > 499999 }
+			NOT = { is_in_faction_with = USA }
+		}
+
+		bypass = {
+			has_completed_focus = BRA_the_union_of_south_american_socialist_republics
+			has_war_with = USA 
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = USA 
+			}
+		}
 	}
 
 	focus = {

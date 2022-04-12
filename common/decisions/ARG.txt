@@ -1689,6 +1689,10 @@ ARG_foreign_investments = {
 				exists = yes 
 			}
 		}
+
+		visible = {
+			original_tag = ARG
+		}
 		
 		available = {
 			FROM = {
@@ -1736,6 +1740,82 @@ ARG_foreign_investments = {
 			custom_effect_tooltip = ARG_invest_in_countries_economy_tt
 			FROM = {
 				set_country_flag = invested_in_ARG
+			}
+		}
+	}
+
+	BRA_invest_in_FROM = {
+		icon = generic_construction
+
+		target_trigger = {
+			FROM = {
+				OR = {
+					original_tag = ITA
+					original_tag = BRA
+					original_tag = JAP 
+					original_tag = SOV 
+					original_tag = GER 
+					original_tag = ENG 
+					original_tag = FRA 
+					original_tag = USA
+				}
+				exists = yes 
+			}
+		}
+
+		visible = {
+			original_tag = BRA
+		}
+		
+		available = {
+			FROM = {
+				NOT = {
+					has_war_with = ROOT 
+				}
+				NOT = {
+					has_country_flag = invested_in_BRA
+				}
+				has_capitulated = no 
+			}
+			is_subject = no 
+		}
+		
+		cost = 100
+		
+		modifier = {
+			consumer_goods_factor =  0.1
+			political_power_factor =  -0.1
+		}
+		
+		ai_will_do = {
+			factor = 120
+		}
+		
+		days_remove = 75
+		
+		complete_effect = {
+			set_country_flag = ARG_investment_in_progress
+		}
+
+		visible = {
+			NOT = {
+				has_country_flag = ARG_investment_in_progress
+			}
+			FROM = {
+				NOT = {
+					has_country_flag = invested_in_BRA
+				}
+			}
+		}
+		
+		remove_effect = {
+			clr_country_flag = ARG_investment_in_progress
+			custom_effect_tooltip = ARG_invest_in_countries_economy_tt
+			FROM = {
+				set_country_flag = invested_in_BRA
+			}
+			hidden_effect = {
+				add_to_variable = { BRA_num_countries_invested = 1 }
 			}
 		}
 	}

@@ -2772,6 +2772,16 @@ country_event = {
 
 	option = { #ask for peace 
 		name = brazil.65.a 
+		ai_chance = {
+			base = 75
+			modifier = {
+				add = 50 
+				OR = {
+					has_government = democratic
+					has_government = neutrality
+				}
+			}
+		}
 		custom_effect_tooltip = ARG_iftheyaccept 
 		effect_tooltip = {
 			white_peace = BRA 
@@ -2781,4 +2791,100 @@ country_event = {
 			country_event = { id = argentina.5 hours = 8 }
 		}
 	}
+
+	option = { #keep on going 
+		name = brazil.65.b 
+		ai_chance = {
+			base = 5
+			modifier = {
+				add = 25
+				OR = {
+					has_government = fascism
+					has_government = communism
+				}
+			}
+		}
+		add_stability = -0.03
+		add_war_support = -0.05
+	}
 }
+
+#event to choose leader (will be a generic event for 3 different branches)
+country_event = [
+	id = brazil.66
+	title = brazil.66.t 
+	desc = brazil.66.d 
+	picture = GFX_report_event_generic_read_write
+
+	is_triggered_only = yes 
+
+	option = { #keep current leader 
+		name = brazil.66.a 
+	}
+
+	option = { #appoint the congress 
+		name = brazil.66.b 
+		trigger = {
+			has_completed_focus = BRA_welfare_to_the_farmers
+		}
+		hidden_effect = {
+			retire_country_leader = yes 
+		}
+		promote_character = BRA_congresso_do_brasil
+	}
+
+	option = { #appoint Armando Sales 
+		name = brazil.66.c 
+		trigger = {
+			NOT = {
+				has_country_leader = "Armando de Sales Oliveira"
+			}
+		}
+		effect_tooltip = {
+			promote_character = BRA_armando_sales
+		}
+		hidden_effect = {
+			retire_country_leader = yes 
+			create_country_leader = {
+				name = "Armando de Sales Oliveira"
+				desc="POLITICS_ARMANDO_SALES_DESC"
+				picture = "gfx/leaders/BRA/BRA_armando_sale.png"
+				expire = "1965.1.1"
+				ideology=conservatism
+				traits = {
+					CHL_economist
+				}
+			}
+		}
+	}
+
+	option = { #appoint Washington 
+		name = brazil.66.e 
+		trigger = {
+			has_completed_focus = BRA_a_free_brazil
+		}
+		hidden_effect = {
+			retire_country_leader = yes 
+		}
+		promote_character = BRA_washington_luis_pereira
+	}
+
+	option = { #appoint Jose Americo 
+		name = brazil.66.f 
+		trigger = {
+			has_completed_focus = BRA_a_free_brazil
+		}
+		hidden_effect = {
+			retire_country_leader = yes 
+		}
+		promote_character = BRA_jose_americo_de_almeida
+	}
+
+	option = { #appoint Afranio de Melo 
+		name = brazil.66.g 
+		hidden_effect = {
+			retire_country_leader = yes 
+		}
+		promote_character = BRA_afranio_de_mello_franco
+	}
+]
