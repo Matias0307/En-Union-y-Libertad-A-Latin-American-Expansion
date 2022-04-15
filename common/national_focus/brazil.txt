@@ -3538,15 +3538,21 @@ focus_tree = {
 					ruling_party = fascism
 					ideology = ROOT 
 					size = BRA_integralist_equipped_percentage
+					keep_unit_leaders_trigger = {
+						OR = {
+							has_trait = trait_BRA_integralist_loyalty
+							has_trait = trait_BRA_imperial_loyalty	
+						}
+					}
 				}
 				add_ideas = BRA_poorly_trained_militias_5
+				add_ideas = BRA_civil_war_integralists
 				every_character = {
 					limit = { has_character_flag = BRA_vargas_supporter }
 					retire_character = PREV
 				}
 				set_temp_variable = { BRA_integralist_militia_experience = BRA_integralist_influence }
 				divide_temp_variable = { BRA_integralist_militia_experience = 100 }
-				subtract_from_variable = { BRA_integralist_influence = 25 }
 				clamp_variable = {
 					var = BRA_integralist_influence
 					max = 100
@@ -3614,6 +3620,15 @@ focus_tree = {
 							owner = ROOT
 						}
 					}
+					if = {
+						limit = { 
+							check_variable = { BRA_integralist_influence > 44 }
+						}
+						create_unit = {
+							division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+							owner = ROOT
+						}
+					}
 				}
 				random_owned_controlled_state = {
 					create_unit = {
@@ -3628,6 +3643,103 @@ focus_tree = {
 						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
 						owner = ROOT
 					}
+				}
+				if = {
+					limit = { has_completed_focus = BRA_confiscate_stockpiled_weapons }
+					add_manpower = 10000
+					add_equipment_to_stockpile = {
+						type = infantry_equipment
+						amount = 2000
+					}
+				}
+				if = {
+					limit = { has_country_flag = BRA_smuggled_german_weapons }
+					add_equipment_to_stockpile = {
+						type = infantry_equipment
+						amount = 1500
+						producer = GER 
+					}
+					add_equipment_to_stockpile = {
+						type = artillery_equipment
+						amount = 500
+						producer = GER
+					}
+				}
+				if = {
+					limit = { has_completed_focus = BRA_discuss_potential_german_volunteers }
+					random_owned_controlled_state = {
+						create_unit = {
+							division = "name = \"Deutscher Freiwilliger\" division_template = \"German Volunteers\" start_experience_factor = 0.25 start_equipment_factor = 1" 
+							owner = ROOT
+						}
+						create_unit = {
+							division = "name = \"Deutscher Freiwilliger\" division_template = \"German Volunteers\" start_experience_factor = 0.25 start_equipment_factor = 1" 
+							owner = ROOT
+						}
+					}
+					random_owned_controlled_state = {
+						create_unit = {
+							division = "name = \"Deutscher Freiwilliger\" division_template = \"German Volunteers\" start_experience_factor = 0.25 start_equipment_factor = 1" 
+							owner = ROOT
+						}
+						create_unit = {
+							division = "name = \"Deutscher Freiwilliger\" division_template = \"German Volunteers\" start_experience_factor = 0.25 start_equipment_factor = 1" 
+							owner = ROOT
+						}
+					}
+					random_owned_controlled_state = {
+						create_unit = {
+							division = "name = \"Deutscher Freiwilliger\" division_template = \"German Volunteers\" start_experience_factor = 0.25 start_equipment_factor = 1" 
+							owner = ROOT
+						}
+					}
+					random_owned_controlled_state = {
+						create_unit = {
+							division = "name = \"Deutsches Panzerkorp\" division_template = \"German Volunteer Tank Korp\" start_experience_factor = 0.25 start_equipment_factor = 1" 
+							owner = ROOT
+						}
+					}
+				}
+				subtract_from_variable = { BRA_integralist_influence = 25 }
+				random_other_country = {
+					limit = {
+						original_tag = BRA 
+						has_civil_war = yes 
+					}
+					add_ideas = {
+						BRA_poorly_trained_militias_5
+						BRA_civil_war_vargas
+					}
+					every_controlled_state = {
+						create_unit = {
+							division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+							owner = PREV
+						}
+					}
+					load_focus_tree = {
+						tree = brazil_focus
+						keep_completed = no 
+					}
+					unlock_national_focus = BRA_the_path_to_estado_novo
+					unlock_national_focus = BRA_solidify_control_over_the_state
+					unlock_national_focus = BRA_political_censorship_vargas
+					unlock_national_focus = BRA_censor_the_integralists
+					unlock_national_focus = BRA_preperations_for_the_self_coup
+					unlock_national_focus = BRA_shut_down_the_congress
+					unlock_national_focus = BRA_mediate_the_effects_of_the_political_crisis
+					unlock_national_focus = BRA_exile_political_opponents
+					unlock_national_focus = BRA_enact_the_cohen_plan
+					unlock_national_focus = BRA_shut_down_the_integralists
+					unlock_national_focus = BRA_the_war_on_communism_vargas
+					unlock_national_focus = BRA_disband_various_communist_poltiicans
+					unlock_national_focus = BRA_spread_anti_communist_propaganda
+					unlock_national_focus = BRA_imprison_prestes
+					unlock_national_focus = BRA_sign_the_decree_law
+					unlock_national_focus = BRA_officialy_establish_the_estado_novo
 				}
 			}
 		}
@@ -3674,6 +3786,49 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_contact_the_germans_for_help
 		prerequisite = { focus = BRA_contact_the_germans_for_help }
+
+		cost = 6
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_GER_accepted
+				has_country_flag = BRA_GER_agreed_to_help
+			}
+			custom_trigger_tooltip = {
+				tooltip = BRA_integralists_not_shutdown_tt
+				NOT = { has_country_flag = BRA_integralists_shutdown }
+			}
+			has_civil_war = no 
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		completion_reward = {
+			random_list = {
+				50 = {
+					country_event = brazil.42
+				}
+				50 = {
+					custom_effect_tooltip = EUYL_start_of_civil_war_gain_following_tt
+					effect_tooltip = {
+						add_equipment_to_stockpile = {
+							type = infantry_equipment
+							amount = 1500
+							producer = GER 
+						}
+						add_equipment_to_stockpile = {
+							type = artillery_equipment
+							amount = 500
+							producer = GER
+						}
+					}
+					hidden_effect = {
+						set_country_flag = BRA_smuggled_german_weapons
+					}
+				}
+			}
+		}
 	}
 
 	focus = {
