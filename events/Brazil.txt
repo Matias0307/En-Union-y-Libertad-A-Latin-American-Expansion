@@ -1867,7 +1867,7 @@ country_event = {
 	}
 }
 
-#Brazil gets event of URSS accepting 
+#Brazil gets event of URSS/Germany accepting 
 country_event = {
 	id = brazil.40   
 	title = brazil.40.t 
@@ -1884,7 +1884,7 @@ country_event = {
 	}
 }
 
-#Brazil gets event of URSS not accepting 
+#Brazil gets event of URSS/Germany not accepting 
 country_event = {
 	id = brazil.41
 	title = brazil.41.t 
@@ -2830,7 +2830,7 @@ country_event = {
 }
 
 #event to choose leader (will be a generic event for 3 different branches)
-country_event = [
+country_event = {
 	id = brazil.66
 	title = brazil.66.t 
 	desc = brazil.66.d 
@@ -2907,4 +2907,101 @@ country_event = [
 		}
 		promote_character = BRA_afranio_de_mello_franco
 	}
-]
+}
+
+#Germany gets event from the integralists asking if they could help out 
+country_event = {
+	id = brazil.67
+	title = brazil.67.t 
+	desc = brazil.67.d 
+	picture = GFX_report_event_hitler_handshake
+
+	is_triggered_only = yes 
+
+	option = { #accept 
+		name = brazil.67.a 
+		ai_chance = {
+			base = 25
+			modifier = {
+				add = 70
+				has_opinion = {
+					target = FROM
+					value > 79
+				}
+			}
+			modifier = {
+				add = 35
+				has_opinion = {
+					target = FROM
+					value > 49
+				}
+			}
+		}
+		hidden_effect = {
+			FROM = {
+				set_country_flag = BRA_GER_agreed_to_help
+				country_event = { id = brazil.40 hours = 4 }
+			}
+		}
+	}
+
+	option = { #decline 
+		name = brazil.67.b 
+		ai_chance = {
+			base = 15
+			modifier = {
+				add = 200
+				OR = {
+					has_war = yes 
+					has_civil_war = yes 
+				}
+			}
+		}
+		hidden_effect = {
+			FROM = {
+				country_event = { id = brazil.41 hours = 4 }
+			}
+		}
+	}
+}
+
+#Event of Prestes Assasination 
+country_event = {
+	id = brazil.68
+	title = brazil.68.t 
+	desc = brazil.68.d 
+	picture = GFX_report_event_generic_funeral
+
+	is_triggered_only = yes 
+
+	option = {
+		name = brazil.68.a 
+		kill_ideology_leader = communism
+		hidden_effect = {
+			retire_character = BRA_luis_carlos_prestes
+			set_global_flag = BRA_prestes_assasinated #will prevent communist uprising 
+			every_controlled_state = {
+				limit = { has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state } }
+				remove_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+			}
+		}
+	}
+}
+
+#Event of failed assasination 
+country_event = {
+	id = brazil.69 
+	title = brazil.69.t 
+	desc = brazil.69.d 
+	picture = GFX_report_event_generic_riot
+
+	is_triggered_only = yes 
+
+	option = {
+		name = brazil.69.a 
+		custom_effect_tooltip = BRA_communists_enraged_tt #uprising will be stronger 
+		hidden_effect = {
+			set_global_flag = BRA_failed_prestes_assasination 
+		}
+	}
+}

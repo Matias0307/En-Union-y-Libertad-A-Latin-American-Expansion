@@ -3375,7 +3375,7 @@ focus_tree = {
 		relative_position_id = BRA_challenge_vargass_influence
 		prerequisite = { focus = BRA_challenge_vargass_influence }
 
-		cost = 5
+		cost = 4
 
 		available = {
 			custom_trigger_tooltip = {
@@ -3425,6 +3425,7 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
+			add_political_power = 35
 			unlock_decision_tooltip = BRA_let_the_voice_of_integralism_be_heard_in_FROM
 		}
 	}
@@ -3437,7 +3438,7 @@ focus_tree = {
 		relative_position_id = BRA_let_our_voices_be_heard
 		prerequisite = { focus = BRA_let_our_voices_be_heard }
 
-		cost = 7.2
+		cost = 6
 
 		available = {
 			custom_trigger_tooltip = {
@@ -3466,15 +3467,170 @@ focus_tree = {
 		relative_position_id = BRA_trained_militia_regiments
 		prerequisite = { focus = BRA_trained_militia_regiments }
 		prerequisite = { focus = BRA_exerecito_nuovo }
+
+		cost = 5
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_integralists_not_shutdown_tt
+				NOT = { has_country_flag = BRA_integralists_shutdown }
+			}
+			custom_trigger_tooltip = {
+				tooltip = BRA_integralist_influence_over_30_tt
+				check_variable = { BRA_integralist_influence > 30 }
+			}
+			custom_trigger_tooltip = {
+				tooltip = BRA_army_support_over_60_tt
+				check_variable = { BRA_current_army_support > 60 }
+			}
+			has_civil_war = no 
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		completion_reward = {
+			custom_effect_tooltip = BRA_gain_3_proper_divisions_at_start_civil_war_tt
+		}
 	}
 
 	focus = {
-		id = BRA_attack_the_guanabara_palace
+		id = BRA_attack_the_guanabara_palace #will trigger the civil war 
 		icon = GFX_BRA_attack_guanabara_palace
 		x = 0
 		y = 1
 		relative_position_id = BRA_the_integralist_army
-		prerequisite = { focus = BRA_the_integralist_army}
+		prerequisite = { focus = BRA_the_integralist_army }
+
+		cost = 10
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_integralists_not_shutdown_tt
+				NOT = { has_country_flag = BRA_integralists_shutdown }
+			}
+			custom_trigger_tooltip = {
+				tooltip = BRA_army_support_over_75_tt
+				check_variable = { BRA_current_army_support > 75 }
+			}
+			custom_trigger_tooltip = {
+				tooltip = BRA_progress_to_a_civil_war_over_95_tt
+				check_variable = { BRA_progress_to_a_civil_war > 95 }
+			}
+			has_civil_war = no 
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			effect_tooltip = {
+				start_civil_war = {
+					ruling_party = ROOT 
+					ideology = fascism
+					size = 0.4
+				}
+			}
+			hidden_effect = {
+				set_global_flag = BRA_civil_war_in_progress
+				remove_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
+				start_civil_war = {
+					ruling_party = fascism
+					ideology = ROOT 
+					size = BRA_integralist_equipped_percentage
+				}
+				add_ideas = BRA_poorly_trained_militias_5
+				every_character = {
+					limit = { has_character_flag = BRA_vargas_supporter }
+					retire_character = PREV
+				}
+				set_temp_variable = { BRA_integralist_militia_experience = BRA_integralist_influence }
+				divide_temp_variable = { BRA_integralist_militia_experience = 100 }
+				subtract_from_variable = { BRA_integralist_influence = 25 }
+				clamp_variable = {
+					var = BRA_integralist_influence
+					max = 100
+					min = 0
+				}
+				every_state = {
+					limit = { has_dynamic_modifier = { modifier = BRA_integralists_occupation } }
+					set_state_flag = BRA_fascist_state
+				}
+				random_other_country = {
+					limit = { 
+						original_tag = BRA 
+						has_civil_war = yes
+					}
+					every_controlled_state = {
+						limit = {
+							is_core_of = BRA  
+							has_dynamic_modifier = { modifier = BRA_integralists_occupation }
+						}
+						set_state_controller_to = ROOT
+						set_state_owner_to = ROOT
+					}
+					ROOT = {
+						every_controlled_state = {
+							limit = {
+								is_core_of = BRA 
+								NOT = { has_dynamic_modifier = { modifier = BRA_integralists_occupation } }
+							}
+							set_state_controller_to = PREV.PREV
+						}
+					}
+				}
+				every_controlled_state = {
+					create_unit = {
+                        division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+                        owner = ROOT
+                    }
+					create_unit = {
+                        division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+                        owner = ROOT
+                    }
+					create_unit = {
+                        division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+                        owner = ROOT
+                    }
+					if = {
+						limit = {
+							has_state_flag = BRA_conscripted_here
+						}
+						create_unit = {
+							division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+							owner = ROOT
+						}
+						create_unit = {
+							division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+							owner = ROOT
+						}
+					}
+					if = {
+						limit = {
+							has_state_flag = BRA_extra_militia_in_state
+						}
+						create_unit = {
+							division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+							owner = ROOT
+						}
+					}
+				}
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+						owner = ROOT
+					}
+					create_unit = {
+						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+						owner = ROOT
+					}
+					create_unit = {
+						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+						owner = ROOT
+					}
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -3484,6 +3640,31 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_let_our_voices_be_heard
 		prerequisite = { focus = BRA_let_our_voices_be_heard }
+
+		cost = 7
+
+		available = {
+			NOT = {
+				has_war_with = GER 
+			}
+			GER = { 
+				exists = yes 
+				has_civil_war = no 
+			}
+			custom_trigger_tooltip = {
+				tooltip = BRA_integralists_not_shutdown_tt
+				NOT = { has_country_flag = BRA_integralists_shutdown }
+			}
+			custom_trigger_tooltip = {
+				tooltip = BRA_army_support_over_50_tt
+				check_variable = { BRA_current_army_support > 45 }
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			country_event = { id = brazil.67 hours = 6 }
+		}
 	}
 
 	focus = {
@@ -3503,6 +3684,66 @@ focus_tree = {
 		relative_position_id = BRA_contact_the_germans_for_help
 		prerequisite = { focus = BRA_contact_the_germans_for_help }
 		prerequisite = { focus = BRA_the_jews_are_our_common_enemy }
+
+		cost = 10
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_GER_accepted
+				has_country_flag = BRA_GER_agreed_to_help
+			}
+			custom_trigger_tooltip = {
+				tooltip = BRA_integralists_not_shutdown_tt
+				NOT = { has_country_flag = BRA_integralists_shutdown }
+			}
+		}
+
+		select_effect = {
+			hidden_effect = {
+				every_country = {
+					limit = { original_tag = BRA }
+					division_template = { 
+						name = "German Volunteers" 
+						division_names_group = SPAN_INF_02 
+						is_locked = yes 
+						regiments = { 
+							infantry = { x = 0 y = 0 }  
+							infantry = { x = 0 y = 1 } 
+							infantry = { x = 0 y = 2 } 
+							infantry = { x = 0 y = 3 } 
+							infantry = { x = 1 y = 0 }  
+							infantry = { x = 1 y = 1 } 
+							infantry = { x = 1 y = 2 } 
+							infantry = { x = 1 y = 3 } 
+						}
+						support = {
+							artillery = { x = 0 y = 0 }
+						}
+					}
+					division_template = { 
+						name = "German Volunteer Tank Korp" 
+						division_names_group = SPAN_INF_02 
+						is_locked = yes 
+						regiments = { 
+							light_armor = { x = 0 y = 0 }
+							light_armor = { x = 0 y = 1 }
+							light_armor = { x = 0 y = 2 }
+							motorized = { x = 1 y = 0 }
+							motorized = { x = 1 y = 1 }
+							motorized = { x = 1 y = 2 }
+						}
+					}
+				}
+			}
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			custom_effect_tooltip = EUYL_start_of_civil_war_gain_following_tt
+			custom_effect_tooltip = BRA_gain_5_german_volunteer_divisions_and_1_tank_division_tt
+		}
 	}
 
 	focus = {
@@ -3513,22 +3754,28 @@ focus_tree = {
 		relative_position_id = BRA_challenge_vargass_influence
 		prerequisite = { focus = BRA_challenge_vargass_influence }
 
-		cost = 5
+		cost = 4
 
 		available = {
 			custom_trigger_tooltip = {
 				tooltip = BRA_integralists_not_shutdown_tt
 				NOT = { has_country_flag = BRA_integralists_shutdown }
 			}
+			has_civil_war = no 
 		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
 
 		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
 		completion_reward = {
+			add_political_power = 15
 			custom_effect_tooltip = BRA_army_support_increase_15_tt
 			unlock_decision_tooltip = BRA_convince_the_soldiers
 			unlock_decision_tooltip = BRA_convince_an_army_general
 			hidden_effect = {
 				add_to_variable = { BRA_current_army_support = 15 }
+				set_variable = { BRA_guns_acquired = 0 }
 			}
 		}
 	}
@@ -3541,6 +3788,34 @@ focus_tree = {
 		relative_position_id = BRA_gain_the_armys_support
 		prerequisite = { focus = BRA_gain_the_armys_support }
 		mutually_exclusive = { focus = BRA_plinio_to_victory }
+
+		cost = 5
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_integralists_not_shutdown_tt
+				NOT = { has_country_flag = BRA_integralists_shutdown }
+			}
+			has_civil_war = no 
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_political_power = 35
+			custom_effect_tooltip = BRA_civil_war_progress_increase_10_tt
+			custom_effect_tooltip = BRA_barroso_will_be_leader_tt
+			custom_effect_tooltip = BRA_army_support_increase_5_tt
+			hidden_effect = {
+				add_to_variable = { BRA_current_army_support = 5 }
+				add_to_variable = { BRA_progress_to_a_civil_war = 10 }
+				promote_character = {
+					character = BRA_gustavo_barroso
+					ideology = integralism
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -3550,6 +3825,23 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_follow_barrosos_principals
 		prerequisite = { focus = BRA_follow_barrosos_principals }
+
+		cost = 6
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_integralists_not_shutdown_tt
+				NOT = { has_country_flag = BRA_integralists_shutdown }
+			}
+			has_civil_war = no 
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_ideas = BRA_anit_jewish_administration
+		}
 	}
 
 	focus = {
@@ -3559,6 +3851,23 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_the_jews_are_our_common_enemy
 		prerequisite = { focus = BRA_the_jews_are_our_common_enemy }
+
+		cost = 7.2
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_integralists_not_shutdown_tt
+				NOT = { has_country_flag = BRA_integralists_shutdown }
+			}
+			has_civil_war = no 
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		completion_reward = {
+			custom_effect_tooltip = BRA_unlock_arm_workers_decision_tt
+		}
 	}
 
 	focus = {
@@ -3568,16 +3877,72 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_arm_up_the_industrial_workers
 		prerequisite = { focus = BRA_arm_up_the_industrial_workers }
+
+		cost = 10
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_integralists_not_shutdown_tt
+				NOT = { has_country_flag = BRA_integralists_shutdown }
+			}
+			custom_trigger_tooltip = {
+				tooltip = BRA_army_support_over_65_tt
+				check_variable = { BRA_current_army_support > 65 }
+			}
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			custom_effect_tooltip = BRA_every_industrial_province_control_tt
+			hidden_effect = {
+				every_controlled_state = {
+					limit = {
+						NOT = { has_dynamic_modifier = { modifier = BRA_integralists_occupation } }
+						num_of_factories > 3
+					}
+					add_dynamic_modifier = { modifier = BRA_integralists_occupation }
+				}
+			}
+		}
 	}
 
 	focus = {
-		id = BRA_plinio_to_victory #will cooperate with the communists, cave to the farmers, and try to prevent other uprisings 
+		id = BRA_plinio_to_victory #will be able to prevent communist uprising, cave to the farmers, and try to prevent other uprisings 
 		icon = GFX_BRA_plinio_victory
 		x = -3
 		y = 1
 		relative_position_id = BRA_gain_the_armys_support
 		prerequisite = { focus = BRA_gain_the_armys_support }
 		mutually_exclusive = { focus = BRA_follow_barrosos_principals }
+
+		cost = 5
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_integralists_not_shutdown_tt
+				NOT = { has_country_flag = BRA_integralists_shutdown }
+			}
+			has_civil_war = no 
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_stability = 0.05
+			add_political_power = 10
+			custom_effect_tooltip = BRA_civil_war_progress_increase_10_tt
+			add_trait = {
+				character = BRA_plinio_salgado
+				ideology = integralism
+				trait = BRA_father_of_brazilian_integralism
+			}
+			hidden_effect = {
+				add_to_variable = { BRA_progress_to_a_civil_war = 10 }
+			}
+		}
 	}
 
 	focus = {
@@ -3590,6 +3955,30 @@ focus_tree = {
 			focus = BRA_follow_barrosos_principals
 			focus = BRA_plinio_to_victory
 		}
+
+		cost = 8
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_integralists_not_shutdown_tt
+				NOT = { has_country_flag = BRA_integralists_shutdown }
+			}
+			has_civil_war = no 
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			custom_effect_tooltip = EUYL_start_of_civil_war_gain_following_tt
+			effect_tooltip = {
+				add_manpower = 10000
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 2000
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -3599,6 +3988,58 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_plinio_to_victory
 		prerequisite = { focus = BRA_plinio_to_victory }
+
+		cost = 5
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_prestes_not_imprisoned_tt
+				BRA_luis_carlos_prestes = {
+					NOT = { has_character_flag = BRA_imprisoned }
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = BRA_integralists_not_shutdown_tt
+				NOT = { has_country_flag = BRA_integralists_shutdown }
+			}
+			has_civil_war = no 
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			custom_effect_tooltip = BRA_slight_chance_of_prestes_being_assasinated_tt # < --- depends on current subversive activity level of the communists 
+			hidden_effect = {
+				set_temp_variable = { BRA_chance_assasinate_prestes = 0 }
+				set_temp_variable = { BRA_chance_NOT_assasinate_prestes = 100 }
+				BRA_setting_up_subversive_communist_activity = yes 
+				if = {
+					limit = { 
+						check_variable = { BRA_communist_subversive_activity = 4 }
+					}
+					set_temp_variable = { BRA_chance_assasinate_prestes = 20 }
+					set_temp_variable = { BRA_chance_NOT_assasinate_prestes = 80 }
+				}
+				else_if = {
+					limit = { 
+						check_variable = { BRA_communist_subversive_activity = 3 }
+					}
+					set_temp_variable = { BRA_chance_assasinate_prestes = 40 }
+					set_temp_variable = { BRA_chance_NOT_assasinate_prestes = 60 }
+				}
+				else = {
+					set_temp_variable = { BRA_chance_assasinate_prestes = 50 }
+					set_temp_variable = { BRA_chance_NOT_assasinate_prestes = 50 }
+				}
+				random_list = {
+					BRA_chance_assasinate_prestes = {
+						country_event = brazil.68
+					}
+					BRA_chance_NOT_assasinate_prestes = {
+						country_event = brazil.69 
+					}
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -3608,6 +4049,39 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_seek_cooperation_with_prestes
 		prerequisite = { focus = BRA_seek_cooperation_with_prestes }
+
+		cost = 6
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_integralists_not_shutdown_tt
+				NOT = { has_country_flag = BRA_integralists_shutdown }
+			}
+			custom_trigger_tooltip = {
+				tooltip = BRA_coffee_plantations_not_hostile_tt
+				check_variable = { BRA_coffee_companies_opinion > -1 }
+			}
+			has_civil_war = no 
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			custom_effect_tooltip = BRA_every_state_with_plantation_tt
+			hidden_effect = {
+				every_controlled_state = {
+					limit = {
+						has_dynamic_modifier = { modifier = BRA_integralists_occupation }
+						OR = {
+							has_dynamic_modifier = { modifier = BRA_small_coffee_plantations }
+							has_dynamic_modifier = { modifier = BRA_widespread_coffee_plantations }
+						}
+					}
+					set_state_flag = BRA_extra_militia_in_state
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -3617,16 +4091,85 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_seek_cooperation_with_prestes
 		prerequisite = { focus = BRA_seek_cooperation_with_prestes }
+
+		cost = 6
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_integralists_not_shutdown_tt
+				NOT = { has_country_flag = BRA_integralists_shutdown }
+			}
+			has_civil_war = no 
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		completion_reward = {
+			add_political_power = 25
+			add_popularity = { ideology = fascism popularity = 0.04 }
+			custom_effect_tooltip = BRA_increase_influence_by_2_tt
+			custom_effect_tooltip = BRA_civil_war_progress_increase_10_tt
+			hidden_effect = {
+				add_to_variable = { BRA_integralist_influence = 2 }
+				add_to_variable = { BRA_progress_to_a_civil_war = 10 }
+				BRA_set_up_political_crisis = yes 
+				clamp_variable = {
+                    var = BRA_progress_to_a_civil_war
+                    min = 0 
+                    max = 100
+                }
+			}
+		}
 	}
 
 	focus = {
-		id = BRA_try_to_convince_plantations #will unlock decisiosn to take states to control before civil war, will be a chance tho 
+		id = BRA_try_to_convince_plantations #convince the plantations 
 		icon = GFX_BRA_work_with_farmers
 		x = -1
 		y = 1
 		relative_position_id = BRA_farmers_to_arms
 		prerequisite = { focus = BRA_farmers_to_arms }
 		prerequisite = { focus = BRA_learn_subversive_techniques_from_the_communists }
+
+		cost = 10
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_integralists_not_shutdown_tt
+				NOT = { has_country_flag = BRA_integralists_shutdown }
+			}
+			custom_trigger_tooltip = {
+				tooltip = BRA_coffee_plantations_not_hostile_tt
+				check_variable = { BRA_coffee_companies_opinion > -1 }
+			}
+			custom_trigger_tooltip = {
+				tooltip = BRA_army_support_over_60_tt
+				check_variable = { BRA_current_army_support > 60 }
+			}
+			has_civil_war = no 
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			custom_effect_tooltip = BRA_we_will_control_every_state_with_plantation_tt
+			hidden_effect = {
+				every_controlled_state = {
+					limit = {
+						NOT = {
+							has_dynamic_modifier = { modifier = BRA_integralists_occupation }
+						}
+						OR = {
+							has_dynamic_modifier = { modifier = BRA_small_coffee_plantations }
+							has_dynamic_modifier = { modifier = BRA_widespread_coffee_plantations }
+						}
+					}
+					add_dynamic_modifier = { modifier = BRA_integralists_occupation }
+				}
+			}
+		}
 	}
 
 	focus = {
