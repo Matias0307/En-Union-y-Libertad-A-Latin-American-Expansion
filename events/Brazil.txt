@@ -2050,13 +2050,12 @@ country_event = {
 	id = brazil.46
 	title = brazil.46.t 
 	desc = brazil.46.d 
-	picture = GFX_
-
+	picture = GFX_BRA_integralist_election_dub
 	fire_only_once = yes 
 
 	trigger = {
 		original_tag = BRA 
-		AND = {
+		OR = {
 			has_civil_war = yes 
 			has_war_with = BRA 
 		}
@@ -3003,5 +3002,56 @@ country_event = {
 		hidden_effect = {
 			set_global_flag = BRA_failed_prestes_assasination 
 		}
+	}
+}
+
+#Communists see their chance of uprising in the civil war 
+country_event = {
+	id = brazil.70
+	title = brazil.70.t 
+	desc = brazil.70.d 
+	picture = GFX_BRA_communists_plan_rebel
+
+	is_triggered_only = yes 
+
+	immediate = {
+		hidden_effect = {
+			activate_mission = BRA_impending_communist_uprising
+		}
+	}
+
+	option = {
+		name = brazil.70.a 
+		activate_mission_tooltip = BRA_impending_communist_uprising
+	}
+}
+
+#Event that resets focus tree allow_branches 
+country_event = {
+	id = brazil.unlock 
+
+	hidden = yes 
+
+	is_triggered_only = yes 
+
+	immediate = {
+		mark_focus_tree_layout_dirty = yes 
+	}
+}
+
+#Player gets event of whether or not allowing the royal family to stay in the country 
+country_event = {
+	id = brazil.71
+	title = brazil.71.t 
+	desc = brazil.71.d 
+	picture = GFX_BRA_royal_family
+
+	is_triggered_only = yes 
+
+	option = { #deport them all 
+		name = brazil.71.a 
+		add_war_support = 0.05
+		add_political_power = 50
+		
 	}
 }

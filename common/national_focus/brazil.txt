@@ -2355,6 +2355,125 @@ focus_tree = {
 	}
 
 	focus = {
+		id = BRA_mobilize_the_reserves
+		icon = GFX_BRA_mobilize_the_reserves
+		x = 3
+		y = 1
+		relative_position_id = BRA_political_cooperation_with_plinio
+		prerequisite = { 
+			focus = BRA_political_cooperation_with_plinio
+			focus = BRA_censor_the_integralists
+		}
+
+		allow_branch = {
+			has_global_flag = BRA_civil_war_in_progress
+		}
+
+		cost = 5
+
+		select_effect = {
+			hidden_effect = {
+				division_template = { 
+					name = "Reservistas" 
+					division_names_group = BRA_INF_01 
+					is_locked = yes 
+					regiments = { 
+						infantry = { x = 0 y = 0 }  
+						infantry = { x = 0 y = 1 } 
+						infantry = { x = 0 y = 2 } 
+						infantry = { x = 0 y = 3 } 
+						infantry = { x = 0 y = 4 }
+					}
+				}
+			}
+		}
+
+		available = {
+			has_global_flag = BRA_civil_war_in_progress
+			has_civil_war = yes 
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_manpower = 33500
+			random_owned_controlled_state = {
+				create_unit = {
+					division = "name = \"Reservistas\" division_template = \"Reservistas\" start_experience_factor = 0.05 start_equipment_factor = 1" 
+					owner = ROOT
+				}
+				create_unit = {
+					division = "name = \"Reservistas\" division_template = \"Reservistas\" start_experience_factor = 0.05 start_equipment_factor = 1" 
+					owner = ROOT
+				}
+			}
+			random_owned_controlled_state = {
+				create_unit = {
+					division = "name = \"Reservistas\" division_template = \"Reservistas\" start_experience_factor = 0.05 start_equipment_factor = 1" 
+					owner = ROOT
+				}
+				create_unit = {
+					division = "name = \"Reservistas\" division_template = \"Reservistas\" start_experience_factor = 0.05 start_equipment_factor = 1" 
+					owner = ROOT
+				}
+			}
+			random_owned_controlled_state = {
+				create_unit = {
+					division = "name = \"Reservistas\" division_template = \"Reservistas\" start_experience_factor = 0.05 start_equipment_factor = 1" 
+					owner = ROOT
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = BRA_contact_other_south_american_nations
+		icon = GFX_PRU_ally_with_south_america
+		x = 1
+		y = 1
+		relative_position_id = BRA_mobilize_the_reserves
+		prerequisite = { focus = BRA_mobilize_the_reserves }
+
+		cost = 10
+
+		available = {
+			has_global_flag = BRA_civil_war_in_progress
+			has_civil_war = yes 
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			unlock_decision_tooltip = BRA_try_to_get_aid_from_FROM
+		}
+	}
+
+	focus = {
+		id = BRA_adopt_a_temporary_war_economy
+		icon = GFX_goal_generic_construct_mil_factory
+		x = -1
+		y = 1
+		relative_position_id = BRA_mobilize_the_reserves
+		prerequisite = { focus = BRA_mobilize_the_reserves }
+
+		cost = 8
+
+		available = {
+			has_global_flag = BRA_civil_war_in_progress
+			has_civil_war = yes 
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_4_military = yes 
+		}
+	}
+
+	focus = {
 		id = BRA_cut_back_on_our_censorship
 		icon = GFX_goal_generic_improve_relations
 		x = 7
@@ -3645,6 +3764,19 @@ focus_tree = {
 					}
 				}
 				if = {
+					limit = {
+						NOT = {
+							has_global_flag = BRA_prestes_assasinated
+						}
+					}
+					country_event = { 
+						id = brazil.70 
+						days = 20
+						random_days = 25
+					}
+				}
+				country_event = { id = brazil.71 days = 7 random_days = 5 }
+				if = {
 					limit = { has_completed_focus = BRA_confiscate_stockpiled_weapons }
 					add_manpower = 10000
 					add_equipment_to_stockpile = {
@@ -3746,6 +3878,10 @@ focus_tree = {
 					add_dynamic_modifier = { modifier = BRA_democratic_influence_in_state }
 				}
 				activate_mission = BRA_impending_democratic_insurrection
+				every_country = {
+					limit = { original_tag = BRA }
+					BRA_mark_focus_tree_layout_dirty = yes 
+				}
 			}
 		}
 	}
@@ -4396,6 +4532,10 @@ focus_tree = {
 			focus = BRA_focus_on_military_expansion
 			focus = BRA_focus_on_supply_build_up
 			focus = BRA_cooperation_with_the_church
+		}
+
+		available = { 
+			has_completed_focus = BRA_integralism_shall_rule
 		}
 	}
 
