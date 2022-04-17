@@ -3667,8 +3667,18 @@ focus_tree = {
 				add_ideas = BRA_poorly_trained_militias_5
 				add_ideas = BRA_civil_war_integralists
 				every_character = {
-					limit = { has_character_flag = BRA_vargas_supporter }
-					retire_character = PREV
+					limit = { 
+						has_character_flag = BRA_vargas_supporter 
+						NOT = {
+							OR = {
+								has_character_flag = BRA_integralist
+								has_character_flag = BRA_communist
+								has_character_flag = BRA_imperialist
+								has_character_flag = BRA_congress_supporter
+							}
+						}
+					}
+					ROOT = { retire_character = PREV }
 				}
 				set_temp_variable = { BRA_integralist_militia_experience = BRA_integralist_influence }
 				divide_temp_variable = { BRA_integralist_militia_experience = 100 }
@@ -4599,6 +4609,13 @@ focus_tree = {
 		relative_position_id = BRA_attack_the_guanabara_palace
 		prerequisite = { focus = BRA_attack_the_guanabara_palace }
 		mutually_exclusive = { focus = BRA_integralism_shall_rule }
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_gave_monarchists_government_seats_tt
+				has_country_flag = BRA_can_do_monarchist_path
+			}
+		}
 
 		#will only be available if the player allows the royal family seats in the government 
 	}

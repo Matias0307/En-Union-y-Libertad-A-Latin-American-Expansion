@@ -858,7 +858,17 @@ BRA_set_up_generic_civil_war_divisions_fascist_ai = {
 			}
 		}
 		every_character = {
-			limit = { has_character_flag = BRA_integralist }
+			limit = { 
+				has_character_flag = BRA_integralist 
+				NOT = {
+					OR = {
+						has_character_flag = BRA_vargas_supporter
+						has_character_flag = BRA_communist
+						has_character_flag = BRA_imperialist
+						has_character_flag = BRA_congress_supporter
+					}
+				}
+			}
 			ROOT = { retire_character = PREV }
 		}
 		every_state = {
@@ -1608,6 +1618,10 @@ BRA_start_communist_civil_war = {
 		else = {
 			BRC = { activate_mission = BRA_impending_democratic_insurrection }
 		}
+	}
+	every_country = {
+		limit = { original_tag = BRA }
+		BRA_mark_focus_tree_layout_dirty = yes 
 	}
 }
 

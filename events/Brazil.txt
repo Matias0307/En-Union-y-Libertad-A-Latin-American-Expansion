@@ -3039,7 +3039,7 @@ country_event = {
 	}
 }
 
-#Player gets event of whether or not allowing the royal family to stay in the country 
+#Player gets event of whether or not allowing the royal family and supporters to stay in the country 
 country_event = {
 	id = brazil.71
 	title = brazil.71.t 
@@ -3052,6 +3052,48 @@ country_event = {
 		name = brazil.71.a 
 		add_war_support = 0.05
 		add_political_power = 50
-		
+		add_timed_idea = {
+			idea = BRA_hostile_patrianovistas_idea
+			days = 175
+		}
+		unlock_decision_tooltip = BRA_decimate_the_patrianovistas
+		custom_effect_tooltip = BRA_everyone_loyal_to_monarchy_deported_tt
+		hidden_effect = {
+			every_character = {
+				limit = {
+					has_character_flag = BRA_imperialist
+					NOT = {
+						OR = {
+							has_character_flag = BRA_integralist
+							has_character_flag = BRA_communist
+							has_character_flag = BRA_vargas_supporter
+							has_character_flag = BRA_congress_supporter
+						}
+					}
+				}
+				ROOT = {
+					retire_character = PREV
+				}
+			}
+		}
+	}
+
+	option = { #give them seats in the government 
+		name = brazil.71.b 
+		effect_tooltip = {
+			unlock_national_focus = BRA_a_visit_to_the_past
+		}
+		add_war_support = -0.05
+		add_political_power = -40
+		hidden_effect = {
+			set_country_flag = BRA_can_do_monarchist_path
+		}
+	}
+
+	option = { #let them stay 
+		name = brazil.71.c 
+		add_political_power = -15
+		add_war_support = -0.02
+		add_stability = 0.04
 	}
 }
