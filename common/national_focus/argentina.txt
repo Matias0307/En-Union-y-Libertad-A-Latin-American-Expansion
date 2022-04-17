@@ -246,7 +246,7 @@ focus_tree = {
 	focus = {
 		id = ARG_establish_ferrocarriles_argentinos
 		icon = GFX_ARG_ferrocarriles
-		x = -1
+		x = -2
 		y = 1
 		relative_position_id = ARG_industrialize_the_pampas
 		prerequisite = { focus = ARG_industrialize_the_pampas }
@@ -385,9 +385,15 @@ focus_tree = {
 		cost = 10
 
 		available = {
-			has_railway_level = {
-				state = ROOT.capital 
-				level = 5
+			OR = {
+				has_railway_level = {
+					state = ROOT.capital 
+					level = 5
+				}
+				has_railway_level = {
+					state = 278
+					level = 5
+				}
 			}
 		}
 
@@ -404,7 +410,7 @@ focus_tree = {
 	focus = {
 		id = ARG_industrialize_the_north
 		icon = GFX_goal_generic_construct_infrastructure  #change to custom
-		x = 0
+		x = -1
 		y = 2
 		
 		prerequisite = { focus = ARG_industrialize_the_pampas }
@@ -508,7 +514,7 @@ focus_tree = {
 	focus = {
 		id = ARG_industrialize_the_south
 		icon = GFX_goal_generic_construct_infrastructure #temporary, change later
-		x = 2
+		x = 1
 		y = 2
 		
 		prerequisite = { focus = ARG_industrialize_the_pampas }
@@ -573,7 +579,7 @@ focus_tree = {
 	focus = {
 		id = ARG_exploit_la_vaca_muerta
 		icon = GFX_ARG_vaca_muerta 
-		x = 3
+		x = 2
 		y = 3
 		
 		prerequisite = { focus = ARG_industrialize_the_south }
@@ -705,7 +711,7 @@ focus_tree = {
 	focus = {
 		id = ARG_focus_economy
 		icon = GFX_focus_generic_industry_3
-		x = 5
+		x = 7
 		y = 0
 		
 		cost = 2
@@ -735,14 +741,51 @@ focus_tree = {
 			add_ideas = ARG_industrial_expansionism
 		}
 	}
+
+	focus = {
+		id = ARG_construct_the_general_paz
+		icon = GFX_ARG_construct_general_paz
+		x = -3
+		y = 1
+		relative_position_id = ARG_focus_economy
+		prerequisite = { focus = ARG_focus_economy }
+
+		cost = 4
+
+		available = {
+			controls_state = 888
+			controls_state = 278
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			add_stability = 0.03
+			888 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes 
+				}
+			}
+			278 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes 
+				}
+			}
+		}
+	}
 	
 	focus = {
 		id = ARG_develop_the_capital
 		icon = GFX_ARG_develop_capital
-		x = 4
-		y = 1
+		x = 5
+		y = 2
 		
-		prerequisite = { focus = ARG_focus_economy }
+		prerequisite = { focus = ARG_construct_the_general_paz }
 		
 		cost = 5
 		
@@ -792,10 +835,10 @@ focus_tree = {
 	focus = {
 		id = ARG_develop_northern_patagonia
 		icon = GFX_goal_generic_construct_civ_factory #temporary
-		x = 4
+		x = 3
 		y = 2
 		
-		prerequisite = { focus = ARG_develop_the_capital } 
+		prerequisite = { focus = ARG_construct_the_general_paz } 
 		
 		
 		cost = 8
@@ -846,7 +889,7 @@ focus_tree = {
 	focus = {
 		id = ARG_reduce_public_expense
 		icon = GFX_goal_generic_consumer_goods #low chance of changing
-		x = 6
+		x = 7
 		y = 1
 		
 		prerequisite = { focus = ARG_focus_economy }
@@ -875,7 +918,7 @@ focus_tree = {
 	focus = {
 		id = ARG_make_an_effort_to_control_the_inflation
 		icon = GFX_goal_generic_construction 
-		x = 3
+		x = 2
 		y = 1
 		relative_position_id = ARG_focus_economy
 		prerequisite = { focus = ARG_focus_economy }
@@ -1159,7 +1202,7 @@ focus_tree = {
 	focus = {
 		id = ARG_restrict_circulation_currency
 		icon = GFX_ARG_restrict_circulation_currency
-		x = 6
+		x = 7
 		y = 2
 		prerequisite = { focus = ARG_reduce_public_expense }
 		
@@ -1200,7 +1243,7 @@ focus_tree = {
 	focus = {
 		id = ARG_establish_patriotic_loan
 		icon = GFX_ARG_patriotic_loan
-		x = 6
+		x = 7
 		y = 3
 		
 		prerequisite = { focus = ARG_restrict_circulation_currency }
@@ -1230,6 +1273,7 @@ focus_tree = {
 		y = 4
 		
 		prerequisite = { focus = ARG_develop_northern_patagonia }
+		prerequisite = { focus = ARG_develop_the_capital }
 		
 		
 		cost = 10
@@ -1292,7 +1336,7 @@ focus_tree = {
 	focus = {
 		id = ARG_deal_with_depression
 		icon = GFX_ARG_end_of_depression
-		x = 6
+		x = 7
 		y = 4
 		prerequisite = { focus = ARG_establish_patriotic_loan }
 		
@@ -1354,7 +1398,7 @@ focus_tree = {
 	focus = {
 		id = ARG_rapidly_mobilize
 		icon = GFX_focus_generic_combined_arms #low chance
-		x = 14
+		x = 15
 		y = 0
 		
 		prerequisite = { }
@@ -2145,7 +2189,7 @@ focus_tree = {
 		id = ARG_infamous_decade
 		icon = GFX_ARG_infamous_decade
 
-		x = 24
+		x = 23
 		y = 0
 		relative_position_id = ARG_rapidly_mobilize
 		mutually_exclusive = { focus = ARG_drift_back_towards_the_confederation }
