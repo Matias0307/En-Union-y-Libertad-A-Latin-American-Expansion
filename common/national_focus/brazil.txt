@@ -3624,6 +3624,9 @@ focus_tree = {
 		completion_reward = {
 			add_political_power = 35
 			unlock_decision_tooltip = BRA_let_the_voice_of_integralism_be_heard_in_FROM
+			hidden_effect = {
+				country_event = { id = brazil.72 days = 70 random_days = 70 }
+			}
 		}
 	}
 
@@ -4894,7 +4897,18 @@ focus_tree = {
 		prerequisite = { focus = BRA_force_the_paulistas_to_the_frontlines }
 		prerequisite = { focus = BRA_everyone_to_war }
 
-		#will unlock catholic decisions, similar to peru 
+		#will unlock catholic decisions, similar to peru... again, SIKE lol 
+
+		cost = 7.2
+
+		available = {
+			has_civil_war = yes 
+		}
+
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_stability = 0.05
+		}
 	}
 
 	focus = {
@@ -4906,6 +4920,23 @@ focus_tree = {
 		prerequisite = { focus = BRA_garner_catholic_support }
 
 		#adds timed idea and improves ill-trained army slightly 
+
+		cost = 10
+
+		available = {
+			has_civil_war = yes 
+		}
+
+		bypass = {
+			has_completed_focus = BRA_integralism_shall_rule
+			has_global_flag = BRA_civil_war_concluded
+		}
+
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			BRA_improve_militia_training = yes 
+			unlock_decision_tooltip = BRA_empower_the_warriors_of_christ
+		}
 	}
 
 	focus = {
@@ -4922,6 +4953,10 @@ focus_tree = {
 				tooltip = BRA_gave_monarchists_government_seats_tt
 				has_country_flag = BRA_can_do_monarchist_path
 			}
+			custom_trigger_tooltip = {
+				tooltip = BRA_accepted_patrianovista_support 
+				has_global_flag = BRA_accepted_patrianovistas_support
+			}
 			has_civil_war = yes 
 		}
 
@@ -4934,10 +4969,14 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
 		completion_reward = {
 			activate_mission = BRA_impending_imperial_uprising
-			
+			set_party_name = {
+				ideology = fascism
+				long_name = BRA_monarchy_party_long
+				name = BRA_monarchy_party
+			}
+			custom_effect_tooltip = BRA_take_control_of_2_states_tt #pernambunco and one other close state 
 			hidden_effect = {
 				set_global_flag = player_chose_imperialist
-				country_event = { id = brazil.72 days = 7 }
 			}
 		}
 	}
@@ -5713,6 +5752,11 @@ focus_tree = {
 			focus = BRA_the_warriors_of_christ
 			focus = BRA_recruit_the_fascist_women
 			focus = BRA_victory_at_the_elections 
+		}
+
+		available = {
+			has_civil_war = no 
+			has_government = fascism
 		}
 	}
 

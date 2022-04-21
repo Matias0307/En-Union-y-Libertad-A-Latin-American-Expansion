@@ -1410,6 +1410,28 @@ BRA_monarchism_on_the_rise = {
         }
     }
 
+    BRA_spread_the_movement_to_FROM = {
+        icon = generic_prepare_civil_war
+
+        state_target = yes 
+        target_array = controlled_states
+
+        target_trigger = {
+            FROM = {
+                is_fully_controlled_by = ROOT 
+                NOT = { has_dynamic_modifier = { modifier = BRA_monarchist_influence } }
+                any_neighbor_state = {
+                    has_dynamic_modifier = { modifier = BRA_monarchist_influence }
+                }
+            }
+        }
+
+        visible = {
+            has_manpower > 1000
+            NOT = { has_country_flag = BRA_spreading_influence }
+        }
+    }
+
     BRA_strengthen_patrionavista_support = {
         icon = eng_ally_imperialist_coup
 
@@ -2380,6 +2402,34 @@ BRA_the_brazilian_civil_war = {
 
         timeout_effect = {
             add_stability = -0.02
+        }
+    }
+
+    BRA_empower_the_warriors_of_christ = {
+        priority = 55
+        icon = generic_prepare_civil_war
+
+        available = {
+            exists = yes 
+        }
+
+        visible = {
+            has_completed_focus = BRA_the_warriors_of_christ
+        }
+
+        cost = 40
+
+        days_remove = 90 
+
+        modifier = {
+            weekly_manpower = 1000
+        }
+
+        remove_effect = {
+            add_equipment_to_stockpile = {
+                type = infantry_equipment
+                amount = 500
+            }
         }
     }
 
