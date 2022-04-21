@@ -2397,6 +2397,7 @@ country_event = { #event that gets triggered once civil war has concluded
 				has_active_mission = BRA_impending_integralist_uprising
 				has_active_mission = BRA_impending_communist_uprising
 				has_active_mission = BRA_impending_paulista_revolt
+				has_active_mission = BRA_impending_imperial_uprising
 			}
 		}
 	}
@@ -3047,6 +3048,9 @@ country_event = {
 
 	option = { #deport them all 
 		name = brazil.71.a 
+		ai_chance = {
+			base = 1
+		}
 		add_war_support = 0.05
 		add_political_power = 50
 		add_timed_idea = {
@@ -3077,6 +3081,9 @@ country_event = {
 
 	option = { #give them seats in the government 
 		name = brazil.71.b 
+		ai_chance = {
+			base = 1
+		}
 		effect_tooltip = {
 			unlock_national_focus = BRA_a_visit_to_the_past
 		}
@@ -3089,8 +3096,45 @@ country_event = {
 
 	option = { #let them stay 
 		name = brazil.71.c 
+		ai_chance = {
+			base = 1
+		}
 		add_political_power = -15
 		add_war_support = -0.02
 		add_stability = 0.04
+	}
+}
+
+#Patrianovistas offer support in the monarchist uprising 
+country_event = {
+	id = brazil.72 
+	title = brazil.72.t 
+	desc = brazil.72.d 
+	picture = GFX_BRA_patrianovistas_offer_support
+
+	is_triggered_only = yes 
+
+	option = { #we can accept any help we can get 
+		name = brazil.72.a 
+		ai_chance = {
+			base = 1
+		}
+		add_ideas = BRA_cooperation_with_patrianovistas_1
+		unlock_decision_tooltip = BRA_strengthen_patrionavista_support
+		hidden_effect = {
+			set_variable = { BRA_patrianovista_help = 45 }
+		}
+	}
+
+	option = { #we dont need your help! 
+		name = brazil.72.b 
+		ai_chance = {
+			base = 1
+		}
+		add_timed_idea = {
+			idea = BRA_hostile_patrianovistas_idea
+			days = 180
+		}
+		unlock_decision_tooltip = BRA_decimate_the_patrianovistas
 	}
 }

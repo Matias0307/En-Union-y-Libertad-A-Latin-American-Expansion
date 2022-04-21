@@ -1314,6 +1314,142 @@ BRA_post_civil_war_recovery_category = {
     }
 }
 
+BRA_monarchism_on_the_rise = {
+    BRA_impending_imperial_uprising = {
+        priority = 250
+        icon = eng_support_imperialist_coup
+
+        activation = {
+            always = no 
+        }
+
+        fire_only_once = yes 
+
+        available = {
+            custom_trigger_tooltip = {
+                tooltip = BRA_no_states_with_monarchists_tt
+                all_core_state = {
+                    NOT = {
+                        has_dynamic_modifier = { modifier = BRA_monarchist_influence }
+                    }
+                }
+            }
+        }
+
+        visible = {
+            original_tag = BRA 
+        }
+
+        cancel_trigger = {
+            OR = {
+                tag = BZE 
+                has_war_with = BZE
+            }
+        }
+
+        days_mission_timeout = 135
+        timeout_effect = {
+            custom_effect_tooltip = BRA_empire_starts_war_tt
+            hidden_effect = {
+                BRA_start_imperialist_civil_war = yes 
+            }
+        }
+    }
+
+    BRA_stomp_the_monarchists_in_FROM = {
+        icon = opression
+
+        state_target = yes 
+
+        target_array = controlled_states
+
+        target_trigger = {
+            FROM = {
+                is_fully_controlled_by = ROOT 
+                has_dynamic_modifier = { modifier = BRA_monarchist_influence }
+            }
+        }
+
+        visible = {
+            NOT = { #to prevent a player that wants to go imperial bottleneck themself
+                has_global_flag = player_chose_imperialist
+            }
+            has_active_mission = BRA_impending_imperial_uprising
+            FROM = {
+                has_dynamic_modifier = { modifier = BRA_monarchist_influence }
+            }
+        }
+
+        cost = 35
+
+        available = {
+			divisions_in_state = {
+				size > 3
+				state = FROM
+			}
+		}
+		
+		cancel_trigger = {
+			custom_trigger_tooltip = {
+				tooltip = EUYL_has_3_divisions_tt
+				NOT = {
+					divisions_in_state = {
+						size > 2
+						state = FROM 
+					}
+				}
+			}
+		}
+
+        days_remove = 35
+
+        remove_effect = {
+            FROM = {
+                remove_dynamic_modifier = { modifier = BRA_monarchist_influence }
+            }
+        }
+    }
+
+    BRA_strengthen_patrionavista_support = {
+        icon = eng_ally_imperialist_coup
+
+        visible = {
+            has_active_mission = BRA_impending_imperial_uprising
+            OR = {
+                has_idea = BRA_cooperation_with_patrianovistas_1
+                has_idea = BRA_cooperation_with_patrianovistas_2
+            }
+        }
+
+        cost = BRA_patrianovista_help
+
+        days_remove = 40
+
+        complete_effect = {
+            custom_effect_tooltip = BRA_cost_will_increase_by_15_tt
+            hidden_effect = {
+                add_to_variable = { BRA_patrianovista_help = 15 }
+            }
+        }
+
+        remove_effect = {
+            if = {
+                limit = { has_idea = BRA_cooperation_with_patrianovistas_1 }
+                swap_ideas = {
+                    remove_idea = BRA_cooperation_with_patrianovistas_1
+                    add_idea = BRA_cooperation_with_patrianovistas_2
+                }
+            }
+            else = {
+                swap_ideas = {
+                    remove_idea = BRA_cooperation_with_patrianovistas_2
+                    add_idea = BRA_cooperation_with_patrianovistas_3
+                }
+            }
+        }
+    }
+}
+
 BRA_imminent_civil_war = {
     BRA_strengthen_our_protests = {
         icon = generic_civil_support
@@ -2211,17 +2347,6 @@ BRA_the_brazilian_civil_war = {
             }
         }
     }  
-
-    BRA_impending_imperial_uprising = {
-        priority = 250
-        icon = eng_support_imperialist_coup
-
-        activation = {
-            always = no 
-        }
-
-        fire_only_once = yes 
-    }
 
     BRA_save_ewert = {
         priority = 70
