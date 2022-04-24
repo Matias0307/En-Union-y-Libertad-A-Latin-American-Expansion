@@ -5000,11 +5000,18 @@ focus_tree = {
 
 		###unlocks decisions to control states before the uprising starts 
 
-		cost = 4
+		cost = 3
 
 		available = {
 			has_civil_war = yes 
 			has_active_mission = BRA_impending_imperial_uprising
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			unlock_decision_tooltip = BRA_spread_the_movement_to_FROM
 		}
 	}
 
@@ -5037,6 +5044,23 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_a_visit_to_the_past
 		prerequisite = { focus = BRA_a_visit_to_the_past }
+
+		cost = 5
+
+		available = {
+			has_active_mission = BRA_impending_imperial_uprising
+			has_civil_war = yes 
+			NOT = {
+				has_war_with = POR 
+			}
+			POR = {
+				has_war = no 
+				has_civil_war = no 
+				is_subject = no 
+			}
+		}
+
+
 
 	}
 

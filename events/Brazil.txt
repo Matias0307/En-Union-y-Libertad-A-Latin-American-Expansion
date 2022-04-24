@@ -3139,3 +3139,43 @@ country_event = {
 		}
 	}
 }
+
+#Portugal gets event of the Brazilian monarchists requesting help 
+country_event = {
+	id = brazil.73
+	title = brazil.73.t 
+	desc = brazil.73.d 
+	picture = GFX_report_event_hitler_handshake
+
+	is_triggered_only = yes 
+
+	option = { #accept 
+		name = brazil.73.a 
+		ai_chance = {
+			base = 10
+			modifier = { #will be much more willing to aid Brazil if Portugal is Monarchist
+				add = 70 
+				has_completed_focus = POR_the_return_of_duarte
+			}
+			modifier = {
+				add = 40
+				has_opinion = {
+					target = FROM
+					value > 79
+				}
+			}
+			modifier = {
+				add = 20 
+				has_opinion = {
+					target = FROM
+					value > 79
+				}
+			}
+		}
+		hidden_effect = {
+			BZE = {
+				set_country_flag = BRA_POR_agreed_to_help
+			}
+		}
+	}
+}
