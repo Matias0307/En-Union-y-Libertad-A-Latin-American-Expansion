@@ -5000,7 +5000,7 @@ focus_tree = {
 
 		###unlocks decisions to control states before the uprising starts 
 
-		cost = 3
+		cost = 5
 
 		available = {
 			has_civil_war = yes 
@@ -5024,6 +5024,26 @@ focus_tree = {
 		prerequisite = { focus = BRA_rekindle_imperial_sentiments }
 
 		#will make dom pedro iii leader of the empire 
+
+		cost = 5
+
+		available = {
+			has_civil_war = yes 
+			has_active_mission = BRA_impending_imperial_uprising
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			custom_effect_tooltip = BRA_pedro_henrique_become_leader_and_return_to_brazil_tt
+			hidden_effect = {
+				set_global_flag = pedro_henrique_leader
+				BRA_dom_pedro_iii = {
+					clr_character_flag = BRA_living_in_the_exterior
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -5035,6 +5055,18 @@ focus_tree = {
 		prerequisite = { focus = BRA_o_imperador_do_brasil }
 
 		#will allow them to be advisors 
+
+		cost = 5
+
+		available = {
+			has_civil_war = yes 
+			has_active_mission = BRA_impending_imperial_uprising
+		}
+
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_political_power = 50
+		}
 	}
 
 	focus = {
@@ -5060,13 +5092,20 @@ focus_tree = {
 			}
 		}
 
-
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			POR = {
+				country_event = { id = brazil.73 hours = 6 }
+			}
+		}
 
 	}
 
 	focus = {
 		id = BRA_hidden_portuguese_weaponry
-		icon = GFX_focus_generic_befriend_portugal
+		icon = GFX_goal_generic_small_arms
 		x = 2
 		y = 4
 		relative_position_id = BRA_contact_the_portuguese
@@ -5104,6 +5143,12 @@ focus_tree = {
 		y = 3
 		relative_position_id = BRA_contact_the_portuguese
 		prerequisite = { focus = BRA_priority_to_the_royal_family }
+
+		cost = 2
+
+		available = {
+			
+		}
 
 	}
 
