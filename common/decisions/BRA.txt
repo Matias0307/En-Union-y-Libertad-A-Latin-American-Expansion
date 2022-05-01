@@ -141,6 +141,7 @@ BRA_political_manegement = {
                 set_variable = { BRA_playing_as_vargas = 0 }
                 set_variable = { BRA_vargas_influence = 0 }
                 retire_country_leader = yes 
+                set_country_flag = BRA_elections_occured
             }
             if = {
                 limit = {
@@ -1247,6 +1248,15 @@ BRA_post_civil_war_recovery_category = {
                 limit = { has_government = communism }
                 has_completed_focus = BRA_post_civil_war_recovery
             }
+            if = {
+                limit = {
+                    OR = {
+                        has_government = neutrality
+                        has_government = fascism
+                    }
+                    has_completed_focus = BRA_eliminate_the_resistance_movements
+                }
+            }
         }
 
         custom_cost_text = BRA_pol_10_and_man_2500
@@ -1277,7 +1287,7 @@ BRA_post_civil_war_recovery_category = {
     }
 
     BRA_redistribute_plantation_profits_to_the_nation = { 
-        icon = decision_generic_factory
+        icon = generic_factory
 
         available = {
             exists = yes 
@@ -1310,6 +1320,75 @@ BRA_post_civil_war_recovery_category = {
 
         remove_effect = {
             BRA_improve_civil_war_recession = yes 
+        }
+    }
+
+    BRA_recover_our_territory_from_FROM = {
+        icon = generic_prepare_civil_war
+
+        target_trigger = {
+            FROM = {
+                any_owned_state = {
+                    has_state_flag = brazilian_starting_state
+                    is_core_of = BRA
+                }
+                NOT = {
+                    OR = {
+                        is_in_faction_with = BRA 
+                        has_war_with = BRA
+                    }
+                }
+            }
+        }
+
+        fire_only_once = yes 
+
+        cost = 20
+
+        complete_effect = {
+            create_wargoal = {
+                target = FROM 
+                type = annex_everything
+            }
+        }
+    }
+}
+
+BRA_integralist_management = {
+    
+    BRA_strengthen_the_police_force = {
+        priority = 500
+        icon = generic_army_support
+
+        visible = { has_completed_focus = BRA_re_establish_a_police_force }
+
+        cost = BRA_cost_strengthen_force
+
+        available = {
+            has_civil_war = no 
+        }
+
+        cancel_trigger = {
+            exists = no 
+        }
+
+        days_remove = 50
+
+        complete_effect = {
+            custom_effect_tooltip = BRA_cost_will_increase_by_15_tt
+            hidden_effect = {
+                add_to_variable = { BRA_cost_strengthen_force = 15 }
+            }
+        }
+
+        remove_effect = {
+            custom_effect_tooltip = BRA_modify_police_force_1_tt
+            hidden_effect = {
+                add_to_variable = { BRA_integralist_police_force_conscription = 0.001 }
+                add_to_variable = { BRA_integralist_police_force_drift_defense = 0.05 }
+                add_to_variable = { BRA_integralist_police_force_stability = 0.03 }
+                subtract_from_variable = { BRA_integralist_police_force_pp_gain = 0.05 }
+            }
         }
     }
 }
@@ -1494,6 +1573,92 @@ BRA_monarchism_on_the_rise = {
                     add_idea = BRA_cooperation_with_patrianovistas_3
                 }
             }
+        }
+    }
+
+    BRA_the_imperialist_voice = {
+        icon = eng_puppet_usa
+        priority = 500
+
+        activation = {
+            always = no 
+        }
+
+        available = {
+            has_global_flag = BRA_civil_war_concluded
+            has_civil_war = no
+        }
+
+        days_mission_timeout = 90
+        is_good = yes 
+
+        visible = {
+            has_completed_focus = BRA_the_voice_of_imperialism
+        }
+
+        complete_effect = {
+            add_stability = 0.01
+        }
+
+        cancel_trigger = {
+            OR = {
+                is_subject = yes 
+                has_civil_war = no 
+                has_global_flag = BRA_civil_war_concluded
+            }
+        }
+
+        timeout_effect = {
+            random_state = {
+                limit = { 
+                    is_core_of = BRA 
+                    OR = {
+                        is_fully_controlled_by = BRA 
+                        is_fully_controlled_by = BUS 
+                        is_fully_controlled_by = BRC 
+                    }
+                    NOT = {
+                        is_controlled_by = BZE 
+                    }
+                }
+                BZE = {
+                    transfer_state = PREV 
+                    PREV = {
+                        create_unit = {
+                            division = "name = \"Divisão Imperial\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.15 start_equipment_factor = 1" 
+                            owner = PREV
+                        }
+                        create_unit = {
+                            division = "name = \"Divisão Imperial\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.15 start_equipment_factor = 1" 
+                            owner = PREV
+                        }
+                        create_unit = {
+                            division = "name = \"Milícias Imperialistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+                            owner = PREV
+                        }
+                        create_unit = {
+                            division = "name = \"Milícias Imperialistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+                            owner = PREV
+                        }
+                        create_unit = {
+                            division = "name = \"Milícias Imperialistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+                            owner = PREV
+                        }
+                    }
+                    if = {
+                        limit = {
+                            has_country_flag = BRA_POR_agreed_to_help
+                        }
+                        PREV = {
+                            create_unit = {
+                                division = "name = \"Divisão Imperial\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.15 start_equipment_factor = 1" 
+                                owner = PREV
+                            }
+                        }
+                    }
+                }
+            }
+            activate_mission = BRA_the_imperialist_voice
         }
     }
 }

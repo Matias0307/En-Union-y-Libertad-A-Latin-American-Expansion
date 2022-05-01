@@ -2558,6 +2558,8 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_political_cooperation_with_plinio
 		prerequisite = { focus = BRA_political_cooperation_with_plinio }
+
+		#will require the lack of brutal police force
 	}
 
 	focus = {
@@ -5054,7 +5056,7 @@ focus_tree = {
 		relative_position_id = BRA_o_imperador_do_brasil
 		prerequisite = { focus = BRA_o_imperador_do_brasil }
 
-		#will allow them to be advisors 
+		#will allow them to be advisors ## NEED TO ASK CAIO ABOUT THIS ##
 
 		cost = 5
 
@@ -5111,6 +5113,26 @@ focus_tree = {
 		relative_position_id = BRA_contact_the_portuguese
 		prerequisite = { focus = BRA_once_again_an_empire }
 		prerequisite = { focus = BRA_contact_the_portuguese }
+
+		cost = 5
+
+		available = {
+			BRA_is_the_empire_of_brazil = yes 
+			custom_trigger_tooltip = {
+				tooltip = BRA_POR_accepted_to_gelp_tt
+				has_country_flag = BRA_POR_agreed_to_help
+			}
+			has_civil_war = yes 
+		}
+
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		completion_reward = {
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 1000
+				producer = POR 
+			}
+		}
 	}
 
 	focus = {
@@ -5121,6 +5143,65 @@ focus_tree = {
 		relative_position_id = BRA_contact_the_portuguese
 		prerequisite = { focus = BRA_once_again_an_empire }
 		prerequisite = { focus = BRA_contact_the_portuguese }
+
+		cost = 6
+
+		available = {
+			BRA_is_the_empire_of_brazil = yes 
+			custom_trigger_tooltip = {
+				tooltip = BRA_POR_accepted_to_gelp_tt
+				has_country_flag = BRA_POR_agreed_to_help
+			}
+			has_civil_war = yes 
+		}
+
+		select_effect = {
+			hidden_effect = {
+				division_template = { 
+					name = "Portuguese Volunteers" 
+					division_names_group = SPAN_INF_02 
+					is_locked = yes 
+					regiments = { 
+						infantry = { x = 0 y = 0 }  
+						infantry = { x = 0 y = 1 } 
+						infantry = { x = 0 y = 2 } 
+						infantry = { x = 0 y = 3 } 
+						infantry = { x = 1 y = 0 }  
+						infantry = { x = 1 y = 1 } 
+						infantry = { x = 1 y = 2 } 
+						infantry = { x = 1 y = 3 } 
+					}
+					support = {
+						artillery = { x = 0 y = 0 }
+					}
+				}
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			POR = {
+				add_manpower = -22500
+			}
+			random_owned_controlled_state = {
+				create_unit = {
+					division = "name = \"Voluntarios Portugueses\" division_template = \"Portuguese Volunteers\" start_experience_factor = 0.2 start_equipment_factor = 1" 
+					owner = ROOT
+				}
+			}
+			random_owned_controlled_state = {
+				create_unit = {
+					division = "name = \"Voluntarios Portugueses\" division_template = \"Portuguese Volunteers\" start_experience_factor = 0.2 start_equipment_factor = 1" 
+					owner = ROOT
+				}
+			}
+			random_owned_controlled_state = {
+				create_unit = {
+					division = "name = \"Voluntarios Portugueses\" division_template = \"Portuguese Volunteers\" start_experience_factor = 0.2 start_equipment_factor = 1" 
+					owner = ROOT
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -5132,8 +5213,50 @@ focus_tree = {
 		prerequisite = { focus = BRA_portuguese_volunteers }
 		prerequisite = { focus = BRA_hidden_portuguese_weaponry }
 
-		#will active a 50 day mission that will be talks with the portuguese 
-		#there will also be decisions for the player to coerce the portuguese into joining 
+		cost = 10
+
+		available = {
+			BRA_is_the_empire_of_brazil = yes 
+			has_civil_war = yes 
+			POR = {
+				has_war = no 
+				has_civil_war = no
+			}
+		}
+
+		bypass = {
+			AND = {
+				has_completed_focus = BRA_hidden_portuguese_weaponry
+				has_completed_focus = BRA_portuguese_volunteers
+			}
+			POR = {
+				OR = {
+					has_war_with = BRA 
+					has_war_with = BUS 
+					has_war_with = BRC 
+				}
+				NOT = {
+					has_war_with = BZE 
+				}
+			}
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			POR = {
+				country_event = { id = brazil.74 hours = 6 }
+			}
+			custom_effect_tooltip = ARG_iftheyaccept
+			effect_tooltip = {
+				POR = {
+					declare_war_on = BRA 
+					declare_war_on = BUS 
+					declare_war_on = BRC
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -5147,7 +5270,17 @@ focus_tree = {
 		cost = 2
 
 		available = {
-			
+			custom_trigger_tooltip = {
+				tooltip = BRA_is_the_empire_of_brazil_tt
+				tag = BZE 
+			}
+			has_global_flag = BRA_civil_war_in_progress
+		}
+
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			add_stability = 0.02
+			add_war_support = 0.05
 		}
 
 	}
@@ -5359,6 +5492,22 @@ focus_tree = {
 		prerequisite = { focus = BRA_once_again_an_empire }
 
 		#will do the same thing as the soviet logistics advisor 
+
+		cost = 5
+
+		available = {
+			BRA_is_the_empire_of_brazil = yes 
+			has_civil_war = yes 
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_political_power = 25
+			custom_effect_tooltip = BRA_imperial_advisors_available_tt
+		}
 	}
 
 	focus = {
@@ -5370,6 +5519,21 @@ focus_tree = {
 		prerequisite = { focus = BRA_establish_the_imperial_council }
 
 		#will add mills 
+
+		cost = 6
+		
+		available = {
+			BRA_is_the_empire_of_brazil = yes 
+			has_civil_war = yes 
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_2_military = yes 
+		}
 	}
 
 	focus = {
@@ -5382,6 +5546,26 @@ focus_tree = {
 
 		#will randomly start small insurrections across the country 
 		#will be stronger if portugal is helping 
+
+		cost = 5
+
+		available = {
+			BRA_is_the_empire_of_brazil = yes 
+			has_civil_war = yes 
+		}
+
+		bypass = {
+			has_completed_focus = BRA_once_again_an_empire
+			has_global_flag = BRA_civil_war_concluded
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			activate_mission = BRA_the_imperialist_voice
+			custom_effect_tooltip = BRA_periodically_tranfer_state_tt
+		}
 	}
 
 	focus = {
@@ -5392,6 +5576,30 @@ focus_tree = {
 		relative_position_id = BRA_imperial_economic_management
 		prerequisite = { focus = BRA_imperial_economic_management }
 		prerequisite = { focus = BRA_the_voice_of_imperialism }
+
+		cost = 10
+
+		available = {
+			BRA_is_the_empire_of_brazil = yes 
+			has_civil_war = yes 
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			random_owned_controlled_state = {
+				create_unit = {
+                    division = "name = \"Divisão Imperial\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.15 start_equipment_factor = 1" 
+                    owner = ROOT
+                }
+                create_unit = {
+                    division = "name = \"Divisão Imperial\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.15 start_equipment_factor = 1" 
+                    owner = ROOT
+                }
+			}
+			add_ideas = BRA_the_imperial_army_1
+		}
 	}	
 
 	focus = {
@@ -5401,6 +5609,24 @@ focus_tree = {
 		y = 3
 		relative_position_id = BRA_the_voice_of_imperialism
 		prerequisite = { focus = BRA_the_voice_of_imperialism}
+
+		cost = 7.2
+
+		available = {
+			BRA_is_the_empire_of_brazil = yes 
+			has_civil_war = yes 
+		}
+
+		bypass = {
+			has_completed_focus = BRA_once_again_an_empire
+			has_global_flag = BRA_civil_war_concluded
+		}
+
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			add_war_support = 0.05
+			add_ideas = BRA_push_to_victory
+		}
 	}
 
 	focus = {
@@ -5848,7 +6074,15 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-
+			add_political_power = 25
+			add_popularity = { ideology = fascism popularity = 0.04 }
+			hidden_effect = {
+				set_variable = { BRA_integralist_police_force_pp_gain = -0.05 }
+				set_variable = { BRA_integralist_police_force_conscription = 0.001 }
+				set_variable = { BRA_integralist_police_force_drift_defense = 0.1 }
+				set_variable = { BRA_integralist_police_force_stability = 0.03 }
+				set_variable = { BRA_cost_strengthen_force = 40 }
+			}
 		}
 	}
 
@@ -5861,6 +6095,18 @@ focus_tree = {
 		prerequisite = { focus = BRA_a_new_brazilian_era }
 
 		#will add back then police brutality idea and activate a mission that auto deals with the resistance over time 
+
+		cost = 4
+
+		available = {
+			has_government = fascism
+			has_civil_war = no 
+		}
+
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_dynamic_modifier = { modifier = BRA_integralist_police_force }
+		}
 	}
 
 	focus = {
@@ -5870,6 +6116,26 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_re_establish_a_police_force
 		prerequisite = { focus = BRA_re_establish_a_police_force }
+
+		cost = 6
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			if = {
+				limit = { has_completed_focus = BRA_victory_at_the_elections }
+				add_stability = -0.07
+				add_political_power = 35
+				custom_effect_tooltip = BRA_decerase_congress_by_4_tt
+				hidden_effect = {
+					subtract_from_variable = { BRA_congress_influence = 4 }
+					BRA_set_up_political_crisis = yes 
+				}
+			}
+			else = {
+				add_political_power = 75
+				add_stability = -0.05
+			}
+		}
 	}
 
 	focus = {
@@ -5886,6 +6152,24 @@ focus_tree = {
 
 		#the name will be a scripted loc 
 		#will depend on whether the player had civil war or not 
+
+		cost = 6
+
+		available = {
+			has_civil_war = no 
+			has_government = fascism
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			if = {
+				limit = { has_global_flag = BRA_civil_war_concluded }
+				BRA_improve_civil_war_recession = yes 
+			}
+			else = {
+				add_political_power = 50 
+			}
+		}
 	}
 
 	focus = {
@@ -5898,6 +6182,21 @@ focus_tree = {
 
 		#the name will be a scripted loc 
 		#will depend on whether the player had civil war or not 
+
+		cost = 8
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			BRA_improve_civil_war_recession = yes 
+			random_owned_controlled_state = {
+				limit = { infrastructure < 3 }
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes 
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -5907,6 +6206,13 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_dealing_with_the_post_civil_war_crisis
 		prerequisite = { focus = BRA_dealing_with_the_post_civil_war_crisis }
+
+		cost = 6
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_ideas = BRA_expanded_school_systems
+		}
 	}
 
 	focus = {
@@ -5918,6 +6224,28 @@ focus_tree = {
 		prerequisite = { focus = BRA_dealing_with_the_post_civil_war_crisis }
 
 		#will unlock the decisions to deal with the resistance movementes (generic)
+
+		cost = 7.2
+
+		available = {
+			has_civil_war = no 
+			if = {
+				limit = { has_government = fascism }
+				has_dynamic_modifier = { modifier = BRA_integralist_police_force }
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			if = {
+				limit = { has_global_flag = BRA_civil_war_concluded }
+				unlock_decision_tooltip = BRA_deal_with_the_resistance_in_FROM
+			}
+			else = {
+				add_stability = -0.04
+				add_manpower = 33500
+			}
+		}
 	}
 
 	focus = {
@@ -5929,6 +6257,21 @@ focus_tree = {
 		prerequisite = { focus = BRA_rebuild_the_destroyed_roads }
 
 		#will give a temporary debuff but improve the post civil war economic debuff 
+
+		cost = 6
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			BRA_improve_civil_war_recession = yes
+			add_timed_idea = {
+				idea = BRA_nationalizing_industry
+				days = 240
+			} 
+			custom_effect_tooltip = EUYL_effect_when_removed_tt
+			effect_tooltip = {
+				EUYL_add_2_civilian = yes 
+			}
+		}
 	}
 
 	focus = {
@@ -5940,6 +6283,13 @@ focus_tree = {
 		prerequisite = { focus = BRA_rebuild_the_destroyed_roads }
 
 		#will also imrpove slightly the economic debuff 
+
+		cost = 8
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			BRA_improve_civil_war_recession = yes 
+		}
 	}
 
 	focus = {
@@ -5952,6 +6302,13 @@ focus_tree = {
 		prerequisite = { focus = BRA_invite_the_best_economists }
 
 		#will add a research slot 
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_research_slot = 1
+		}
 	}
 
 	focus = {
@@ -5962,6 +6319,25 @@ focus_tree = {
 		relative_position_id = BRA_invite_the_best_economists
 		prerequisite = { focus = BRA_invite_the_best_economists }
 		prerequisite = { focus = BRA_nationalize_our_industry }
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			BRA_improve_civil_war_recession = yes 
+			random_owned_controlled_state = {
+				add_resource = {
+					type = oil
+					amount = 4
+				}
+			}
+			random_owned_controlled_state = {
+				add_resource = {
+					type = steel
+					amount = 6
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -5973,6 +6349,34 @@ focus_tree = {
 		prerequisite = { focus = BRA_establish_autarky }
 
 		#just adds civs lol 
+
+		cost = 10
+
+		available = {
+			NOT = {
+				has_idea = BRA_post_civil_war_economic_recession_1
+			}
+			hidden_trigger = {
+				NOT = {
+					OR = {
+						has_idea = BRA_post_civil_war_economic_recession_1
+						has_idea = BRA_post_civil_war_economic_recession_2
+						has_idea = BRA_post_civil_war_economic_recession_3
+						has_idea = BRA_post_civil_war_economic_recession_4
+						has_idea = BRA_post_civil_war_economic_recession_5
+					}
+				}
+			}
+			has_stability > 0.5
+			has_civil_war = no 
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_4_civilian = yes 
+		}
 	}
 
 	focus = {

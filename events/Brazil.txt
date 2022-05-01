@@ -1848,6 +1848,14 @@ country_event = {
 			}
 		}
 		BRA = { country_event = brazil.40 }
+		hidden_effect = {
+			BRA = {
+				set_country_flag = BRA_soviet_accepted
+			}
+			BRC = {
+				set_country_flag = BRA_soviet_accepted
+			}
+		}
 	}
 
 	option = { #decline 
@@ -1877,10 +1885,6 @@ country_event = {
 
 	option = {
 		name = brazil.40.a 
-		set_country_flag = BRA_soviet_accepted
-		BRC = {
-			set_country_flag = BRA_soviet_accepted
-		}
 	}
 }
 
@@ -2383,6 +2387,7 @@ country_event = { #event that gets triggered once civil war has concluded
 		original_tag = BRA 
 		has_global_flag = BRA_civil_war_in_progress #this is to make sure this triggers only after a pre-definied civil war 
 		has_civil_war = no 
+		is_subject = no #The AI might puppet for god knows what reason
 		NOT = {
 			OR = {
 				has_war_with = BRC 
@@ -2411,7 +2416,7 @@ country_event = { #event that gets triggered once civil war has concluded
 				every_state = {
 					limit = {
 						is_core_of = BRA 
-						is_fully_controlled_by = ROOT 
+						has_state_flag = brazilian_starting_state
 						NOT = { has_state_flag = BRA_communist_state }
 					}
 					add_dynamic_modifier = { modifier = BRA_post_civil_war_resistance }
@@ -2422,7 +2427,7 @@ country_event = { #event that gets triggered once civil war has concluded
 				every_state = {
 					limit = {
 						is_core_of = BRA 
-						is_fully_controlled_by = ROOT 
+						has_state_flag = brazilian_starting_state
 						NOT = { has_state_flag = BRA_fascist_state }
 					}
 					add_dynamic_modifier = { modifier = BRA_post_civil_war_resistance }
@@ -2433,7 +2438,7 @@ country_event = { #event that gets triggered once civil war has concluded
 				every_state = {
 					limit = {
 						is_core_of = BRA 
-						is_fully_controlled_by = ROOT 
+						has_state_flag = brazilian_starting_state
 						NOT = { has_state_flag = BRA_democratic_influence_state }
 					}
 					add_dynamic_modifier = { modifier = BRA_post_civil_war_resistance }
@@ -2449,12 +2454,27 @@ country_event = { #event that gets triggered once civil war has concluded
 				every_state = {
 					limit = {
 						is_core_of = BRA 
-						is_fully_controlled_by = ROOT 
+						has_state_flag = brazilian_starting_state
 						NOT = { has_state_flag = BRA_imperial_state }
 					}
 					add_dynamic_modifier = { modifier = BRA_post_civil_war_resistance }
 				}
-			} #will later add the other militias from the other civil wars to disband 
+			}
+			every_state = {
+				limit = {
+					has_state_flag = brazilian_starting_state
+					NOT = { #this will be for events of countries occupying brazilian states during the civil war 
+						OR = {
+							is_core_of = ARG 
+							is_core_of = BOL 
+							is_core_of = PRU 
+							is_core_of = COL
+						}
+					} 
+				}
+				ROOT = { transfer_state = PREV }
+			}
+			 #will later add the other militias from the other civil wars to disband 
 			delete_unit_template_and_units = {
 				division_template = "Soviet Volunteers"
                 disband = yes
@@ -2471,7 +2491,18 @@ country_event = { #event that gets triggered once civil war has concluded
 				division_template = "Foreign Volunteers"
                 disband = yes
 			}
+			delete_unit_template_and_units = {
+				division_template = "Soviet Volunteers"
+                disband = yes
+			}
+			delete_unit_template_and_units = {
+				division_template = "Portuguese Volunteers"
+                disband = yes
+			}
 			add_dynamic_modifier = { modifier = BRA_post_civil_war_social_crisis }
+			USA = {
+				give_guarantee = ROOT
+			}
 		}
 		BRA_set_up_post_civil_war_idea = yes 
 	}
@@ -3176,6 +3207,67 @@ country_event = {
 			BZE = {
 				set_country_flag = BRA_POR_agreed_to_help
 			}
+			FROM = {
+				country_event = { id = peru.16 hours = 5 }
+			}
+		}
+	}
+
+	option = {
+		name = brazil.73.b 
+	}
+}
+
+#Portugal gets event of potentially joining the Brazilian Imperialists in their civil war 
+country_event = {
+	id = brazil.74
+	title = brazil.74.t 
+	desc = brazil.74.d 
+	picture = GFX_report_event_generic_army
+
+	is_triggered_only = yes 
+
+	option = { #It's time to help them 
+		name = brazil.74.a 
+		ai_chance = {
+			base = 15
+			modifier = {
+				has_opinion = {
+					target = FROM 
+					value > 49
+				}
+				add = 35
+			}
+			modifier = {
+				add = 70
+				has_completed_focus = POR_the_return_of_duarte
+			}
+		}
+		every_other_country = {
+			limit = {
+				original_tag = BRA 
+				NOT = {
+					tag = BZE 
+				}
+			}
+			POR = {
+				declare_war_on = {
+					target = PREV 
+					type = annex_everything
+				}
+			}
+		}
+		hidden_effect = {
+			news_event = { id = news.366 days = 1 }
+			set_global_flag = BRA_POR_intervened
+		}
+	}
+
+	option = { #We can't do this 
+		name = brazil.74.b 
+		ai_chance = {
+			base = 20 
 		}
 	}
 }
+
