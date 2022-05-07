@@ -1947,6 +1947,99 @@ BRA_imminent_civil_war = {
     }
 }
 
+BRA_imperial_management = {
+
+    BRA_pedro_gastao_demanding_the_throne = {
+        priority = 100
+        icon = generic_speech
+
+        is_good = no 
+
+        days_mission_timeout = 100
+
+        activation = {
+            always = no 
+        }
+
+        available = {
+            OR = {
+                has_country_flag = BRA_pedro_appeased
+                has_country_leader = {
+                    name = "Prince Pedro Gastão of Orléans-Braganza"
+                    ruling_only = yes 
+                }
+                has_completed_focus = BRA_imprison_pedro_gastao
+            }
+        }
+
+        complete_effect = {
+            add_stability = -0.01
+        }
+
+        timeout_effect = {
+            retire_country_leader = yes 
+            create_country_leader = {
+                name = Prince Pedro Gastão of Orléans-Braganza
+                desc = "POLITICS_PEDRO_GASTAO_DESC"
+                picture = "gfx/leaders/BRA/BRA_pedro_gastao_de_orleanz.png"
+                expire = "1965.1.1"
+                ideology = monarchism
+                traits = {
+                    CHL_leader_of_the_people
+                }
+            }
+            activate_mission = BRA_pedro_enrique_re_claims_the_throne
+        }
+    }
+
+    BRA_pedro_enrique_re_claims_the_throne = {
+        priority = 100
+        icon = generic_speech 
+
+        is_good = no 
+
+        days_mission_timeout = 100
+
+        activation = {
+            always = no 
+        }
+
+        available = {
+
+        }
+    }
+
+    BRA_promote_pedro_gastao_as_leader = {
+
+    }
+
+    BRA_appease_pedro = {
+        icon = generic_political_discourse
+
+        visible = {
+            has_active_mission = BRA_pedro_gastao_demanding_the_throne
+            has_completed_focus = BRA_offer_pedro_a_cabinet_seat
+        }
+
+        cost = 50
+
+        available = {
+            has_country_flag = BRA_pedro_gastao_appointed
+        }
+
+        fire_only_once = yes 
+
+        completion_reward = {
+            custom_effect_tooltip = BRA_pedro_appeased_tt
+            set_country_flag = BRA_pedro_appeased
+        }
+    }
+
+    BRA_imprison_pedro_enrique = {
+        
+    }
+}
+
 BRA_the_brazilian_civil_war = {
     BRA_impending_paulista_revolt = {
         priority = 75
