@@ -5686,8 +5686,12 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_external_imperial_management
 		prerequisite = { focus = BRA_external_imperial_management }
+		will_lead_to_war_with = URG 
+		will_lead_to_war_with = ARG
 
 		#will activate the uruguayan conquer mission 
+
+		cost = 2
 	}
 
 	focus = {
@@ -5939,6 +5943,42 @@ focus_tree = {
 		relative_position_id = BRA_win_the_second_cisplatine_war
 		prerequisite = { focus = BRA_win_the_second_cisplatine_war }
 		prerequisite = { focus = BRA_invest_in_the_imperial_army }
+		will_lead_to_war_with = PAR
+
+		cost = 5
+
+		available = {
+			NOT = {
+				is_in_faction_with = PAR
+			}
+		}
+
+		bypass = {
+			has_completed_focus = BRA_invest_in_the_imperial_army
+			has_completed_focus = BRA_win_the_second_cisplatine_war
+			300 = {
+				is_fully_controlled_by = ROOT 
+			}
+			688 = {
+				is_fully_controlled_by = ROOT
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			if = {
+				limit = {
+					has_war_with = PAR 
+				}
+				add_ideas = BRA_push_through_paraguay_idea
+			}
+			else = {
+				create_wargoal = {
+					type = annex_everything
+					target = PAR
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -6549,6 +6589,23 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_the_brazilian_economic_miracle
 		prerequisite = { focus = BRA_the_brazilian_economic_miracle }
+
+		cost = 7.2 
+
+		available = {
+			has_government = fascism
+			has_stability > 0.6
+		}
+
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			custom_effect_tooltip = ARG_cost_to_attract_immigrants_reduced_tt
+			hidden_effect = {
+				subtract_from_variable = { EUYL_cost_many_immigrants = 35 }
+				subtract_from_variable = { EUYL_cost_some_immigrants = 20 }
+				subtract_from_variable = { EUYL_cost_few_immigrants = 10 }
+			}
+		}
 	}
 
 	focus = {
