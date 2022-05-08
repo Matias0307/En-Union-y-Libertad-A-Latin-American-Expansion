@@ -5653,7 +5653,10 @@ focus_tree = {
 			add_war_support = 0.03
 			custom_effect_tooltip = BRA_problems_within_royal_family_tt
 			hidden_effect = {
-				add_ideas = BRA_problems_royal_family 
+				add_timed_idea = {
+					idea = BRA_problems_royal_family 
+					days = 400
+				}
 				activate_mission = BRA_pedro_demanding_the_throne
 			}
 		}
@@ -5666,6 +5669,14 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_officialy_establish_the_empire
 		prerequisite = { focus = BRA_officialy_establish_the_empire }
+
+		cost = 3
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			add_political_power = 20
+			add_war_support = 0.04
+		}
 	}
 
 	focus = {
@@ -5822,6 +5833,43 @@ focus_tree = {
 			focus = BRA_external_imperial_management 
 			focus = BRA_stabilizing_our_politics
 		}
+
+		cost = 6
+
+		available = {
+			LIB = {
+				exists = yes 
+				NOT = {
+					is_in_faction_with = ROOT 
+				}
+			}
+		}
+
+		bypass = {
+			OR = {
+				has_completed_focus = BRA_propose_unification_with_portugal
+				has_completed_focus = BRA_officialy_establish_the_empire
+			}
+			OR = {
+				has_war_with = LIB 
+				AND = {
+					298 = {
+						is_fully_controlled_by = ROOT
+					}
+					LIB = {
+						has_capitulated = yes 
+					}
+				}			
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = LIB
+			}
+		}
 	}
 
 	focus = {
@@ -5920,6 +5968,24 @@ focus_tree = {
 		relative_position_id = BRA_officialy_establish_the_empire
 		prerequisite = { focus = BRA_officialy_establish_the_empire }
 		mutually_exclusive = { focus = BRA_offer_pedro_a_cabinet_seat }
+
+		cost = 4
+
+		available = {
+			has_active_mission = BRA_pedro_gastao_demanding_the_throne
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_stability = -0.05
+			add_political_power = 40
+			custom_effect_tooltip = BRA_pedro_gastao_imprisoned_tt
+            hidden_effect = {
+                BRA_pedro_gastao_orleans = {
+                    set_character_flag = BRA_imprisoned
+                }
+            }
+		}
 	}
 
 	focus = {
@@ -5930,6 +5996,30 @@ focus_tree = {
 		relative_position_id = BRA_officialy_establish_the_empire
 		prerequisite = { focus = BRA_officialy_establish_the_empire }
 		mutually_exclusive = { focus = BRA_imprison_pedro_gastao }
+
+		cost = 7.2
+
+		available = {
+			has_active_mission = BRA_pedro_gastao_demanding_the_throne
+		}
+
+		bypass = {
+			has_country_leader = {
+                name = "Prince Pedro Gastão of Orléans-Braganza"
+                ruling_only = yes 
+            }
+			has_country_flag = BRA_pedro_enrique_imprisoned
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_days_mission_timeout = {
+				mission = BRA_pedro_gastao_demanding_the_throne
+				days = 50
+			}
+			custom_effect_tooltip = BRA_pedro_gastao_available_advisor_tt
+			unlock_decision_tooltip = BRA_appease_pedro
+		}
 	}
 
 	focus = {
@@ -5942,6 +6032,20 @@ focus_tree = {
 			focus = BRA_offer_pedro_a_cabinet_seat
 			focus = BRA_imprison_pedro_gastao
 		}
+
+		available = {
+			NOT = {
+				has_idea = BRA_problems_royal_family
+			}
+		}
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_political_power = 25
+			add_stability = 0.05
+		}
 	}
 
 	focus = {
@@ -5951,6 +6055,22 @@ focus_tree = {
 		y = 2
 		relative_position_id = BRA_internal_imperial_management
 		prerequisite = { focus = BRA_internal_imperial_management }
+
+		cost = 8
+
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = BRA_the_imperial_army_1
+				}
+				EUYL_add_2_military = yes 
+			}
+			else = {
+				add_ideas = BRA_the_imperial_army_1
+			}
+			unlock_decision_tooltip = BRA_invest_further_in_the_imperial_army
+		}
 	}
 
 	focus = {
@@ -5960,6 +6080,13 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_internal_imperial_management
 		prerequisite = { focus = BRA_internal_imperial_management }
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_4_civilian = yes 
+		}
 	}
 
 	focus = {
@@ -5970,6 +6097,13 @@ focus_tree = {
 		relative_position_id = BRA_internal_imperial_management
 		prerequisite = { focus = BRA_expand_our_school_system }
 		prerequisite = { focus = BRA_internal_imperial_management }
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_ideas = BRA_imperial_scholars
+		}
 	}
 
 	focus = {

@@ -103,6 +103,211 @@ BRA_political_crisis = {
             }
         }
     }
+
+    BRA_pedro_gastao_demanding_the_throne = {
+        priority = 100
+        icon = generic_speech
+
+        is_good = no 
+
+        days_mission_timeout = 100
+
+        activation = {
+            always = no 
+        }
+
+        available = {
+            OR = {
+                has_country_flag = BRA_pedro_appeased
+                has_country_leader = {
+                    name = "Prince Pedro Gastão of Orléans-Braganza"
+                    ruling_only = yes 
+                }
+                has_completed_focus = BRA_imprison_pedro_gastao
+            }
+        }
+
+        complete_effect = {
+            add_stability = -0.01
+        }
+
+        timeout_effect = {
+            retire_country_leader = yes 
+            create_country_leader = {
+                name = "Prince Pedro Gastão of Orléans-Braganza"
+                desc = "POLITICS_PEDRO_GASTAO_DESC"
+                picture = "gfx/leaders/BRA/BRA_pedro_gastao_de_orleanz.png"
+                expire = "1965.1.1"
+                ideology = monarchism
+                traits = {
+                    CHL_leader_of_the_people
+                }
+            }
+            activate_mission = BRA_pedro_enrique_re_claims_the_throne
+        }
+    }
+
+    BRA_pedro_enrique_re_claims_the_throne = {
+        priority = 100
+        icon = generic_speech 
+
+        is_good = no 
+
+        days_mission_timeout = 100
+
+        activation = {
+            always = no 
+        }
+
+        available = {
+            OR = {
+                has_country_flag = BRA_pedro_enrique_imprisoned
+                has_country_flag = BRA_pedro_enrique_appeased
+                has_country_leader = {
+                    name = "Dom Pedro III"
+                    ruling_only = yes 
+                }
+            }
+        }
+
+        complete_effect = {
+            add_stability = -0.01
+        }
+
+        timeout_effect = {
+            retire_country_leader = yes 
+            create_country_leader = {
+                name = "Dom Pedro III"
+                desc = "POLITICS_DOM_PEDRO_III_DESC"
+                picture = "gfx/leaders/BRA/portrait_bra_prince_pedro_hernique_de_orleans_e_braganza.png"
+                expire = "1965.1.1"
+                ideology = monarchism
+                traits = {
+                    BRA_heir_of_the_throne
+                }
+            }
+        }
+    }
+
+    BRA_promote_pedro_gastao_as_leader = {
+        icon = eng_trade_unions_support
+
+        visible = {
+            has_active_mission = BRA_pedro_gastao_demanding_the_throne
+        }
+
+        cost = 10
+
+        days_remove = 5
+
+        fire_only_once = yes 
+
+        remove_effect = {
+            add_stability = -0.02
+            retire_country_leader = yes 
+            create_country_leader = {
+                name = "Prince Pedro Gastão of Orléans-Braganza"
+                desc = "POLITICS_PEDRO_GASTAO_DESC"
+                picture = "gfx/leaders/BRA/BRA_pedro_gastao_de_orleanz.png"
+                expire = "1965.1.1"
+                ideology = monarchism
+                traits = {
+                    CHL_leader_of_the_people
+                }
+            }
+            activate_mission = BRA_pedro_enrique_re_claims_the_throne
+            hidden_effect = {
+                set_country_flag = BRA_promoted_gastao
+            }
+        }
+    }
+
+    BRA_appease_pedro = {
+        icon = generic_political_discourse
+
+        visible = {
+            has_active_mission = BRA_pedro_gastao_demanding_the_throne
+            has_completed_focus = BRA_offer_pedro_a_cabinet_seat
+            NOT = { has_country_flag = BRA_promoted_gastao }
+        }
+
+        cost = 50
+
+        available = {
+            has_country_flag = BRA_pedro_gastao_appointed
+        }
+
+        fire_only_once = yes 
+
+        completion_reward = {
+            custom_effect_tooltip = BRA_pedro_appeased_tt
+            set_country_flag = BRA_pedro_appeased
+            remove_ideas = BRA_problems_royal_family
+        }
+    }
+
+    BRA_appease_enrique = {
+        icon = generic_political_discourse
+
+        visible = {
+            has_active_mission = BRA_pedro_gastao_demanding_the_throne
+            has_completed_focus = BRA_offer_pedro_a_cabinet_seat
+            NOT = { has_country_flag = BRA_promoted_gastao }
+            NOT = { has_country_flag = BRA_imrpisoning_pedro_enrique }
+        }
+
+        cost = 75
+
+        available = {
+            has_country_flag = BRA_pedro_henrique_advisor
+        }
+
+        fire_only_once = yes 
+
+        completion_reward = {
+            custom_effect_tooltip = BRA_pedro_enrique_appeased_tt
+            set_country_flag = BRA_pedro_enrique_appeased
+            remove_ideas = BRA_problems_royal_family
+        }
+    }
+
+    BRA_imprison_pedro_enrique = {
+        icon = generic_arrest
+
+        visible = {
+            has_active_mission = BRA_pedro_enrique_re_claims_the_throne
+            NOT = {
+                has_country_flag = BRA_pedro_enrique_appeased
+            }
+        }
+
+        cancel_trigger = {
+            NOT = {
+                has_active_mission = BRA_pedro_enrique_re_claims_the_throne
+            }
+        }
+
+        days_remove = 25
+
+        fire_only_once = yes 
+
+        complete_effect = {
+            set_country_flag = BRA_imrpisoning_pedro_enrique
+        }
+
+        complete_effect = {
+            add_political_power = 40
+            add_stability = -0.05
+            custom_effect_tooltip = BRA_pedro_enrique_imprisoned_tt
+            hidden_effect = {
+                BRA_dom_pedro_iii = {
+                    set_character_flag = BRA_imprisoned
+                }
+                set_country_flag = BRA_pedro_enrique_imprisoned
+            }
+        }
+    }
+
 }
 
 BRA_political_manegement = {
@@ -1949,93 +2154,48 @@ BRA_imminent_civil_war = {
 
 BRA_imperial_management = {
 
-    BRA_pedro_gastao_demanding_the_throne = {
-        priority = 100
-        icon = generic_speech
-
-        is_good = no 
-
-        days_mission_timeout = 100
-
-        activation = {
-            always = no 
-        }
-
-        available = {
-            OR = {
-                has_country_flag = BRA_pedro_appeased
-                has_country_leader = {
-                    name = "Prince Pedro Gastão of Orléans-Braganza"
-                    ruling_only = yes 
-                }
-                has_completed_focus = BRA_imprison_pedro_gastao
-            }
-        }
-
-        complete_effect = {
-            add_stability = -0.01
-        }
-
-        timeout_effect = {
-            retire_country_leader = yes 
-            create_country_leader = {
-                name = Prince Pedro Gastão of Orléans-Braganza
-                desc = "POLITICS_PEDRO_GASTAO_DESC"
-                picture = "gfx/leaders/BRA/BRA_pedro_gastao_de_orleanz.png"
-                expire = "1965.1.1"
-                ideology = monarchism
-                traits = {
-                    CHL_leader_of_the_people
-                }
-            }
-            activate_mission = BRA_pedro_enrique_re_claims_the_throne
-        }
-    }
-
-    BRA_pedro_enrique_re_claims_the_throne = {
-        priority = 100
-        icon = generic_speech 
-
-        is_good = no 
-
-        days_mission_timeout = 100
-
-        activation = {
-            always = no 
-        }
-
-        available = {
-
-        }
-    }
-
-    BRA_promote_pedro_gastao_as_leader = {
-
-    }
-
-    BRA_appease_pedro = {
-        icon = generic_political_discourse
+    BRA_invest_further_in_the_imperial_army = {
+        icon = generic_army_support
 
         visible = {
-            has_active_mission = BRA_pedro_gastao_demanding_the_throne
-            has_completed_focus = BRA_offer_pedro_a_cabinet_seat
+            has_completed_focus = BRA_invest_further_in_the_imperial_army
+            OR = {
+                has_idea = BRA_the_imperial_army_1
+                has_idea = BRA_the_imperial_army_2
+            }
         }
 
-        cost = 50
+        cost = 40
 
-        available = {
-            has_country_flag = BRA_pedro_gastao_appointed
-        }
+        days_remove = 60
 
-        fire_only_once = yes 
-
-        completion_reward = {
-            custom_effect_tooltip = BRA_pedro_appeased_tt
-            set_country_flag = BRA_pedro_appeased
+        remove_effect = {
+            if = {
+                limit = { has_idea = BRA_the_imperial_army_1 }
+                swap_ideas = {
+                    remove_idea = BRA_the_imperial_army_1
+                    add_idea = BRA_the_imperial_army_2
+                }
+            }
+            else = {
+                swap_ideas = {
+                    remove_idea = BRA_the_imperial_army_2
+                    add_idea = BRA_the_imperial_army_3
+                }
+            }
         }
     }
 
-    BRA_imprison_pedro_enrique = {
+    BRA_preparing_the_uruguayan_civil_war = {
+        priority = 100
+        icon = generic_ignite_civil_war
+
+        activation = {
+            always = no 
+        }
+
+        days_mission_timeout = 145
+
         
     }
 }
@@ -2650,6 +2810,20 @@ BRA_the_brazilian_civil_war = {
                     remove_dynamic_modifier = { modifier = BRA_democratic_influence_in_state }
                 }
                 news_event = { id = news.364 days = 1 }
+                every_country = {
+                    limit = { original_tag = BRA }
+                    BRA_mark_focus_tree_layout_dirty = yes 
+                    if = {
+                        limit = {
+                            NOT = {
+                                is_guaranteed_by = USA
+                            }
+                        }
+                        USA = {
+                            give_guarantee = PREV
+                        }
+                    }
+                }
             }
         }
     }  
