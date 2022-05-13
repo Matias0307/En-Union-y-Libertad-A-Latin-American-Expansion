@@ -2420,6 +2420,18 @@ focus_tree = {
 		y =2
 		relative_position_id = BRA_industrial_recovery
 		prerequisite = { focus = BRA_industrial_recovery }
+
+		cost = 10
+
+		available = {
+			stability > 0.4
+			num_of_factories > 34
+		}
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_research_slot = 1
+		}
 	}
 
 	focus = {
@@ -3509,7 +3521,7 @@ focus_tree = {
 		completion_reward = { #will start imminent civil war mechanism 
 			unlock_decision_category_tooltip = BRA_imminent_civil_war
 			custom_effect_tooltip = BRA_put_race_against_time_tt
-			add_political_power = 40
+			add_political_power = 100
 			hidden_effect = {
 				set_variable = { BRA_playing_as_vargas = 0 }
 				set_variable = { BRA_playing_as_integralists = 1 }
@@ -3547,7 +3559,6 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-			add_political_power = 20
 			add_days_mission_timeout = {
 				mission = BRA_estado_novo_mission_enemy
 				days = 30
@@ -5692,6 +5703,45 @@ focus_tree = {
 		#will activate the uruguayan conquer mission 
 
 		cost = 2
+
+		available = {
+			URG = {
+				exists = yes 
+				has_civil_war = no 
+				has_war = no 
+				NOT = { is_in_faction_with = ROOT }
+			}
+			has_civil_war = no 
+		}
+
+		bypass = {
+			has_completed_focus = BRA_external_imperial_management
+			OR = {
+				URG = {
+					OR = {
+						is_subject_of = ROOT 
+						has_war_with = ROOT 
+						AND = {
+							is_in_faction_with = ROOT 
+							has_government = neutrality
+						}
+					}
+				}
+				AND = {
+
+				}
+			}
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			activate_mission = BRA_preparing_the_uruguayan_civil_war
+			hidden_effect = {
+				set_country_flag = BRA_preparing_uruguayan_war
+			}
+		}
 	}
 
 	focus = {
@@ -5704,7 +5754,7 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BRA_coerce_the_uruguayans
+		id = BRA_coerce_the_uruguayans #secret armament
 		icon = GFX_goal_generic_military_deal
 		x = 1
 		y = 1
@@ -6356,7 +6406,7 @@ focus_tree = {
 		#the name will be a scripted loc 
 		#will depend on whether the player had civil war or not 
 
-		cost = 6
+		cost = 5
 
 		available = {
 			has_civil_war = no 
@@ -8696,7 +8746,7 @@ focus_tree = {
 			has_civil_war = no 
 		}
 
-		cost = 5
+		cost = 3
 
 		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
 		completion_reward = {

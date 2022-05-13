@@ -239,7 +239,7 @@ BRA_political_crisis = {
 
         fire_only_once = yes 
 
-        completion_reward = {
+        complete_effect = {
             custom_effect_tooltip = BRA_pedro_appeased_tt
             set_country_flag = BRA_pedro_appeased
             remove_ideas = BRA_problems_royal_family
@@ -264,7 +264,7 @@ BRA_political_crisis = {
 
         fire_only_once = yes 
 
-        completion_reward = {
+        complete_effect = {
             custom_effect_tooltip = BRA_pedro_enrique_appeased_tt
             set_country_flag = BRA_pedro_enrique_appeased
             remove_ideas = BRA_problems_royal_family
@@ -295,7 +295,7 @@ BRA_political_crisis = {
             set_country_flag = BRA_imrpisoning_pedro_enrique
         }
 
-        complete_effect = {
+        remove_effect = {
             add_political_power = 40
             add_stability = -0.05
             custom_effect_tooltip = BRA_pedro_enrique_imprisoned_tt
@@ -2194,9 +2194,161 @@ BRA_imperial_management = {
             always = no 
         }
 
+        is_good = yes 
+
         days_mission_timeout = 145
 
-        
+        available = {
+            OR = {
+                has_global_flag = BRA_URG_cleaned_out_intruders
+                URG = {
+                    has_civil_war = yes 
+                }
+                has_war_with = URG 
+                AND = {
+                    URG = {
+                        is_subject_of = ROOT 
+                        has_government = neutrality
+                    }
+                }
+            }
+        }
+
+        complete_effect = {
+            country_event = brazil.failed_uruguay
+            clr_country_flag = BRA_preparing_uruguayan_war
+        }
+
+        timeout_effect = {
+            custom_effect_tooltip = BRA_if_influence_over_uruguay_over
+            effect_tooltip = {
+                URG = {
+                    set_cosmetic_tag = BRA_URG
+                    start_civil_war = {
+                        ruling_party = ROOT 
+                        ideology = neutrality
+                    }
+                }
+            }
+            hidden_effect = {
+                clr_country_flag = BRA_preparing_uruguayan_war
+                URG = {
+                    division_template = { 
+						name = "Milicia Uruguaya" 
+						division_names_group = SPAN_INF_02 
+						is_locked = yes 
+						regiments = { 
+							infantry = { x = 0 y = 0 }  
+							infantry = { x = 0 y = 1 } 
+							infantry = { x = 0 y = 2 } 
+							infantry = { x = 0 y = 3 } 
+						}
+					}
+                    set_country_flag = URG_og_country
+                    start_civil_war = {
+                        ruling_party = ROOT 
+                        ideology = neutrality
+                        size = 0.4
+                    }
+                }
+                
+                random_other_country = {
+                    limit = {
+                        original_tag = URG 
+                        has_government = neutrality
+                        NOT = { has_country_flag = URG_og_country }
+                    }
+                    set_cosmetic_tag = BRA_URG
+                    retire_country_leader = yes 
+                    create_country_leader = {
+                        name = "Imperial Management of Uruguay"
+                        desc = "POLITICS_BRAZILIAN_MILITARY_JUNTA_DESC"
+                        picture = "gfx/leaders/BRA/BZE_junta.png"
+                        expire = "1965.1.1"
+                        ideology = despotism
+                        traits = {
+                            BRA_disorganized_leadership
+                        }
+                    }
+                    set_party_name = {
+                        ideology = neutrality
+                        long_name = BRA_URG_dominion_party_long
+                        name = BRA_URG_dominion_party
+                    }
+                    if = {
+                        limit = {
+                            BRA = {
+                                has_completed_focus = BRA_spread_monarchism_in_uruguay
+                            }
+                        }
+                        create_unit = {
+                            division = "name = \"Milícias\" division_template = \"Milicia Uruguaya\" start_experience_factor = 0.05 start_equipment_factor = 1" 
+                            owner = PREV
+                        }
+                        create_unit = {
+                            division = "name = \"Milícias\" division_template = \"Milicia Uruguaya\" start_experience_factor = 0.05 start_equipment_factor = 1" 
+                            owner = PREV
+                        }
+                    }
+                    if = {
+                        limit = {
+                            BRA = {
+                                has_completed_focus = BRA_coerce_the_uruguayans
+                            }
+                        }
+                        create_unit = {
+                            division = "name = \"Milícias\" division_template = \"Milicia Uruguaya\" start_experience_factor = 0.05 start_equipment_factor = 1" 
+                            owner = PREV
+                        }
+                        add_equipment_to_stockpile = {
+                            type = infantry_equipment
+                            amount = 1000
+                            producer = BRA
+                        }
+                    }
+                    BRA = {
+                        puppet = PREV
+                        declare_war_on = {
+                            target = URG 
+                            type = puppet_wargoal_focus
+                        }
+                    }
+                }
+                ARG = {
+                    if = {
+                        limit = {
+                            NOT = {
+                                OR = {
+                                    has_war_with = BRA 
+                                    has_war_with = URG 
+                                    is_in_faction_with = BRA
+                                }
+                            }
+                        }
+                        country_event = { id = brazil.63 hours = 4 }
+                        set_global_flag = second_cisplatine_war
+                    }
+                }
+            }
+        }
+    }
+
+    BRA_speed_up_the_plan = {
+
+        visible = {
+            has_active_mission = BRA_preparing_the_uruguayan_civil_war
+        }
+
+        cost = 40
+
+        days_remove = 20
+
+        remove_effect = {
+            add_days_mission_timeout = {
+                mission = BRA_preparing_the_uruguayan_civil_war
+                days = -30
+            }
+        }
     }
 }
 
@@ -2910,12 +3062,6 @@ BRA_the_brazilian_civil_war = {
 
         days_mission_timeout = 365
         fire_only_once = yes 
-
-        modifier = {
-            army_attack_factor = 0.05
-            army_defence_factor = 0.05
-            army_speed_factor = 0.1
-        }
 
         complete_effect = {
             add_stability = 0.05
