@@ -2215,7 +2215,7 @@ BRA_imperial_management = {
         }
 
         complete_effect = {
-            country_event = brazil.failed_uruguay
+            country_event = brazil.failed.uruguay
             clr_country_flag = BRA_preparing_uruguayan_war
         }
 
@@ -2249,13 +2249,31 @@ BRA_imperial_management = {
                         ruling_party = ROOT 
                         ideology = neutrality
                         size = 0.4
+                        capital = 300
+                        states = {
+                            300
+                        }
+                    }
+                    every_controlled_state = {
+                        create_unit = {
+                            division = "name = \"Milícias\" division_template = \"Milicia Uruguaya\" start_experience_factor = 0.05 start_equipment_factor = 1" 
+                            owner = PREV
+                        }
+                        create_unit = {
+                            division = "name = \"Milícias\" division_template = \"Milicia Uruguaya\" start_experience_factor = 0.05 start_equipment_factor = 1" 
+                            owner = PREV
+                        }
+                        create_unit = {
+                            division = "name = \"Milícias\" division_template = \"Milicia Uruguaya\" start_experience_factor = 0.05 start_equipment_factor = 1" 
+                            owner = PREV
+                        }
                     }
                 }
-                
                 random_other_country = {
                     limit = {
                         original_tag = URG 
                         has_government = neutrality
+                        has_civil_war = yes 
                         NOT = { has_country_flag = URG_og_country }
                     }
                     set_cosmetic_tag = BRA_URG
@@ -2275,19 +2293,14 @@ BRA_imperial_management = {
                         long_name = BRA_URG_dominion_party_long
                         name = BRA_URG_dominion_party
                     }
-                    if = {
+                    every_state = {
                         limit = {
-                            BRA = {
-                                has_completed_focus = BRA_spread_monarchism_in_uruguay
-                            }
+                            check_variable = { BRA_influence_strength = 3 }
                         }
                         create_unit = {
                             division = "name = \"Milícias\" division_template = \"Milicia Uruguaya\" start_experience_factor = 0.05 start_equipment_factor = 1" 
                             owner = PREV
-                        }
-                        create_unit = {
-                            division = "name = \"Milícias\" division_template = \"Milicia Uruguaya\" start_experience_factor = 0.05 start_equipment_factor = 1" 
-                            owner = PREV
+                            allow_spawning_on_enemy_provs = yes
                         }
                     }
                     if = {
@@ -2296,9 +2309,19 @@ BRA_imperial_management = {
                                 has_completed_focus = BRA_coerce_the_uruguayans
                             }
                         }
-                        create_unit = {
-                            division = "name = \"Milícias\" division_template = \"Milicia Uruguaya\" start_experience_factor = 0.05 start_equipment_factor = 1" 
-                            owner = PREV
+                        300 = {
+                            create_unit = {
+                                division = "name = \"Milícias\" division_template = \"Milicia Uruguaya\" start_experience_factor = 0.05 start_equipment_factor = 1" 
+                                owner = PREV
+                            }
+                            create_unit = {
+                                division = "name = \"Milícias\" division_template = \"Milicia Uruguaya\" start_experience_factor = 0.05 start_equipment_factor = 1" 
+                                owner = PREV
+                            }
+                            create_unit = {
+                                division = "name = \"Milícias\" division_template = \"Milicia Uruguaya\" start_experience_factor = 0.05 start_equipment_factor = 1" 
+                                owner = PREV
+                            }
                         }
                         add_equipment_to_stockpile = {
                             type = infantry_equipment
@@ -2343,10 +2366,107 @@ BRA_imperial_management = {
 
         days_remove = 20
 
+        cancel_trigger = {
+            NOT = {
+                has_active_mission = BRA_preparing_the_uruguayan_civil_war
+            }
+        }
+
         remove_effect = {
             add_days_mission_timeout = {
                 mission = BRA_preparing_the_uruguayan_civil_war
                 days = -30
+            }
+        }
+    }
+
+    BRA_influence_the_state_of_FROM = {
+        icon = {
+			key = GFX_brazil_empire_claim_0
+			trigger = {
+				check_variable = {
+					var = BRA_influence_strength
+					value = 0
+					compare = equals
+				}
+			}
+		}
+        icon = {
+			key = GFX_brazil_empire_claim_1
+			trigger = {
+				check_variable = {
+					var = BRA_influence_strength
+					value = 1
+					compare = equals
+				}
+			}
+		}
+        icon = {
+			key = GFX_brazil_empire_claim_2
+			trigger = {
+				check_variable = {
+					var = BRA_influence_strength
+					value = 2
+					compare = equals
+				}
+			}
+		}
+        icon = {
+			key = GFX_brazil_empire_claim_3
+			trigger = {
+				check_variable = {
+					var = BRA_influence_strength
+					value = 3
+					compare = equals
+				}
+			}
+		}
+
+        state_target = yes 
+
+        target_trigger = {
+            FROM = {
+                is_fully_controlled_by = URG 
+                is_core_of = URG 
+            }
+        }
+
+        on_map_mode = map_only
+
+        visible = {
+            has_completed_focus = BRA_spread_monarchism_in_uruguay
+            has_active_mission = BRA_preparing_the_uruguayan_civil_war
+            FROM = {
+                check_variable = { BRA_influence_strength < 3 }
+            }
+        }
+
+        cost = 10
+
+        days_remove = 15
+
+        cancel_trigger = {
+            NOT = {
+                has_active_mission = BRA_preparing_the_uruguayan_civil_war
+            }
+        }
+
+        remove_effect = {
+            custom_effect_tooltip = BRA_influence_will_increase_tt
+            hidden_effect = {
+                FROM = {
+                    add_to_variable = { BRA_influence_strength = 1 }
+                }
+            }
+            if = {
+                limit = {
+                    FROM = {
+                        check_variable = { BRA_influence_strength = 3 }
+                    }
+                }
+                FROM = {
+                    add_core_of = ROOT
+                }
             }
         }
     }
@@ -2564,7 +2684,7 @@ BRA_the_brazilian_civil_war = {
             effect_tooltip = {
                 start_civil_war = {
                     ruling_party = ROOT 
-                    ideology = communist
+                    ideology = communism
                     size = 0.4
                 }
             }
@@ -3141,7 +3261,7 @@ BRA_the_brazilian_civil_war = {
                     capital_scope = { is_on_continent = north_america }
                 }
                 has_war = no 
-                num_of_civilian_factories > 
+                num_of_civilian_factories > 9
                 NOT = { has_country_flag = BRA_agreed_to_help }
             }
         }
@@ -3821,7 +3941,7 @@ BRA_the_spread_of_communism = {
         available = {
             FROM = {
                 communism > 0.3
-                stability < 0.5
+                has_stability < 0.5
             }
             has_equipment = {
                 infantry_equipment > 1499
@@ -3923,7 +4043,7 @@ BRA_the_spread_of_communism = {
         target_trigger = {
             FROM = {
                 any_owned_state = {
-                    is_on_continent = { south_america }
+                    is_on_continent = south_america 
                 }
                 has_government = communism
                 has_civil_war = yes 

@@ -2424,7 +2424,7 @@ focus_tree = {
 		cost = 10
 
 		available = {
-			stability > 0.4
+			has_stability > 0.4
 			num_of_factories > 34
 		}
 
@@ -3506,6 +3506,7 @@ focus_tree = {
 		x = 65
 		y = 0
 		mutually_exclusive = { focus = BRA_the_path_to_estado_novo }
+		mutually_exclusive = { focus = BRA_manipulate_behind_the_scenes }
 
 		cost = 2
 
@@ -3604,7 +3605,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
 		completion_reward = {
 			custom_effect_tooltip = BRA_civil_war_progress_increase_10_tt
-			add_idas = BRA_integralist_protests_1
+			add_ideas = BRA_integralist_protests_1
 			unlock_decision_tooltip = BRA_strengthen_our_protests
 			hidden_effect = {
 				add_to_variable = { BRA_progress_to_a_civil_war = 10 }
@@ -4332,7 +4333,10 @@ focus_tree = {
 				every_controlled_state = {
 					limit = {
 						NOT = { has_dynamic_modifier = { modifier = BRA_integralists_occupation } }
-						num_of_factories > 3
+						AND = {
+							arms_factory > 1
+							industrial_complex > 1
+						}
 					}
 					add_dynamic_modifier = { modifier = BRA_integralists_occupation }
 				}
@@ -5262,9 +5266,18 @@ focus_tree = {
 			custom_effect_tooltip = ARG_iftheyaccept
 			effect_tooltip = {
 				POR = {
-					declare_war_on = BRA 
-					declare_war_on = BUS 
-					declare_war_on = BRC
+					declare_war_on = {
+						target = BRA 
+						type = annex_everything
+					}
+					declare_war_on = {
+						target = BUS 
+						type = annex_everything
+					}
+					declare_war_on = {
+						target = BRC 
+						type = annex_everything
+					}
 				}
 			}
 		}
@@ -5727,8 +5740,10 @@ focus_tree = {
 						}
 					}
 				}
-				AND = {
-
+				URG = {
+					all_core_state = {
+						is_fully_controlled_by = ROOT
+					}
 				}
 			}
 		}
@@ -5740,7 +5755,11 @@ focus_tree = {
 			activate_mission = BRA_preparing_the_uruguayan_civil_war
 			hidden_effect = {
 				set_country_flag = BRA_preparing_uruguayan_war
+				URG = {
+					activate_mission = URG_brazil_attempting_to_cause_civil_war
+				}
 			}
+			custom_effect_tooltip = BRA_argentina_may_intervene_tt
 		}
 	}
 
@@ -5751,6 +5770,50 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_begin_preperations_for_the_uruguayan_occupation
 		prerequisite = { focus = BRA_begin_preperations_for_the_uruguayan_occupation }
+		will_lead_to_war_with = URG 
+		will_lead_to_war_with = ARG
+
+		cost = 4
+
+		available = {
+			has_active_mission = BRA_preparing_the_uruguayan_civil_war
+		}
+
+		bypass = {
+			has_completed_focus = BRA_external_imperial_management
+			OR = {
+				URG = {
+					OR = {
+						is_subject_of = ROOT 
+						has_war_with = ROOT 
+						AND = {
+							is_in_faction_with = ROOT 
+							has_government = neutrality
+						}
+					}
+				}
+				URG = {
+					all_core_state = {
+						is_fully_controlled_by = ROOT
+					}
+				}
+			}
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			custom_effect_tooltip = BRA_unlock_influence_decisions_tt
+			hidden_effect = {
+				URG = {
+					every_controlled_state = {
+						limit = { is_core_of = URG }
+						set_variable = { BRA_influence_strength = 0 }
+					}
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -5760,6 +5823,40 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_begin_preperations_for_the_uruguayan_occupation
 		prerequisite = { focus = BRA_begin_preperations_for_the_uruguayan_occupation }
+
+		cost = 8
+
+		available = {
+			has_active_mission = BRA_preparing_the_uruguayan_civil_war
+		}
+
+		bypass = {
+			has_completed_focus = BRA_external_imperial_management
+			OR = {
+				URG = {
+					OR = {
+						is_subject_of = ROOT 
+						has_war_with = ROOT 
+						AND = {
+							is_in_faction_with = ROOT 
+							has_government = neutrality
+						}
+					}
+				}
+				URG = {
+					all_core_state = {
+						is_fully_controlled_by = ROOT
+					}
+				}
+			}
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+		search_filters = { FOCUS_FILTER_ANNEXATION FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			custom_effect_tooltip = URG_start_3_extra_militias_and_1000_equipment_tt
+		}
 	}
 
 	focus = {
@@ -5771,6 +5868,60 @@ focus_tree = {
 		prerequisite = { 
 			focus = BRA_coerce_the_uruguayans
 			focus = BRA_spread_monarchism_in_uruguay 
+		}
+
+		cost = 2
+
+		available = {
+			OR = {
+				URG = { has_civil_war = yes }
+				URG = {
+					AND = {
+						has_government = neutrality
+						has_cosmetic_tag = BRA_URG 
+						has_civil_war = no 
+					}
+				}
+			}
+			has_war_with = ARG 
+		}
+
+		bypass = {
+			has_completed_focus = BRA_begin_preperations_for_the_uruguayan_occupation
+			AND = {
+				OR = {
+					URG = {
+						AND = {
+							has_civil_war = no 
+							is_puppet_of = ROOT 
+						}
+					}
+					URG = {
+						all_core_state = {
+							is_fully_controlled_by = ROOT 
+						}
+					}
+				}
+				OR = {
+					NOT = { has_war_with = ARG }
+					ARG = { is_puppet_of = ROOT }
+					ARG = {
+						capital_scope = {
+							is_fully_controlled_by = ROOT 
+						}
+					}
+				}
+			}
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+		search_filters = { FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = BRA_the_second_cisplatine_war_1
+				add_idea = BRA_the_second_cisplatine_war_2
+			}
 		}
 	}
 
@@ -5784,6 +5935,7 @@ focus_tree = {
 	}
 
 	focus = { #will make it so that the player gets a variation of the event (will be a scripted peace deal, fuck yoy :)))))
+			  #NO, SCREW YOU OLD ME I AINT DOING JACK LMAO 	
 		id = BRA_promote_ultra_nationalism
 		icon = GFX_goal_generic_propaganda
 		x = 0
@@ -6039,6 +6191,21 @@ focus_tree = {
 		relative_position_id = BRA_push_through_paraguay
 		prerequisite = { focus = BRA_push_through_paraguay }
 		prerequisite = { focus = BRA_the_brazilian_economic_miracle }
+
+		available = {
+			OR = {
+				AND = {
+					controls_state = 688
+					controls_state = 300
+				}
+				PAR = {
+					is_puppet_of = ROOT 
+				}
+			}
+			NOT = { has_war_with = PAR }
+		}
+
+
 	}
 
 	focus = {
@@ -8104,7 +8271,7 @@ focus_tree = {
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
-		complete_effect = {
+		completion_reward = {
 			if = {
 				limit = { 
 					controls_state = 500
@@ -8933,7 +9100,10 @@ focus_tree = {
 			democratic > 0.5
 			if = {
 				limit = { has_completed_focus = BRA_manipulate_behind_the_scenes }
-				has_country_leader = "Brazilian Military Junta"
+				has_country_leader = {
+					name = "Brazilian Military Junta"
+					ruling_only = yes 
+				}
 				custom_trigger_tooltip = {
 					tooltip = BRA_prestes_not_rebelling
 					NOT = {
@@ -8987,7 +9157,7 @@ focus_tree = {
 		cost = 6
 
 		available = {
-			stability > 0.44
+			has_stability > 0.44
 		}
 
 		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_STABILITY }

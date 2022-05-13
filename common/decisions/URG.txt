@@ -1,5 +1,6 @@
 URG_defying_foreign_influence = {
-	URG_brazil_atttempting_to_cause_civil_war = {
+	URG_brazil_attempting_to_cause_civil_war = {
+		priority = 100
 		icon = revolt
 
 		activation = { always = no }
@@ -13,7 +14,7 @@ URG_defying_foreign_influence = {
 		}
 
 		cancel_trigger = {
-			hidden_effect = {
+			hidden_trigger = {
 				BRA = {
 					NOT = {
 						has_active_mission = BRA_preparing_the_uruguayan_civil_war
@@ -33,6 +34,104 @@ URG_defying_foreign_influence = {
 				start_civil_war = {
 					ruling_party = ROOT 
 					ideology = neutrality
+				}
+			}
+		}
+	}
+
+	URG_cleanse_FROM_of_intruders = {
+		icon = opression
+
+		visible = { 
+			has_active_mission = URG_brazil_attempting_to_cause_civil_war 
+			FROM = {
+				NOT = {
+					has_state_flag = URG_intruders_cleansed_in_FROM
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 35
+		}
+
+		cost = 40
+
+		days_remove = 25
+
+		state_target = yes 
+
+		target_array = controlled_states
+
+		on_map_mode = map_and_decisions_view
+
+		target_trigger = {
+			FROM = {
+				is_core_of = ROOT 
+				is_fully_controlled_by = ROOT 
+			}
+		}
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = URG_not_cleansing_state
+				NOT = { has_country_flag = URG_currently_cleansing}
+			}
+		}
+
+		cancel_trigger = {
+			NOT = {
+				has_active_mission = URG_brazil_attempting_to_cause_civil_war
+			}
+		}
+
+		complete_effect = {
+			set_country_flag = URG_currently_cleansing
+		}
+
+		remove_effect = {
+			clr_country_flag = URG_currently_cleansing
+			custom_effect_tooltip = URG_state_will_be_cleansed_from_intruders_tt
+			hidden_effect = {
+				FROM = {
+					set_state_flag = URG_intruders_cleansed_in_FROM
+				}
+			}
+		}
+	}
+
+	URG_shut_down_the_brazilian_attempt = {
+		priority = 40
+		icon = eng_trade_unions_demand
+
+		visible = { has_active_mission = URG_brazil_attempting_to_cause_civil_war  }
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = URG_every_state_cleansed_tt
+				all_core_state = {
+					has_state_flag = URG_intruders_cleansed_in_FROM
+				}
+			}
+		}
+
+		cost = 5
+
+		ai_will_do = {
+			base = 70
+		}
+
+		complete_effect = {
+			custom_effect_tooltip = URG_BRA_plans_stopped_tt
+			hidden_effect = {
+				set_global_flag = BRA_URG_cleaned_out_intruders
+				random_other_country = {
+					limit = { 
+						original_tag = BRA 
+						exists = yes 
+						num_of_factories > 14
+					}
+					country_event = { id = brazil.failed_uruguay hours = 4 }
 				}
 			}
 		}

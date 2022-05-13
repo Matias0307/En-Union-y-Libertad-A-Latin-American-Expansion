@@ -2167,7 +2167,7 @@ country_event = { #Neutral party wins elections
 	immediate = {
 		hidden_effect = {
 			promote_character = BRA_jose_americo_de_almeida
-			add_popularity = { neutrality = fascism popularity = 0.05 }
+			add_popularity = { ideology = neutrality popularity = 0.05 }
 		}
 	}
 
@@ -2310,7 +2310,7 @@ country_event = { #Brazil gets event of FROM sending equipment
 	id = brazil.54
 	title = brazil.54.t 
 	desc = brazil.54.d 
-	picture =    # will use the arms generic image 
+	#picture = 
 
 	is_triggered_only = yes 
 
@@ -2329,7 +2329,7 @@ country_event = { #Brazil gets event of FROM sending war bonds
 	id = brazil.55
 	title = brazil.55.t 
 	desc = brazil.55.d 	
-	picture =  # will use a generic img, idk yet lololol future me deal with this 
+	#picture =  #will use a generic img, idk yet lololol future me deal with this 
 
 	is_triggered_only = yes 
 
@@ -2739,6 +2739,45 @@ country_event = {
 				add_ideas = ARG_the_second_cisplatine_war
 			}
 		}
+		if = {
+			limit = {
+				AND = {
+					BRA = {
+						has_completed_focus = BRA_begin_preperations_for_the_uruguayan_occupation
+					}
+					URG = {
+						has_civil_war = yes 
+					}
+				}
+			}
+			random_other_country = {
+				limit = {
+					original_tag = URG 
+					has_civil_war = yes 
+					has_cosmetic_tag = BRA_URG
+				}
+				ARG = {
+					declare_war_on = {
+						target = PREV
+						type = annex_everything
+					}
+				}
+			}
+			if = {
+				limit = {
+					PAR = {
+						exists = yes 
+						is_in_faction = no 
+						has_war = no 
+					}
+				}
+				hidden_effect = {
+					PAR = {
+						country_event = { id = brazil.paraguay.intervention hours = 6 }
+					}
+				}
+			}
+		}
 		BRA = {
 			country_event = { id = brazil.64 hours = 4 }
 		}
@@ -2773,9 +2812,7 @@ country_event = {
 
 	option = {
 		name = brazil.64.a 
-		BRA = {
-			add_ideas = BRA_the_second_cisplatine_war_1
-		}
+		add_ideas = BRA_the_second_cisplatine_war_1
 	}
 }
 
@@ -2885,7 +2922,10 @@ country_event = {
 		name = brazil.66.c 
 		trigger = {
 			NOT = {
-				has_country_leader = "Armando de Sales Oliveira"
+				has_country_leader = {
+					name = "Armando de Sales Oliveira"
+					ruling_only = yes 
+				}
 			}
 		}
 		effect_tooltip = {
@@ -3250,10 +3290,14 @@ country_event = {
 					tag = BZE 
 				}
 			}
-			POR = {
-				declare_war_on = {
-					target = PREV 
-					type = annex_everything
+			POR = { 
+				add_to_war = { targeted_alliance = BZE enemy = PREV hostility_reason = asked_to_join }
+				hidden_effect = {
+					diplomatic_relation = {
+						country = BZE
+						relation = military_access
+						active = yes
+					}
 				}
 			}
 		}
@@ -3273,15 +3317,15 @@ country_event = {
 
 #Brazil gets event of plan to start monarchist uprising in Uruguay failing 
 country_event = {
-	id = brazil.failed_uruguay
-	title = brazil.failed_uruguay.t 
-	desc = brazil.failed_uruguay.d 
+	id = brazil.failed.uruguay
+	title = brazil.failed.uruguay.t 
+	desc = brazil.failed.uruguay.d 
 	picture = GFX_report_event_ast_army
 
 	is_triggered_only = yes 
 
 	option = { #go after them 
-		name = brazil.failed_uruguay.a 
+		name = brazil.failed.uruguay.a 
 		ai_chance = {
 			base = 15
 		}
@@ -3292,7 +3336,7 @@ country_event = {
 	}
 
 	option = { #let them go 
-		name = brazil.failed_uruguay.b 
+		name = brazil.failed.uruguay.b 
 		ai_chance = {
 			base = 5
 		}
@@ -3300,3 +3344,60 @@ country_event = {
 	}
 }
 
+#Paraguay gets event of chance to strike at the empire 
+country_event = {
+	id = brazil.paraguay.intervention
+	title = brazil.paraguay.intervention.t 
+	desc = brazil.paraguay.intervention.d 
+	picture = GFX_report_event_generic_army
+
+	is_triggered_only = yes 
+
+	option = { #take it 
+		name = brazil.paraguay.intervention.a
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0 
+				has_civil_war = yes 
+			}
+		}
+		random_other_country = {
+			limit = {
+				original_tag = BRA 
+				exists = yes 
+				has_war_with = ARG 
+			}
+			PAR = {
+				declare_war_on = {
+					target = PREV
+					type = annex_everything
+				}
+			}
+		}
+		hidden_effect = {
+			news_event = { id = news.367 days = 1 }
+		}
+	}
+	
+	option = { #we can't afford it 
+		name = brazil.paraguay.intervention.b
+		ai_chace = {
+			base = 40
+			modifier = {
+				add = 60 
+				has_government = democratic
+			}
+		}
+		add_war_support = -0.03
+		add_political_power = 15
+	}
+}
+
+#Portgual gets event of possible unification with Brazil 
+country_event = {
+	id = brazil.75
+	title = brazil.75.tt 
+	desc = brazil.75.d 
+	
+}
