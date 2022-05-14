@@ -1362,6 +1362,12 @@ focus_tree = {
 			army_experience = 5
 			navy_experience = 10
 			air_experience = 25
+			hidden_effect = {
+				every_other_country = {
+					limit = { original_tag = BRA }
+					unlock_national_focus = BRA_invest_in_our_economy
+				}
+			}
 		}
 	}
 
@@ -1383,6 +1389,12 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
 			air_experience = 75
+			hidden_effect = {
+				every_other_country = {
+					limit = { original_tag = BRA }
+					unlock_national_focus = BRA_invest_in_our_economy
+				}
+			}
 		}
 	}
 
@@ -1657,6 +1669,12 @@ focus_tree = {
 		search_filters = { }
 		completion_reward = {
 			add_ideas = BRA_trained_pilots
+			hidden_effect = {
+				every_other_country = {
+					limit = { original_tag = BRA }
+					unlock_national_focus = BRA_invest_in_our_economy
+				}
+			}
 		}
 	}
 
@@ -1696,6 +1714,12 @@ focus_tree = {
 		search_filters = { }
 		completion_reward = {
 			add_ideas = BRA_improved_naval_equipment
+			hidden_effect = {
+				every_other_country = {
+					limit = { original_tag = BRA }
+					unlock_national_focus = BRA_invest_in_our_economy
+				}
+			}
 		}
 	}
 
@@ -1713,6 +1737,12 @@ focus_tree = {
 		search_filters = { }
 		completion_reward = {
 			add_ideas = BRA_cheaper_naval_equipment
+			hidden_effect = {
+				every_other_country = {
+					limit = { original_tag = BRA }
+					unlock_national_focus = BRA_invest_in_our_economy
+				}
+			}
 		}
 	}
 
@@ -2048,6 +2078,12 @@ focus_tree = {
 			swap_ideas = {
 				remove_idea = BRA_scars_of_the_1930_revolution_1
 				add_idea = BRA_scars_of_the_1930_revolution_2
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = { original_tag = BRA }
+					unlock_national_focus = BRA_invest_in_our_economy
+				}
 			}
 		}
 	}
@@ -5932,6 +5968,20 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_win_the_second_cisplatine_war
 		prerequisite = { focus = BRA_win_the_second_cisplatine_war }
+
+		cost = 5
+
+		available = {
+			has_civil_war = no 
+			any_controlled_state = {
+				NOT = { is_core_of = ROOT }
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			custom_effect_tooltip = BRA_unlock_imperial_campaign_tt
+		}
 	}
 
 	focus = { #will make it so that the player gets a variation of the event (will be a scripted peace deal, fuck yoy :)))))
@@ -6059,6 +6109,14 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_the_march_to_buenos_aires
 		prerequisite = { focus = BRA_the_march_to_buenos_aires }
+
+		cost = 7.2
+
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			army_experience = 10
+			add_manpower = 44500
+		}
 	}
 
 	focus = {
@@ -6102,12 +6160,76 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BRA_master_mountain_warfare
+		id = BRA_master_mountain_warfare #train mountainers 
 		icon = GFX_focus_GRE_a_land_of_mountains
 		x = -2
 		y =1
 		relative_position_id = BRA_the_march_to_buenos_aires
 		prerequisite = { focus = BRA_the_march_to_buenos_aires}
+
+		cost = 6
+
+		available = {
+			has_army_experience > 25
+			ARG = {
+				OR = {
+					is_in_faction_with = ROOT 
+					is_subject_of = ROOT
+					capital_scope = { is_fully_controlled_by = ROOT }
+				}
+			}
+			URG = {
+				OR = {
+					is_in_faction_with = ROOT 
+					is_subject_of = ROOT
+					capital_scope = { is_fully_controlled_by = ROOT }
+				}
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			army_experience = -25
+			add_tech_bonus = {
+				name = BRA_master_mountain_warfare
+				bonus = 1.0
+				uses = 1
+				category = mountaineers_tech
+			}
+			custom_effect_tooltip = ARG_createmountaineers
+			hidden_effect = {
+				division_template = { 
+					name = "Destacamento da Montanha do Sul" 
+					division_names_group = BRA_INF_01 
+					is_locked = no 
+					regiments = { 
+						mountaineers = { x = 0 y = 0 } 
+						mountaineers = { x = 1 y = 0 } 
+						mountaineers = { x = 0 y = 1 } 
+						mountaineers = { x = 0 y = 2 } 
+						mountaineers = { x = 0 y = 3 } 
+						mountaineers = { x = 1 y = 1 } 
+						mountaineers = { x = 1 y = 2 } 
+					}
+				}
+				502 = {
+					create_unit = {
+						division = "name = \"Destacamento da Montanha do Rio Grande Sul\" division_template = \"Destacamento da Montanha do Sul\" start_equipment_factor = 1.0" 
+						owner = ROOT
+					}
+					create_unit = {
+						division = "name = \"Destacamento da Montanha do Rio Grande Sul\" division_template = \"Destacamento da Montanha do Sul\" start_equipment_factor = 1.0" 
+						owner = ROOT
+					}
+				}
+				892 = {
+					create_unit = {
+						division = "name = \"Destacamento da Montanha do Santa Catarina\" division_template = \"Destacamento da Montanha do Sul\" start_equipment_factor = 1.0" 
+						owner = ROOT
+					}
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -6117,6 +6239,23 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_master_mountain_warfare
 		prerequisite = { focus = BRA_master_mountain_warfare }
+
+		cost = 5
+
+		available = {
+			NOT = {
+				is_in_faction_with = CHL 
+				has_war_with = CHL
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = CHL
+			}
+		}
 	}
 
 	focus = {
@@ -6126,6 +6265,23 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_master_mountain_warfare
 		prerequisite = { focus = BRA_master_mountain_warfare }
+
+		cost = 5
+
+		available = {
+			NOT = {
+				is_in_faction_with = PRU 
+				has_war_with = PRU
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = PRU
+			}
+		}
 	}
 
 	focus = {
@@ -6316,8 +6472,16 @@ focus_tree = {
 						is_fully_controlled_by = ROOT 
 					}
 				}
-				EUYL_add_1_civilian = yes 
-				EUYL_add_1_military = yes 
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes 
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes 
+				}
 			}
 		}
 	}
@@ -6343,7 +6507,7 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
-			unlock_decision_tooltip = BRA_imperial_buildup_in_FROM
+			custom_effect_tooltip = BRA_unlock_imperial_buildup_decision_tt
 		}
 	}
 
@@ -6490,6 +6654,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_STABILITY }
 		completion_reward = {
 			add_ideas = BRA_imperial_scholars
+			remove_ideas = BRA_low_literacy_rate
 		}
 	}
 
@@ -6689,7 +6854,7 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BRA_dealing_with_the_post_civil_war_crisis
+		id = BRA_dealing_with_the_post_civil_war_crisis ## Economic Recovery 
 		icon = GFX_goal_generic_consumer_goods
 		x = -5
 		y = 1

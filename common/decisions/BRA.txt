@@ -2225,12 +2225,11 @@ BRA_imperial_management = {
         }
 
         complete_effect = {
-            country_event = brazil.failed.uruguay
+            country_event = brazil.75
             clr_country_flag = BRA_preparing_uruguayan_war
         }
 
         timeout_effect = {
-            custom_effect_tooltip = BRA_if_influence_over_uruguay_over
             effect_tooltip = {
                 URG = {
                     set_cosmetic_tag = BRA_URG
@@ -2365,8 +2364,7 @@ BRA_imperial_management = {
                                 }
                             }
                         }
-                        country_event = { id = brazil.63 hours = 4 }
-                        set_global_flag = second_cisplatine_war
+                        country_event = { id = brazil.63 days = 2 }
                     }
                 }
             }
@@ -2401,41 +2399,49 @@ BRA_imperial_management = {
         icon = {
 			key = GFX_brazil_empire_claim_0
 			trigger = {
-				check_variable = {
-					var = BRA_influence_strength
-					value = 0
-					compare = equals
-				}
+                FROM = {
+                    check_variable = {
+                        var = BRA_influence_strength
+                        value = 0
+                        compare = equals
+                    }
+                }
 			}
 		}
         icon = {
 			key = GFX_brazil_empire_claim_1
 			trigger = {
-				check_variable = {
-					var = BRA_influence_strength
-					value = 1
-					compare = equals
-				}
+                FROM = {
+                    check_variable = {
+                        var = BRA_influence_strength
+                        value = 1
+                        compare = equals
+                    }
+                }
 			}
 		}
         icon = {
 			key = GFX_brazil_empire_claim_2
 			trigger = {
-				check_variable = {
-					var = BRA_influence_strength
-					value = 2
-					compare = equals
-				}
+                FROM = {
+                    check_variable = {
+                        var = BRA_influence_strength
+                        value = 2
+                        compare = equals
+                    }
+                }
 			}
 		}
         icon = {
 			key = GFX_brazil_empire_claim_3
 			trigger = {
-				check_variable = {
-					var = BRA_influence_strength
-					value = 3
-					compare = equals
-				}
+                FROM = {
+                    check_variable = {
+                        var = BRA_influence_strength
+                        value = 3
+                        compare = equals
+                    }
+                }
 			}
 		}
 
@@ -2546,6 +2552,8 @@ BRA_imperial_management = {
             }
         }
 
+        on_map_mode = map_and_decisions_view
+
         cancel_trigger = {
             FROM = {
                 NOT = {
@@ -2561,12 +2569,53 @@ BRA_imperial_management = {
         days_remove = 60
 
         remove_effect = {
-            EUYL_add_1_military = yes 
+            add_building_construction = {
+				type = arms_factory
+				level = 1
+				instant_build = yes 
+			}
         }
     }
 
     BRA_commence_an_integration_campaign_in_FROM = {
-        icon = 
+        icon = generic_nationalism
+
+        state_target = yes 
+
+        target_array = controlled_states
+
+        target_trigger = {
+            FROM = {
+                is_fully_controlled_by = ROOT 
+                NOT = {
+                    is_core_of = ROOT 
+                }
+            }
+        }
+
+        visible = { has_completed_focus = BRA_the_imperial_integration_campaign }
+
+        on_map_mode = map_only
+
+        fire_only_once = yes 
+
+        cost = 15
+
+        days_remove = 20
+
+        cancel_trigger = {
+            FROM = {
+                NOT = {
+                    is_fully_controlled_by = ROOT 
+                }
+            }
+        }
+
+        remove_effect = {
+            FROM = {
+                add_dynamic_modifier = { modifier = BRA_ongoing_integration_campaign }
+            }
+        }
     }
 }
 

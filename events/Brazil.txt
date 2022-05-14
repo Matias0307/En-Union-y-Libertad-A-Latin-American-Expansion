@@ -1464,7 +1464,7 @@ country_event = {
 	trigger = {
 		original_tag = BRA 
 		NOT = { check_variable = { BRA_playing_as_integralists = 1 } }
-		check_variable = { BRA_number_of_states_integralist_protesting > 1 }
+		check_variable = { BRA_number_of_states_integralist_protesting > 2 }
 		has_country_flag = BRA_hostile_integralists
 		NOT = {
 			OR = { 
@@ -1482,6 +1482,7 @@ country_event = {
 		add_ideas = BRA_integralist_protests_1 
 		BRA_add_integralist_occupation_to_random_state = yes 
 		# will kickstart a series of missions and unlock decisions #
+		# will also be used for the historical path #
 		set_variable = { BRA_extra_integralist_troops = 0 }
 	}
 }
@@ -2729,8 +2730,11 @@ country_event = {
 				}
 			}
 		}
-		random_other_country = {
-			limit = { original_tag = BRA }
+		every_other_country = {
+			limit = { 
+				original_tag = BRA 
+				exists = yes 
+			}
 			ARG = {
 				declare_war_on = {
 					target = PREV
@@ -2773,7 +2777,7 @@ country_event = {
 				}
 				hidden_effect = {
 					PAR = {
-						country_event = { id = brazil.paraguay.intervention hours = 6 }
+						country_event = { id = brazil.76 hours = 6 }
 					}
 				}
 			}
@@ -2783,6 +2787,7 @@ country_event = {
 		}
 		hidden_effect = {
 			news_event = { days = 2 id = news.338 }
+			set_global_flag = second_cisplatine_war
 		}
 	}
 	
@@ -3317,9 +3322,9 @@ country_event = {
 
 #Brazil gets event of plan to start monarchist uprising in Uruguay failing 
 country_event = {
-	id = brazil.failed.uruguay
-	title = brazil.failed.uruguay.t 
-	desc = brazil.failed.uruguay.d 
+	id = brazil.75
+	title = brazil.75.t 
+	desc = brazil.75.d 
 	picture = GFX_report_event_ast_army
 
 	is_triggered_only = yes 
@@ -3346,15 +3351,15 @@ country_event = {
 
 #Paraguay gets event of chance to strike at the empire 
 country_event = {
-	id = brazil.paraguay.intervention
-	title = brazil.paraguay.intervention.t 
-	desc = brazil.paraguay.intervention.d 
+	id = brazil.76
+	title = brazil.76.t 
+	desc = brazil.76.d 
 	picture = GFX_report_event_generic_army
 
 	is_triggered_only = yes 
 
 	option = { #take it 
-		name = brazil.paraguay.intervention.a
+		name = brazil.76.a
 		ai_chance = {
 			base = 100
 			modifier = {
@@ -3381,7 +3386,7 @@ country_event = {
 	}
 	
 	option = { #we can't afford it 
-		name = brazil.paraguay.intervention.b
+		name = brazil.76.b
 		ai_chace = {
 			base = 40
 			modifier = {
@@ -3396,8 +3401,8 @@ country_event = {
 
 #Portgual gets event of possible unification with Brazil 
 country_event = {
-	id = brazil.75
-	title = brazil.75.tt 
-	desc = brazil.75.d 
+	id = brazil.77
+	title = brazil.77.t
+	desc = brazil.77.d 
 	
 }
