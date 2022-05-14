@@ -5942,6 +5942,56 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_win_the_second_cisplatine_war
 		prerequisite = { focus = BRA_win_the_second_cisplatine_war }
+
+		cost = 4
+
+		available = {
+			OR = {
+				URG = { has_civil_war = yes }
+				URG = {
+					AND = {
+						has_government = neutrality
+						has_cosmetic_tag = BRA_URG 
+						has_civil_war = no 
+					}
+				}
+			}
+			has_war_with = ARG 
+		}
+
+		bypass = {
+			has_completed_focus = BRA_begin_preperations_for_the_uruguayan_occupation
+			AND = {
+				OR = {
+					URG = {
+						AND = {
+							has_civil_war = no 
+							is_puppet_of = ROOT 
+						}
+					}
+					URG = {
+						all_core_state = {
+							is_fully_controlled_by = ROOT 
+						}
+					}
+				}
+				OR = {
+					NOT = { has_war_with = ARG }
+					ARG = { is_puppet_of = ROOT }
+					ARG = {
+						capital_scope = {
+							is_fully_controlled_by = ROOT 
+						}
+					}
+				}
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			add_political_power = 40
+			add_war_support = 0.05
+		}
 	}
 
 	focus = {
@@ -5951,6 +6001,55 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_promote_ultra_nationalism
 		prerequisite = { focus = BRA_promote_ultra_nationalism }
+
+		cost = 3
+
+		available = {
+			OR = {
+				URG = { has_civil_war = yes }
+				URG = {
+					AND = {
+						has_government = neutrality
+						has_cosmetic_tag = BRA_URG 
+						has_civil_war = no 
+					}
+				}
+			}
+			has_war_with = ARG 
+		}
+
+		bypass = {
+			has_completed_focus = BRA_begin_preperations_for_the_uruguayan_occupation
+			AND = {
+				OR = {
+					URG = {
+						AND = {
+							has_civil_war = no 
+							is_puppet_of = ROOT 
+						}
+					}
+					URG = {
+						all_core_state = {
+							is_fully_controlled_by = ROOT 
+						}
+					}
+				}
+				OR = {
+					NOT = { has_war_with = ARG }
+					ARG = { is_puppet_of = ROOT }
+					ARG = {
+						capital_scope = {
+							is_fully_controlled_by = ROOT 
+						}
+					}
+				}
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_STABILITY FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			activate_mission = BRA_the_march_to_buenos_aires
+		}
 	}
 
 	focus = {
@@ -6192,6 +6291,8 @@ focus_tree = {
 		prerequisite = { focus = BRA_push_through_paraguay }
 		prerequisite = { focus = BRA_the_brazilian_economic_miracle }
 
+		cost = 8
+
 		available = {
 			OR = {
 				AND = {
@@ -6205,7 +6306,20 @@ focus_tree = {
 			NOT = { has_war_with = PAR }
 		}
 
-
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			every_state = {
+				limit = {
+					is_core_of = PAR 
+					OR = {
+						is_fully_controlled_by = PAR 
+						is_fully_controlled_by = ROOT 
+					}
+				}
+				EUYL_add_1_civilian = yes 
+				EUYL_add_1_military = yes 
+			}
+		}
 	}
 
 	focus = {
@@ -6215,6 +6329,22 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_develop_paraguay
 		prerequisite = { focus = BRA_develop_paraguay }
+
+		cost = 10
+
+		available = {
+			any_other_country = {
+				capital_scope = {
+					is_fully_controlled_by = ROOT 
+					is_on_continent = south_america
+				}
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			unlock_decision_tooltip = BRA_imperial_buildup_in_FROM
+		}
 	}
 
 	focus = {

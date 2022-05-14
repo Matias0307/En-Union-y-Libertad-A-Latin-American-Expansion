@@ -132,6 +132,17 @@ BRA_political_crisis = {
         }
 
         timeout_effect = {
+            hidden_effect = {
+                if = {
+                    limit = {
+                        has_country_leader = {
+                            name = "Dom Pedro III"
+                            ruling_only = yes 
+                        }
+                    }
+                    activate_mission = BRA_pedro_enrique_re_claims_the_throne
+                }
+            }
             retire_country_leader = yes 
             create_country_leader = {
                 name = "Prince Pedro Gastão of Orléans-Braganza"
@@ -143,7 +154,6 @@ BRA_political_crisis = {
                     CHL_leader_of_the_people
                 }
             }
-            activate_mission = BRA_pedro_enrique_re_claims_the_throne
         }
     }
 
@@ -2254,6 +2264,14 @@ BRA_imperial_management = {
                             300
                         }
                     }
+                    random_other_country = {
+                        limit = {
+                            original_tag = URG 
+                            has_government = neutrality
+                            has_civil_war = yes 
+                        }
+                        set_cosmetic_tag = BRA_URG
+                    }
                     every_controlled_state = {
                         create_unit = {
                             division = "name = \"Milícias\" division_template = \"Milicia Uruguaya\" start_experience_factor = 0.05 start_equipment_factor = 1" 
@@ -2274,9 +2292,8 @@ BRA_imperial_management = {
                         original_tag = URG 
                         has_government = neutrality
                         has_civil_war = yes 
-                        NOT = { has_country_flag = URG_og_country }
+                        has_cosmetic_tag = BRA_URG
                     }
-                    set_cosmetic_tag = BRA_URG
                     retire_country_leader = yes 
                     create_country_leader = {
                         name = "Imperial Management of Uruguay"
@@ -2469,6 +2486,87 @@ BRA_imperial_management = {
                 }
             }
         }
+    }
+
+    BRA_the_march_to_buenos_aires = {
+        priority = 10
+		
+		icon = generic_civil_support
+		
+        available = {                        
+            controls_state = 888            
+        }
+		
+        activation = {                       
+            always = no          
+        }
+		
+        is_good = yes  
+		fire_only_once = yes 
+        days_mission_timeout = 250 
+		
+        timeout_effect = {                   
+            add_stability = -0.02
+		    add_war_support = -0.05
+			ARG = {
+				add_war_support = 0.03
+			}
+        }
+        complete_effect = {                  
+            add_stability = 0.1
+		    add_war_support = 0.15 
+			ARG = {
+				add_war_support = -0.2
+			}
+        }
+    }
+
+    BRA_imperial_buildup_in_FROM = {
+        icon = generic_factory
+
+        state_target = yes 
+
+        target_array = controlled_states
+
+        target_trigger = {
+            FROM = {
+                is_fully_controlled_by = ROOT 
+                NOT = {
+                    is_core_of = ROOT 
+                }
+            }
+        }
+
+        visible = { has_completed_focus = BRA_imperial_buildup_in_conquered_lands }
+
+        available = {
+            FROM = {
+                resistance < 40
+                compliance > 20
+            }
+        }
+
+        cancel_trigger = {
+            FROM = {
+                NOT = {
+                    is_fully_controlled_by = ROOT 
+                }
+            }
+        }
+
+        fire_only_once = yes 
+
+        cost = 40
+
+        days_remove = 60
+
+        remove_effect = {
+            EUYL_add_1_military = yes 
+        }
+    }
+
+    BRA_commence_an_integration_campaign_in_FROM = {
+        icon = 
     }
 }
 
