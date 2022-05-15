@@ -1,5 +1,60 @@
 BRA_political_crisis = {
 
+    BRA_days_till_people_calm_down = {
+		priority = 20
+		icon = revolt
+
+		allowed = { original_tag = CHL }
+
+		activation = {
+			OR = {
+                has_completed_focus = BRA_external_imperial_management
+                has_completed_focus = BRA_expand_aggresively
+            }
+			OR = {
+				has_idea = CHL_people_protesting_rapid_expansion_1
+				has_idea = CHL_people_protesting_rapid_expansion_2
+				has_idea = CHL_people_protesting_rapid_expansion_3
+			}
+		}
+
+		available = {
+			OR = {
+				exists = no 
+				is_subject = yes 
+				has_capitulated = yes 
+			}
+		}
+
+		is_good = yes 
+
+		days_mission_timeout = 160
+
+		timeout_effect = {
+			if = {
+				limit = {
+					has_idea = CHL_people_protesting_rapid_expansion_3
+				}
+				swap_ideas = {
+					remove_idea = CHL_people_protesting_rapid_expansion_3
+					add_idea = CHL_people_protesting_rapid_expansion_2
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = CHL_people_protesting_rapid_expansion_2
+				}
+				swap_ideas = {
+					remove_idea = CHL_people_protesting_rapid_expansion_2
+					add_idea = CHL_people_protesting_rapid_expansion_1
+				}
+			}
+			else = {
+				remove_ideas = CHL_people_protesting_rapid_expansion_1
+			}
+		}
+    }
+
     BRA_prestes_planning_to_re_assume_leadership = {
         priority = 100
         icon = generic_speech

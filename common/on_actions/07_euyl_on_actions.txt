@@ -52,7 +52,7 @@ on_actions = {
                         original_tag = ARG 
                     }
                     exists = yes 
-                    peronsim > 0
+                    peronism > 0
                 }
                 set_temp_variable = { EUYL_peronist_popularity = party_popularity@peronism }
                 multiply_temp_variable = { EUYL_peronist_popularity = -1 }
@@ -292,6 +292,54 @@ on_actions = {
                     }
                 }
                 CHL = {
+                    if = {
+                        limit = {
+                            NOT = {
+                                OR = {
+                                    has_idea = CHL_people_protesting_rapid_expansion_1
+                                    has_idea = CHL_people_protesting_rapid_expansion_2
+                                }
+                            }
+                        }
+                        add_ideas = CHL_people_protesting_rapid_expansion_1
+                    }
+                    else_if = {
+                        limit = {
+                            has_idea = CHL_people_protesting_rapid_expansion_1
+                        }
+                        swap_ideas = {
+                            remove_idea = CHL_people_protesting_rapid_expansion_1
+                            add_idea = CHL_people_protesting_rapid_expansion_2
+                        }
+                    }
+                    else_if = {
+                        limit = {
+                            has_idea = CHL_people_protesting_rapid_expansion_2
+                        }
+                        swap_ideas = {
+                            remove_idea = CHL_people_protesting_rapid_expansion_2
+                            add_idea = CHL_people_protesting_rapid_expansion_3
+                        }
+                    }
+                }
+            }
+        }
+        effect = {
+            #People of Brazil get mad from constant wars 
+            if = {
+                limit = {
+                    original_tag = BRA 
+                    BRA = {
+                        OR = {
+                            has_completed_focus = BRA_external_imperial_management
+                            has_completed_focus = BRA_expand_aggresively
+                        }
+                    }
+                    FROM = {
+                        exists = yes 
+                    }
+                }
+                BRA = {
                     if = {
                         limit = {
                             NOT = {

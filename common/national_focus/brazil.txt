@@ -5737,6 +5737,7 @@ focus_tree = {
 		completion_reward = {
 			add_political_power = 20
 			add_war_support = 0.04
+			custom_effect_tooltip = CHL_people_will_get_mad_tt
 		}
 	}
 
@@ -6127,6 +6128,40 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_form_jungle_regiments
 		prerequisite = { focus = BRA_form_jungle_regiments }
+		will_lead_to_war_with = COL
+		will_lead_to_war_with = VEN
+		
+		cost = 8
+		
+		bypass = {
+			has_completed_focus = BRA_the_march_to_buenos_aires
+			OR = {
+				AND = {
+					is_in_faction_with = COL 
+					is_in_faction_with = VEN 
+				}
+				AND = {
+					has_war_with = COL 
+					has_war_with = VEN 
+				}
+			}
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = COL
+			}
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = VEN
+			}
+		}
 	}
 
 	focus = {
@@ -6158,6 +6193,54 @@ focus_tree = {
 		relative_position_id = BRA_the_european_theater
 		prerequisite = { focus = BRA_the_european_theater }
 		prerequisite = { focus = BRA_push_through_the_north }
+
+		cost = 10
+
+		available = {
+			POR = {
+				exists = yes 
+				NOT = { has_war_with = ROOT }
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			if = {
+				limit = {
+					POR = {
+						is_in_faction = yes 
+						is_faction_leader = yes 
+					}
+					is_in_faction = no 
+				}
+				POR = {
+					country_event = generic.2
+				}
+			}
+			else_if = {
+				limit = {
+					POR = {
+						is_in_faction = yes 
+						is_faction_leader = no 
+					}
+					is_in_faction = no 
+				}
+				random_other_country = {
+					limit = {
+						is_in_faction_with = POR 
+						is_faction_leader = yes 
+						NOT = { has_war_with = BRA }
+					}
+					country_event = generic.2
+				}
+			}
+			else = {
+				create_faction = "União Portuguesa Brasileira"
+				POR = {
+					country_event = generic.5
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -6373,6 +6456,45 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_push_through_the_north
 		prerequisite = { focus = BRA_push_through_the_north }
+
+		will_lead_to_war_with = PAN 
+		will_lead_to_war_with = COS
+		
+		cost = 10
+		
+		available = {
+			is_subject = no
+		}
+		
+		bypass = {
+			has_completed_focus = BRA_push_through_the_north
+			OR = {
+				has_war_with = PAN
+				has_war_with = COS
+				is_in_faction_with = PAN
+				is_in_faction_with = COS
+				AND = {
+					controls_state = 304
+					controls_state = 316
+				}
+			}
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = PAN
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = COS
+			}
+		}
 	}
 
 	focus = {
@@ -6382,6 +6504,38 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_expand_beyond_south_america
 		prerequisite = { focus = BRA_expand_beyond_south_america }
+
+		cost = 10
+
+		available = {
+			NOT = {
+				OR = {
+					is_in_faction_with = NIC 
+					is_in_faction_with = HON 
+					is_in_faction_with = ELS
+				}
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = HON 
+						original_tag = ELS 
+						original_tag = NIC 
+					}
+					NOT = { has_war_with = ROOT }
+				}
+				ROOT = {
+					create_wargoal = {
+						type = annex_everything
+						target = PREV 
+					}
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -6391,6 +6545,20 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_conquer_central_america
 		prerequisite = { focus = BRA_conquer_central_america }
+
+		available = {
+			has_army_manpower = { size > 499999 }
+			has_navy_size = { size > 49 }
+			NOT = { is_in_faction_with = USA }
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = USA 
+			}
+		}
 	}
 
 	focus = {
@@ -6786,7 +6954,7 @@ focus_tree = {
 			has_government = fascism
 		}
 
-		cost = 3
+		cost = 2
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
@@ -7129,6 +7297,25 @@ focus_tree = {
 		relative_position_id = BRA_political_censorship
 		prerequisite = { focus = BRA_political_censorship }
 		prerequisite = { focus = BRA_eliminate_the_resistance_movements }
+
+		cost = 7.2
+
+		available {
+			has_civil_war = no 
+		}
+
+		search_filters = { FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			if = {
+				limit = {
+					has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
+				}
+				remove_dynamic_modifier = { modifier = BRA_brazilian_political_crisis}
+			}
+			else = {
+				add_stability = 0.05
+			}
+		}
 	}
 
 	focus = {
@@ -7139,6 +7326,22 @@ focus_tree = {
 		relative_position_id = BRA_secure_brazil_completely
 		prerequisite = { focus = BRA_secure_brazil_completely }
 		mutually_exclusive = { focus = BRA_expand_aggresively }
+
+		cost = 8
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			every_other_country = {
+				limit = {
+					capital_scope = { is_on_continent = south_america }
+					NOT = { has_government = fascism }
+				}
+				add_timed_idea = {
+					idea = fascist_influence
+					days = 365
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -7149,6 +7352,30 @@ focus_tree = {
 		relative_position_id = BRA_spread_the_fascist_movement_peacefully
 		prerequisite = { focus = BRA_spread_the_fascist_movement_peacefully }
 		mutually_exclusive = { focus = BRA_create_our_own_faction }
+
+		cost = 5
+
+		available = {
+			GER = {
+				is_in_faction = yes 
+				is_faction_leader = yes 
+				has_government = fascism
+				exists = yes 
+				NOT = { has_war_with = ROOT }
+			}
+		}
+
+		bypass = {
+			has_completed_focus = BRA_spread_the_fascist_movement_peacefully
+			is_in_faction_with = GER 
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			GER = {
+				country_event = { id = generic.2 hours = 6 }
+			}
+		}
 	}
 
 	focus = {
@@ -7186,6 +7413,14 @@ focus_tree = {
 		relative_position_id = BRA_spread_the_fascist_movement_peacefully
 		prerequisite = { focus = BRA_spread_the_fascist_movement_peacefully }
 		mutually_exclusive = { focus = BRA_join_the_axis }
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			set_rule = { can_create_factions = yes }
+			create_faction = "Alianza do Sul"
+		}
 	}
 
 	focus = {
@@ -7338,6 +7573,55 @@ focus_tree = {
 		prerequisite = { focus = BRA_rapid_army_expansion }
 
 		#will unlock decisions to conquer the countries in the south 
+
+		cost = 10
+
+		available = {
+			NOT = {
+				OR = {
+					is_in_faction_with = ARG 
+					is_in_faction_with = CHL 
+					is_in_faction_with = URG 
+				}
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = {
+						has_war_with = ARG 
+					}
+				}
+				create_wargoal = {
+					type = annex_everything
+					target = ARG 
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_war_with = CHL 
+					}
+				}
+				create_wargoal = {
+					type = annex_everything
+					target = CHL 
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_war_with = URG 
+					}
+				}
+				create_wargoal = {
+					type = annex_everything
+					target = URG 
+				}
+			}
+		}
 	}
 
 	focus = {
