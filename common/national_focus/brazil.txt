@@ -5039,6 +5039,8 @@ focus_tree = {
 				498 = {
 					add_dynamic_modifier = { modifier = BRA_monarchist_influence }
 				}
+				set_variable = { BRA_playing_as_integralists = 0 }
+				set_variable = { BRA_playing_as_imperialists = 1 }
 			}
 		}
 	}
@@ -5907,6 +5909,9 @@ focus_tree = {
 			focus = BRA_coerce_the_uruguayans
 			focus = BRA_spread_monarchism_in_uruguay 
 		}
+		will_lead_to_war_with = ARG 
+		will_lead_to_war_with = URG 
+		will_lead_to_war_with = PAR
 
 		cost = 2
 
@@ -6425,6 +6430,38 @@ focus_tree = {
 		relative_position_id = BRA_set_our_eyes_on_africa
 		prerequisite = { focus = BRA_set_our_eyes_on_africa }
 		mutually_exclusive = { focus = BRA_establish_liberia_as_a_dominion }
+
+		available = {
+			OR = {
+				LIB = {
+					is_puppet_of = ROOT
+				}
+				LIB = {
+					all_core_state = {
+						is_fully_controlled_by = ROOT 
+					}
+				}
+			}
+		}
+
+		cost = 7.2
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			if = {
+				limit = {
+					LIB = { is_subject_of = ROOT }
+				}
+				annex_country = {
+					target = LIB
+					transfer_troops = yes
+				}
+			}
+			every_state = {
+				limit = { is_core_of = LIB }
+				add_core_of = ROOT 
+			}
+		}
 	}
 
 	focus = {
@@ -6446,6 +6483,34 @@ focus_tree = {
 		prerequisite = {
 			focus = BRA_establish_liberia_as_a_dominion
 			focus = BRA_integrate_liberia_into_the_empire
+		}
+
+		cost = 8
+
+		available = {
+			controls_state = 298
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			298 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes 
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes 
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes 
+				}
+			}
 		}
 	}
 
@@ -6641,6 +6706,7 @@ focus_tree = {
 						is_fully_controlled_by = ROOT 
 					}
 				}
+				add_extra_state_shared_building_slots = 2
 				add_building_construction = {
 					type = industrial_complex
 					level = 1
@@ -7385,6 +7451,34 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_join_the_axis
 		prerequisite = { focus = BRA_join_the_axis }
+
+		cost = 5
+
+		available = {
+			NOT = {
+				has_war_with = GER 
+			}
+			GER = {
+				has_capitulated = no 
+				is_subject = no 
+				has_opinion = {
+					target = ROOT 
+					value > 49
+				}
+			}
+		}
+
+		available_if_capitulated = no 
+		
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = {
+				name = BRA_study_the_german_blitzkrieg
+				bonus = 1.0
+				uses = 1
+				category = armor
+			}
+		}
 	}
 
 	focus = {
@@ -7394,6 +7488,27 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_study_the_german_blitzkrieg
 		prerequisite = { focus = BRA_study_the_german_blitzkrieg }
+
+		cost = 6
+		
+		available = {
+			is_subject = no
+			ENG = {
+				is_subject = no
+			}
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			ENG = {
+				add_opinion_modifier = { target = ARG modifier = embargo }
+				add_opinion_modifier = { target = ARG modifier = sanctions_relations } 
+			}
+		}
 	}
 
 	focus = {
@@ -7403,6 +7518,27 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_join_the_axis
 		prerequisite = { focus = BRA_join_the_axis }
+
+		cost = 10
+
+		available = {
+			is_in_faction_with = GER 
+			GER = {
+				exists = yes 
+				has_capitulated = no 
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_tech_bonus = {
+				name = BRA_invite_german_architects_focus
+				bonus = 1.0
+				uses = 1
+				category = industry
+			}
+			add_ideas = BRA_german_architects
+		}
 	}
 
 	focus = {
@@ -7450,6 +7586,27 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_create_our_own_faction
 		prerequisite = { focus = BRA_create_our_own_faction }
+
+		cost = 8
+
+		available = {
+			is_in_faction = yes 
+			is_faction_leader = yes 
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			every_other_country = {
+				limit = {
+					has_government = fascism
+					capital_scope = { is_on_continent = south_america }
+					is_in_faction = no 
+					has_civil_war = no 
+					NOT = { has_war_with = ROOT }
+				}
+				country_event = { id = generic.5 hours = 4 }
+			}
+		}
 	}
 
 	focus = {
@@ -7481,6 +7638,24 @@ focus_tree = {
 			focus = BRA_create_our_own_faction
 			focus = BRA_join_the_axis
 		}
+
+		cost = 5
+
+		available = {
+			NOT = { is_in_faction_with = PAR }
+		}
+
+		bypass = {
+			OR = {
+				has_completed_focus = BRA_create_our_own_faction
+				has_completed_focus = BRA_join_the_axis
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+
+		}
 	}
 
 	focus = {
@@ -7502,6 +7677,30 @@ focus_tree = {
 		mutually_exclusive = { focus = BRA_spread_the_fascist_movement_peacefully }
 
 		#will have the same system as chile with the whole people getting mad
+
+		cost = 6
+
+		available = {
+			has_government = fascism
+			has_civil_war = no 
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			add_war_support = 0.05
+			every_other_country = {
+                limit = {
+                    capital_scope = { is_on_continent = south_america }
+                    NOT = {
+                        has_war_with = ROOT 
+                    }
+                }
+                add_opinion_modifier = { modifier = BOL_chose_path_of_force target = ROOT }
+                ROOT = {
+                    add_opinion_modifier = { modifier = BOL_chose_path_of_force target = PREV }
+                }
+            }
+		}
 	}
 
 	focus = {
@@ -7511,6 +7710,17 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_expand_aggresively
 		prerequisite = { focus = BRA_expand_aggresively }
+
+		cost = 10
+
+		available_if_capitulated = no 
+
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			army_experience = 25
+			add_dynamic_modifier = { modifier = BRA_army_expansion }
+			unlock_decision_tooltip = BRA_strengthen_the_army_even_further
+		}
 	}
 
 	focus = {
@@ -7522,6 +7732,22 @@ focus_tree = {
 		prerequisite = { focus = BRA_rapid_army_expansion }
 
 		#unlocks decisions to build a mil in conquered states
+
+		cost = 5
+
+		available = {
+			any_other_country = {
+				capital_scope = {
+					is_fully_controlled_by = ROOT 
+					is_on_continent = south_america
+				}
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			custom_effect_tooltip = BRA_unlock_military_buildup_decision_tt
+		}
 	}
 
 	focus = {
@@ -7533,6 +7759,38 @@ focus_tree = {
 		prerequisite = { focus = BRA_rapid_army_expansion }
 
 		#will unlock decisions to conquer countries in the north 
+
+		cost = 10
+
+		bypass = {
+			has_completed_focus = BRA_rapid_army_expansion
+			OR = {
+				AND = {
+					is_in_faction_with = COL 
+					is_in_faction_with = VEN 
+				}
+				AND = {
+					has_war_with = COL 
+					has_war_with = VEN 
+				}
+			}
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = COL
+			}
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = VEN
+			}
+		}
 	}
 
 	focus = {
@@ -7542,6 +7800,38 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_look_north
 		prerequisite = { focus = BRA_look_north }
+
+		cost = 7.2
+
+		available = {
+			VEN = {
+				OR = {
+					capital_scope = { is_fully_controlled_by = ROOT }
+					is_subject_of = ROOT
+					AND = {
+						has_government = fascism
+						is_in_faction_with = ROOT 
+					} 
+				}
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			every_state = {
+				limit = {
+					is_core_of = VEN 
+					has_resources_amount = {
+                        resource = oil
+                        amount > 9
+                    }
+				}
+				add_resource = {
+					type = oil 
+					amount = 8
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -7552,6 +7842,38 @@ focus_tree = {
 		relative_position_id = BRA_expand_the_venezuelan_oil_fields
 		prerequisite = { focus = BRA_expand_the_venezuelan_oil_fields }
 		prerequisite = { focus = BRA_integrate_uruguay_integralist }
+
+		cost = 10
+
+		available = {
+			NOT = {
+				OR = {
+					is_in_faction_with = NIC 
+					is_in_faction_with = HON 
+					is_in_faction_with = ELS
+				}
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = HON 
+						original_tag = ELS 
+						original_tag = NIC 
+					}
+					NOT = { has_war_with = ROOT }
+				}
+				ROOT = {
+					create_wargoal = {
+						type = annex_everything
+						target = PREV 
+					}
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -7562,6 +7884,27 @@ focus_tree = {
 		relative_position_id = BRA_expand_beyond_central_america
 		prerequisite = { focus = BRA_desperate_naval_modernization }
 		prerequisite = { focus = BRA_expand_beyond_central_america }
+
+		cost = 10
+
+		available = {
+			num_of_factories > 74
+			has_army_manpower = { size > 499999 }
+			NOT = { is_in_faction_with = USA }
+		}
+
+		bypass = {
+			has_completed_focus = BRA_expand_beyond_central_america
+			has_war_with = USA 
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = USA 
+			}
+		}
 	}
 
 	focus = {
@@ -7571,6 +7914,9 @@ focus_tree = {
 		y=  1
 		relative_position_id = BRA_rapid_army_expansion
 		prerequisite = { focus = BRA_rapid_army_expansion }
+		will_lead_to_war_with = ARG
+		will_lead_to_war_with = CHL
+		will_lead_to_war_with = URG
 
 		#will unlock decisions to conquer the countries in the south 
 
@@ -7632,6 +7978,45 @@ focus_tree = {
 		relative_position_id = BRA_look_south
 		prerequisite = { focus = BRA_look_south }
 		prerequisite = { focus = BRA_military_build_up_in_our_conquered_lands }
+
+		cost = 8
+
+		available = {
+			OR = {
+				URG = {
+					is_puppet_of = ROOT
+				}
+				URG = {
+					all_core_state = {
+						is_fully_controlled_by = ROOT 
+					}
+				}
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			every_state = {
+				limit = {
+					is_core_of = URG 
+					OR = {
+						is_fully_controlled_by = URG 
+						is_fully_controlled_by = ROOT 
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes 
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes 
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -7641,6 +8026,38 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_develop_uruguay
 		prerequisite = { focus = BRA_develop_uruguay }
+
+		available = {
+			OR = {
+				URG = {
+					is_puppet_of = ROOT
+				}
+				URG = {
+					all_core_state = {
+						is_fully_controlled_by = ROOT 
+					}
+				}
+			}
+		}
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			if = {
+				limit = {
+					URG = { is_subject_of = ROOT }
+				}
+				annex_country = {
+					target = URG
+					transfer_troops = yes
+				}
+			}
+			every_state = {
+				limit = { is_core_of = URG }
+				add_core_of = ROOT 
+			}
+		}
 	}
 
 	focus = {
@@ -7654,6 +8071,50 @@ focus_tree = {
 			focus = BRA_help_out_the_germans
 			focus = BRA_integrate_paraguay
 		}
+		will_lead_to_war_with = ENG 
+		will_lead_to_war_with = FRA   
+		will_lead_to_war_with = HOL 
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		available = {
+			NOT = {
+				OR = {
+					is_in_faction_with = ENG 
+					is_in_faction_with = FRA 
+					is_in_faction_with = HOL 
+				}
+			}
+		}
+
+		cancel_if_invalid = yes 
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			every_other_country = {
+				limit = {
+					any_owned_state = {
+						is_on_continent = south_america
+					}
+					capital_scope = { is_on_continent = europe }
+					NOT = {
+						OR = {
+							is_in_faction_with = ROOT 
+							has_war_with = ROOT 
+						}
+					}
+				}
+				ROOT = {
+					create_wargoal = {
+						type = annex_everything
+						target = PREV 
+					}
+				}
+			}
+		}
 
 	}
 
@@ -7664,6 +8125,18 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_kick_out_the_europeans
 		prerequisite = { focus = BRA_kick_out_the_europeans}
+
+		cost = 8
+
+		available = {
+			num_of_factories > 49
+			has_navy_size = { size > 34 }
+		}
+
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_1_dockyard = yes 
+		}
 	}
 
 	focus = {
@@ -7673,6 +8146,13 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_kick_out_the_europeans
 		prerequisite = { focus = BRA_kick_out_the_europeans }
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_4_dockyard = yes 
+		}
 	}
 
 	focus = {
@@ -7691,6 +8171,40 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_focus_our_efforts_against_the_european_powers
 		prerequisite = { focus = BRA_focus_our_efforts_against_the_european_powers }
+
+		cost = 6
+
+		available = {
+			LIB = {
+				exists = yes 
+				NOT = {
+					is_in_faction_with = ROOT 
+				}
+			}
+		}
+
+		bypass = {
+			has_completed_focus = BRA_focus_our_efforts_against_the_european_powers
+			OR = {
+				has_war_with = LIB 
+				AND = {
+					298 = {
+						is_fully_controlled_by = ROOT
+					}
+					LIB = {
+						has_capitulated = yes 
+					}
+				}			
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = LIB
+			}
+		}
 	}
 
 	focus = {
@@ -7700,6 +8214,34 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_switch_the_theater
 		prerequisite = { focus = BRA_switch_the_theater }
+
+		cost = 8
+
+		available = {
+			controls_state = 298
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			298 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes 
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes 
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes 
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -10903,7 +11445,6 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_push_past_the_darien_gap
 		prerequisite = { focus = BRA_push_past_the_darien_gap }
-
 		will_lead_to_war_with = HON 
 		will_lead_to_war_with = NIC 
 		will_lead_to_war_with = GUA
