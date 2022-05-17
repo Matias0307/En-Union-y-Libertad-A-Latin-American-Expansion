@@ -1,10 +1,144 @@
 BRA_political_crisis = {
 
+    BRA_impending_portuguese_uprising = {
+        priority = 100
+        icon = revolt
+
+        activation = {
+            any_owned_state = {
+                has_dynamic_modifier = { modifier = BRA_portugal_nationalists }
+            }
+        }
+
+        available = {
+            custom_trigger_tooltip = {
+				tooltip = BRA_no_states_with_nationalists_tt
+				all_controlled_state = {
+					NOT = {
+						has_dynamic_modifier = { modifier = BRA_portugal_nationalists }
+					}
+				}
+			}
+        }
+
+        is_good = no 
+
+        days_mission_timeout = 720 
+
+        cancel_trigger = {
+            POR = {
+                exists = yes 
+                has_war_with = ROOT
+            }
+        }
+
+        timeout_effect = {
+            custom_effect_tooltip = BRA_portuguese_start_civil_war_tt
+            hidden_effect = {
+                remove_ideas = BRA_portuguese_nationalists_unif
+                every_controlled_state = {
+                    limit = { has_dynamic_modifier = { modifier = BRA_portugal_nationalists } }
+                    POR = {
+                        transfer_state = PREV 
+                    }
+                    remove_dynamic_modifier = { modifier = BRA_portugal_nationalists }
+                }
+                declare_war_on = {
+                    target = POR 
+                    type = annex_everything
+                }
+                POR = {
+                    set_politics = {
+                        ruling_party = democratic
+                    }
+                    set_popularities = {
+                        democratic = 100
+                    }
+                    retire_country_leader = yes 
+                    create_country_leader = {
+                        name = "Disorganized Nationalists"
+                        desc = "POLITICS_ARMED_CIVILIANS_DESC"
+                        picture =  "gfx/leaders/South America/EUYL_armed_civilians.dds"
+                        expire = "1965.1.1"
+                        ideology = conservatism
+                        traits = {
+                            BRA_disorganized_leadership
+                        }
+                    }
+                }
+            }
+        }
+
+        complete_effect = {
+            remove_ideas = BRA_portuguese_nationalists_unif
+        }
+    }
+
+    BRA_crush_the_nationalists_in_FROM = {
+		icon = eng_blackshirt_march
+
+		visible = { 
+			has_active_mission = BRA_impending_portuguese_uprising
+		}
+
+        available = {
+            has_completed_focus = BRA_deal_with_the_nationalists
+        }
+
+		ai_will_do = {
+			factor = 180
+		}
+
+		state_target = yes 
+
+		target_trigger = controlled_states
+
+		on_map_mode = map_and_decisions_view
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+				has_dynamic_modifier = { modifier = BRA_portugal_nationalists}
+			}
+		}
+
+		available = {
+			divisions_in_state = {
+				size > 3
+				state = FROM
+			}
+		}
+		
+		cancel_trigger = {
+			custom_trigger_tooltip = {
+				tooltip = EUYL_has_3_divisions_tt
+				NOT = {
+					divisions_in_state = {
+						size > 2
+						state = FROM 
+					}
+				}
+			}
+		}
+
+		cost = 15
+
+		days_remove = 70
+
+		modifier = {
+			weekly_manpower = -450
+		}
+
+		remove_effect = {
+			FROM = {
+                remove_dynamic_modifier = { modifier = BRA_portugal_nationalists }
+            }
+		}
+	}
+
     BRA_days_till_people_calm_down = {
 		priority = 20
 		icon = revolt
-
-		allowed = { original_tag = CHL }
 
 		activation = {
 			OR = {
@@ -1747,6 +1881,79 @@ BRA_integralist_management = {
                 }
             }
         }
+    }
+
+    BRA_gain_the_edge_against_from = {
+		icon = decision_generic_operation
+
+		on_map_mode = map_and_decisions_view
+
+		target_trigger = {
+			FROM = {
+				capital_scope = { is_on_continent = europe }
+				has_war_with = ROOT 
+			}
+		}
+
+		available = {
+			has_completed_focus = BRA_focus_our_efforts_against_the_european_powers
+		}
+
+		cost = 20
+
+		days_remove = 90
+
+		targeted_modifier = {
+			tag = FROM 
+			attack_bonus_against = 0.1
+			defense_bonus_against = 0.1
+		}
+	}
+
+    BRA_conquer_africa = {
+        icon = generic_nationalism
+        available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_conquered_every_african_state_tt
+				all_state = {
+                    is_on_continent = africa 
+                    is_controlled_by = ROOT
+                }
+			}
+		}
+
+		activation = {
+			always = no
+		}
+
+		is_good = yes 
+
+		days_mission_timeout = 1400
+
+		fire_only_once = yes 
+
+		timeout_effect = {
+			add_stability = -0.05
+			add_war_support = -0.1
+		}
+
+		complete_effect = {
+			add_stability = 0.1
+			add_war_support = 0.2
+            custom_effect_tooltip = PRU_integrate_states_tt
+			hidden_effect = {
+				every_owned_state = {
+					limit = { 
+						NOT = {
+							is_core_of = ROOT 
+							is_on_continent = africa
+						}
+						compliance > 34
+					}
+					add_core_of = ROOT 
+				}
+			}
+		}
     }
 }
 

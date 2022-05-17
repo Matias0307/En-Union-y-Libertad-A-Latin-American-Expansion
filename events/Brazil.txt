@@ -3415,5 +3415,113 @@ country_event = {
 	id = brazil.77
 	title = brazil.77.t
 	desc = brazil.77.d 
-	
+	picture = GFX_report_event_generic_read_write
+
+	is_triggered_only = yes 
+
+	option = { #Let's Unify 
+		name = brazil.77.a 
+		ai_chance = {
+			base = 5
+			modifier = {
+				add = 25
+				has_opinion = {
+					target = FROM 
+					value > 29
+				}
+			}
+			modifier = {
+				add = 25
+				has_opinion = {
+					target = FROM 
+					value > 59
+				}
+			}
+			modifier = {
+				add = 70
+				has_completed_focus = POR_the_return_of_duarte
+			}
+			modifier = {
+				add = 40
+				neutrality > 0.3
+			}
+		}
+		hidden_effect = {
+			180 = {
+				add_dynamic_modifier = { modifier = BRA_portugal_nationalists }
+			}
+			112 = {
+				add_dynamic_modifier = { modifier = BRA_portugal_nationalists }
+			}
+			181 = {
+				add_dynamic_modifier = { modifier = BRA_portugal_nationalists }
+			}
+			795 = {
+				add_dynamic_modifier = { modifier = BRA_portugal_nationalists }
+			}
+			179 = {
+				add_dynamic_modifier = { modifier = BRA_portugal_nationalists }
+			}
+		}
+		FROM = {
+			annex_country = {
+				target = ROOT 
+				transfer_troops = yes 
+			}
+			hidden_effect = {
+				every_state = {
+					limit = { is_core_of = POR }
+					add_core_of = FROM 
+				}
+				add_ideas = {
+					BRA_disjointed_industries_unif
+					BRA_disjointed_armies_unif
+					BRA_portuguese_nationalists_unif
+				}
+				set_cosmetic_tag = KPB_kingdom_portugal_and_brazil
+				retire_country_leader = yes 
+				create_country_leader = {
+					name = "Administrative Council of Brazil and Portugal"
+					desc = "POLITICS_COUNCIL_BRAZIL_PORTUGAL_DESC"
+					picture = "gfx/leaders/BRA/BRA_administrative_council_brazil_portugal.png"
+					expire = "1965.1.1"
+					ideology = monarchism
+					traits = {
+						#
+					}
+				}
+				news_event = { id = lar_news.26 days = 1 random_days = 5 }
+			}
+		}
+		custom_effect_tooltip = POR_kingdom_reunited_tooltip_tt
+		custom_effect_tooltip = GAME_OVER_TT
+	}
+
+	option = { #nah, ion feel like it lol 
+		name = brazil.77.b 
+		ai_chance = {
+			base = 10
+			modifier = { #less likely to accept if they're not monarchist
+				add = 20
+				NOT = { has_government = neutrality }
+			}
+		}
+		FROM = {
+			country_event = { id = brazil.78 hours = 4 }
+		}
+	}
+}
+
+#Brazil gets notif of Portugal refusing to unite 
+country_event = {
+	id = brazil.78
+	title = brazil.78.t 
+	desc = brazil.78.d 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = brazil.78.a 
+		complete_national_focus = BRA_officialy_establish_the_empire
+	}
 }
