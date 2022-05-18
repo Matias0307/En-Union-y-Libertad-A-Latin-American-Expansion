@@ -3525,3 +3525,35 @@ country_event = {
 		complete_national_focus = BRA_officialy_establish_the_empire
 	}
 }
+
+#Empire of Brazil gets event of Uruguayan Uprising
+country_event = {
+	id = brazil.79
+	title = brazil.79.t
+	desc = brazil.79.desc
+	picture = GFX_report_event_soldiers_marching
+	
+	is_triggered_only = yes
+	
+	option = { # Ok
+		name = brazil.79.a
+		random_country = {
+			limit = {
+				original_tag = URG
+				has_government = neutrality
+				has_cosmetic_tag = BRA_URG
+			}
+			BRA = {
+				add_to_war = {
+				    targeted_alliance = PREV 
+				    enemy = URG
+				    hostility_reason = asked_to_join
+				}
+				puppet = PREV
+			}
+		}
+		URG ={
+			set_rule = { can_join_factions = no	}
+		}
+	}
+}

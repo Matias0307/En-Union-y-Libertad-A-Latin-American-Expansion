@@ -2694,13 +2694,9 @@ BRA_imperial_management = {
                             producer = BRA
                         }
                     }
-                    BRA = {
-                        puppet = PREV
-                        declare_war_on = {
-                            target = URG 
-                            type = puppet_wargoal_focus
-                        }
-                    }
+                }
+                BRA = {
+                    country_event = { id = brazil.79 hours = 2 }
                 }
                 ARG = {
                     if = {
@@ -2966,6 +2962,37 @@ BRA_imperial_management = {
         remove_effect = {
             FROM = {
                 add_dynamic_modifier = { modifier = BRA_ongoing_integration_campaign }
+            }
+        }
+    }
+
+    BRA_integrate_the_cisplatine_into_our_empire = {
+        icon = generic_civil_support
+
+        visible = {
+            URG = {
+                is_subject_of = ROOT 
+            }
+        }
+
+        cost = 40
+
+        days_remove = 20
+
+        cancel_trigger = {
+            URG = {
+                NOT = { is_subject_of = ROOT }
+            }
+        }
+
+        remove_effect = {
+            annex_country = {
+                target = URG 
+                transfer_troops = yes 
+            }
+            every_state = {
+                limit = { is_core_of = URG }
+                add_core_of = ROOT
             }
         }
     }
