@@ -48,6 +48,18 @@ BRA_political_crisis = {
                     type = annex_everything
                 }
                 POR = {
+                    division_template = { 
+                        name = "Milicias" 
+                        division_names_group = POR_INF_01 
+                        is_locked = yes 
+                        regiments = { 
+                            infantry = { x = 0 y = 0 }  
+                            infantry = { x = 0 y = 1 } 
+                            infantry = { x = 0 y = 2 } 
+                            infantry = { x = 0 y = 3 } 
+                            infantry = { x = 0 y = 4 }
+                        }
+                    }
                     set_politics = {
                         ruling_party = democratic
                     }
@@ -63,6 +75,20 @@ BRA_political_crisis = {
                         ideology = conservatism
                         traits = {
                             BRA_disorganized_leadership
+                        }
+                    }
+                    load_focus_tree = {
+                        tree = portuguese_focus
+                        keep_completed = no 
+                    }
+                    every_controlled_state = {
+                        create_unit = {
+                            division = "name = \"Milicias\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 1" 
+                            owner = POR
+                        }
+                        create_unit = {
+                            division = "name = \"Milicias\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 1" 
+                            owner = POR
                         }
                     }
                 }
@@ -625,6 +651,9 @@ BRA_political_manegement = {
             OR = {
                 has_country_flag = BRA_vargas_is_dead
                 has_completed_focus = BRA_cut_back_on_our_censorship
+                hidden_trigger = {
+                    has_country_flag = BRA_vargas_stop_dictatorship
+                }
             }
         }
 
@@ -693,6 +722,10 @@ BRA_political_manegement = {
                 set_country_flag = BRA_increasing_police_force
                 add_to_variable = { BRA_cost_to_disband_the_police_force = 35 }
             }
+            if = {
+                limit = { has_completed_focus = BRA_solidify_control_over_the_state }
+                BRA_increment_progress_to_dictatorship = yes 
+            }
         }
 
         days_remove = 50
@@ -743,6 +776,18 @@ BRA_political_manegement = {
             }
             hidden_effect = {
                 set_country_flag = BRA_disbanded_police_force
+            }
+            if = {
+                limit = { has_completed_focus = BRA_solidify_control_over_the_state }
+                custom_effect_tooltip = BRA_progress_dictatorship_decrease_10_tt
+                subtract_from_variable = { BRA_progress_to_dictatorship = 10 }
+                hidden_effect = {
+                    clamp_variable = {
+                        var = BRA_progress_to_dictatorship
+                        min = 0
+                        max = 100
+                    }
+                }
             }
         }
     }
@@ -898,6 +943,10 @@ BRA_political_manegement = {
                         subtract_from_variable = { BRA_integralist_influence = 4 }
                     }
                 }
+            }
+            if = {
+                limit = { has_completed_focus = BRA_solidify_control_over_the_state }
+                BRA_increment_progress_to_dictatorship = yes 
             }
             BRA_set_up_political_crisis = yes 
             BRA_chance_to_get_protest_to_influence_increase = yes 
@@ -1261,25 +1310,10 @@ BRA_political_manegement = {
 
         available = {
             has_civil_war = no
-            if = {
-                limit = {
-                    has_dlc = "La Resistance"
-                }
-                custom_trigger_tooltip = {
-                    tooltip = BRA_network_coverage_over_90_tt
-                    network_national_coverage = {
-                        target = BRA 
-                        value > 0.9
-                    }
-                }
-            }
-            else = {
-                divisions_in_state = {
-                    size > 3
-                    state = FROM
-                }
-            }
-                 
+            divisions_in_state = {
+                size > 3
+                state = FROM
+            } 
         }
 
         visible = {
