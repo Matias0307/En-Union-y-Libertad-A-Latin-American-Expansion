@@ -2423,6 +2423,10 @@ country_event = { #event that gets triggered once civil war has concluded
 					}
 					add_dynamic_modifier = { modifier = BRA_post_civil_war_resistance }
 				}
+				if = {
+					limit = { has_completed_focus = BRA_offer_labor_rights_post_civil_war }
+					add_ideas = BRA_labor_rights
+				}
 			}
 			if = {
 				limit = { has_government = fascism }
@@ -2507,6 +2511,7 @@ country_event = { #event that gets triggered once civil war has concluded
 			}
 		}
 		BRA_set_up_post_civil_war_idea = yes 
+		add_country_leader_trait = BRA_hero_of_the_civil_war
 	}
 
 	option = {
@@ -3555,6 +3560,29 @@ country_event = {
 		}
 		URG = {
 			set_rule = { can_join_factions = no	}
+		}
+	}
+}
+
+#Event that tells player the country was convinced of the Cohen Plan and Vargas was offered more power over the nation 
+country_event = {
+	id = brazil.80
+	title = brazil.80.t 
+	desc = brazil.80.d 
+	picture = GFX_BRA_vargas_interfere_civil_war
+
+	is_triggered_only = yes 
+
+	option = { #perfect 
+		name = brazil.80.a 
+		custom_effect_tooltip = BRA_progress_to_dictatorship_increase_20_tt
+		hidden_effect = {
+			add_to_variable = { BRA_progress_to_dictatorship = 20 }
+			clamp_variable = {
+				var = BRA_progress_to_dictatorship
+				min = 0
+				max = 100
+			}
 		}
 	}
 }
