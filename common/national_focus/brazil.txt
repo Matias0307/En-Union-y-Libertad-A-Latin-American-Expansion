@@ -2519,7 +2519,12 @@ focus_tree = {
 		relative_position_id = BRA_industrial_recovery
 		prerequisite = { focus = BRA_industrial_recovery }
 
-		
+		cost = 8
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_ideas = BRA_minimum_wage_established
+		}
 	}
 
 	focus = {
@@ -2534,6 +2539,10 @@ focus_tree = {
 		cost = 8
 
 		available = {
+			has_country_leader = {
+				character = BRA_getulio_vargas
+				ruling_only = yes
+			}
 			has_country_flag = BRA_plinio_appointed
 			custom_trigger_tooltip = {
 				tooltip = BRA_integralists_friendly_tt
@@ -3630,7 +3639,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			add_political_power = 50
-			add_stability = -0.05
+			add_stability = -0.03
 			BRA_increment_progress_to_dictatorship = yes
 		}
 	}
@@ -3669,6 +3678,7 @@ focus_tree = {
 			}
 			hidden_effect = {
 				set_country_flag = BRA_estado_novo_established
+				country_event = { id = brazil.81 days = 6 random_days = 20 }
 			}
 		}
 	}
@@ -3680,6 +3690,19 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_officialy_establish_the_estado_novo
 		prerequisite = { focus = BRA_officialy_establish_the_estado_novo }
+
+		available = {
+			has_civil_war = no 
+			has_government = neutrality
+		}
+
+		cost = 4
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			add_war_support = 0.01
+			add_political_power = 20
+		}
 	}
 
 	focus = {
@@ -3691,6 +3714,23 @@ focus_tree = {
 		prerequisite = { focus = BRA_review_our_foreign_policy }
 		mutually_exclusive = { focus = BRA_allign_ourselves_with_the_axis }
 		mutually_exclusive = { focus = BRA_allign_ourselves_with_the_allies }
+
+		available = {
+			has_civil_war = no 
+			has_government = neutrality
+		}
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			if = {
+				limit = { NOT = { has_idea = neutrality_idea } }
+				add_ideas = neutrality_idea
+			}
+			add_stability = 0.05
+			add_war_support = -0.05
+		}
 	}
 
 	focus = {
@@ -3702,6 +3742,33 @@ focus_tree = {
 		prerequisite = { focus = BRA_review_our_foreign_policy }
 		mutually_exclusive = { focus = BRA_allign_ourselves_with_the_axis }
 		mutually_exclusive = { focus = BRA_maintain_strict_neutrality }
+
+		available = {
+			has_civil_war = no 
+			has_government = neutrality
+			NOT = {
+				OR = {
+					has_war_with = ENG
+					has_war_with = USA
+					has_war_with = FRA
+				}
+			}
+		}
+
+		cost = 5 
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			USA = {
+				add_opinion_modifier = { target = ROOT modifier = placated_west }
+			}
+			FRA = {
+				add_opinion_modifier = { target = ROOT modifier = placated_west }
+			}
+			ENG = {
+				add_opinion_modifier = { target = ROOT modifier = placated_west }
+			}
+		}
 	}
 
 	focus = {
@@ -3711,6 +3778,25 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_allign_ourselves_with_the_allies
 		prerequisite = { focus = BRA_allign_ourselves_with_the_allies }
+
+		available = {
+			is_subject = no
+			GER = {
+				is_subject = no
+			}
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			GER = {
+				add_opinion_modifier = { target = ROOT modifier = embargo }
+				add_opinion_modifier = { target = ROOT modifier = sanctions_relations } 
+			}
+		}
 	}
 
 	focus = {
@@ -3778,6 +3864,33 @@ focus_tree = {
 		prerequisite = { focus = BRA_review_our_foreign_policy }
 		mutually_exclusive = { focus = BRA_maintain_strict_neutrality }
 		mutually_exclusive = { focus = BRA_allign_ourselves_with_the_allies }
+
+		available = {
+			has_civil_war = no 
+			has_government = neutrality
+			NOT = {
+				OR = {
+					has_war_with = GER 
+					has_war_with = ITA
+					has_war_with = JAP
+				}
+			}
+		}
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			GER = {
+				add_opinion_modifier = { target = ROOT modifier = placated_west }
+			}
+			ITA = {
+				add_opinion_modifier = { target = ROOT modifier = placated_west }
+			}
+			JAP = {
+				add_opinion_modifier = { target = ROOT modifier = placated_west }
+			}
+		}
 	}
 
 	focus = {
@@ -3789,8 +3902,24 @@ focus_tree = {
 		prerequisite = { focus = BRA_officialy_establish_the_estado_novo }
 
 		#allow_branch = {
-		#	
+		#	has_active_mission = BRA_integralists_planning_attack_on_guanabara_palace
 		#}
+
+		cost = 5
+
+		available = {
+			has_active_mission = BRA_integralists_planning_attack_on_guanabara_palace
+		}
+		
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+		search_filters = { FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			add_days_mission_timeout = {
+				mission = BRA_integralists_planning_attack_on_guanabara_palace
+				days = 10
+			}
+		}
 	}
 
 	focus = {
@@ -3800,6 +3929,26 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_defend_ourselves_against_the_integralists
 		prerequisite = { focus = BRA_defend_ourselves_against_the_integralists }
+
+		cost = 10
+
+		available = {
+			has_active_mission = BRA_integralists_planning_attack_on_guanabara_palace
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			custom_effect_tooltip = BRA_integralists_completely_shutdown_tt
+			add_political_power = 50
+			add_stability = 0.05
+			hidden_effect = {
+				BRA_plinio_salgado = {
+					set_character_flag = BRA_imprisoned
+				}
+			}
+		}
 	}
 
 	focus = { 
@@ -3809,6 +3958,18 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_officialy_establish_the_estado_novo
 		prerequisite = { focus = BRA_officialy_establish_the_estado_novo }
+
+		cost = 5
+
+		available = {
+			has_civil_war = no 
+			has_government = neutrality
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			add_political_power = 40
+		}
 	}
 
 	focus = {
@@ -3818,6 +3979,24 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_internal_management
 		prerequisite = { focus = BRA_internal_management }
+
+		cost = 7.2
+
+		available = {
+			has_civil_war = no 
+			has_government = neutrality
+		}
+
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			add_stability = 0.05
+			custom_effect_tooltip = BRA_modify_crisis_by_5_stability_tt
+			hidden_effect = {
+				add_to_variable = { BRA_crisis_stability_factor = 0.05 }
+				add_to_variable = { BRA_crisis_political_factor = 0.05 }
+				subtract_from_variable = { BRA_crisis_advisor_cost = 0.05 }
+			}
+		}
 	}
 
 	focus = {
@@ -3827,6 +4006,27 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_make_up_for_the_lack_of_congress
 		prerequisite = { focus = BRA_make_up_for_the_lack_of_congress }
+
+		available = {
+			has_civil_war = no 
+			has_government = neutrality
+		}
+
+		cost = 8
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			add_popularity = {
+				ideology = neutrality
+				popularity = 0.05
+			}
+			custom_effect_tooltip = BRA_modify_crisis_by_5_stability_tt
+			hidden_effect = {
+				add_to_variable = { BRA_crisis_stability_factor = 0.05 }
+				add_to_variable = { BRA_crisis_political_factor = 0.05 }
+				subtract_from_variable = { BRA_crisis_advisor_cost = 0.05 }
+			}
+		}
 	}
 
 	focus = {
@@ -3836,6 +4036,25 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_make_up_for_the_lack_of_congress
 		prerequisite = { focus = BRA_make_up_for_the_lack_of_congress }
+
+		available = {
+			has_civil_war = no 
+			has_government = neutrality
+		}
+
+		cost = 8
+
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			add_stability = -0.03
+			add_war_support = 0.05
+			custom_effect_tooltip = BRA_modify_crisis_by_5_stability_tt
+			hidden_effect = {
+				add_to_variable = { BRA_crisis_stability_factor = 0.05 }
+				add_to_variable = { BRA_crisis_political_factor = 0.05 }
+				subtract_from_variable = { BRA_crisis_advisor_cost = 0.05 }
+			}
+		}
 	}
 
 	focus = {
@@ -3846,6 +4065,18 @@ focus_tree = {
 		relative_position_id = BRA_establish_the_department_of_press_and_propaganda
 		prerequisite = { focus = BRA_establish_the_department_of_press_and_propaganda }
 		prerequisite = { focus = BRA_harsher_punishment_for_the_protestors }
+
+		available = {
+			has_civil_war = no 
+			has_government = neutrality
+		}
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			remove_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
+		}
 	}
 
 	focus = {
@@ -3856,6 +4087,22 @@ focus_tree = {
 		relative_position_id = BRA_establish_a_minimum_wage
 		prerequisite = { focus = BRA_cleanse_the_political_sphere }
 		prerequisite = { focus = BRA_establish_a_minimum_wage }
+
+		available = {
+			has_civil_war = no 
+			has_government = neutrality
+		}
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			EUYL_add_1_civilian = yes 
+			custom_effect_tooltip = BRA_petrobras_75_cheaper_tt
+			hidden_effect = {
+				subtract_from_variable = { BRA_cost_for_petrobras = 75 }
+			}
+		}
 	}
 
 	focus = {
@@ -3865,6 +4112,18 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_internal_management
 		prerequisite = { focus = BRA_internal_management }
+
+		cost = 6
+
+		available = {
+			has_civil_war = no 
+			has_government = neutrality
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_2_civilian = yes 
+		}
 	}
 
 	focus = {
@@ -3874,6 +4133,19 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_industrial_recovery
 		prerequisite = { focus = BRA_industrial_recovery }
+
+		cost = 7.2
+
+		available = {
+			has_civil_war = no 
+			has_government = neutrality
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			EUYL_add_2_military = yes
+			adD_ideas = BRA_strengthened_army 
+		}
 	}
 
 	focus = {
@@ -3985,6 +4257,41 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_open_up_the_south_american_front
 		prerequisite = { focus = BRA_open_up_the_south_american_front }
+		will_lead_to_war_with = PAR
+
+		cost = 5
+
+		available = {
+			NOT = {
+				is_in_faction_with = PAR
+			}
+		}
+
+		bypass = {
+			has_completed_focus = BRA_open_up_the_south_american_front
+			300 = {
+				is_fully_controlled_by = ROOT 
+			}
+			688 = {
+				is_fully_controlled_by = ROOT
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			if = {
+				limit = {
+					has_war_with = PAR 
+				}
+				add_ideas = BRA_push_through_paraguay_idea
+			}
+			else = {
+				create_wargoal = {
+					type = annex_everything
+					target = PAR
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -4006,6 +4313,12 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_open_up_the_south_american_front
 		prerequisite = { focus = BRA_open_up_the_south_american_front }
+
+		available = {
+			has_war = yes 
+		}
+
+
 	}
 
 	focus = {
@@ -5172,7 +5485,7 @@ focus_tree = {
 			has_idea = war_economy 
 		}
 
-		search_filters = { FOCUS_FILTER_INDUSTRY }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
 		completion_reward = {
 			hidden_effect = {
 				if = {
@@ -10802,7 +11115,7 @@ focus_tree = {
 			has_idea = war_economy 
 		}
 
-		search_filters = { FOCUS_FILTER_INDUSTRY }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
 		completion_reward = {
 			hidden_effect = {
 				if = {
