@@ -3404,7 +3404,7 @@ country_event = {
 	
 	option = { #we can't afford it 
 		name = brazil.76.b
-		ai_chace = {
+		ai_chance = {
 			base = 40
 			modifier = {
 				add = 60 
@@ -3605,3 +3605,66 @@ country_event = {
 	}
 }
 
+#Germany gets event of Brazilian plan to atttack Uruguay and join Axis 
+country_event = {
+	id = brazil.82
+	title = brazil.82.t 
+	desc = brazil.82.d 
+	picture = GFX_report_event_generic_army
+
+	is_triggered_only = yes 
+
+	option = { #we'll let them in when they launch the attack 
+		name = brazil.82.a 
+		ai_chance = {
+			base = 10
+			modifier = {
+				add = 40 
+				has_opinion = {
+					target = FROM 
+					value > 49
+				}
+			}
+			modifier = {
+				add = 25
+				has_opinion = {
+					target = FROM 
+					value > 79
+				}
+			}
+			modifier = {
+				add = 15
+				FROM = {
+					has_completed_focus = BRA_purchas_german_weaponry
+				}
+			}
+			modifier = {
+				add = 15
+				FROM = {
+					has_completed_focus = BRA_allow_the_germans_to_purchase_cotton
+				}
+			}
+		}
+		FROM = {
+			set_country_flag = BRA_GER_accepted_proposal
+			country_event = { id = peru.16 hours = 4 }
+		}
+	}
+
+	option = { #we can't affor another front 
+		name = brazil.82.b 
+		ai_chance = {
+			base = 20
+			modifier = {
+				add = 50 
+				has_opinion = {
+					target = FROM 
+					value < 0 
+				}
+			}
+		}
+		FROM = {
+			country_event = { id = peru.17 hours = 4 }
+		}
+	}
+}
