@@ -2749,6 +2749,25 @@ focus_tree = {
 		relative_position_id = BRA_cut_back_on_our_censorship
 		prerequisite = { focus = BRA_cut_back_on_our_censorship }
 		mutually_exclusive = { focus = BRA_cooperate_with_plinio }
+
+		cost = 7.2
+
+		available = {
+			has_civil_war = no 
+			has_active_mission = BRA_the_1938_elections
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.05
+			}
+			set_variable = { BRA_playing_as_vargas = 0 }
+			set_variable = { BRA_playing_as_congress = 1 }
+			BRA_clear_vargas_opinion = yes 
+			set_country_flag = BRA_friendly_vargas
+		}
 	}
 
 	focus = {
@@ -3956,6 +3975,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_ARMY_XP FOCUS_FILTER_AIR_XP FOCUS_FILTER_NAVY_XP }
 		completion_reward = {
 			add_ideas = BRA_the_smoking_snakes_1
+			unlock_decision_category_tooltip = BRA_smoking_snakes_management
 		}
 	}
 
@@ -3966,6 +3986,19 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_establish_the_FAB
 		prerequisite = { focus = BRA_establish_the_FAB }
+
+		cost = 8
+
+		search_filters = { FOCUS_FILTER_ARMY_XP FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = {
+				name = BRA_learn_from_the_italian_alps
+				bonus = 1.0
+				uses = 1
+				category = mountaineers_tech
+			}
+			army_experience = 25
+		}
 	}
 
 	focus = {
@@ -3975,6 +4008,29 @@ focus_tree = {
 		y =1
 		relative_position_id = BRA_establish_the_FAB
 		prerequisite = { focus = BRA_establish_the_FAB }
+
+		cost = 10
+
+		available = {
+			has_war_with = GER 
+		}
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = {
+				name = ARG_help_out_in_dday
+				bonus = 1.0
+				uses = 2
+				technology = marines
+				technology = marines2
+			}
+			add_tech_bonus = {
+				name = ARG_help_out_in_dday
+				bonus = 1.0
+				uses = 2
+				category = tp_tech 
+			}
+		}
 	}
 
 	focus = {
@@ -3984,6 +4040,30 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_establish_the_FAB 
 		prerequisite = { focus = BRA_establish_the_FAB }
+
+		cost = 10
+
+		available = {
+			NOT = {
+				has_war_with = SOV
+			}
+			SOV = {
+				has_war = yes 
+			}
+			has_equipment = {
+				infantry_equipment > 749
+			}
+		}
+
+		available_if_capitulated = no 
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			send_equipment = {
+				equipment = infantry_equipment
+				amount = 750
+				target = SOV
+			}
+		}
 	}
 
 	focus = {
