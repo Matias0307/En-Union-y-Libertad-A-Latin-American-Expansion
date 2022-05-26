@@ -2765,6 +2765,7 @@ focus_tree = {
 			}
 			set_variable = { BRA_playing_as_vargas = 0 }
 			set_variable = { BRA_playing_as_congress = 1 }
+			BRA_clear_congress_opinion = yes 
 			BRA_clear_vargas_opinion = yes 
 			set_country_flag = BRA_friendly_vargas
 		}
@@ -2777,6 +2778,8 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_an_era_of_democracy
 		prerequisite = { focus = BRA_an_era_of_democracy }
+
+		cost = 8
 	}
 
 	focus = {
@@ -3155,6 +3158,26 @@ focus_tree = {
 		relative_position_id = BRA_cut_back_on_our_censorship 
 		prerequisite = { focus = BRA_cut_back_on_our_censorship }
 		mutually_exclusive = { focus = BRA_an_era_of_democracy }
+
+		cost = 10
+
+		available = {
+			has_civil_war = no 
+			has_active_mission = BRA_the_1938_elections
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.05
+			}
+			set_variable = { BRA_playing_as_vargas = 0 }
+			set_variable = { BRA_playing_as_integralists = 1 }
+			BRA_clear_integralist_opinion = yes 
+			BRA_clear_vargas_opinion = yes 
+			set_country_flag = BRA_friendly_vargas
+		}	
 	}
 
 	focus = {
@@ -3696,11 +3719,17 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = BRA_elections_cancelled_and_become_dictatorship_tt
 			set_politics = {
+				ruling_party = neutrality
 				elections_allowed = no 
+			}
+			set_party_name = {
+				ideology = neutrality
+				long_name = BRA_estado_novo_long
+				name = BRA_estado_novo
 			}
 			hidden_effect = {
 				set_country_flag = BRA_estado_novo_established
-				country_event = { id = brazil.81 days = 6 random_days = 20 }
+				#country_event = { id = brazil.81 days = 6 random_days = 20 }
 			}
 		}
 	}
@@ -4622,7 +4651,7 @@ focus_tree = {
 		}
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-			GER = { country_event = { brazil.82 hours = 4 } }
+			GER = { country_event = { id = brazil.82 hours = 4 } }
 		}
 	}
 
@@ -10567,7 +10596,7 @@ focus_tree = {
 
 		#unlocks map decisions to spread subversive influence to other states 
 
-		cost = 10
+		cost = 5
 
 		available = {
 			
@@ -12177,6 +12206,33 @@ focus_tree = {
 		relative_position_id = BRA_promote_immmigration
 		prerequisite = { focus = BRA_promote_immmigration }
 		mutually_exclusive = { focus = BRA_learn_from_italian_immigrants }
+
+		cost = 8
+
+		available = {
+			is_subject = no
+			GER = {
+				is_subject = no
+			}
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_tech_bonus = {
+				bonus = 1.0
+				uses = 2
+				name = ARG_invite_german_intellectuals
+				technology = basic_medium_tank
+				technology = improved_medium_tank
+				technology = advanced_medium_tank
+				technology = mechanised_infantry
+			}
+			army_experience = 75
+		}
 	}
 
 	focus = {
