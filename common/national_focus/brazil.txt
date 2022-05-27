@@ -3123,6 +3123,12 @@ focus_tree = {
 					target = ROOT 
 					modifier = BOL_improved_relations
 				}
+				ROOT = {
+					add_opinion_modifier = {
+						target = PREV 
+						modifier = BOL_improved_relations
+					}
+				}
 			}
 		}
 	}
@@ -3203,7 +3209,27 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-			
+			every_other_country = {
+				limit = {
+					capital_scope = { is_on_continent = europe }
+					NOT = { has_war_with = ROOT }
+					has_civil_war = no 
+					OR = {
+						has_government = democratic
+						has_government = neutrality
+					}
+				}
+				add_opinion_modifier = {
+					target = ROOT 
+					modifier = BOL_improved_relations
+				}
+				ROOT = {
+					add_opinion_modifier = {
+						target = PREV 
+						modifier = BOL_improved_relations
+					}
+				}
+			}
 		}
 	}
 
@@ -3216,6 +3242,13 @@ focus_tree = {
 		prerequisite = {
 			focus = BRA_look_beyond_south_america
 			focus = BRA_focus_on_south_america
+		}
+
+		cost = 10
+
+		available = {
+			has_government = democratic
+			stability > 0.5
 		}
 	}
 
