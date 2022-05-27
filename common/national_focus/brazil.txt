@@ -2886,6 +2886,19 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_freedom_of_the_press
 		prerequisite = { focus = BRA_freedom_of_the_press }
+
+		cost = 10
+
+		available = {
+			has_government = democratic
+			has_country_flag = BRA_democrats_won_elections
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_stability = 0.05
+			add_political_power = 25
+		}
 	}
 
 	focus = {
@@ -2896,6 +2909,13 @@ focus_tree = {
 		relative_position_id = BRA_a_free_brazil
 		prerequisite = { focus = BRA_a_free_brazil }
 		mutually_exclusive = { focus = BRA_follow_liberal_ideals }
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_ideas = BRA_empowered_social_democrats
+		}
 	}
 
 	focus = {
@@ -2906,6 +2926,13 @@ focus_tree = {
 		relative_position_id = BRA_a_free_brazil
 		prerequisite = { focus = BRA_a_free_brazil }
 		mutually_exclusive = { focus = BRA_empower_the_social_democrats }
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_ideas = democratic_influence
+		}
 	}
 
 	focus = {
@@ -2918,6 +2945,27 @@ focus_tree = {
 			focus = BRA_follow_liberal_ideals
 			focus = BRA_empower_the_social_democrats
 		}
+
+		cost = 10
+
+		available = { has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis } } 
+
+		bypass = {
+			has_completed_focus = BRA_a_free_brazil
+			NOT = {
+				has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			custom_effect_tooltip = BRA_modify_crisis_by_5_stability_tt
+			hidden_effect = {
+				add_to_variable = { BRA_crisis_stability_factor = 0.05 }
+				add_to_variable = { BRA_crisis_political_factor = 0.05 }
+				subtract_from_variable = { BRA_crisis_advisor_cost = 0.05 }
+			}
+		}
 	}
 
 	focus = {
@@ -2927,24 +2975,77 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_promote_free_speech
 		prerequisite = { focus = BRA_promote_free_speech}
+
+		cost = 15
+
+		available = {
+			has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			remove_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
+			hidden_effect = {
+				every_controlled_state = {
+					limit = {
+						has_dynamic_modifier = { modifier = BRA_protests }
+					}
+					remove_dynamic_modifier = { modifier = BRA_protests }
+				}
+			}
+		}
 	}
 
 	focus = {
-		id = BRA_open_our_markets #name changes to Ask for Foreign Aid if in civil war 
+		id = BRA_open_our_markets 
 		icon = GFX_ARG_open_our_borders 
 		x = 0
 		y = 1
 		relative_position_id = BRA_follow_liberal_ideals
 		prerequisite = { focus = BRA_follow_liberal_ideals }
+
+		cost = 5
+
+		available = {
+			has_civil_war = no 
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = { has_idea = free_trade }
+				}
+				add_ideas = free_trade
+			}
+			else = {
+				add_political_power = 150 
+			}
+		}
 	}
 
 	focus = {
-		id = BRA_strengthen_our_foreign_investments #changes to Mobilize the Economy if in civil war 
+		id = BRA_strengthen_our_foreign_investments 
 		icon = GFX_focus_generic_the_giant_wakes
 		x = 2
 		y = 1
 		relative_position_id = BRA_follow_liberal_ideals
 		prerequisite = { focus = BRA_follow_liberal_ideals }
+
+		cost = 8
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			if = {
+				limit = {
+					has_civil_war = yes 
+				}
+				EUYL_add_2_military = yes 
+			}
+			else = {
+				EUYL_add_2_civilian = yes 
+			}
+		}
 	}
 
 	focus = {
@@ -2956,6 +3057,18 @@ focus_tree = {
 		prerequisite = { focus = BRA_strengthen_our_foreign_investments }
 		prerequisite = { focus = BRA_open_our_markets }
 		mutually_exclusive = { focus = BRA_the_congress_shall_lead }
+
+		cost = 8
+
+		available = {
+			has_government = democratic
+			has_civil_war = no 
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			country_event = brazil.66
+		}
 	}
 
 	focus = {
@@ -2967,6 +3080,20 @@ focus_tree = {
 		prerequisite = { focus = BRA_strengthen_our_foreign_investments }
 		prerequisite = { focus = BRA_open_our_markets }
 		mutually_exclusive = { focus = BRA_let_the_people_choose_the_leader }
+
+		cost = 8
+
+		available = {
+			has_government = democratic
+			has_civil_war = no 
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_stability = 0.02
+			retire_country_leader = yes 
+			promote_character = BRA_congresso_do_brasil
+		}
 	}
 
 	focus = {
@@ -2981,6 +3108,23 @@ focus_tree = {
 			focus = BRA_the_congress_shall_lead 
 		}
 		mutually_exclusive = { focus = BRA_look_beyond_south_america }
+
+		cost = 6
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			every_other_country = {
+				limit = {
+					capital_scope = { is_on_continent = south_america }
+					NOT = { has_war_with = ROOT }
+					has_civil_war = no 
+				}
+				add_opinion_modifier = {
+					target = ROOT 
+					modifier = BOL_improved_relations
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -3050,6 +3194,17 @@ focus_tree = {
 			focus = BRA_the_congress_shall_lead
 		}
 		mutually_exclusive = { focus = BRA_focus_on_south_america }
+
+		cost = 7.2
+
+		available = {
+			has_war = no
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			
+		}
 	}
 
 	focus = {
@@ -3439,10 +3594,14 @@ focus_tree = {
 		cost = 10
 
 		available = {
-			OR = {
-				has_government = fascism
-				
-			}
+			has_government = fascism
+			has_country_flag = BRA_integralists_won_elections
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_stability = 0.03
+			add_political_power = 50
 		}
 	}
 
@@ -4550,6 +4709,14 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			remove_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
+			hidden_effect = {
+				every_controlled_state = {
+					limit = {
+						has_dynamic_modifier = { modifier = BRA_protests }
+					}
+					remove_dynamic_modifier = { modifier = BRA_protests }
+				}
+			}
 		}
 	}
 
@@ -9251,6 +9418,14 @@ focus_tree = {
 					has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
 				}
 				remove_dynamic_modifier = { modifier = BRA_brazilian_political_crisis}
+				hidden_effect = {
+					every_controlled_state = {
+						limit = {
+							has_dynamic_modifier = { modifier = BRA_protests }
+						}
+						remove_dynamic_modifier = { modifier = BRA_protests }
+					}
+				}
 			}
 			else = {
 				add_stability = 0.05
