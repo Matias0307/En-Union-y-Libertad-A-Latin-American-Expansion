@@ -48,7 +48,7 @@ focus_tree = {
 			}
 			custom_effect_tooltip = BRA_add_brazilian_economy_tt
 			EUYL_add_1_civilian = yes 
-			add_political_power = 35
+			add_political_power = 50
 			hidden_effect = {
 				every_other_country = {
 					limit = { original_tag = BRA }
@@ -2780,6 +2780,37 @@ focus_tree = {
 		prerequisite = { focus = BRA_an_era_of_democracy }
 
 		cost = 8
+
+		available = {
+			is_subject = no 
+			custom_trigger_tooltip = {
+				tooltip = BRA_better_than_industrializing_tt
+				NOT = {
+					OR = {
+						has_idea = rural_economy
+						has_idea = semi_rural_economy
+					}
+				}
+			}
+		}
+
+		bypass = {
+			has_completed_focus = BRA_an_era_of_democracy
+			has_government = democratic
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			custom_effect_tooltip = BRA_washington_luis_comes_back_tt
+			custom_effect_tooltip = BRA_increase_congress_by_4_tt
+			hidden_effect = {
+				BRA_washington_luis_pereira = {
+					clr_character_flag = BRA_living_in_the_exterior
+				}
+				add_to_variable = { BRA_congress_influence = 4 }
+				BRA_set_up_political_crisis = yes 
+			}
+		}
 	}
 
 	focus = {
@@ -2789,6 +2820,31 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_convince_washington_to_come_back 
 		prerequisite = { focus = BRA_convince_washington_to_come_back }
+
+		cost = 10
+
+		available = {
+			has_active_mission = BRA_the_1938_elections
+		}
+
+		bypass = {
+			has_completed_focus = BRA_an_era_of_democracy
+			has_government = democratic
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_political_power = 75
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.03
+			}
+			custom_effect_tooltip = BRA_increase_congress_by_4_tt
+			hidden_effect = {
+				add_to_variable = { BRA_congress_influence = 4 }
+				BRA_set_up_political_crisis = yes 
+			}
+		}
 	}
 
 	focus = {
@@ -2798,6 +2854,29 @@ focus_tree = {
 		y = 3
 		relative_position_id = BRA_empower_the_congress
 		prerequisite = { focus = BRA_empower_the_congress }
+
+		cost = 10
+
+		available = {
+			has_active_mission = BRA_the_1938_elections
+			custom_trigger_tooltip = {
+				tooltip = BRA_congress_influence_over_40_tt
+				check_variable = { BRA_congress_influence > 40 }
+			}
+		}
+
+		bypass = {
+			has_completed_focus = BRA_an_era_of_democracy
+			has_government = democratic
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.07
+			}
+		}
 	}
 
 	focus = {
@@ -3139,6 +3218,17 @@ focus_tree = {
 		}
 
 		#will unlock decisions for the respective party to gain popularity 
+
+		cost = 10
+
+		available = {
+			has_active_mission = BRA_the_1938_elections
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			unlock_decision_tooltip = BRA_spread_our_movement_in_FROM
+		}
 	}
 
 	focus = {
@@ -3148,6 +3238,33 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_spread_the_word
 		prerequisite = { focus = BRA_spread_the_word }
+
+		cost = 10
+
+		available = {
+			has_stability > 0.44
+			has_political_power > 39
+			has_active_mission = BRA_the_1938_elections
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_stability = 0.05
+			add_political_power = -40
+			if = {
+                limit = { has_completed_focus = BRA_an_era_of_democracy }
+                add_popularity = {
+                    ideology = democratic
+                    popularity = 0.07
+                }
+            }
+            else = {
+                add_popularity = {
+                    ideology = fascism
+                    popularity = 0.07
+                }
+            }
+		}
 	}
 
 	focus = {
@@ -3187,6 +3304,30 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_cooperate_with_plinio
 		prerequisite = { focus = BRA_cooperate_with_plinio }
+
+		cost = 10
+
+		available = {
+			has_active_mission = BRA_the_1938_elections
+		}
+
+		bypass = {
+			has_completed_focus = BRA_cooperate_with_plinio
+			has_government = fascism
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			custom_effect_tooltip = BRA_integralist_influence_increase_by_5_tt
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.01
+			}
+			hidden_effect = {
+				add_to_variable = { BRA_integralist_influence = 5 }
+				BRA_set_up_political_crisis = yes 
+			}
+		}
 	}
 
 	focus = {
@@ -3198,6 +3339,61 @@ focus_tree = {
 		prerequisite = { focus = BRA_increase_our_influence }
 
 		#will add the integralist character flag to some advisors 
+
+		cost = 10
+
+		available = {
+			has_active_mission = BRA_the_1938_elections
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.03
+			}
+			custom_effect_tooltip = BRA_various_advisors_become_loyal_to_integralism_tt
+			custom_effect_tooltip = BRA_integralist_increase_influence_3_tt
+			hidden_effect = {
+				random_character = {
+					limit = { 
+						NOT = { has_character_flag = BRA_integralist } 
+						is_advisor = yes 
+					}
+					set_character_flag = BRA_integralist 
+				}
+				random_character = {
+					limit = { 
+						NOT = { has_character_flag = BRA_integralist } 
+						is_advisor = yes 
+					}
+					set_character_flag = BRA_integralist 
+				}
+				random_character = {
+					limit = { 
+						NOT = { has_character_flag = BRA_integralist } 
+						is_advisor = yes 
+					}
+					set_character_flag = BRA_integralist 
+				}
+				random_character = {
+					limit = { 
+						NOT = { has_character_flag = BRA_integralist } 
+						is_unit_leader = yes 
+					}
+					set_character_flag = BRA_integralist 
+				}
+				random_character = {
+					limit = { 
+						NOT = { has_character_flag = BRA_integralist } 
+						is_unit_leader = yes 
+					}
+					set_character_flag = BRA_integralist 
+				}
+				add_to_variable = { BRA_integralist_influence = 3 }
+				BRA_set_up_political_crisis = yes 
+			}
+		}
 	}
 
 	focus = {
@@ -3207,6 +3403,26 @@ focus_tree = {
 		y = 3
 		relative_position_id = BRA_increase_our_influence
 		prerequisite = { focus = BRA_increase_our_influence }
+
+		cost = 10
+
+		available = {
+			has_active_mission = BRA_the_1938_elections
+		}
+
+		bypass = {
+			has_completed_focus = BRA_cooperate_with_plinio
+			has_government = fascism
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_ideas = BRA_empowered_church
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.04
+			}
+		}
 	}
 
 	focus = {
@@ -3219,6 +3435,15 @@ focus_tree = {
 			focus = BRA_recruit_the_fascist_women
 		}
 		prerequisite = { focus = BRA_cooperation_with_the_church }
+
+		cost = 10
+
+		available = {
+			OR = {
+				has_government = fascism
+				
+			}
+		}
 	}
 
 	focus = {
@@ -3626,15 +3851,24 @@ focus_tree = {
 				popularity = 0.07
 			}
 			random_character = {
-				limit = { NOT = { has_character_flag = BRA_vargas_supporter } }
+				limit = { 
+					NOT = { has_character_flag = BRA_vargas_supporter } 
+					is_advisor = yes 
+				}
 				ROOT = { retire_character = PREV }
 			}
 			random_character = {
-				limit = { NOT = { has_character_flag = BRA_vargas_supporter } }
+				limit = { 
+					NOT = { has_character_flag = BRA_vargas_supporter } 
+					is_advisor = yes 
+				}
 				ROOT = { retire_character = PREV }
 			}
 			random_character = {
-				limit = { NOT = { has_character_flag = BRA_vargas_supporter } }
+				limit = { 
+					NOT = { has_character_flag = BRA_vargas_supporter } 
+					is_advisor = yes 
+				}
 				ROOT = { retire_character = PREV }
 			}
 		}
@@ -10144,7 +10378,7 @@ focus_tree = {
 		completion_reward = {
 			activate_mission_tooltip = BRA_communist_peasant_revolt
 			add_popularity = { ideology = communism popularity = 0.02 }
-			add_political_power = 70
+			add_political_power = 100
 			hidden_effect = {
 				set_country_flag = BRA_active_communist_revolt
 				activate_mission = BRA_estado_novo_mission_enemy
