@@ -3109,7 +3109,7 @@ focus_tree = {
 		}
 		mutually_exclusive = { focus = BRA_look_beyond_south_america }
 
-		cost = 6
+		cost = 5
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
@@ -3140,6 +3140,23 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_focus_on_south_america 
 		prerequisite = { focus = BRA_focus_on_south_america }
+
+		cost = 8
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			every_other_country = {
+				limit = {
+					capital_scope = { is_on_continent = south_america }
+					NOT = { has_government = democratic }
+					NOT = { has_war_with = ROOT }
+				}
+				add_timed_idea = {
+					idea = democratic_influence
+					days = 365
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -3149,15 +3166,67 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_spread_democracy_to_those_around_us
 		prerequisite = { focus = BRA_spread_democracy_to_those_around_us }
+
+		cost = 10
+
+		available = {
+			is_in_faction = no 
+			has_civil_war = no 
+			is_subject = no 
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			set_rule = { can_create_factions = yes }
+			create_faction = "MERCOSUR"
+			every_other_country = {
+				limit = { 
+					capital_scope = { is_on_continent = south_america }
+					has_government = democratic
+					has_civil_war = no 
+					NOT = { has_war_with = ROOT }
+					is_in_faction = no 
+				}
+				country_event = { id = generic.5 hours = 4 }
+			}
+		}
 	}
 
-	focus = { #will make a central bank company available for everyone
+	focus = { #will make a central bank company available for everyone, actually nah lol, but i will still make an idea for everyone
 		id = BRA_establish_a_universal_central_bank
 		icon = GFX_goal_generic_consumer_goods
 		x = 0
 		y = 1
 		relative_position_id = BRA_formalize_the_mercosur
 		prerequisite = { focus = BRA_formalize_the_mercosur }
+
+		cost = 10
+
+		available = {
+			is_in_faction = yes 
+			is_faction_leader = yes 
+			any_other_country = {
+				is_in_faction_with = ROOT 
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			custom_effect_tooltip = PRU_every_allied_nation_recieve
+			effect_tooltip = {
+				add_ideas = BRA_universal_central_bank
+			}
+			hidden_effect = {
+				add_ideas = BRA_universal_central_bank
+				every_other_country = {
+					limit = {
+						capital_scope = { is_on_continent = south_america }
+						is_in_faction_with = ROOT 
+					}
+					add_ideas = BRA_universal_central_bank
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -3167,6 +3236,29 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_establish_a_universal_central_bank
 		prerequisite = { focus = BRA_establish_a_universal_central_bank }
+
+		cost = 7.2
+
+		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_ARMY_XP }
+		completion_reward = {
+			custom_effect_tooltip = PRU_every_allied_nation_recieve
+			effect_tooltip = {
+				army_experience = 40
+				add_manpower = 40000
+			}
+			hidden_effect = {
+				army_experience = 40
+				add_manpower = 40000
+				every_other_country = {
+					limit = {
+						capital_scope = { is_on_continent = south_america }
+						is_in_faction_with = ROOT 
+					}
+					army_experience = 40
+					add_manpower = 40000
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -3248,7 +3340,13 @@ focus_tree = {
 
 		available = {
 			has_government = democratic
-			stability > 0.5
+			has_stability > 0.5
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			set_cosmetic_tag = BRA_USA_UNIFIED
+			add_stability = 0.05
 		}
 	}
 
@@ -3259,6 +3357,31 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_look_beyond_south_america
 		prerequisite = { focus = BRA_look_beyond_south_america }
+
+		cost = 8
+
+		available = {
+			NOT = {
+				OR = {
+					has_war_with = USA 
+					has_war_with = ENG 
+					has_war_with = FRA
+				}
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			USA = {
+				add_opinion_modifier = { target = ROOT modifier = placated_west }
+			}
+			FRA = {
+				add_opinion_modifier = { target = ROOT modifier = placated_west }
+			}
+			ENG = {
+				add_opinion_modifier = { target = ROOT modifier = placated_west }
+			}
+		}
 	}
 
 	focus = {
@@ -3268,6 +3391,55 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_cooperation_with_the_west
 		prerequisite = { focus = BRA_cooperation_with_the_west }
+
+		available = {
+			POR = {
+				is_subject = no 
+				exists = yes 
+				NOT = { has_war_with = ROOT }
+				OR = {
+					AND = {
+						has_full_control_of_state = 796
+						has_full_control_of_state = 540
+					}
+					ANG = { is_subject_of = POR }
+				}
+				OR = {
+					has_full_control_of_state = 544
+					MZB = { is_subject_of = POR }
+				}
+			}
+			is_subject = no 
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			POR = { country_event = { id = brazil.83 hours = 4 } }
+			custom_effect_tooltip = ARG_iftheyaccept
+			effect_tooltip = {
+				random_owned_controlled_state = {
+					limit = { industrial_complex > 1 }
+					remove_building = {
+						type = industrial_complex
+						level = 1
+					}
+				}
+				random_owned_controlled_state = {
+					limit = { arms_factory > 1 }
+					remove_building = {
+						type = arms_factory
+						level = 1
+					}
+				}
+				transfer_state = 796
+				transfer_state = 540
+				transfer_state = 544
+				POR = {
+					EUYL_add_1_civilian = yes 
+					EUYL_add_1_military = yes 
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -3277,6 +3449,14 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_cooperation_with_the_west
 		prerequisite = { focus = BRA_cooperation_with_the_west }
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			set_rule = { can_send_volunteers = yes }
+			add_manpower = 8000
+		}
 	}
 
 	focus = {
@@ -3286,6 +3466,37 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_volunteers_to_the_allies
 		prerequisite = { focus = BRA_volunteers_to_the_allies }
+
+		cost = 10
+
+		available = {
+			exists = yes 
+			is_subject = no 
+			has_civil_war = no 
+			num_of_factories > 54
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = ENG 
+						original_tag = USA 
+						original_tag = FRA 
+					}
+					exists = yes 
+					has_capitulated = no 
+					has_government = democratic
+					has_civil_war = no 
+					NOT = { has_war_with = ROOT }
+				}
+				EUYL_add_2_civilian = yes 
+				EUYL_add_1_military = yes 
+			}
+			EUYL_add_2_civilian = yes 
+			EUYL_add_1_military = yes
+		}
 	}
 
 	focus = {
@@ -3298,6 +3509,101 @@ focus_tree = {
 			focus = BRA_cooperation_with_the_west 
 			focus = BRA_spread_democracy_to_those_around_us
 		}
+
+		cost = 10
+
+		available = {
+			exists = yes 
+			is_subject = no 
+			has_civil_war = no 
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			if = {
+				limit = {
+					ENG = {
+						exists = yes 
+						has_civil_war = no 
+						NOT = { has_war_with = ROOT }
+						has_full_control_of_state = 859
+						has_full_control_of_state = 687
+					}
+				}
+				ENG = {
+					country_event = { id = brazil.84 hours = 4 }
+				}
+				custom_effect_tooltip = ARG_iftheyaccept
+				effect_tooltip = {
+					transfer_state = 859
+					transfer_state = 687
+					random_owned_controlled_state = {
+						limit = { industrial_complex > 1 }
+						remove_building = {
+							type = industrial_complex
+							level = 1
+						}
+					}
+					ENG = {
+						EUYL_add_1_civilian = yes 
+					}
+				}
+			}
+			if = {
+				limit = {
+					HOL = {
+						exists = yes 
+						has_civil_war = no 
+						NOT = { has_war_with = ROOT }
+						has_full_control_of_state = 309
+					}
+				}
+				HOL = {
+					country_event = { id = brazil.84 hours = 4 }
+				}
+				custom_effect_tooltip = ARG_iftheyaccept
+				effect_tooltip = {
+					transfer_state = 309
+					random_owned_controlled_state = {
+						limit = { industrial_complex > 1 }
+						remove_building = {
+							type = industrial_complex
+							level = 1
+						}
+					}
+					HOL = {
+						EUYL_add_1_civilian = yes 
+					}
+				}
+			}
+			if = {
+				limit = {
+					FRA = {
+						exists = yes 
+						has_civil_war = no 
+						NOT = { has_war_with = ROOT }
+						has_full_control_of_state = 310
+					}
+				}
+				FRA = {
+					country_event = { id = brazil.84 hours = 4 }
+				}
+				custom_effect_tooltip = ARG_iftheyaccept
+				effect_tooltip = {
+					transfer_state = 310
+					random_owned_controlled_state = {
+						limit = { industrial_complex > 1 }
+						remove_building = {
+							type = industrial_complex
+							level = 1
+						}
+					}
+					FRA = {
+						EUYL_add_1_civilian = yes 
+					}
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -3309,6 +3615,31 @@ focus_tree = {
 		prerequisite = { 
 			focus = BRA_purchase_the_guyanas 
 		}
+
+		cost = 5
+
+		available = {
+			NOT = {
+				has_war_with = ENG 
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			if = {
+				limit = { has_dlc = "Man the Guns"}
+				give_resource_rights = { receiver = ENG state = 876 }
+				give_resource_rights = { receiver = ENG state = 874 }
+			}
+			else = {
+				ENG = {
+					EUYL_add_1_civilian = yes 
+				}
+			}
+			ENG = {
+				add_opinion_modifier = { target = ROOT modifier = BRA_resource_rights }
+			}
+		}
 	}
 
 	focus = {
@@ -3318,6 +3649,74 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_purchase_the_guyanas
 		prerequisite = { focus = BRA_purchase_the_guyanas}
+
+		cost = 7.2
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			if = {
+				limit = {
+					has_full_control_of_state = 859
+					has_full_control_of_state = 687
+				}
+				859 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes 
+					}
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes 
+					}
+				}
+				687 = {
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes 
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_full_control_of_state = 309
+				}
+				309 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes 
+					}
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes 
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_full_control_of_state = 310
+				}
+				310 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes 
+					}
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes 
+					}
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -3328,15 +3727,120 @@ focus_tree = {
 		relative_position_id = BRA_resource_rights_for_the_allies
 		prerequisite = { focus = BRA_resource_rights_for_the_allies }
 		prerequisite = { focus = BRA_economic_cooperation }
+
+		cost = 5
+
+		available = {
+			is_in_faction = no
+			is_subject = no
+			has_civil_war = no
+			OR = {
+				ENG = {
+					NOT = {
+						has_war_with = ROOT
+						has_government = communism
+					}
+					is_faction_leader = yes
+				}
+				FRA = {
+					NOT = {
+						has_war_with = ROOT
+					}
+					has_government = democratic
+					is_faction_leader = yes
+				}
+				USA = {
+					NOT = {
+						has_war_with = ROOT
+					}
+					has_government = democratic
+					is_faction_leader = yes
+				}
+			}
+		}
+		bypass = {
+			has_completed_focus = BRA_economic_cooperation
+			has_completed_focus = BRA_resource_rights_for_the_allies
+			OR = {
+				is_in_faction_with = ENG
+				is_in_faction_with = FRA
+				is_in_faction_with = USA
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			if = {
+				limit = { has_idea = monroe_doctrine_idea }
+				remove_ideas = monroe_doctrine_idea
+			}
+			if = {
+				limit = {
+					ENG = {
+						NOT = {
+							has_war_with = ROOT
+							has_government = communism
+						}
+						is_faction_leader = yes
+					}
+				}
+				ENG = {
+					country_event = generic.2
+				}
+			}
+			else_if = {
+				limit = {
+					FRA = {
+						NOT = {
+							has_war_with = ROOT
+							has_government = communism
+						}
+						is_faction_leader = yes
+					}
+				}
+				FRA = {
+					country_event = generic.2
+				}
+			}
+			else_if = {
+				limit = {
+					USA = {
+						NOT = {
+							has_war_with = ROOT
+							has_government = communism
+						}
+						is_faction_leader = yes
+					}
+				}
+				USA = {
+					country_event = generic.2
+				}
+			}
+		}
 	}
 
 	focus = {
-		id = BRA_purchase_allied_ships
+		id = BRA_purchase_allied_ships #learn from the british navy 
 		icon = GFX_british_navy
 		x = 1
 		y = 1
 		relative_position_id = BRA_officially_join_the_allies
 		prerequisite = { focus = BRA_officially_join_the_allies }
+
+		cost = 10
+
+		available = {
+			is_in_faction_with = ENG 
+			ENG = {
+				exists = yes 
+				has_civil_war = no 
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_NAVY_XP } 
+		completion_reward = {
+			navy_experience = 75
+			EUYL_add_2_dockyard = yes 
+		}
 	}
 
 	focus = {
@@ -3348,6 +3852,31 @@ focus_tree = {
 		prerequisite = { 
 			focus = BRA_officially_join_the_allies
 			focus = BRA_mutual_military_buildup
+		}
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			custom_effect_tooltip = ARG_removecommunismfromcontinent
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						capital_scope = { is_on_continent = south_america }
+						has_government = communism
+						NOT = {
+							is_in_faction_with = ROOT 
+							has_war_with = ROOT
+						}
+					}
+					ROOT = {
+						create_wargoal = {
+							type = puppet_wargoal_focus
+							target = PREV
+						}
+					}
+				}
+			}
 		}
 	}
 
@@ -3361,6 +3890,31 @@ focus_tree = {
 			focus = BRA_officially_join_the_allies 
 			focus = BRA_mutual_military_buildup
 		}
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			custom_effect_tooltip = ARG_removefascismfromcontinent
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						capital_scope = { is_on_continent = south_america }
+						has_government = fascism
+						NOT = {
+							is_in_faction_with = ROOT 
+							has_war_with = ROOT
+						}
+					}
+					ROOT = {
+						create_wargoal = {
+							type = puppet_wargoal_focus
+							target = PREV
+						}
+					}
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -3373,6 +3927,57 @@ focus_tree = {
 			focus = BRA_war_on_communism
 		}
 		prerequisite = { focus = BRA_war_on_fascism }
+
+		available = {
+			all_country = {
+				capital_scope = { is_on_continent = south_america }
+				NOT = {
+					OR = {
+						has_government = fascism
+						has_government = communism 
+					}
+				}
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			custom_effect_tooltip = PRU_every_south_american_nation_recieve
+			effect_tooltip = {
+				add_stability = 0.1
+				add_war_support = 0.1
+				add_popularity = {
+					ideology = democratic
+					popularity = 0.05
+				}
+			}
+			hidden_effect = {
+				add_stability = 0.1
+				add_war_support = 0.1
+				add_popularity = {
+					ideology = democratic
+					popularity = 0.05
+				}
+				every_other_country = {
+					limit = {
+						capital_scope = { is_on_continent = south_america }
+						NOT = {
+							has_war_with = ROOT 
+							OR = {
+								has_government = communism
+								has_government = fascism
+							}
+						}
+					}
+					add_stability = 0.1
+					add_war_support = 0.1
+					add_popularity = {
+						ideology = democratic
+						popularity = 0.05
+					}
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -3392,6 +3997,25 @@ focus_tree = {
 		y = 2
 		relative_position_id = BRA_empower_the_social_democrats
 		prerequisite = { focus = BRA_empower_the_social_democrats }
+
+		cost = 8
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_1_civilian = yes 
+			EUYL_add_1_military = yes 
+			if = {
+				limit = {
+					BRA_coffee_plantations_active = yes 
+				}
+				custom_effect_tooltip = BRA_coffee_dependency_increases_5_tt
+				hidden_effect = {
+					add_to_variable = { BRA_dependency_on_coffee = 5 }
+					BRA_update_opinion_variable = yes 
+					BRA_set_dependency_on_coffee_idea = yes
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -6763,7 +7387,7 @@ focus_tree = {
 		completion_reward = {
 			activate_mission = BRA_impending_imperial_uprising
 			set_party_name = {
-				ideology = fascism
+				ideology = neutrality
 				long_name = BRA_monarchy_party_long
 				name = BRA_monarchy_party
 			}
