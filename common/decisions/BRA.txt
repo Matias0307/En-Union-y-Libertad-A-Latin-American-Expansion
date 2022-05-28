@@ -7028,5 +7028,69 @@ BRA_spreading_democracy = {
 
     BRA_spread_democracy_to_FROM = {
         icon = eng_propaganda_campaigns
+
+        target_trigger = {
+            FROM = {
+                is_on_continent = south_america
+                NOT = { has_government = democratic }
+                has_civil_war = no 
+                NOT = { has_war_with = ROOT }
+                is_subject = no 
+            }
+        }
+
+        visible = { has_completed_focus = BRA_spread_democracy_to_those_around_us }
+
+        available = {
+            has_civil_war = no 
+        }
+
+        cost = 50
+
+        days_remove = 70
+
+        remove_effect = {
+            FROM = {
+                add_popularity = {
+                    ideology = democratic
+                    popularity = 0.05
+                }
+            }
+        }
+    }
+
+    BRA_demand_a_democratic_referendum_in_FROM = {
+        icon = eng_trade_unions_demand
+
+        fire_only_once = yes 
+
+        target_trigger = {
+            FROM = {
+                is_on_continent = south_america
+                NOT = { has_government = democratic }
+                has_civil_war = no 
+                NOT = { has_war_with = ROOT }
+                is_subject = no 
+            }
+        }
+
+        available = {
+            has_civil_war = no 
+            FROM = {
+                democratic > 0.4
+            }
+        }
+
+        visible = { has_completed_focus = BRA_demand_democratic_referendums }
+
+        cost = 75
+
+        days_remove = 25
+
+        remove_effect = {
+            FROM = {
+                country_event = brazil.85
+            }
+        }
     }
 }
