@@ -4003,6 +4003,40 @@ focus_tree = {
 		relative_position_id = BRA_peace_at_last
 		prerequisite = { focus = BRA_peace_at_last }
 		prerequisite = { focus = BRA_mutual_military_buildup }
+
+		cost = 10
+
+		available = {
+			has_civil_war = no 
+			num_of_factories > 99
+			has_stability > 0.7
+			has_army_manpower = { size > 499999 }
+			has_government = democratic
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			set_cosmetic_tag = HSPAM
+			custom_effect_tooltip = BRA_gain_core_in_every_state_and_every_country_gets_unification_event_tt
+			hidden_effect = {
+				every_state = {
+					limit = {
+						is_on_continent = south_america
+						NOT = { is_core_of = ROOT }
+					}
+					add_core_of = ROOT 
+				}
+				every_other_country = {
+					limit = {
+						capital_scope = { is_on_continent = south_america }
+						has_civil_war = no 
+						NOT = { has_war_with = ROOT }
+						is_subject = no 
+					}
+					country_event = { id = brazil.86 hours = 6 }
+				}
+			}
+		}
 	}
 
 	focus = {
