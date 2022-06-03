@@ -1111,6 +1111,7 @@ BRA_set_up_generic_civil_war_divisions_fascist_ai = {
 }
 
 BRA_start_communist_civil_war = {
+	news_event = { id = news.363 days = 2 }
 	set_temp_variable = { BRA_communist_popularity = party_popularity@communism }
 	every_state = {
 		limit = { has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state } }
@@ -1681,29 +1682,6 @@ BRA_start_communist_civil_war = {
 			has_global_flag = BRA_civil_war_in_progress
 		}
 		add_war_support = 0.01
-	}
-	else = {
-		if = {
-			limit = { 
-				has_global_flag = BRA_communist_civil_war_chosen
-			}
-			if = {
-				limit = {
-					has_global_flag = BRC_avoided_democrat_civil_war
-				}
-				add_stability = 0.01
-			}
-			else = {
-				every_state = {
-					limit = { 
-						is_core_of = BRA
-						has_state_flag = BRA_democratic_influence_state 
-					}
-					add_dynamic_modifier = { modifier = BRA_democratic_influence_in_state }
-				}
-				activate_mission = BRA_impending_democratic_insurrection
-			}
-		}
 	}
 	every_country = {
 		limit = { original_tag = BRA }
