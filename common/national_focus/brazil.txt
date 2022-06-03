@@ -58,8 +58,10 @@ focus_tree = {
 			EUYL_add_1_civilian = yes 
 			add_political_power = 50
 			hidden_effect = {
-				every_other_country = {
-					limit = { original_tag = BRA }
+				BRC = {
+					unlock_national_focus = BRA_invest_in_our_economy
+				}
+				BZE = {
 					unlock_national_focus = BRA_invest_in_our_economy
 				}
 			}
@@ -109,8 +111,10 @@ focus_tree = {
 				}
 			}
 			hidden_effect = {
-				every_other_country = {
-					limit = { original_tag = BRA }
+				BRC = {
+					unlock_national_focus = BRA_pave_the_roads
+				}
+				BZE = {
 					unlock_national_focus = BRA_pave_the_roads
 				}
 			}
@@ -146,8 +150,10 @@ focus_tree = {
 				subtract_from_variable = { BRA_dependency_on_coffee = 10 }
 				BRA_update_opinion_variable = yes 
 				BRA_set_dependency_on_coffee_idea = yes
-				every_other_country = {
-					limit = { original_tag = BRA }
+				BRC = {
+					unlock_national_focus = BRA_begin_industrializing_the_nation
+				}
+				BZE = {
 					unlock_national_focus = BRA_begin_industrializing_the_nation
 				}
 			}
@@ -189,8 +195,10 @@ focus_tree = {
 				subtract_from_variable = { BRA_dependency_on_coffee = 10 }
 				BRA_update_opinion_variable = yes 
 				BRA_set_dependency_on_coffee_idea = yes
-				every_other_country = {
-					limit = { original_tag = BRA }
+				BRC = {
+					unlock_national_focus = BRA_construct_factories_for_an_army
+				}
+				BZE = {
 					unlock_national_focus = BRA_construct_factories_for_an_army
 				}
 			}
@@ -211,8 +219,10 @@ focus_tree = {
 		completion_reward = {
 			EUYL_add_2_military = yes 
 			hidden_effect = {
-				every_other_country = {
-					limit = { original_tag = BRA }
+				BRC = {
+					unlock_national_focus = BRA_expand_our_arsenal
+				}
+				BZE = {
 					unlock_national_focus = BRA_expand_our_arsenal
 				}
 			}
@@ -264,7 +274,7 @@ focus_tree = {
 						}
 					}
 					if = {
-						limit = { has_dynamic_modifier = { modifier = BRA_small_coffee_plantations } }
+                    limit = { has_dynamic_modifier = { modifier = BRA_small_coffee_plantations } }
 						remove_dynamic_modifier = { modifier = BRA_small_coffee_plantations }
 						add_dynamic_modifier = { modifier = BRA_widespread_coffee_plantations }
 					}
@@ -275,8 +285,10 @@ focus_tree = {
 				add_to_variable = { BRA_dependency_on_coffee = 5 }
 				BRA_update_opinion_variable = yes 
 				BRA_set_dependency_on_coffee_idea = yes
-				every_other_country = {
-					limit = { original_tag = BRA }
+				BRC = {
+					unlock_national_focus = BRA_maintain_our_agriculture
+				}
+				BZE = {
 					unlock_national_focus = BRA_maintain_our_agriculture
 				}
 			}
@@ -291,7 +303,7 @@ focus_tree = {
 		relative_position_id = BRA_maintain_our_agriculture
 		prerequisite = { focus = BRA_maintain_our_agriculture }
 
-		cost = 8
+		cost = 7.2
 
 		ai_will_do = {
             factor = 5
@@ -312,7 +324,9 @@ focus_tree = {
 			custom_effect_tooltip = BRA_depending_on_plantation_opinion_tt
 			custom_effect_tooltip = ARG_iftheyaccept
 			custom_effect_tooltip = BRA_cost_to_industrialize_tt
-			add_political_power = 40
+			custom_effect_tooltip = BRA_if_peasant_revolt_active_and_they_accept_tt
+			custom_effect_tooltip = BRA_farmer_agreement_increase_15_tt
+			add_political_power = 50
 			hidden_effect = {
 				set_temp_variable = { BRA_chance_to_agree = 0 }
 				set_temp_variable = { BRA_chance_to_disagree = 100 }
@@ -350,13 +364,34 @@ focus_tree = {
 				random_list = {
 					BRA_chance_to_agree = {
 						country_event = { id = brazil.6 hours = 6 }
+						if = {
+							limit = {
+								has_active_mission = BRA_communist_peasant_revolt
+							}
+							add_to_variable = { BRA_farmers_agreement_to_uprising = 15 }
+							BRC = { 
+								add_to_variable = { BRA_farmers_agreement_to_uprising = 15 }
+							}
+							every_country = {
+								limit = {
+									original_tag = BRA 
+								}
+								clamp_variable = {
+									var = BRA_farmers_agreement_to_uprising
+									min = 0
+									max = 100
+								}
+							}
+						}
 					}
 					BRA_chance_to_disagree = {
 						country_event = { id = brazil.7 hours = 6 }
 					}
 				}
-				every_other_country = {
-					limit = { original_tag = BRA }
+				BRC = {
+					unlock_national_focus = BRA_work_out_an_agreement_with_farmers
+				}
+				BZE = {
 					unlock_national_focus = BRA_work_out_an_agreement_with_farmers
 				}
 			}
@@ -463,8 +498,10 @@ focus_tree = {
 			custom_effect_tooltip = EUYL_available_as_industrial_concern_tt
 			show_ideas_tooltip = BRA_vale_company
 			hidden_effect = {
-				every_other_country = {
-					limit = { original_tag = BRA }
+				BRC = {
+					unlock_national_focus = BRA_the_brazilian_mining_industry
+				}
+				BZE = {
 					unlock_national_focus = BRA_the_brazilian_mining_industry
 				}
 			}
@@ -983,8 +1020,10 @@ focus_tree = {
 			hidden_effect = {
 				subtract_from_variable = { BRA_cost_for_civ_boost = 15 }
 				subtract_from_variable = { BRA_amount_cost_increase_civ = 15 }
-				every_other_country = {
-					limit = { original_tag = BRA }
+				BRC = {
+					unlock_national_focus = BRA_open_up_investments_in_the_civilian_market
+				}
+				BZE = {
 					unlock_national_focus = BRA_open_up_investments_in_the_civilian_market
 				}
 			}
@@ -1036,8 +1075,10 @@ focus_tree = {
 			hidden_effect = {
 				subtract_from_variable = { BRA_cost_for_mil_boost = 15 }
 				subtract_from_variable = { BRA_amount_cost_increase_mil = 15 }
-				every_other_country = {
-					limit = { original_tag = BRA }
+				BRC = {
+					unlock_national_focus = BRA_invest_in_the_arms_industry
+				}
+				BZE = {
 					unlock_national_focus = BRA_invest_in_the_arms_industry
 				}
 			}
@@ -1382,7 +1423,7 @@ focus_tree = {
 		x = 80
 		y = 0
 
-		cost = 2
+		cost = 1
 
 		ai_will_do = {
             factor = 2
@@ -2166,7 +2207,7 @@ focus_tree = {
 		}
 	}
 
-	focus = {
+	focus = { #ENGESEA
 		id = BRA_modern_mechanized_units
 		icon = GFX_goal_generic_build_tank
 		x = -1
@@ -2184,6 +2225,8 @@ focus_tree = {
 				uses = 1
 				category = cat_mechanized_equipment
 			}
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = BRA_ENGESA
 		}
 	}
 
@@ -2592,6 +2635,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
 			add_research_slot = 1
+			remove_ideas = BRA_low_literacy_rate
 		}
 	}
 
@@ -5704,7 +5748,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			EUYL_add_2_military = yes
-			adD_ideas = BRA_strengthened_army 
+			add_ideas = BRA_strengthened_army 
 		}
 	}
 
@@ -6299,7 +6343,7 @@ focus_tree = {
 		relative_position_id = BRA_organize_integralist_protests
 		prerequisite = { focus = BRA_organize_integralist_protests}
 
-		cost = 5
+		cost = 3
 
 		ai_will_do = {
             factor = 20
@@ -6517,6 +6561,18 @@ focus_tree = {
                         division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
                         owner = ROOT
                     }
+					create_unit = {
+                        division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+                        owner = ROOT
+                    }
+					create_unit = {
+                        division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+                        owner = ROOT
+                    }
+					create_unit = {
+						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+						owner = ROOT
+					}
 					if = {
 						limit = {
 							has_state_flag = BRA_conscripted_here
@@ -6541,10 +6597,14 @@ focus_tree = {
 					}
 					if = {
 						limit = { 
-							check_variable = { BRA_integralist_influence > 44 }
+							check_variable = { BRA_integralist_influence > 39 }
 						}
 						create_unit = {
 							division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+							owner = ROOT
+						}
+						create_unit = {
+							division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
 							owner = ROOT
 						}
 					}
@@ -6694,7 +6754,7 @@ focus_tree = {
 		relative_position_id = BRA_let_our_voices_be_heard
 		prerequisite = { focus = BRA_let_our_voices_be_heard }
 
-		cost = 7
+		cost = 6
 
 		ai_will_do = {
             factor = 5
@@ -6896,7 +6956,7 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
 		completion_reward = {
-			add_political_power = 15
+			add_political_power = 35
 			custom_effect_tooltip = BRA_army_support_increase_15_tt
 			unlock_decision_tooltip = BRA_convince_the_soldiers
 			unlock_decision_tooltip = BRA_convince_an_army_general
@@ -6963,7 +7023,7 @@ focus_tree = {
 		relative_position_id = BRA_follow_barrosos_principals
 		prerequisite = { focus = BRA_follow_barrosos_principals }
 
-		cost = 6
+		cost = 5
 
 		ai_will_do = {
             factor = 8
@@ -7166,7 +7226,7 @@ focus_tree = {
 		relative_position_id = BRA_plinio_to_victory
 		prerequisite = { focus = BRA_plinio_to_victory }
 
-		cost = 5
+		cost = 4
 
 		ai_will_do = {
             factor = 8
@@ -7330,7 +7390,7 @@ focus_tree = {
 		prerequisite = { focus = BRA_farmers_to_arms }
 		prerequisite = { focus = BRA_learn_subversive_techniques_from_the_communists }
 
-		cost = 10
+		cost = 8
 		
 		ai_will_do = {
             factor = 15
@@ -7809,7 +7869,7 @@ focus_tree = {
 
 		###unlocks decisions to control states before the uprising starts 
 
-		cost = 5
+		cost = 3
 
 		ai_will_do = {
             factor = 7
@@ -7873,7 +7933,7 @@ focus_tree = {
 
 		#will allow them to be advisors ## NEED TO ASK CAIO ABOUT THIS ##
 
-		cost = 5
+		cost = 4
 
 		ai_will_do = {
             factor = 7
@@ -7898,7 +7958,7 @@ focus_tree = {
 		relative_position_id = BRA_a_visit_to_the_past
 		prerequisite = { focus = BRA_a_visit_to_the_past }
 
-		cost = 5
+		cost = 2
 
 		ai_will_do = {
             factor = 6
@@ -8144,7 +8204,7 @@ focus_tree = {
 			focus = BRA_integralism_shall_rule
 		}
 
-		cost = 6
+		cost = 5
 
 		ai_will_do = {
             factor = 5
@@ -11760,6 +11820,7 @@ focus_tree = {
 			add_political_power = 100
 			hidden_effect = {
 				set_country_flag = BRA_active_communist_revolt
+				set_global_flag = BRA_chose_commie_route
 				activate_mission = BRA_estado_novo_mission_enemy
 				set_variable = { BRA_cost_to_delay_communists = 20 }
 				BRC = { 
@@ -12036,6 +12097,7 @@ focus_tree = {
 					add_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
 				}
 				BRC = { unlock_national_focus = BRA_secure_all_coffee_plantations }
+				set_global_flag = BRA_able_to_spawn_farmer_militias
 			}
 		}
 	}
@@ -12185,7 +12247,7 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
 		completion_reward = {
-			add_political_power = 10
+			add_political_power = 40
 			add_stability = -0.08
 			add_popularity = { ideology = communism popularity = 0.03 }
 			hidden_effect = { 
@@ -12202,7 +12264,7 @@ focus_tree = {
 		relative_position_id = BRA_destabilize_the_government
 		prerequisite = { focus = BRA_destabilize_the_government}
 
-		cost = 7.2
+		cost = 5
 
 		ai_will_do = {
             factor = 15
@@ -12256,8 +12318,12 @@ focus_tree = {
 			custom_effect_tooltip = BRA_deomocrats_will_not_rise_up_in_civil_war_however_tt
 			hidden_effect = {
 				BRC = {
-					set_country_flag = BRC_avoided_democrat_civil_war
+					set_global_flag = BRC_avoided_democrat_civil_war
 					unlock_national_focus = BRA_compromise_with_the_democrats
+				}
+				every_controlled_state = {
+					limit = { has_state_flag = BRA_democratic_influence_state }
+					clr_state_flag = BRA_democratic_influence_state
 				}
 			}
 		}
@@ -12418,7 +12484,7 @@ focus_tree = {
 		prerequisite = { focus = BRA_destabilize_the_government }
 		prerequisite = { focus = BRA_secretely_spread_support }
 
-		cost = 3
+		cost = 2
 
 		ai_will_do = {
             factor = 12
@@ -12466,7 +12532,7 @@ focus_tree = {
 
 		#will invite soviet advisors over to help in the war 
 
-		cost = 7
+		cost = 5
 
 		ai_will_do = {
             factor = 5
@@ -12558,9 +12624,9 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_MANPOWER }
 		completion_reward = {
-			custom_effect_tooltip = BRA_gain_4_volunteer_divs_start_civil_war_tt
+			custom_effect_tooltip = BRA_gain_7_volunteer_divs_start_civil_war_tt
 			SOV = {
-				add_manpower = -30000
+				add_manpower = -37500
 			}
 			custom_effect_tooltip = BRA_post_civil_war_repayment_will_get_more_expensive_tt
 			hidden_effect = {
@@ -12748,6 +12814,10 @@ focus_tree = {
 						division = "name = \"Soviet Volunteer Tank Korp\" division_template = \"Soviet Volunteer Tank Korp\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
 						owner = ROOT
 					}
+					create_unit = {
+						division = "name = \"Soviet Volunteer Tank Korp\" division_template = \"Soviet Volunteer Tank Korp\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+						owner = ROOT
+					}
 				}
 			}
 			custom_effect_tooltip = BRA_post_civil_war_repayment_will_get_more_expensive_tt
@@ -12809,7 +12879,7 @@ focus_tree = {
 
 		#will spawn 4 proper divisions once civil war starts and give communist popularity
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
             factor = 15
@@ -12932,7 +13002,7 @@ focus_tree = {
 
 		#improve slightly ill-trained militias and add manpower 
 
-		cost = 8
+		cost = 6
 
 		ai_will_do = {
             factor = 5
@@ -13015,6 +13085,7 @@ focus_tree = {
 			else = {
 				activate_mission = BRA_save_ewert
 			}
+			add_political_power = 25
 		}
 	}
 
@@ -13252,6 +13323,14 @@ focus_tree = {
 				amount = 1000
 			}
 			501 = {
+				create_unit = {
+                    division = "name = \"Milícias Paulistas\" division_template = \"Milicias Paulistas\" start_experience_factor = 0.1 start_equipment_factor = 1" 
+                    owner = ROOT
+                }
+                create_unit = {
+                    division = "name = \"Milícias Paulistas\" division_template = \"Milicias Paulistas\" start_experience_factor = 0.1 start_equipment_factor = 1" 
+                    owner = ROOT
+                }
 				create_unit = {
                     division = "name = \"Milícias Paulistas\" division_template = \"Milicias Paulistas\" start_experience_factor = 0.1 start_equipment_factor = 1" 
                     owner = ROOT
@@ -13683,6 +13762,7 @@ focus_tree = {
 		completion_reward = {
 			add_stability = 0.05
 			add_war_support = 0.08
+			add_political_power = 50
 		}
 	}
 
@@ -14605,6 +14685,7 @@ focus_tree = {
 				idea = BRA_active_agrarian_reforms
 				days = 540 
 			}
+			remove_ideas = BRA_low_literacy_rate
 			unlock_decision_tooltip = BRA_redistribute_plantation_profits_to_the_nation
 			custom_effect_tooltip = BRA_while_agrarian_reforms_active_tt
 		}

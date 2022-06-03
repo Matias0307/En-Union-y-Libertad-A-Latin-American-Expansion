@@ -748,6 +748,9 @@ BRA_political_manegement = {
 
         timeout_effect = {
             BRA_increment_progress_to_dictatorship = yes 
+            hidden_effect = {
+                activate_mission = BRA_vargas_measure_for_dictatorship
+            }
         }
     }
 
@@ -2744,9 +2747,9 @@ BRA_imminent_civil_war = {
             NOT = { has_country_flag = BRA_improving_army }
         }
 
-        cost = 35
+        cost = 30
 
-        days_remove = 50
+        days_remove = 40
 
         ai_will_do = {
 			factor = 130
@@ -2805,9 +2808,9 @@ BRA_imminent_civil_war = {
             NOT = { has_country_flag = BRA_improving_army }
         }
 
-        cost = 30
+        cost = 20
 
-        days_remove = 45
+        days_remove = 30
 
         ai_will_do = {
 			factor = 130
@@ -3419,7 +3422,10 @@ BRA_the_brazilian_civil_war = {
         target_array = controlled_states
 
         activation = {
+            original_tag = BRA 
+            controls_state = 501
             has_country_flag = BRA_paulista_revolt_active
+            has_global_flag = BRA_paulista_revolt
             NOT = { has_global_flag = paulistas_revolted }
         }
 
@@ -3452,7 +3458,7 @@ BRA_the_brazilian_civil_war = {
             clr_global_flag = BRA_paulista_revolt
             add_stability = 0.01
             hidden_effect = {
-                set_country_flag = BRA_paulistas_pacified
+                set_global_flag = BRA_paulistas_pacified
             }
         }
 
@@ -3668,7 +3674,7 @@ BRA_the_brazilian_civil_war = {
         }
 
         is_good = no 
-        days_mission_timeout = 225
+        days_mission_timeout = 255
         fire_only_once = yes 
 
         timeout_effect = {
@@ -3711,7 +3717,7 @@ BRA_the_brazilian_civil_war = {
         }
 
         is_good = no 
-        days_mission_timeout = 125
+        days_mission_timeout = 130
         fire_only_once = yes 
 
         timeout_effect = {
@@ -3722,6 +3728,10 @@ BRA_the_brazilian_civil_war = {
     BRA_anarchists_planning_to_desert = {
         priority = 100
         icon = eng_blackshirt_march
+
+        available = {
+            always = no 
+        }
 
         activation = {
             original_tag = BRA 
@@ -3757,7 +3767,21 @@ BRA_the_brazilian_civil_war = {
         icon = generic_ignite_civil_war
 
         activation = {
-            always = no #manually triggered 
+            original_tag = BRA 
+            AND = {
+                has_war_with = BRA 
+                has_global_flag = BRA_civil_war_in_progress
+            }
+            OR = {
+                AND = {
+                    has_country_flag = BRA_integralist_player_planning_uprising
+                    has_government = fascism
+                }
+                AND = {
+                    has_global_flag = BRA_chose_commie_route
+                    has_government = communism
+                }
+            }
         }
 
         available = {
@@ -3770,7 +3794,7 @@ BRA_the_brazilian_civil_war = {
 
         is_good = no 
         fire_only_once = yes 
-        days_mission_timeout = 200
+        days_mission_timeout = 210
 
         timeout_effect = {
             effect_tooltip = {
