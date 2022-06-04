@@ -1323,7 +1323,7 @@ BRA_political_manegement = {
 
     BRA_deal_with_the_protestors_in_FROM = {
         priority = 30
-        icon = opression 
+        icon = generic_operation 
 
         ai_will_do = {
 			factor = 200
@@ -2419,11 +2419,11 @@ BRA_monarchism_on_the_rise = {
         icon = generic_prepare_civil_war
 
         state_target = yes 
-        target_array = controlled_states
+        target_array = core_states
 
         target_trigger = {
             FROM = {
-                is_fully_controlled_by = ROOT 
+                is_core_of = ROOT 
                 NOT = { has_dynamic_modifier = { modifier = BRA_monarchist_influence } }
                 any_neighbor_state = {
                     has_dynamic_modifier = { modifier = BRA_monarchist_influence }
@@ -2441,9 +2441,9 @@ BRA_monarchism_on_the_rise = {
             has_manpower > 1000
         }
 
-        cost = 25
+        cost = 20
 
-        days_remove = 40
+        days_remove = 25
 
         ai_will_do = {
 			factor = 150
@@ -2677,7 +2677,7 @@ BRA_imminent_civil_war = {
         }
 
         visible = { 
-            has_completed_focus = BRA_organize_integralist_protests 
+            has_completed_focus = BRA_let_our_voices_be_heard 
             has_civil_war = no 
         }
 
@@ -2723,15 +2723,22 @@ BRA_imminent_civil_war = {
             }
             else = {
                 add_popularity = { ideology = fascism popularity = 0.03 }
+                custom_effect_tooltip = BRA_increase_army_support_by_8_tt
             }
-            custom_effect_tooltip = BRA_integralist_influence_increase_2_tt
+            custom_effect_tooltip = BRA_increase_integralist_by_2_tt
             custom_effect_tooltip = BRA_progress_to_civil_war_increase_5_tt
             hidden_effect = {
                 add_to_variable = { BRA_integralist_influence = 2 }
                 add_to_variable = { BRA_progress_to_a_civil_war = 5 }
+                add_to_variable = { BRA_current_army_support = 8 }
                 BRA_set_up_political_crisis = yes 
                 clamp_variable = {
                     var = BRA_progress_to_a_civil_war
+                    min = 0 
+                    max = 100
+                }
+                clamp_variable = {
+                    var = BRA_current_army_support
                     min = 0 
                     max = 100
                 }
@@ -2861,8 +2868,8 @@ BRA_imminent_civil_war = {
                 is_core_of = ROOT 
                 has_dynamic_modifier = { modifier = BRA_integralists_occupation }
                 OR = {
-                    industrial_complex > 2
-                    arms_factory > 2
+                    num_of_civilian_factories > 2
+                    num_of_military_factories > 2
                 }
             }
         }
@@ -3547,26 +3554,6 @@ BRA_the_brazilian_civil_war = {
                             owner = PREV
                         }
                         create_unit = {
-                            division = "name = \"Milícias Paulistas\" division_template = \"Milicias Paulistas\" start_experience_factor = 0.1 start_equipment_factor = 1" 
-                            owner = PREV
-                        }
-                        create_unit = {
-                            division = "name = \"Milícias Paulistas\" division_template = \"Milicias Paulistas\" start_experience_factor = 0.1 start_equipment_factor = 1" 
-                            owner = PREV
-                        }
-                        create_unit = {
-                            division = "name = \"Milícias Paulistas\" division_template = \"Milicias Paulistas\" start_experience_factor = 0.1 start_equipment_factor = 1" 
-                            owner = PREV
-                        }
-                        create_unit = {
-                            division = "name = \"Divisão Paulistas\" division_template = \"Divisão Paulistas\" start_experience_factor = 0.1 start_equipment_factor = 1" 
-                            owner = PREV
-                        }
-                        create_unit = {
-                            division = "name = \"Divisão Paulistas\" division_template = \"Divisão Paulistas\" start_experience_factor = 0.1 start_equipment_factor = 1" 
-                            owner = PREV
-                        }
-                        create_unit = {
                             division = "name = \"Divisão Paulistas\" division_template = \"Divisão Paulistas\" start_experience_factor = 0.1 start_equipment_factor = 1" 
                             owner = PREV
                         }
@@ -3587,6 +3574,78 @@ BRA_the_brazilian_civil_war = {
                     }
                     BRC = {
                         add_ideas = BRA_crush_the_paulistas
+                    }
+                }
+                random_country = {
+                    limit = {
+                        original_tag = BRA 
+                        has_civil_war = yes 
+                        controls_state = 879
+                    }
+                    879 = {
+                        create_unit = {
+                            division = "name = \"Milícias\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+                            owner = PREV
+                        }
+                        create_unit = {
+                            division = "name = \"Milícias\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+                            owner = PREV
+                        }
+                        create_unit = {
+                            division = "name = \"Milícias\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+                            owner = PREV
+                        }
+                    }
+                }
+                random_country = {
+                    limit = {
+                        original_tag = BRA 
+                        has_civil_war = yes 
+                        controls_state = 504
+                    }
+                    504 = {
+                        create_unit = {
+                            division = "name = \"Milícias\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+                            owner = PREV
+                        }
+                        create_unit = {
+                            division = "name = \"Milícias\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+                            owner = PREV
+                        }
+                    }
+                }
+                random_country = {
+                    limit = {
+                        original_tag = BRA 
+                        has_civil_war = yes 
+                        controls_state = 496
+                    }
+                    496 = {
+                        create_unit = {
+                            division = "name = \"Milícias\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+                            owner = PREV
+                        }
+                        create_unit = {
+                            division = "name = \"Milícias\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+                            owner = PREV
+                        }
+                    }
+                }
+                random_country = {
+                    limit = {
+                        original_tag = BRA 
+                        has_civil_war = yes 
+                        controls_state = 500
+                    }
+                    500 = {
+                        create_unit = {
+                            division = "name = \"Milícias\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+                            owner = PREV
+                        }
+                        create_unit = {
+                            division = "name = \"Milícias\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+                            owner = PREV
+                        }
                     }
                 }
             }
@@ -3623,7 +3682,7 @@ BRA_the_brazilian_civil_war = {
 
         is_good = no 
         fire_only_once = yes 
-        days_mission_timeout = 195
+        days_mission_timeout = 245
 
         timeout_effect = {
             effect_tooltip = {
@@ -3794,7 +3853,7 @@ BRA_the_brazilian_civil_war = {
 
         is_good = no 
         fire_only_once = yes 
-        days_mission_timeout = 210
+        days_mission_timeout = 175
 
         timeout_effect = {
             effect_tooltip = {
@@ -4003,10 +4062,6 @@ BRA_the_brazilian_civil_war = {
                             division = "name = \"Milícias Democratas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
                             owner = PREV
                         }
-                        create_unit = {
-                            division = "name = \"Milícias Democratas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
-                            owner = PREV
-                        }
                     }
                     random_owned_controlled_state = {
                         create_unit = {
@@ -4029,10 +4084,6 @@ BRA_the_brazilian_civil_war = {
                         }
                     }
                     random_owned_controlled_state = {
-                        create_unit = {
-                            division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
-                            owner = PREV
-                        }
                         create_unit = {
                             division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
                             owner = PREV
