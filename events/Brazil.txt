@@ -2239,6 +2239,27 @@ country_event = { #FROM gets event of a Brazilian faction in the civil war for a
 
 	option = { #We'll help!
 		name = brazil.51.a 
+		ai_chance = {
+			base = 10
+			modifier = {
+				add = 60
+				has_government = FROM 
+			}
+			modifier = {
+				add = 20
+				has_opinion = {
+					target = FROM 
+					value > 49
+				}
+			}
+			modifier = {
+				add = 25
+				has_opinion = {
+					target = FROM 
+					value > 79
+				}
+			}
+		}
 		set_country_flag = BRA_agreed_to_help
 		unlock_decision_category_tooltip = BRA_aiding_the_brazilians
 		hidden_effect = {
@@ -2293,6 +2314,22 @@ country_event = { #FROM gets event of a Brazilian faction in the civil war for a
 
 	option = {
 		name = brazil.51.b 
+		ai_chance = {
+			base = 10
+			modifier = {
+				add = 50
+				NOT = {
+					has_government = FROM
+				}
+			}
+			modifier = {
+				add = 500
+				OR = {
+					has_civil_war = yes 
+					has_war = yes 
+				}
+			}
+		}
 		FROM = {
 			country_event = { id = brazil.53 hours = 4 }
 		}

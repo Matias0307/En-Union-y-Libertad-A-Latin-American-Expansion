@@ -3745,11 +3745,54 @@ BRA_the_brazilian_civil_war = {
                 }
             }
             hidden_effect = {
-                BRA = {
+                random_other_country = {
+                    limit = {
+                        any_controlled_state = {
+                            has_dynamic_modifier = { modifier = BRA_integralists_occupation }
+                        }
+                    }
                     start_civil_war = {
                         ruling_party = ROOT 
                         ideology = fascism
                         size = 0.4 
+                        states_filter = {
+                            has_dynamic_modifier = { modifier = BRA_integralists_occupation }
+                        }
+                    }
+                }
+                BRA_set_up_generic_civil_war_divisions_fascist_ai = yes
+                news_event = { id = news.361 days = 1 } 
+            }
+        }
+    }
+
+    BRA_launch_integralist_civil_war_debug = {
+        visible = {
+            is_debug = yes
+        }
+
+        complete_effect = {
+            effect_tooltip = {
+                start_civil_war = {
+                    ruling_party = ROOT 
+                    ideology = fascism
+                    size = 0.4
+                }
+            }
+            hidden_effect = {
+                random_other_country = {
+                    limit = {
+                        any_controlled_state = {
+                            has_dynamic_modifier = { modifier = BRA_integralists_occupation }
+                        }
+                    }
+                    start_civil_war = {
+                        ruling_party = ROOT 
+                        ideology = fascism
+                        size = 0.4 
+                        states_filter = {
+                            has_dynamic_modifier = { modifier = BRA_integralists_occupation }
+                        }
                     }
                 }
                 BRA_set_up_generic_civil_war_divisions_fascist_ai = yes
@@ -4685,12 +4728,16 @@ BRA_aiding_the_brazilians = {
         }
 
         ai_will_do = {
-            factor = 150
+            factor = 135
             modifier = {
                 add = 80
                 FROM = { #more inclined to help if faction is losing  
                     surrender_progress > 0.3
                 }
+            }
+            modifier = { #will not send guns if it literally cant
+                factor = 0 
+                has_equipment = { infantry_equipment < 2499 }
             }
         }
 
@@ -4858,6 +4905,10 @@ BRA_aiding_the_brazilians = {
                 FROM = { #more inclined to help if faction is losing  
                     surrender_progress > 0.3
                 }
+            }
+            modifier = {
+                factor = 0
+                has_manpower < 69999
             }
         }
 
