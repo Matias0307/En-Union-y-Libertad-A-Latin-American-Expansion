@@ -11,6 +11,7 @@
 #BRA_add_integralist_occupation_to_random_state
 #BRA_set_up_generic_civil_war_divisions_democratic
 #BRA_set_up_generic_civil_war_divisions_fascist_ai
+#BRA_start_integralist_uprising
 #BRA_start_communist_civil_war
 #BRA_industrialize_economy_slightly
 #BRA_improve_militia_training
@@ -1034,16 +1035,364 @@ BRA_set_up_generic_civil_war_divisions_fascist_ai = {
 				unlock_national_focus = BRA_try_to_convince_plantations
 			}
 			every_controlled_state = {
+				limit = { 
+					is_fully_controlled_by = PREV 
+					has_dynamic_modifier = { modifier = BRA_integralists_occupation }
+				}
 				create_unit = {
-					division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+					division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
 					owner = PREV
 				}
 				create_unit = {
-					division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+					division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+				create_unit = {
+					division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+				create_unit = {
+					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
 					owner = PREV
 				}
 			}
 			random_owned_controlled_state = {
+				create_unit = {
+					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+				create_unit = {
+					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+				create_unit = {
+					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+				if = {
+					limit = { check_variable = { BRA_extra_integralist_troops > 0 } }
+					create_unit = {
+						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+						owner = PREV
+					}
+				}
+				if = {
+					limit = { BRA = { check_variable = { BRA_extra_integralist_troops > 1 } } }
+					create_unit = {
+						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+						owner = PREV
+					}
+				}
+				if = {
+					limit = { BRA = { check_variable = { BRA_extra_integralist_troops > 2 } } }
+					create_unit = {
+						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+						owner = PREV
+					}
+				}
+				if = {
+					limit = { BRA = { check_variable = { BRA_extra_integralist_troops > 3 } } }
+					create_unit = {
+						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+						owner = PREV
+					}
+				}
+			}
+			if = {
+				limit = { check_variable = { BRA_fascist_popularity > 0.4 } } 
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+						owner = PREV
+					}
+					create_unit = {
+						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+						owner = PREV
+					}
+					create_unit = {
+						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+						owner = PREV
+					}
+				}
+			}
+		}
+		clear_variable = BRA_extra_integralist_troops
+	}
+}
+
+BRA_start_integralist_uprising = {
+	hidden_effect = {
+		set_temp_variable = { BRA_integralist_militia_experience = BRA_integralist_influence }
+		divide_temp_variable = { BRA_integralist_militia_experience = 100 }
+		subtract_from_variable = { BRA_integralist_influence = 25 }
+		clamp_variable = {
+			var = BRA_integralist_influence
+			max = 100
+			min = 0
+		}
+		if = { #you'll already have the ideas if the civil war started before 
+			limit = { has_global_flag = BRA_civil_war_in_progress }
+			add_war_support = 0.02
+		}
+		else = {
+			if = {
+				limit = { check_variable = { BRA_playing_as_vargas = 1 } }
+				add_ideas = BRA_civil_war_vargas
+			}
+			else_if = {
+				limit = { check_variable = { BRA_playing_as_congress = 1 } }
+				add_ideas = BRA_civil_war_democratic
+			}
+			else_if = {
+				limit = { check_variable = { BRA_playing_as_communists = 1 } }
+				add_ideas = BRA_civil_war_communist 
+			}
+		}
+		every_character = {
+			limit = { 
+				has_character_flag = BRA_integralist 
+				NOT = {
+					OR = {
+						has_character_flag = BRA_vargas_supporter
+						has_character_flag = BRA_communist
+						has_character_flag = BRA_imperialist
+						has_character_flag = BRA_congress_supporter
+					}
+				}
+			}
+			ROOT = { retire_character = PREV }
+		}
+		every_state = {
+			limit = { has_dynamic_modifier = { modifier = BRA_integralists_occupation } }
+			IBR = { transfer_state = PREV }
+			set_state_flag = BRA_fascist_state
+		}
+		if = {
+			limit = { has_global_flag = BRA_civil_war_in_progress } #this is for integralist uprising in the communist civil war 
+			random_owned_controlled_state = {
+				create_unit = {
+					division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+					owner = ROOT
+				}
+				create_unit = {
+					division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+					owner = ROOT
+				}
+			}
+		}
+		else = {
+			every_controlled_state = {
+				create_unit = {
+					division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+					owner = ROOT
+				}
+				create_unit = {
+					division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+					owner = ROOT
+				}
+			}
+		}
+		if = {
+			limit = { has_idea = rural_economy }
+			IBR = { add_ideas = rural_economy }
+		}
+		else_if = {
+			limit = { has_idea = semi_rural_economy }
+			IBR = { add_ideas = semi_rural_economy }
+		}
+		else_if = {
+			limit = { has_idea = industrializing_economy }
+			IBR = { add_ideas = industrializing_economy }
+		}
+		else_if = {
+			limit = { has_idea = industrialized_economy }
+			IBR = { add_ideas = industrialized_economy }
+		}
+		if = {
+			limit = { has_idea = BRA_low_literacy_rate }
+			IBR = { add_ideas = BRA_low_literacy_rate }
+		}
+		### GENERIC VARIABLE SET UP ### # BRIN = Integralist Brazil #
+		set_temp_variable = { BRIN_dependency_on_coffee = BRA_dependency_on_coffee }
+		set_temp_variable = { BRIN_coffee_companies_opinion = BRA_coffee_companies_opinion }
+		set_temp_variable = { BRIN_civilian_factory_boost = BRA_civilian_factory_boost }
+		set_temp_variable = { BRIN_military_factory_boost = BRA_military_factory_boost }
+		set_temp_variable = { BRIN_dockyard_construction_boost = BRA_dockyard_construction_boost }
+		set_temp_variable = { BRIN_industrial_capacity_factory_speed = BRA_industrial_capacity_factory_speed }
+		set_temp_variable = { BRIN_industrial_capacity_dockyard_speed = BRA_industrial_capacity_dockyard_speed }
+		set_temp_variable = { BRIN_infrastructure_construction_speed = BRA_infrastructure_construction_speed }
+		set_temp_variable = { BRIN_railway_construction_speed = BRA_railway_construction_speed }
+		set_temp_variable = { BRIN_supply_node_construction_speed = BRA_supply_node_construction_speed }   
+		set_temp_variable = { BRIN_cost_for_civ_boost = BRA_cost_for_civ_boost }
+		set_temp_variable = { BRIN_amount_cost_increase_civ = BRA_amount_cost_increase_civ }
+		set_temp_variable = { BRIN_cost_for_mil_boost = BRA_cost_for_mil_boost }
+		set_temp_variable = { BRIN_amount_cost_increase_mil = BRA_amount_cost_increase_mil }
+		set_temp_variable = { BRIN_cost_for_dock_boost = BRA_cost_for_dock_boost }
+		set_temp_variable = { BRIN_amount_cost_increase_dock = BRA_amount_cost_increase_dock }
+		set_temp_variable = { BRIN_cost_for_infrastructure = BRA_cost_for_infrastructure }
+		set_temp_variable = { BRIN_amount_cost_increase_infra = BRA_amount_cost_increase_infra }
+		set_temp_variable = { BRIN_cost_to_invest_in_railway_construction = BRA_cost_to_invest_in_railway_construction }
+		set_temp_variable = { BRIN_increase_railway_cost_amount = BRA_increase_railway_cost_amount }
+		IBR = {
+			set_variable = { BRA_coffee_companies_opinion = BRIN_coffee_companies_opinion }
+			set_variable = { BRA_dependency_on_coffee = BRIN_dependency_on_coffee }
+			set_variable = { BRA_civilian_factory_boost = BRIN_civilian_factory_boost }
+			set_variable = { BRA_military_factory_boost = BRIN_military_factory_boost }
+			set_variable = { BRA_dockyard_construction_boost = BRIN_dockyard_construction_boost }
+			set_variable = { BRA_industrial_capacity_factory_speed = BRIN_industrial_capacity_factory_speed }
+			set_variable = { BRA_industrial_capacity_dockyard_speed = BRIN_industrial_capacity_dockyard_speed }
+			set_variable = { BRA_infrastructure_construction_speed = BRIN_infrastructure_construction_speed }
+			set_variable = { BRA_railway_construction_speed = BRIN_railway_construction_speed }
+			set_variable = { BRA_supply_node_construction_speed = BRIN_supply_node_construction_speed }   
+			set_variable = { BRA_cost_for_civ_boost = BRIN_cost_for_civ_boost }
+			set_variable = { BRA_amount_cost_increase_civ = BRIN_amount_cost_increase_civ }
+			set_variable = { BRA_cost_for_mil_boost = BRIN_cost_for_mil_boost }
+			set_variable = { BRA_amount_cost_increase_mil = BRIN_amount_cost_increase_mil }
+			set_variable = { BRA_cost_for_dock_boost = BRIN_cost_for_dock_boost }
+			set_variable = { BRA_amount_cost_increase_dock = BRIN_amount_cost_increase_dock }
+			set_variable = { BRA_cost_for_infrastructure = BRIN_cost_for_infrastructure }
+			set_variable = { BRA_amount_cost_increase_infra = BRIN_amount_cost_increase_infra }
+			set_variable = { BRA_cost_to_invest_in_railway_construction = BRIN_cost_to_invest_in_railway_construction }
+			set_variable = { BRA_increase_railway_cost_amount = BRIN_increase_railway_cost_amount }
+			BRA_set_dependency_on_coffee_idea = yes 
+			BRA_update_opinion_variable = yes 
+			add_dynamic_modifier = { modifier = BRA_brazilian_economy }
+		}
+		### GENERIC VARIABLE SET UP ###
+		transfer_units_fraction = {
+			target = IBR
+			stockpile_ratio = BRA_communist_civil_war_strength
+			army_ratio = BRA_communist_civil_war_strength
+			navy_ratio = BRA_communist_civil_war_strength
+			air_ratio = BRA_communist_civil_war_strength
+			keep_unit_leaders_trigger = {
+				has_trait = trait_BRA_integralist_loyalty
+			}
+		}
+		IBR = {
+			every_character = {
+				limit = { NOT = { has_character_flag = BRA_integralist } }
+				IBR = { retire_character = PREV }
+			}
+			inherit_technology = BRA #gets the techs the player originally researched 
+			set_politics = {
+				ruling_party = fascism
+			}
+			set_popularities = {
+				fascism = 90
+				neutrality = 10
+			}
+			### Will test this out, if variables do not work, then I will have to set them up manually :/ ###
+			declare_war_on = {
+				target = BRA 
+				type = civil_war
+			}
+			add_civil_war_target = BRA
+			add_ideas = BRA_civil_war_integralists
+			add_ideas = BRA_poorly_trained_militias_3
+			every_other_country = {
+				limit = { 
+					OR = {
+						original_tag = BRA 
+						AND = {
+							original_tag = SAO 
+							SAO = {
+								exists = yes 
+							}
+						}
+					}
+					NOT = { has_war_with = PREV }
+				}
+				declare_war_on = {
+					target = PREV 
+					type = civil_war
+				}
+				PREV = { add_civil_war_target = THIS }
+			}
+			load_focus_tree = {
+				tree = brazil_focus
+				keep_completed = no 
+			}
+			### WILL ADD THE INTEGRALIST FOCUSES HERE ###
+			unlock_national_focus = BRA_invest_in_our_economy
+			unlock_national_focus = BRA_pave_the_roads
+			unlock_national_focus = BRA_reject_the_estado_navo
+			unlock_national_focus = BRA_challenge_vargass_influence
+			unlock_national_focus = BRA_gain_the_armys_support
+			unlock_national_focus = BRA_organize_integralist_protests
+			unlock_national_focus = BRA_let_our_voices_be_heard
+			unlock_national_focus = BRA_trained_militia_regiments
+			unlock_national_focus = BRA_the_integralist_army
+			unlock_national_focus = BRA_attack_the_guanabara_palace
+			unlock_national_focus = BRA_integralism_shall_rule
+			random_list = {
+				50 = {
+					unlock_national_focus = BRA_follow_barrosos_principals
+					unlock_national_focus = BRA_the_jews_are_our_common_enemy
+					unlock_national_focus = BRA_arm_up_the_industrial_workers
+					unlock_national_focus = BRA_secure_the_heavy_industry_provinces
+					retire_country_leader = yes 
+					create_country_leader = {
+						name = "Gustavo Barroso"
+						desc = "POLITICS_GUSTAVO_BARROSO_DESC"
+						picture = "gfx/leaders/BRA/portrait_BRA_Gustavo_Barroso.png"
+						expire = "1965.1.1"
+						ideology = integralism
+						traits = {
+							#
+						}
+					}
+				}
+				50 = {
+					unlock_national_focus = BRA_plinio_to_victory
+					unlock_national_focus = BRA_seek_cooperation_with_prestes
+					unlock_national_focus = BRA_learn_subversive_techniques_from_the_communists
+					unlock_national_focus = BRA_farmers_to_arms
+					unlock_national_focus = BRA_try_to_convince_plantations
+					retire_country_leader = yes 
+					create_country_leader = {
+						name = "Plínio Salgado"
+						desc = "POLITICS_GUSTAVO_BARROSO_DESC"
+						picture = "gfx/leaders/BRA/Portrait_Brazil_Plinio_Salgado.dds"
+						expire = "1965.1.1"
+						ideology = integralism
+						traits = {
+							#
+						}
+					}
+				}
+			}
+			every_controlled_state = {
+				limit = { 
+					is_fully_controlled_by = PREV 
+					has_dynamic_modifier = { modifier = BRA_integralists_occupation }
+				}
+				create_unit = {
+					division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+				create_unit = {
+					division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+				create_unit = {
+					division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+				create_unit = {
+					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+			}
+			random_owned_controlled_state = {
+				create_unit = {
+					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+				create_unit = {
+					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+					owner = PREV
+				}
 				create_unit = {
 					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
 					owner = PREV
@@ -1281,6 +1630,7 @@ BRA_start_communist_civil_war = {
         set_variable = { BRA_playing_as_congress = 0 }
 		BRA_set_dependency_on_coffee_idea = yes #please god work
 		BRA_update_opinion_variable = yes 
+		add_dynamic_modifier = { modifier = BRA_brazilian_economy }
 	}
 	### GENERIC VARIABLE SET UP ###
 
@@ -1989,6 +2339,7 @@ BRA_start_imperialist_civil_war = {
 		set_variable = { BRA_playing_as_imperialists = 1 }
 		BRA_set_dependency_on_coffee_idea = yes #please god work
 		BRA_update_opinion_variable = yes 
+		add_dynamic_modifier = { modifier = BRA_brazilian_economy }
 	}
 	### GENERIC VARIABLE SET UP ###
 

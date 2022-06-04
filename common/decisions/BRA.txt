@@ -2867,9 +2867,9 @@ BRA_imminent_civil_war = {
             FROM = {
                 is_core_of = ROOT 
                 has_dynamic_modifier = { modifier = BRA_integralists_occupation }
-                OR = {
-                    num_of_civilian_factories > 2
-                    num_of_military_factories > 2
+                AND = {
+                    arms_factory > 0
+                    industrial_complex > 0
                 }
             }
         }
@@ -3745,22 +3745,7 @@ BRA_the_brazilian_civil_war = {
                 }
             }
             hidden_effect = {
-                random_other_country = {
-                    limit = {
-                        any_controlled_state = {
-                            has_dynamic_modifier = { modifier = BRA_integralists_occupation }
-                        }
-                    }
-                    start_civil_war = {
-                        ruling_party = ROOT 
-                        ideology = fascism
-                        size = 0.4 
-                        states_filter = {
-                            has_dynamic_modifier = { modifier = BRA_integralists_occupation }
-                        }
-                    }
-                }
-                BRA_set_up_generic_civil_war_divisions_fascist_ai = yes
+                BRA_start_integralist_uprising = yes 
                 news_event = { id = news.361 days = 1 } 
             }
         }
@@ -3780,22 +3765,24 @@ BRA_the_brazilian_civil_war = {
                 }
             }
             hidden_effect = {
-                random_other_country = {
-                    limit = {
-                        any_controlled_state = {
-                            has_dynamic_modifier = { modifier = BRA_integralists_occupation }
-                        }
-                    }
-                    start_civil_war = {
-                        ruling_party = ROOT 
-                        ideology = fascism
-                        size = 0.4 
-                        states_filter = {
-                            has_dynamic_modifier = { modifier = BRA_integralists_occupation }
-                        }
-                    }
+                set_country_flag = BRA_integralist_uprising_active
+                set_country_flag = BRC_integralists_planning_uprising
+                879 = {
+                    add_dynamic_modifier = { modifier = BRA_integralists_occupation }
                 }
-                BRA_set_up_generic_civil_war_divisions_fascist_ai = yes
+                906 = {
+                    add_dynamic_modifier = { modifier = BRA_integralists_occupation }
+                }
+                503 = {
+                    add_dynamic_modifier = { modifier = BRA_integralists_occupation }
+                }
+                502 = {
+                    add_dynamic_modifier = { modifier = BRA_integralists_occupation }
+                }
+                881 = {
+                    add_dynamic_modifier = { modifier = BRA_integralists_occupation }
+                }
+                BRA_start_integralist_uprising = yes 
                 news_event = { id = news.361 days = 1 } 
             }
         }
@@ -3887,7 +3874,7 @@ BRA_the_brazilian_civil_war = {
         }
 
         available = {
-            always = no 
+            has_global_flag = BRC_avoided_democrat_civil_war
         }
 
         visible = {
@@ -5543,7 +5530,7 @@ BRA_peasant_revolt = {
             }
         }
 
-        cost = 15
+        cost = 20
 
         days_remove = 30
 
@@ -5800,9 +5787,18 @@ BRA_economic_management = {
         icon = generic_factory
 
         available = {
-            custom_trigger_tooltip = {
-                tooltip = BRA_industrializing_economy_tt
-                has_country_flag = BRA_industrialized_economy
+            OR = {
+                custom_trigger_tooltip = {
+                    tooltip = BRA_industrializing_economy_tt
+                    has_country_flag = BRA_industrialized_economy
+                }
+                NOT = {
+                    OR = {
+                        has_idea = rural_economy
+                        has_idea = semi_rural_economy
+                        has_idea = industrializing_economy
+                    }
+                }
             }
         }
 
@@ -5831,6 +5827,13 @@ BRA_economic_management = {
         cancel_trigger = {
             hidden_trigger = {
                 has_country_flag = BRA_chose_rural
+            }
+            NOT = {
+                OR = {
+                    has_idea = rural_economy
+                    has_idea = semi_rural_economy
+                    has_idea = industrializing_economy
+                }
             }
         }
 
@@ -6037,9 +6040,11 @@ BRA_economic_management = {
             }
             custom_trigger_tooltip = {
 				tooltip = BRA_better_than_industrializing_tt
-				OR = {
-					has_idea = industrializing_economy
-					has_idea = industrialized_economy
+				NOT = {
+					OR = {
+						has_idea = rural_economy
+						has_idea = semi_rural_economy
+					}
 				}
 			}
             hidden_trigger = {
@@ -6100,9 +6105,11 @@ BRA_economic_management = {
             }
             custom_trigger_tooltip = {
 				tooltip = BRA_better_than_industrializing_tt
-				OR = {
-					has_idea = industrializing_economy
-					has_idea = industrialized_economy
+				NOT = {
+					OR = {
+						has_idea = rural_economy
+						has_idea = semi_rural_economy
+					}
 				}
 			}
             hidden_trigger = {
@@ -6163,9 +6170,11 @@ BRA_economic_management = {
             }
             custom_trigger_tooltip = {
 				tooltip = BRA_better_than_industrializing_tt
-				OR = {
-					has_idea = industrializing_economy
-					has_idea = industrialized_economy
+				NOT = {
+					OR = {
+						has_idea = rural_economy
+						has_idea = semi_rural_economy
+					}
 				}
 			}
             hidden_trigger = {
@@ -6226,11 +6235,9 @@ BRA_economic_management = {
             }
             custom_trigger_tooltip = {
 				tooltip = BRA_better_than_semi_rural_tt
-				OR = {
-					has_idea = semi_rural_economy
-					has_idea = industrializing_economy
-					has_idea = industrialized_economy
-				}
+				NOT = {
+                    has_idea = rural_economy
+                }
 			}
             hidden_trigger = {
                 NOT = {
