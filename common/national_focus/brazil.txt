@@ -6581,6 +6581,9 @@ focus_tree = {
 					ruling_party = fascism
 					ideology = ROOT 
 					size = BRA_integralist_equipped_percentage
+					states_filter = {
+                        has_dynamic_modifier = { modifier = BRA_integralists_occupation }
+                    }
 					keep_unit_leaders_trigger = {
 						OR = {
 							has_trait = trait_BRA_integralist_loyalty
@@ -6615,29 +6618,29 @@ focus_tree = {
 					limit = { has_dynamic_modifier = { modifier = BRA_integralists_occupation } }
 					set_state_flag = BRA_fascist_state
 				}
-				random_other_country = {
-					limit = { 
-						original_tag = BRA 
-						has_civil_war = yes
-					}
-					every_controlled_state = {
-						limit = {
-							is_core_of = BRA  
-							has_dynamic_modifier = { modifier = BRA_integralists_occupation }
-						}
-						set_state_controller_to = ROOT
-						set_state_owner_to = ROOT
-					}
-					ROOT = {
-						every_controlled_state = {
-							limit = {
-								is_core_of = BRA 
-								NOT = { has_dynamic_modifier = { modifier = BRA_integralists_occupation } }
-							}
-							set_state_controller_to = PREV.PREV
-						}
-					}
-				}
+				#random_other_country = { #gotta test this (please work)
+				#	limit = { 
+				#		original_tag = BRA 
+				#		has_civil_war = yes
+				#	}
+				#	every_controlled_state = {
+				#		limit = {
+				#			is_core_of = BRA  
+				#			has_dynamic_modifier = { modifier = BRA_integralists_occupation }
+				#		}
+				#		set_state_controller_to = ROOT
+				#		set_state_owner_to = ROOT
+				#	}
+				#	ROOT = {
+				#		every_controlled_state = {
+				#			limit = {
+				#				is_core_of = BRA 
+				#				NOT = { has_dynamic_modifier = { modifier = BRA_integralists_occupation } }
+				#			}
+				#			set_state_controller_to = PREV.PREV
+				#		}
+				#	}
+				#}
 				every_controlled_state = {
 					create_unit = {
                         division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
@@ -12762,6 +12765,7 @@ focus_tree = {
 			custom_effect_tooltip = BRA_gain_7_volunteer_divs_start_civil_war_tt
 			SOV = {
 				add_manpower = -37500
+				set_rule = { can_send_volunteers = yes }
 			}
 			custom_effect_tooltip = BRA_post_civil_war_repayment_will_get_more_expensive_tt
 			hidden_effect = {
