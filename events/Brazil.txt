@@ -2000,7 +2000,7 @@ country_event = {
 				add_stability = -0.05
 			}
 			set_global_flag = BRA_civil_war_in_progress
-			
+			news_event = { id = news.363 days = 1 }
 		}
 	}
 }
@@ -2027,6 +2027,7 @@ country_event = {
 		hidden_effect = {
 			BRA_start_communist_civil_war = yes 
 			set_global_flag = BRA_civil_war_in_progress
+			news_event = { id = news.363 days = 1 }
 		}
 	}
 }
@@ -2073,7 +2074,10 @@ country_event = {
 		}
 		has_government = communism
 		has_global_flag = BRA_civil_war_in_progress
-		has_global_flag = BRA_paulista_revolt
+		OR = {
+			has_global_flag = BRA_paulista_revolt
+			has_global_flag = paulistas_revolted
+		}
 	}
 
 	mean_time_to_happen = { days = 45 }
@@ -2442,29 +2446,31 @@ country_event = { #event that gets triggered once civil war has concluded
 
 	fire_only_once = yes 
 
-	trigger = {
-		original_tag = BRA 
-		has_global_flag = BRA_civil_war_in_progress #this is to make sure this triggers only after a pre-definied civil war 
-		has_civil_war = no 
-		is_subject = no #The AI might puppet for god knows what reason
-		NOT = {
-			OR = {
-				has_war_with = BRC 
-				has_war_with = BUS 
-				has_war_with = BZE 
-				has_war_with = SAO 
-			}
-		}
-		NOT = {
-			OR = {
-				has_active_mission = BRA_impending_democratic_insurrection
-				has_active_mission = BRA_impending_integralist_uprising
-				has_active_mission = BRA_impending_communist_uprising
-				has_active_mission = BRA_impending_paulista_revolt
-				has_active_mission = BRA_impending_imperial_uprising
-			}
-		}
-	}
+	is_triggered_only = yes 
+
+	#trigger = {
+	#	original_tag = BRA 
+	#	has_global_flag = BRA_civil_war_in_progress #this is to make sure this triggers only after a pre-definied civil war 
+	#	has_civil_war = no 
+	#	is_subject = no #The AI might puppet for god knows what reason
+	#	NOT = {
+	#		OR = {
+	#			has_war_with = BRC 
+	#			has_war_with = BUS 
+	#			has_war_with = BZE 
+	#			has_war_with = SAO 
+	#		}
+	#	}
+	#	NOT = {
+	#		OR = {
+	#			has_active_mission = BRA_impending_democratic_insurrection
+	#			has_active_mission = BRA_impending_integralist_uprising
+	#			has_active_mission = BRA_impending_communist_uprising
+	#			has_active_mission = BRA_impending_paulista_revolt
+	#			has_active_mission = BRA_impending_imperial_uprising
+	#		}
+	#	}
+	#}
 
 	immediate = {
 		hidden_effect = {
@@ -2996,6 +3002,10 @@ country_event = {
 			retire_country_leader = yes 
 		}
 		promote_character = BRA_congresso_do_brasil
+		if = {
+			limit = { has_completed_focus = BRA_social_democratic_brazil }
+			set_country_leader_ideology = socialism
+		}
 	}
 
 	option = { #appoint Armando Sales 
@@ -3024,6 +3034,10 @@ country_event = {
 				}
 			}
 		}
+		if = {
+			limit = { has_completed_focus = BRA_social_democratic_brazil }
+			set_country_leader_ideology = socialism
+		}
 	}
 
 	option = { #appoint Washington 
@@ -3035,6 +3049,10 @@ country_event = {
 			retire_country_leader = yes 
 		}
 		promote_character = BRA_washington_luis_pereira
+		if = {
+			limit = { has_completed_focus = BRA_social_democratic_brazil }
+			set_country_leader_ideology = socialism
+		}
 	}
 
 	option = { #appoint Jose Americo 
@@ -3046,6 +3064,10 @@ country_event = {
 			retire_country_leader = yes 
 		}
 		promote_character = BRA_jose_americo_de_almeida
+		if = {
+			limit = { has_completed_focus = BRA_social_democratic_brazil }
+			set_country_leader_ideology = socialism
+		}
 	}
 
 	option = { #appoint Afranio de Melo 
@@ -3054,6 +3076,10 @@ country_event = {
 			retire_country_leader = yes 
 		}
 		promote_character = BRA_afranio_de_mello_franco
+		if = {
+			limit = { has_completed_focus = BRA_social_democratic_brazil }
+			set_country_leader_ideology = socialism
+		}
 	}
 }
 
@@ -4059,5 +4085,45 @@ country_event = {
 		}
 		FROM = { country_event = { id = peru.17 hours = 3 } }
 		add_war_support = 0.05
+	}
+}
+
+#Brazil gets event that Portugal is planning a monarchist uprising 
+country_event = {
+	id = brazil.87
+	title = brazil.87.t 
+	desc = braazil.87.d 
+	picture = GFX_report_event_soldiers_marching
+
+	is_triggered_only = yes 
+
+	immediate = {
+		set_global_flag = POR_triggered_imperial_uprising
+	}
+
+	option = {
+		name = brazil.87.a 
+		effect_tooltip = {
+			activate_mission = BRA_impending_imperial_uprising
+			set_party_name = {
+				ideology = neutrality
+				long_name = BRA_monarchy_party_long
+				name = BRA_monarchy_party
+			}
+		}
+	}
+}
+
+#Brazil that's going down the Imperialist branch gets event of Portuguese support 
+country_event = {
+	id = brazil.88
+	title = brazil.88.t 
+	desc = brazil.88.d 
+	picture = GFX_report_event_soldiers_marching
+
+	is_triggered_only = yes 
+
+	option = {
+		name = brazil.88.a 
 	}
 }

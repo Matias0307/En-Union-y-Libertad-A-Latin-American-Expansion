@@ -2323,7 +2323,195 @@ BRA_integralist_management = {
     }
 }
 
+POR_preparing_the_monarchist_uprising = {
+    POR_impending_imperialist_uprising_in_brazil = { #won't do anything, just for show 
+        priority = 250
+        icon = eng_support_imperialist_coup
+
+        activation = {
+            always = no 
+        }
+
+        fire_only_once = yes 
+
+        is_good = yes 
+        
+        available = {
+            BZE = {
+                exists = yes 
+                OR = {
+                    has_civil_war = yes 
+                    AND = {
+                        has_civil_war = no 
+                        has_global_flag = BRA_civil_war_concluded
+                    }
+                }
+            }
+        }
+
+        days_mission_timeout = POR_days_timeout_brazil
+
+        timeout_effect = {
+            custom_effect_tooltip = BRA_empire_starts_war_tt
+        }
+    }
+
+    POR_strengthen_the_regiments_in_FROM = {
+        icon = generic_military
+
+        state_target = yes 
+        target_array = BRA.core_states
+
+        target_trigger = {
+            FROM = {
+                is_core_of = BRA 
+                has_dynamic_modifier = { modifier = BRA_monarchist_influence }
+            }
+        }
+
+        visible = {
+            has_completed_focus = POR_strengthen_the_uprising
+            has_active_mission = POR_impending_imperialist_uprising_in_brazil
+            FROM = {
+                NOT = {
+                    has_state_flag = POR_strengthened_state
+                }
+            }
+        }
+
+        available = {
+            has_equipment = { infantry_equipment > 999 }
+        }
+
+        cancel_trigger = {
+            OR = {
+                AND = {
+                    BZE = { exists = yes }
+                    BZE = { has_civil_war = yes }
+                }
+                FROM = {
+                    NOT = { has_dynamic_modifier = { modifier = BRA_monarchist_influence } }
+                }
+            }
+        }
+
+        ai_will_do = {
+			factor = 150
+		}
+
+        cost = 20
+
+        days_remove = 15
+
+        complete_effect = {
+            add_equipment_to_stockpile = {
+                type = infantry_equipment
+                amount = -1000
+            }
+        }
+
+        remove_effect = {
+            custom_effect_tooltip = POR_state_will_spawn_with_extra_proper_division_tt
+            hidden_effect = {
+                FROM = {
+                    set_state_flag = POR_strengthened_state
+                }
+            }
+        }
+    }
+
+    POR_spread_the_monarchist_movement_to_FROM = {
+        icon = generic_prepare_civil_war
+
+        state_target = yes 
+        target_array = BRA.core_states
+
+        target_trigger = {
+            FROM = {
+                is_core_of = BRA 
+                NOT = { has_dynamic_modifier = { modifier = BRA_monarchist_influence } }
+                any_neighbor_state = {
+                    has_dynamic_modifier = { modifier = BRA_monarchist_influence }
+                }
+            }
+        }
+
+        visible = {
+            has_completed_focus = POR_strengthen_the_uprising
+            has_active_mission = POR_impending_imperialist_uprising_in_brazil
+        }
+
+        available = {
+            has_manpower > 1000
+            hidden_trigger = { NOT = { has_global_flag = BRA_spreading_influence } }
+        }
+
+        cost = 40
+
+        days_remove = 30
+
+        ai_will_do = {
+			factor = 95
+		}
+
+        complete_effect = {
+            set_global_flag = BRA_spreading_influence
+        }
+
+        cancel_trigger = {
+            NOT = {
+                has_active_mission = POR_impending_imperialist_uprising_in_brazil
+            }
+        }
+
+        remove_effect = {
+            clr_global_flag = BRA_spreading_influence
+            FROM = {
+                add_dynamic_modifier = { modifier = BRA_monarchist_influence }
+            }
+        }
+    }
+}
+
 BRA_monarchism_on_the_rise = {
+    BRA_impending_imperial_uprising_effect = { #only for show
+        priority = 250
+        icon = eng_support_imperialist_coup
+
+        activation = {
+            always = no 
+        }
+
+        fire_only_once = yes 
+
+        available = {
+            custom_trigger_tooltip = {
+                tooltip = BRA_no_states_with_monarchists_tt
+                all_core_state = {
+                    NOT = {
+                        has_dynamic_modifier = { modifier = BRA_monarchist_influence }
+                    }
+                }
+            }
+        }
+
+        visible = {
+            original_tag = BRA 
+        }
+
+        cancel_trigger = {
+            OR = {
+                tag = BZE 
+                has_war_with = BZE
+            }
+        }
+
+        days_mission_timeout = 135
+        timeout_effect = {
+            custom_effect_tooltip = BRA_empire_starts_war_tt
+        }
+    }
+
     BRA_impending_imperial_uprising = {
         priority = 250
         icon = eng_support_imperialist_coup
@@ -2454,11 +2642,11 @@ BRA_monarchism_on_the_rise = {
         visible = {
             has_completed_focus = BRA_rekindle_imperial_sentiments
             has_active_mission = BRA_impending_imperial_uprising
-            NOT = { has_country_flag = BRA_spreading_influence }
         }
 
         available = {
             has_manpower > 1000
+            hidden_trigger = { NOT = { has_global_flag = BRA_spreading_influence } }
         }
 
         cost = 35
@@ -2470,7 +2658,7 @@ BRA_monarchism_on_the_rise = {
 		}
 
         complete_effect = {
-            set_country_flag = BRA_spreading_influence
+            set_global_flag = BRA_spreading_influence
         }
 
         cancel_trigger = {
@@ -2480,7 +2668,7 @@ BRA_monarchism_on_the_rise = {
         }
 
         remove_effect = {
-            clr_country_flag = BRA_spreading_influence
+            clr_global_flag = BRA_spreading_influence
             FROM = {
                 add_dynamic_modifier = { modifier = BRA_monarchist_influence }
             }
@@ -3944,6 +4132,10 @@ BRA_the_brazilian_civil_war = {
                     limit = { has_idea = BRA_low_literacy_rate }
                     BUS = { add_ideas = BRA_low_literacy_rate }
                 }
+                if = {
+                    limit = { has_idea = BRA_brazilian_mining_industry_1 }
+                    BUS = { add_ideas = BRA_brazilian_mining_industry_1 }
+                }
                 ### GENERIC VARIABLE SET UP ###
                 set_temp_variable = { BRC_dependency_on_coffee = BRA_dependency_on_coffee }
                 set_temp_variable = { BRC_coffee_companies_opinion = BRA_coffee_companies_opinion }
@@ -4002,6 +4194,30 @@ BRA_the_brazilian_civil_war = {
                             has_character_flag = BRA_congress_supporter 
                         }
                         set_nationality = BUS 
+                    }
+                    random_owned_controlled_state = {
+                        create_unit = {
+                            division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
+                            owner = PREV
+                        }
+                    }
+                    random_owned_controlled_state = {
+                        create_unit = {
+                            division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
+                            owner = PREV
+                        }
+                    }
+                    random_owned_controlled_state = {
+                        create_unit = {
+                            division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
+                            owner = PREV
+                        }
+                    }
+                    random_owned_controlled_state = {
+                        create_unit = {
+                            division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
+                            owner = PREV
+                        }
                     }
                     add_manpower = -27000
                 }
@@ -4116,34 +4332,38 @@ BRA_the_brazilian_civil_war = {
                             division = "name = \"Milícias Democratas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
                             owner = PREV
                         }
-                    }
-                    random_owned_controlled_state = {
                         create_unit = {
-                            division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
-                            owner = PREV
-                        }
-                        create_unit = {
-                            division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+                            division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
                             owner = PREV
                         }
                     }
                     random_owned_controlled_state = {
                         create_unit = {
-                            division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+                            division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
                             owner = PREV
                         }
                         create_unit = {
-                            division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+                            division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
                             owner = PREV
                         }
                     }
                     random_owned_controlled_state = {
                         create_unit = {
-                            division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+                            division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
                             owner = PREV
                         }
                         create_unit = {
-                            division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = BRA_integralist_militia_experience start_equipment_factor = 0.95" 
+                            division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
+                            owner = PREV
+                        }
+                    }
+                    random_owned_controlled_state = {
+                        create_unit = {
+                            division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
+                            owner = PREV
+                        }
+                        create_unit = {
+                            division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
                             owner = PREV
                         }
                     }
@@ -4750,6 +4970,10 @@ BRA_aiding_the_brazilians = {
                 factor = 0 
                 has_equipment = { infantry_equipment < 2499 }
             }
+            modifier = {
+                factor = 0
+                has_country_flag = recently_helped
+            }
         }
 
         cost = 35
@@ -4762,6 +4986,11 @@ BRA_aiding_the_brazilians = {
         }
 
         complete_effect = {
+            set_country_flag = {
+                flag = recently_helped
+                days = 180
+                value = 1
+            }
             add_equipment_to_stockpile = {
                 type = infantry_equipment
                 amount = -1000
@@ -4834,6 +5063,10 @@ BRA_aiding_the_brazilians = {
                     surrender_progress > 0.3
                 }
             }
+            modifier = {
+                factor = 0
+                has_country_flag = recently_helped
+            }
         }
 
         available = {
@@ -4849,6 +5082,11 @@ BRA_aiding_the_brazilians = {
         }
 
         complete_effect = {
+            set_country_flag = {
+                flag = recently_helped
+                days = 180
+                value = 1
+            }
             FROM = {
                 add_timed_idea = {
                     idea = FROM_war_bonds
@@ -4921,6 +5159,10 @@ BRA_aiding_the_brazilians = {
                 factor = 0
                 has_manpower < 69999
             }
+            modifier = {
+                factor = 0
+                has_country_flag = recently_helped
+            }
         }
 
         custom_cost_trigger = {
@@ -4940,6 +5182,11 @@ BRA_aiding_the_brazilians = {
         days_remove = 100
 
         complete_effect = {
+            set_country_flag = {
+                flag = recently_helped
+                days = 180
+                value = 1
+            }
             hidden_effect = {
                 add_political_power = -10
                 add_manpower = -25000
@@ -5036,6 +5283,31 @@ BRA_the_spread_of_communism = {
         }
     }
 
+    BRA_test_debug_civil_war_in_FROM = {
+        visible = { is_debug = yes }
+
+        ai_will_do = {
+            factor = 0
+        }
+
+        target_trigger = {
+            FROM = {
+                NOT = { has_government = communism }
+                exists = yes 
+                has_civil_war = no 
+            }
+        }
+
+        complete_effect = {
+            FROM = {
+                start_civil_war = {
+                    ideology = communism
+                    size = 0.35
+                }
+            }
+        }
+    }
+
     BRA_instigate_a_communist_uprising_in_FROM = {
         icon = generic_civil_support
 
@@ -5089,7 +5361,6 @@ BRA_the_spread_of_communism = {
         remove_effect = {
             FROM = {
                 start_civil_war = {
-                    ruling_party = PREV
                     ideology = communism
                     size = 0.35
                 }
@@ -5298,6 +5569,7 @@ BRA_peasant_revolt = {
                 BRA_start_communist_civil_war = yes 
                 set_global_flag = BRA_civil_war_in_progress
                 clr_country_flag = BRA_active_communist_revolt
+                news_event = { id = news.363 days = 1 }
             }
         }
     }
@@ -5733,6 +6005,7 @@ BRA_peasant_revolt = {
             hidden_effect = {
                 BRA_start_communist_civil_war = yes 
                 clr_country_flag = BRA_active_communist_revolt_ai
+                news_event = { id = news.363 days = 1 }
             }
         }
     }
@@ -5824,6 +6097,10 @@ BRA_economic_management = {
                     }
                 }
             }
+        }
+
+        visible = {
+            NOT = { has_completed_focus = BRA_re_establish_a_fully_agrarian_economy }
         }
 
         days_mission_timeout = 730

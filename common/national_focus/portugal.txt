@@ -6026,18 +6026,26 @@ focus_tree = {
 		}
 	}
 
-	focus = {
+	focus = { #Begin preperations for the monarchist uprising
 		id = POR_monarchist_uprising_in_brazil
 		available = {
-			custom_trigger_tooltip = {
-				tooltip = BRA_path_not_ready_tt
-				always = no 
-			}
+			has_global_flag = BRA_civil_war_in_progress
 		}
 
 		bypass = {
-			NOT = { country_exists = BRA }
-			BRA = { has_capitulated = yes }
+			BZE = {
+				OR = {
+					AND = {
+						exists = yes 
+						has_global_flag = BRA_civil_war_concluded
+						has_war = no 
+					}
+					AND = {
+						exists = yes
+						has_global_flag = BRA_civil_war_in_progress
+					}
+				}
+			}
 		}
 		prerequisite = { focus = POR_the_return_of_duarte }
 		icon = GFX_focus_por_reclaim_crown_jewel
@@ -6045,70 +6053,157 @@ focus_tree = {
 		y = 1
 
 		relative_position_id = POR_the_return_of_duarte
-		cost = 10
+		cost = 4
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
 		completion_reward = {
-			BRA = {
-				country_event = lar_portugal_promote_monarchist_cause.7
-				effect_tooltip = {
-					add_timed_idea = {
-					    idea = POR_monarchists_on_the_rise
-					    days = 730
+			hidden_effect = {
+				if = {
+					limit = {
+						has_global_flag = player_chose_imperialist
 					}
-					set_party_name = { 
-					    ideology = neutrality
-					    long_name = BRA_monarchy_party_long
-					    name = BRA_monarchy_party
-					}
-					set_party_name = { 
-					    ideology = fascism
-					    long_name = BRA_antimonarchist_coalition_long
-					    name = BRA_antimonarchist_coalition
-					}
-					if = {
+					random_other_country = {
 						limit = {
-							OR = {
-								has_government = neutrality
-								has_government = democratic
-								has_government = communism
-							} 
+							original_tag = BRA 
+							has_completed_focus = BRA_a_visit_to_the_past
 						}
-						set_politics = {
-							ruling_party = fascism
+						country_event = brazil.88
+						set_country_flag = BRA_imperialist_country
+					}
+					every_other_country = {
+						limit = {
+							original_tag = BRA 
+							NOT = { has_country_flag = BRA_imperialist_country }
 						}
+						country_event = brazil.87
 					}
-					set_popularities = {
-						democratic = 0
-						neutrality = 20
-						fascism = 80
-						communism = 0
-					}
-					hidden_effect = {
-						retire_country_leader = yes
-					}
-
-					BRA_getulio_vargas = {
-						remove_country_leader_role = {
-							ideology = despotism
-						}
-						add_country_leader_role = {
-							country_leader = {
-								expire = "1954.8.24"
-								ideology = fascism_ideology
-								traits = {
-									anti_communist
-								}
-							}
-							promote_leader = yes
-						}
-					}
-					promote_character = BRA_arlindo_veiga_dos_santos
 				}
+				else = {
+					BRA = {
+						country_event = brazil.87
+						activate_mission = BRA_impending_imperial_uprising
+						set_country_flag = BRA_has_actual_mission
+						set_party_name = {
+							ideology = neutrality
+							long_name = BRA_monarchy_party_long
+							name = BRA_monarchy_party
+						}
+					}
+					every_other_country = {
+						limit = {
+							original_tag = BRA 
+							NOT = { has_country_flag = BRA_has_actual_mission }
+						}
+						country_event = brazil.87
+						activate_mission = BRA_impending_imperial_uprising_effect
+					}
+					874 = {
+						add_dynamic_modifier = { modifier = BRA_monarchist_influence }
+					}
+					875 = {
+						add_dynamic_modifier = { modifier = BRA_monarchist_influence }
+					}
+					498 = {
+						add_dynamic_modifier = { modifier = BRA_monarchist_influence }
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_global_flag = player_chose_imperialist
+				}
+				BRA = { set_temp_variable = { fortnite_battle_pass = days_mission_timeout@BRA_impending_imperial_uprising } }
+				set_variable = { POR_days_timeout_brazil = fortnite_battle_pass }
+				activate_mission = POR_impending_imperialist_uprising_in_brazil
+			}
+			else = {
+				set_variable = { POR_days_timeout_brazil = 135 }
+				activate_mission = POR_impending_imperialist_uprising_in_brazil
 			}
 		}
 	}
 
 	focus = {
+		id = POR_intervene_in_the_brazilian_civil_war
+		icon = GFX_goal_generic_dangerous_deal
+		x = 0
+		y = 1
+		relative_position_id = POR_monarchist_uprising_in_brazil
+		prerequisite = { focus = POR_monarchist_uprising_in_brazil }
+
+		cost = 2
+
+		available = {
+			has_global_flag = BRA_civil_war_in_progress
+			BZE = {
+				exists = yes 
+			}
+		}
+
+		bypass = {
+			OR = {
+				has_global_flag = BRA_POR_intervened
+				AND = {
+					BZE = { exists = yes }
+					BZE = { is_subject = no }
+					has_global_flag = BRA_civil_war_concluded
+				}
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		completion_reward = {
+			every_other_country = {
+				limit = {
+					original_tag = BRA 
+					NOT = {
+						tag = BZE 
+					}
+				}
+				POR = { 
+					add_to_war = { targeted_alliance = BZE enemy = PREV hostility_reason = asked_to_join }
+					hidden_effect = {
+						diplomatic_relation = {
+							country = BZE
+							relation = military_access
+							active = yes
+						}
+					}
+				}
+			}
+			hidden_effect = {
+				news_event = { id = news.366 days = 1 }
+				set_global_flag = BRA_POR_intervened
+			}
+		}
+	}
+
+	focus = {
+		id = POR_strengthen_the_uprising
+		icon = GFX_goal_generic_small_arms
+		x = -2
+		y = 1
+		relative_position_id = POR_monarchist_uprising_in_brazil
+		prerequisite = { focus = POR_monarchist_uprising_in_brazil }
+
+		cost = 5
+
+		available = {
+			has_active_mission = POR_impending_imperialist_uprising_in_brazil
+		}
+		cancel_if_invalid = yes 
+		continue_if_invalid = no 
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		completion_reward = {
+			custom_effect_tooltip = POR_unlock_strengthen_militia_and_spread_decisions_tt
+		}
+	}
+
+	focus = {
 		id = POR_the_empire_of_brazil
+
+		allow_branch = {
+			always = no 
+		}
 
 		select_effect = {
 			if = {
@@ -6131,36 +6226,25 @@ focus_tree = {
 			NOT = { country_exists = BRA }
 			BRA = { has_capitulated = yes }	
 		}
-		prerequisite = { focus = POR_monarchist_uprising_in_brazil }
+		prerequisite = { focus = POR_intervene_in_the_brazilian_civil_war }
+		prerequisite = { focus = POR_restoration_of_the_monarchy }
 		icon = GFX_focus_generic_home_defense
 		x = 0		
-		y = 1
+		y = 2
+
+		available = {
+			has_global_flag = BRA_civil_war_concluded
+			BZE = {
+				exists = yes 
+				has_civil_war = no 
+				has_war = no 
+			}
+		}
 
 		relative_position_id = POR_monarchist_uprising_in_brazil
 		cost = 10
 		completion_reward = {
-			if = {
-				limit = {
-					BRA = {
-						OR = {
-							has_country_flag = POR_brazil_supports_fascist_coalition_flag
-							AND = {
-								NOT = { has_government = neutrality }
-								OR = {
-									has_stability < 0.5
-									neutrality < 0.7
-								}
-							}
-						}
-					}
-				}
-				BRA = { country_event = lar_portugal_promote_monarchist_cause.3 }
-			}
-			else = {
-				BRA = { country_event = lar_portugal_promote_monarchist_cause.4 }
-			}
-			custom_effect_tooltip = POR_the_empire_of_brazil_potential_civil_war_tt
-
+			BZE = { country_event = lar_portugal_promote_monarchist_cause.3 }
 			hidden_effect = {
 				every_country = {
 					limit = {
@@ -6267,14 +6351,14 @@ focus_tree = {
 
 		bypass = {
 		}
+		prerequisite = { focus = POR_intervene_in_the_brazilian_civil_war }
 		prerequisite = { focus = POR_restoration_of_the_monarchy }
-		prerequisite = { focus = POR_the_empire_of_brazil }
 
 		mutually_exclusive = { focus = POR_recover_brazil }
 
 		icon = GFX_focus_por_the_kingdom_reunited
 		x = -1
-		y = 2
+		y = 1
 
 		relative_position_id = POR_the_empire_of_brazil
 		cost = 10

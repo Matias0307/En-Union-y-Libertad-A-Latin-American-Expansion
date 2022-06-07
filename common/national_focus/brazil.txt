@@ -5479,6 +5479,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_join_allies
 		prerequisite = { focus = BRA_join_allies }
+		will_lead_to_war_with = GER
 
 		cost = 10
 
@@ -6196,6 +6197,8 @@ focus_tree = {
 		relative_position_id = BRA_allign_ourselves_with_the_axis
 		prerequisite = { focus = BRA_secret_deal_with_the_germans }
 		prerequisite = { focus = BRA_purchas_german_weaponry }
+		will_lead_to_war_with = URG 
+		will_lead_to_war_with = ARG
 
 		#will cause a war with Uruguay, causing Argentina to step in
 		#HOWEVER, Brazil will immediately join the axis, and both Uruguay and Argentina 
@@ -6770,14 +6773,6 @@ focus_tree = {
                         division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
                         owner = ROOT
                     }
-					create_unit = {
-                        division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
-                        owner = ROOT
-                    }
-					create_unit = {
-						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
-						owner = ROOT
-					}
 					create_unit = {
 						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
 						owner = ROOT
@@ -8072,7 +8067,18 @@ focus_tree = {
 		continue_if_invalid = no 
 		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
 		completion_reward = {
-			activate_mission = BRA_impending_imperial_uprising
+			if = {
+				limit = {
+					has_global_flag = POR_triggered_imperial_uprising
+				}
+				add_days_mission_timeout = {
+					mission = BRA_impending_imperial_uprising
+					days = 30
+				}
+			}
+			else = {
+				activate_mission = BRA_impending_imperial_uprising
+			}
 			set_party_name = {
 				ideology = neutrality
 				long_name = BRA_monarchy_party_long
@@ -8092,6 +8098,10 @@ focus_tree = {
 				}
 				set_variable = { BRA_playing_as_integralists = 0 }
 				set_variable = { BRA_playing_as_imperialists = 1 }
+				every_other_country = {
+					limit = { original_tag = BRA }
+					activate_mission = BRA_impending_imperial_uprising_effect
+				}
 			}
 		}
 	}
@@ -9539,6 +9549,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_master_mountain_warfare
 		prerequisite = { focus = BRA_master_mountain_warfare }
+		will_lead_to_war_with = CHL
 
 		cost = 5
 
@@ -9565,6 +9576,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_master_mountain_warfare
 		prerequisite = { focus = BRA_master_mountain_warfare }
+		will_lead_to_war_with = PRU
 
 		cost = 5
 
@@ -9594,6 +9606,7 @@ focus_tree = {
 			focus = BRA_external_imperial_management 
 			focus = BRA_stabilizing_our_politics
 		}
+		will_lead_to_war_with = LIB
 
 		cost = 5
 
@@ -9831,6 +9844,9 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_expand_beyond_south_america
 		prerequisite = { focus = BRA_expand_beyond_south_america }
+		will_lead_to_war_with = HON 
+		will_lead_to_war_with = ELS 
+		will_lead_to_war_with = NIC
 
 		cost = 10
 
@@ -9872,6 +9888,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_conquer_central_america
 		prerequisite = { focus = BRA_conquer_central_america }
+		will_lead_to_war_with = USA 
 
 		available = {
 			has_army_manpower = { size > 499999 }
@@ -10276,6 +10293,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_the_portuguese_brasilero_army
 		prerequisite = { focus = BRA_the_portuguese_brasilero_army }
+		will_lead_to_war_with = SPR
 
 		cost = 10
 
@@ -10324,6 +10342,7 @@ focus_tree = {
 		y = 2
 		relative_position_id = BRA_take_out_spain
 		prerequisite = { focus = BRA_take_out_spain }
+		will_lead_to_war_with = FRA
 
 		cost = 10
 
@@ -11168,6 +11187,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_mutual_agreement_with_argentina 
 		prerequisite = { focus = BRA_mutual_agreement_with_argentina }
+		will_lead_to_war_with = URG
 
 		cost = 5
 
@@ -11318,6 +11338,7 @@ focus_tree = {
 			focus = BRA_create_our_own_faction
 			focus = BRA_join_the_axis
 		}
+		will_lead_to_war_with = PAR
 
 		cost = 5
 
@@ -11473,6 +11494,8 @@ focus_tree = {
 		y =1
 		relative_position_id = BRA_rapid_army_expansion 
 		prerequisite = { focus = BRA_rapid_army_expansion }
+		will_lead_to_war_with = COL 
+		will_lead_to_war_with = VEN
 
 		#will unlock decisions to conquer countries in the north 
 
@@ -11558,6 +11581,9 @@ focus_tree = {
 		relative_position_id = BRA_expand_the_venezuelan_oil_fields
 		prerequisite = { focus = BRA_expand_the_venezuelan_oil_fields }
 		prerequisite = { focus = BRA_integrate_uruguay_integralist }
+		will_lead_to_war_with = HON 
+		will_lead_to_war_with = ELS 
+		will_lead_to_war_with = NIC 
 
 		cost = 10
 
@@ -11600,6 +11626,7 @@ focus_tree = {
 		relative_position_id = BRA_expand_beyond_central_america
 		prerequisite = { focus = BRA_desperate_naval_modernization }
 		prerequisite = { focus = BRA_expand_beyond_central_america }
+		will_lead_to_war_with = USA
 
 		cost = 10
 
@@ -11913,6 +11940,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_focus_our_efforts_against_the_european_powers
 		prerequisite = { focus = BRA_focus_our_efforts_against_the_european_powers }
+		will_lead_to_war_with = LIB
 
 		cost = 6
 
@@ -13285,10 +13313,6 @@ focus_tree = {
                     division = "name = \"Divisão Comunista\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.15 start_equipment_factor = 1" 
                     owner = ROOT
                 }
-                create_unit = {
-                    division = "name = \"Divisão Comunista\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.15 start_equipment_factor = 1" 
-                    owner = ROOT
-                }
 			}
 		}
 	}
@@ -13530,16 +13554,6 @@ focus_tree = {
 					NOT = { has_completed_focus = BRA_keep_the_people_at_ease }
 				}
 				unlock_national_focus = BRA_keep_the_people_at_ease 
-			}
-			random_owned_controlled_state = {
-				create_unit = {
-                    division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
-                    owner = ROOT
-                }
-                create_unit = {
-                    division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
-                    owner = ROOT
-                }
 			}
 			random_owned_controlled_state = {
 				create_unit = {
@@ -14276,6 +14290,12 @@ focus_tree = {
 					set_cosmetic_tag = RBR_UNIFIED
 				}
 			}
+			set_party_name = {
+				ideology = democratic
+				long_name = BRA_soc_dem_long
+				name = BRA_soc_dem
+			}
+			set_country_leader_ideology = socialism
 		}
 		
 	}
@@ -14969,7 +14989,7 @@ focus_tree = {
 		completion_reward = {
 			add_timed_idea = {
 				idea = BRA_active_agrarian_reforms
-				days = 540 
+				days = 800 
 			}
 			remove_ideas = BRA_low_literacy_rate
 			unlock_decision_tooltip = BRA_redistribute_plantation_profits_to_the_nation
@@ -15384,6 +15404,8 @@ focus_tree = {
 			focus = BRA_the_union_of_south_american_socialist_republics
 			focus = BRA_joint_military_buildup
 		}
+		will_lead_to_war_with = POR 
+		will_lead_to_war_with = SPR
 
 		cost = 10
 
@@ -15548,6 +15570,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_the_revolution_beyond_south_america
 		prerequisite = { focus = BRA_the_revolution_beyond_south_america }
+		will_lead_to_war_with = MEX
 
 		cost = 10
 
@@ -15635,6 +15658,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_the_union_of_south_american_socialist_republics
 		prerequisite = { focus = BRA_the_union_of_south_american_socialist_republics }
+		will_lead_to_war_with = USA
 
 		cost = 10
 

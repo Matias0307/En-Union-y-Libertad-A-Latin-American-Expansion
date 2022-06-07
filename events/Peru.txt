@@ -2716,8 +2716,11 @@ country_event = {
 			ruling_party = fascism
 			ideology = ROOT 
 			size = PRU_size_of_government
+			states = all 
+			states_filter = {
+				NOT = { has_state_flag = PRU_state_is_fascist }
+			}
 		}
-
 
 		set_country_flag = PRU_has_civil_war_fascism
 
@@ -2733,29 +2736,6 @@ country_event = {
 					infantry = { x = 0 y = 3 } 
 				}
 			}	
-			random_other_country = {
-				limit = { 
-					original_tag = PRU 
-					has_civil_war = yes 
-				}
-				every_controlled_state = {
-					limit = {
-						is_core_of = PRU  
-						has_state_flag = PRU_state_is_fascist
-					}
-					set_state_controller_to = ROOT
-					set_state_owner_to = ROOT
-				}
-				ROOT = {
-					every_controlled_state = {
-						limit = {
-							is_core_of = PRU 
-							NOT = { has_state_flag = PRU_state_is_fascist }
-						}
-						set_state_controller_to = PREV.PREV
-					}
-				}
-			}
 			add_ideas = PRU_civil_war_f_idea
 			division_template = {
 				name = "División de Infanteria Peruana" 

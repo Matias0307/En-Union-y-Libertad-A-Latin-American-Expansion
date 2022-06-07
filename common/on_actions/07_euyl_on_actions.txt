@@ -385,6 +385,41 @@ on_actions = {
     #ROOT is winner #FROM gets annexed - This will also fire on_annex
     on_civil_war_end = {
         effect = {
+            if = {
+                limit = {
+                    FROM = {
+                        original_tag = BRA 
+                    }
+                    ROOT = {
+                        original_tag = BRA 
+                        has_global_flag = BRA_civil_war_in_progress #this is to make sure this triggers only after a pre-definied civil war 
+                        has_civil_war = no 
+                        is_subject = no #The AI might puppet for god knows what reason
+                        NOT = {
+                            OR = {
+                                has_war_with = BRC 
+                                has_war_with = BUS 
+                                has_war_with = BZE 
+                                has_war_with = SAO 
+                            }
+                        }
+                        NOT = {
+                            OR = {
+                                has_active_mission = BRA_impending_democratic_insurrection
+                                has_active_mission = BRA_impending_integralist_uprising
+                                has_active_mission = BRA_impending_communist_uprising
+                                has_active_mission = BRA_impending_paulista_revolt
+                                has_active_mission = BRA_impending_imperial_uprising
+                            }
+                        }
+                    }
+                }
+                ROOT = {
+                    country_event = brazil.57
+                }
+            }
+        }
+        effect = {
             #End of Peruvian civil war
             if = {
                 limit = {
