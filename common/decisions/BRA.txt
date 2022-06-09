@@ -15,12 +15,15 @@ BRA_political_crisis = {
             is_subject = no #The AI might puppet for god knows what reason
             NOT = {
                 OR = {
+                    has_war_with = BRA 
+                    has_war_with = SAO 
+                    has_war_with = IBR 
                     has_war_with = BRC 
                     has_war_with = BUS 
-                    has_war_with = BZE 
-                    has_war_with = SAO 
+                    has_war_with = BZE
                 }
             }
+            NOT = { has_country_flag = BRA_recently_spawned }
             NOT = {
                 OR = {
                     has_active_mission = BRA_impending_democratic_insurrection
@@ -30,14 +33,26 @@ BRA_political_crisis = {
                     has_active_mission = BRA_impending_imperial_uprising
                 }
             }
+            NOT = { has_global_flag = BRA_mission_launched }
         }
 
-        fire_only_once = yes 
+        cancel_trigger = {
+            OR = {
+                has_civil_war = yes 
+                has_war_with = BRA 
+                has_war_with = SAO 
+                has_war_with = IBR 
+                has_war_with = BRC 
+                has_war_with = BUS 
+                has_war_with = BZE
+            }
+        }
 
-        days_mission_timeout = 5
+        days_mission_timeout = 3
 
         timeout_effect = {
             country_event = brazil.57
+            set_global_flag = BRA_mission_launched
         }
     }
 
@@ -2695,7 +2710,7 @@ BRA_monarchism_on_the_rise = {
         days_remove = 30
 
         ai_will_do = {
-			factor = 150
+			factor = 180
 		}
 
         complete_effect = {
@@ -2772,7 +2787,7 @@ BRA_monarchism_on_the_rise = {
             has_civil_war = no
         }
 
-        days_mission_timeout = 90
+        days_mission_timeout = 100
         is_good = yes 
 
         visible = {
@@ -2788,6 +2803,7 @@ BRA_monarchism_on_the_rise = {
                 is_subject = yes 
                 has_civil_war = no 
                 has_global_flag = BRA_civil_war_concluded
+                BZE = { exists = no }
             }
         }
 
@@ -2904,6 +2920,16 @@ BRA_imminent_civil_war = {
                 add_to_variable = { BRA_integralist_influence = 5 }
                 subtract_from_variable = { BRA_cost_to_expand = 5 }
                 BRA_set_up_political_crisis = yes 
+                clamp_variable = {
+                    var = BRA_progress_to_a_civil_war
+                    min = 0 
+                    max = 100
+                }
+                clamp_variable = {
+                    var = BRA_current_army_support
+                    min = 0 
+                    max = 100
+                }
             }
         }
 
@@ -3013,6 +3039,10 @@ BRA_imminent_civil_war = {
 
         ai_will_do = {
 			factor = 130
+            modifier = {
+                factor = 0
+                check_variable = { BRA_current_army_support > 95 }
+            }
 		}
 
         modifier = {
@@ -3074,6 +3104,10 @@ BRA_imminent_civil_war = {
 
         ai_will_do = {
 			factor = 130
+            modifier = {
+                factor = 0
+                check_variable = { BRA_current_army_support > 95 }
+            }
 		}
 
         modifier = {
@@ -3705,7 +3739,7 @@ BRA_the_brazilian_civil_war = {
         }
 
         cancel_trigger = {
-            exists = no 
+            has_global_flag = paulistas_revolted
         }
 
         is_good = no 
@@ -3804,6 +3838,22 @@ BRA_the_brazilian_civil_war = {
                         }
                         create_unit = {
                             division = "name = \"Milícias Paulistas\" division_template = \"Milicias Paulistas\" start_experience_factor = 0.1 start_equipment_factor = 1" 
+                            owner = PREV
+                        }
+                        create_unit = {
+                            division = "name = \"Milícias Paulistas\" division_template = \"Milicias Paulistas\" start_experience_factor = 0.1 start_equipment_factor = 1" 
+                            owner = PREV
+                        }
+                        create_unit = {
+                            division = "name = \"Milícias Paulistas\" division_template = \"Milicias Paulistas\" start_experience_factor = 0.1 start_equipment_factor = 1" 
+                            owner = PREV
+                        }
+                        create_unit = {
+                            division = "name = \"Divisão Paulistas\" division_template = \"Divisão Paulistas\" start_experience_factor = 0.1 start_equipment_factor = 1" 
+                            owner = PREV
+                        }
+                        create_unit = {
+                            division = "name = \"Divisão Paulistas\" division_template = \"Divisão Paulistas\" start_experience_factor = 0.1 start_equipment_factor = 1" 
                             owner = PREV
                         }
                         create_unit = {
@@ -3946,6 +3996,27 @@ BRA_the_brazilian_civil_war = {
                 }
             }
             hidden_effect = {
+                if = {
+                    limit = {
+                        has_war_with = BZE
+                    }
+                    498 = {
+                        remove_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+                    }
+                    874 = {
+                        remove_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+                    }
+                    875 = {
+                        remove_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+                    }
+                    496 = {
+                        add_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+                    }
+                    499 = {
+                        add_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+                    }
+                    set_global_flag = BRA_weakened_spot
+                }
                 BRA_start_communist_civil_war = yes 
                 news_event = { id = news.363 days = 1 }
             }
@@ -4060,6 +4131,14 @@ BRA_the_brazilian_civil_war = {
 
         available = {
             has_completed_focus = BRA_crush_the_integralists
+        }
+
+        cancel_trigger = {
+            any_enemy_country = {
+                original_tag = BRA 
+                has_government = fascism
+                has_civil_war = yes 
+            }
         }
 
         is_good = no 
@@ -4312,6 +4391,11 @@ BRA_the_brazilian_civil_war = {
                     }
                 }
                 BUS = {
+                    set_country_flag = {
+                        flag = BRA_recently_spawned
+                        days = 14
+                        value = 1
+                    }
                     add_ideas = BRA_civil_war_democratic
                     add_ideas = BRA_low_literacy_rate
                     inherit_technology = BRA

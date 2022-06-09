@@ -1299,6 +1299,11 @@ BRA_start_integralist_uprising = {
 			}
 		}
 		IBR = {
+			set_country_flag = {
+				flag = BRA_recently_spawned
+				days = 14
+				value = 1
+			}
 			every_character = {
 				limit = { NOT = { has_character_flag = BRA_integralist } }
 				IBR = { retire_character = PREV }
@@ -1392,8 +1397,9 @@ BRA_start_integralist_uprising = {
 				}
 			}
 			every_controlled_state = {
-				limit = { 
-					is_fully_controlled_by = PREV 
+				create_unit = {
+					division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
+					owner = PREV
 				}
 				create_unit = {
 					division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
@@ -1682,6 +1688,11 @@ BRA_start_communist_civil_war = {
 		set_nationality = BRC 
 	}
 	BRC = {
+		set_country_flag = {
+			flag = BRA_recently_spawned
+			days = 14
+			value = 1
+		}
 		every_character = {
 			limit = { NOT = { has_character_flag = BRA_communist } }
 			BRC = { retire_character = PREV }
@@ -1735,17 +1746,14 @@ BRA_start_communist_civil_war = {
 				division = "name = \"Milícias Comunistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
 				owner = PREV
 			}
+			create_unit = {
+				division = "name = \"Milícias Comunistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+				owner = PREV
+			}
 			if = {
 				limit = { check_variable = { BRA_communist_popularity > 0.35 } }
 				create_unit = {
 					division = "name = \"Milícias Comunistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
-					owner = PREV
-				}
-			}
-			if = {
-				limit = { BRC = { check_variable = { BRA_farmers_agreement_to_uprising > 35 } } }
-				create_unit = {
-					division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
 					owner = PREV
 				}
 			}
@@ -1807,6 +1815,55 @@ BRA_start_communist_civil_war = {
 			878 = {
 				create_unit = {
 					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+			}
+		}
+		if = {
+			limit = { 
+				controls_state = 496
+			}
+			496 = {
+				create_unit = {
+					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+				create_unit = {
+					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+			}
+		}
+		if = {
+			limit = { 
+				controls_state = 499
+			}
+			499 = {
+				create_unit = {
+					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+				create_unit = {
+					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+				create_unit = {
+					division = "name = \"Milícias Comunistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_global_flag = BRA_weakened_spot
+			}
+			every_controlled_state = {
+				create_unit = {
+					division = "name = \"Milícias Comunistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+					owner = PREV
+				}
+				create_unit = {
+					division = "name = \"Milícias Comunistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
 					owner = PREV
 				}
 			}
@@ -2408,6 +2465,11 @@ BRA_start_imperialist_civil_war = {
 		set_nationality = BZE 
 	}
 	BZE = {
+		set_country_flag = {
+			flag = BRA_recently_spawned
+			days = 14
+			value = 1
+		}
 		set_party_name = {
 			ideology = neutrality
 			long_name = BRA_monarchy_party_long
@@ -2587,6 +2649,14 @@ BRA_start_imperialist_civil_war = {
 			is_ai = no 
 		}
 		BZE = { change_tag_from = BRA }
+	}
+	random_other_country = {
+		limit = {
+			original_tag = BRA 
+			has_government = fascism
+			has_civil_war = yes 
+		}
+		unlock_national_focus = BRA_integralism_shall_rule
 	}
 	every_state = {
 		limit = { has_dynamic_modifier = { modifier = BRA_monarchist_influence } }

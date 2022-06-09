@@ -4376,6 +4376,7 @@ focus_tree = {
 						has_civil_war = no 
 						NOT = { has_war_with = ROOT }
 						is_subject = no 
+						has_capitulated = no 
 					}
 					country_event = { id = brazil.86 hours = 6 }
 				}
@@ -6668,7 +6669,7 @@ focus_tree = {
 		relative_position_id = BRA_the_integralist_army
 		prerequisite = { focus = BRA_the_integralist_army }
 
-		cost = 10
+		cost = 2
 
 		ai_will_do = {
             factor = 20
@@ -6703,7 +6704,13 @@ focus_tree = {
 			}
 			add_political_power = 75
 			hidden_effect = {
+				set_country_flag = {
+                    flag = BRA_recently_spawned
+                    days = 14
+                    value = 1
+                }
 				set_global_flag = BRA_civil_war_in_progress
+				clr_country_flag = BRA_integralist_player_planning_uprising
 				remove_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
 				start_civil_war = {
 					ruling_party = fascism
@@ -6771,10 +6778,6 @@ focus_tree = {
 					}
 				}
 				every_controlled_state = {
-					limit = { 
-						is_fully_controlled_by = ROOT
-						has_dynamic_modifier = { modifier = BRA_integralists_occupation }
-					}
 					create_unit = {
                         division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
                         owner = ROOT
@@ -6813,19 +6816,34 @@ focus_tree = {
 							owner = ROOT
 						}
 					}
-					if = {
-						limit = { 
-							check_variable = { BRA_integralist_influence > 49 }
-						}
+				}
+				if = {
+					limit = { 
+						check_variable = { BRA_integralist_influence > 49 }
+					}
+					every_controlled_state = {
 						create_unit = {
 							division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
 							owner = ROOT
 						}
 					}
-					if = {
-						limit = {
-							check_variable = { BRA_integralist_influence > 64 }
+				}
+				if = {
+					limit = {
+						check_variable = { BRA_integralist_influence > 64 }
+					}
+					every_controlled_state = {
+						create_unit = {
+							division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+							owner = ROOT
 						}
+					}
+				}
+				if = {
+					limit = {
+						check_variable = { BRA_integralist_influence > 74 }
+					}
+					every_controlled_state = {
 						create_unit = {
 							division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
 							owner = ROOT
@@ -6952,6 +6970,7 @@ focus_tree = {
 					unlock_national_focus = BRA_imprison_prestes
 					unlock_national_focus = BRA_sign_the_decree_law
 					unlock_national_focus = BRA_officialy_establish_the_estado_novo
+					unlock_national_focus = BRA_invest_in_our_economy
 				}
 				every_state = {
 					limit = { has_state_flag = BRA_democratic_influence_state }
@@ -7717,11 +7736,6 @@ focus_tree = {
 			}
 			add_ideas = war_economy
 			custom_effect_tooltip = BRA_switiching_war_economy_will_cause_serious_consequences_tt
-			hidden_effect = {
-				BZE = {
-					unlock_national_focus = BRA_mobilize_the_economy
-				}
-			}
 		}
 	}
 
@@ -8564,11 +8578,6 @@ focus_tree = {
 		completion_reward = {
 			BRA_improve_militia_training = yes 
 			add_war_support = 0.05
-			hidden_effect = {
-				BZE = {
-					unlock_national_focus = BRA_new_training_techniques
-				}
-			}
 		}
 	}
 
@@ -8609,11 +8618,6 @@ focus_tree = {
 		completion_reward = {
 			BRA_improve_militia_training = yes 
 			unlock_decision_tooltip = BRA_try_to_get_aid_from_FROM
-			hidden_effect = {
-				BZE = {
-					unlock_national_focus = BRA_ask_for_foreign_aid
-				}
-			}
 		}
 	}
 
@@ -8651,11 +8655,6 @@ focus_tree = {
                 }
 			}
 			unlock_decision_tooltip = BRA_mobilize_a_militia_in_FROM
-			hidden_effect = {
-				BZE = {
-					unlock_national_focus = BRA_everyone_to_war
-				}
-			}
 		}
 	}
 
@@ -8888,6 +8887,7 @@ focus_tree = {
 
 		available = {
 			has_civil_war = no 
+			has_global_flag = BRA_civil_war_concluded
 			BRA_is_the_empire_of_brazil = yes 
 		}
 
@@ -10601,6 +10601,7 @@ focus_tree = {
 
 		available = {
 			has_civil_war = no 
+			has_global_flag = BRA_civil_war_concluded
 			has_government = fascism
 		}
 
@@ -13245,7 +13246,7 @@ focus_tree = {
 			has_active_mission = BRA_communist_peasant_revolt
 		}
 
-		cost = 6
+		cost = 2
 
 		ai_will_do = {
             factor = 15
