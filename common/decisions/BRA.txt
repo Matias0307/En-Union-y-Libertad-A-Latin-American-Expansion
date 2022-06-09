@@ -1,5 +1,46 @@
 BRA_political_crisis = {
 
+    BRA_cleaning_up_last_remaining_pockets = {
+        priority = 150
+        icon = generic_civil_support
+
+        available = {
+            always = no 
+        }
+
+        activation = {
+            original_tag = BRA 
+            has_global_flag = BRA_civil_war_in_progress #this is to make sure this triggers only after a pre-definied civi
+            has_civil_war = no 
+            is_subject = no #The AI might puppet for god knows what reason
+            NOT = {
+                OR = {
+                    has_war_with = BRC 
+                    has_war_with = BUS 
+                    has_war_with = BZE 
+                    has_war_with = SAO 
+                }
+            }
+            NOT = {
+                OR = {
+                    has_active_mission = BRA_impending_democratic_insurrection
+                    has_active_mission = BRA_impending_integralist_uprising
+                    has_active_mission = BRA_impending_communist_uprising
+                    has_active_mission = BRA_impending_paulista_revolt
+                    has_active_mission = BRA_impending_imperial_uprising
+                }
+            }
+        }
+
+        fire_only_once = yes 
+
+        days_mission_timeout = 5
+
+        timeout_effect = {
+            country_event = brazil.57
+        }
+    }
+
     BRA_integralists_planning_attack_on_guanabara_palace = {
         priority = 120
         icon = generic_scorched_earth
@@ -2651,7 +2692,7 @@ BRA_monarchism_on_the_rise = {
 
         cost = 35
 
-        days_remove = 25
+        days_remove = 30
 
         ai_will_do = {
 			factor = 150
@@ -2834,6 +2875,10 @@ BRA_imminent_civil_war = {
 
         ai_will_do = {
 			factor = 145
+            modifier = {
+                add = 90
+                check_variable = { BRA_progress_to_a_civil_war < 99 }
+            }
 		}
 
         complete_effect = {
@@ -3666,7 +3711,7 @@ BRA_the_brazilian_civil_war = {
         is_good = no 
         fire_only_once = yes 
         on_map_mode = map_and_decisions_view
-        days_mission_timeout = 85
+        days_mission_timeout = 90
 
         complete_effect = {
             set_global_flag = paulistas_revolted
@@ -4809,14 +4854,26 @@ BRA_the_brazilian_civil_war = {
                 size > 4
                 state = FROM
             }
-            has_civil_war = no 
             command_power > 15
 		}
 
         cancel_trigger = {
-            divisions_in_state = {
-                size < 3
-                state = FROM 
+            OR = {
+                divisions_in_state = {
+                    size < 3
+                    state = FROM 
+                }
+                any_other_country = {
+                    original_tag = BRA 
+                    has_government = fascism
+                    OR = {
+                        has_civil_war = yes 
+                        has_war_with = ROOT
+                    }
+                }
+                FROM = {
+                    NOT = { has_dynamic_modifier = { modifier = BRA_integralists_occupation } }
+                }
             }
         }
 
@@ -5283,31 +5340,6 @@ BRA_the_spread_of_communism = {
         }
     }
 
-    BRA_test_debug_civil_war_in_FROM = {
-        visible = { is_debug = yes }
-
-        ai_will_do = {
-            factor = 0
-        }
-
-        target_trigger = {
-            FROM = {
-                NOT = { has_government = communism }
-                exists = yes 
-                has_civil_war = no 
-            }
-        }
-
-        complete_effect = {
-            FROM = {
-                start_civil_war = {
-                    ideology = communism
-                    size = 0.35
-                }
-            }
-        }
-    }
-
     BRA_instigate_a_communist_uprising_in_FROM = {
         icon = generic_civil_support
 
@@ -5569,7 +5601,7 @@ BRA_peasant_revolt = {
                 BRA_start_communist_civil_war = yes 
                 set_global_flag = BRA_civil_war_in_progress
                 clr_country_flag = BRA_active_communist_revolt
-                news_event = { id = news.363 days = 1 }
+                news_event = { id = news.363 days = 2 }
             }
         }
     }

@@ -1394,11 +1394,6 @@ BRA_start_integralist_uprising = {
 			every_controlled_state = {
 				limit = { 
 					is_fully_controlled_by = PREV 
-					has_dynamic_modifier = { modifier = BRA_integralists_occupation }
-				}
-				create_unit = {
-					division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
-					owner = PREV
 				}
 				create_unit = {
 					division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
@@ -1418,18 +1413,6 @@ BRA_start_integralist_uprising = {
 				}
 			}
 			random_owned_controlled_state = {
-				create_unit = {
-					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
-					owner = PREV
-				}
-				create_unit = {
-					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
-					owner = PREV
-				}
-				create_unit = {
-					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
-					owner = PREV
-				}
 				create_unit = {
 					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
 					owner = PREV
@@ -1490,7 +1473,6 @@ BRA_start_integralist_uprising = {
 }
 
 BRA_start_communist_civil_war = {
-	news_event = { id = news.363 days = 2 }
 	set_temp_variable = { BRA_communist_popularity = party_popularity@communism }
 	every_state = {
 		limit = { has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state } }
@@ -1737,8 +1719,13 @@ BRA_start_communist_civil_war = {
 			}
 			PREV = { add_civil_war_target = THIS } 
 		}
-		create_intelligence_agency = yes 
-		upgrade_intelligence_agency = upgrade_anti_partisan
+		if = {
+			limit = {
+				has_dlc = "La Resistance"
+			}
+			create_intelligence_agency = yes 
+			upgrade_intelligence_agency = upgrade_anti_partisan
+		}
 		every_controlled_state = {
 			create_unit = {
 				division = "name = \"Milícias Comunistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 

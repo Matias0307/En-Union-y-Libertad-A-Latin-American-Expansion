@@ -136,6 +136,14 @@ focus_tree = {
 			has_idea = rural_economy
 		}
 
+		ai_will_do = {
+            factor = 5
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes 
+			}
+        }
+
 		bypass = {
 			has_completed_focus = BRA_pave_the_roads
 			NOT = {
@@ -2073,7 +2081,7 @@ focus_tree = {
 			}
 		}
 
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_NAVY_XP }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_NAVY_XP FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			ENG = { country_event = brazil.10 }
 			custom_effect_tooltip = ARG_iftheyaccept
@@ -2699,7 +2707,7 @@ focus_tree = {
 
 		cost = 3
 
-		search_filters = { FOCUS_FILTER_POLITICAL }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 		#will activate an elections mission timeout ## Already does that silly old me ##
 		completion_reward = {
 			add_political_power = 100
@@ -2732,7 +2740,7 @@ focus_tree = {
 			}
 		}
 
-		search_filters = { FOCUS_FILTER_POLITICAL }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			custom_effect_tooltip = BRA_strengthening_police_force_and_censoring_increase_dictatorship_tt
 		}
@@ -2784,7 +2792,7 @@ focus_tree = {
 			num_of_factories > 34
 		}
 
-		search_filters = { FOCUS_FILTER_RESEARCH }
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			add_research_slot = 1
 			remove_ideas = BRA_low_literacy_rate
@@ -2801,7 +2809,7 @@ focus_tree = {
 
 		cost = 8
 
-		search_filters = { FOCUS_FILTER_INDUSTRY }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			add_ideas = BRA_minimum_wage_established
 		}
@@ -4767,7 +4775,7 @@ focus_tree = {
 			}
 		}
 
-		search_filters = { FOCUS_FILTER_POLITICAL }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			add_political_power = 25
 			add_stability = -0.01
@@ -4804,7 +4812,7 @@ focus_tree = {
 			}
 		}
 
-		search_filters = { FOCUS_FILTER_POLITICAL }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			add_popularity = {
 				ideology = communism
@@ -4840,7 +4848,7 @@ focus_tree = {
 			communism < 0.08
 		}
 
-		search_filters = { FOCUS_FILTER_POLITICAL }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			country_event = brazil.32
 		}
@@ -4993,9 +5001,12 @@ focus_tree = {
 				character = BRA_getulio_vargas
 				ruling_only = yes
 			}
+			NOT = {
+				has_completed_focus = BRA_political_cooperation_with_plinio
+			}
 		}
 
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			if = {
                 limit = { has_idea = BRA_police_brutality_1 }
@@ -5169,6 +5180,9 @@ focus_tree = {
 			has_country_leader = {
 				character = BRA_getulio_vargas
 				ruling_only = yes
+			}
+			NOT = {
+				has_completed_focus = BRA_political_cooperation_with_plinio
 			}
 		}
 
@@ -5495,7 +5509,7 @@ focus_tree = {
 			has_war_with = GER
 		}
 
-		search_filters = { FOCUS_FILTER_POLITICAL }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			create_wargoal = {
 				type = annex_everything
@@ -5527,7 +5541,7 @@ focus_tree = {
 			}
 		}
 
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_ARMY_XP FOCUS_FILTER_AIR_XP FOCUS_FILTER_NAVY_XP }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_ARMY_XP FOCUS_FILTER_AIR_XP FOCUS_FILTER_NAVY_XP FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			add_ideas = BRA_the_smoking_snakes_1
 			unlock_decision_category_tooltip = BRA_smoking_snakes_management
@@ -7678,12 +7692,11 @@ focus_tree = {
         }
 
 		available = {
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress
 		}
 
 		bypass = {
-			has_completed_focus = BRA_assasinate_vargas
-			has_civil_war = yes 
+			has_completed_focus = BRA_attack_the_guanabara_palace
 			has_idea = war_economy 
 		}
 
@@ -7728,7 +7741,7 @@ focus_tree = {
         }
 
 		available = {
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress
 		}
 
 		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_INDUSTRY }
@@ -7760,7 +7773,7 @@ focus_tree = {
         }
 
 		available = {
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress 
 			has_global_flag = paulistas_revolted
 			NOT = { has_active_mission = BRA_impending_paulista_revolt }
 			controls_state = 501
@@ -7791,7 +7804,7 @@ focus_tree = {
 
 	focus = {
 		id = BRA_focus_on_supply_build_up
-		icon = GFX_focus_POL_warsaw_main_station
+		icon = GFX_goal_generic_construction
 		x = -1
 		y = 1
 		relative_position_id = BRA_mobilize_the_economy
@@ -7805,7 +7818,7 @@ focus_tree = {
         }
 
 		available = {
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress
 		}
 
 		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_INDUSTRY }
@@ -7823,7 +7836,7 @@ focus_tree = {
 		prerequisite = { focus = BRA_focus_on_supply_build_up }
 
 		available = {
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress
 		}
 
 		cost = 7.2
@@ -7870,7 +7883,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_MANPOWER }
 		completion_reward = {
 			BRA_improve_militia_training = yes 
-			add_ideas = BRA_women_in_the_army
+			add_ideas = BRA_women_in_the_army_idea
 		}
 	}
 
@@ -7890,7 +7903,7 @@ focus_tree = {
         }
 
 		available = {
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress
 		}
 
 		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
@@ -7916,7 +7929,7 @@ focus_tree = {
         }
 
 		available = {
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress
 			has_war_with = SAO 
 		}
 
@@ -7948,7 +7961,7 @@ focus_tree = {
         }
 
 		available = {
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress
 			has_global_flag = paulistas_revolted
 			controls_state = 501
 		}
@@ -7993,7 +8006,7 @@ focus_tree = {
         }
 
 		available = {
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress
 		}
 
 		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_STABILITY }
@@ -8019,7 +8032,7 @@ focus_tree = {
         }
 
 		available = {
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress
 		}
 
 		bypass = {
@@ -8056,7 +8069,7 @@ focus_tree = {
 				tooltip = BRA_accepted_patrianovista_support 
 				has_global_flag = BRA_accepted_patrianovistas_support
 			}
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress 
 		}
 
 		cost = 2
@@ -8074,6 +8087,21 @@ focus_tree = {
 				add_days_mission_timeout = {
 					mission = BRA_impending_imperial_uprising
 					days = 30
+				}
+				hidden_effect = {
+					if = {
+						limit = {
+							POR = {
+								has_completed_focus = POR_monarchist_uprising_in_brazil
+							}
+						}
+						POR = {
+							add_days_mission_timeout = {
+								mission = POR_impending_imperialist_uprising_in_brazil
+								days = 30
+							}
+						}
+					}
 				}
 			}
 			else = {
@@ -8116,14 +8144,14 @@ focus_tree = {
 
 		###unlocks decisions to control states before the uprising starts 
 
-		cost = 3
+		cost = 5
 
 		ai_will_do = {
             factor = 7
         }
 
 		available = {
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress
 			has_active_mission = BRA_impending_imperial_uprising
 		}
 
@@ -8145,7 +8173,7 @@ focus_tree = {
 
 		#will make dom pedro iii leader of the empire 
 
-		cost = 5
+		cost = 4
 
 		ai_will_do = {
             factor = 7
@@ -8262,7 +8290,7 @@ focus_tree = {
 				tooltip = BRA_POR_accepted_to_gelp_tt
 				has_country_flag = BRA_POR_agreed_to_help
 			}
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress
 		}
 
 		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
@@ -8296,7 +8324,7 @@ focus_tree = {
 				tooltip = BRA_POR_accepted_to_gelp_tt
 				has_country_flag = BRA_POR_agreed_to_help
 			}
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress
 		}
 
 		select_effect = {
@@ -8365,7 +8393,7 @@ focus_tree = {
 
 		available = {
 			BRA_is_the_empire_of_brazil = yes 
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress 
 			POR = {
 				has_war = no 
 				has_civil_war = no
@@ -8464,7 +8492,7 @@ focus_tree = {
         }
 
 		available = {
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress
 		}
 
 		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_MANPOWER }
@@ -8493,7 +8521,7 @@ focus_tree = {
         }
 
 		available = {
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress 
 			has_active_mission = BRA_impending_democratic_insurrection
 		}
 
@@ -8529,7 +8557,7 @@ focus_tree = {
         }
 
 		available = {
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress
 		}
 
 		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_WAR_SUPPORT }
@@ -8559,7 +8587,7 @@ focus_tree = {
         }
 
 		available = {
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress
 			NOT = {
 				OR = {
 					has_war_with = ARG 
@@ -8604,7 +8632,7 @@ focus_tree = {
         }
 
 		available = {
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress 
 		}
 
 		cancel_if_invalid = yes 
@@ -8648,7 +8676,7 @@ focus_tree = {
         }
 
 		available = {
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress
 			OR = {
 				has_war_with = BRC 
 				has_active_mission = BRA_impending_communist_uprising
@@ -12165,7 +12193,15 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
 		completion_reward = {
-			create_intelligence_agency = yes
+			if = {
+				limit = {
+					has_dlc = "La Resistance"
+				}
+				create_intelligence_agency = yes 
+			}
+			else = {
+				add_political_power = 35
+			}
 		}
 	}
 
@@ -12689,7 +12725,7 @@ focus_tree = {
 
 	focus = {
 		id = BRA_organize_countrywide_strikes
-		icon = GFX_focus_POL_riot_of_37
+		icon = GFX_goal_generic_demand_territory
 		x = -2
 		y = 1
 		relative_position_id = BRA_convince_the_army
@@ -12734,7 +12770,7 @@ focus_tree = {
 
 	focus = {
 		id = BRA_secret_supply_build_up #gracias tito por la idea XD
-		icon = GFX_focus_POL_warsaw_main_station
+		icon = GFX_focus_generic_license_production
 		x = -3
 		y =1
 		relative_position_id = BRA_secretely_spread_support
@@ -13293,7 +13329,7 @@ focus_tree = {
 
 		#improve slightly ill-trained militias and add manpower 
 
-		cost = 6
+		cost = 8
 
 		ai_will_do = {
             factor = 5
@@ -13336,7 +13372,7 @@ focus_tree = {
 
 		available = {
 			has_government = communism 
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress
 		}
 
 		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_AIR_XP }
@@ -13362,7 +13398,7 @@ focus_tree = {
 
 		available = {
 			BRA_is_the_commune_of_brazil = yes 
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
@@ -13403,7 +13439,7 @@ focus_tree = {
 
 		available = {
 			BRA_is_the_commune_of_brazil = yes 
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress
 			hidden_trigger = {
 				has_global_flag = BRA_paulista_revolt
 			}
@@ -13440,7 +13476,7 @@ focus_tree = {
 
 		available = {
 			BRA_is_the_commune_of_brazil = yes 
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress
 			hidden_trigger = {
 				has_global_flag = BRA_paulista_revolt
 			}
@@ -13482,7 +13518,7 @@ focus_tree = {
 
 		available = {
 			has_government = communism
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress
 		}
 
 		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_POLITICAL }
@@ -13510,7 +13546,7 @@ focus_tree = {
 
 		available = {
 			BRA_is_the_commune_of_brazil = yes 
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress 
 		}
 
 		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
@@ -13586,7 +13622,7 @@ focus_tree = {
         }
 
 		available = {
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress
 			has_global_flag = paulistas_revolted
 			NOT = { has_active_mission = BRA_impending_paulista_revolt }
 			controls_state = 501
@@ -13652,7 +13688,7 @@ focus_tree = {
         }
 
 		available = {
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress
 			has_capitulated = no 
 		}
 
@@ -13673,6 +13709,7 @@ focus_tree = {
 		cost = 5
 
 		available = {
+			has_global_flag = BRA_civil_war_in_progress
 			custom_trigger_tooltip = {
 				tooltip = BRA_BOL_accepted_aid
 				BOL = {
@@ -13710,7 +13747,7 @@ focus_tree = {
 
 		available = {
 			BRA_is_the_commune_of_brazil = yes 
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress
 		}
 
 		#each of these soviet focuses will increase the time you have to pay back the soviets 
@@ -13747,7 +13784,7 @@ focus_tree = {
 
 		available = {
 			has_government = communism
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress
 		}
 
 		cost = 6
@@ -13776,7 +13813,7 @@ focus_tree = {
 
 		available = {
 			has_government = communism
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress
 		}
 
 		bypass = {
@@ -13849,7 +13886,7 @@ focus_tree = {
 
 		available = {
 			BRA_is_the_commune_of_brazil = yes 
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress
 		}
 
 		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR  FOCUS_FILTER_INDUSTRY }
@@ -13875,7 +13912,7 @@ focus_tree = {
 		cost = 7.2
 
 		available = {
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress
 		}
 
 		search_filters = { FOCUS_FILTER_INDUSTRY }
@@ -13898,7 +13935,7 @@ focus_tree = {
 		cost = 6
 
 		available = {
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress
 		}
 
 		search_filters = { FOCUS_FILTER_INDUSTRY }
@@ -13986,7 +14023,7 @@ focus_tree = {
 
 		available = {
 			BRA_is_the_commune_of_brazil = yes 
-			has_civil_war = yes 
+			has_global_flag = BRA_civil_war_in_progress
 			has_global_flag = paulistas_revolted
 			NOT = { has_active_mission = BRA_impending_paulista_revolt }
 			controls_state = 501
