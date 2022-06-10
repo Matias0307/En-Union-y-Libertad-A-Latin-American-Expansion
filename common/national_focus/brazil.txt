@@ -7754,6 +7754,24 @@ focus_tree = {
 			}
 			add_ideas = war_economy
 			custom_effect_tooltip = BRA_switiching_war_economy_will_cause_serious_consequences_tt
+			custom_effect_tooltip = BRA_mobilizing_eceonomy_will_destroy_plantations_tt
+			hidden_effect = {
+				every_controlled_state = {
+					limit = { has_dynamic_modifier = { modifier = BRA_small_coffee_plantations } }
+					remove_dynamic_modifier = { modifier = BRA_small_coffee_plantations }
+				}
+				every_controlled_state = {
+					limit = { has_dynamic_modifier = { modifier = BRA_widespread_coffee_plantations } }
+					remove_dynamic_modifier = { modifier = BRA_widespread_coffee_plantations }
+				}
+				remove_ideas = {
+					BRA_very_slight_dependency_on_coffee
+					BRA_slight_dependency_on_coffee
+					BRA_dependent_on_coffee
+					BRA_very_dependent_on_coffee
+					BRA_extremely_dependent_on_coffee
+				}
+			}
 		}
 	}
 
@@ -13824,7 +13842,7 @@ focus_tree = {
 	focus = {
 		id = BRA_switch_to_a_war_economy
 		icon = GFX_BRA_generic_military
-		x = -4
+		x = -3
 		y =1 
 		relative_position_id = BRA_assasinate_vargas
 		prerequisite = { focus = BRA_assasinate_vargas }
@@ -13865,17 +13883,34 @@ focus_tree = {
 			}
 			add_ideas = war_economy
 			custom_effect_tooltip = BRA_switiching_war_economy_will_cause_serious_consequences_tt
-			
+			custom_effect_tooltip = BRA_mobilizing_eceonomy_will_destroy_plantations_tt
+			hidden_effect = {
+				every_controlled_state = {
+					limit = { has_dynamic_modifier = { modifier = BRA_small_coffee_plantations } }
+					remove_dynamic_modifier = { modifier = BRA_small_coffee_plantations }
+				}
+				every_controlled_state = {
+					limit = { has_dynamic_modifier = { modifier = BRA_widespread_coffee_plantations } }
+					remove_dynamic_modifier = { modifier = BRA_widespread_coffee_plantations }
+				}
+				remove_ideas = {
+					BRA_very_slight_dependency_on_coffee
+					BRA_slight_dependency_on_coffee
+					BRA_dependent_on_coffee
+					BRA_very_dependent_on_coffee
+					BRA_extremely_dependent_on_coffee
+				}
+			}
 		}
 	}
 
 	focus = {
 		id = BRA_resources_for_the_army
 		icon = GFX_focus_generic_tank_production
-		x = -2
-		y = 1
+		x = -3
+		y = 3
 		relative_position_id = BRA_switch_to_a_war_economy
-		prerequisite = { focus = BRA_switch_to_a_war_economy }
+		prerequisite = { focus = BRA_invest_heavily_in_the_military }
 		prerequisite = { focus = BRA_establish_mines_for_other_resources }
 
 		#will give a temporary idea that improves factory output 
@@ -13899,10 +13934,10 @@ focus_tree = {
 	focus = {
 		id = BRA_emergency_railroad_construction
 		icon = GFX_goal_generic_construct_infrastructure
-		x = 0
+		x = -1
 		y = 1
 		relative_position_id = BRA_switch_to_a_war_economy
-		prerequisite = { focus = BRA_switch_to_a_war_economy }
+		prerequisite = { focus = BRA_assasinate_vargas }
 
 		cost = 4
 
@@ -14633,7 +14668,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_invest_in_foreign_economies
 		prerequisite = { focus = BRA_invest_in_foreign_economies }
-		prerequisite = { focus = BRA_establish_an_agrarian_syndicate_council }
+		prerequisite = { focus = BRA_establish_agrarian_reforms }
 
 		cost = 10
 
@@ -15086,8 +15121,8 @@ focus_tree = {
 	focus = {
 		id = BRA_expand_our_plantations_even_further
 		icon = GFX_BOL_farmer_rights
-		x = 1
-		y = 1
+		x = 0
+		y = 2
 		relative_position_id = BRA_establish_agrarian_reforms
 		prerequisite = { focus = BRA_establish_agrarian_reforms } 
 
@@ -15172,7 +15207,21 @@ focus_tree = {
 		relative_position_id = BRA_establish_agrarian_reforms
 		prerequisite = { focus = BRA_post_civil_war_recovery }
 
-		cost = 8
+		cost = 7.2
+
+		available = {
+			NOT = {
+				OR = {
+					has_idea = BRA_post_civil_war_economic_recession_5
+					has_idea = BRA_post_civil_war_economic_recession_3
+					hidden_trigger = {
+						has_idea = BRA_post_civil_war_economic_recession_2
+						has_idea = BRA_post_civil_war_economic_recession_1
+						has_idea = BRA_post_civil_war_economic_recession_4
+					}
+				}
+			}
+		}
 
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
@@ -15286,11 +15335,10 @@ focus_tree = {
 	focus = { #yeap, this focus will basically revert the industrialization 
 		id = BRA_re_establish_a_fully_agrarian_economy
 		icon = GFX_BRA_agriculture 
-		x = 0
-		y = 1
+		x = 1
+		y = 2
 		relative_position_id = BRA_limit_our_exports
 		prerequisite = {
-			focus = BRA_expand_the_peasant_markets
 			focus = BRA_expand_our_plantations_even_further
 		}
 
@@ -15327,6 +15375,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
 			add_ideas = rural_economy 
+			EUYL_add_2_civilian = yes 
 			hidden_effect = {
 				set_country_flag = BRA_chose_rural
 			}
@@ -15360,7 +15409,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_everyone_united_under_one_banner
 		prerequisite = { focus = BRA_everyone_united_under_one_banner }
-		prerequisite = { focus = BRA_establish_an_agrarian_syndicate_council }
+		prerequisite = { focus = BRA_expand_the_peasant_markets }
 		mutually_exclusive = { focus = BRA_form_the_latin_bloc }
 		mutually_exclusive = { focus = BRA_join_the_soviets }
 
