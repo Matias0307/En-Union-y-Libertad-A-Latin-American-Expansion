@@ -21,6 +21,9 @@ BRA_political_crisis = {
                     has_war_with = BRC 
                     has_war_with = BUS 
                     has_war_with = BZE
+                    any_enemy_country = {
+                        original_tag = BRA
+                    }
                 }
             }
             NOT = { has_country_flag = BRA_recently_spawned }
@@ -45,6 +48,9 @@ BRA_political_crisis = {
                 has_war_with = BRC 
                 has_war_with = BUS 
                 has_war_with = BZE
+                any_enemy_country = {
+                    original_tag = BRA
+                }
             }
         }
 
@@ -2705,9 +2711,9 @@ BRA_monarchism_on_the_rise = {
             hidden_trigger = { NOT = { has_global_flag = BRA_spreading_influence } }
         }
 
-        cost = 35
+        cost = 40
 
-        days_remove = 30
+        days_remove = 35
 
         ai_will_do = {
 			factor = 180
@@ -2979,6 +2985,13 @@ BRA_imminent_civil_war = {
 
         ai_will_do = {
 			factor = 160
+            modifier = {
+                add = 75
+                AND = {
+                    check_variable = { BRA_progress_to_a_civil_war < 96 }
+                    check_variable = { BRA_current_army_support > 74 }
+                }
+            }
 		}
 
         complete_effect = {
@@ -3106,7 +3119,10 @@ BRA_imminent_civil_war = {
 			factor = 130
             modifier = {
                 factor = 0
-                check_variable = { BRA_current_army_support > 95 }
+                AND = {
+                    check_variable = { BRA_current_army_support > 95 }
+                    check_variable = { BRA_progress_to_a_civil_war > 95 }
+                }
             }
 		}
 
@@ -7118,9 +7134,7 @@ BRA_dependency_on_our_coffee_productions = {
             NOT = {
                 has_country_flag = BRA_manipulating_coffee_plantations
             }
-            NOT = {
-                has_completed_focus = BRA_industrialize_fully_our_economy
-            }
+            has_completed_focus = BRA_industrialize_fully_our_economy
         }
 
         cancel_trigger = {

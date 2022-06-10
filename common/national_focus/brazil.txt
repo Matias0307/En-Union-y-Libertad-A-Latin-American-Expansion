@@ -147,6 +147,9 @@ focus_tree = {
 		bypass = {
 			has_completed_focus = BRA_pave_the_roads
 			NOT = {
+				has_completed_focus = BRA_maintain_our_agriculture
+			}
+			NOT = {
 				OR = {
 					has_idea = rural_economy
 					has_idea = semi_rural_economy
@@ -449,6 +452,17 @@ focus_tree = {
 				}
 			}
 			has_active_mission = BRA_industrialize_the_economy_mission
+		}
+
+		bypass = {
+			has_completed_focus = BRA_maintain_our_agriculture
+			NOT = {
+				OR = {
+					has_idea = rural_economy
+					has_idea = semi_rural_economy
+					has_idea = industrializing_economy
+				}
+			}
 		}
 
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
@@ -1252,7 +1266,7 @@ focus_tree = {
 		}
 
 		bypass = {
-			has_completed_focus = BRA_pave_the_roads
+			has_completed_focus = BRA_begin_industrializing_the_nation
 			NOT = {
 				OR = {
 					has_idea = rural_economy
@@ -1531,7 +1545,6 @@ focus_tree = {
 
 		available = {
 			exists = yes 
-			has_civil_war = no 
 			is_subject = no 
 			NOT = { has_completed_focus = BRA_manipulate_behind_the_scenes }
 		}
@@ -6657,6 +6670,11 @@ focus_tree = {
                     min = 0 
                     max = 100
                 }
+				clamp_variable = {
+                    var = BRA_progress_to_a_civil_war
+                    min = 0 
+                    max = 100
+                }
 			}
 		}
 	}
@@ -7918,6 +7936,14 @@ focus_tree = {
 
 		available = {
 			has_global_flag = BRA_civil_war_in_progress
+		}
+
+		bypass = {
+			has_war_with = BZE 
+			has_government = fascism
+			hidden_trigger = {
+				has_global_flag = player_chose_imperialist
+			}
 		}
 
 		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
@@ -10700,7 +10726,6 @@ focus_tree = {
 
 		available = {
 			has_civil_war = no 
-			has_government = fascism
 		}
 
 		search_filters = { FOCUS_FILTER_INDUSTRY }
