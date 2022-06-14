@@ -2844,7 +2844,11 @@ focus_tree = {
 		#will activate an elections mission timeout ## Already does that silly old me ##
 		completion_reward = {
 			add_political_power = 100
+			custom_effect_tooltip = BRA_time_to_increase_progress_decrease_by_10_days_tt
 			custom_effect_tooltip = BRA_other_parties_will_try_to_bring_you_down_tt
+			hidden_effect = {
+				subtract_from_variable = { BRA_days_to_make_progress = 10 }
+			}
 		}
 	}
 
@@ -2957,7 +2961,7 @@ focus_tree = {
 		prerequisite = { focus = BRA_political_censorship_vargas}
 		mutually_exclusive = { focus = BRA_censor_the_integralists }
 
-		cost = 8
+		cost = 7.2
 
 		ai_will_do = {
             factor = 15
@@ -3149,7 +3153,7 @@ focus_tree = {
 			}
 		}
 
-		cost = 10
+		cost = 7.2
 
 		ai_will_do = {
             factor = 5
@@ -3164,6 +3168,10 @@ focus_tree = {
 			custom_effect_tooltip = BRA_progress_dictatorship_decrease_10_tt
 			custom_effect_tooltip = BRA_vargas_stop_incrementing_progress_tt
             subtract_from_variable = { BRA_progress_to_dictatorship = 10 }
+			add_days_mission_timeout = {
+				mission = BRA_the_1938_elections
+				days = 15
+			}
             hidden_effect = {
                 clamp_variable = {
                     var = BRA_progress_to_dictatorship
@@ -4825,7 +4833,7 @@ focus_tree = {
 		relative_position_id = BRA_solidify_control_over_the_state
 		prerequisite = { focus = BRA_solidify_control_over_the_state }
 
-		cost = 6
+		cost = 5
 
 		ai_will_do = {
             factor = 15
@@ -4838,6 +4846,7 @@ focus_tree = {
 			}
 			custom_trigger_tooltip = {
 				tooltip = BRA_progress_to_dctatorship_over_20_tt
+				check_variable = { BRA_progress_to_dictatorship > 20 }
 			}
 		}
 
@@ -4861,7 +4870,7 @@ focus_tree = {
 			focus = BRA_political_cooperation_with_plinio 
 		}
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
             factor = 5
@@ -4878,6 +4887,15 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			unlock_decision_tooltip = BRA_send_spies_to_subverb_communist_activity_in_FROM
+			add_political_power = 25
+			add_days_mission_timeout = {
+				mission = BRA_the_1938_elections
+				days = 10
+			}
+			add_popularity = {
+				ideology = communism
+				popularity = -0.1
+			}
 			hidden_effect = {
 				set_country_flag = BRA_able_to_stop_communists
 			}
@@ -4913,6 +4931,10 @@ focus_tree = {
 		completion_reward = {
 			add_political_power = 25
 			add_stability = -0.01
+			add_popularity = {
+				ideology = communism
+				popularity = -0.04
+			}
 			random_character = {
 				limit = { has_character_flag = BRA_communist }
 				ROOT = { retire_character = PREV }
@@ -4950,7 +4972,7 @@ focus_tree = {
 		completion_reward = {
 			add_popularity = {
 				ideology = communism
-				popularity = -0.05
+				popularity = -0.1
 			}
 		}
 	}
@@ -4984,6 +5006,7 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
+			add_political_power = 40
 			country_event = brazil.32
 		}
 	}
@@ -5017,10 +5040,11 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
-			custom_effect_tooltip = BRA_decrease_integralists_by_4_tt
+			add_political_power = 25
+			custom_effect_tooltip = BRA_decrease_integralists_by_10_tt
 			custom_effect_tooltip = BRA_integralists_occupy_random_state_tt
 			hidden_effect = {
-				subtract_from_variable = { BRA_integralist_influence = 4 }
+				subtract_from_variable = { BRA_integralist_influence = 10 }
 				BRA_set_up_political_crisis = yes 
 				random_owned_controlled_state = {
 					limit = {
@@ -5047,7 +5071,7 @@ focus_tree = {
 		relative_position_id = BRA_political_censorship_vargas
 		prerequisite = { focus = BRA_political_censorship_vargas }
 
-		cost = 7.2
+		cost = 2
 
 		ai_will_do = {
             factor = 5
@@ -5066,8 +5090,12 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
-			add_political_power = 40
+			add_political_power = 100
 			BRA_increment_progress_to_dictatorship = yes 
+			add_days_mission_timeout = {
+				mission = BRA_the_1938_elections
+				days = 45
+			}
 		}
 	}
 
@@ -5079,7 +5107,7 @@ focus_tree = {
 		relative_position_id = BRA_enact_the_cohen_plan
 		prerequisite = { focus = BRA_enact_the_cohen_plan }
 
-		cost = 5
+		cost = 2
 
 		ai_will_do = {
             factor = 5
@@ -5092,7 +5120,7 @@ focus_tree = {
 			}
 			custom_trigger_tooltip = {
 				tooltip = BRA_congress_influence_less_than_5_tt
-				check_variable = { BRA_congress_influence < 5 }
+				check_variable = { BRA_congress_influence < 15 }
 			}
 			democratic < 0.1
 			has_country_flag = BRA_people_convinced
@@ -5102,6 +5130,11 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
+			add_political_power = 40
+			add_days_mission_timeout = {
+				mission = BRA_the_1938_elections
+				days = 15
+			}
 			BRA_clear_congress_opinion = yes 
 			set_country_flag = BRA_congress_shutdown
 			custom_effect_tooltip = BRA_congress_shutdown_tt
@@ -5119,7 +5152,7 @@ focus_tree = {
 		relative_position_id = BRA_preperations_for_the_self_coup
 		prerequisite = { focus = BRA_preperations_for_the_self_coup }
 
-		cost = 8
+		cost = 5
 
 		ai_will_do = {
             factor = 5
@@ -5167,6 +5200,13 @@ focus_tree = {
 				}
 			}
 			BRA_increment_progress_to_dictatorship = yes 
+			custom_effect_tooltip = BRA_integralist_influence_decrease_by_4_tt
+			custom_effect_tooltip = BRA_congress_influence_decrease_by_4_tt
+            hidden_effect = {
+                subtract_from_variable = { BRA_integralist_influence = 4 }
+				subtract_from_variable = { BRA_congress_influence = 4 }
+				BRA_set_up_political_crisis = yes 
+            }
 		}
 	}
 
@@ -5192,7 +5232,7 @@ focus_tree = {
 			}
 			custom_trigger_tooltip = {
 				tooltip = BRA_integralist_influence_below_5_tt
-				check_variable = { BRA_integralist_influence < 5 }
+				check_variable = { BRA_integralist_influence < 15 }
 			}
 			fascism < 0.08
 		}
@@ -5216,7 +5256,7 @@ focus_tree = {
 		relative_position_id = BRA_preperations_for_the_self_coup
 		prerequisite = { focus = BRA_preperations_for_the_self_coup }
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
             factor = 4
@@ -5232,7 +5272,7 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
 		completion_reward = {
-			add_political_power = 50
+			add_political_power = 25
 			custom_effect_tooltip = BRA_modify_crisis_by_5_stability_tt
 			hidden_effect = {
 				add_to_variable = { BRA_crisis_stability_factor = 0.05 }
@@ -5251,7 +5291,7 @@ focus_tree = {
 		relative_position_id = BRA_mediate_the_effects_of_the_political_crisis
 		prerequisite = { focus = BRA_mediate_the_effects_of_the_political_crisis }
 
-		cost = 5
+		cost = 8
 
 		ai_will_do = {
             factor = 3
@@ -5268,6 +5308,8 @@ focus_tree = {
 		completion_reward = {
 			add_stability = 0.05
 			add_political_power = 75
+			custom_effect_tooltip = BRA_decrease_congress_by_15_tt
+			custom_effect_tooltip = BRA_decrease_integralists_by_10_tt
 			add_popularity = {
 				ideology = neutrality
 				popularity = 0.07
@@ -5293,6 +5335,21 @@ focus_tree = {
 				}
 				ROOT = { retire_character = PREV }
 			}
+			hidden_effect = {
+				subtract_from_variable = { BRA_congress_influence = 15 }
+				subtract_from_variable = { BRA_integralist_influence = 10 }
+				clamp_variable = {
+					var = BRA_congress_influence
+					min = 0
+					max = 100
+				}
+				clamp_variable = {
+					var = BRA_integralist_influence
+					min = 0
+					max = 100
+				}
+				BRA_set_up_political_crisis = yes 
+			}
 		}
 	}
 
@@ -5304,7 +5361,7 @@ focus_tree = {
 		relative_position_id = BRA_preperations_for_the_self_coup
 		prerequisite = { focus = BRA_preperations_for_the_self_coup }
 
-		cost = 2
+		cost = 5
 
 		ai_will_do = {
             factor = 5
@@ -5322,7 +5379,12 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
+			add_political_power = 50
 			custom_effect_tooltip = BRA_set_of_decisions_unlock_convice_tt
+			add_days_mission_timeout = {
+				mission = BRA_the_1938_elections
+				days = 25
+			}
 		}
 	}
 
@@ -5335,7 +5397,7 @@ focus_tree = {
 		prerequisite = { focus = BRA_shut_down_the_integralists }
 		prerequisite = { focus = BRA_imprison_prestes }
 
-		cost = 5
+		cost = 4
 
 		ai_will_do = {
             factor = 5
@@ -5352,6 +5414,10 @@ focus_tree = {
 		completion_reward = {
 			add_political_power = 50
 			add_stability = -0.03
+			add_days_mission_timeout = {
+				mission = BRA_the_1938_elections
+				days = 50
+			}
 			BRA_increment_progress_to_dictatorship = yes
 		}
 	}
