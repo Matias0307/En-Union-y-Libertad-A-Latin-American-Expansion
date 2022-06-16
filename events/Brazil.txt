@@ -1057,6 +1057,10 @@ country_event = {
 
 	mean_time_to_happen = {
 		days = 150
+		modifier = {
+			factor = 1.4
+			has_completed_focus = BRA_the_war_on_communism_vargas
+		}
 	}
 
 	option = {
@@ -1102,10 +1106,10 @@ country_event = {
 
 
 	mean_time_to_happen = {
-		days = 125
+		days = 155
 		modifier = {
-			factor = 0.6
-			check_variable = { BRA_communist_subversive_activity > 2 }
+			factor = 1.35
+			check_variable = { BRA_communist_subversive_activity < 3 }
 		}
 	}
 
@@ -2638,6 +2642,28 @@ country_event = { #event that gets triggered once civil war has concluded
 			}
 			activate_mission = BRA_repaying_the_soviet_debt
 			add_dynamic_modifier = { modifier = BRA_soviet_civil_war_repayment }
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					has_country_flag = BRA_destroyed_plantations
+				}
+				every_controlled_state = {
+					limit = { has_dynamic_modifier = { modifier = BRA_small_coffee_plantations } }
+					remove_dynamic_modifier = { modifier = BRA_small_coffee_plantations }
+				}
+				every_controlled_state = {
+					limit = { has_dynamic_modifier = { modifier = BRA_widespread_coffee_plantations } }
+					remove_dynamic_modifier = { modifier = BRA_widespread_coffee_plantations }
+				}
+				remove_ideas = {
+					BRA_very_slight_dependency_on_coffee
+					BRA_slight_dependency_on_coffee
+					BRA_dependent_on_coffee
+					BRA_very_dependent_on_coffee
+					BRA_extremely_dependent_on_coffee
+				}
+			}
 		}
 	}
 }
