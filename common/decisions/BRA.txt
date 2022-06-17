@@ -1180,6 +1180,27 @@ BRA_political_manegement = {
                 limit = { check_variable = { BRA_playing_as_integralists = 1}}
                 custom_effect_tooltip = BRA_integralist_increase_influence_3_tt
                 add_to_variable = { BRA_integralist_influence = 3 }
+                if = {
+                    limit = {
+                        has_completed_focus = BRA_reject_the_estado_navo
+                    }
+                    custom_effect_tooltip = BRA_add_2_army_support_tt
+                    custom_effect_tooltip = BRA_add_3_progress_civil_war_tt
+                    hidden_effect = {
+                        add_to_variable = { BRA_progress_to_a_civil_war = 3 } 
+                        add_to_variable = { BRA_current_army_support = 2 }
+                        clamp_variable = {
+                            var = BRA_progress_to_a_civil_war
+                            min = 0 
+                            max = 100
+                        }
+                        clamp_variable = {
+                            var = BRA_current_army_support
+                            min = 0 
+                            max = 100
+                        }
+                    }
+                }
             }
             else_if = {
                 limit = { check_variable = { BRA_playing_as_congress = 1}}
@@ -1645,6 +1666,10 @@ BRA_political_manegement = {
 
         ai_will_do = {
 			factor = 95
+            modifier = {
+                factor = 0
+                has_completed_focus = BRA_reject_the_estado_navo
+            }
 		}
 
         complete_effect = {
@@ -5042,14 +5067,26 @@ BRA_the_brazilian_civil_war = {
                 size > 4
                 state = FROM
             }
-            has_civil_war = no 
             command_power > 15
 		}
 
         cancel_trigger = {
-            divisions_in_state = {
-                size < 3
-                state = FROM 
+            OR = {
+                divisions_in_state = {
+                    size < 3
+                    state = FROM 
+                }
+                any_other_country = {
+                    original_tag = BRA 
+                    has_government = communism
+                    OR = {
+                        has_civil_war = yes 
+                        has_war_with = ROOT
+                    }
+                }
+                FROM = {
+                    NOT = { has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state } }
+                }
             }
         }
 

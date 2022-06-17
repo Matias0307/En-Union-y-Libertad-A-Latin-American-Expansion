@@ -4288,7 +4288,7 @@ focus_tree = {
 				is_in_faction_with = USA
 			}
 		}
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
+		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			if = {
 				limit = { has_idea = monroe_doctrine_idea }
@@ -6753,6 +6753,7 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
 		completion_reward = {
+			add_political_power = 15
 			custom_effect_tooltip = BRA_civil_war_progress_increase_10_tt
 			add_ideas = BRA_integralist_protests_1
 			unlock_decision_tooltip = BRA_strengthen_our_protests
@@ -7157,6 +7158,41 @@ focus_tree = {
 							owner = ROOT
 						}
 					}
+					if = {
+						limit = {
+							NOT = {
+								has_dlc = "No Step Back"
+							}
+						}
+						if = {
+							limit = {
+								NOT = {
+									has_tech = basic_medium_tank
+								}
+							}
+							hidden_effect = { set_technology = { basic_light_tank = 1 } }
+						}
+						add_equipment_to_stockpile = { 
+							type = light_tank_equipment_1 
+							amount = 500 
+							producer = GER
+						}
+					}
+					else = {
+						if = {
+							limit = {
+								NOT = {
+									has_tech = basic_light_tank_chassis
+								}
+							}
+							hidden_effect = { set_technology = { basic_light_tank_chassis = 1 } }
+						}
+						add_equipment_to_stockpile = { 
+							type = light_tank_chassis_1 
+							amount = 500 
+							producer = GER
+						}
+					}
 				}
 				subtract_from_variable = { BRA_integralist_influence = 75 }
 				clamp_variable = {
@@ -7212,7 +7248,10 @@ focus_tree = {
 				activate_mission = BRA_impending_democratic_insurrection
 				every_country = {
 					limit = { original_tag = BRA }
-					BRA_mark_focus_tree_layout_dirty = yes 
+					BRA_mark_focus_tree_layout_dirty = yes
+					USA = {
+						give_guarantee = PREV
+					} 
 				}
 				news_event = { id = news.361 days = 2 }
 				every_state = {
@@ -7341,7 +7380,7 @@ focus_tree = {
 		prerequisite = { focus = BRA_contact_the_germans_for_help }
 		prerequisite = { focus = BRA_the_jews_are_our_common_enemy }
 
-		cost = 7.2
+		cost = 10
 
 		ai_will_do = {
             factor = 10
@@ -12576,6 +12615,7 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_MANPOWER }
 		completion_reward = {
+			add_political_power = 25
 			unlock_decision_tooltip = BRA_secret_conscription_in_FROM
 		}
 		 
@@ -12825,7 +12865,7 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
 		completion_reward = {
-			add_political_power = 25
+			add_political_power = 40
 			add_stability = -0.08
 			add_popularity = { ideology = communism popularity = 0.03 }
 			hidden_effect = { 
