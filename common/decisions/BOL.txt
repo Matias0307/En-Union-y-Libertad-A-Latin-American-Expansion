@@ -1516,7 +1516,7 @@ PBC_war_of_independence_d = {
             has_completed_focus = PBC_escelate_the_war
         }
 
-        cost = 60
+        cost = 20
         days_remove = 50
 
         remove_effect = {
@@ -1802,7 +1802,7 @@ PBC_maneging_the_confederation = {
         icon = eng_trade_unions_support
 
         ai_will_do = {
-            factor = 140
+            factor = 175
         }
 
         available = {
@@ -1816,7 +1816,7 @@ PBC_maneging_the_confederation = {
             has_completed_focus = PBC_maneging_the_new_nation 
         }
 
-        cost = 70
+        cost = 30
 
         days_remove = 25
 
@@ -1853,7 +1853,7 @@ PBC_maneging_the_confederation = {
             has_completed_focus = PBC_maneging_the_new_nation 
         }
 
-        cost = 50
+        cost = 25
 
         days_remove = 25
 
@@ -1876,7 +1876,7 @@ PBC_maneging_the_confederation = {
         icon = eng_trade_unions_support
 
         ai_will_do = {
-            factor = 140
+            factor = 175
         }
 
         available = {
@@ -1890,7 +1890,7 @@ PBC_maneging_the_confederation = {
             has_completed_focus = PBC_maneging_the_new_nation 
         }
 
-        cost = 70
+        cost = 30
 
         days_remove = 25
 
@@ -1913,7 +1913,7 @@ PBC_maneging_the_confederation = {
         icon = eng_trade_unions_support
 
         ai_will_do = {
-            factor = 140
+            factor = 175
         }
 
         available = {
@@ -1927,7 +1927,7 @@ PBC_maneging_the_confederation = {
             has_completed_focus = PBC_maneging_the_new_nation 
         }
 
-        cost = 70
+        cost = 30
 
         days_remove = 25
 
@@ -2264,6 +2264,7 @@ BOL_dealing_with_toros_schemes = {
 
         activation = {
             has_country_flag = BOL_toro_rebellious
+            NOT = { has_global_flag = BOL_toro_rebelled }
         }
 
         is_good = no
@@ -2279,7 +2280,10 @@ BOL_dealing_with_toros_schemes = {
         target_array = controlled_states
 
         cancel_trigger = {
-            has_completed_focus = BOL_imprison_toro
+            OR = {
+                has_completed_focus = BOL_imprison_toro
+                has_global_flag = BOL_toro_rebelled
+            }
         }
 
         target_trigger = {
@@ -2447,6 +2451,7 @@ BOL_dealing_with_toros_schemes = {
                 }
             }
             hidden_effect = {
+                set_global_flag = BOL_toro_rebelled
                 remove_unit_leader = 44123
                 clr_country_flag = BOL_toro_rebellious
                 every_controlled_state = {
