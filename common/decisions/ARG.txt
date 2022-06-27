@@ -2175,27 +2175,50 @@ ARG_ramon_military_coup = {
 		}
 
 		available = {
-			divisions_in_state = {
-				size > 3
-				state = FROM
+			if = {
+                limit = {
+                    is_ai = no 
+                }
+				divisions_in_state = {
+					size > 3
+					state = FROM
+				}
+			}
+			else = {
+				has_army_experience > 9
 			}
 		}
 		
 		cancel_trigger = {
-			custom_trigger_tooltip = {
-				tooltip = EUYL_has_3_divisions_tt
-				NOT = {
-					divisions_in_state = {
-						size > 2
-						state = FROM 
+			if = {
+                limit = {
+                    is_ai = no 
+                }
+				custom_trigger_tooltip = {
+					tooltip = EUYL_has_3_divisions_tt
+					NOT = {
+						divisions_in_state = {
+							size > 2
+							state = FROM 
+						}
 					}
 				}
 			}
+			has_civil_war = yes 
 		}
 
 		cost = 10
 
 		days_remove = 70
+
+		complete_effect = {
+			if = {
+                limit = {
+                    is_ai = no 
+                }
+				army_experience = -10
+			}
+		}
 
 		modifier = {
 			weekly_manpower = -450

@@ -228,22 +228,33 @@ BRA_political_crisis = {
 		}
 
 		available = {
-			divisions_in_state = {
-				size > 3
-				state = FROM
-			}
+            if = {
+                limit = {
+                    is_ai = no 
+                }
+                divisions_in_state = {
+                    size > 3
+                    state = FROM
+                }
+            }
 		}
 		
 		cancel_trigger = {
-			custom_trigger_tooltip = {
-				tooltip = EUYL_has_3_divisions_tt
-				NOT = {
-					divisions_in_state = {
-						size > 2
-						state = FROM 
-					}
-				}
-			}
+            if = {
+                limit = {
+                    is_ai = no 
+                }
+                custom_trigger_tooltip = {
+                    tooltip = EUYL_has_3_divisions_tt
+                    NOT = {
+                        divisions_in_state = {
+                            size > 2
+                            state = FROM 
+                        }
+                    }
+                }
+            }
+            has_civil_war = yes 
 		}
 
 		cost = 15
@@ -1226,7 +1237,7 @@ BRA_political_manegement = {
         }
 
         ai_will_do = {
-			factor = 175
+			factor = 225
 		}
 
         available = {
@@ -1726,10 +1737,15 @@ BRA_political_manegement = {
 
         available = {
             has_civil_war = no
-            divisions_in_state = {
-                size > 3
-                state = FROM
-            } 
+            if = {
+                limit = {
+                    is_ai = no 
+                }
+                divisions_in_state = {
+                    size > 3
+                    state = FROM
+                } 
+            }
         }
 
         visible = {
@@ -1741,7 +1757,7 @@ BRA_political_manegement = {
         days_remove = 40 
 
         ai_will_do = {
-			factor = 165
+			factor = 215
 		}
 
         complete_effect = {
@@ -1942,7 +1958,7 @@ BRA_political_manegement = {
         icon = eng_trade_unions_demand 
 
         ai_will_do = {
-			factor = 145
+			factor = 220
 		}
 
 		state_target = yes
@@ -1961,9 +1977,14 @@ BRA_political_manegement = {
 		}
 
 		available = {
-			divisions_in_state = {
-                size > 3
-                state = FROM
+            if = {
+                limit = {
+                    is_ai = no 
+                }
+                divisions_in_state = {
+                    size > 3
+                    state = FROM
+                }
             }
             has_civil_war = no 
             command_power > 15
@@ -2091,9 +2112,14 @@ BRA_post_civil_war_recovery_category = {
         on_map_mode = map_only
 
         available = {
-			divisions_in_state = {
-                size > 4
-                state = FROM
+            if = {
+                limit = {
+                    is_ai = no 
+                }
+                divisions_in_state = {
+                    size > 4
+                    state = FROM
+                }
             }
             has_civil_war = no 
             hidden_trigger = {
@@ -2103,14 +2129,20 @@ BRA_post_civil_war_recovery_category = {
 		}
 
         cancel_trigger = {
-            divisions_in_state = {
-                size < 3
-                state = FROM 
+            if = {
+                limit = {
+                    is_ai = no 
+                }
+                divisions_in_state = {
+                    size < 3
+                    state = FROM 
+                }
             }
+            has_civil_war = yes 
         }
 
         ai_will_do = {
-			factor = 195
+			factor = 220
 		}
 
         visible = { #will add other focuses later on 
@@ -2697,22 +2729,33 @@ BRA_monarchism_on_the_rise = {
 		}
 
         available = {
-			divisions_in_state = {
-				size > 3
-				state = FROM
-			}
+            if = {
+                limit = {
+                    is_ai = no 
+                }
+                divisions_in_state = {
+                    size > 3
+                    state = FROM
+                }
+            }
 		}
 		
 		cancel_trigger = {
-			custom_trigger_tooltip = {
-				tooltip = EUYL_has_3_divisions_tt
-				NOT = {
-					divisions_in_state = {
-						size > 2
-						state = FROM 
-					}
-				}
-			}
+            if = {
+                limit = {
+                    is_ai = no 
+                }
+                custom_trigger_tooltip = {
+                    tooltip = EUYL_has_3_divisions_tt
+                    NOT = {
+                        divisions_in_state = {
+                            size > 2
+                            state = FROM 
+                        }
+                    }
+                }
+            }
+            has_civil_war = yes 
 		}
 
         days_remove = 35
@@ -2832,7 +2875,7 @@ BRA_monarchism_on_the_rise = {
             has_civil_war = no
         }
 
-        days_mission_timeout = 100
+        days_mission_timeout = 140
         is_good = yes 
 
         visible = {
@@ -2869,10 +2912,6 @@ BRA_monarchism_on_the_rise = {
                         }
                         create_unit = {
                             division = "name = \"Divisão Imperial\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.15 start_equipment_factor = 1" 
-                            owner = PREV
-                        }
-                        create_unit = {
-                            division = "name = \"Milícias Imperialistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
                             owner = PREV
                         }
                         create_unit = {
@@ -4984,18 +5023,28 @@ BRA_the_brazilian_civil_war = {
 		}
 
 		available = {
-			divisions_in_state = {
-                size > 4
-                state = FROM
+            if = {
+                limit = {
+                    is_ai = no 
+                }
+                divisions_in_state = {
+                    size > 4
+                    state = FROM
+                }
             }
             command_power > 15
 		}
 
         cancel_trigger = {
             OR = {
-                divisions_in_state = {
-                    size < 3
-                    state = FROM 
+                if = {
+                    limit = {
+                        is_ai = no 
+                    }
+                    divisions_in_state = {
+                        size < 3
+                        state = FROM 
+                    }
                 }
                 any_other_country = {
                     original_tag = BRA 
@@ -5058,18 +5107,28 @@ BRA_the_brazilian_civil_war = {
 		}
 
 		available = {
-			divisions_in_state = {
-                size > 4
-                state = FROM
+            if = {
+                limit = {
+                    is_ai = no 
+                }
+                divisions_in_state = {
+                    size > 4
+                    state = FROM
+                }
             }
             command_power > 15
 		}
 
         cancel_trigger = {
             OR = {
-                divisions_in_state = {
-                    size < 3
-                    state = FROM 
+                if = {
+                    limit = {
+                        is_ai = no 
+                    }
+                    divisions_in_state = {
+                        size < 3
+                        state = FROM 
+                    }
                 }
                 any_other_country = {
                     original_tag = BRA 
@@ -6342,7 +6401,7 @@ BRA_economic_management = {
         days_remove = 180
 
         ai_will_do = {
-			factor = 150
+			factor = 175
 		}
 
         modifier = { consumer_goods_factor = 0.05 }
@@ -7289,9 +7348,14 @@ BRA_dependency_on_our_coffee_productions = {
 		}
 
         available = {
-            divisions_in_state = {
-                size > 2
-                state = FROM
+            if = {
+                limit = {
+                    is_ai = no 
+                }
+                divisions_in_state = {
+                    size > 2
+                    state = FROM
+                }
             }
         }
 
@@ -7306,7 +7370,7 @@ BRA_dependency_on_our_coffee_productions = {
         }
 
         ai_will_do = {
-            factor = 150
+            factor = 225
         }
 
         cost = 25
