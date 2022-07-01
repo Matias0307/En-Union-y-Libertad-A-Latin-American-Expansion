@@ -2493,6 +2493,7 @@ focus_tree = {
 				has_war = no 
 			}
 			exists = yes 
+			has_civil_war = no 
 		}
 		
 
@@ -6941,6 +6942,7 @@ focus_tree = {
                     days = 14
                     value = 1
                 }
+				set_rule = { can_join_factions = no }
 				set_global_flag = BRA_integralist_civil_war_already_triggered
 				set_global_flag = BRA_civil_war_in_progress
 				clr_country_flag = BRA_integralist_player_planning_uprising
@@ -6987,29 +6989,29 @@ focus_tree = {
 					limit = { has_dynamic_modifier = { modifier = BRA_integralists_occupation } }
 					set_state_flag = BRA_fascist_state
 				}
-				random_other_country = { #gotta test this (please work)
-					limit = { 
-						original_tag = BRA 
-						has_civil_war = yes
-					}
-					every_controlled_state = {
-						limit = {
-							is_core_of = BRA  
-							has_dynamic_modifier = { modifier = BRA_integralists_occupation }
-						}
-						set_state_controller_to = ROOT
-						set_state_owner_to = ROOT
-					}
-					ROOT = {
-						every_controlled_state = {
-							limit = {
-								is_core_of = BRA 
-								NOT = { has_dynamic_modifier = { modifier = BRA_integralists_occupation } }
-							}
-							set_state_controller_to = PREV.PREV
-						}
-					}
-				}
+				#random_other_country = { #gotta test this (please work)
+				#	limit = { 
+				#		original_tag = BRA 
+				#		has_civil_war = yes
+				#	}
+				#	every_controlled_state = {
+				#		limit = {
+				#			is_core_of = BRA  
+				#			has_dynamic_modifier = { modifier = BRA_integralists_occupation }
+				#		}
+				#		set_state_controller_to = ROOT
+				#		set_state_owner_to = ROOT
+				#	}
+				#	ROOT = {
+				#		every_controlled_state = {
+				#			limit = {
+				#				is_core_of = BRA 
+				#				NOT = { has_dynamic_modifier = { modifier = BRA_integralists_occupation } }
+				#			}
+				#			set_state_controller_to = PREV.PREV
+				#		}
+				#	}
+				#}
 				every_controlled_state = {
 					create_unit = {
                         division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
@@ -7222,6 +7224,7 @@ focus_tree = {
 						tree = brazil_focus
 						keep_completed = no 
 					}
+					set_rule = { can_join_factions = no }
 					unlock_national_focus = BRA_the_path_to_estado_novo
 					unlock_national_focus = BRA_solidify_control_over_the_state
 					unlock_national_focus = BRA_political_censorship_vargas
