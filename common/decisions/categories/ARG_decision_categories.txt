@@ -18,7 +18,7 @@ ARG_infamous_decade_cat = {
 ARG_dealing_with_the_corruption = {
 	priority = 150
 
-	icon = 
+	icon = GFX_decision_category_gre_investment_decisions
 
 	scripted_gui = ARG_corruption_ui 
 
@@ -27,11 +27,58 @@ ARG_dealing_with_the_corruption = {
 	visible = { has_dynamic_modifier = { modifier = ARG_corruption_scandal_idea }}
 }
 
+ARG_territorial_management = {
+	priority = 10
+
+	icon = GFX_decision_category_spr_the_seeds_of_revolution
+
+	allowed = { original_tag = ARG }
+
+	visible = {
+		any_controlled_state = {
+			has_state_flag = ARG_original_state_not_yet_integrated
+		}
+	}
+}
+
 ARG_1937_elections = {
 	priority = 250
 	icon = GFX_ARG_elections
 
 	picture = GFX_ARG_elections_picture
+
+	on_map_area = {
+		target_array = core_states
+		target_trigger = {
+			FROM = {
+                has_dynamic_modifier = { modifier = ARG_dominant_ucr_a }
+			}
+		}
+		name = ARG_provinces_where_UCR_A_dominant_tt
+		zoom = 150
+	}
+
+	on_map_area = {
+		target_array = core_states
+		target_trigger = {
+			FROM = {
+                has_dynamic_modifier = { modifier = ARG_dominant_ucr }
+			}
+		}
+		name = ARG_provinces_where_UCR_dominant_tt
+		zoom = 150
+	}
+
+	on_map_area = {
+		target_array = core_states
+		target_trigger = {
+			FROM = {
+                has_dynamic_modifier = { modifier = ARG_dominant_ps }
+			}
+		}
+		name = ARG_provinces_where_PS_dominant_tt
+		zoom = 150
+	}
 
 	allowed = {
 		original_tag = ARG 
