@@ -1,3 +1,132 @@
+ARG_territorial_management = {
+	ARG_declare_FROM_as_a_province = {
+		icon = generic_nationalism
+
+		state_target = yes 
+
+		target_array = controlled_states
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+				NOT = { is_core_of = ROOT }
+				has_state_flag = ARG_original_state_not_yet_integrated
+			}
+		}
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ARG_is_NOT_forming_province_tt
+				NOT = { has_country_flag = ARG_in_process_of_making_nt_province }
+			}
+			has_civil_war = no 
+			FROM = {
+				is_fully_controlled_by = ROOT
+				state_population_k > 70
+			}
+		}
+
+		visible = {
+			FROM = {
+				has_state_flag = ARG_original_state_not_yet_integrated
+			}
+		}
+
+		cancel_trigger = {
+			OR = {
+				has_civil_war = yes 
+				FROM = { 
+					state_population_k < 70
+				}
+			}
+		}
+
+		cost = 15
+
+		days_remove = 70 
+
+		complete_effect = {
+			set_country_flag = ARG_in_process_of_making_nt_province
+		}
+
+		remove_effect = {
+			set_temp_variable = { ARG_chance_they_accept = 0 }
+			set_temp_variable = { ARG_chance_they_dont_accept = 100 }
+			set_temp_variable = { ARG_stability_var = stability }
+			set_temp_variable = { ARG_population_var = FROM.state_population_k }
+			divide_temp_variable = { ARG_stability_var = 2 }
+			divide_temp_variable = { ARG_population_var = 3 }
+			add_to_temp_variable = { ARG_chance_they_accept = ARG_stability_var }
+			add_to_temp_variable = { ARG_chance_they_accept = ARG_population_var }
+			random_list = {
+				ARG_chance_they_accept = {
+					custom_effect_tooltip = ARG_vote_will_pass_tt
+					add_stability = 0.01
+					FROM = {
+						clr_state_flag = ARG_original_state_not_yet_integrated
+						add_core_of = ROOT 
+						if = {
+							limit = {
+								state = 509
+							}
+							set_state_name = "Chaco"
+						}
+						else_if = {
+							limit = {
+								state = 512
+							}
+							set_state_name = "Rio Negro"
+						}
+						else_if = {
+							limit = {
+								state = 889
+							}
+							set_state_name = "Tierra del Fuego"
+						}
+						else_if = {
+							limit = {
+								state = 890
+							}
+							set_state_name = "Santa Cruz"
+						}
+						else_if = {
+							limit = {
+								state = 891
+							}
+							set_state_name = "Chubut"
+						}
+						else_if = {
+							limit = {
+								state = 892
+							}
+							set_state_name = "Neuquen"
+						}
+						else_if = {
+							limit = {
+								state = 893
+							}
+							set_state_name = "La Pampa"
+						}
+						else_if = {
+							limit = {
+								state = 902
+							}
+							set_state_name = "Formosa"
+						}
+						else = {
+							set_state_name = "Misiones"
+						}
+					}
+				}
+				ARG_chance_they_dont_accept = {
+					custom_effect_tooltip = ARG_vote_wont_pass_tt
+					ARG_increase_1_political_tension = yes 
+				}
+			}
+		}
+	}
+}
+
 ARG_1937_elections = {
 	ARG_the_1937_elections = {
 		priority = 50

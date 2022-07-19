@@ -1,5 +1,54 @@
-
+#ARG_set_up_political_tension_idea
+#ARG_set_up_corruption
+#ARG_increase_1_political_tension
+#ARG_increase_2_political_tension
+#ARG_increase_3_political_tension
 
 ARG_set_up_political_tension_idea = {
-    
+    set_temp_variable = { ARG_tension = ARG_political_tension }
+    divide_temp_variable = { ARG_tension = 210 }
+    multiply_temp_variable = { ARG_tension = -1 }
+    set_variable = { ARG_infamous_decade_stability_modifier = ARG_tension }
+}
+
+ARG_set_up_corruption = {
+    set_temp_variable = { ARG_corruption_degree = ARG_degree_of_corruption }
+    divide_temp_variable = { ARG_corruption_degree = 25 }
+    multiply_temp_variable = { ARG_corruption_degree = -1 }
+    if = {
+        limit = {
+            check_variable = { ARG_corruption_status = 1 }
+        }
+        multiply_temp_variable = { ARG_corruption_degree = -1 }
+    }
+    set_variable = { ARG_party_popularity_stability_factor = ARG_corruption_degree }
+    divide_temp_variable = { ARG_corruption_degree = 1.2 }
+    set_variable = { ARG_political_power_factor = ARG_corruption_degree }
+    divide_temp_variable = { ARG_corruption_degree = 1.1 }
+    set_variable = { ARG_political_advisor_cost_factor = ARG_corruption_degree }
+    set_variable = { ARG_economy_cost_factor = ARG_corruption_degree }
+}
+
+ARG_increase_1_political_tension = {
+    custom_effect_tooltip = ARG_increase_tension_by_1_tt
+    hidden_effect = {
+        add_to_variable = { ARG_political_tension = 1 }
+        ARG_set_up_political_tension_idea = yes 
+    }
+}
+
+ARG_increase_2_political_tension = {
+    custom_effect_tooltip = ARG_increase_tension_by_2_tt
+    hidden_effect = {
+        add_to_variable = { ARG_political_tension = 2 }
+        ARG_set_up_political_tension_idea = yes 
+    }
+}
+
+ARG_increase_3_political_tension = {
+    custom_effect_tooltip = ARG_increase_tension_by_3_tt
+    hidden_effect = {
+        add_to_variable = { ARG_political_tension = 3 }
+        ARG_set_up_political_tension_idea = yes 
+    }
 }
