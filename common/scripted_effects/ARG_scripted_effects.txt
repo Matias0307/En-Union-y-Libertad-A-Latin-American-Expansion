@@ -3,17 +3,32 @@
 #ARG_increase_1_political_tension
 #ARG_increase_2_political_tension
 #ARG_increase_3_political_tension
+#ARG_increase_5_political_tension
+#ARG_increase_10_political_tension
+#ARG_increase_15_political_tension
+#ARG_increase_50_political_tension
+#ARG_decrease_2_political_tension
+#ARG_decrease_3_political_tension
+#ARG_decrease_5_political_tension
+#ARG_decrease_10_political_tension
+#ARG_decrease_15_political_tension
+#ARG_set_electoral_votes
 
 ARG_set_up_political_tension_idea = {
     set_temp_variable = { ARG_tension = ARG_political_tension }
-    divide_temp_variable = { ARG_tension = 210 }
+    divide_temp_variable = { ARG_tension = 190 }
     multiply_temp_variable = { ARG_tension = -1 }
     set_variable = { ARG_infamous_decade_stability_modifier = ARG_tension }
+    clamp_variable = {
+        var = ARG_political_tension
+        min = 0
+        max = 100
+    }
 }
 
 ARG_set_up_corruption = {
     set_temp_variable = { ARG_corruption_degree = ARG_degree_of_corruption }
-    divide_temp_variable = { ARG_corruption_degree = 25 }
+    divide_temp_variable = { ARG_corruption_degree = 20 }
     multiply_temp_variable = { ARG_corruption_degree = -1 }
     if = {
         limit = {
@@ -25,8 +40,29 @@ ARG_set_up_corruption = {
     divide_temp_variable = { ARG_corruption_degree = 1.2 }
     set_variable = { ARG_political_power_factor = ARG_corruption_degree }
     divide_temp_variable = { ARG_corruption_degree = 1.1 }
+    multiply_temp_variable = { ARG_corruption_degree = -1 }
     set_variable = { ARG_political_advisor_cost_factor = ARG_corruption_degree }
     set_variable = { ARG_economy_cost_factor = ARG_corruption_degree }
+    if = {
+        limit = {
+            check_variable = { ARG_degree_of_corruption > 4 }
+        }
+        set_temp_variable = { ARG_corr_degree = ARG_degree_of_corruption }
+        divide_temp_variable = { ARG_corr_degree = 100 }
+        multiply_temp_variable = { ARG_corr_degree = 2 }
+        set_variable = { ARG_corruption_consumer_goods_factor = ARG_corr_degree }
+        multiply_temp_variable = { ARG_corr_degree = -1.1 }
+        set_variable = { ARG_corruption_factory_output = ARG_corr_degree }
+    }
+    else = {
+        set_variable = { ARG_corruption_consumer_goods_factor = 0 }
+        set_variable = { ARG_corruption_factory_output = 0 }
+    }
+    clamp_variable = {
+        var = ARG_degree_of_corruption
+        min = 1
+        max = 8
+    }
 }
 
 ARG_increase_1_political_tension = {
@@ -50,5 +86,112 @@ ARG_increase_3_political_tension = {
     hidden_effect = {
         add_to_variable = { ARG_political_tension = 3 }
         ARG_set_up_political_tension_idea = yes 
+    }
+}
+
+ARG_increase_5_political_tension = {
+    custom_effect_tooltip = ARG_increase_tension_by_5_tt
+    hidden_effect = {
+        add_to_variable = { ARG_political_tension = 5 }
+        ARG_set_up_political_tension_idea = yes 
+    }
+}
+
+ARG_increase_10_political_tension = {
+    custom_effect_tooltip = ARG_increase_tension_by_10_tt
+    hidden_effect = {
+        add_to_variable = { ARG_political_tension = 10 }
+        ARG_set_up_political_tension_idea = yes 
+    }
+}
+
+ARG_increase_15_political_tension = {
+    custom_effect_tooltip = ARG_increase_tension_by_15_tt
+    hidden_effect = {
+        add_to_variable = { ARG_political_tension = 15 }
+        ARG_set_up_political_tension_idea = yes 
+    }
+}
+
+#This will be part of the historical path, leading into the historical 1943 coup d'etat
+ARG_increase_50_political_tension = {
+    custom_effect_tooltip = ARG_increase_tension_by_50_tt
+    hidden_effect = {
+        add_to_variable = { ARG_political_tension = 50 }
+        ARG_set_up_political_tension_idea = yes 
+    }
+}
+
+ARG_decrease_2_political_tension = {
+    custom_effect_tooltip = ARG_decrease_tension_by_2_tt
+    hidden_effect = {
+        subtract_from_variable = { ARG_political_tension = 2 }
+        ARG_set_up_political_tension_idea = yes 
+    }
+}
+
+ARG_decrease_3_political_tension = {
+    custom_effect_tooltip = ARG_decrease_tension_by_3_tt
+    hidden_effect = {
+        subtract_from_variable = { ARG_political_tension = 3 }
+        ARG_set_up_political_tension_idea = yes 
+    }
+}
+
+ARG_decrease_5_political_tension = {
+    custom_effect_tooltip = ARG_decrease_tension_by_5_tt
+    hidden_effect = {
+        subtract_from_variable = { ARG_political_tension = 5 }
+        ARG_set_up_political_tension_idea = yes 
+    }
+}
+
+ARG_decrease_10_political_tension = {
+    custom_effect_tooltip = ARG_decrease_tension_by_10_tt
+    hidden_effect = {
+        subtract_from_variable = { ARG_political_tension = 10 }
+        ARG_set_up_political_tension_idea = yes 
+    }
+}
+
+ARG_decrease_15_political_tension = {
+    custom_effect_tooltip = ARG_decrease_tension_by_15_tt
+    hidden_effect = {
+        subtract_from_variable = { ARG_political_tension = 15 }
+        ARG_set_up_political_tension_idea = yes 
+    }
+}
+
+ARG_set_electoral_votes = {
+    hidden_effect = {
+        set_temp_variable = { ARG_electoral_votes_UCR = 0 }
+        set_temp_variable = { ARG_electoral_votes_UCRA = 0 }
+        set_temp_variable = { ARG_electoral_votes_PS = 0 }
+        every_core_state = {
+            set_temp_variable = { ARG_pop_province = state_population_k }
+            divide_temp_variable = { ARG_pop_province = 28 }
+            round_variable = ARG_pop_province
+            if = {
+                limit = {
+                    has_dynamic_modifier = { modifier = ARG_dominant_ucr }
+                }
+                add_to_temp_variable = { ARG_electoral_votes_UCR = ARG_pop_province }
+            }
+            else_if = {
+                limit = { 
+                    has_dynamic_modifier = { modifier = ARG_dominant_ucr_a }
+                }
+                add_to_temp_variable = { ARG_electoral_votes_UCRA = ARG_pop_province }
+            }
+            else_if = {
+                limit = { 
+                    has_dynamic_modifier = { modifier = ARG_dominant_ps }
+                }
+                add_to_temp_variable = { ARG_electoral_votes_PS = ARG_pop_province }
+            }
+        }
+        set_variable = { ARG_predicted_UCR_electoral_votes = ARG_electoral_votes_UCR }
+        set_variable = { ARG_predicted_UCRA_electoral_votes = ARG_electoral_votes_UCRA }
+        set_variable = { ARG_predicted_PS_electoral_votes = ARG_electoral_votes_PS }
     }
 }

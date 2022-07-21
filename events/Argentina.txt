@@ -3,9 +3,54 @@
 ###########################
 
 add_namespace = argentina
+add_namespace = argentina.rework
+
+#Shall we hold the Upcoming Elections?
+country_event = {
+	id = argentina.rework.1 
+	title = argentina.rework.1.t 
+	desc = argentina.rework.1.d 
+	picture = GFX_report_event_election_vote
+
+	is_triggered_only = yes 
+
+	option = { #hold elections, will allow Infamous Decade and Change of Course paths 
+		name = argentina.rework.1.a 
+		activate_mission = ARG_the_1937_elections
+		hidden_effect = {
+			888 = {
+				add_dynamic_modifier = { modifier = ARG_dominant_ucr }
+			}
+			278 = {
+				add_dynamic_modifier = { modifier = ARG_dominant_ucr_a }
+			}
+			895 = {
+				add_dynamic_modifier = { modifier = ARG_dominant_ucr }
+			}
+			898 = {
+				add_dynamic_modifier = { modifier = ARG_dominant_ucr }
+			}
+			894 = {
+				add_dynamic_modifier = { modifier = ARG_dominant_ucr_a }
+			}
+			904 = {
+				add_dynamic_modifier = { modifier = ARG_dominant_ucr_a }
+			}
+			ARG_set_electoral_votes = yes 
+		}
+	}
+
+	option = { #deny holding elections, will lead to the communist path via civil war 
+		name = argentina.rework.1.b 
+		custom_effect_tooltip = CHL_pathcivilwar #will trigger a short chain of events (3) before kickstarting the actual mission ((the choices in those events will greatly affect who becomes leader))
+		hidden_effect = {
+			country_event = { id = argentina.rework.2 random_days = 8 days = 3 hours = 48 }
+		}
+	}
+}
+
 
 #choose capital
-
 country_event = {
 	id = argentina.1
 	title = argentina.1.t
