@@ -31,10 +31,26 @@ ARG_set_up_corruption = {
     divide_temp_variable = { ARG_corruption_degree = 20 }
     multiply_temp_variable = { ARG_corruption_degree = -1 }
     if = {
-        limit = {
-            check_variable = { ARG_corruption_status = 1 }
+        limit = { #corruption is benefitting the player 
+            check_variable = { ARG_corruption_status = 1 } 
         }
+        set_temp_variable = { ARG_corrupt = ARG_degree_of_corruption }
+        divide_temp_variable = { ARG_corrupt = 23 }
         multiply_temp_variable = { ARG_corruption_degree = -1 }
+        round_variable = ARG_corrupt
+        set_variable = { ARG_corruption_stability_factor = ARG_corrupt }
+        multiply_temp_variable = { ARG_corrupt = 1.1 }
+        set_variable = { ARG_corruption_building_speed = ARG_corrupt }
+        multiply_temp_variable = { ARG_corrupt = 1.5 }
+        set_variable = { ARG_corruption_command_power_gain_mult = ARG_corrupt }
+        set_variable = { ARG_corruption_experience_gain_army_factor = ARG_corrupt }
+        multiply_temp_variable = { ARG_corruption_degree = -1 }
+    }
+    else = {
+        set_variable = { ARG_corruption_command_power_gain_mult = 0 }
+        set_variable = { ARG_corruption_experience_gain_army_factor = 0 }
+        set_variable = { ARG_corruption_stability_factor = 0 }
+        set_variable = { ARG_corruption_building_speed = 0 }
     }
     set_variable = { ARG_party_popularity_stability_factor = ARG_corruption_degree }
     divide_temp_variable = { ARG_corruption_degree = 1.2 }
