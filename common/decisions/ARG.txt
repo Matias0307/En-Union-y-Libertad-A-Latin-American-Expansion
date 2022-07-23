@@ -288,6 +288,42 @@ ARG_dealing_with_the_corruption = {
 			}
 		}
 	}
+
+	ARG_run_a_check_on_our_politicians = {
+		icon = " "
+
+		cost = ARG_cost_for_quality_check
+
+		days_remove = 90 
+
+		visible = {
+			check_variable = { ARG_corruption_status = 0 }
+			has_civil_war = no 
+			check_variable = { ARG_degree_of_corruption > 1 }
+		}
+
+		available = {
+			NOT = { has_idea = ARG_corrupt_politicans_rebelling }
+		}
+
+		cancel_trigger = {
+			OR = {
+				check_variable = { ARG_corruption_status = 1 }
+				has_civil_war = yes 
+			}
+		}
+
+		remove_effect = {
+			random_list = {
+				ARG_chance_of_finding_corrupt_politician = {
+					country_event = argentina.rework.3
+				}
+				ARG_chance_of_NOT_finding_corrupt_politician = {
+					country_event = argentina.rework.4
+				}
+			}
+		}
+	}
 }
 
 ARG_inflation = {
