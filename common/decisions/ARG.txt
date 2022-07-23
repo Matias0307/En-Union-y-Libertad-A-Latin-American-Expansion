@@ -243,6 +243,52 @@ ARG_1937_elections = {
 	}
 }
 
+ARG_dealing_with_the_corruption = {
+	ARG_potential_corrupt_scandal = {
+		priority = 150
+		icon = gre_investment_decisions
+
+		activation = { 
+			always = no 
+		}
+
+		available = {
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = ARG_corruption_for_us_tt
+					check_variable = { ARG_corruption_status = 1 }
+				}
+				NOT = { has_dynamic_modifier = { modifier = ARG_corruption_scandal_idea } }
+			}
+		}
+
+		fire_only_once = no 
+
+		days_mission_timeout = 60 
+
+		cancel_trigger = {
+			hidden_trigger = {
+				OR = {
+					check_variable = { ARG_corruption_status = 1 }
+					NOT = { has_dynamic_modifier = { modifier = ARG_corruption_scandal_idea } }
+				}
+			}
+		}
+
+		timeout_effect = {
+			random_list = {
+				ARG_chance_of_scandal = {
+					country_event = argentina.rework.2
+				}
+				ARG_chance_NOT_scandal = {
+					hidden_trigger = {
+						activate_mission = ARG_potential_corrupt_scandal
+					}
+				}
+			}
+		}
+	}
+}
 
 ARG_inflation = {
 	
