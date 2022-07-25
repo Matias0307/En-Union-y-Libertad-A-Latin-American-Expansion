@@ -80,6 +80,95 @@ country_event = {
 	title = argentina.rework.3.t 
 	desc = argentina.rework.3.d 
 	picture = GFX_ 
+
+	is_triggered_only = yes 
+
+	option = { #kick them out from the government 
+		name = argentina.rework.3.a 
+		ARG_decrease_corruption_by_1 = yes 
+		if = {
+			limit = {
+				has_country_flag = ARG_tension_increase_if_corrupt_politician_found
+			}
+			ARG_increase_3_political_tension = yes 
+		}
+		custom_effect_tooltip = ARG_corrupt_politican_will_be_forcefully_retired_tt
+		hidden_effect = {
+			random_character = {
+				limit = { has_character_flag = ARG_corrupt_politician }
+				ROOT = { retire_character = PREV }
+			}
+		}
+	}
+
+	option = { #sweep our findings under the rug 
+		name = argentina.rework.3.b 
+		add_political_power = 40
+		random_list = {
+			40 = {
+				custom_effect_tooltip = ARG_corruption_will_now_aid_us_tt
+				set_variable = { ARG_corruption_status = 1 }
+			}
+			60 = {
+
+			}
+		}
+	}
+}
+
+#Investigation turns out to be a failure 
+country_event = {
+	id = argentina.rework.4
+	title = argentina.rework.4.t 
+	desc = argentina.rework.4.d 
+	picture = GFX_ 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.rework.4.a 
+		random_list = {
+			25 = {
+				add_political_power = 10
+			}
+			25 = {
+				add_political_power = 20 
+			}
+			25 = {
+				add_political_power = 30
+			}
+			25 = {
+				add_political_power = 40 
+			}
+		}
+		random_list = {
+			50 = {
+
+			}
+			50 = {
+				custom_effect_tooltip = ARG_politicans_will_rebel_tt
+				add_timed_idea = {
+					idea = ARG_corrupt_politicans_rebelling
+					days = 20
+				}
+			}
+		}
+	}
+}
+
+#Terrorist attack by the Nationalist Liberation Alliance 
+country_event = {
+	id = argentina.rework.5
+	title = argentina.rework.5.t 
+	desc = argentina.rework.5.d 
+	picture = GFX_ 
+
+	fire_only_once = no 
+
+	trigger = {
+		original_tag = ARG 
+		
+	}
 }
 
 #choose capital
