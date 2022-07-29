@@ -161,13 +161,40 @@ country_event = {
 	id = argentina.rework.5
 	title = argentina.rework.5.t 
 	desc = argentina.rework.5.d 
-	picture = GFX_ 
+	picture = GFX_report_event_gre_city_devastated
 
 	fire_only_once = no 
 
 	trigger = {
 		original_tag = ARG 
-		
+		has_civil_war = no 
+		has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
+	}
+
+	mean_time_to_happen = {
+		days = 400
+		modifier = {
+			factor = 0.75
+			check_variable = { ARG_political_tension > 54 }
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			random_owned_controlled_state = {
+				limit = { 
+					is_core_of = ROOT 
+					NOT = { has_dynamic_modifier = { modifier = ARG_active_ANL_terrorist_group } }
+				}
+				add_dynamic_modifier = { modifier = ARG_active_ANL_terrorist_group }
+			}
+		}
+	}
+
+	option = {
+		name = argentina.rework.5.a 
+		custom_effect_tooltip = ARG_random_state_gets_attacked_by_terrorists_tt
+		ARG_increase_5_political_tension = yes 
 	}
 }
 
