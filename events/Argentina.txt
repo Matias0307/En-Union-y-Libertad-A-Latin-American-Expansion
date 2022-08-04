@@ -37,6 +37,7 @@ country_event = {
 				add_dynamic_modifier = { modifier = ARG_dominant_ucr_a }
 			}
 			ARG_set_electoral_votes = yes 
+			set_global_flag = ARG_elections_active
 		}
 	}
 
@@ -66,11 +67,32 @@ country_event = {
 			idea = ARG_corrupt_politicans_rebelling
 			days = 20
 		}
+		if = {
+			limit = {
+				check_variable = { ARG_degree_of_corruption > 7 }
+			}
+			random_list = {
+				40 = {
+					ARG_decrease_corruption_by_1 = yes 
+				}
+				60 = {
+
+				}
+			}
+		}
 	}
 
 	option = { #sweep it under the rug 
 		name = argentina.rework.2.b 
-		ARG_increase_corruption_by_1 = yes 
+		if = {
+			limit = {
+				check_variable = { ARG_degree_of_corruption < 8 }
+			}
+			ARG_increase_corruption_by_1 = yes 
+		}
+		else = {
+			add_political_power = 25
+		}
 	}
 }
 
@@ -156,7 +178,32 @@ country_event = {
 	}
 }
 
-#Terrorist attack by the Nationalist Liberation Alliance 
+#Formation of the ALN 
+country_event = {
+	id = argentina.rework.ALN 
+	title = argentina.rework.ALN.t 
+	desc = argentina.rework.ALN.d 
+	picture = GFX_ARG_ALN_formation
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.rework.ALN.a 
+		set_party_name = { 
+			ideology = neutrality 
+			long_name = ARG_ALN_party_long 
+			name = ARG_ALN_party 
+		}
+		ARG_increase_1_political_tension = yes 
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.02
+		}
+		set_country_flag = ARG_ALN_formed
+	}
+}
+
+#Terrorist attack by the Alianza Libertadora Nacionalista
 country_event = {
 	id = argentina.rework.5
 	title = argentina.rework.5.t 
@@ -169,10 +216,12 @@ country_event = {
 		original_tag = ARG 
 		has_civil_war = no 
 		has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
+		NOT = { has_country_flag = ARG_ALN_headquarters_destroyed }
+		has_country_flag = ARG_ALN_formed
 	}
 
 	mean_time_to_happen = {
-		days = 400
+		days = 300
 		modifier = {
 			factor = 0.75
 			check_variable = { ARG_political_tension > 54 }
@@ -186,7 +235,10 @@ country_event = {
 					is_core_of = ROOT 
 					NOT = { has_dynamic_modifier = { modifier = ARG_active_ANL_terrorist_group } }
 				}
-				add_dynamic_modifier = { modifier = ARG_active_ANL_terrorist_group }
+				add_dynamic_modifier = { 
+					modifier = ARG_active_ANL_terrorist_group 
+					days = 240
+				}
 			}
 		}
 	}
@@ -195,6 +247,245 @@ country_event = {
 		name = argentina.rework.5.a 
 		custom_effect_tooltip = ARG_random_state_gets_attacked_by_terrorists_tt
 		ARG_increase_5_political_tension = yes 
+	}
+}
+
+#Alianza Libertadora Nacionalista headquarters found 
+country_event = {
+	id = argentina.rework.6
+	title = argentina.rework.6.t 
+	desc = argentina.rework.6.d 
+	picture = GFX_report_event_military_planning
+
+	is_triggered_only = yes 
+
+	option = { #target and destroy it 
+		name = argentina.rework.6.a 
+		custom_effect_tooltip = ARG_for_year_and_half_no_attacks_tt
+		set_country_flag = {
+			flag = ARG_ALN_headquarters_destroyed
+			days = 520
+			value = 1
+		}
+	}
+}
+
+#The military is displeased with how we are running the country 
+country_event = {
+	id = argentina.rework.7
+	title = argentina.rework.7.t 
+	desc = argentina.rework.7.d 
+	picture = GFX_ARG_military_displeased
+
+	is_triggered_only = yes 
+
+	option = { #we need to be careful 
+		name = argentina.rework.7.a 
+		custom_effect_tooltip = ARG_military_opinion_decrease_tt
+		subtract_from_variable = { ARG_military_opinion = 1 }
+		clamp_variable = {
+			var = ARG_military_opinion
+			min = -2
+			max = 2
+		}
+		ARG_increase_10_political_tension = yes 
+	}
+}
+
+#The military surrounds the pink house demanding the resignation of the president 
+country_event = {
+	id = argentina.rework.8
+	title = argentina.rework.8.t 
+	desc = {
+		text = argentina.rework.8.d.notHistorical
+		trigger = { 
+			NOT = {
+				has_completed_focus = ARG_save_roberto
+			}
+		}
+	}
+	desc = {
+		text = argentina.rework.8.d.historical
+		trigger = {
+			has_completed_focus = ARG_save_roberto
+		}
+	}
+	picture = GFX_ARG_military_coup
+
+	is_triggered_only = yes 
+
+	immediate = { 
+		set_global_flag = ARG_military_took_over 
+		if = {
+			limit = {
+				has_completed_focus = ARG_save_roberto
+			}
+			set_global_flag = ARG_historical 
+		}
+	}
+
+	option = { #Let the military take over 
+		name = argentina.rework.8.a 
+		hidden_effect = {
+			set_variable = { ARG_military_opinion = 3 }
+			set_variable = { ARG_concordancia_opinion = -1 }
+			set_variable = { ARG_UCR_opinion = -1 }
+			set_variable = { ARG_partido_socialista_opinion = -1 }
+		}
+		if = {
+			limit = { 
+				NOT = { has_completed_focus = ARG_save_roberto }
+			}
+			promote_character = ARG_the_military_junta
+		}
+		else = {
+			promote_character = ARG_pedro_pablo_ramirez
+		}
+		set_party_name = {
+			ideology = neutrality
+			long_name = ARG_military_party_long
+			name = ARG_military_party
+		}
+	}
+
+	option = { #defy them ## might later connect it to the historical branch even further, still need to decide on that ##
+		name = argentina.rework.8.b 
+		hidden_effect = {
+			division_template = { 
+				name = "Milicias" 
+				division_names_group = SPAN_INF_02 
+				is_locked = yes 
+				regiments = { 
+					infantry = { x = 0 y = 0 }  
+					infantry = { x = 0 y = 1 } 
+					infantry = { x = 0 y = 2 } 
+				}
+			}
+		}
+		start_civil_war = {
+			ruling_party = ROOT 
+			ideology = neutrality 
+			size = 0.4
+		}
+		hidden_effect = {
+			set_variable = { ARG_military_opinion = -2 }
+			random_owned_controlled_state = {
+				create_unit = {
+					division = "name = \"Loyalists\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+					owner = ROOT
+				}
+				create_unit = {
+					division = "name = \"Loyalists\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+					owner = ROOT
+				}
+			}
+			random_owned_controlled_state = {
+				create_unit = {
+					division = "name = \"Loyalists\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+					owner = ROOT
+				}
+				create_unit = {
+					division = "name = \"Loyalists\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+					owner = ROOT
+				}
+			}
+			random_owned_controlled_state = {
+				create_unit = {
+					division = "name = \"Loyalists\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+					owner = ROOT
+				}
+				create_unit = {
+					division = "name = \"Loyalists\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+					owner = ROOT
+				}
+			}
+			random_other_country = {
+				limit = { 
+					original_tag = ARG 
+					has_civil_war = yes 
+				}
+				if = {
+					limit = { 
+						has_global_flag = ARG_historical 
+					}
+					promote_character = ARG_pedro_pablo_ramirez
+				}
+				else = {
+					promote_character = ARG_the_military_junta
+				}
+				every_controlled_state = {
+					create_unit = {
+						division = "name = \"Milicia\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+						owner = PREV
+					}
+					create_unit = {
+						division = "name = \"Milicia\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+						owner = PREV
+					}
+				}
+			}
+			retire_character = ARG_pedro_pablo_ramirez
+			retire_character = ARG_edelmiro_julian_farrell
+		}
+	}
+}
+
+#People take up the streets in protests 
+country_event = {
+	id = argentina.rework.9
+	title = argentina.rework.9.t 
+	desc = argentina.rework.9.d 
+	picture = GFX_report_event_generic_riot
+
+	fire_only_once = no 
+
+	trigger = {
+		original_tag = ARG 
+		has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
+		has_civil_war = no 
+	}
+
+	mean_time_to_happen = { 
+		days = 365
+		modifier = {
+			factor = 0.9
+			AND = {
+				check_variable = { ARG_political_tension > 19 }
+				check_variable = { ARG_political_tension < 40 }
+			}
+		}
+		modifier = {
+			factor = 0.75
+			AND = {
+				check_variable = { ARG_political_tension > 39 }
+				check_variable = { ARG_political_tension < 65 }
+			}
+		}
+		modifier = {
+			factor = 0.6
+			check_variable = { ARG_political_tension > 64}
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			random_owned_controlled_state = {
+				limit = { 
+					is_core_of = ROOT 
+					NOT = { has_dynamic_modifier = { modifier = ARG_active_ANL_terrorist_group } }
+				}
+				add_dynamic_modifier = { 
+					modifier = ARG_protests 
+					days = 120
+				}
+			}
+		}
+	}
+
+	option = {
+		name = argentina.rework.9.a
+		ARG_increase_2_political_tension = yes  
+		custom_effect_tooltip = ARG_people_begin_protesting_in_random_state_tt
 	}
 }
 
@@ -2080,6 +2371,18 @@ country_event = {
 	trigger = {
 		date > 1936.1.12
 		original_tag = ARG
+		OR = {
+			has_idea = ARG_inflation_1
+			has_idea = ARG_inflation_2
+			has_idea = ARG_inflation_3
+			has_idea = ARG_inflation_4
+			has_idea = ARG_inflation_5
+			has_idea = ARG_inflation_6
+			has_idea = ARG_inflation_7
+			has_idea = ARG_inflation_8
+			has_idea = ARG_inflation_9
+			has_idea = ARG_inflation_10
+		}
 		NOT = {
 			has_completed_focus = ARG_deal_with_the_inflation
 		}

@@ -2,6 +2,15 @@
 ##### ARG ######
 ################
 
+ARG_political_crisis = {
+	priority = 400
+	icon = GFX_decision_category_generic_crisis
+
+	allowed = { original_tag = ARG }
+
+	visible = { exists = yes }
+}
+
 ARG_infamous_decade_cat = {
 	priority = 200
 	icon = GFX_ARG_infamous_decade_icon
@@ -11,6 +20,28 @@ ARG_infamous_decade_cat = {
 	scripted_gui = ARG_infamous_decade_ui
 
 	allowed = { original_tag = ARG }
+
+	on_map_area = {
+		target_array = owned_states
+		target_trigger = {
+			FROM = {
+                has_dynamic_modifier = { modifier = ARG_active_ANL_terrorist_group }
+			}
+		}
+		name = ARG_provinces_being_attacked_by_the_ALN_tt
+		zoom = 150
+	}
+
+	on_map_area = {
+		target_array = owned_states
+		target_trigger = {
+			FROM = {
+                has_dynamic_modifier = { modifier = ARG_protests }
+			}
+		}
+		name = ARG_provinces_with_protests_tt
+		zoom = 150
+	}
 
 	visible = { has_dynamic_modifier = { modifier = ARG_infamous_decade_idea } }
 }

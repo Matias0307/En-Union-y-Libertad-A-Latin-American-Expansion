@@ -1,3 +1,89 @@
+ARG_political_crisis = {
+	ARG_military_displeased_with_our_way_of_governing = {
+		priority = 100
+		icon = generic_civil_support
+
+		available = {
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = ARG_political_tension_less_than_55_tt
+					check_variable = { ARG_political_tension < 55 }
+				}
+				has_country_flag = ARG_military_appeased
+				custom_trigger_tooltip = {
+					tooltip = ARG_playing_as_the_military_tt
+					check_variable = { ARG_military_opinion = 3 }
+				}
+				has_active_mission = ARG_military_planning_to_overthrow_the_government
+			}
+		}
+
+		activation = {
+			original_tag = ARG 
+			has_civil_war = no 
+			exists = yes 
+			NOT = { check_variable = { ARG_military_opinion = 3 } }
+			check_variable = { ARG_political_tension > 54 }
+			NOT = { has_global_flag = ARG_military_displeased_triggered }
+			has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
+		}
+
+		cancel_trigger = {
+			OR = {
+				has_civil_war = yes 
+				check_variable = { ARG_military_opinion = 3 }
+				has_active_mission = ARG_military_planning_to_overthrow_the_government
+			}
+		}
+
+		days_mission_timeout = 75
+
+		timeout_effect = {
+			country_event = argentina.rework.7
+			hidden_effect = { set_global_flag = ARG_military_displeased_triggered }
+		}
+	}
+
+	ARG_military_planning_to_overthrow_the_government = {
+		priority = 150
+		icon = generic_ignite_civil_war
+
+		activation = {
+			original_tag = ARG 
+			has_civil_war = no 
+			exists = yes 
+			NOT = { check_variable = { ARG_military_opinion = 3 } }
+			check_variable = { ARG_political_tension > 84 }
+			NOT = { has_global_flag = ARG_military_overthrow_triggered }
+			has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
+		}
+
+		available = {
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = ARG_political_tension_less_than_85_tt
+					check_variable = { ARG_political_tension < 85 }
+				}
+				custom_trigger_tooltip = {
+					tooltip = ARG_playing_as_the_military_tt
+					check_variable = { ARG_military_opinion = 3 }
+				}
+			}
+		}
+
+		cancel_trigger = {
+			has_civil_war = yes 
+		}
+
+		days_mission_timeout = 125 
+
+		timeout_effect = {
+			hidden_effect = { set_global_flag = ARG_military_overthrow_triggered }
+			country_event = argentina.rework.8
+		}
+	}
+}
+
 ARG_territorial_management = {
 	ARG_declare_FROM_as_a_province = {
 		icon = generic_nationalism
@@ -148,15 +234,22 @@ ARG_infamous_decade_cat = {
 
 		cost = ARG_cost_to_decrease_tension
 
-		days_remove = 15
+		days_remove = 30
 
 		available = {
 			has_civil_war = no 
 		}
 
+		ai_will_do = {
+			base = 180
+		}
+
 		visible = {
 			has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
 			has_civil_war = no 
+			NOT = {
+				check_variable = { ARG_military_opinion = 3 } #When you do the fascist path, it will be different 
+			}
 		}
 
 		cancel_trigger = {
@@ -184,7 +277,184 @@ ARG_infamous_decade_cat = {
 	}
 
 	ARG_deal_with_the_ANL_in_FROM = {
-		icon = 
+		icon = generic_tank
+
+		ai_will_do = {
+			base = 200
+		}
+
+		state_target = yes 
+		target_array = controlled_states
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+				has_dynamic_modifier = { modifier = ARG_active_ANL_terrorist_group }
+			}
+		}
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ARG_military_is_at_least_friendly_tt
+				check_variable = { ARG_military_opinion > 0 }
+			}
+			hidden_trigger = {
+				has_manpower > 999
+			}
+		}
+
+		visible = {
+			has_civil_war = no 
+			exists = yes 
+		}
+
+		custom_cost_trigger = {
+			has_manpower > 999
+		}
+
+		custom_cost_text = CHL_manpower_1000_tt
+
+		days_remove = 60
+
+		modifier = {
+			weekly_manpower = -20
+		}
+
+		complete_effect = {
+			hidden_effect = {
+				add_manpower = -1000
+			}
+		}
+
+		remove_effect = {
+			FROM = {
+				remove_dynamic_modifier = { modifier = ARG_active_ANL_terrorist_group }
+			}
+			random_list = {
+				20 = {
+					country_event = argentina.rework.6
+				}
+				80 = {
+
+				}
+			}
+		}
+	}
+
+	ARG_use_the_military_to_deal_with_the_protestors_in_FROM = {
+		icon = generic_military
+
+		ai_will_do = {
+			base = 200
+		}
+
+		state_target = yes 
+		target_array = controlled_states
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+				has_dynamic_modifier = { modifier = ARG_protests }
+			}
+		}
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ARG_military_is_at_least_friendly_tt
+				check_variable = { ARG_military_opinion > 0 }
+			}
+			hidden_trigger = {
+				has_manpower > 999
+			}
+		}
+
+		visible = {
+			has_civil_war = no 
+			exists = yes 
+		}
+
+		custom_cost_trigger = {
+			has_manpower > 999
+		}
+
+		custom_cost_text = CHL_manpower_1000_tt
+
+		days_remove = 25
+
+		modifier = {
+			weekly_manpower = -20
+		}
+
+		complete_effect = {
+			hidden_effect = {
+				add_manpower = -1000
+			}
+		}
+
+		remove_effect = {
+			ARG_increase_1_political_tension = yes 
+			FROM = {
+				remove_dynamic_modifier = { modifier = ARG_protests }
+			}
+		}
+	}
+
+	ARG_appease_the_military = {
+		icon = generic_army_support
+
+		cost = 50
+
+		visible = {
+			has_civil_war = no 
+			has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
+			check_variable = { ARG_military_opinion < 2 }
+		}
+
+		available = {
+			NOT = {
+				has_active_mission = ARG_military_planning_to_overthrow_the_government
+			}
+			custom_trigger_tooltip = {
+				tooltip = ARG_military_wasnt_recently_appeased_tt
+				NOT = { has_country_flag = ARG_military_appeased }
+			}
+		}
+
+		modifier = {
+			consumer_goods_factor = 0.05
+		}
+
+		days_remove = 50
+
+		cancel_trigger = {
+			NOT = {
+				has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
+			}
+		}
+
+		remove_effect = {
+			army_experience = 5
+			custom_effect_tooltip = ARG_military_will_be_appeased_for_half_a_year_tt
+			set_country_flag = {
+				flag = ARG_military_appeased 
+				days = 190
+				value = 1
+			}
+			random_list = {
+				50 = {
+					custom_effect_tooltip = ARG_military_opinion_increase_tt
+					add_to_variable = { ARG_military_opinion = 1 }
+					clamp_variable = {
+						var = ARG_military_opinion
+						min = -2
+						max = 2 
+					}
+				}
+				50 = {
+
+				}
+			}
+		}
 	}
 }
 
