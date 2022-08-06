@@ -486,6 +486,286 @@ ARG_1937_elections = {
 		}
 	}
 
+	ARG_ucra_planning_on_securing_state = {
+		priority = 35
+		icon = GFX_UCRA_secure_state
+
+		activation = {
+			has_active_mission = ARG_the_1937_elections
+			NOT = { check_variable = { ARG_concordancia_opinion = 2 } }
+			any_core_state = {
+				NOT = {
+					OR = {
+						has_dynamic_modifier = { modifier = ARG_dominant_ucr_a }
+						has_dynamic_modifier = { modifier = ARG_dominant_ucr }
+						has_dynamic_modifier = { modifier = ARG_dominant_ps }
+					}
+				}
+			}
+		}
+
+		days_mission_timeout = 125
+
+		fire_only_once = no 
+
+		is_good = no 
+
+		cancel_trigger = {
+			OR = {
+				NOT = { has_active_mission = ARG_the_1937_elections }
+				check_variable = { ARG_concordancia_opinion = 2 }
+				NOT = {
+					any_core_state = {
+						NOT = {
+							OR = {
+								has_dynamic_modifier = { modifier = ARG_dominant_ucr_a }
+								has_dynamic_modifier = { modifier = ARG_dominant_ucr }
+								has_dynamic_modifier = { modifier = ARG_dominant_ps }
+							}
+						}
+					}
+				}
+			}
+		}
+
+		timeout_effect = {
+			custom_effect_tooltip = ARG_concordancia_will_gain_the_majority_vote_in_a_random_empty_state_tt
+			hidden_effect = {
+				random_owned_controlled_state = {
+					limit = {
+						is_core_of = ROOT 
+						NOT = {
+							OR = {
+								has_dynamic_modifier = { modifier = ARG_dominant_ucr_a }
+								has_dynamic_modifier = { modifier = ARG_dominant_ucr }
+								has_dynamic_modifier = { modifier = ARG_dominant_ps }
+							}
+						}
+					}
+					add_dynamic_modifier = { modifier = ARG_dominant_ucr_a }
+				}
+				ARG_set_electoral_votes = yes 
+			}
+		}
+	}
+
+	ARG_ucr_planning_on_securing_state = {
+		priority = 35
+		icon = GFX_UCR_secure_state
+
+		activation = {
+			has_active_mission = ARG_the_1937_elections
+			NOT = { check_variable = { ARG_UCR_opinion = 2 } }
+			any_core_state = {
+				NOT = {
+					OR = {
+						has_dynamic_modifier = { modifier = ARG_dominant_ucr_a }
+						has_dynamic_modifier = { modifier = ARG_dominant_ucr }
+						has_dynamic_modifier = { modifier = ARG_dominant_ps }
+					}
+				}
+			}
+		}
+
+		days_mission_timeout = 135
+
+		fire_only_once = no 
+
+		is_good = no 
+
+		cancel_trigger = {
+			OR = {
+				NOT = { has_active_mission = ARG_the_1937_elections }
+				check_variable = { ARG_UCR_opinion = 2 }
+				NOT = {
+					any_core_state = {
+						NOT = {
+							OR = {
+								has_dynamic_modifier = { modifier = ARG_dominant_ucr_a }
+								has_dynamic_modifier = { modifier = ARG_dominant_ucr }
+								has_dynamic_modifier = { modifier = ARG_dominant_ps }
+							}
+						}
+					}
+				}
+			}
+		}
+
+		timeout_effect = {
+			custom_effect_tooltip = ARG_ucr_will_gain_the_majority_vote_in_a_random_empty_state_tt
+			hidden_effect = {
+				random_owned_controlled_state = {
+					limit = {
+						is_core_of = ROOT 
+						NOT = {
+							OR = {
+								has_dynamic_modifier = { modifier = ARG_dominant_ucr_a }
+								has_dynamic_modifier = { modifier = ARG_dominant_ucr }
+								has_dynamic_modifier = { modifier = ARG_dominant_ps }
+							}
+						}
+					}
+					add_dynamic_modifier = { modifier = ARG_dominant_ucr }
+				}
+				ARG_set_electoral_votes = yes 
+			}
+		}
+	}
+
+	ARG_ps_attempting_to_secure_a_state = {
+		priority = 35
+		icon = GFX_PS_secure_state
+
+		activation = {
+			has_active_mission = ARG_the_1937_elections
+			NOT = { check_variable = { ARG_partido_socialista_opinion = 2 } }
+			any_core_state = {
+				NOT = {
+					OR = {
+						has_dynamic_modifier = { modifier = ARG_dominant_ucr_a }
+						has_dynamic_modifier = { modifier = ARG_dominant_ucr }
+						has_dynamic_modifier = { modifier = ARG_dominant_ps }
+					}
+				}
+			}
+		}
+
+		days_mission_timeout = 170
+
+		fire_only_once = no 
+
+		is_good = no 
+
+		cancel_trigger = {
+			OR = {
+				NOT = { has_active_mission = ARG_the_1937_elections }
+				check_variable = { ARG_partido_socialista_opinion = 2 }
+				NOT = {
+					any_core_state = {
+						NOT = {
+							OR = {
+								has_dynamic_modifier = { modifier = ARG_dominant_ucr_a }
+								has_dynamic_modifier = { modifier = ARG_dominant_ucr }
+								has_dynamic_modifier = { modifier = ARG_dominant_ps }
+							}
+						}
+					}
+				}
+			}
+		}
+
+		timeout_effect = {
+			custom_effect_tooltip = ARG_ps_will_gain_the_majority_vote_in_a_random_empty_state_tt
+			hidden_effect = {
+				random_owned_controlled_state = {
+					limit = {
+						is_core_of = ROOT 
+						NOT = {
+							OR = {
+								has_dynamic_modifier = { modifier = ARG_dominant_ucr_a }
+								has_dynamic_modifier = { modifier = ARG_dominant_ucr }
+								has_dynamic_modifier = { modifier = ARG_dominant_ps }
+							}
+						}
+					}
+					add_dynamic_modifier = { modifier = ARG_dominant_ucr }
+				}
+				ARG_set_electoral_votes = yes 
+			}
+		}
+	}
+
+	ARG_secure_the_vote_in_FROM_empty = {
+		icon = generic_speech
+
+		state_target = yes 
+
+		target_array = core_states
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+				NOT = {
+					OR = {
+						has_dynamic_modifier = { modifier = ARG_dominant_ucr_a }
+						has_dynamic_modifier = { modifier = ARG_dominant_ucr }
+						has_dynamic_modifier = { modifier = ARG_dominant_ps }
+					}
+				}
+			}
+		}
+
+		visible = {
+			has_active_mission = ARG_the_1937_elections
+			OR = {
+				has_completed_focus = ARG_partido_socialista
+				has_completed_focus = ARG_union_civica_radical
+				has_completed_focus = ARG_concordancia
+			}
+		}
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ARG_not_in_political_struggle_tt
+				NOT = { has_country_flag = ARG_political_struggle }
+			}
+			custom_trigger_tooltip = {
+				tooltip = ARG_not_securing_vote_in_another_state_tt
+				NOT = { has_country_flag = ARG_taking_state }
+			}
+		}
+
+		cancel_trigger = {
+			OR = {
+				has_civil_war = yes 
+				NOT = { has_active_mission = ARG_the_1937_elections }
+				FROM = {
+					OR = {
+						has_dynamic_modifier = { modifier = ARG_dominant_ucr_a }
+						has_dynamic_modifier = { modifier = ARG_dominant_ucr }
+						has_dynamic_modifier = { modifier = ARG_dominant_ps }
+					}
+				}
+			}
+		}
+
+		cost = ARG_cost_take_empty_province
+		days_remove = ARG_days_to_take_empty
+
+		complete_effect = {
+			set_country_flag = ARG_taking_state
+		}
+
+		remove_effect = {
+			clr_country_flag = ARG_taking_state
+			custom_effect_tooltip = ARG_we_will_take_control_of_province_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						has_completed_focus = ARG_partido_socialista
+					}
+					FROM = {
+						add_dynamic_modifier = { modifier = ARG_dominant_ps }
+					}
+				}
+				else_if = {
+					limit = { 
+						has_completed_focus = ARG_union_civica_radical
+					}
+					FROM = {
+						add_dynamic_modifier = { modifier = ARG_dominant_ucr }
+					}
+				}
+				else = {
+					FROM = {
+						add_dynamic_modifier = { modifier = ARG_concordancia }
+					}
+				}
+				ARG_set_electoral_votes = yes 
+			}
+		}
+	}
+
 	ARG_pressure_the_parties_for_faster_elections = {
 		priority = 10
 		icon = eng_trade_unions_demand
@@ -668,9 +948,9 @@ ARG_inflation = {
 			}
 		}
 		
-		days_remove = 40
+		days_remove = 35
 		
-		cost = 35
+		cost = 25
 		
 		modifier = {
 			political_power_factor = -0.1
@@ -707,9 +987,9 @@ ARG_inflation = {
 			}
 		}
 		
-		days_remove = 45
+		days_remove = 40
 		
-		cost = 40
+		cost = 30
 		
 		modifier = {
 			political_power_factor = -0.05
@@ -758,9 +1038,9 @@ ARG_inflation = {
 			}
 		}
 		
-		days_remove = 65
+		days_remove = 60
 		
-		cost = 95
+		cost = 80
 		
 		modifier = {
 			political_power_factor = -0.15
@@ -858,7 +1138,7 @@ ARG_inflation = {
 			}
 		}
 		
-		cost = 35
+		cost = 25
 		
 		fire_only_once = no
 		
@@ -899,7 +1179,7 @@ ARG_inflation = {
 			}
 		}
 		
-		cost = 80
+		cost = 50
 		
 		days_remove = 75
 		
