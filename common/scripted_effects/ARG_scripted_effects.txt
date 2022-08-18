@@ -13,6 +13,10 @@
 #ARG_decrease_10_political_tension
 #ARG_decrease_15_political_tension
 #ARG_set_electoral_votes
+#ARG_get_chances_of_overwhelming_party
+#ARG_reduce_distrust_of_military
+#ARG_state_cleaner_elections
+#ARG_chance_to_increase_corruption
 
 ARG_set_up_political_tension_idea = {
     set_temp_variable = { ARG_tension = ARG_political_tension }
@@ -241,5 +245,170 @@ ARG_set_electoral_votes = {
         set_variable = { ARG_predicted_UCR_electoral_votes = ARG_electoral_votes_UCR }
         set_variable = { ARG_predicted_UCRA_electoral_votes = ARG_electoral_votes_UCRA }
         set_variable = { ARG_predicted_PS_electoral_votes = ARG_electoral_votes_PS }
+    }
+}
+
+ARG_get_chances_of_overwhelming_party = {
+    set_temp_variable = { ARG_pop_province = 0 }
+    FROM = { set_temp_variable = { ARG_pop = state_population_k } }
+    set_temp_variable = { ARG_pop_province = ARG_pop }
+    divide_temp_variable = { ARG_pop_province = 35 }
+    add_to_temp_variable = { ARG_chance_of_failure = ARG_pop_province }
+    subtract_from_temp_variable = { ARG_chance_of_success = ARG_pop_province }
+    if = {
+        limit = {
+            has_completed_focus = ARG_concordancia
+        }
+        set_temp_variable = { ARG_foreign_power = ARG_predicted_UCRA_electoral_votes }
+        divide_temp_variable = { ARG_foreign_power = 8 }
+    }
+    if = {
+        limit = {
+            has_completed_focus = ARG_union_civica_radical
+        }
+        set_temp_variable = { ARG_foreign_power = ARG_predicted_UCR_electoral_votes }
+        divide_temp_variable = { ARG_foreign_power = 8 }
+    }
+    if = {
+        limit = {
+            has_completed_focus = ARG_partido_socialista
+        }
+        set_temp_variable = { ARG_foreign_power = ARG_predicted_PS_electoral_votes }
+        divide_temp_variable = { ARG_foreign_power = 8 }
+    }
+    round_variable = ARG_host_power
+    round_variable = ARG_foreign_power
+    add_to_temp_variable = { ARG_chance_of_failure = ARG_host_power }
+    subtract_from_temp_variable = { ARG_chance_of_failure = ARG_foreign_power }
+    add_to_temp_variable = { ARG_chance_of_success = ARG_foreign_power }
+    subtract_from_temp_variable = { ARG_chance_of_failure = ARG_host_power }
+    clamp_temp_variable = {
+        var = ARG_chance_of_failure
+        min = 0
+        max = 100
+    }
+    clamp_temp_variable = {
+        var = ARG_chance_of_success
+        min = 0
+        max = 100
+    }
+}
+
+ARG_reduce_distrust_of_military = {
+    if = {
+        limit = {
+            has_idea = ARG_distrust_of_military
+        }
+        swap_ideas = {
+			remove_idea = ARG_distrust_of_military
+			add_idea = ARG_distrust_of_military_2
+		}
+    }
+    else_if = {
+        limit = {
+            has_idea = ARG_distrust_of_military_3
+        }
+        swap_ideas = {
+			remove_idea = ARG_distrust_of_military_3
+			add_idea = ARG_distrust_of_military_4
+		}
+    }
+    else_if = {
+        limit = {
+            has_idea = ARG_distrust_of_military_4
+        }
+        swap_ideas = {
+			remove_idea = ARG_distrust_of_military_4
+			add_idea = ARG_distrust_of_military_5
+		}
+    }
+    else_if = {
+        limit = {
+            has_idea = ARG_distrust_of_military_5
+        }
+        swap_ideas = {
+			remove_idea = ARG_distrust_of_military_5
+			add_idea = ARG_distrust_of_military_6
+		}
+    }
+    else_if = {
+        limit = {
+            has_idea = ARG_distrust_of_military_6
+        }
+        swap_ideas = {
+			remove_idea = ARG_distrust_of_military_6
+			add_idea = ARG_distrust_of_military_7
+		}
+    }
+    else = {
+        if = {
+            limit = { has_idea = ARG_distrust_of_military_2 }
+            remove_ideas = ARG_distrust_of_military_2
+        }
+        else = {
+            remove_ideas = ARG_distrust_of_military_7
+        }
+    }
+}
+
+ARG_state_cleaner_elections = {
+    if = {
+        limit = {
+            has_dynamic_modifier = { modifier = ARG_dominant_ucr_a }
+        }
+        remove_dynamic_modifier = { modifier = ARG_dominant_ucr_a }
+    }
+    else_if = {
+        limit = {
+            has_dynamic_modifier = { modifier = ARG_dominant_ucr }
+        }
+        remove_dynamic_modifier = { modifier = ARG_dominant_ucr }
+    }  
+    else = {
+        remove_dynamic_modifier = { modifier = ARG_dominant_ps }
+    }
+}
+
+ARG_chance_to_increase_corruption = {
+    set_temp_variable = { ARG_increase = 0 }
+    set_temp_variable = { ARG_nothing = 0 }
+    if = {
+        limit = {
+            check_variable = { ARG_degree_of_corruption = 8 }
+        }
+        set_temp_variable = { ARG_increase = 0 }
+        set_temp_variable = { ARG_nothing = 100 }
+    }
+    else_if = {
+        limit = {
+            AND = {
+                check_variable = { ARG_degree_of_corruption > 5 }
+                check_variable = { ARG_degree_of_corruption < 8 }
+            }
+        }
+        set_temp_variable = { ARG_increase = 20 }
+        set_temp_variable = { ARG_nothing = 80 }
+    }
+    else_if = {
+        limit = {
+            AND = {
+                check_variable = { ARG_degree_of_corruption > 3 }
+                check_variable = { ARG_degree_of_corruption < 6 }
+            }
+        }
+        set_temp_variable = { ARG_increase = 35 }
+        set_temp_variable = { ARG_nothing = 65 }
+    }
+    else = {
+        set_temp_variable = { ARG_increase = 50 }
+        set_temp_variable = { ARG_nothing = 50 }
+    }
+    random_list = {
+        ARG_increase = {
+            ARG_increase_corruption_by_1 = yes 
+        }
+        ARG_nothing = {
+
+        }
     }
 }

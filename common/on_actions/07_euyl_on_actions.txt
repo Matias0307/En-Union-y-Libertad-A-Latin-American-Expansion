@@ -44,34 +44,6 @@ on_actions = {
             }
         }
     }
-    on_weekly = { #to fix that god damnned bug, also making it weekly to not slow down the game that much
-        effect = {
-            if = {
-                limit = { 
-                    NOT = {
-                        original_tag = ARG 
-                    }
-                    exists = yes 
-                    peronism > 0
-                }
-                set_temp_variable = { EUYL_peronist_popularity = party_popularity@peronism }
-                multiply_temp_variable = { EUYL_peronist_popularity = -1 }
-                add_popularity = { ideology = peronism popularity = EUYL_peronist_popularity }
-            }
-            if = {
-                limit = {
-                    NOT = { 
-                        original_tag = ARG 
-                    }
-                    exists = yes 
-                    has_government = peronism
-                }
-                set_politics = {
-                    ruling_party = neutrality
-                }
-            }
-        }
-    }
     on_weekly_ARG = {
         effect = {
             if = {
@@ -84,6 +56,7 @@ on_actions = {
             if = {
                 limit = {
                     has_dynamic_modifier = { modifier = ARG_corruption_scandal_idea }
+                    check_variable = { ARG_corruption_status = 0 }
                     NOT = { has_active_mission = ARG_potential_corrupt_scandal }
                 }
                 activate_mission = ARG_potential_corrupt_scandal
@@ -97,7 +70,7 @@ on_actions = {
                     has_idea = ARG_high_inflation_risk
                 }
                 random_list = {
-                    4 = {
+                    5 = {
                         remove_ideas = {
                             ARG_high_inflation_risk
                             ARG_medium_inflation_risk
@@ -106,7 +79,7 @@ on_actions = {
                         add_ideas = ARG_inflation_4
                         country_event = argentina.rework.10
                     }
-                    96 = {
+                    95 = {
 
                     }
                 }
