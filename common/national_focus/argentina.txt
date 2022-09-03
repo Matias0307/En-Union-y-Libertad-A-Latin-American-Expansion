@@ -27,7 +27,7 @@ focus_tree = {
 	focus = {
 		id = ARG_modernize_ruta_40
 		icon = GFX_goal_generic_construct_civilian
-		x = 1
+		x = -1
 		y = 0
 		cost = 3
 	
@@ -192,7 +192,7 @@ focus_tree = {
 	focus = {
 		id = ARG_industrialize_the_pampas
 		icon = GFX_goal_generic_construct_infrastructure  #change to custom
-		x = -1
+		x = -2
 		y = 1
 		
 		prerequisite = { focus = ARG_modernize_ruta_40 }
@@ -246,7 +246,7 @@ focus_tree = {
 	focus = {
 		id = ARG_establish_ferrocarriles_argentinos
 		icon = GFX_ARG_ferrocarriles
-		x = -2
+		x = -4
 		y = 1
 		relative_position_id = ARG_industrialize_the_pampas
 		prerequisite = { focus = ARG_industrialize_the_pampas }
@@ -273,7 +273,7 @@ focus_tree = {
 	focus = {
 		id = ARG_expand_our_railways_in_the_patagonia
 		icon = GFX_goal_generic_construct_infrastructure
-		x = -1
+		x = 0
 		y = 1
 		relative_position_id = ARG_establish_ferrocarriles_argentinos
 		prerequisite = { focus = ARG_establish_ferrocarriles_argentinos }
@@ -410,7 +410,7 @@ focus_tree = {
 	focus = {
 		id = ARG_industrialize_the_north
 		icon = GFX_goal_generic_construct_infrastructure  #change to custom
-		x = -1
+		x = -3
 		y = 2
 		
 		prerequisite = { focus = ARG_industrialize_the_pampas }
@@ -471,8 +471,8 @@ focus_tree = {
 	focus = {
 		id = ARG_expand_jujuy_steel
 		icon = GFX_focus_generic_steel
-		x = 0
-		y = 3
+		x = -3
+		y = 4
 		
 		prerequisite = { focus = ARG_industrialize_the_north }
 		
@@ -514,7 +514,7 @@ focus_tree = {
 	focus = {
 		id = ARG_industrialize_the_south
 		icon = GFX_goal_generic_construct_infrastructure #temporary, change later
-		x = 1
+		x = -1
 		y = 2
 		
 		prerequisite = { focus = ARG_industrialize_the_pampas }
@@ -579,7 +579,7 @@ focus_tree = {
 	focus = {
 		id = ARG_exploit_la_vaca_muerta
 		icon = GFX_ARG_vaca_muerta 
-		x = 2
+		x = 0
 		y = 3
 		
 		prerequisite = { focus = ARG_industrialize_the_south }
@@ -664,11 +664,11 @@ focus_tree = {
 	focus = {
 		id = ARG_improve_mining
 		icon = GFX_goal_generic_construction2 #low chance of change
-		x = 1
+		x = -1
 		y = 4
 		
 		prerequisite = { focus = ARG_exploit_la_vaca_muerta }
-		prerequisite = { focus = ARG_expand_jujuy_steel }
+
 		
 		
 		cost = 10
@@ -714,7 +714,7 @@ focus_tree = {
 		x = 7
 		y = 0
 		
-		cost = 2
+		cost = 1
 		
 		ai_will_do = {
 			factor = 100
@@ -742,15 +742,44 @@ focus_tree = {
 		}
 	}
 
+	focus = { #will add a civ and reduce inflation 
+		id = ARG_focus_on_our_markets
+		icon = GFX_goal_generic_construct_civ_factory
+		x = -1
+		y = 1
+		relative_position_id = ARG_focus_economy 
+		prerequisite = { focus = ARG_focus_economy }
+	}
+
+	focus = {
+		id = ARG_continue_the_roca_runciman 
+		icon = GFX_ 
+		x = 2
+		y = 1
+		relative_position_id = ARG_focus_on_our_markets
+		prerequisite = { focus = ARG_focus_on_our_markets }
+		mutually_exclusive = { focus = ARG_cancel_the_roca_runciman_treaty }
+	}
+
+	focus = {
+		id = ARG_cancel_the_roca_runciman_treaty
+		icon = GFX_ 
+		x = 4
+		y =1 
+		relative_position_id = ARG_focus_on_our_markets
+		prerequisite = { focus = ARG_focus_on_our_markets }
+		mutually_exclusive = { focus = ARG_continue_the_roca_runciman }
+	}
+
 	focus = {
 		id = ARG_construct_the_general_paz
 		icon = GFX_ARG_construct_general_paz
-		x = -3
+		x = -5
 		y = 1
 		relative_position_id = ARG_focus_economy
 		prerequisite = { focus = ARG_focus_economy }
 
-		cost = 4
+		cost = 3
 
 		available = {
 			controls_state = 888
@@ -782,10 +811,11 @@ focus_tree = {
 	focus = {
 		id = ARG_develop_the_capital
 		icon = GFX_ARG_develop_capital
-		x = 5
+		x = 3
 		y = 2
 		
 		prerequisite = { focus = ARG_construct_the_general_paz }
+		prerequisite = { focus = ARG_focus_on_our_markets }
 		
 		cost = 5
 		
@@ -831,14 +861,15 @@ focus_tree = {
 			}
 		}
 	}
-	
+
 	focus = {
 		id = ARG_develop_northern_patagonia
 		icon = GFX_goal_generic_construct_civ_factory #temporary
-		x = 3
+		x = 1
 		y = 2
 		
 		prerequisite = { focus = ARG_construct_the_general_paz } 
+		prerequisite = { focus = ARG_invest_in_our_mining_industry }
 		
 		
 		cost = 8
@@ -889,10 +920,10 @@ focus_tree = {
 	focus = {
 		id = ARG_reduce_public_expense
 		icon = GFX_goal_generic_consumer_goods #low chance of changing
-		x = 7
-		y = 1
+		x = 6
+		y = 2
 		
-		prerequisite = { focus = ARG_focus_economy }
+		prerequisite = { focus = ARG_focus_on_our_markets }
 		
 		
 		cost = 4
@@ -922,6 +953,21 @@ focus_tree = {
 		y = 1
 		relative_position_id = ARG_focus_economy
 		prerequisite = { focus = ARG_focus_economy }
+
+		allow_branch = { 
+			OR = {
+				has_idea = ARG_inflation_1
+				has_idea = ARG_inflation_2
+				has_idea = ARG_inflation_3
+				has_idea = ARG_inflation_4
+				has_idea = ARG_inflation_5
+				has_idea = ARG_inflation_6
+				has_idea = ARG_inflation_7
+				has_idea = ARG_inflation_8
+				has_idea = ARG_inflation_9
+				has_idea = ARG_inflation_10
+			}
+		}
 		
 		cost = 5
 		
@@ -1199,11 +1245,12 @@ focus_tree = {
 	}
 		
 
-	focus = {
+	focus = { #will also reduce inflation 
 		id = ARG_restrict_circulation_currency
 		icon = GFX_ARG_restrict_circulation_currency
-		x = 7
-		y = 2
+		x = 1
+		y = 1
+		relative_position_id = ARG_reduce_public_expense
 		prerequisite = { focus = ARG_reduce_public_expense }
 		
 		cost = 8
@@ -1213,13 +1260,29 @@ focus_tree = {
 		}
 		
 		available = {
-			custom_trigger_tooltip = {
-				tooltip = ARG_inflation_4_or_less
-				OR = {
-					has_idea = ARG_inflation_1
-					has_idea = ARG_inflation_2
-					has_idea = ARG_inflation_3
-					has_idea = ARG_inflation_4
+			if = {
+				limit = {
+					OR = {
+						has_idea = ARG_inflation_1
+						has_idea = ARG_inflation_2
+						has_idea = ARG_inflation_3
+						has_idea = ARG_inflation_4
+						has_idea = ARG_inflation_5
+						has_idea = ARG_inflation_6
+						has_idea = ARG_inflation_7
+						has_idea = ARG_inflation_8
+						has_idea = ARG_inflation_9
+						has_idea = ARG_inflation_10
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = ARG_inflation_4_or_less
+					OR = {
+						has_idea = ARG_inflation_1
+						has_idea = ARG_inflation_2
+						has_idea = ARG_inflation_3
+						has_idea = ARG_inflation_4
+					}
 				}
 			}
 		}
@@ -1232,6 +1295,7 @@ focus_tree = {
 		available_if_capitulated = no
 		search_filters = {FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
+			ARG_lower_inflation_risk = yes 
 			swap_ideas = {
 				remove_idea = ARG_economic_depression
 				add_idea = ARG_economic_depression_2
@@ -1243,10 +1307,11 @@ focus_tree = {
 	focus = {
 		id = ARG_establish_patriotic_loan
 		icon = GFX_ARG_patriotic_loan
-		x = 7
-		y = 3
-		
-		prerequisite = { focus = ARG_restrict_circulation_currency }
+		x = -1
+		y = 1
+		relative_position_id = ARG_reduce_public_expense
+
+		prerequisite = { focus = ARG_reduce_public_expense }
 		
 		cost = 5
 		
@@ -1269,11 +1334,9 @@ focus_tree = {
 	focus = {
 		id = ARG_develop_patagonia
 		icon = GFX_goal_generic_construct_civ_factory #temporary
-		x = 4
+		x = 1
 		y = 4
-		
-		prerequisite = { focus = ARG_develop_northern_patagonia }
-		prerequisite = { focus = ARG_develop_the_capital }
+		prerequisite = { focus = ARG_exploit_la_vaca_muerta }
 		
 		
 		cost = 10
@@ -1336,9 +1399,11 @@ focus_tree = {
 	focus = {
 		id = ARG_deal_with_depression
 		icon = GFX_ARG_end_of_depression
-		x = 7
-		y = 4
+		x = 0
+		y = 2
+		relative_position_id = ARG_reduce_public_expense
 		prerequisite = { focus = ARG_establish_patriotic_loan }
+		prerequisite = { focus = ARG_restrict_circulation_currency }
 		
 		cost = 10
 		
@@ -1373,9 +1438,7 @@ focus_tree = {
 		icon  = GFX_focus_research #slight chance of change
 		x = 5
 		y = 5
-		
-		prerequisite = { focus = ARG_deal_with_depression }
-		prerequisite = { focus = ARG_develop_patagonia }
+
 		
 		
 		cost = 10
@@ -1799,10 +1862,10 @@ focus_tree = {
 	focus = {
 		id = ARG_ready_the_economy_for_war
 		icon = GFX_focus_generic_tank_production
-		x = -1
+		x = 5
 		y = 1
-		relative_position_id = ARG_rapidly_mobilize
-		prerequisite = { focus = ARG_rapidly_mobilize }
+		relative_position_id = ARG_focus_economy
+		prerequisite = { focus = ARG_focus_economy }
 		
 		
 		cost = 10
@@ -1817,10 +1880,10 @@ focus_tree = {
 	focus = {
 		id = ARG_militarize_the_capital
 		icon = GFX_ARG_militarize_the_capital
-		x = -1
-		y = 2
-		relative_position_id = ARG_rapidly_mobilize
-		prerequisite = { focus = ARG_ready_the_economy_for_war }
+		x = 0
+		y = 1
+		relative_position_id = ARG_develop_the_capital
+		prerequisite = { focus = ARG_develop_the_capital }
 		
 		
 		cost = 10
@@ -1859,10 +1922,10 @@ focus_tree = {
 	focus = {
 		id = ARG_militarize_the_northeast
 		icon = GFX_goal_generic_construct_mil_factory
-		x = -1
-		y = 3
-		relative_position_id = ARG_rapidly_mobilize
-		prerequisite = { focus = ARG_militarize_the_capital }
+		x = 1
+		y = 1
+		relative_position_id = ARG_industrialize_the_north
+		prerequisite = { focus = ARG_industrialize_the_north }
 		
 		
 		cost = 10
@@ -2065,10 +2128,10 @@ focus_tree = {
 	focus = {
 		id = ARG_arm_the_northwest
 		icon = GFX_goal_generic_construct_mil_factory
-		x = 5
-		y = 2
-		relative_position_id = ARG_rapidly_mobilize
-		prerequisite = { focus = ARG_make_an_effort_to_mobilize }
+		x = -1
+		y = 1
+		relative_position_id = ARG_industrialize_the_north
+		prerequisite = { focus = ARG_industrialize_the_north }
 		
 		
 		cost = 10
@@ -2099,7 +2162,7 @@ focus_tree = {
 		x = 5
 		y = 3
 		relative_position_id = ARG_rapidly_mobilize
-		prerequisite = { focus = ARG_arm_the_northwest }
+
 		
 		
 		cost = 10
@@ -2189,7 +2252,7 @@ focus_tree = {
 		id = ARG_infamous_decade
 		icon = GFX_ARG_infamous_decade
 
-		x = 28
+		x = 31
 		y = 0
 		relative_position_id = ARG_focus_economy
 		mutually_exclusive = { focus = ARG_drift_back_towards_the_confederation }
@@ -2220,7 +2283,7 @@ focus_tree = {
 	focus = {
 		id = ARG_drift_back_towards_the_confederation
 		icon = GFX_ARG_drift_back_towards_the_confederation
-		x = 30
+		x = 33
 		y = 0
 		relative_position_id = ARG_infamous_decade
 		prerequisite = { }
@@ -6710,7 +6773,7 @@ focus_tree = {
 		id = ARG_ban_personalismo
 		icon = GFX_ARG_ban_personal
 		x = -3
-		y = 6
+		y = 12
 		
 		cost = 10
 		
@@ -8691,7 +8754,7 @@ focus_tree = {
 	focus = {
 		id = ARG_focus_on_foreign_immigration
 		icon = GFX_goal_generic_propaganda
-		x = -1
+		x = -7
 		y = 1
 
 
@@ -8717,7 +8780,7 @@ focus_tree = {
 		id = ARG_help_out_the_spanish
 		icon = GFX_focus_generic_befriend_republican_spain_focus
 		x = 2
-		y = 6
+		y = 12
 
 		
 		cost = 5
@@ -9339,7 +9402,7 @@ focus_tree = {
 		id = ARG_nationalize_key_industries
 		icon = GFX_ARG_nationalize_industry
 		x = 3
-		y = 5
+		y = 12
 		
 		cost = 10
 		
