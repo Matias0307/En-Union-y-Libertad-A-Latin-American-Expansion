@@ -222,6 +222,76 @@ ARG_managing_the_army = {
 			}
 		}
 	}
+
+	ARG_improve_our_mobilization = {
+		icon = generic_military
+
+		visible = { 
+			has_completed_focus = ARG_make_an_effort_to_mobilize 
+			has_civil_war = no 
+			OR = {
+				has_idea = ARG_military_conscription_1
+				has_idea = ARG_military_conscription_2
+				has_idea = ARG_military_conscription_3
+				has_idea = ARG_military_conscription_4
+			}
+		}
+
+		cost = ARG_cost_to_improve_mob
+
+		days_remove = ARG_days_to_improve_mob
+
+		cancel_trigger = {
+			OR = {
+				has_civil_war = yes 
+				NOT = {
+					OR = {
+						has_idea = ARG_military_conscription_1
+						has_idea = ARG_military_conscription_2
+						has_idea = ARG_military_conscription_3
+						has_idea = ARG_military_conscription_4
+					}
+				}
+			}
+		}
+
+		remove_effect = {
+			add_to_variable = { ARG_cost_to_improve_mob = 25 }
+			add_to_variable = { ARG_days_to_improve_mob = 35 }
+			if = {
+				limit = {
+					has_idea = ARG_military_conscription_1
+				}
+				swap_ideas = {
+					remove_idea = ARG_military_conscription_1
+					add_idea = ARG_military_conscription_2
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = ARG_military_conscription_2
+				}
+				swap_ideas = {
+					remove_idea = ARG_military_conscription_2
+					add_iea = ARG_military_conscription_3
+				}
+			}
+			else = { 
+				swap_ideas = {
+					remove_idea = ARG_military_conscription_3
+					add_idea = ARG_military_conscription_4
+				}
+			}
+			random_list = {
+				50 = {
+					ARG_increase_2_political_tension = yes 
+				}
+				50 = {
+
+				}
+			}
+		}
+	}
 }
 
 ARG_territorial_management = {
