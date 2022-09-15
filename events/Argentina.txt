@@ -907,6 +907,172 @@ country_event = {
 	}
 }
 
+#Argentines offer to take up arms to defend the country 
+country_event = {
+	id = argentina.rework.18
+	title = argentina.rework.18.t 
+	desc = argentina.rework.18.d 
+	picture = GFX_Arg_argentinarework18
+
+	trigger = {
+		original_tag = ARG 
+		has_defensive_war = yes 
+		has_completed_focus = ARG_juremos_con_gloria_morir
+		has_civil_war = no 
+		is_subject = no  
+		has_capitulated = no 
+		exists = yes 
+	}
+
+	mean_time_to_happen = { days = 10 }
+
+	option = { #Every Argentine to the frontlines!
+		name = argentina.rework.18.a
+		custom_effect_tooltip = ARG_militias_will_form_across_the_country_tt
+		hidden_effect = {
+			division_template = { 
+				name = "Milicias Argentinas" 
+				division_names_group = SPAN_INF_02 
+				is_locked = yes 
+				regiments = { 
+					infantry = { x = 0 y = 0 }  
+					infantry = { x = 0 y = 1 } 
+					infantry = { x = 0 y = 2 } 
+					infantry = { x = 0 y = 3 } 
+				}
+			}
+			division_template = { 
+				name = "Gauchos" 
+				division_names_group = SPAN_INF_02 
+				is_locked = yes 
+				regiments = { 
+					cavalry = { x = 0 y = 0 }  
+					cavalry = { x = 0 y = 1 } 
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 898 899 900 901 895 }
+				limit = { 
+					is_core_of = ROOT 
+					is_fully_controlled_by = ROOT
+				}
+				create_unit = {
+					division = "name = \"Gauchos\" division_template = \"Gauchos\" start_experience_factor = 0.02 start_equipment_factor = 1.0" 
+					owner = ROOT
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 898 899 900 901 895 }
+				limit = { 
+					is_core_of = ROOT 
+					is_fully_controlled_by = ROOT
+				}
+				create_unit = {
+					division = "name = \"Gauchos\" division_template = \"Gauchos\" start_experience_factor = 0.02 start_equipment_factor = 1.0" 
+					owner = ROOT
+				}
+				create_unit = {
+					division = "name = \"Gauchos\" division_template = \"Gauchos\" start_experience_factor = 0.02 start_equipment_factor = 1.0" 
+					owner = ROOT
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 898 899 900 901 895 }
+				limit = { 
+					is_core_of = ROOT 
+					is_fully_controlled_by = ROOT
+				}
+				create_unit = {
+					division = "name = \"Gauchos\" division_template = \"Gauchos\" start_experience_factor = 0.02 start_equipment_factor = 1.0" 
+					owner = ROOT
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT 
+					is_fully_controlled_by = ROOT 
+				}
+				create_unit = {
+					division = "name = \"Milicias Argentinas\" division_template = \"Milicias Argentinas\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+					owner = ROOT
+				}
+				create_unit = {
+					division = "name = \"Milicias Argentinas\" division_template = \"Milicias Argentinas\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+					owner = ROOT
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT 
+					is_fully_controlled_by = ROOT 
+				}
+				create_unit = {
+					division = "name = \"Milicias Argentinas\" division_template = \"Milicias Argentinas\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+					owner = ROOT
+				}
+				create_unit = {
+					division = "name = \"Milicias Argentinas\" division_template = \"Milicias Argentinas\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+					owner = ROOT
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT 
+					is_fully_controlled_by = ROOT 
+				}
+				create_unit = {
+					division = "name = \"Milicias Argentinas\" division_template = \"Milicias Argentinas\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+					owner = ROOT
+				}
+				create_unit = {
+					division = "name = \"Milicias Argentinas\" division_template = \"Milicias Argentinas\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+					owner = ROOT
+				}
+			}
+			if = {
+				limit = {
+					has_war_support > 0.75
+				}
+				random_owned_controlled_state = {
+					limit = {
+						is_core_of = ROOT 
+						is_fully_controlled_by = ROOT 
+					}
+					create_unit = {
+						division = "name = \"Milicias Argentinas\" division_template = \"Milicias Argentinas\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+						owner = ROOT
+					}
+					create_unit = {
+						division = "name = \"Milicias Argentinas\" division_template = \"Milicias Argentinas\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+						owner = ROOT
+					}
+				}
+				random_owned_controlled_state = {
+					prioritize = { 898 899 900 901 895 }
+					limit = { 
+						is_core_of = ROOT 
+						is_fully_controlled_by = ROOT
+					}
+					create_unit = {
+						division = "name = \"Gauchos\" division_template = \"Gauchos\" start_experience_factor = 0.02 start_equipment_factor = 1.0" 
+						owner = ROOT
+					}
+				}
+			}
+			
+		}
+	}
+
+	option = { #no thank you but the offer is appreciated 
+		name = argentina.rework.18.b
+		add_equipment_to_stockpile = {
+			type = infantry_equipment
+			amount = 1000
+		}
+		add_manpower = 27500
+	}
+}
+
 #choose capital
 country_event = {
 	id = argentina.1

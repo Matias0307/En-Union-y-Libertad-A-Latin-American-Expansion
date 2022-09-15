@@ -762,7 +762,7 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_CHI_INFLATION FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
-			EUYL_add_1_civilian = yes 
+			EUYL_add_2_civilian = yes 
 			ARG_lower_inflation_risk = yes 
 		}
 	}
@@ -993,18 +993,18 @@ focus_tree = {
 				}
 			}
 			892 = {
-				add_extra_state_shared_building_slots = 1
+				add_extra_state_shared_building_slots = 2
 				add_building_construction = {
 					type = industrial_complex
-					level = 1
+					level = 2
 					instant_build = yes
 				}
 			}
 			512 = {
-				add_extra_state_shared_building_slots = 1
+				add_extra_state_shared_building_slots = 2
 				add_building_construction = {
 					type = industrial_complex
-					level = 1
+					level = 2
 					instant_build = yes
 				}
 			}
@@ -1433,7 +1433,7 @@ focus_tree = {
 		icon = GFX_goal_generic_construct_civ_factory #temporary
 		x = 1
 		y = 4
-		prerequisite = { focus = ARG_exploit_la_vaca_muerta }
+		prerequisite = { focus = ARG_develop_northern_patagonia }
 		
 		
 		cost = 10
@@ -1587,12 +1587,41 @@ focus_tree = {
 			add_research_slot = 1
 		}
 	}
+
+	focus = {
+		id = ARG_project_huemul
+		icon = GFX_focus_wonderweapons
+		x = 0
+		y = 1
+		relative_position_id = ARG_buenos_aires_university
+		prerequisite = { focus = ARG_buenos_aires_university }
+
+		cost = 10
+
+		available = {
+			has_civil_war = no 
+			has_full_control_of_state = 512
+		}
+
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			add_tech_bonus = {
+				name = GER_heavy_water
+				category = nuclear
+				uses = 2
+				bonus = 2
+			}
+			512 = {
+				add_dynamic_modifier = { modifier = ARG_huemul_reactor days = 1080 }
+			}
+		}
+	}
 	
 	focus = {
 		id = ARG_rapidly_mobilize
 		icon = GFX_focus_generic_combined_arms #low chance
 		x = -1
-		y = 1
+		y = 2
 		relative_position_id = ARG_make_an_effort_to_mobilize
 		prerequisite = { focus = ARG_make_an_effort_to_mobilize }
 		mutually_exclusive = { focus = ARG_slowly_mobilize }
@@ -1858,9 +1887,13 @@ focus_tree = {
 		
 		
 		cost = 4
+
+		ai_will_do = {
+			factor = 15
+		}
 		
 		available_if_capitulated = no
-		search_filters = {FOCUS_FILTER_INDUSTRY}
+		search_filters = {FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL}
 		completion_reward = {
 			EUYL_add_1_military = yes 
 		}
@@ -1962,6 +1995,10 @@ focus_tree = {
 			threat > 0.05
 			has_completed_focus = ARG_el_ejercito_argentino
 		}
+
+		ai_will_do = {
+			factor = 10
+		}
 		
 		cost = 6
 		
@@ -1972,6 +2009,38 @@ focus_tree = {
 				days = 365
 			}
 			unlock_decision_tooltip = ARG_improve_our_mobilization
+		}
+	}
+
+	focus = {
+		id = ARG_juremos_con_gloria_morir
+		icon = GFX_ARG_juremos_con_gloria_morir_icon_2
+		x = 0
+		y = 1
+		relative_position_id = ARG_make_an_effort_to_mobilize
+		prerequisite = { focus = ARG_make_an_effort_to_mobilize }
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ARG_tension_below_35_tt
+				check_variable = { ARG_political_tension < 35 }
+			}
+			has_war_support > 0.4
+			has_civil_war = no 
+			is_subject = no 
+			exists = yes 
+		}
+
+		search_filters = { FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_ideas = ARG_juremos_con_gloria_morir_idea
+			custom_effect_tooltip = ARG_in_event_of_foreign_invasion_tt
 		}
 	}
 	
@@ -8905,10 +8974,6 @@ focus_tree = {
 		
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-			add_popularity = {
-				ideology = peronism
-				popularity = 0.05
-			}
 			add_days_mission_timeout = {
 				mission = ARG_robertos_renounce
 				days = -10
@@ -12224,7 +12289,6 @@ focus_tree = {
 				}
 				has_completed_focus = ARG_purge_the_peronists
 			}
-			peronism > 0.4
 		}
 		
 		cancel_if_invalid = yes
@@ -12234,7 +12298,6 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			retire_country_leader = yes
-			set_politics = { ruling_party = peronism }
 			hidden_effect = {
 				add_country_leader_trait = ARG_father_of_modern_argentina
 				remove_country_leader_trait = ARG_inexperienced_leader
@@ -12255,7 +12318,6 @@ focus_tree = {
 		available = {
 			is_subject = no
 			NOT = {
-				peronism > 0.45
 				has_completed_focus = ARG_the_true_leader
 			}
 		}
@@ -12266,8 +12328,6 @@ focus_tree = {
 		
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-			set_temp_variable = { ARG_peronist_support = party_popularity@peronism }
-			multiply_temp_variable = { ARG_peronist_support = -0.4 }
 			add_stability = ARG_peronist_support
 			if = {
 				limit = { has_idea = ARG_shadow_of_peron }
