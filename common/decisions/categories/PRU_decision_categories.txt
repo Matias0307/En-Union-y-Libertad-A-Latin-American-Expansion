@@ -5,7 +5,7 @@
 PRU_army_navy_rivalry = {
 	priority = 20
 	icon = GFX_PRU_decision_category_army_navy
-
+	visible_when_empty = yes  
 	picture = GFX_PRU_army_navy_picture
 
 	allowed = {
@@ -19,7 +19,20 @@ PRU_army_navy_rivalry = {
 	}
 
 	visible = {
-		has_dynamic_modifier = { modifier = PRU_army_navy_rivalry_idea }
+		has_any_power_balance = yes
+		NOT = {
+			has_country_flag = is_PBC
+		}
+	}
+}
+
+### Balance of Power 
+PRU_army_navy_rivalry_bop = {
+	icon = GFX_PRU_decision_category_army_navy
+
+	allowed = { original_tag = PRU }
+
+	visible = {
 		NOT = {
 			has_country_flag = is_PBC
 		}
@@ -192,7 +205,7 @@ PRU_coup_attempt_fascists = {
 	allowed = { original_tag = PRU }
 	
 	on_map_area = {
-		targets = { 839 838 491 887 }
+		targets = { 839 914 491 965 }
 		name = PRU_states_fascists_have_influence_over_tt
 		zoom = 150
 	}

@@ -12,16 +12,12 @@ add_ideas = {
 	extensive_conscription
 }
 
-set_variable = { PRU_army_power = 5 }
-set_variable = { PRU_navy_power = -5 }
+set_variable = { PRU_army_ideology = 1 } ## 1 - fascist | 0 - democratic 
+set_variable = { PRU_navy_ideology = 0 } ## 1 - fascist | 0 - democratic 
 
-set_variable = { PRU_factory_output = 0.02 }
-set_variable = { PRU_army_attack_and_defense = 0.01 }
-set_variable = { PRU_military_factory_speed = 0.01 }
-set_variable = { PRU_dockyard_output = -0.02}
-set_variable = { PRU_ship_attack_and_defense = -0.01 }
-set_variable = { PRU_dockyard_production_speed = -0.01 }
-
+hidden_effect = {  ## BALANCE OF POWER ##
+	PRU_initiate_balance_of_power = yes  
+}
 
 recruit_character = PRU_Oscar_benavides
 recruit_character = PRU_mariano_melgar
@@ -138,11 +134,25 @@ set_technology = {
 	infantry_weapons = 1
 	gw_artillery = 1
 	interwar_antiair = 1
-	early_fighter = 1
-	cv_early_fighter = 1
-	early_bomber = 1
-	CAS1 = 1
 	basic_train = 1
+}
+if = {
+	limit = { has_dlc = "By Blood Alone" }
+		set_air_oob = "PRU_1936_air_bba"
+		set_technology = {
+			iw_small_airframe = 1
+			engines_1 = 1
+			early_bombs = 1
+		}
+	else = {
+		set_air_oob = "PRU_1936_air_legacy"
+		set_technology = {
+			early_fighter = 1
+			cv_early_fighter = 1
+			tactical_bomber1 = 1
+			CAS1 = 1
+		}
+	}
 }
 if = {
 	limit = { not = { has_dlc = "Man the Guns" } }

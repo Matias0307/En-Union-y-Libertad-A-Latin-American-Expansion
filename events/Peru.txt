@@ -153,10 +153,6 @@ country_event = {
 					}
 					add_to_temp_variable = { PRU_chance_of_coup_attempt = 15 }
 				}
-				if = {
-					limit = { check_variable = { PRU_army_power > 14 } }
-					add_to_temp_variable = { PRU_chance_of_coup_attempt = 15 }
-				}
 				clamp_variable = {
 					var = PRU_chance_of_coup_attempt
 					min = 0
@@ -641,9 +637,9 @@ country_event = {
 	immediate = {
 		hidden_effect = {
 			FROM = {
-				add_state_claim = 846
-				add_state_claim = 900
-				add_state_claim = 901
+				add_state_claim = 924
+				add_state_claim = 978
+				add_state_claim = 979
 				add_state_claim = 909
 			}
 		}
@@ -713,6 +709,20 @@ country_event = {
 			}
 			hidden_effect = {
 				country_event = peru.1
+				if = {
+					limit = { has_government = fascism }
+					add_popularity = {
+						ideology = fascism
+						popularity = 0.6
+					}
+				}
+				else_if ={
+					limit = { has_government = communism }
+					add_popularity = {
+						ideology = communism
+						popularity = 0.6
+					}
+				}
 			}
 			if = {
 				limit = {
@@ -816,7 +826,7 @@ country_event = {
 			limit = {
 				original_tag = PRU 
 			}
-			remove_dynamic_modifier = { modifier = PRU_army_navy_rivalry_idea }
+			PRU_bop_remove_bop_effect = yes 
 		}
 		FROM = {
 			every_unit_leader = {
@@ -1784,7 +1794,7 @@ country_event = {
 						original_tag = ECU 
 					}
 				}
-				transfer_state = 846
+				transfer_state = 924
 			}
 			if = {
 				limit = { original_tag = BOL }
@@ -2667,15 +2677,15 @@ country_event = {
 
 	trigger = {
 		original_tag = PRU 
-		has_dynamic_modifier = { modifier = PRU_army_navy_rivalry_idea }
+		has_any_power_balance = yes
 		OR = {
 			AND = {
-				has_idea = PRU_naval_democratic_loyalties_2
-				has_idea = PRU_pro_west_army
+				check_variable = { PRU_army_ideology = 1 }
+				check_variable = { PRU_navy_ideology = 1 }
 			}
 			AND = {
-				has_idea = PRU_pro_fascist_army
-				has_idea = PRU_naval_fascist_loyalties
+				check_variable = { PRU_army_ideology = 0 }
+				check_variable = { PRU_navy_ideology = 0 }
 			}
 		}
 		NOT = {
@@ -2695,13 +2705,7 @@ country_event = {
 		add_stability = 0.05
 		add_war_support = 0.05
 		set_country_flag = PRU_stabilized_army_navy
-		remove_dynamic_modifier = { modifier = PRU_army_navy_rivalry_idea }
-		hidden_effect = {
-			set_variable = { PRU_army_power = 0 }
-			set_variable = { PRU_navy_power = 0 }
-			clear_variable = PRU_navy_power
-			clear_variable = PRU_army_power
-		}
+		PRU_bop_remove_bop_effect = yes 
 	}
 }
 
