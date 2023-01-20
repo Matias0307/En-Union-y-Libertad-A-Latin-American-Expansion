@@ -1119,13 +1119,16 @@ BRA_political_manegement = {
             }
 		}
 
-        days_remove = 75
+        days_remove = 90
 
         modifier = {
-            weekly_manpower = -1000 #police force will rebel around this time 
+            weekly_manpower = -1000 #police force will rebel around this time
+			stability_weekly = -0.0025 #people wanted it to be harder lolol
+			democratic_drift = 0.01
         }
 
-        complete_effect = {
+
+        remove_effect = {
             if = {
                 limit = { has_idea = BRA_police_brutality_1 }
                 remove_ideas = BRA_police_brutality_1
@@ -1154,6 +1157,33 @@ BRA_political_manegement = {
             }
         }
     }
+	
+	BRA_reestablish_the_police_force = {
+		icon = decision_generic_reorganize_irregulars
+		
+		cost = 40
+		
+		visible = {
+			exists = yes 
+			has_civil_war = no 
+			has_country_flag = BRA_disbanded_police_force
+			check_variable = { BRA_playing_as_vargas = 1 }
+		}
+		
+		days_remove = 60
+		
+		modifier = {
+			political_power_factor = 0.1
+		}
+		
+		complete_effect = {
+			clr_country_flag = BRA_disbanded_police_force
+		}
+		
+		remove_effect = {
+			add_ideas = BRA_police_brutality_1
+		}
+	}
 
     BRA_increase_our_influence = { #dynamic decision that changes depending on who controls the nation 
         icon = eng_propaganda_campaigns
