@@ -970,6 +970,7 @@ country_event = {
 		has_civil_war = no
 		NOT = { check_variable = {BRA_playing_as_communists = 1 } }
 		NOT = { has_country_flag = BRA_communists_shutdown }
+		NOT = { has_global_flag = BRA_prestes_assasinated }
 		check_variable = { BRA_communist_subversive_activity > 2 }
 		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
 	}
@@ -1382,7 +1383,6 @@ country_event = {
 			}
 		}
 		date > 1936.4.5
-		NOT = { has_country_flag = BRA_plinio_appointed }
 		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
 	}
 
@@ -3257,6 +3257,7 @@ country_event = {
 		kill_ideology_leader = communism
 		add_stability = -0.05
 		hidden_effect = {
+			set_country_flag = BRA_communists_shutdown
 			retire_character = BRA_luis_carlos_prestes
 			set_global_flag = BRA_prestes_assasinated #will prevent communist uprising 
 			every_controlled_state = {
@@ -4254,18 +4255,7 @@ country_event = {
 
 	fire_only_once = yes  
 
-	trigger = { 
-		original_tag = BRA 
-		NOT = { has_country_flag = BRA_integralists_shutdown }
-		NOT = { has_government = fascism }
-		check_variable = { BRA_progress_to_a_civil_war = 100 }
-		has_civil_war = no 
-		NOT = { has_global_flag = BRA_civil_war_in_progress }
-		NOT = { has_global_flag = BRA_integralist_civil_war_already_triggered }
-		NOT = { has_global_flag = BRA_civil_war_event_triggered }
-	}
-
-	mean_time_to_happen = { days = 4 }
+	is_triggered_only = yes
 
 	immediate = {
 		set_global_flag = BRA_civil_war_event_triggered
@@ -4643,5 +4633,92 @@ country_event = {
 	option = {
 		name = brazil.90.a 
 		custom_effect_tooltip = BRA_some_generals_will_come_back_tt
+	}
+}
+
+#potential event of a runaway democratic opposition to leak information
+country_event = {
+	id = brazil.91
+	title = brazil.91.t 
+	desc = brazil.91.d 
+	picture = GFX_report_event_spr_republican_old_volunteers
+
+	is_triggered_only = yes 
+
+	option = { #Invest as much as possible into this
+		name = brazil.91.a 
+		add_political_power = -50
+		custom_effect_tooltip = BRA_much_more_likely_to_locate_headquarters_tt
+		hidden_effect = {
+			add_to_variable = {
+				BRA_chance_to_locate_headquarters = 50
+			}
+			subtract_from_variable = {
+				BRA_chance_to_not_locate_headquarters = 50
+			}
+		}
+	}
+
+	option = { #invest slightly into the investigation
+		name = brazil.91.b 
+		add_political_power = -20
+		custom_effect_tooltip = BRA_more_likely_to_locate_headquarters_tt
+		hidden_effect = {
+			add_to_variable = {
+				BRA_chance_to_locate_headquarters = 25
+			}
+			subtract_from_variable = {
+				BRA_chance_to_not_locate_headquarters = 25
+			}
+		}
+	}
+
+	option = { #dont trust this potential spy
+		name = brazil.91.c 
+		add_war_support = 0.05
+		add_political_power = 5
+	}
+}
+
+#werent able to locate_headquarters
+country_event = {
+	id = brazil.92
+	title = brazil.92.t 
+	desc = brazil.92.d 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = brazil.92.a 
+		clr_country_flag = BRA_taken_locate_option
+		unlock_decision_tooltip = BRA_coerce_the_democrats
+	}
+}
+
+#democratic resistance agreed to comrpomise
+country_event = {
+	id = brazil.93
+	title = brazil.93.t 
+	desc = brazil.93.d 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = brazil.93.a 
+		custom_effect_tooltip = BRA_democratic_uprising_cancelled_tt
+		unlock_decision_tooltip = BRA_ask_for_democratic_aid
+	}
+}
+
+#democratic resistance disagrees to compromise
+country_event = {
+	id = brazil.94
+	title = brazil.94.t 
+	desc = brazil.94.d 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = brazil.94.a
 	}
 }
