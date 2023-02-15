@@ -6419,7 +6419,6 @@ focus_tree = {
 		}
 	}
 	
-	
 	focus = {
 		id = ARG_concordancia
 		icon = GFX_ARG_pdn
@@ -6520,6 +6519,8 @@ focus_tree = {
 		## The way this BoP will work is simple, if its halfway when the civil war starts, the Anarchists have a large influence and if not friendly, will be a burden to the player
 		## If its over 65% towards either side, that side will take over in the civil war 
 		## Adding onto the halfway point, if the treaty with the anarchists is made 
+
+		##Maybe won't do this lol, seems too complicated
 
 		id = ARG_a_bloody_revolution
 		icon = GFX_ 
@@ -6663,6 +6664,49 @@ focus_tree = {
 	}
 
 	focus = {
+		id = ARG_birth_of_the_posadist_fourth_internationale
+		icon = GFX_ 
+		x = 0
+		y = 2
+		relative_position_id = ARG_re_organize_the_party
+		prerequisite = { focus = ARG_re_organize_the_party }
+	}
+
+	focus = { #Unlock various decisions to seize the civilian and military industries
+		id = ARG_seize_the_national_industry
+		icon = GFX_ 
+		x = 0
+		y = 1
+		relative_position_id = ARG_por_la_patria_y_el_pueblo
+		prerequisite = { focus = ARG_por_la_patria_y_el_pueblo }
+	}
+
+	focus = { #initiates the posadist ambitions mechanic
+		id = ARG_the_birth_of_posadism
+		icon = GFX_ 
+		x = -3
+		y = 1
+		relative_position_id = ARG_nace_el_ejercito_revolucionario
+		prerequisite = { focus = ARG_nace_el_ejercito_revolucionario }
+		prerequisite = { focus = ARG_birth_of_the_posadist_fourth_internationale }
+	}
+
+	focus = { #Will unlock a series of decisions the player will have to do
+		id = ARG_internal_management
+		icon = GFX_ 
+		x = -1
+		y = 1
+		relative_position_id = ARG_the_birth_of_posadism
+		prerequisite = {
+			focus = ARG_the_birth_of_posadism
+		}
+	}
+
+	focus = {
+		id = ARG_
+	}
+
+	focus = { #passively improves military debuff
 		id = ARG_el_ejercito_del_pueblo 
 		icon = GFX_ 
 		x = 2
@@ -6674,7 +6718,7 @@ focus_tree = {
 		}
 	}
 
-	focus = {
+	focus = { #will ask the USSR and Spain for support
 		id = ARG_ask_for_international_aid
 		icon = GFX_ 
 		x = 3
@@ -6746,7 +6790,7 @@ focus_tree = {
 	focus = { #la revolucion violenta
 		id = ARG_argentina_para_argentinos
 		icon = GFX_ 
-		x = -8
+		x = -10
 		y = 1
 		relative_position_id = ARG_the_revolution
 		prerequisite = { focus = ARG_the_revolution }
@@ -6755,7 +6799,7 @@ focus_tree = {
 		mutually_exclusive = { focus = ARG_democracia_y_socialismo }
 	}
 
-	focus = {
+	focus = { 
 		id = ARG_por_la_patria_y_el_pueblo
 		icon = GFX_ 
 		x = 2
@@ -6777,6 +6821,51 @@ focus_tree = {
 		mutually_exclusive = { focus = ARG_a_new_type_of_communism } 
 		mutually_exclusive = { focus = ARG_argentina_para_argentinos } 
 		mutually_exclusive = { focus = ARG_por_la_patria_y_el_pueblo } 
+	}
+
+	focus = { #start of the communist trolling
+		id = ARG_prepare_the_liberating_army
+		icon = GFX_ 
+		x = 0
+		y = 2
+		relative_position_id = ARG_nace_el_ejercito_revolucionario
+		prerequisite = {
+			focus = ARG_the_birth_of_posadism
+
+		}
+	}
+
+	focus = {
+		id = ARG_liberate_uruguay
+		icon = GFX_ 
+		x = -1
+		y = 1
+		relative_position_id = ARG_prepare_the_liberating_army
+		prerequisite = { focus = ARG_prepare_the_liberating_army }
+	}
+
+	focus = {
+		id = ARG_liberate_paraguay
+		icon = GFX_ 
+		x = 1
+		y = 1
+		relative_position_id = ARG_prepare_the_liberating_army
+		prerequisite = { focus = ARG_prepare_the_liberating_army }
+	}
+
+	focus = { #will unlock temp decisions to fend off the brazilians
+		id = ARG_focus_on_second_cisplatine_war
+		icon = GFX_
+		x = -1
+		y = 1
+		allow_branch = {
+			has_country_flag = is_in_second_cisplatine_war
+		}
+		relative_position_id = ARG_liberate_paraguay
+		prerequisite = {
+			focus = ARG_liberate_paraguay
+			focus = ARG_liberate_uruguay
+		}
 	}
 
 	focus = {
@@ -11389,7 +11478,7 @@ focus_tree = {
 			add_days_mission_timeout = {
 				mission = ARG_the_possible_coup
 				days = 15
-			}
+			} 
 		}
 	}
 	
