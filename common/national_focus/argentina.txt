@@ -6445,10 +6445,6 @@ focus_tree = {
 			custom_effect_tooltip = ARG_unlocks_decision_to_gain_votes_in_provinces_tt
 		}
 	}
-
-	focus = {
-		id = ARG_
-	}
 	
 	focus = {
 		id = ARG_union_civica_radical
@@ -6477,7 +6473,7 @@ focus_tree = {
 		}
 	}
 
-	focus = {
+	focus = { #Start countdown mission along with tracking the power of each 
 		id = ARG_an_imminent_revolution
 		icon = GFX_ 
 		x = -20
@@ -6626,6 +6622,15 @@ focus_tree = {
 		prerequisite = { focus = ARG_treaty_with_the_anarchists }
 	}
 
+	focus = { #will strengthen the starting militias for the anarchists 
+		id = ARG_radicalize_the_masses
+		icon = GFX_ 
+		x = 0
+		y = 1
+		relative_position_id = ARG_secure_the_patagonia
+		prerequisite = { focus = ARG_secure_the_patagonia }
+	}
+
 	focus = {
 		id = ARG_secure_the_north 
 		icon = GFX_ 
@@ -6647,18 +6652,22 @@ focus_tree = {
 		}
 	}
 
-	focus = { #posadist path | la revolucion eterna 
+	focus = { #posadist path | la revolucion eterna | initiates the posadist ambitions mechanic
 		id = ARG_a_new_type_of_communism 
 		icon = GFX_ 
-		x = -5
+		x = -2
 		y = 1
-		relative_position_id = ARG_the_revolution
+		relative_position_id = ARG_secure_the_north
+		prerequisite = {
+			focus = ARG_bring_the_other_parties_into_the_fold
+			focus = ARG_secure_the_north
+		}
 	}
 
 	focus = {
 		id = ARG_initiate_the_posadist_science_program
 		icon = GFX_ 
-		x = 0
+		x = 1
 		y = 1
 		relative_position_id = ARG_a_new_type_of_communism
 		prerequisite = { focus = ARG_a_new_type_of_communism }
@@ -6667,7 +6676,7 @@ focus_tree = {
 	focus = {
 		id = ARG_re_organize_the_party
 		icon = GFX_ 
-		x = -3
+		x = -1
 		y = 1
 		relative_position_id = ARG_a_new_type_of_communism
 		prerequisite = { focus = ARG_a_new_type_of_communism }
@@ -6679,7 +6688,12 @@ focus_tree = {
 		x = 0
 		y = 2
 		relative_position_id = ARG_re_organize_the_party
-		prerequisite = { focus = ARG_re_organize_the_party }
+		prerequisite = { 
+			focus = ARG_re_organize_the_party
+		}
+		prerequisite = {
+			focus = ARG_initiate_the_posadist_science_program 
+		}
 	}
 
 	focus = { #Unlock various decisions to seize the civilian and military industries
@@ -6691,13 +6705,12 @@ focus_tree = {
 		prerequisite = { focus = ARG_por_la_patria_y_el_pueblo }
 	}
 
-	focus = { #initiates the posadist ambitions mechanic
+	focus = { 
 		id = ARG_the_birth_of_posadism
 		icon = GFX_ 
-		x = -3
+		x = -4
 		y = 1
 		relative_position_id = ARG_nace_el_ejercito_revolucionario
-		prerequisite = { focus = ARG_nace_el_ejercito_revolucionario }
 		prerequisite = { focus = ARG_birth_of_the_posadist_fourth_internationale }
 	}
 
@@ -6713,15 +6726,44 @@ focus_tree = {
 	}
 
 	focus = {
-		id = ARG_
+		id = ARG_eliminate_the_oligarchs
+		icon = GFX_ 
+		x = -1
+		y = 1
+		relative_position_id = ARG_internal_management
+		prerequisite = {
+			focus = ARG_internal_management
+		}
 	}
+
+	focus = {
+		id = ARG_cleanse_the_extremists
+		icon = GFX_ 
+		x = 0
+		y = 1
+		relative_position_id = ARG_eliminate_the_oligarchs
+		prerequisite = {
+			focus = ARG_eliminate_the_oligarchs
+		}
+	}
+
+	focus = {
+		id = ARG_patagonic_industrialization
+		icon = GFX_ 
+		x = 1
+		y = 1
+		relative_position_id = ARG_internal_management
+		prerequisite = { focus = ARG_internal_management }
+	}
+
+	
 
 	focus = { #passively improves military debuff
 		id = ARG_el_ejercito_del_pueblo 
 		icon = GFX_ 
-		x = 2
+		x = -3
 		y = 1
-		relative_position_id = ARG_a_new_type_of_communism
+		relative_position_id = ARG_por_la_patria_y_el_pueblo
 		prerequisite = {
 			focus = ARG_a_new_type_of_communism
 			focus = ARG_por_la_patria_y_el_pueblo
@@ -6793,8 +6835,10 @@ focus_tree = {
 		x = -1
 		y = 1
 		relative_position_id = ARG_red_skies
-		prerequisite = { focus = ARG_red_skies }
-		prerequisite = { focus =   ARG_formalize_gaucho_militias }
+		prerequisite = { 
+			focus = ARG_red_skies 
+			focus = ARG_formalize_gaucho_militias
+		}
 	}
 
 	focus = { #la revolucion violenta
@@ -6803,13 +6847,13 @@ focus_tree = {
 		x = -10
 		y = 1
 		relative_position_id = ARG_the_revolution
-
+		prerequisite = { focus = ARG_radicalize_the_masses }
 	}
 
 	focus = { 
 		id = ARG_por_la_patria_y_el_pueblo
 		icon = GFX_ 
-		x = -1
+		x = 1
 		y = 1
 		relative_position_id = ARG_the_revolution
 		prerequisite = { focus = ARG_the_revolution }
@@ -6826,7 +6870,7 @@ focus_tree = {
 		mutually_exclusive = { focus = ARG_por_la_patria_y_el_pueblo }
 	}
 
-	focus = { #start of the communist trolling
+	focus = { #start of the communist trolling || will be shared by both branches
 		id = ARG_prepare_the_liberating_army
 		icon = GFX_ 
 		x = 0
@@ -6838,10 +6882,10 @@ focus_tree = {
 		}
 	}
 
-	focus = {
+	focus = { #
 		id = ARG_liberate_uruguay
 		icon = GFX_ 
-		x = -1
+		x = 2
 		y = 1
 		relative_position_id = ARG_prepare_the_liberating_army
 		prerequisite = { focus = ARG_prepare_the_liberating_army }
@@ -6850,7 +6894,7 @@ focus_tree = {
 	focus = {
 		id = ARG_liberate_paraguay
 		icon = GFX_ 
-		x = 1
+		x = 4
 		y = 1
 		relative_position_id = ARG_prepare_the_liberating_army
 		prerequisite = { focus = ARG_prepare_the_liberating_army }
@@ -6869,6 +6913,34 @@ focus_tree = {
 			focus = ARG_liberate_paraguay
 			focus = ARG_liberate_uruguay
 		}
+	}
+
+	focus = {
+		id = ARG_demand_the_patagonia
+		icon = GFX_ 
+		x = -1
+		y = 1
+		relative_position_id = ARG_prepare_the_liberating_army
+		prerequisite = { focus = ARG_prepare_the_liberating_army }
+	}
+
+	focus = {
+		id = ARG_4_year_patagonic_plan
+		icon = GFX_ 
+		x = -2
+		y = 1
+		relative_position_id = ARG_demand_the_patagonia
+		prerequisite = { focus = ARG_demand_the_patagonia }
+		prerequisite = { focus = ARG_patagonic_industrialization }
+	}
+
+	focus = {
+		id = ARG_patagonic_nuclear_campaign
+		icon = GFX_ 
+		x = 0
+		y = 1
+		relative_position_id = ARG_4_year_patagonic_plan
+		prerequisite = { focus = ARG_4_year_patagonic_plan }
 	}
 
 	focus = {

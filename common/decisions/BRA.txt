@@ -675,6 +675,59 @@ BRA_political_crisis = {
 
 BRA_political_manegement = {
 
+    BRA_estado_novo_mission_enemy = {
+        priority = 150
+        icon = GFX_BRA_vargas_estado_novo
+
+        activation = {
+            always = no #manually triggered 
+        }
+
+        available = {
+            OR = {
+                has_civil_war = yes 
+                has_country_flag = BRA_vargas_is_dead #will be given when vargas has 0 influence / focus maybe idk yet
+            }
+        }
+
+        cancel_trigger = {
+            OR = {
+                exists = no 
+                is_subject = yes 
+            }
+        }
+
+        days_mission_timeout = 600
+
+        is_good = no
+
+        fire_only_once = yes 
+
+        timeout_effect = {
+            custom_effect_tooltip = BRA_political_parties_shutdown_tt
+            hidden_effect = {
+                BRA_clear_integralist_opinion = yes 
+                BRA_clear_congress_opinion = yes 
+                clr_country_flag = BRA_hostile_communists
+                set_country_flag = BRA_congress_shutdown
+                set_country_flag = BRA_integralists_shutdown
+                set_country_flag = BRA_communists_shutdown
+                set_country_flag = BRA_all_parties_shutdown ## IMPORTANT COUNTRY FLAG ##
+                set_country_flag = BRA_estado_novo_established
+                set_variable = { BRA_congress_influence = 0 }
+                set_variable = { BRA_integralist_influence = 0 }
+                every_controlled_state = {
+                    limit = {
+                        has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+                    }
+                    remove_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+                }
+                clear_variable = BRA_communist_subversive_activity
+                BRA_set_up_political_crisis = yes 
+            }
+        } 
+    }
+
     BRA_the_1938_elections = {
         priority = 200
         icon = generic_political_rally
@@ -753,6 +806,7 @@ BRA_political_manegement = {
             OR = {
                 has_active_mission = BRA_the_1938_elections
                 has_active_mission = BRA_estado_novo_mission_enemy
+                has_active_mission = BRA_estado_novo_mission_enemy_2
             }
             exists = yes 
             NOT = { has_country_flag = BRA_vargas_is_dead } #will be a chance event in the civil war route
@@ -780,11 +834,23 @@ BRA_political_manegement = {
                     check_variable = {
                         BRA_progress_to_dictatorship > 25
                     }
-                    has_active_mission = BRA_estado_novo_mission_enemy
+                    OR = { 
+                        has_active_mission = BRA_estado_novo_mission_enemy_2
+                        has_active_mission = BRA_estado_novo_mission_enemy
+                    }
                 }
-                add_days_mission_timeout = {
-                    mission = BRA_estado_novo_mission_enemy
-                    days = -10
+                if = {
+                    limit = { has_active_mission = BRA_estado_novo_mission_enemy }
+                    add_days_mission_timeout = {
+                        mission = BRA_estado_novo_mission_enemy
+                        days = -10
+                    }
+                }
+                else = {
+                    add_days_mission_timeout = {
+                        mission = BRA_estado_novo_mission_enemy_2
+                        days = -10
+                    }
                 }
             }
             else_if = {
@@ -792,11 +858,23 @@ BRA_political_manegement = {
                     check_variable = {
                         BRA_progress_to_dictatorship > 35
                     }
-                    has_active_mission = BRA_estado_novo_mission_enemy
+                    OR = { 
+                        has_active_mission = BRA_estado_novo_mission_enemy_2
+                        has_active_mission = BRA_estado_novo_mission_enemy
+                    }
                 }
-                add_days_mission_timeout = {
-                    mission = BRA_estado_novo_mission_enemy
-                    days = -20
+                if = {
+                    limit = { has_active_mission = BRA_estado_novo_mission_enemy }
+                    add_days_mission_timeout = {
+                        mission = BRA_estado_novo_mission_enemy
+                        days = -20
+                    }
+                }
+                else = {
+                    add_days_mission_timeout = {
+                        mission = BRA_estado_novo_mission_enemy_2
+                        days = -20
+                    }
                 }
             }
             hidden_effect = {
@@ -2950,7 +3028,7 @@ BRA_monarchism_on_the_rise = {
 }
 
 BRA_imminent_civil_war = {
-    BRA_estado_novo_mission_enemy = {
+    BRA_estado_novo_mission_enemy_2 = {
         priority = 150
         icon = GFX_BRA_vargas_estado_novo
 
@@ -3002,6 +3080,7 @@ BRA_imminent_civil_war = {
             }
         } 
     }
+
     BRA_strengthen_our_protests = {
         icon = generic_civil_support
 

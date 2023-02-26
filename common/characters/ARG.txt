@@ -52,6 +52,9 @@ characters={
 			civilian = {
 				large = "gfx/leaders/ARG/Portrait_Roberto_M_Ortiz.dds"
 			}
+			army={
+				small="GFX_idea_south_america_generic_3"
+			}
 		}
 		country_leader = {
 			desc = "POLITICS_ROBERTO_MARIA_ORTIZ_DESC"
@@ -60,12 +63,37 @@ characters={
 			expire="1965.1.1.1"
 			id = -1
 		}
+		advisor={
+			slot = political_advisor
+			idea_token = ARG_roberto_maria
+			allowed  = {
+				original_tag  = ARG
+			}
+			available = {
+				has_civil_war = no
+				NOT = {
+					OR = {
+						has_government = fascism
+						has_government = communism
+					}
+				}
+			}
+			traits  = {
+				silent_workhorse 
+			}
+			ai_will_do = {
+				factor = 1
+			}
+		}
 	}
 	ARG_fanny_edelman={
 		name="Fanny Edelman"
 		portraits={
 			civilian={
 				large="gfx/leaders/ARG/Portrait_Argentina_Fanny_Jabcovsky.dds"
+			}
+			army={
+				small="GFX_idea_generic_army_female_south_america"
 			}
 		}
 		country_leader={
@@ -74,6 +102,72 @@ characters={
 			traits={ ARG_first_female_ruler }
 			expire="1965.1.1.1"
 			id=-1
+		}
+		advisor={
+			slot = political_advisor
+			idea_token = ARG_fanny_ad
+			allowed  = {
+				original_tag  = ARG
+			}
+			available = {
+				NOT = { has_government = fascism }
+			}
+			on_add = {
+				ROOT = {
+					add_popularity = {
+						ideology = communism
+						popularity = 0.05
+					}
+				}
+			}
+			traits  = {
+				financial_expert 
+			}
+			ai_will_do = {
+				factor = 1
+			}
+		}
+	}
+	ARG_liborio_justo = {
+		name="Liborio Justo"
+		portraits={
+			civilian={
+				large="gfx/leaders/ARG/ARG_liborio_justo.png"
+			}
+			army={
+				small="GFX_idea_generic_communist_south_america"
+			}
+		}
+		country_leader={
+			desc="POLITICS_LIBORIO_JUSTO_DESC"
+			ideology=marxism
+			traits={ ARG_brutal_leader_2 }
+			expire="1965.1.1.1"
+			id=-1
+		}
+		advisor={
+			slot = political_advisor
+			idea_token = ARG_liborio_justo_ad
+			allowed  = {
+				original_tag  = ARG
+			}
+			available = {
+				NOT = { has_government = fascism }
+			}
+			on_add = {
+				ROOT = {
+					add_popularity = {
+						ideology = communism
+						popularity = 0.05
+					}
+				}
+			}
+			traits  = {
+				technocrat 
+			}
+			ai_will_do = {
+				factor = 1
+			}
 		}
 	}
 	ARG_arturo_rawson={
@@ -189,6 +283,7 @@ characters={
 					tooltip = ARG_is_not_currently_studying_italian_warfare_tt
 					NOT = { has_character_flag = ARG_in_italy }
 				} 
+				NOT = { has_government = communism }
 			}
 			traits  = {
 				national_integralist 
@@ -204,7 +299,7 @@ characters={
 		}
 		country_leader={
 			desc="POLITICS_JUAN_DOMINGO_PERON_DESC"
-			ideology=peronist
+			ideology=peronism
 			traits={ ARG_inexperienced_leader fascist_sympathies }
 			expire="1965.1.1.1"
 			id=-1
