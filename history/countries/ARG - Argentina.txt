@@ -36,11 +36,86 @@ add_opinion_modifier = {
 #Inflation mechanic
 set_variable = { ARG_inflationary_period_days = 110 }
 
+#Political tension mechanic || Will increase weekly 
+set_variable = { ARG_political_tension = 25 }
+set_variable = { ARG_cost_to_decrease_tension = 35 }
+set_variable = { ARG_tension_increment_weekly = 1 }
+set_variable = { ARG_infamous_decade_stability_modifier = 0 }
+
+#Chances of lowering tension 
+set_variable = { ARG_chance_lower_5 = 50 }
+set_variable = { ARG_chance_lower_10 = 35 }
+set_variable = { ARG_chance_lower_15 = 15 }
+
+#Political Parties || 1 -> friendly / 0 -> inconsequential / -1 -> hostile / 2 -> playing as them
+## Parties won't really do much other than be there for show, if one is hostile there will be events that lower your respective party popularity ##
+set_variable = { ARG_concordancia_opinion = 2 }
+set_variable = { ARG_UCR_opinion = -1 }
+set_variable = { ARG_partido_socialista_opinion = 0 }
+
+#The military will range from -2 to 2 and work differently from the political parties
+#set_variable = { ARG_military_opinion = 0 }
+
+### WILL BE USING BALANCE OF POWER INSTEAD ### ##scrap that idea, original will work just fine
+
+#Corruption mechanic || goes from 1 - 8
+set_variable = { ARG_degree_of_corruption = 3 }
+set_variable = { ARG_corruption_status = 0 } # 0 -> against us / 1 -> for us 
+set_variable = { ARG_party_popularity_stability_factor = 0 }
+set_variable = { ARG_political_power_factor = 0 }
+set_variable = { ARG_political_advisor_cost_factor = 0 }
+set_variable = { ARG_economy_cost_factor = 0 }
+
+#For when Corruption is in your favor 
+set_variable = { ARG_corruption_building_speed = 0 }
+set_variable = { ARG_corruption_stability_factor = 0 }
+set_variable = { ARG_corruption_command_power_gain_mult = 0 }
+set_variable = { ARG_corruption_experience_gain_army_factor = 0 }
+
+#later stages of corruption will affect economy
+set_variable = { ARG_corruption_consumer_goods_factor = 0 } 
+set_variable = { ARG_corruption_factory_output = 0 }
+
+set_variable = { ARG_chance_of_scandal = 50 }
+set_variable = { ARG_chance_NOT_scandal = 50 }
+
+## Corrupt entities can be either companies or politicians ##
+
+set_variable = { ARG_cost_for_quality_check = 40 }
+set_variable = { ARG_chance_of_finding_corrupt_politician = 30 }
+set_variable = { ARG_chance_of_NOT_finding_corrupt_politician = 70 }
+
+#Election Mechanic 
+set_variable = { ARG_predicted_UCR_electoral_votes = 0 }
+set_variable = { ARG_predicted_UCRA_electoral_votes = 0 }
+set_variable = { ARG_predicted_PS_electoral_votes = 0 }
+
+set_variable = { ARG_cost_take_empty_province = 35 }
+set_variable = { ARG_days_to_take_empty = 75 }
+set_variable = { ARG_cost_challenge_other_party = 60 }
+set_variable = { ARG_days_to_challenge = 60 }
+
 # Manpower Mechanic 
 set_variable = { ARG_cost_to_improve_mob = 25 }
 set_variable = { ARG_days_to_improve_mob = 70 }
 
 set_country_flag = ARG_has_not_sharpened_air_safety
+
+country_event = { id = argentina.rework.1 days = 4 random_days = 7 hours = 16 }
+country_event = { id = argentina.rework.ALN days = 240 random_days = 180 hours = 6 }
+
+hidden_effect = {
+    add_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
+    add_dynamic_modifier = { modifier = ARG_corruption_scandal_idea }
+}
+
+#Setting up the Ideas 
+ARG_set_up_political_tension_idea = yes 
+ARG_set_up_corruption = yes 
+
+set_country_flag = ARG_tension_increase_if_corrupt_politician_found
+
+activate_mission = ARG_potential_corrupt_scandal
 
 every_controlled_state = {
 	limit = { 
