@@ -1,6 +1,9 @@
 ﻿capital = 925
 
+URG_initiate_balance_of_power = yes
+
 recruit_character = URG_gabriel_terra_c
+recruit_character = URG_luis_alberta_de_herrera_c
 recruit_character = URG_alfredo_baldomir_c
 recruit_character = URG_pedro_sicco_c
 recruit_character = URG_cesarreo_l_barisso_c
@@ -14,26 +17,31 @@ recruit_character = URG_pedro_manini_rios_c
 recruit_character = URG_julius_dalldorf_c
 recruit_character = URG_rodney_arismendi_c
 recruit_character = URG_serafino_mazzolini_c
-recruit_character = URG_vittorio_amato_masso_c
-recruit_character = URG_ernesto_sanchez_elizondo_c
-recruit_character = URG_hector_lopez_camara_c
-recruit_character = URG_eleazar_diaz_caminate_c
-recruit_character = URG_teo_bucardi_ramos_c
-recruit_character = URG_cosme_alvarez_berisso_c
-recruit_character = URG_valentin_gomez_c
-recruit_character = URG_carlos_jackson_urribe_c
-recruit_character = URG_jorge_eloi_mendoza_c
-recruit_character = URG_cantido_quintio_reyes_c
-recruit_character = URG_enrico_amancias_rodriguez_c
-recruit_character = URG_manuel_heinz_azpurua_c
-recruit_character = URG_a_martin_de_la_flores_c
-recruit_character = URG_carlos_neves_ochoa_c
-recruit_character = URG_rafael_marques_ayala_c
-recruit_character = URG_luis_alberta_de_herrera_c
-recruit_character = URG_eugenio_gomez_c
-recruit_character = URG_oscar_diego_gestido_c
-recruit_character = URG_arturo_campos_c
 recruit_character = URG_arturo_rios_c
+recruit_character = URG_arturo_campos_c
+recruit_character = URG_juan_battione_c
+recruit_character = URG_luis_tuya_c
+recruit_character = URG_federico_garcia_c
+recruit_character = URG_eugenio_gomez_c
+recruit_character = URG_domingo_mendivil_c
+recruit_character = URG_juan_viera_c
+recruit_character = URG_oscar_diego_gestido_c
+recruit_character = URG_atilio_frigerio_c
+recruit_character = URG_basilio_munoz_c
+recruit_character = URG_luis_batlle_berres_c
+recruit_character = URG_augusto_cesar_bado_c
+recruit_character = URG_juana_de_ibarbourou_c
+recruit_character = URG_hugo_fernandez_artucio_c
+recruit_character = URG_alfeo_brum_c
+recruit_character = URG_jose_lazarraga_c
+recruit_character = URG_paulina_luisi_c
+recruit_character = URG_consejo_de_estado_provisorio_c
+recruit_character = URG_carlos_vaz_ferreira_c
+recruit_character = URG_andres_martinez_trueba_c
+recruit_character = URG_consejo_nacional_de_gobierno_c
+recruit_character = URG_virginia_bolten_c
+recruit_character = URG_collapsed_government_c
+recruit_character = URG_adolfo_agorio_c
 
 oob = "URG_1936"
 if = {
@@ -49,21 +57,13 @@ set_technology = {
 	tech_support = 1		
 	tech_engineers = 1
 	tech_mountaineers = 1
+	early_fighter = 1
+	CAS1 = 1
 	infantry_weapons = 1
 	infantry_weapons1 = 1
 	gw_artillery = 1
 	interwar_antiair = 1
-}
-if = {
-	limit = { has_dlc = "By Blood Alone" }
-	set_technology = {
-		iw_small_airframe = 1
-	}
-	else = {
-		set_technology = {
-			early_fighter = 1
-		}
-	}
+	basic_train = 1
 }
 if = {
 	limit = { not = { has_dlc = "Man the Guns" } }
@@ -84,26 +84,26 @@ if = {
 set_country_flag = monroe_doctrine
 set_country_flag = URG_terra
 
-set_variable = {
-	var = URG_politicians_arrested
-	value = 43
-}
+promote_character = URG_gabriel_terra_c
 
 set_variable = { URG_debt_to_britain = 0 }
 
-set_variable = { URG_terra_stability = -0.1 }
-set_variable = { URG_terra_support = 0.05 }
-set_variable = { URG_democracy_from_terra = 0 }
+set_variable = {
+	var = URG_politicians_arrested
+	value = 44
+}
+
+set_war_support = 0.16
+
+add_ideas = URG_legacy_of_batlle_idea
+add_ideas = URG_welfare_state
+add_ideas = URG_debt_to_the_british
+add_ideas = monroe_doctrine_idea
+country_event = { id = uruguay.4 days = 1 }
 
 hidden_effect = { #NATIONAL SPIRIT
 	add_dynamic_modifier = { modifier = URG_the_terra_dictatorship }
 }
-
-set_war_support = 0.24
-
-add_ideas = URG_debt_to_the_british
-add_ideas = monroe_doctrine_idea
-add_ideas = extensive_conscription
 
 set_convoys = 45
 
@@ -127,6 +127,7 @@ set_convoys = 45
 	complete_national_focus = URG_roosevelts_visit_to_uruguay
 	complete_national_focus = URG_open_our_markets
 	complete_national_focus = URG_build_up_our_industry
+	complete_national_focus = URG_allow_free_elections
 	
 	country_event = { id = uruguay.4 days = 1 }
 	
@@ -162,6 +163,7 @@ set_convoys = 45
 		fleet_in_being = 1
 		battlefleet_concentration = 1
 		convoy_sailing = 1
+		basic_train = 1
 
 		#electronics
 		electronic_mechanical_engineering = 1
@@ -196,17 +198,6 @@ set_popularities = {
 	communism = 3
 }
 
-create_country_leader = {
-	name = "Gabriel Terra"
-	desc = "POLITICS_GABRIEL_TERRA_DESC"
-	picture = "GFX_portrait_uruguay_portrait_gabriel_terra"
-	expire = "1965.1.1"
-	ideology = despotism
-	traits = {
-		fascist_sympathies
-	}
-}
-
 
 1939.1.1 = {
 	set_politics = {
@@ -215,6 +206,13 @@ create_country_leader = {
 		election_frequency = 48
 		elections_allowed = no
 	}
+
+        URG_gabriel_terra_c = { 
+		remove_country_leader_role = {
+			ideology = authoritarian_democracy
+		}
+	}
+	promote_character = URG_alfredo_baldomir_c
 }
 
 ### VARIANTS ###
