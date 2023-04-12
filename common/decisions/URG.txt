@@ -1500,35 +1500,104 @@ URG_purchasing_british_ships = {
 
 URG_political_actions = {
 	URG_blancos_in_opposition = {
-		icon = GFX_decision_generic_independence
+		icon = generic_ignite_civil_war
+		priority = 100
 		
 		is_good = no
 		
-		days_mission_timeout = 180
+		days_mission_timeout = 120
 
 		available = {
-			always = no
+			power_balance_value = {
+				id = URG_nacional_colorado_bop
+				value > -0.6
+			}
 		}
 		
 		activation = {
-			OR = {
-				has_idea = URG_blancos_in_opposition0
-				has_idea = URG_blancos_in_opposition1
-				has_idea = URG_blancos_in_opposition2
-				has_idea = URG_blancos_in_opposition3
-			}
+			always = no 
 		}
 
 		allowed = {
 			original_tag = URG
+		}
+
+		cancel_trigger = {
+			NOT = {
+				OR = {
+					has_idea = URG_blancos_in_opposition0
+					has_idea = URG_blancos_in_opposition1
+					has_idea = URG_blancos_in_opposition2
+				}
+			}
 		}
 		
 		timeout_effect = {
 			URG_increase_blanco_opposition = yes
 		}
 	}
-	URG_concession_to_the_blancos_party0 = {
+
+	URG_colorados_in_opposition = {
+		icon = generic_ignite_civil_war
+		priority = 100
+		
+		is_good = no
+		
+		days_mission_timeout = 120
+
+		available = {
+			power_balance_value = {
+				id = URG_nacional_colorado_bop
+				value < 0.6
+			}
+		}
+		
+		activation = {
+			always = no 
+		}
+
+		allowed = {
+			original_tag = URG
+		}
+
+		cancel_trigger = {
+			NOT = {
+				OR = {
+					has_idea = URG_colorados_in_opposition0
+					has_idea = URG_colorados_in_opposition1
+					has_idea = URG_colorados_in_opposition2
+				}
+			}
+		}
+		
+		timeout_effect = {
+			URG_increase_colorado_opposition = yes
+		}
+	}
+
+	URG_stabilization_effort = {
+		priority = 50
+		icon = eng_trade_unions_support
+
+		cost = 25
+
+		visible = {
+			OR = {
+				has_active_mission = URG_colorados_in_opposition
+				has_active_mission = URG_blancos_in_opposition
+			}
+		}
+
+		days_remove = 60
+
+		remove_effect = {
+			add_stability = 0.05
+		}
+	}
+
+	URG_concession_to_the_blancos_party = {
 		icon = GFX_decision_generic_army_support
+		priority = 40
 
 		available = {
 			AND = {
@@ -1548,23 +1617,24 @@ URG_political_actions = {
 		}
 
 		visible = {
-			OR = {
-				has_idea = URG_blancos_in_opposition0
-			}
+			has_idea = URG_blancos_in_opposition0
+			has_active_mission = URG_blancos_in_opposition
 		}
 		fire_only_once = no
 
-		days_remove = 60
+		days_remove = 45
 
 		modifier = {
 			political_power_factor = -0.05
 		}
 		remove_effect = {
 			remove_ideas = URG_blancos_in_opposition0
+			URG_move_5_nacionales = yes 
 		}
 	}
 	URG_concession_to_the_blancos_party1 = {
 		icon = GFX_decision_generic_army_support
+		priority = 40
 
 		available = {
 			has_idea = URG_blancos_in_opposition1
@@ -1581,23 +1651,24 @@ URG_political_actions = {
 		}
 
 		visible = {
-			OR = {
-				has_idea = URG_blancos_in_opposition1
-			}
+			has_idea = URG_blancos_in_opposition1
+			has_active_mission = URG_blancos_in_opposition
 		}
 		fire_only_once = no
 
-		days_remove = 60
+		days_remove = 45
 
 		modifier = {
 			political_power_factor = -0.05
 		}
 		remove_effect = {
 			URG_reduce_blanco_opposition = yes
+			URG_move_5_nacionales = yes 
 		}
 	}
 	URG_concession_to_the_blancos_party2 = {
 		icon = GFX_decision_generic_army_support
+		priority = 40
 
 		available = {
 			has_idea = URG_blancos_in_opposition2
@@ -1614,55 +1685,128 @@ URG_political_actions = {
 		}
 
 		visible = {
-			OR = {
-				has_idea = URG_blancos_in_opposition2
-			}
+			has_idea = URG_blancos_in_opposition2
+			has_active_mission = URG_blancos_in_opposition
 		}
 		fire_only_once = no
 
-		days_remove = 60
+		days_remove = 45
 
 		modifier = {
 			political_power_factor = -0.05
 		}
 		remove_effect = {
 			URG_reduce_blanco_opposition = yes
+			URG_move_5_nacionales = yes 
 		}
 	}
-	URG_concession_to_the_blancos_party3 = {
+
+	URG_concession_to_the_colorados_party = {
 		icon = GFX_decision_generic_army_support
+		priority = 40
 
 		available = {
-			has_idea = URG_blancos_in_opposition3
+			AND = {
+				has_idea = URG_colorados_in_opposition0
+				has_stability > 0.75
+			}
 		}
 
 		allowed = {
 			original_tag = URG
 		}
 
-		cost = 100
+		cost = 10
 
 		ai_will_do = {
 			factor = 75
 		}
 
 		visible = {
-			OR = {
-				has_idea = URG_blancos_in_opposition3
-			}
+			has_idea = URG_colorados_in_opposition0
+			has_active_mission = URG_colorados_in_opposition
 		}
-
 		fire_only_once = no
 
-		days_remove = 60
+		days_remove = 45
 
 		modifier = {
 			political_power_factor = -0.05
 		}
 		remove_effect = {
-			URG_reduce_blanco_opposition = yes
+			URG_reduce_colorado_opposition = yes
+			URG_move_5_colorado = yes 
 		}
 	}
+	URG_concession_to_the_colorados_party1 = {
+		icon = GFX_decision_generic_army_support
+		priority = 40
+
+		available = {
+			has_idea = URG_colorados_in_opposition1
+		}
+
+		allowed = {
+			original_tag = URG
+		}
+
+		cost = 25
+
+		ai_will_do = {
+			factor = 75
+		}
+
+		visible = {
+			has_idea = URG_colorados_in_opposition1
+			has_active_mission = URG_colorados_in_opposition
+		}
+		fire_only_once = no
+
+		days_remove = 45
+
+		modifier = {
+			political_power_factor = -0.05
+		}
+		remove_effect = {
+			URG_reduce_colorado_opposition = yes
+			URG_move_5_colorado = yes 
+		}
+	}
+	URG_concession_to_the_colorados_party2 = {
+		icon = GFX_decision_generic_army_support
+		priority = 40
+
+		available = {
+			has_idea = URG_blancos_in_opposition2
+		}
+
+		allowed = {
+			original_tag = URG
+		}
+
+		cost = 50
+
+		ai_will_do = {
+			factor = 75
+		}
+
+		visible = {
+			has_idea = URG_blancos_in_opposition2
+			has_active_mission = URG_colorados_in_opposition
+		}
+		fire_only_once = no
+
+		days_remove = 45
+
+		modifier = {
+			political_power_factor = -0.05
+		}
+		remove_effect = {
+			URG_reduce_colorado_opposition = yes
+			URG_move_5_colorado = yes 
+		}
+	}
+
 	URG_work_with_the_PCU = {
 		icon = generic_political_discourse
 
