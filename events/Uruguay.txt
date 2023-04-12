@@ -1340,5 +1340,50 @@ country_event = {
 	
 	option = {
 		name = uruguay.31.a
+		hidden_effect = {
+			division_template = { 
+				name = "Milicias" 
+				division_names_group = SPAN_INF_02 
+				is_locked = yes 
+				regiments = { 
+					infantry = { x = 0 y = 0 }  
+					infantry = { x = 0 y = 1 } 
+					infantry = { x = 0 y = 2 } 
+				}
+			}
+		}
+		start_civil_war = {
+			ideology = democratic 
+			ruling_party = ROOT 
+			size = 0.4
+		}
+		hidden_effect = {
+			every_controlled_state = {
+				create_unit = {
+					division = "name = \"Milicias Leales\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+					owner = ROOT
+				}
+			}
+			random_owned_controlled_state = {
+				
+			}
+			random_other_country = {
+				limit = {
+					original_tag = URG 
+					has_government = democratic
+				}
+				create_country_leader = {
+                    name = "Armed Civilians"
+                    desc = "POLITICS_ARMED_CIVILIANS_DESC"
+                    picture = "gfx/leaders/South America/EUYL_armed_civilians.dds"
+                    expire = "1965.1.1"
+                    ideology = marxism
+                    traits = {
+                        PBC_disorganized_nationalists
+                    }
+                }
+
+			}
+		}
 	}
 }		 

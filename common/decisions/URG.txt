@@ -1498,157 +1498,7 @@ URG_purchasing_british_ships = {
 }
 
 
-political_actions = {
-	URG_work_with_the_PCU = {
-		icon = generic_political_discourse
-
-		allowed = {
-			original_tag = URG 
-		}
-		
-		visible = {
-			has_country_leader = { ruling_only = yes name = "Emilio Frugoni" }
-		}
-
-		modifier = {
-			political_power_gain = -0.25
-			consumer_goods_factor = 0.05
-		}
-
-		days_remove = 180
-
-		fire_only_once = yes
-
-		remove_effect = {
-			add_stability = -0.1
-			add_war_support = 0.05
-			add_popularity = {
-				ideology = communism
-				popularity = 0.1
-			}
-			custom_effect_tooltip = URG_work_with_the_PCU_tt
-			hidden_effect = {
-				set_country_flag = URG_communist_coalition
-			}
-		}
-	}
-
-	URG_support_berres = {
-		icon = generic_political_discourse
-
-		allowed = {
-			original_tag = URG 
-		}
-		
-		visible = {
-			has_country_leader = { ruling_only = yes name = "Luis Batlle Berres" }
-		}
-
-		available = {
-			NOT = {
-				has_decision = URG_undermine_berres
-				has_idea = URG_andres_martinez_trueba
-			}
-		}
-
-		fire_only_once = yes
-
-		complete_effect = {
-			add_stability = -0.05
-			add_political_power = 100
-		}
-	}
-
-	URG_undermine_berres = {
-		icon = generic_political_discourse
-
-		allowed = {
-			original_tag = URG 
-		}
-		
-		visible = {
-			has_country_leader = { ruling_only = yes name = "Luis Batlle Berres" }
-		}
-
-		available = {
-			NOT = {
-				has_decision = URG_support_berres
-			}
-			has_idea = URG_andres_martinez_trueba
-		}
-
-		fire_only_once = yes
-
-		complete_effect = {
-			add_stability = 0.1
-			add_political_power = -50
-			hidden_effect = {
-				set_country_flag = URG_undermined_berres_flag
-				URG = {
-					country_event = { id = uruguay.19 days = 30 }
-				}
-			}
-		}
-	}
-}
-
-URG_divide_argentina_cat = {
-	URG_divide_argentina = {
-		icon = generic_political_discourse
-
-		allowed = {
-			original_tag = URG 
-		}
-
-		visible = {
-			has_completed_focus = URG_liberate_argentinian_workers
-		}
-
-		available = {
-			888 = {
-				controller = {
-					OR = {
-						is_in_faction_with = URG
-						is_puppet_of = URG
-						tag = URG
-					}
-				}
-			}
-			ARG = {
-				OR = {
-					NOT = {	
-						country_exists = ARG
-					}	
-					is_puppet_of = CHL
-					is_puppet_of = URG
-				}
-			}		
-		}
-
-		complete_effect = {
-			if = {
-				limit = {
-					NOT = {
-						is_in_faction_with = CHL
-					}
-				}
-				URG = {
-					country_event = { id = uruguay.26 hours = 1 }
-				}
-			}
-			else_if = {
-				limit = {
-					is_in_faction_with = CHL
-				}
-				URG = {
-					country_event = { id = uruguay.27 hours = 1 }
-				}
-			}
-		}
-	}
-}
-
-URG_blancos_in_opposition_category ={
+URG_political_actions = {
 	URG_blancos_in_opposition = {
 		icon = GFX_decision_generic_independence
 		
@@ -1710,7 +1560,7 @@ URG_blancos_in_opposition_category ={
 			political_power_factor = -0.05
 		}
 		remove_effect = {
-			URG_reduce_blanco_opposition = yes
+			remove_ideas = URG_blancos_in_opposition0
 		}
 	}
 	URG_concession_to_the_blancos_party1 = {
@@ -1813,6 +1663,157 @@ URG_blancos_in_opposition_category ={
 			URG_reduce_blanco_opposition = yes
 		}
 	}
+	URG_work_with_the_PCU = {
+		icon = generic_political_discourse
+
+		allowed = {
+			original_tag = URG 
+		}
+
+		cost = 75
+		
+		available = {
+			has_country_leader = { ruling_only = yes name = "Emilio Frugoni" }
+		}
+
+		modifier = {
+			political_power_gain = -0.25
+			consumer_goods_factor = 0.05
+		}
+
+		days_remove = 180
+
+		fire_only_once = yes
+
+		remove_effect = {
+			add_stability = -0.1
+			add_war_support = 0.05
+			add_popularity = {
+				ideology = communism
+				popularity = 0.1
+			}
+			custom_effect_tooltip = URG_work_with_the_PCU_tt
+			hidden_effect = {
+				set_country_flag = URG_communist_coalition
+			}
+		}
+	}
+
+	URG_support_berres = {
+		icon = generic_political_discourse
+
+		allowed = {
+			original_tag = URG 
+		}
+
+		cost = 75
+
+		available = {
+			has_country_leader = { ruling_only = yes name = "Luis Batlle Berres" }
+			NOT = {
+				has_decision = URG_undermine_berres
+				has_idea = URG_andres_martinez_trueba
+			}
+		}
+
+		fire_only_once = yes
+
+		complete_effect = {
+			add_stability = 0.05
+			EUYL_add_1_civilian = yes
+		}
+	}
+
+	URG_undermine_berres = {
+		icon = generic_political_discourse
+
+		allowed = {
+			original_tag = URG 
+		}
+		
+		cost = 75
+
+		available = {
+			has_country_leader = { ruling_only = yes name = "Luis Batlle Berres" }
+			NOT = {
+				has_decision = URG_support_berres
+			}
+			has_idea = URG_andres_martinez_trueba
+		}
+
+		fire_only_once = yes
+
+		complete_effect = {
+			add_stability = 0.1
+			add_political_power = -50
+			hidden_effect = {
+				set_country_flag = URG_undermined_berres_flag
+				URG = {
+					country_event = { id = uruguay.19 days = 30 }
+				}
+			}
+		}
+	}
+}
+
+URG_divide_argentina_cat = {
+	URG_divide_argentina = {
+		icon = generic_political_discourse
+
+		allowed = {
+			original_tag = URG 
+		}
+
+		visible = {
+			has_completed_focus = URG_liberate_argentinian_workers
+		}
+
+		available = {
+			888 = {
+				controller = {
+					OR = {
+						is_in_faction_with = URG
+						is_puppet_of = URG
+						tag = URG
+					}
+				}
+			}
+			ARG = {
+				OR = {
+					NOT = {	
+						country_exists = ARG
+					}	
+					is_puppet_of = CHL
+					is_puppet_of = URG
+				}
+			}		
+		}
+
+		complete_effect = {
+			if = {
+				limit = {
+					NOT = {
+						is_in_faction_with = CHL
+					}
+				}
+				URG = {
+					country_event = { id = uruguay.26 hours = 1 }
+				}
+			}
+			else_if = {
+				limit = {
+					is_in_faction_with = CHL
+				}
+				URG = {
+					country_event = { id = uruguay.27 hours = 1 }
+				}
+			}
+		}
+	}
+}
+
+URG_blancos_in_opposition_category ={
+	
 }	
 
 URG_BoP_nacional_colorado = {
