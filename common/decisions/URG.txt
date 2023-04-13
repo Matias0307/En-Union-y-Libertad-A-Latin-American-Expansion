@@ -271,6 +271,12 @@ URG_repaying_the_debt_to_britain = {
 		complete_effect = {
 			set_country_flag = URG_debt_repayment_in_progress
 		}
+
+		cancel_trigger = {
+			NOT = {
+				has_active_mission = URG_pay_the_british_debt
+			}
+		}
 		
 		remove_effect = {
 			clr_country_flag = URG_debt_repayment_in_progress
@@ -308,6 +314,12 @@ URG_repaying_the_debt_to_britain = {
 		complete_effect = {
 			set_country_flag = URG_debt_repayment_in_progress
 		}
+
+		cancel_trigger = {
+			NOT = {
+				has_active_mission = URG_pay_the_british_debt
+			}
+		}
 		
 		remove_effect = {
 			clr_country_flag = URG_debt_repayment_in_progress
@@ -344,6 +356,12 @@ URG_repaying_the_debt_to_britain = {
 		
 		complete_effect = {
 			set_country_flag = URG_debt_repayment_in_progress
+		}
+
+		cancel_trigger = {
+			NOT = {
+				has_active_mission = URG_pay_the_british_debt
+			}
 		}
 		
 		remove_effect = {
@@ -1499,6 +1517,44 @@ URG_purchasing_british_ships = {
 
 
 URG_political_actions = {
+	URG_pay_the_british_debt = {
+		priority = 150
+		icon = gre_investment_decisions
+
+		is_good = no 
+
+		days_mission_timeout = 900
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = URG_repayed_the_debt_to_the_british_tt
+				check_variable = { URG_debt_to_britain > 99 }
+			}
+		}
+
+		cancel_trigger = {
+			ENG = {
+				exists = no 
+			}
+		}
+
+		activation = { always = no }
+
+		allowed = { original_tag = URG }
+
+		timeout_effect = {
+			swap_ideas = {
+				remove_idea = URG_debt_to_the_british
+				add_idea = URG_lingering_british_debt
+			}
+		}
+
+		complete_effect = {
+			add_stability = 0.01
+			add_political_power = 10
+		}
+	}
+
 	URG_blancos_in_opposition = {
 		icon = generic_ignite_civil_war
 		priority = 100
