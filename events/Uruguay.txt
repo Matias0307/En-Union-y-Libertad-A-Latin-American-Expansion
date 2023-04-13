@@ -556,33 +556,24 @@ country_event = {
 	desc = uruguay.17.d
 	picture = GFX_report_event_generic_conference 
 	
-	is_triggered_only = yes 
+	fire_only_once = yes 
+
+	trigger = {
+		original_tag = URG 
+		exists = yes 
+		has_civil_war = no 
+		has_completed_focus = URG_imprison_Terra
+	} 
 	
 	option = {
 		name = uruguay.17.a 
 		ai_chance = { base = 67 }
+		custom_effect_tooltip = URG_extraordinary_elections_tt
 		URG_move_70_nacionales = yes
-		URG_consejo_de_estado_provisorio_c = { 
-			remove_country_leader_role = {
-				ideology = liberalism
-			}
-		}
-		add_country_leader_role = {
-			character = URG_basilio_munoz_c
-				country_leader = {
-					expire = "1965.1.1"
-					ideology = liberalism
-					traits = {
-						URG_el_guerrillero
-					}
-				}
-			promote_leader = yes
-		}
 		add_war_support = 0.15
 		complete_national_focus = URG_the_will_of_the_people
-		custom_effect_tooltip = URG_extraordinary_elections_tt
 		hidden_effect = {
-			country_event = { id = uruguay.18 days = 45 }
+			country_event = { id = uruguay.18 days = 30 }
 			set_politics = {
 				ruling_party = democratic
 				elections_allowed = yes
@@ -593,7 +584,6 @@ country_event = {
 	option = {
 		name = uruguay.17.b 
 		ai_chance = { base = 33 }
-		URG_move_70_colorado = yes
 		add_popularity = { ideology = communism popularity = 0.25 }
 		add_war_support = 0.15
 		set_politics = {
@@ -601,6 +591,7 @@ country_event = {
 			elections_allowed = no 
 		}
 		complete_national_focus = URG_a_new_path
+		URG_bop_remove_bop_effect = yes
 	}
 }
 
@@ -612,7 +603,7 @@ country_event = {
 	desc = uruguay.18.d 
 	picture = GFX_report_event_generic_parliament 
 	
-	is_triggered_only = yes 
+	is_triggered_only = yes
 	
 	option = {
 		name = uruguay.18.a 
@@ -620,12 +611,11 @@ country_event = {
 			base = 33
 		}
 		clr_country_flag = URG_terra
-		remove_dynamic_modifier = { modifier = URG_the_terra_dictatorship }
-		URG_basilio_munoz_c = { 
+		URG_consejo_de_estado_provisorio_c = { 
 			remove_country_leader_role = {
 				ideology = liberalism
 			}
-		}	
+		}
 		add_country_leader_role = {
 			character = URG_luis_batlle_berres_c
 			country_leader = {
@@ -648,8 +638,7 @@ country_event = {
 		name = uruguay.18.b 
 		ai_chance = { base = 34 }
 		clr_country_flag = URG_terra
-		remove_dynamic_modifier = { modifier = URG_the_terra_dictatorship }
-		URG_basilio_munoz_c = { 
+		URG_consejo_de_estado_provisorio_c = { 
 			remove_country_leader_role = {
 				ideology = liberalism
 			}
@@ -679,8 +668,7 @@ country_event = {
 		}
 		retire_country_leader = yes
 		clr_country_flag = URG_terra
-		remove_dynamic_modifier = { modifier = URG_the_terra_dictatorship }
-		URG_basilio_munoz_c = { 
+		URG_consejo_de_estado_provisorio_c = { 
 			remove_country_leader_role = {
 				ideology = liberalism
 			}
@@ -860,7 +848,6 @@ country_event = {  #Government Collapses
 	
 	option = {
 		name = uruguay.22.a 
-		add_ideas = URG_political_deadlock
 		hidden_effect = {
 			set_country_flag = URG_anarchists
 			retire_country_leader = yes
