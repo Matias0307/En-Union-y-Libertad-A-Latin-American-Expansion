@@ -3463,7 +3463,7 @@ focus_tree = {
 		}
 
 		cost = 10
-
+		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			custom_effect_tooltip = URG_anarchist_takeover_tt
 			hidden_effect = {	
@@ -3512,7 +3512,7 @@ focus_tree = {
 		}
 
 		cost = 5
-
+		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
 			swap_ideas = {
 				remove_idea = SPR_anarchist_society_1
@@ -3570,7 +3570,7 @@ focus_tree = {
 		}
 
 		cost = 5
-
+		search_filters = { FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_POLITICAL}
 		completion_reward = {
 			add_war_support = 0.1
 			add_political_power = 100
@@ -3579,15 +3579,16 @@ focus_tree = {
 	focus = {
 		id = URG_communal_collectivisation
 		icon = GFX_focus_spr_torchbearers_of_tomorrow
-		x = -2
-		y = 4
+		x = 0
+		y = 6
 		relative_position_id = URG_anarchist_takeover
 		prerequisite = { 
+			focus = URG_protect_our_freedom
 			focus = URG_best_of_both_worlds
 		}
 
-		cost = 5
-
+		cost = 10
+		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
 			if = {
 				limit = {
@@ -3617,7 +3618,7 @@ focus_tree = {
 		}
 
 		cost = 7.2
-
+		search_filters = { FOCUS_FILTER_MANPOWER }
 		completion_reward = {
 			swap_ideas = {
 				remove_idea = URG_anarcho_batllism_2
@@ -3664,16 +3665,15 @@ focus_tree = {
 	focus = {
 		id = URG_unchained_minds
 		icon = GFX_goal_generic_demand_territory
-		x = 0
-		y = 6
+		x = -2
+		y = 5
 		relative_position_id = URG_anarchist_takeover
-		prerequisite = { 
-			focus = URG_protect_our_freedom
-			focus = URG_best_of_both_worlds
+		prerequisite = {
+			focus = URG_communal_cooperation
 		}
 
 		cost = 10
-
+		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
 			add_research_slot = 1
 			add_ideas = SPR_torchbearers_of_tomorrow
@@ -3683,14 +3683,14 @@ focus_tree = {
 		id = URG_communal_cooperation
 		icon = GFX_goal_generic_national_unity
 		x = -2
-		y = 5
+		y = 4
 		relative_position_id = URG_anarchist_takeover
 		prerequisite = { 
-			focus = URG_communal_collectivisation
+			focus = URG_best_of_both_worlds
 		}
 
-		cost = 15
-
+		cost = 10
+		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
 			EUYL_add_4_civilian = yes 
 			EUYL_add_4_military = yes
@@ -3703,11 +3703,11 @@ focus_tree = {
 		y = 7
 		relative_position_id = URG_anarchist_takeover
 		prerequisite = { 
-			focus = URG_unchained_minds
+			focus = URG_communal_collectivisation
 		}
 
 		cost = 10
-
+		search_filters = { FOCUS_FILTER_MANPOWER }
 		completion_reward = {
 			add_war_support = 0.05
 			add_manpower = 20000
@@ -3730,7 +3730,7 @@ focus_tree = {
 		mutually_exclusive = { focus = URG_contact_chilean_communes }
 
 		cost = 5
-
+		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_WAR_SUPPORT }
 		completion_reward = {
 			add_manpower = 5000
 			swap_ideas = {
@@ -3759,7 +3759,7 @@ focus_tree = {
 		}
 
 		cost = 5
-
+		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			swap_ideas = {
 				remove_idea = URG_anarcho_batllism_4
@@ -3793,7 +3793,7 @@ focus_tree = {
 		}
 
 		cost = 10
-
+		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
 			if = {
 				limit = {
@@ -4912,7 +4912,8 @@ focus_tree = {
 		}
 		prerequisite = {
 			focus = URG_an_independent_navy
-		}		
+		}	
+		search_filters = { FOCUS_FILTER_RESEARCH }	
 		completion_reward = {
 			add_doctrine_cost_reduction = {
 				name = naval_doc_bonus
@@ -4945,7 +4946,8 @@ focus_tree = {
 		}
 		prerequisite = {
 			focus = URG_an_independent_navy
-		}		
+		}	
+		search_filters = { FOCUS_FILTER_RESEARCH }		
 		completion_reward = {
 			add_doctrine_cost_reduction = {
 				name = naval_doc_bonus
@@ -4988,6 +4990,7 @@ focus_tree = {
 				}
 			}
 		}		
+		search_filters = {FOCUS_FILTER_INDUSTRY}
 		completion_reward = {
 			URG_move_10_nacionales = yes
 			random_owned_controlled_state = {
@@ -5020,6 +5023,7 @@ focus_tree = {
 		prerequisite = {
 			focus = URG_protect_rio_de_la_plata
 		}		
+		search_filters = { FOCUS_FILTER_RESEARCH }	
 		completion_reward = {
 			add_tech_bonus = {
                 bonus = 1
@@ -5039,12 +5043,14 @@ focus_tree = {
 		prerequisite = {
 			focus = URG_power_projection
 		}		
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
 			add_tech_bonus = {
                 bonus = 1
-                uses = 2
-                category = naval_gunnery_tech
-        	}			
+                uses = 1
+                category = cl_tech
+        	}	
+			EUYL_add_1_dockyard = yes		
 		}
 	}
 
@@ -5103,12 +5109,14 @@ focus_tree = {
 		prerequisite = {
 			focus = URG_new_naval_cannons
 		}		
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
 			add_tech_bonus = {
                 bonus = 1
-                uses = 2
-                category = naval_armor_tech
+                uses = 1
+                category = ca_tech	
         	}			
+			EUYL_add_1_dockyard = yes
 		}
 	}
 
@@ -5125,7 +5133,8 @@ focus_tree = {
 		}
 		mutually_exclusive = {
 			focus = URG_purchase_naval_vessels
-		}		
+		}	
+		search_filters = { FOCUS_FILTER_RESEARCH }		
 		completion_reward = {
 			add_tech_bonus = {
                 bonus = 0.75
@@ -5339,6 +5348,7 @@ focus_tree = {
 				has_country_flag = URG_battle_rio_de_la_plata
 			}
 		}
+		search_filters = {FOCUS_FILTER_MANPOWER}
 		completion_reward = {
 			add_ideas = URG_ley_9943
 		}
@@ -5386,6 +5396,7 @@ focus_tree = {
 				has_country_flag = URG_battle_rio_de_la_plata
 			}
 		}
+		search_filters = { FOCUS_FILTER_MANPOWER}
 		completion_reward = {
 			if = {
 				limit = {
@@ -5434,6 +5445,7 @@ focus_tree = {
 				has_country_flag = URG_battle_rio_de_la_plata
 			}
 		}
+		search_filters = {FOCUS_FILTER_INDUSTRY}
 		completion_reward = {
 			if = {
 				limit = {
@@ -5811,6 +5823,7 @@ focus_tree = {
 			always = no
 		}
 		mutually_exclusive = { focus = URG_industrial_economy }
+		search_filters = {FOCUS_FILTER_INDUSTRY}
 		completion_reward = {
 			custom_effect_tooltip = generic_bypassed_focus_tt
 		}
@@ -5830,6 +5843,7 @@ focus_tree = {
 			always = no
 		}
 		mutually_exclusive = { focus = URG_agricultural_economy }
+		search_filters = {FOCUS_FILTER_INDUSTRY}
 		completion_reward = {
 			custom_effect_tooltip = generic_bypassed_focus_tt
 		}
@@ -5845,6 +5859,7 @@ focus_tree = {
 		prerequisite = {
 			focus = URG_industrial_economy
 		}
+		search_filters = {FOCUS_FILTER_INDUSTRY}
 		completion_reward = {
 			EUYL_add_2_civilian = yes	
 			add_stability = -0.05
@@ -5861,6 +5876,7 @@ focus_tree = {
 		prerequisite = {
 			focus = URG_industrial_economy
 		}
+		search_filters = {FOCUS_FILTER_INDUSTRY}
 		completion_reward = {
 			EUYL_add_1_civilian = yes
 			EUYL_add_2_military = yes
@@ -5897,6 +5913,7 @@ focus_tree = {
 		prerequisite = {
 			focus = URG_nationalise_foreign_industries
 		}
+		search_filters = {FOCUS_FILTER_INDUSTRY}
 		completion_reward = {
 			URG_move_10_nacionales = yes
 			300 = {
@@ -5953,6 +5970,7 @@ focus_tree = {
 		prerequisite = {
 			focus = URG_agricultural_economy
 		}
+		search_filters = {FOCUS_FILTER_INDUSTRY}
 		completion_reward = {
 			add_stability = 0.025
 			URG_move_10_colorado = yes
@@ -5973,6 +5991,7 @@ focus_tree = {
 		prerequisite = {
 			focus = URG_agricultural_economy
 		}
+		search_filters = {FOCUS_FILTER_INDUSTRY}
 		completion_reward = {
 			add_stability = 0.025
 			add_ideas = free_trade
@@ -5993,6 +6012,7 @@ focus_tree = {
 		prerequisite = {
 			focus = URG_open_up_the_economy
 		}
+		search_filters = {FOCUS_FILTER_INDUSTRY}
 		completion_reward = {
 			add_political_power = 50
 			EUYL_add_1_civilian = yes
@@ -6010,6 +6030,7 @@ focus_tree = {
 		prerequisite = {
 			focus = URG_expand_the_universities
 		}
+		search_filters = {FOCUS_FILTER_INDUSTRY}
 		completion_reward = {
 			URG = {
 				country_event = uruguay.29
@@ -6031,6 +6052,7 @@ focus_tree = {
 			focus = URG_urbanization_effort
 			focus = URG_industrial_agriculture
 		}
+		search_filters = {FOCUS_FILTER_INDUSTRY}
 		completion_reward = {
 			URG = {
 				country_event = uruguay.30
@@ -6048,6 +6070,7 @@ focus_tree = {
 		prerequisite = {
 			focus = URG_fray_bentos_corned_beef
 		}
+		search_filters = { FOCUS_FILTER_MANPOWER }
 		completion_reward = {
 			URG_move_10_colorado = yes
 			every_controlled_state = {
