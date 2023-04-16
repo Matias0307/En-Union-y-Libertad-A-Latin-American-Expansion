@@ -369,6 +369,10 @@ focus_tree = {
 				has_dynamic_modifier = { modifier = URG_terra_loyalities } 
 				is_demilitarized_zone = yes 
 			}
+			925 = {
+				has_dynamic_modifier = { modifier = URG_terra_loyalities } 
+				is_demilitarized_zone = yes 
+			}
 		}
 		
 		cancel_if_invalid = yes
@@ -380,7 +384,7 @@ focus_tree = {
 			300 = {
 				set_demilitarized_zone = no
 			}
-			847 = {
+			925 = {
 				set_demilitarized_zone = no
 			}
 			custom_effect_tooltip = URG_unlock_stomp_out_capital
@@ -398,7 +402,7 @@ focus_tree = {
 		cost = 8
 		
 		available = {
-			908 = { 
+			986 = { 
 				has_dynamic_modifier = { modifier = URG_terra_loyalities } 
 				is_demilitarized_zone = yes 
 			}
@@ -410,7 +414,7 @@ focus_tree = {
 		
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
 		completion_reward = {
-			908 = {
+			986 = {
 				set_demilitarized_zone = no
 			}
 			custom_effect_tooltip = URG_unlock_stomp_out_paysandu
@@ -3858,10 +3862,27 @@ focus_tree = {
 				add_core_of = ROOT
 			}
 			custom_effect_tooltip = URG_economy_officers_tt
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
 			hidden_effect = {
 				add_ideas = {
 					URG_economic_instability
 					URG_rebelling_officers
+				}
+				every_neighbor_country = {
+					limit = {
+						NOT = {
+							OR = {
+								has_war_with = ROOT 
+								is_in_faction_with = ROOT
+							}
+						}
+					}
+					ROOT = {
+						create_wargoal = {
+							target = PREV 
+							type = annex_everything
+						}
+					}
 				}
 			}
 		}
@@ -5522,7 +5543,7 @@ focus_tree = {
 					instant_build = yes 
 				}
 			}
-			908 = {
+			986 = {
 				add_building_construction = {
 					type = infrastructure
 					level = 1
@@ -5656,7 +5677,7 @@ focus_tree = {
 			add_resource = {
    				type = steel
    				amount = 12
-    			state = 908
+    			state = 986
 			}
 		}
 	}
@@ -5764,13 +5785,13 @@ focus_tree = {
 			focus = URG_expand_the_rivera_mines
 		}
 		completion_reward = {
-			908 = {
-				add_extra_state_shared_building_slots = 2
-			}
-			847 = {
+			986 = {
 				add_extra_state_shared_building_slots = 2
 			}
 			300 = {
+				add_extra_state_shared_building_slots = 2
+			}
+			925 = {
 				add_extra_state_shared_building_slots = 2
 			}			
 			add_ideas = URG_building_grants_idea
@@ -5881,7 +5902,7 @@ focus_tree = {
 			EUYL_add_1_civilian = yes
 			EUYL_add_2_military = yes
 			URG_move_20_nacionales = yes
-			908 = {
+			986 = {
 				add_building_construction = {
 					type = supply_node
 					level = 1
@@ -5920,11 +5941,11 @@ focus_tree = {
 				set_state_category = city
 				add_manpower = 100000
 			}
-			908 = {
+			986 = {
 				set_state_category = large_town
 				add_manpower = 50000
 			}
-			847 = {
+			925 = {
 				set_state_category = metropolis
 				add_manpower = 250000
 				add_building_construction = {
