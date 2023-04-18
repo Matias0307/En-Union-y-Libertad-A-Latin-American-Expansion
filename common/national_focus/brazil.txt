@@ -9756,13 +9756,34 @@ focus_tree = {
 		
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = COL
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = COL 
+						original_tag = VEN 
+					}
+					NOT = { has_war_with = ROOT }
+					NOT = { is_in_faction_with = ROOT }
+				}
 			}
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = VEN
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						OR = {
+							original_tag = VEN 
+							original_tag = COL 
+						}
+						NOT = { has_war_with = ROOT }
+						NOT = { is_in_faction_with = ROOT }
+					}
+					ROOT = {
+						create_wargoal = {
+							type = annex_everything
+							target = PREV 
+						}
+					}
+				}
 			}
 		}
 	}
@@ -10238,13 +10259,34 @@ focus_tree = {
 		
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			create_wargoal = {
-				type = annex_everything
-				target = PAN
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = PAN 
+						original_tag = COS 
+					}
+					NOT = { has_war_with = ROOT }
+					NOT = { is_in_faction_with = ROOT }
+				}
 			}
-			create_wargoal = {
-				type = annex_everything
-				target = COS
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						OR = {
+							original_tag = PAN 
+							original_tag = COS 
+						}
+						NOT = { has_war_with = ROOT }
+						NOT = { is_in_faction_with = ROOT }
+					}
+					ROOT = {
+						create_wargoal = {
+							type = annex_everything
+							target = PREV 
+						}
+					}
+				}
 			}
 		}
 	}
@@ -10274,19 +10316,34 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
 			every_other_country = {
 				limit = {
 					OR = {
 						original_tag = HON 
-						original_tag = ELS 
 						original_tag = NIC 
+						original_tag = GUA
 					}
 					NOT = { has_war_with = ROOT }
+					NOT = { is_in_faction_with = ROOT }
 				}
-				ROOT = {
-					create_wargoal = {
-						type = annex_everything
-						target = PREV 
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						OR = {
+							original_tag = HON 
+							original_tag = NIC 
+							original_tag = GUA
+						}
+						NOT = { has_war_with = ROOT }
+						NOT = { is_in_faction_with = ROOT }
+					}
+					ROOT = {
+						create_wargoal = {
+							type = annex_everything
+							target = PREV 
+						}
 					}
 				}
 			}
@@ -11934,13 +11991,34 @@ focus_tree = {
 		
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = COL
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = COL 
+						original_tag = VEN 
+					}
+					NOT = { has_war_with = ROOT }
+					NOT = { is_in_faction_with = ROOT }
+				}
 			}
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = VEN
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						OR = {
+							original_tag = VEN 
+							original_tag = COL 
+						}
+						NOT = { has_war_with = ROOT }
+						NOT = { is_in_faction_with = ROOT }
+					}
+					ROOT = {
+						create_wargoal = {
+							type = annex_everything
+							target = PREV 
+						}
+					}
+				}
 			}
 		}
 	}
@@ -12012,19 +12090,34 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
 			every_other_country = {
 				limit = {
 					OR = {
 						original_tag = HON 
-						original_tag = ELS 
 						original_tag = NIC 
+						original_tag = GUA
 					}
 					NOT = { has_war_with = ROOT }
+					NOT = { is_in_faction_with = ROOT }
 				}
-				ROOT = {
-					create_wargoal = {
-						type = annex_everything
-						target = PREV 
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						OR = {
+							original_tag = HON 
+							original_tag = NIC 
+							original_tag = GUA
+						}
+						NOT = { has_war_with = ROOT }
+						NOT = { is_in_faction_with = ROOT }
+					}
+					ROOT = {
+						create_wargoal = {
+							type = annex_everything
+							target = PREV 
+						}
 					}
 				}
 			}
@@ -12250,6 +12343,7 @@ focus_tree = {
 		cancel_if_invalid = yes 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
 			every_other_country = {
 				limit = {
 					any_owned_state = {
@@ -12263,10 +12357,26 @@ focus_tree = {
 						}
 					}
 				}
-				ROOT = {
-					create_wargoal = {
-						type = annex_everything
-						target = PREV 
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						any_owned_state = {
+							is_on_continent = south_america
+						}
+						capital_scope = { is_on_continent = europe }
+						NOT = {
+							OR = {
+								is_in_faction_with = ROOT 
+								has_war_with = ROOT 
+							}
+						}
+					}
+					ROOT = {
+						create_wargoal = {
+							type = annex_everything
+							target = PREV 
+						}
 					}
 				}
 			}
@@ -15971,13 +16081,34 @@ focus_tree = {
 		
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = PAN
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = PAN 
+						original_tag = COS
+					}
+					NOT = { has_war_with = ROOT }
+					NOT = { is_in_faction_with = ROOT }
+				}
 			}
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = COS
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						OR = {
+							original_tag = PAN 
+							original_tag = COS 
+						}
+						NOT = { has_war_with = ROOT }
+						NOT = { is_in_faction_with = ROOT }
+					}
+					ROOT = {
+						create_wargoal = {
+							type = annex_everything
+							target = PREV 
+						}
+					}
+				}
 			}
 		}
 	}
@@ -16022,17 +16153,36 @@ focus_tree = {
 		
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = HON
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = HON 
+						original_tag = NIC 
+						original_tag = GUA
+					}
+					NOT = { has_war_with = ROOT }
+					NOT = { is_in_faction_with = ROOT }
+				}
 			}
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = NIC
-			}
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = GUA
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						OR = {
+							original_tag = HON 
+							original_tag = NIC 
+							original_tag = GUA
+						}
+						NOT = { has_war_with = ROOT }
+						NOT = { is_in_faction_with = ROOT }
+					}
+					ROOT = {
+						create_wargoal = {
+							type = annex_everything
+							target = PREV 
+						}
+					}
+				}
 			}
 		}
 	}
