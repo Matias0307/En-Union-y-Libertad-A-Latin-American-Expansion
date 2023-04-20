@@ -6445,6 +6445,61 @@ focus_tree = {
 			custom_effect_tooltip = ARG_unlocks_decision_to_gain_votes_in_provinces_tt
 		}
 	}
+
+	focus = {
+		id = ARG_promises_of_new_projects
+		icon = GFX_ARG_industrial_projects
+		x = 0
+		y = 1
+		relative_position_id = ARG_concordancia
+		prerequisite = { focus = ARG_concordancia }
+	}
+
+	focus = { #player will have to choose between Ortiz, Robustiano Patrón Costas, and Leopoldo Melo
+			  #Choosing the last two options will quickly cause political tension to rise and the military take over (here you can have Peron as leader)
+		id = ARG_the_question_of_leadership
+		icon = GFX_ARG_choose_leader
+		x = 0
+		y = 1
+		relative_position_id = ARG_promises_of_new_projects
+		prerequisite = { focus = ARG_promises_of_new_projects }
+	}
+
+	focus = {
+		id = ARG_make_use_of_our_political_power
+		icon = GFX_focus_generic_self_management
+		x = -3
+		y = 1
+		relative_position_id = ARG_promises_of_new_projects
+		prerequisite = { focus = ARG_promises_of_new_projects }
+		prerequisite = {
+			focus = ARG_focus_on_challenging_other_parties
+			focus = ARG_focus_on_securing_empty_provinces
+		}
+	}
+
+	focus = {
+		id = ARG_leopoldo_melo_for_president
+		icon = GFX_ARG_leopoldo
+		x = 1
+		y = 1
+		relative_position_id = ARG_the_question_of_leadership
+		prerequisite = { focus = ARG_the_question_of_leadership }
+		mutually_exclusive = { focus = ARG_save_roberto }
+		mutually_exclusive = { focus = ARG_kill_off_roberto }
+	}
+
+	focus = {
+		id = ARG_robustiano_for_president
+		icon = GFX_ARG_robustiano
+		x = 3
+		y = 1
+		relative_position_id = ARG_the_question_of_leadership
+		prerequisite = { focus = ARG_the_question_of_leadership }
+		mutually_exclusive = { focus = ARG_leopoldo_melo_for_president }
+		mutually_exclusive = { focus = ARG_kill_off_roberto }
+		mutually_exclusive = { focus = ARG_save_roberto }
+	}
 	
 	focus = { ## Make the Grises and Azules a BoP
 		id = ARG_union_civica_radical
@@ -10165,13 +10220,13 @@ focus_tree = {
 		}
 	}
 	
-	focus = {
+	focus = { #Take advantage of the weak situation
 		id = ARG_kill_off_roberto
 		icon = GFX_ARG_kill_off_roberto
-		x = 4
-		y = 4
+		x = 8
+		y = 3
 		relative_position_id = ARG_concordancia
-
+		prerequisite = { focus = ARG_the_question_of_leadership }
 		mutually_exclusive = { focus = ARG_save_roberto }
 		
 		cost = 5
@@ -10203,13 +10258,13 @@ focus_tree = {
 		}
 	}
 	
-	focus = {
+	focus = { #Roberto is the chosen One
 		id = ARG_save_roberto
 		icon = GFX_ARG_save_roberto
 		x = -4
-		y = 4
+		y = 3
 		relative_position_id = ARG_concordancia
-
+		prerequisite = { focus = ARG_the_question_of_leadership }
 		mutually_exclusive = { focus = ARG_kill_off_roberto }
 		
 		cost = 10
@@ -10516,10 +10571,14 @@ focus_tree = {
 	focus = {
 		id = ARG_push_industrial_reforms
 		icon = GFX_goal_generic_construct_civilian
-		x = 0
+		x = 3
 		y = 1
 		relative_position_id = ARG_save_roberto
-		prerequisite = { focus = ARG_save_roberto }
+		prerequisite = { 
+			focus = ARG_save_roberto 
+			focus = ARG_leopoldo_melo_for_president
+			focus = ARG_robustiano_for_president
+		}
 		
 		cost = 5
 		
@@ -10544,10 +10603,10 @@ focus_tree = {
 	focus = {
 		id = ARG_strenghten_robertos_ideals
 		icon = GFX_ARG_cede_roberto
-		x = -1
+		x = -3
 		y = 1
 		relative_position_id = ARG_push_industrial_reforms
-		prerequisite = { focus = ARG_push_industrial_reforms }
+		prerequisite = { focus = ARG_save_roberto }
 		
 		cost = 10
 		
@@ -10580,10 +10639,9 @@ focus_tree = {
 	focus = {
 		id = ARG_push_forward_anitcorruption_reforms
 		icon = GFX_ARG_clamp_down
-		x = 0
-		y = 1
-		relative_position_id = ARG_strenghten_robertos_ideals
-		prerequisite = { focus = ARG_strenghten_robertos_ideals }
+		x = -1
+		y = 2
+		relative_position_id = ARG_robustiano_for_president
 		
 		cost = 8
 		
@@ -11360,10 +11418,10 @@ focus_tree = {
 	focus = {
 		id = ARG_fund_public_works
 		icon = GFX_goal_generic_consumer_goods
-		x = 0
+		x = -1
 		y = 1
-		relative_position_id = ARG_subsidize_key_industries
-		prerequisite = { focus = ARG_subsidize_key_industries }
+		relative_position_id = ARG_push_industrial_reforms
+		prerequisite = { focus = ARG_push_industrial_reforms }
 		
 		cost = 8
 		
@@ -11384,10 +11442,9 @@ focus_tree = {
 	focus = {
 		id = ARG_roberto_leads_the_way
 		icon = GFX_ARG_roberto_leads
-		x = -1
-		y = 1
+		x = 1
+		y = 2
 		relative_position_id = ARG_fund_public_works
-		prerequisite = { focus = ARG_fund_public_works }
 		prerequisite = { focus = ARG_push_forward_anitcorruption_reforms }
 		
 		cost = 8

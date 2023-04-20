@@ -187,30 +187,19 @@ country_event = {
     
     trigger = {
         has_country_flag = is_PBC 
-        has_completed_focus = PBC_our_war_of_independence
+        has_completed_focus = PBC_choose_our_leader
         OR = {
             original_tag = PRU 
             original_tag = BOL 
         }
-        OR = {
-			has_country_flag = PBC_winner_of_war_of_independence
-			AND = {
-				NOT = {
-					OR = {
-						has_war_with = ARG 
-						has_war_with = ECU 
-						has_war_with = CHL 
-						has_war_with = COL 
-					}
-				}
-				OR = {
-					controls_state = 910
-					controls_state = 909
-					controls_state = 490
-				}
-			}
-		}
         has_civil_war = no 
+    }
+
+    immediate = {
+        ROOT = {
+            set_country_flag = PBC_nationalists_rising_up
+            mark_focus_tree_layout_dirty = yes
+        }
     }
 
     mean_time_to_happen = { days = 3 }
@@ -220,18 +209,21 @@ country_event = {
         custom_effect_tooltip = PBC_nationalism_starting_to_rise_tt
         unlock_decision_category_tooltip = PBC_nationalism_rising
         add_dynamic_modifier = { modifier = PBC_nationalism_on_the_rise }
+        effect_tooltip = {
+            unlock_national_focus = PBC_calm_down_the_nationalists
+        }
         hidden_effect = {
             set_country_flag = PBC_nationalists_on_rise
             clr_country_flag = PBC_winner_of_war_of_independence
-            set_variable = { PBC_time_it_takes_to_take_state_BOL = 80 }
-            set_variable = { PBC_time_it_takes_to_take_state_PRU = 80 }
+            set_variable = { PBC_time_it_takes_to_take_state_BOL = 100 }
+            set_variable = { PBC_time_it_takes_to_take_state_PRU = 100 }
             set_variable = { PBC_PRU_states_controlled_by_nationalists = 0 }
             set_variable = { PBC_BOL_states_controlled_by_nationalists = 0 }
             set_variable = { PBC_total_states_controlled_by_nationalists = 0 }
             set_variable = { PBC_stability_factor = 0 }
             set_variable = { PBC_industrial_factors = 0 }
-            set_variable = { PBC_cost_to_retake_state = 40 }
-            set_variable = { PBC_days_to_retake_state = 30 }
+            set_variable = { PBC_cost_to_retake_state = 25 }
+            set_variable = { PBC_days_to_retake_state = 25 }
         }
     }
 }

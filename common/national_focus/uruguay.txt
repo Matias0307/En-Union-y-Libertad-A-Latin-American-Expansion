@@ -2698,10 +2698,9 @@ focus_tree = {
 	focus = {
 		id = URG_secure_the_paraguayan_alliance
 		icon = GFX_URG_invite_paraguay 
-		x = 1
+		x = 3
 		y = 1
 		relative_position_id = URG_strengthen_our_military
-		prerequisite = { focus = URG_strengthen_our_military }
 		prerequisite = { focus = URG_all_adults_must_serve }
 		
 		cost = 10
@@ -2736,10 +2735,12 @@ focus_tree = {
 	focus = {
 		id = URG_attack_the_argentines
 		icon = GFX_focus_ARG_attack 
-		x = 0
-		y = 1
-		relative_position_id = URG_secure_the_paraguayan_alliance
-		prerequisite = { focus = URG_secure_the_paraguayan_alliance }
+		x = -1
+		y = 2
+		relative_position_id = URG_all_adults_must_serve
+		prerequisite = { focus = URG_strengthen_our_military }
+		prerequisite = { focus = URG_all_adults_must_serve }
+		prerequisite = { focus = URG_recover_from_the_civil_war}
 		will_lead_to_war_with = ARG
 		
 		cost = 10
@@ -2771,7 +2772,7 @@ focus_tree = {
 	focus = {
 		id = URG_desperate_mobilization
 		icon = GFX_focus_generic_tank_production 
-		x = -1
+		x = 0
 		y = 1
 		relative_position_id = URG_attack_the_argentines
 		prerequisite = { focus = URG_attack_the_argentines }
@@ -2804,10 +2805,10 @@ focus_tree = {
 	focus = {
 		id = URG_mutual_military_mobilization
 		icon = GFX_URG_mutual_buildup
-		x = 1
+		x = 0
 		y = 1
-		relative_position_id = URG_attack_the_argentines
-		prerequisite = { focus = URG_attack_the_argentines }
+		relative_position_id = URG_secure_the_paraguayan_alliance
+		prerequisite = { focus = URG_secure_the_paraguayan_alliance }
 		
 		cost = 5
 		
@@ -2816,7 +2817,7 @@ focus_tree = {
 		}
 		
 		available = {
-			has_war_with = ARG 
+			is_in_faction_with = PAR
 		}
 		
 		cancel_if_invalid = yes
@@ -2837,10 +2838,9 @@ focus_tree = {
 	focus = {
 		id = URG_march_to_buenos_aires
 		icon = GFX_ARG_casa_marcha 
-		x = -1
+		x = 0
 		y = 1
-		relative_position_id = URG_mutual_military_mobilization
-		prerequisite = { focus = URG_mutual_military_mobilization }
+		relative_position_id = URG_desperate_mobilization
 		prerequisite = { focus = URG_desperate_mobilization }
 		
 		cost = 2
@@ -2856,7 +2856,7 @@ focus_tree = {
 		bypass = {
 			has_completed_focus = URG_attack_the_argentines
 			has_war_with = ARG 
-			controls_state = 888
+			controls_state = 966
 		}
 		
 		cancel_if_invalid = yes
@@ -2913,9 +2913,22 @@ focus_tree = {
 		cost = 10
 		
 		available = {
-			is_in_faction_with = PAR 
 			NOT = {
 				has_war_with = ARG 
+			}
+			NOT = {
+				is_in_faction_with = PAR
+			}
+		}
+
+		bypass = {
+			has_completed_focus = URG_march_to_buenos_aires
+			PAR = {
+				OR = {
+					capital_scope = { is_fully_controlled_by = ROOT }
+					is_subject_of = ROOT 
+					has_war_with = ROOT
+				}
 			}
 		}
 		
@@ -2989,7 +3002,7 @@ focus_tree = {
 		cost = 10
 		
 		available = {
-			controls_state = 904
+			controls_state = 982
 		}
 		
 		cancel_if_invalid = yes
@@ -2998,20 +3011,20 @@ focus_tree = {
 		
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			add_state_core = 904
+			add_state_core = 982
 			if = {
 				limit = {
-					controls_state = 894
+					controls_state = 972
 					controls_state = 278
 					controls_state = 888
 				}
-				894 = {
+				972 = {
 					add_compliance = 15
 				}
 				278 = {
 					add_compliance = 15
 				}
-				888 = {
+				966 = {
 					add_compliance = 10
 				}
 			}
@@ -3343,11 +3356,11 @@ focus_tree = {
 		}
 	}
 	
-	focus = {
+	focus = { #Industrial_advancements
 		id = URG_civilian_factories
 		icon = GFX_goal_generic_construct_civ_factory 
 		x = 1
-		y = 1
+		y = 2
 		relative_position_id = URG_recover_from_the_civil_war
 		prerequisite = { focus = URG_recover_from_the_civil_war }
 		
@@ -3361,7 +3374,7 @@ focus_tree = {
 		}
 	}
 	
-	focus = {
+	focus = { #reformed armories
 		id = URG_military_factories
 		icon = GFX_goal_generic_construct_mil_factory 
 		x = -1
@@ -3375,7 +3388,7 @@ focus_tree = {
 		
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
-			EUYL_add_1_military = yes
+			EUYL_add_2_military = yes
 		}
 	}
 		
@@ -3386,7 +3399,6 @@ focus_tree = {
 		y = 1
 		relative_position_id = URG_civilian_factories
 		prerequisite = { focus = URG_civilian_factories }
-		prerequisite = { focus = URG_military_factories }
 		
 		cost = 10
 		
