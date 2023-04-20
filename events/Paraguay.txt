@@ -1,0 +1,69 @@
+add_namespace = paraguay
+
+# People protesting against the laissez-faire economics
+country_event = {
+	id = paraguay.1
+	title = paraguay.1.t
+	desc = paraguay.1.d
+	picture = GFX_report_event_generic_riot
+
+	is_triggered_only = yes
+
+	# Placate the people
+	option = {
+		name = paraguay.1.a
+		add_ideas = PAR_dissatisfied_population
+	}
+	# Send the military to deal with them
+	option = {
+		name = paraguay.1.b
+		random_list = {
+			35 = {
+				add_manpower = -1500
+				# balance of power effect goes here
+				custom_effect_tooltip = PAR_people_will_back_down_tt
+			}
+			65 = {
+				start_civil_war = {
+					ideology = democratic
+					size = 0.4
+				}
+				hidden_effect = {
+					random_other_country = {
+						limit = {
+							has_government = democratic
+							original_tag = PAR
+						}
+						retire_country_leader = yes
+						promote_character = PAR_armed_civilians
+					}
+				}
+			}
+		}
+	}
+}
+
+# Ex-leader gets deposed by military
+country_event = {
+	id = paraguay.2
+	title = paraguay.2.t
+	desc = paraguay.2.d
+	picture = GFX_report_event_generic_army
+
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			retire_country_leader = yes
+			promote_character = PAR_junta
+		}
+	}
+
+	option = {
+		name = paraguay.2.a
+		effect_tooltip = {
+			retire_country_leader = yes
+			promote_character = PAR_junta
+		}
+	}
+}

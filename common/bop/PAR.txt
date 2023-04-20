@@ -1,0 +1,70 @@
+
+PAR_military_leader_bop = {
+	initial_value = 1
+	left_side = PAR_military_side
+	right_side = PAR_ayala_side
+	decision_category = PAR_bop
+	range = {
+		id = PAR_balanced_both
+		min = -0.1
+		max = 0.1
+	}
+	side = {
+		id = PAR_military_side
+		icon = GFX_PAR_BoP_military_side
+		range = {
+			id = PAR_dominant_army
+			min = -1
+			max = -0.75
+			modifier = {
+				political_power_factor = -0.05
+				industrial_capacity_factory = 0.05
+				war_support_factor = 0.05
+			}
+			on_activate = {
+				if = {
+					limit = {
+						has_country_leader = { 
+							ruling_only = yes 
+							name = "Junta Militar Paraguaya"
+						}
+					}
+					country_event = paraguay.2
+				}
+			}
+		}
+        range = {
+			id = PAR_empowered_army
+			min = -0.75
+			max = -0.1
+			modifier = {
+				political_power_factor = -0.02
+				industrial_capacity_factory = 0.02
+				war_support_factor = 0.02
+			}
+		}
+	}
+	## AYALA'S SIDE ##
+	side = {
+		id = PAR_ayala_side
+		icon = GFX_PAR_BoP_eusebio_ayala
+		range = {
+			id = PAR_dominant_ayala
+			min = 0.75
+			max = 1
+			modifier = {
+				political_power_factor = 0.1
+			}
+		}
+
+        range = {
+			id = PAR_empowered_ayala
+			min = 0.1
+			max = 0.75
+			modifier = {
+				political_power_factor = 0.03
+			}
+		}
+	}
+}
+
