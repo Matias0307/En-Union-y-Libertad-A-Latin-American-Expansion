@@ -80,7 +80,7 @@ focus_tree = {
 
 		cost = 6
 
-		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
+		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
 			add_ideas = PAR_laissez_faire_approach_1
 			EUYL_add_1_civilian = yes
@@ -114,4 +114,74 @@ focus_tree = {
 			}
 		}
 	}
+
+	################ POLITICAL TREE #######################
+
+	### FEB REV - Oppose Feb Rev ###
+	focus = {
+		id = PAR_fight_for_our_freedom
+		icon = GFX_PAR_fight_freedom
+		x = 15
+		y = 0
+		
+		mutually_exclusive = {
+			focus = PAR_support_the_revolution
+		}
+
+		cost = 1
+
+		available = {
+			has_active_mission = PAR_the_february_revolution
+			exists = yes 
+			has_civil_war = no 
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_BALANCE_OF_POWER }
+		completion_reward = {
+			add_political_power = 50
+			PAR_move_10_leader = yes
+			custom_effect_tooltip = PAR_unlock_revolution_decisions_tt
+		}
+	}
+
+	### FEB REV - Support Feb Rev ###
+	focus = {
+		id = PAR_support_the_revolution
+		icon = GFX_PAR_franco_focus_icon
+		x = 25
+		y = 0
+
+		mutually_exclusive = {
+			focus = PAR_fight_for_our_freedom
+		}
+
+		cost = 2
+
+		available = {
+			has_active_mission = PAR_the_february_revolution
+			exists = yes 
+			has_civil_war = no 
+		}
+
+		bypass = {
+			OR = {
+				has_government = communism
+				has_country_flag = PAR_february_revolution_happened
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_BALANCE_OF_POWER FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			add_political_power = 25
+			add_popularity = {
+				ideology = communism
+				popularity = 0.05
+			}
+			add_days_mission_timeout = {
+				mission = PAR_the_february_revolution
+				days = -7
+			}
+		}
+	}	
+
 }

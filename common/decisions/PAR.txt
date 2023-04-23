@@ -1,0 +1,128 @@
+PAR_february_revolution = {
+	
+	PAR_the_february_revolution = {
+		priority = 100
+		icon = generic_ignite_civil_war
+
+		available = {
+			power_balance_value = {
+				id = PAR_military_leader_bop
+				value > 0.1
+			}
+		}
+
+		activation = {
+			always = no
+		}
+
+		cancel_trigger = {
+			OR = {
+				exists = no
+				has_civil_war = yes
+			}
+		}
+
+		cancel_effect = {
+			set_country_flag = PAR_february_revolution_avoided
+		}
+
+		is_good = no
+
+		fire_only_once = yes
+
+		days_mission_timeout = 55
+
+		timeout_effect = {
+			if = {
+				limit = {
+					has_completed_focus = PAR_fight_for_our_freedom
+				}
+				hidden_effect = {
+					if = {
+						limit = {
+							NOT = {
+								has_template = "Milicias"
+							}
+						}
+						division_template = { 
+							name = "Milicias" 
+							division_names_group = SPAN_INF_02 
+							is_locked = yes 
+							regiments = { 
+								infantry = { x = 0 y = 0 }  
+								infantry = { x = 0 y = 1 } 
+								infantry = { x = 0 y = 2 } 
+							}
+						}
+					}
+				}
+				start_civil_war = {
+					ideology = communism
+					size = 0.4
+				}
+				hidden_effect = {
+					every_controlled_state = {
+						create_unit = {
+							division = "name = \"Milicias Leales\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+							owner = ROOT
+						}
+						create_unit = {
+							division = "name = \"Milicias Leales\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+							owner = ROOT
+						}
+						create_unit = {
+							division = "name = \"Milicias Leales\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+							owner = ROOT
+						}
+					}
+					random_other_country = {
+						limit = {
+							has_government = communism
+							original_tag = PAR
+						}
+						every_controlled_state = {
+							create_unit = {
+								division = "name = \"Milicias Comunistas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+								owner = PREV
+							}
+							create_unit = {
+								division = "name = \"Milicias Comunistas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+								owner = PREV
+							}
+							create_unit = {
+								division = "name = \"Milicias Comunistas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+								owner = PREV
+							}
+						}
+						random_owned_controlled_state = {
+							create_unit = {
+								division = "name = \"Milicias Comunistas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+								owner = PREV
+							}
+						}
+						retire_country_leader = yes
+						promote_character = PAR_rafael_franco
+						load_focus_tree = {
+							tree = paraguay_focus
+							keep_completed = no
+						}
+						complete_national_focus = PAR_support_the_revolution
+					}
+				}
+			}
+			else = {
+				country_event = paraguay.3
+				set_country_flag = PAR_february_revolution_happened
+			}
+		}
+
+		complete_effect = {
+			add_political_power = 25
+			PAR_move_10_leader = yes
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.05
+			}
+		}
+	}
+}
