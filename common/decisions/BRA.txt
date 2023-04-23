@@ -878,7 +878,16 @@ BRA_political_manegement = {
                 }
             }
             hidden_effect = {
-                activate_mission = BRA_vargas_measure_for_dictatorship
+                if = {
+                    limit = {
+                        has_country_leader = {
+                            character = BRA_getulio_vargas
+                            ruling_only = yes
+                        }
+                        check_variable = { BRA_progress_to_dictatorship < 100 }
+                    }
+                    activate_mission = BRA_vargas_measure_for_dictatorship
+                }
             }
         }
     }
@@ -899,9 +908,9 @@ BRA_political_manegement = {
             }
         }
 
-        cost = 25
+        cost = 15
 
-        days_remove = 50
+        days_remove = 25
 
         ai_will_do = {
 			factor = 235
@@ -944,9 +953,9 @@ BRA_political_manegement = {
             }
         }
 
-        cost = 25
+        cost = 15
 
-        days_remove = 50
+        days_remove = 25
 
         ai_will_do = {
 			factor = 235
@@ -989,9 +998,9 @@ BRA_political_manegement = {
             }
         }
 
-        cost = 25
+        cost = 15
 
-        days_remove = 50
+        days_remove = 25
 
         ai_will_do = {
 			factor = 235
@@ -1255,6 +1264,10 @@ BRA_political_manegement = {
 
         ai_will_do = {
 			factor = 135
+            modifier = {
+                factor = 0
+                has_country_flag = BRA_estado_novo_established
+            }
 		}
 
         cancel_trigger = {
@@ -1957,6 +1970,11 @@ BRA_political_manegement = {
             hidden_effect = {
                 subtract_from_variable = { BRA_integralist_influence = 5 }
                 BRA_set_up_political_crisis = yes 
+                remove_ideas = {
+                    BRA_integralist_protests_1
+                    BRA_integralist_protests_2
+                    BRA_integralist_protests_3
+                }
             }
         }
         timeout_effect = {
