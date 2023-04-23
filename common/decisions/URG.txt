@@ -376,35 +376,46 @@ URG_repaying_the_debt_to_britain = {
 
 URG_dealing_with_the_protestors = {
 
-	URG_stomp_out_the_loyalists_in_the_capital = {
+	URG_stomp_out_the_loyalists_in_FROM = {
 		priority = 10
 		icon = generic_civil_support
 		allowed = { original_tag = URG }
+
+		state_target = yes 
+
+		target_array = controlled_states
+
+		target_trigger = {
+			FROM = {
+				is_core_of = ROOT
+				has_dynamic_modifier = { modifier = URG_terra_loyalities }
+			}
+		}
 		
 		available = {
-			has_completed_focus = URG_march_to_the_capital
 			NOT = {
 				has_country_flag = URG_dealing_with_protestors
 			}
 		}
 
 		visible = {
-			300 = {
+			FROM = {
+				is_fully_controlled_by = ROOT
 				has_dynamic_modifier = { modifier = URG_terra_loyalities }
 			}
 		}
 		
-		cost = 75
+		cost = 35
 		
 		ai_will_do = {
-			factor = 180
+			factor = 300 #AI shold prioritize this
 		}
 		
 		modifier = {
 			weekly_manpower = -80
 		}
 		
-		days_remove = 100
+		days_remove = 60
 		
 		complete_effect = {
 			set_country_flag = URG_dealing_with_protestors
@@ -412,89 +423,7 @@ URG_dealing_with_the_protestors = {
 		
 		remove_effect = {
 			clr_country_flag = URG_dealing_with_protestors
-			300 = { remove_dynamic_modifier = { modifier = URG_terra_loyalities } }
-			add_stability = 0.05
-		}
-	}
-
-	URG_stomp_out_the_loyalists_in_the_capital_2 = {
-		priority = 10
-		icon = generic_civil_support
-		allowed = { original_tag = URG }
-		
-		available = {
-			has_completed_focus = URG_march_to_the_capital
-			NOT = {
-				has_country_flag = URG_dealing_with_protestors
-			}
-		}
-
-		visible = {
-			847 = {
-				has_dynamic_modifier = { modifier = URG_terra_loyalities }
-			}
-		}
-		
-		cost = 75
-		
-		ai_will_do = {
-			factor = 180
-		}
-		
-		modifier = {
-			weekly_manpower = -80
-		}
-		
-		days_remove = 100
-		
-		complete_effect = {
-			set_country_flag = URG_dealing_with_protestors
-		}
-		
-		remove_effect = {
-			clr_country_flag = URG_dealing_with_protestors
-			847 = { remove_dynamic_modifier = { modifier = URG_terra_loyalities } }
-			add_stability = 0.05
-		}
-	}
-	
-	URG_stomp_out_the_loyalists_in_paysandu = {
-		priority = 10
-		icon = generic_civil_support
-		allowed = { original_tag = URG }
-		
-		available = {
-			has_completed_focus = URG_march_to_paysandu
-			NOT = {
-				has_country_flag = URG_dealing_with_protestors
-			}
-		}
-
-		visible = {
-			908 = {
-				has_dynamic_modifier = { modifier = URG_terra_loyalities }
-			}
-		}
-		
-		cost = 75
-		
-		ai_will_do = {
-			factor = 180
-		}
-		
-		modifier = {
-			weekly_manpower = -80
-		}
-		
-		days_remove = 100
-		
-		complete_effect = {
-			set_country_flag = URG_dealing_with_protestors
-		}
-		
-		remove_effect = {
-			clr_country_flag = URG_dealing_with_protestors
-			908 = { remove_dynamic_modifier = { modifier = URG_terra_loyalities } }
+			FROM = { remove_dynamic_modifier = { modifier = URG_terra_loyalities } }
 			add_stability = 0.05
 		}
 	}
@@ -2006,6 +1935,14 @@ URG_political_actions = {
 				has_decision = URG_support_berres
 			}
 			has_idea = URG_andres_martinez_trueba
+		}
+
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 250
+				has_idea = URG_andres_martinez_trueba #might as well go anarchy if the AI for some reason has Martinez 
+			}
 		}
 
 		fire_only_once = yes

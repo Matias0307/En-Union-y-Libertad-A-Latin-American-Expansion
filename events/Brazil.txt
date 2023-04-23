@@ -2228,6 +2228,7 @@ country_event = { #Integralists win elections
 			BRA_clear_integralist_opinion = yes 
 			BRA_clear_vargas_opinion = yes 
 			set_variable = { BRA_playing_as_vargas = 0 }
+			set_variable = { BRA_progress_to_dictatorship = 0 }
 			set_variable = { BRA_playing_as_integralists = 1 }
 			promote_character = BRA_plínio_salgado
 			set_politics = {
@@ -2262,9 +2263,18 @@ country_event = { #Neutral party wins elections
 			BRA_clear_integralist_opinion = yes 
 			BRA_clear_vargas_opinion = yes 
 			set_variable = { BRA_playing_as_vargas = 0 }
+			set_variable = { BRA_progress_to_dictatorship = 0 }
 			promote_character = BRA_jose_americo_de_almeida
 			add_popularity = { ideology = neutrality popularity = 0.05 }
 			set_country_flag = BRA_neutrality_won_elections
+			if = {
+				limit = { ##just so the AI/player doesn't get stuck
+					NOT = {
+						has_completed_focus = BRA_jose_americo_for_president
+					}
+				}
+				complete_national_focus = BRA_victory_for_the_neutrals
+			}
 		}
 	}
 
@@ -2290,6 +2300,7 @@ country_event = { #democratic union party wins elections
 			BRA_clear_integralist_opinion = yes 
 			BRA_clear_vargas_opinion = yes 
 			set_variable = { BRA_playing_as_vargas = 0 }
+			set_variable = { BRA_progress_to_dictatorship = 0 }
 			BRA_clear_congress_opinion = yes 
 			set_variable = { BRA_playing_as_congress = 1 }
 			promote_character = BRA_armando_sales
@@ -2298,6 +2309,14 @@ country_event = { #democratic union party wins elections
 			}
 			add_popularity = { ideology = democratic popularity = 0.05 }
 			set_country_flag = BRA_democrats_won_elections
+			if = {
+				limit = { ##just so the AI/player doesn't get stuck
+					NOT = {
+						has_completed_focus = BRA_an_era_of_democracy
+					}
+				}
+				complete_national_focus = BRA_a_free_brazil
+			}
 		}
 	}
 
