@@ -108,12 +108,187 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
-			swap_ideas = {
-				remove_idea = PAR_stagnated_economy_1
-				add_idea = PAR_stagnated_economy_2
+			unlock_decision_category_tooltip = PAR_subsidizing_paraguayan_industry
+			custom_effect_tooltip = PAR_decisions_allow_subsidize_industry_tt
+		}
+	}
+
+	### Push Agrarian Reforms ###
+	focus = {
+		id = PAR_push_agrarian_reforms
+		icon = GFX_focus_generic_land_reclamation
+		x = 1
+		y = 1
+		relative_position_id = PAR_maintain_agrarian_dominance
+		prerequisite = {
+			focus = PAR_maintain_agrarian_dominance
+		}
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			add_timed_idea = {
+				idea = PAR_agrarian_reforms
+				days = 365
+			}
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 1
+			}
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 1
 			}
 		}
 	}
+
+	### Industrial Build-Up ###
+	focus = {
+		id = PAR_industrial_buildup
+		icon = GFX_focus_generic_industry_3
+		x = 1
+		y = 1
+		relative_position_id = PAR_subsidize_the_industry
+		prerequisite = {
+			focus = PAR_subsidize_the_industry
+		}
+
+		cost = 7.2
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			EUYL_add_2_civilian = yes
+		}
+	}
+
+	### Develop Western Paraguay ###
+	focus = {
+		id = PAR_develop_western_paraguay
+		icon = GFX_PAR_develop_west
+		x = 0
+		y = 1
+		relative_position_id = PAR_industrial_buildup
+		prerequisite = {
+			focus = PAR_industrial_buildup
+		}
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			every_core_state = {
+				limit = {
+					OR = {
+						state = 992
+						state = 993
+						state = 688
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+                    type = industrial_complex
+                    level = 1
+                    instant_build = yes
+                }
+				add_building_construction = {
+                    type = infrastructure
+                    level = 1
+                    instant_build = yes
+                }
+			}
+		}
+	}
+
+	### Open Our Markets ###
+	focus = {
+		id = PAR_open_our_markets
+		icon = GFX_goal_generic_trade
+		x = 1
+		y = 1
+		relative_position_id = PAR_push_agrarian_reforms
+		prerequisite = {
+			focus = PAR_push_agrarian_reforms
+		}
+
+		cost = 6
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			if = {
+                limit = { NOT = { has_idea = free_trade } }
+                add_ideas = free_trade
+            }
+            else = {
+                add_political_power = 150
+            }
+		}
+	}
+
+	### Industrial Agriculture ###
+	focus = {
+        id = PAR_industrial_agriculture
+        icon = GFX_URG_industrialized_agriculture
+        x = -1
+        y = 1
+        relative_position_id = PAR_push_agrarian_reforms
+        prerequisite = {
+            focus = PAR_push_agrarian_reforms
+        }
+		
+		cost = 8
+
+        search_filters = { FOCUS_FILTER_INDUSTRY }
+        completion_reward = {
+            add_political_power = 50
+            EUYL_add_1_civilian = yes
+            EUYL_add_1_military = yes    
+        }
+    }
+
+	### Allow Foreign Investment ###
+	focus = {
+        id = PAR_allow_foreign_investment
+        icon = GFX_goal_generic_intelligence_exchange
+        x = -1
+        y = 1
+        relative_position_id = PAR_open_our_markets
+        prerequisite = { focus = PAR_open_our_markets }
+        prerequisite = { focus = PAR_industrial_agriculture }
+
+        cost = 10
+
+        available = {
+			NOT = {
+				has_idea = PAR_stagnated_economy_1
+			}
+            all_neighbor_country = {
+                NOT = {
+                    has_war_with = ROOT 
+                }
+            }
+        }
+
+        cancel_if_invalid = yes
+        continue_if_invalid = no
+        available_if_capitulated = no
+
+        search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
+        completion_reward = {
+            custom_effect_tooltip = BOL_every_neighbor
+            hidden_effect = {
+                every_neighbor_country = {
+                    limit = {
+                        has_opinion = {
+                            target = ROOT
+                            value > 79
+                        }
+                    }
+                    ROOT = {
+                        EUYL_add_2_civilian = yes 
+                    }
+                }
+            }
+        }
+    }
 
 	################ POLITICAL TREE #######################
 

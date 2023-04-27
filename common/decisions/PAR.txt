@@ -1,4 +1,4 @@
-PAR_february_revolution = {
+PAR_february_revolution = { #FEBRUARY REVOLUTION
 	
 	PAR_the_february_revolution = {
 		priority = 100
@@ -112,6 +112,14 @@ PAR_february_revolution = {
 			}
 			else = {
 				country_event = paraguay.3
+				if = {
+					limit = {
+						NOT = {
+							has_completed_focus = PAR_support_the_revolution
+						}
+					}
+					unlock_national_focus = PAR_support_the_revolution
+				}
 				set_country_flag = PAR_february_revolution_happened
 			}
 		}
@@ -124,5 +132,119 @@ PAR_february_revolution = {
 				popularity = 0.05
 			}
 		}
+	}
+}
+
+PAR_subsidizing_paraguayan_industry = { #SUBSIDIZATION
+
+	# minor subsidizations to small companies uwu
+	PAR_subsidizing_paraguayan_industry_small = {
+		icon = hol_exchange_intelligence_data
+		cost = 20
+
+		available = {
+			has_civil_war = no
+			NOT = {
+				OR = {
+					has_decision = PAR_subsidizing_paraguayan_industry_medium
+					has_decision = PAR_subsidizing_paraguayan_industry_large
+				}
+			}
+		}
+
+		days_remove = 50
+
+		modifier = {
+			consumer_goods_factor = 0.075
+			political_power_factor = -0.05
+		}
+		remove_effect = {
+			custom_effect_tooltip = PAR_subsidize_15_tt
+			hidden_effect = {
+				add_to_variable = {
+					PAR_percent_subsidize = 15
+				}
+				clamp_variable = {
+					var = PAR_percent_subsidize
+					min = 0
+					max = 100
+				}
+			}
+		}
+
+	}
+
+	# subsidizations for local industries owo
+	PAR_subsidizing_paraguayan_industry_medium = {
+		icon = hol_attract_foreign_investors
+		cost = 45
+
+		available = {
+			has_civil_war = no
+			NOT = {
+				OR = {
+					has_decision = PAR_subsidizing_paraguayan_industry_small
+					has_decision = PAR_subsidizing_paraguayan_industry_large
+				}
+			}
+		}
+
+		days_remove = 75
+
+		modifier = {
+			consumer_goods_factor = 0.15
+			political_power_factor = -0.1
+		}
+		remove_effect = {
+			custom_effect_tooltip = PAR_subsidize_30_tt
+			hidden_effect = {
+				add_to_variable = {
+					PAR_percent_subsidize = 30
+				}
+				clamp_variable = {
+					var = PAR_percent_subsidize
+					min = 0
+					max = 100
+				}
+			}
+		}
+
+	}
+
+	# large scale subsidizations for the industry OWO
+	PAR_subsidizing_paraguayan_industry_large = {
+		icon = generic_factory
+		cost = 75
+
+		available = {
+			has_civil_war = no
+			NOT = {
+				OR = {
+					has_decision = PAR_subsidizing_paraguayan_industry_small
+					has_decision = PAR_subsidizing_paraguayan_industry_medium
+				}
+			}
+		}
+
+		days_remove = 100
+
+		modifier = {
+			consumer_goods_factor = 0.2
+			political_power_factor = -0.15
+		}
+		remove_effect = {
+			custom_effect_tooltip = PAR_subsidize_50_tt
+			hidden_effect = {
+				add_to_variable = {
+					PAR_percent_subsidize = 50
+				}
+				clamp_variable = {
+					var = PAR_percent_subsidize
+					min = 0
+					max = 100
+				}
+			}
+		}
+
 	}
 }
