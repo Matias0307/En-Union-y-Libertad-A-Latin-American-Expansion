@@ -1508,18 +1508,7 @@ focus_tree = {
 		available = {
 			if = {
 				limit = {
-					OR = {
-						has_idea = ARG_inflation_1
-						has_idea = ARG_inflation_2
-						has_idea = ARG_inflation_3
-						has_idea = ARG_inflation_4
-						has_idea = ARG_inflation_5
-						has_idea = ARG_inflation_6
-						has_idea = ARG_inflation_7
-						has_idea = ARG_inflation_8
-						has_idea = ARG_inflation_9
-						has_idea = ARG_inflation_10
-					}
+					ARG_is_suffering_from_inflation = yes 
 				}
 				custom_trigger_tooltip = {
 					tooltip = ARG_inflation_2_or_less
@@ -2090,7 +2079,7 @@ focus_tree = {
 	focus = {
 		id = ARG_drift_back_towards_the_confederation
 		icon = GFX_ARG_drift_back_towards_the_confederation
-		x = 33
+		x = 37
 		y = 20
 		relative_position_id = ARG_infamous_decade
 		prerequisite = { }
@@ -6445,6 +6434,79 @@ focus_tree = {
 			custom_effect_tooltip = ARG_unlocks_decision_to_gain_votes_in_provinces_tt
 		}
 	}
+
+	focus = {
+		id = ARG_promises_of_new_projects
+		icon = GFX_ARG_industrial_projects
+		x = 0
+		y = 1
+		relative_position_id = ARG_concordancia
+		prerequisite = { focus = ARG_concordancia }
+	}
+
+	focus = { #player will have to choose between Ortiz, Robustiano Patrón Costas, and Leopoldo Melo
+			  #Choosing the last two options will quickly cause political tension to rise and the military take over (here you can have Peron as leader)
+		id = ARG_the_question_of_leadership
+		icon = GFX_ARG_choose_leader
+		x = 0
+		y = 1
+		relative_position_id = ARG_promises_of_new_projects
+		prerequisite = { focus = ARG_promises_of_new_projects }
+	}
+
+	focus = {
+		id = ARG_make_use_of_our_political_power
+		icon = GFX_focus_generic_self_management
+		x = -3
+		y = 1
+		relative_position_id = ARG_promises_of_new_projects
+		prerequisite = { focus = ARG_promises_of_new_projects }
+		prerequisite = {
+			focus = ARG_focus_on_challenging_other_parties
+			focus = ARG_focus_on_securing_empty_provinces
+		}
+	}
+
+	focus = {
+		id = ARG_leopoldo_melo_for_president
+		icon = GFX_ARG_leopoldo
+		x = 1
+		y = 1
+		relative_position_id = ARG_the_question_of_leadership
+		prerequisite = { focus = ARG_the_question_of_leadership }
+		mutually_exclusive = { focus = ARG_save_roberto }
+		mutually_exclusive = { focus = ARG_kill_off_roberto }
+	}
+
+	focus = {
+		id = ARG_expand_the_facultad_de_derecho
+		icon = GFX_focus_generic_improve_the_administration
+		x = 0
+		y = 1
+		relative_position_id = ARG_leopoldo_melo_for_president
+		prerequisite = { focus = ARG_leopoldo_melo_for_president }
+	}
+
+	focus = {
+		id = ARG_robustiano_for_president
+		icon = GFX_ARG_robustiano
+		x = 3
+		y = 1
+		relative_position_id = ARG_the_question_of_leadership
+		prerequisite = { focus = ARG_the_question_of_leadership }
+		mutually_exclusive = { focus = ARG_leopoldo_melo_for_president }
+		mutually_exclusive = { focus = ARG_kill_off_roberto }
+		mutually_exclusive = { focus = ARG_save_roberto }
+	}
+
+	focus = {
+		id = ARG_company_subsidies
+		icon = GFX_focus_mex_privatisation
+		x = 0
+		y = 1
+		relative_position_id = ARG_robustiano_for_president
+		prerequisite = { focus = ARG_robustiano_for_president }
+	}
 	
 	focus = { ## Make the Grises and Azules a BoP
 		id = ARG_union_civica_radical
@@ -8018,7 +8080,7 @@ focus_tree = {
 		}
 		available = {
 			is_subject = no
-			has_government = democratic
+			has_stability > 0.7
 		}
 		
 		cancel_if_invalid = yes
@@ -10165,14 +10227,16 @@ focus_tree = {
 		}
 	}
 	
-	focus = {
+	focus = { #Take advantage of the weak situation
 		id = ARG_kill_off_roberto
 		icon = GFX_ARG_kill_off_roberto
-		x = 4
-		y = 4
+		x = 11
+		y = 3
 		relative_position_id = ARG_concordancia
-
+		prerequisite = { focus = ARG_the_question_of_leadership }
 		mutually_exclusive = { focus = ARG_save_roberto }
+		mutually_exclusive = { focus = ARG_robustiano_for_president }
+		mutually_exclusive = { focus = ARG_leopoldo_melo_for_president }
 		
 		cost = 5
 		
@@ -10203,13 +10267,13 @@ focus_tree = {
 		}
 	}
 	
-	focus = {
+	focus = { #Roberto is the chosen One
 		id = ARG_save_roberto
 		icon = GFX_ARG_save_roberto
 		x = -4
-		y = 4
+		y = 3
 		relative_position_id = ARG_concordancia
-
+		prerequisite = { focus = ARG_the_question_of_leadership }
 		mutually_exclusive = { focus = ARG_kill_off_roberto }
 		
 		cost = 10
@@ -10516,10 +10580,14 @@ focus_tree = {
 	focus = {
 		id = ARG_push_industrial_reforms
 		icon = GFX_goal_generic_construct_civilian
-		x = 0
+		x = 3
 		y = 1
 		relative_position_id = ARG_save_roberto
-		prerequisite = { focus = ARG_save_roberto }
+		prerequisite = { 
+			focus = ARG_save_roberto 
+			focus = ARG_leopoldo_melo_for_president
+			focus = ARG_robustiano_for_president
+		}
 		
 		cost = 5
 		
@@ -10533,9 +10601,14 @@ focus_tree = {
 		
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_CHI_INFLATION FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
-			custom_effect_tooltip = ARG_add_15_days
-			hidden_effect = {
-				add_to_variable = { ARG_inflationary_period_days = 15 }
+			if = {
+				limit = {
+					ARG_is_suffering_from_inflation = yes 
+				}
+				custom_effect_tooltip = ARG_add_15_days
+				hidden_effect = {
+					add_to_variable = { ARG_inflationary_period_days = 15 }
+				}
 			}
 			EUYL_add_1_civilian = yes 
 		}
@@ -10544,10 +10617,10 @@ focus_tree = {
 	focus = {
 		id = ARG_strenghten_robertos_ideals
 		icon = GFX_ARG_cede_roberto
-		x = -1
+		x = -3
 		y = 1
 		relative_position_id = ARG_push_industrial_reforms
-		prerequisite = { focus = ARG_push_industrial_reforms }
+		prerequisite = { focus = ARG_save_roberto }
 		
 		cost = 10
 		
@@ -10580,10 +10653,13 @@ focus_tree = {
 	focus = {
 		id = ARG_push_forward_anitcorruption_reforms
 		icon = GFX_ARG_clamp_down
-		x = 0
-		y = 1
-		relative_position_id = ARG_strenghten_robertos_ideals
-		prerequisite = { focus = ARG_strenghten_robertos_ideals }
+		x = -1
+		y = 2
+		relative_position_id = ARG_robustiano_for_president
+		prerequisite = {
+			focus = ARG_expand_the_facultad_de_derecho
+			focus = ARG_company_subsidies
+		}
 		
 		cost = 8
 		
@@ -10611,7 +10687,7 @@ focus_tree = {
 	focus = {
 		id = ARG_subsidize_key_industries
 		icon = GFX_ARG_subsidize_industry
-		x = 1
+		x = 0
 		y = 1
 		relative_position_id = ARG_push_industrial_reforms
 		prerequisite = { focus = ARG_push_industrial_reforms }
@@ -11360,10 +11436,13 @@ focus_tree = {
 	focus = {
 		id = ARG_fund_public_works
 		icon = GFX_goal_generic_consumer_goods
-		x = 0
+		x = -1
 		y = 1
-		relative_position_id = ARG_subsidize_key_industries
-		prerequisite = { focus = ARG_subsidize_key_industries }
+		relative_position_id = ARG_continue_our_economic_reforms
+		prerequisite = { 
+			focus = ARG_continue_our_economic_reforms 
+			focus = ARG_modernize_industrial_tactics
+		}
 		
 		cost = 8
 		
@@ -11381,14 +11460,16 @@ focus_tree = {
 		}
 	}
 	
-	focus = {
+	focus = { #Victory for the Concordancia
 		id = ARG_roberto_leads_the_way
-		icon = GFX_ARG_roberto_leads
-		x = -1
-		y = 1
-		relative_position_id = ARG_fund_public_works
-		prerequisite = { focus = ARG_fund_public_works }
-		prerequisite = { focus = ARG_push_forward_anitcorruption_reforms }
+		icon = GFX_ARG_bandera_argentina
+		x = 0
+		y = 2
+		relative_position_id = ARG_subsidize_key_industries
+		prerequisite = { 
+			focus = ARG_push_forward_anitcorruption_reforms 
+			focus = ARG_strenghten_robertos_ideals
+		}
 		
 		cost = 8
 		
@@ -11415,11 +11496,68 @@ focus_tree = {
 			}
 		}
 	}
+
+	focus = { #unlock cure decisions
+		id = ARG_deal_with_the_fradulent_charges
+		icon = GFX_focus_generic_self_management
+		x = 0
+		y = 2
+		relative_position_id = ARG_roberto_leads_the_way
+		prerequisite = { focus = ARG_roberto_leads_the_way }
+
+		cost = 2 
+	}
+
+	focus = {
+		id = ARG_anything_for_the_cure
+		icon = GFX_ARG_save_roberto
+		x = -5
+		y = 1
+		relative_position_id = ARG_roberto_leads_the_way
+		prerequisite = { focus = ARG_roberto_leads_the_way }
+	}
+
+	focus = {
+		id = ARG_bring_in_american_doctors
+		icon = GFX_ARG_american_doctors
+		x = -1
+		y = 1
+		relative_position_id = ARG_anything_for_the_cure
+		prerequisite = { focus = ARG_anything_for_the_cure }
+	}
+
+	focus = { #will allow Roberto to be fully cured
+		id = ARG_steps_in_the_right_direction
+		icon = GFX_focus_generic_concessions
+		x = 1
+		y = 1
+		relative_position_id = ARG_anything_for_the_cure
+		prerequisite = { focus = ARG_anything_for_the_cure }
+	}
+
+	focus = {
+		id = ARG_looking_ahead
+		icon = GFX_focus_generic_court
+		x = 0
+		y = 2
+		relative_position_id = ARG_deal_with_the_fradulent_charges
+		prerequisite = { focus = ARG_deal_with_the_fradulent_charges }
+	}
+
+	focus = {
+		id = ARG_formalize_the_GOU
+		icon = GFX_ARG_gou
+		x = 2
+		y = 1
+		relative_position_id = ARG_looking_ahead
+		prerequisite = { focus = ARG_looking_ahead }
+		mutually_exclusive = { }
+	}
 	
 	focus = {
 		id = ARG_continue_mobilizing_our_economy
 		icon = GFX_focus_generic_tank_production 
-		x = -4
+		x = -7
 		y = 1
 		relative_position_id = ARG_consolidate_power
 		prerequisite = { 
@@ -11427,7 +11565,7 @@ focus_tree = {
 			focus = ARG_roberto_leads_the_way
 		}
 		
-		cost = 10
+		cost = 6
 		
 		ai_will_do = {
 			factor = 5
@@ -11444,18 +11582,19 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			add_manpower = 44500
-			EUYL_add_4_military = yes 
+			EUYL_add_2_military = yes 
 		}
 	}
 	
 	focus = {
 		id = ARG_improve_the_infrastructure_in_the_north
 		icon = GFX_goal_generic_construct_infrastructure
-		x = -1
+		x = -3
 		y = 1
-		relative_position_id = ARG_continue_mobilizing_our_economy
-		prerequisite = { focus = ARG_continue_mobilizing_our_economy }
-		mutually_exclusive = { focus = ARG_build_better_infrastructure }
+		relative_position_id = ARG_continue_our_economic_reforms
+		prerequisite = { 
+			focus = ARG_modernize_industrial_tactics 
+		}
 		
 		cost = 6
 		
@@ -11550,45 +11689,40 @@ focus_tree = {
 		}
 	}
 	
-	focus = {
-		id = ARG_build_better_infrastructure
-		icon = GFX_goal_generic_construct_infrastructure
-		x = 1
-		y = 1
-		relative_position_id = ARG_continue_mobilizing_our_economy
-		prerequisite = { focus = ARG_continue_mobilizing_our_economy }
-		mutually_exclusive = { focus = ARG_improve_the_infrastructure_in_the_north }
-		
-		cost = 6
-		
-		ai_will_do = {
-			factor = 5
-		}
-		
-		available = {
-			is_subject = no
-		}
-		
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
-		completion_reward = {
-			add_ideas = ARG_invest_in_infrastructure
-		}
-	}
+	#focus = {
+	#	id = ARG_build_better_infrastructure
+	#	icon = GFX_goal_generic_construct_infrastructure
+	#	x = 1
+	#	y = 2
+	#	relative_position_id = ARG_continue_mobilizing_our_economy
+	#			
+	#	cost = 6
+	#	
+	#	ai_will_do = {
+	#		factor = 5
+	#	}
+	#	
+	#	available = {
+	#		is_subject = no
+	#	}
+	#	
+	#	cancel_if_invalid = yes
+	#	continue_if_invalid = no
+	#	available_if_capitulated = no
+	#	
+	#	search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
+	#	completion_reward = {
+	#		add_ideas = ARG_invest_in_infrastructure
+	#	}
+	#}
 	
 	focus = {
 		id = ARG_remove_the_communist_threat
 		icon = GFX_ARG_go_through_paraguay
-		x = -1
-		y = 1
-		relative_position_id = ARG_build_better_infrastructure
-		prerequisite = {
-			focus = ARG_build_better_infrastructure
-			focus = ARG_improve_the_infrastructure_in_the_north
-		}
+		x = -4
+		y = 4
+		relative_position_id = ARG_take_advantage_of_immigrant_intellectuals
+		
 		will_lead_to_war_with = PAR
 		
 		cost = 5
@@ -11652,10 +11786,10 @@ focus_tree = {
 	focus = {
 		id = ARG_expand_the_steel_mines
 		icon = GFX_focus_generic_steel
-		x = -3
+		x = 0
 		y = 1
-		relative_position_id = ARG_remove_the_communist_threat
-		prerequisite = { focus = ARG_improve_the_infrastructure_in_the_north }
+		relative_position_id = ARG_continue_our_military_expansion
+		prerequisite = { focus = ARG_continue_our_military_expansion }
 		
 		cost = 8
 		
@@ -11670,6 +11804,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
 			random_owned_controlled_state = {
+				limit = { is_core_of = ROOT }
 				add_resource = {
 					type = steel
 					amount = 8
@@ -11687,12 +11822,12 @@ focus_tree = {
 	focus = {
 		id = ARG_continue_our_economic_reforms
 		icon = GFX_goal_generic_construct_civ_factory
-		x = 3
+		x = 1
 		y = 1
-		relative_position_id = ARG_remove_the_communist_threat
-		prerequisite = { focus = ARG_build_better_infrastructure }
+		relative_position_id = ARG_the_five_year_plan
+		prerequisite = { focus = ARG_the_five_year_plan }
 		
-		cost = 8
+		cost = 6
 		
 		ai_will_do = {
 			factor = 8
@@ -11972,12 +12107,15 @@ focus_tree = {
 	focus = {
 		id = ARG_study_the_battle_of_rio_de_la_plata
 		icon = GFX_ARG_battle_of_plata 
-		x = -2
+		x = 3
 		y = 1
 		relative_position_id = ARG_roberto_leads_the_way
-		prerequisite = { focus = ARG_roberto_leads_the_way }
+		prerequisite = { 
+			focus = ARG_roberto_leads_the_way 
+			focus = ARG_consolidate_power
+		}
 		
-		cost = 10
+		cost = 7.2
 		
 		available = {
 			is_subject = no
@@ -12000,45 +12138,44 @@ focus_tree = {
 		}
 	}
 	
-	focus = {
-		id = ARG_demand_peron_to_report_notes
-		icon = GFX_ARG_demand_notes
-		x = 0
-		y = 1
-		relative_position_id = ARG_roberto_leads_the_way
-		prerequisite = { focus = ARG_roberto_leads_the_way }
-		
-		cost = 6
-		
-		available = {
-			has_country_flag = ARG_peron_has_left
-			is_subject = no
-			has_completed_focus = ARG_roberto_leads_the_way
-		}
-		
-		bypass = {
-		}
-		
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
-		completion_reward = {
-			custom_effect_tooltip = ARG_demanding_notes_from_peron
-		}
-	}
+	#focus = {
+	#	id = ARG_demand_peron_to_report_notes
+	#	icon = GFX_ARG_demand_notes
+	#	x = -3
+	#	y = 1
+	#	relative_position_id = ARG_roberto_leads_the_way
+	#	prerequisite = { focus = ARG_roberto_leads_the_way }
+	#	
+	#	cost = 6
+	#	
+	#	available = {
+	#		ARG_juan_domingo_peron = {
+	#			has_character_flag = ARG_in_italy
+	#		}
+	#	}
+	#	
+	#	bypass = {
+	#	}
+	#	
+	#	cancel_if_invalid = yes
+	#	continue_if_invalid = no
+	#	available_if_capitulated = no
+	#	
+	#	search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
+	#	completion_reward = {
+	#		custom_effect_tooltip = ARG_demanding_notes_from_peron
+	#	}
+	#}
 	
 	focus = {
 		id = ARG_build_the_military_hospital
 		icon = GFX_ARG_build_hospital
-		x = 0
+		x = -2
 		y = 1
-		relative_position_id = ARG_demand_peron_to_report_notes
-		prerequisite = { focus = ARG_demand_peron_to_report_notes }
-		prerequisite = { focus = ARG_continue_mobilizing_our_economy }
+		relative_position_id = ARG_roberto_leads_the_way
+		prerequisite = { focus = ARG_roberto_leads_the_way }
 		
-		cost = 10
+		cost = 5
 		
 		available = {
 			is_subject = no
@@ -12053,7 +12190,7 @@ focus_tree = {
 		completion_reward = {
 			add_ideas = ARG_hospital_militar_central
 			hidden_effect = {
-				country_event = { id = argentina.48 days = 175 }
+				country_event = { id = argentina.48 days = 70 random_days = 150 }
 			}
 		}
 	}
@@ -12089,13 +12226,13 @@ focus_tree = {
 	focus = {
 		id = ARG_modernize_industrial_tactics 
 		icon = GFX_goal_generic_construct_civ_factory
-		x = -2
+		x = -1
 		y = 1
 		
-		relative_position_id = ARG_build_the_military_hospital
-		prerequisite = { focus = ARG_build_the_military_hospital }
+		relative_position_id = ARG_the_five_year_plan
+		prerequisite = { focus = ARG_the_five_year_plan }
 		
-		cost = 7
+		cost = 6
 		
 		cancel_if_invalid = yes
 		continue_if_invalid = no
@@ -12104,7 +12241,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_RESEARCH FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			add_tech_bonus = {
-				bonus = 1.0
+				bonus = 0.5
 				uses = 2
 				category = industry
 			}
@@ -12122,11 +12259,13 @@ focus_tree = {
 	focus = {
 		id = ARG_increase_funding_on_public_works
 		icon = GFX_goal_generic_production
-		x = 1
-		y = 1
+		x = 2
+		y = 2
 		relative_position_id = ARG_modernize_industrial_tactics
-		prerequisite = { focus = ARG_modernize_industrial_tactics }
-		prerequisite = { focus = ARG_take_in_spanish_immigrants }
+		prerequisite = {
+			focus = ARG_fund_public_works
+		}
+
 		mutually_exclusive = { focus = ARG_redirect_our_fundings }
 		
 		cost = 8
@@ -12151,11 +12290,12 @@ focus_tree = {
 	focus = {
 		id = ARG_redirect_our_fundings
 		icon = GFX_ARG_end_of_depression
-		x = -1
-		y = 1
+		x = 0
+		y = 2
 		relative_position_id = ARG_modernize_industrial_tactics
-		prerequisite = { focus = ARG_modernize_industrial_tactics }
-		prerequisite = { focus = ARG_take_in_spanish_immigrants }
+		prerequisite = {
+			focus = ARG_fund_public_works
+		}
 		mutually_exclusive = { focus = ARG_increase_funding_on_public_works }
 		
 		cost = 8
@@ -12188,7 +12328,7 @@ focus_tree = {
 	focus = {
 		id = ARG_take_advantage_of_immigrant_intellectuals
 		icon = GFX_focus_research 
-		x = 1
+		x = -1
 		y = 1
 		relative_position_id = ARG_increase_funding_on_public_works
 		prerequisite = {
@@ -12216,16 +12356,9 @@ focus_tree = {
 		id = ARG_begin_preparing_for_Robertos_retiring
 		icon = GFX_ARG_kill_off_roberto
 		x = 1
-		y = 1
+		y = 5
 		relative_position_id = ARG_continue_our_economic_reforms
-		prerequisite = {
-			focus = ARG_continue_our_economic_reforms
-			focus = ARG_expand_the_steel_mines
-		}
-		prerequisite = {
-			focus = ARG_increase_funding_on_public_works
-			focus = ARG_redirect_our_fundings
-		}
+	
 		
 		cost = 6
 		
@@ -12687,7 +12820,7 @@ focus_tree = {
 	focus = {
 		id = ARG_invite_german_advisors
 		icon = GFX_focus_ger_oppose_hitler
-		x = 0
+		x = -1
 		y = 1
 		relative_position_id = ARG_consolidate_power
 		prerequisite = { focus = ARG_consolidate_power }
@@ -12715,11 +12848,11 @@ focus_tree = {
 	focus = {
 		id = ARG_a_new_argentina
 		icon = GFX_ARG_peronist_argentina
-		x = 2
-		y = 2
+		x = 1
+		y = 1
 		relative_position_id = ARG_consolidate_power
 		prerequisite = { 
-			focus = ARG_invite_german_advisors 
+			focus = ARG_consolidate_power 
 			#focus = 
 		}
 		
@@ -12746,13 +12879,12 @@ focus_tree = {
 	focus = {
 		id = ARG_the_five_year_plan
 		icon = GFX_goal_generic_construct_civ_factory
-		x = 0
+		x = -4
 		y = 1
-		relative_position_id = ARG_invite_german_advisors
-		prerequisite = { focus = ARG_invite_german_advisors }
-		prerequisite = { focus = ARG_continue_mobilizing_our_economy }
+		relative_position_id = ARG_consolidate_power
+
 		
-		cost = 8
+		cost = 5
 		
 		ai_will_do = {
 			factor = 8
@@ -12764,7 +12896,6 @@ focus_tree = {
 		
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
-			EUYL_add_1_civilian = yes 
 			custom_effect_tooltip = ARG_fiveyearplan
 		}
 	}
@@ -12773,9 +12904,9 @@ focus_tree = {
 		id = ARG_deal_with_the_corruption
 		icon = GFX_ARG_clamp_down
 		x = 0
-		y = 1
-		relative_position_id = ARG_the_five_year_plan
-		prerequisite = { focus = ARG_the_five_year_plan }
+		y = 3
+		relative_position_id = ARG_consolidate_power
+
 		
 		cost = 8
 		
@@ -12805,15 +12936,20 @@ focus_tree = {
 		}
 	}
 	
-	focus = {
+	focus = { #Nationalize the arms industry 
 		id = ARG_continue_our_military_expansion
 		icon = GFX_goal_generic_construct_mil_factory
-		x = 2
+		x = -1
 		y = 1
-		relative_position_id = ARG_the_five_year_plan
-		prerequisite = { focus = ARG_the_five_year_plan }
+		relative_position_id = ARG_continue_mobilizing_our_economy
+		prerequisite = {
+			focus = ARG_continue_mobilizing_our_economy
+		}
+		prerequisite = {
+			focus = ARG_study_the_battle_of_rio_de_la_plata
+		}
 		
-		cost = 6
+		cost = 8
 
 		cancel_if_invalid = yes
 		continue_if_invalid = no
@@ -12821,6 +12957,7 @@ focus_tree = {
 		
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
+			add_political_power = 75
 			EUYL_add_1_military = yes 
 		}
 	}
@@ -12828,11 +12965,11 @@ focus_tree = {
 	focus = {
 		id = ARG_invite_german_intellectuals
 		icon = GFX_ARG_invite_german_intellect
-		x = 1
+		x = -1
 		y = 1
-		relative_position_id = ARG_deal_with_the_corruption
-		prerequisite = { focus = ARG_deal_with_the_corruption }
-		prerequisite = { focus = ARG_continue_our_military_expansion }
+		relative_position_id = ARG_take_in_spanish_immigrants
+		prerequisite = { focus = ARG_take_in_spanish_immigrants }
+
 		mutually_exclusive = { focus = ARG_invite_italian_intellectuals }
 		
 		cost = 10
@@ -12871,12 +13008,12 @@ focus_tree = {
 	focus = {
 		id = ARG_invite_italian_intellectuals
 		icon = GFX_ARG_invite_italy_intellect
-		x = 3
+		x = 1
 		y = 1
 		
-		relative_position_id = ARG_deal_with_the_corruption
-		prerequisite = { focus = ARG_deal_with_the_corruption }
-		prerequisite = { focus = ARG_continue_our_military_expansion }
+		relative_position_id = ARG_take_in_spanish_immigrants
+		prerequisite = { focus = ARG_take_in_spanish_immigrants }
+
 		mutually_exclusive = { focus = ARG_invite_german_intellectuals }
 		
 		cost = 10
@@ -12905,51 +13042,46 @@ focus_tree = {
 				name = ARG_invite_italian_intellectuals
 				category = bb_tech
 			}
-			navy_experience = 80
+			navy_experience = 125
 		}
 	}
 	
-	focus = {
-		id = ARG_make_use_of_the_intellects
-		icon = GFX_focus_research 
-		x = 1
-		y = 1
-		relative_position_id = ARG_invite_italian_intellectuals
-		prerequisite = {
-			focus = ARG_invite_italian_intellectuals
-			focus = ARG_invite_german_intellectuals
-		}
-		
-		cost = 10
-		
-		available = {
-			is_subject = no
-		}
-		
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_RESEARCH }
-		completion_reward = {
-			add_research_slot = 1
-		}
-	}
+	#focus = {
+	#	id = ARG_make_use_of_the_intellects
+	#	icon = GFX_focus_research 
+	#	x = 1
+	#	y = 1
+	#	relative_position_id = ARG_invite_italian_intellectuals
+	#	prerequisite = {
+	#		focus = ARG_invite_italian_intellectuals
+	#		focus = ARG_invite_german_intellectuals
+	#	}
+	#	
+	#	cost = 10
+	#	
+	#	available = {
+	#		is_subject = no
+	#	}
+	#	
+	#	cancel_if_invalid = yes
+	#	continue_if_invalid = no
+	#	available_if_capitulated = no
+	#	
+	#	search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_RESEARCH }
+	#	completion_reward = {
+	#		add_research_slot = 1
+	#	}
+	#}
 	
 	focus = {
 		id = ARG_autarky
 		icon = GFX_goal_generic_construction 
-		x = 1
+		x = 0
 		y = 1
-		relative_position_id = ARG_invite_german_intellectuals
-		prerequisite = {
-			focus = ARG_invite_german_intellectuals
-			focus = ARG_invite_italian_intellectuals
-		}
-		prerequisite = {
-			focus = ARG_expand_the_steel_mines
-			focus = ARG_continue_our_economic_reforms
-		}
+		relative_position_id = ARG_expand_the_steel_mines
+		prerequisite = { focus = ARG_expand_the_steel_mines }
+		prerequisite = { focus = ARG_improve_the_infrastructure_in_the_north }
+
 		
 		cost = 10
 		
@@ -12988,10 +13120,10 @@ focus_tree = {
 	focus = {
 		id = ARG_perons_argentina
 		icon = GFX_ARG_peron_argentina
-		x = 0
-		y = 1
-		relative_position_id = ARG_autarky
-		prerequisite = { focus = ARG_autarky }
+		x = 2
+		y = 6
+		relative_position_id = ARG_consolidate_power
+
 		
 		cost = 10
 		
