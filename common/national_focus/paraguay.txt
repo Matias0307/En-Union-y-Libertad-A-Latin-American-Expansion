@@ -66,6 +66,7 @@ focus_tree = {
 			add_ideas = PAR_agrarian_society
 		}
 	}
+
 	### Laissez-faire ###
 	focus = {
 		id = PAR_laissez_faire
@@ -85,6 +86,173 @@ focus_tree = {
 			add_ideas = PAR_laissez_faire_approach_1
 			EUYL_add_1_civilian = yes
 			custom_effect_tooltip = PAR_people_will_get_angered_tt
+			hidden_effect = {
+				country_event = {
+					id = paraguay.1
+					days = 35
+					random_days = 50
+				}
+			}
+		}
+	}
+
+	### Attract American Investors - nyaaahh purr (=^ ･ ω ･ ^=) ###
+	focus = {
+		id = PAR_attract_american_investors
+		icon = GFX_PAR_invite_american_investors
+		x = -1
+		y = 1
+		relative_position_id = PAR_laissez_faire
+		prerequisite = {
+			focus = PAR_laissez_faire
+		}
+
+		cost = 6
+
+		available = {
+			has_civil_war = no
+		}
+		cancel_if_invalid = yes
+
+		bypass = {
+			OR = {
+                has_war_with = USA
+                NOT = {
+                    country_exists = USA
+                }
+            }
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			custom_effect_tooltip = URG_american_investments_tt
+			if = {
+				limit = {
+					USA = {
+						has_opinion = {
+							target = ROOT
+							value > 80
+						}
+					}
+				}
+				add_ideas = PAR_american_investments_3
+			}
+			else_if = {
+				limit = {
+					USA = {
+						has_opinion = {
+							target = ROOT
+							value > 40
+						}
+					}
+				}
+				add_ideas = PAR_american_investments_2
+			}
+			else = {
+				add_ideas = PAR_american_investments_1
+			}
+		}
+	}
+
+	### Resource Extraction Effort ###
+	focus = {
+		id = PAR_resource_extraction_effort
+		icon = GFX_goal_generic_construction2
+		x = 1
+		y = 1
+		relative_position_id = PAR_attract_american_investors
+		prerequisite = {
+			focus = PAR_attract_american_investors
+		}
+		
+		cost = 8
+
+		available = {
+			has_tech = excavation1
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			capital_scope = {
+				add_resource = {
+					type = steel
+					amount = 10
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+					is_capital = no
+				}
+				add_resource = {
+					type = tungsten
+					amount = 6
+				}
+				add_resource = {
+					type = aluminium #aluminum, because fuck you
+					amount = 4
+				}
+			}
+		}
+	}
+
+	### Lift Market Restrictions ###
+	focus = {
+		id = PAR_lift_market_restrictions
+		icon = GFX_PAR_lifted_market_restrictions
+		x = -1
+		y = 1
+		relative_position_id = PAR_attract_american_investors
+		prerequisite = {
+			focus = PAR_attract_american_investors
+		}
+		
+		cost = 8
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.05
+			}
+			add_political_power = 35
+			EUYL_add_1_civilian = yes
+		}
+	}
+
+	### Properly Adopt Laissez-Faire Model ###
+	focus = {
+		id = PAR_properly_adopt_laissez_faire
+		icon = GFX_PAR_adopt_faire_model
+		x = -1
+		y = 1
+		relative_position_id = PAR_resource_extraction_effort
+		prerequisite = {
+			focus = PAR_resource_extraction_effort
+		}
+		prerequisite = {
+			focus = PAR_lift_market_restrictions
+		}
+		
+		cost = 10
+
+		available = {
+			has_civil_war = no
+			NOT = {
+				has_idea = PAR_stagnated_economy_1
+			}
+			NOT = {
+				has_idea = PAR_dissatisfied_population
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_1_civilian = yes
+			swap_ideas = {
+				remove_idea = PAR_laissez_faire_approach_1
+				add_idea = PAR_laissez_faire_approach_2
+			}
 		}
 	}
 
@@ -110,6 +278,31 @@ focus_tree = {
 		completion_reward = {
 			unlock_decision_category_tooltip = PAR_subsidizing_paraguayan_industry
 			custom_effect_tooltip = PAR_decisions_allow_subsidize_industry_tt
+		}
+	}
+
+	### Expand the Universities ;3 meow ###
+	focus = {
+		id = PAR_expand_universities
+		icon = GFX_focus_research
+		x = 0
+		y = 3
+		relative_position_id = PAR_subsidize_the_industry
+		prerequisite = {
+			focus = PAR_subsidize_the_industry
+		}
+
+		cost = 10
+
+		available = {
+			NOT = {
+				has_idea = PAR_stagnated_economy_1
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			add_research_slot = 1
 		}
 	}
 
@@ -152,6 +345,12 @@ focus_tree = {
 			focus = PAR_subsidize_the_industry
 		}
 
+		available = {
+			NOT = {
+				has_idea = PAR_stagnated_economy_1
+			}
+		}
+
 		cost = 7.2
 
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
@@ -182,6 +381,7 @@ focus_tree = {
 						state = 993
 						state = 688
 					}
+					is_fully_controlled_by = ROOT
 				}
 				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
@@ -195,6 +395,55 @@ focus_tree = {
                     instant_build = yes
                 }
 			}
+		}
+	}
+
+	### Commence Paraguayan Mobilization ###
+	focus = {
+		id = PAR_commence_paraguayan_mobilization
+		icon = GFX_BRA_generic_military
+		x = -1
+		y = 1
+		relative_position_id = PAR_subsidize_the_industry
+		prerequisite = {
+			focus = PAR_subsidize_the_industry
+		}
+
+		available = {
+			threat > 0.05
+			NOT = {
+				has_idea = PAR_stagnated_economy_1
+			}
+		}
+
+		cost = 8
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_2_military = yes
+			add_timed_idea = {
+                idea = ARG_early_mobilization
+                days = 365
+            }
+		}
+	}
+
+	### Increased Military Production ###
+	focus = {
+		id = PAR_increased_military_production
+		icon = GFX_goal_generic_construct_mil_factory
+		x = 0
+		y = 1
+		relative_position_id = PAR_commence_paraguayan_mobilization
+		prerequisite = {
+			focus = PAR_commence_paraguayan_mobilization
+		}
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_4_military = yes
 		}
 	}
 
