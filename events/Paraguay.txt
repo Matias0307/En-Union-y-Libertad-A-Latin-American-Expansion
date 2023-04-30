@@ -24,18 +24,52 @@ country_event = {
 				custom_effect_tooltip = PAR_people_will_back_down_tt
 			}
 			65 = {
+				if = {
+					limit = {
+						NOT = {
+							has_template = "Milicia"
+						}
+					}
+					hidden_effect = {
+						division_template = { 
+							name = "Milicia" 
+							division_names_group = SPAN_INF_02 
+							is_locked = yes 
+							regiments = { 
+								infantry = { x = 0 y = 0 }  
+								infantry = { x = 0 y = 1 } 
+								infantry = { x = 0 y = 2 } 
+							}
+						}
+					}
+				}
 				start_civil_war = {
 					ideology = democratic
 					size = 0.4
 				}
 				hidden_effect = {
+					every_controlled_state = {
+						create_unit = {
+							division = "name = \"Milicias Leales\" division_template = \"Milicia\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+							owner = ROOT
+							count = 2
+						}
+					}
 					random_other_country = {
 						limit = {
 							has_government = democratic
+							has_civil_war = yes
 							original_tag = PAR
 						}
 						retire_country_leader = yes
 						promote_character = PAR_armed_civilians
+						every_controlled_state = {
+							create_unit = {
+								division = "name = \"Milicias Anti-Gobierno\" division_template = \"Milicia\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+								owner = PREV
+								count = 2
+							}
+						}
 					}
 				}
 			}

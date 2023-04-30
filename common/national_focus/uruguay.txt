@@ -343,6 +343,10 @@ focus_tree = {
 		prerequisite = { focus = URG_overthrow_terras_regime }
 		
 		cost = 10
+
+		ai_will_do = {
+			factor = 10
+		}
 		
 		cancel_if_invalid = yes
 		continue_if_invalid = no
@@ -363,6 +367,10 @@ focus_tree = {
 		prerequisite = { focus = URG_consolidate_power }
 		
 		cost = 5
+
+		ai_will_do = {
+			factor = 10
+		}
 		
 		available = {
 			300 = { 
@@ -407,6 +415,10 @@ focus_tree = {
 		prerequisite = { focus = URG_consolidate_power }
 		
 		cost = 5
+
+		ai_will_do = {
+			factor = 10
+		}
 		
 		available = {
 			986 = { 
@@ -445,6 +457,10 @@ focus_tree = {
 		prerequisite = { focus = URG_march_to_the_capital }
 		
 		cost = 10
+
+		ai_will_do = {
+			factor = 10
+		}
 
 		available = {
 			all_owned_state = {
@@ -1805,14 +1821,14 @@ focus_tree = {
 		
 		available = {
 			has_country_flag = URG_terra 
+			has_civil_war = no
 			custom_trigger_tooltip = {
 				tooltip = URG_less_than_20
 				check_variable = { URG_politicians_arrested < 18 }
 			}
 		}
 		
-		cancel_if_invalid = no
-		continue_if_invalid = yes
+		cancel_if_invalid = yes
 		available_if_capitulated = no
 		
 		search_filters = { FOCUS_FILTER_POLITICAL }
@@ -1867,32 +1883,25 @@ focus_tree = {
 					create_unit = {
 						division = "name = \"Nacionales\" division_template = \"Nacionales\" start_experience_factor = 0.2 start_equipment_factor = 1.0" 
 						owner = ROOT
-					}
-					create_unit = {
-						division = "name = \"Nacionales\" division_template = \"Nacionales\" start_experience_factor = 0.2 start_equipment_factor = 1.0" 
-						owner = ROOT
-					}
-					create_unit = {
-						division = "name = \"Nacionales\" division_template = \"Nacionales\" start_experience_factor = 0.2 start_equipment_factor = 1.0" 
-						owner = ROOT
-					}
-					create_unit = {
-						division = "name = \"Nacionales\" division_template = \"Nacionales\" start_experience_factor = 0.2 start_equipment_factor = 1.0" 
-						owner = ROOT
-					}
-					create_unit = {
-						division = "name = \"Nacionales\" division_template = \"Nacionales\" start_experience_factor = 0.2 start_equipment_factor = 1.0" 
-						owner = ROOT
+						count = 5
 					}
 				}
 				random_owned_controlled_state = {
 					create_unit = {
 						division = "name = \"Nacionales\" division_template = \"Nacionales\" start_experience_factor = 0.2 start_equipment_factor = 1.0" 
 						owner = ROOT
+						count = 3
 					}
-					create_unit = {
-						division = "name = \"Nacionales\" division_template = \"Nacionales\" start_experience_factor = 0.2 start_equipment_factor = 1.0" 
-						owner = ROOT
+				}
+				if = {
+					limit = {
+						check_variable = { URG_politicians_arrested < 15 }
+						random_owned_controlled_state = {
+							create_unit = {
+								division = "name = \"Nacionales\" division_template = \"Nacionales\" start_experience_factor = 0.2 start_equipment_factor = 1.0" 
+								owner = ROOT
+							}
+						}
 					}
 				}
 				
@@ -1919,32 +1928,14 @@ focus_tree = {
 						create_unit = {
 							division = "name = \"Loyalists\" division_template = \"Loyalists\" start_experience_factor = 0.1 start_equipment_factor = 1.0" 
 							owner = PREV
-						}
-						create_unit = {
-							division = "name = \"Loyalists\" division_template = \"Loyalists\" start_experience_factor = 0.1 start_equipment_factor = 1.0" 
-							owner = PREV
-						}
-						create_unit = {
-							division = "name = \"Loyalists\" division_template = \"Loyalists\" start_experience_factor = 0.1 start_equipment_factor = 1.0" 
-							owner = PREV
-						}
-						create_unit = {
-							division = "name = \"Loyalists\" division_template = \"Loyalists\" start_experience_factor = 0.1 start_equipment_factor = 1.0" 
-							owner = PREV
+							count = 5
 						}
 					}
 					random_owned_controlled_state = {
 						create_unit = {
 							division = "name = \"Loyalists\" division_template = \"Loyalists\" start_experience_factor = 0.1 start_equipment_factor = 1.0" 
 							owner = PREV
-						}
-						create_unit = {
-							division = "name = \"Loyalists\" division_template = \"Loyalists\" start_experience_factor = 0.1 start_equipment_factor = 1.0" 
-							owner = PREV
-						}
-						create_unit = {
-							division = "name = \"Loyalists\" division_template = \"Loyalists\" start_experience_factor = 0.1 start_equipment_factor = 1.0" 
-							owner = PREV
+							count = 3
 						}
 					}
 				}
@@ -3385,7 +3376,7 @@ focus_tree = {
 		
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
-			EUYL_add_1_civilian = yes 
+			EUYL_add_2_civilian = yes 
 		}
 	}
 	
@@ -5560,6 +5551,12 @@ focus_tree = {
 		cost = 3
 		x = 27
 		y = 0
+
+		available = {
+			has_full_control_of_state = 300
+			has_full_control_of_state = 986
+		}
+
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
 			300 = {
@@ -5581,7 +5578,7 @@ focus_tree = {
 
 	focus = {
 		id = URG_encourage_american_investments
-		icon = GFX_focus_chi_mission_to_the_us
+		icon = GFX_PAR_invite_american_investors
 		cost = 10
 		x = -1
 		y = 1
@@ -5693,6 +5690,11 @@ focus_tree = {
 		cost = 5
 		x = 0
 		y = 2
+
+		available = {
+			has_full_control_of_state = 986
+		}
+
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		relative_position_id = URG_finish_the_rincon_del_bonete
 		prerequisite = {
@@ -5811,15 +5813,10 @@ focus_tree = {
 			focus = URG_expand_the_rivera_mines
 		}
 		completion_reward = {
-			986 = {
+			every_controlled_state = {
+				limit = { is_core_of = ROOT }
 				add_extra_state_shared_building_slots = 2
-			}
-			300 = {
-				add_extra_state_shared_building_slots = 2
-			}
-			925 = {
-				add_extra_state_shared_building_slots = 2
-			}			
+			}		
 			add_ideas = URG_building_grants_idea
 		}
 	}
@@ -5923,17 +5920,21 @@ focus_tree = {
 		prerequisite = {
 			focus = URG_industrial_economy
 		}
+
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		completion_reward = {
 			EUYL_add_1_civilian = yes
 			EUYL_add_2_military = yes
 			URG_move_20_nacionales = yes
-			986 = {
-				add_building_construction = {
-					type = supply_node
-					level = 1
-					province = 13267
-					instant_build = yes
+			if = {
+				limit = { has_full_control_of_state = 986 }
+				986 = {
+					add_building_construction = {
+						type = supply_node
+						level = 1
+						province = 13267
+						instant_build = yes
+					}
 				}
 			}
 			if = {
@@ -5960,6 +5961,13 @@ focus_tree = {
 		prerequisite = {
 			focus = URG_nationalise_foreign_industries
 		}
+
+		available = {
+			has_full_control_of_state = 300
+			has_full_control_of_state = 986
+			has_full_control_of_state = 925
+		}
+
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		completion_reward = {
 			URG_move_10_nacionales = yes

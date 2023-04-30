@@ -173,6 +173,10 @@ URG_prisoners_of_the_terra_dictatorship = {
 				has_completed_focus = URG_go_with_terra
 				factor = 125
 			}
+			modifier = {
+				factor = 0
+				check_variable = { URG_politicians_arrested > 52 }
+			}
 		}
 		
 		days_remove = 25
@@ -222,6 +226,10 @@ URG_prisoners_of_the_terra_dictatorship = {
 			modifier = {
 				has_completed_focus = URG_go_against_terra
 				factor = 125
+			}
+			modifier = {
+				factor = 0
+				check_variable = { URG_politicians_arrested < 4 }
 			}
 		}
 		
@@ -1508,12 +1516,16 @@ URG_political_actions = {
 		}
 
 		cancel_trigger = {
-			NOT = {
-				OR = {
-					has_idea = URG_blancos_in_opposition0
-					has_idea = URG_blancos_in_opposition1
-					has_idea = URG_blancos_in_opposition2
+			OR = {
+				NOT = {
+					OR = {
+						has_idea = URG_blancos_in_opposition0
+						has_idea = URG_blancos_in_opposition1
+						has_idea = URG_blancos_in_opposition2
+					}
 				}
+				has_government = democratic #nacionales in power
+				has_civil_war = yes
 			}
 		}
 		
@@ -1556,12 +1568,16 @@ URG_political_actions = {
 		}
 
 		cancel_trigger = {
-			NOT = {
-				OR = {
-					has_idea = URG_colorados_in_opposition0
-					has_idea = URG_colorados_in_opposition1
-					has_idea = URG_colorados_in_opposition2
+			OR = {
+				NOT = {
+					OR = {
+						has_idea = URG_colorados_in_opposition0
+						has_idea = URG_colorados_in_opposition1
+						has_idea = URG_colorados_in_opposition2
+					}
 				}
+				has_government = neutrality #colorados in power
+				has_civil_war = yes
 			}
 		}
 		
@@ -1596,6 +1612,10 @@ URG_political_actions = {
 
 		days_remove = 50
 
+		ai_will_do = {
+			factor = 200
+		}
+
 		modifier = {
 			political_power_factor = -0.15
 		}
@@ -1623,7 +1643,7 @@ URG_political_actions = {
 		cost = 25
 
 		ai_will_do = {
-			factor = 75
+			factor = 225
 		}
 
 		visible = {
@@ -1664,7 +1684,7 @@ URG_political_actions = {
 		cost = 50
 
 		ai_will_do = {
-			factor = 75
+			factor = 225
 		}
 
 		visible = {
@@ -1705,7 +1725,7 @@ URG_political_actions = {
 		cost = 80
 
 		ai_will_do = {
-			factor = 75
+			factor = 225
 		}
 
 		visible = {
@@ -1750,7 +1770,7 @@ URG_political_actions = {
 		cost = 25
 
 		ai_will_do = {
-			factor = 75
+			factor = 225
 		}
 
 		visible = {
@@ -1791,7 +1811,7 @@ URG_political_actions = {
 		cost = 50
 
 		ai_will_do = {
-			factor = 75
+			factor = 225
 		}
 
 		visible = {
@@ -1832,7 +1852,7 @@ URG_political_actions = {
 		cost = 80
 
 		ai_will_do = {
-			factor = 75
+			factor = 225
 		}
 
 		visible = {
@@ -2220,6 +2240,14 @@ URG_BoP_nacional_colorado = {
 
 		ai_will_do = {
 			factor = 50
+			modifier = {
+				factor = 200
+				has_government = neutrality
+				power_balance_value = {
+					id = URG_nacional_colorado_bop
+					value > 0.5
+				}
+			}
 		}
 
 		cost = 35
@@ -2264,6 +2292,14 @@ URG_BoP_nacional_colorado = {
 
 		ai_will_do = {
 			factor = 50
+			modifier = {
+				factor = 200
+				has_government = democratic
+				power_balance_value = {
+					id = URG_nacional_colorado_bop
+					value < -0.5
+				}
+			}
 		}
 
 		cost = 35
