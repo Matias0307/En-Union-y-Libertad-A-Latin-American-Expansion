@@ -8793,8 +8793,12 @@ focus_tree = {
 		x = 5
 		y = 1
 		relative_position_id = ARG_review_our_foreign_policy
-		prerequisite = { focus = ARG_review_our_foreign_policy }
-		mutually_exclusive  = { focus = ARG_go_our_own_route }
+		prerequisite = { 
+			focus = ARG_review_our_foreign_policy 
+			focus = ARG_crack_down_on_our_generals
+		}
+		mutually_exclusive = { focus = ARG_go_our_own_route }
+		mutually_exclusive = { focus = ARG_create_our_own_faction }
 		
 		cost = 5
 		
@@ -11551,7 +11555,52 @@ focus_tree = {
 		y = 1
 		relative_position_id = ARG_looking_ahead
 		prerequisite = { focus = ARG_looking_ahead }
-		mutually_exclusive = { }
+		mutually_exclusive = { focus = ARG_crack_down_on_our_generals }
+	}
+
+	focus = {
+		id = ARG_secure_the_high_ranks
+		icon = GFX_focus_generic_military_mission
+		x = -1
+		y = 1
+		relative_position_id = ARG_formalize_the_GOU
+		prerequisite = { focus = ARG_formalize_the_GOU }
+	}
+
+	focus = {
+		id = ARG_blame_the_government
+		icon = GFX_goal_generic_propaganda
+		x = 1
+		y = 1
+		relative_position_id = ARG_formalize_the_GOU
+		prerequisite = { focus = ARG_formalize_the_GOU }
+
+		
+
+	}
+
+	focus = {
+		id = ARG_depose_getleader
+		icon = GFX_focus_generic_little_entente
+		x = -1
+		y = 1
+		relative_position_id = ARG_blame_the_government
+		prerequisite = { focus = ARG_blame_the_government }
+		prerequisite = { focus = ARG_secure_the_high_ranks }
+
+		### If political instability is less than 70%, cause civil war
+
+		## OR if balance of power is less than 70% towards the military, cause civil war
+	}
+
+	focus = { #may change to something else, but for now it stays like this
+		id = ARG_crack_down_on_our_generals
+		icon = GFX_BOL_mil_puppet
+		x = -3
+		y = 1
+		relative_position_id = ARG_looking_ahead
+		prerequisite = { focus = ARG_looking_ahead }
+		mutually_exclusive = { focus = ARG_formalize_the_GOU }
 	}
 	
 	focus = {
@@ -13076,7 +13125,7 @@ focus_tree = {
 	focus = {
 		id = ARG_autarky
 		icon = GFX_goal_generic_construction 
-		x = 0
+		x = 1
 		y = 1
 		relative_position_id = ARG_expand_the_steel_mines
 		prerequisite = { focus = ARG_expand_the_steel_mines }
@@ -13512,9 +13561,10 @@ focus_tree = {
 		id = ARG_create_our_own_faction
 		icon = GFX_goal_generic_alliance
 		x = 1
-		y = 2
-		relative_position_id = ARG_maintain_a_neutral_stance
-		prerequisite = { focus = ARG_maintain_a_neutral_stance }
+		y = 1
+		relative_position_id = ARG_crack_down_on_our_generals
+		prerequisite = { focus = ARG_crack_down_on_our_generals }
+		mutually_exclusive = { focus = ARG_placate_to_the_west }
 		
 		cost = 10
 		
@@ -13628,7 +13678,7 @@ focus_tree = {
 		id = ARG_declare_war_on_the_germans
 		icon = GFX_focus_attack_germany
 		x = -1
-		y = 2
+		y = 8
 		relative_position_id = ARG_create_our_own_faction
 		prerequisite = {
 			focus = ARG_let_in_german_refugees
