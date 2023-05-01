@@ -564,7 +564,88 @@ focus_tree = {
 		completion_reward = {
 			add_political_power = 50
 			PAR_move_10_leader = yes
+			add_days_mission_timeout = {
+				mission = PAR_the_february_revolution
+				days = 25
+			}
 			custom_effect_tooltip = PAR_unlock_revolution_decisions_tt
+		}
+	}
+
+	### Disband the Army ###
+	focus = {
+		id = PAR_disband_the_army
+		icon = GFX_goal_generic_forceful_treaty
+		x = 1
+		y = 1
+		relative_position_id = PAR_fight_for_our_freedom
+		prerequisite = {
+			focus = PAR_fight_for_our_freedom
+		}
+
+		cost = 2
+
+		available = {
+			has_active_mission = PAR_the_february_revolution
+			exists = yes 
+			has_civil_war = no 
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_BALANCE_OF_POWER }
+		completion_reward = {
+			PAR_move_10_leader = yes
+			add_stability = -0.05
+			add_timed_idea = {
+				idea = ARG_disbanded_the_army
+				days = 560
+			}
+		}
+	}
+
+	### Limit Rafael Franco's Power owo ###
+	focus = {
+		id = PAR_limit_francos_power
+		icon = GFX_PAR_limit_franco
+		x = -1
+		y = 1
+		relative_position_id = PAR_fight_for_our_freedom
+		prerequisite = {
+			focus = PAR_fight_for_our_freedom
+		}
+
+		cost = 3
+
+		available = {
+			has_active_mission = PAR_the_february_revolution
+			exists = yes 
+			has_civil_war = no 
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_BALANCE_OF_POWER }
+		completion_reward = {
+			add_popularity = {
+				ideology = communism
+				popularity = -0.05
+			}
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.05
+			}
+			unlock_decision_tooltip = PAR_slander_franco
+			random_list = {
+				25 = {
+					PAR_move_5_leader = yes
+				}
+				25 = {
+					PAR_move_10_leader = yes
+				}
+				25 = {
+					PAR_move_15_leader = yes
+				}
+				25 = {
+					PAR_move_20_leader = yes
+				}
+			}
 		}
 	}
 

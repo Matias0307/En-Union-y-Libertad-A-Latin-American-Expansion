@@ -133,6 +133,146 @@ PAR_february_revolution = { #FEBRUARY REVOLUTION
 			}
 		}
 	}
+
+	# Delay Revolution
+	PAR_delay_revolution = {
+		icon = generic_police_action
+		cost = 15
+
+		visible = {
+			has_completed_focus = PAR_fight_for_our_freedom
+			has_active_mission = PAR_the_february_revolution
+		}
+
+		days_remove = 20
+		cancel_trigger = {
+			NOT = {
+				has_active_mission = PAR_the_february_revolution
+			}
+		}
+
+		complete_effect = {
+			add_days_mission_timeout = {
+				mission = PAR_the_february_revolution
+				days = 12
+			}
+		}
+	}
+}
+
+PAR_bop = { # BALANCE OF POWER
+
+	# slightly support leader
+	PAR_bop_slightly_support_leader = {
+		icon = eng_propaganda_campaigns
+		cost = PAR_slight_support_cost
+
+		visible = {
+			NOT = {
+				has_country_leader = { 
+					ruling_only = yes
+					name = "Junta Militar Paraguaya"
+				}
+			}
+		}
+
+		days_re_enable = 60
+
+		complete_effect = {
+			custom_effect_tooltip = EUYL_will_be_available_60_tt
+			PAR_move_10_leader = yes
+		}
+	}
+
+	# greatly support leader
+	PAR_bop_greatly_support_leader = {
+		icon = eng_propaganda_campaigns
+		cost = PAR_major_support_cost
+
+		visible = {
+			NOT = {
+				has_country_leader = { 
+					ruling_only = yes
+					name = "Junta Militar Paraguaya"
+				}
+			}
+		}
+
+		days_re_enable = 120
+
+		complete_effect = {
+			custom_effect_tooltip = URG_decision_will_be_avail_again_120_days_tt
+			random_list = {
+				50 = {
+					PAR_move_20_leader = yes
+				}
+				50 = {
+					PAR_move_35_leader = yes
+					add_political_power = -25
+				}
+			}
+		}
+	}
+
+	# question the military
+	PAR_question_the_military = {
+		icon = generic_military
+		custom_cost_trigger = {
+            command_power > 15
+        }
+        custom_cost_text = CHL_cost_15_cp
+
+		visible = {
+			has_active_mission = PAR_the_february_revolution
+			has_completed_focus = PAR_fight_for_our_freedom
+
+			NOT = {
+				OR = {
+					has_government = neutrality
+					has_government = communism
+				}
+			}
+		}
+		fire_only_once = yes
+
+		complete_effect = {
+			PAR_move_10_leader = yes
+
+			hidden_effect = {
+				add_command_power = -15
+			}
+		}
+	}
+
+	# slander Rafael Franco
+	PAR_slander_franco = {
+		icon = generic_speech
+		custom_cost_trigger = {
+            command_power > 15
+        }
+        custom_cost_text = CHL_cost_15_cp
+
+		visible = {
+			has_active_mission = PAR_the_february_revolution
+			# has_completed_focus = PAR_fight_for_our_freedom
+
+			NOT = {
+				OR = {
+					has_government = neutrality
+					has_government = communism
+				}
+			}
+		}
+		fire_only_once = yes
+
+		complete_effect = {
+			PAR_move_10_leader = yes
+
+			hidden_effect = {
+				add_command_power = -15
+			}
+		}
+	}
 }
 
 PAR_subsidizing_paraguayan_industry = { #SUBSIDIZATION
