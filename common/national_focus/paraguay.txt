@@ -590,6 +590,12 @@ focus_tree = {
 			exists = yes 
 			has_civil_war = no 
 		}
+		bypass = {
+			has_completed_focus = PAR_fight_for_our_freedom
+			NOT = {
+				has_active_mission = PAR_the_february_revolution
+			}
+		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_BALANCE_OF_POWER }
 		completion_reward = {
@@ -620,6 +626,12 @@ focus_tree = {
 			exists = yes 
 			has_civil_war = no 
 		}
+		bypass = {
+			has_completed_focus = PAR_fight_for_our_freedom
+			NOT = {
+				has_active_mission = PAR_the_february_revolution
+			}
+		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_BALANCE_OF_POWER }
 		completion_reward = {
@@ -646,6 +658,106 @@ focus_tree = {
 					PAR_move_20_leader = yes
 				}
 			}
+		}
+	}
+
+	### Rally the People ###
+	focus = {
+		id = PAR_rally_the_people
+		icon = GFX_PAR_rally_people
+		x = -1
+		y = 1
+		relative_position_id = PAR_disband_the_army
+		prerequisite = {
+			focus = PAR_disband_the_army
+		}
+		prerequisite = {
+			 focus = PAR_limit_francos_power
+		}
+		
+		cost = 5
+
+		available = {
+			has_active_mission = PAR_the_february_revolution
+			exists = yes 
+			has_civil_war = no
+		}
+		bypass = {
+			has_completed_focus = PAR_fight_for_our_freedom
+			NOT = {
+				has_active_mission = PAR_the_february_revolution
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_BALANCE_OF_POWER }
+		completion_reward = {
+			add_political_power = 25
+			PAR_move_5_leader = yes
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.05
+			}
+			custom_effect_tooltip = PAR_lower_cost_to_support_leader_tt
+
+			hidden_effect = {
+				subtract_from_variable = {
+					PAR_slight_support_cost = 5
+				}
+				subtract_from_variable = {
+					PAR_major_support_cost = 10
+				}
+			}
+		}
+	}
+
+	### Restructure the Country - meooooow ###
+	focus = {
+		id = PAR_restructure_the_country
+		icon = GFX_PAR_paraguay_flag_2
+		x = 0
+		y = 1
+		relative_position_id = PAR_rally_the_people
+		prerequisite = {
+			focus = PAR_rally_the_people
+		}
+		
+		cost = 10
+
+		available = {
+			NOT = {
+				has_active_mission = PAR_the_february_revolution
+			}
+			has_government = democratic
+			exists = yes 
+			has_civil_war = no
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_stability = 0.1
+		}
+	}
+
+	### Hold National Elections ###
+	focus = {
+		id = PAR_hold_national_elections
+		icon = GFX_PAR_hold_elections
+		x = 0
+		y = 1
+		relative_position_id = PAR_restructure_the_country
+		prerequisite = {
+			focus = PAR_restructure_the_country
+		}
+		
+		cost = 7.2
+
+		available = {
+			has_government = democratic
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			country_event = paraguay.4
 		}
 	}
 
