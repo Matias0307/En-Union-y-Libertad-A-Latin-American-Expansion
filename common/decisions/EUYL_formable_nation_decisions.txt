@@ -119,16 +119,30 @@ form_commune_of_la_plata = {
 		fire_only_once = yes
 		
 		available = {
-			custom_trigger_tooltip = {
-				tooltip = ARG_controls_all_uruguayan_states_tt
-				controls_state = 986
-				controls_state = 300
-				controls_state = 925
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = ARG_controls_all_uruguayan_states_tt
+					controls_state = 986
+					controls_state = 300
+					controls_state = 925
+				}
+				URG = {
+					is_subject_of = ROOT 
+				}
 			}
-			custom_trigger_tooltip = {
-				tooltip = ARG_controls_all_paraguayan_states_tt
-				controls_state = 301
-				controls_state = 688
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = ARG_controls_all_paraguayan_states_tt
+					controls_state = 301
+					controls_state = 688
+					controls_state = 990
+					controls_state = 991
+					controls_state = 992
+					controls_state = 993
+				}
+				PAR = {
+					is_subject_of = ROOT
+				}
 			}
 			hidden_trigger = {
 				controls_state = 278
@@ -142,12 +156,30 @@ form_commune_of_la_plata = {
 		complete_effect = {
 			custom_effect_tooltip = ARG_gain_cores_on_urg_and_par_tt
 			set_cosmetic_tag = ARG_la_plata
+			every_subject_country = {
+				limit = {
+					OR = {
+						original_tag = PAR 
+						original_tag = URG
+					}
+				}
+				ROOT = {
+					annex_country = {
+						target = PREV 
+						transfer_troops = yes 
+					}
+				}
+			}
 			hidden_effect = {
 				301 = { add_core_of = ROOT }
 				688 = { add_core_of = ROOT }
 				925 = { add_core_of = ROOT }
 				300 = { add_core_of = ROOT }
 				986 = { add_core_of = ROOT }
+				990 = { add_core_of = ROOT }
+				991 = { add_core_of = ROOT }
+				992 = { add_core_of = ROOT }
+				993 = { add_core_of = ROOT }
 			}
 		}
 	}
