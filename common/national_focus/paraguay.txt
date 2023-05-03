@@ -761,6 +761,297 @@ focus_tree = {
 		}
 	}
 
+	### Open Our Foreign Policy - Nyaaaaah ###
+	focus = {
+		id = PAR_open_our_foreign_policy
+		icon = GFX_ARG_open_our_borders
+		x = 0
+		y = 2
+		relative_position_id = PAR_hold_national_elections
+		prerequisite = {
+			focus = PAR_hold_national_elections
+		}
+		
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_political_power = 25
+		}
+	}
+
+	### Join the Allies ###
+	focus = {
+		id = PAR_join_the_allies
+		icon = GFX_focus_chi_british_cooperation
+		x = -3
+		y = 1
+		relative_position_id = PAR_open_our_foreign_policy
+		prerequisite = {
+			focus = PAR_open_our_foreign_policy
+		}
+		mutually_exclusive = {
+			focus = PAR_go_our_own_way
+		}
+		
+		cost = 10
+
+		available = {
+			is_in_faction = no
+			is_subject = no
+			has_civil_war = no
+			OR = {
+				ENG = {
+					NOT = {
+						has_war_with = ROOT
+						has_government = communism
+					}
+					is_faction_leader = yes
+				}
+				FRA = {
+					NOT = {
+						has_war_with = ROOT
+					}
+					has_government = democratic
+					is_faction_leader = yes
+				}
+				USA = {
+					NOT = {
+						has_war_with = ROOT
+					}
+					has_government = democratic
+					is_faction_leader = yes
+				}
+			}
+		}
+		bypass = {
+			OR = {
+				is_in_faction_with = ENG
+				is_in_faction_with = FRA
+				is_in_faction_with = USA
+			}
+		}
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			if = {
+				limit = { has_idea = monroe_doctrine_idea }
+				remove_ideas = monroe_doctrine_idea
+			}
+			if = {
+				limit = {
+					ENG = {
+						NOT = {
+							has_war_with = ROOT
+							has_government = communism
+						}
+						is_faction_leader = yes
+					}
+				}
+				ENG = {
+					country_event = generic.2
+				}
+			}
+			else_if = {
+				limit = {
+					FRA = {
+						NOT = {
+							has_war_with = ROOT
+							has_government = communism
+						}
+						is_faction_leader = yes
+					}
+				}
+				FRA = {
+					country_event = generic.2
+				}
+			}
+			else_if = {
+				limit = {
+					USA = {
+						NOT = {
+							has_war_with = ROOT
+							has_government = communism
+						}
+						is_faction_leader = yes
+					}
+				}
+				USA = {
+					country_event = generic.2
+				}
+			}
+		}
+	}
+
+	### Go Our Own Way ###
+	focus = {
+		id = PAR_go_our_own_way
+		icon = GFX_PAR_our_own_way
+		x = 3
+		y = 1
+		relative_position_id = PAR_open_our_foreign_policy
+		prerequisite = {
+			focus = PAR_open_our_foreign_policy
+		}
+		mutually_exclusive = {
+			focus = PAR_join_the_allies
+		}
+		
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			set_rule = { can_create_factions = yes }
+		}
+	}
+
+	### Expand On Native Rights ###
+	focus = {
+		id = PAR_expand_on_native_rights
+		icon = GFX_PAR_native_rights
+		x = 1
+		y = 1
+		relative_position_id = PAR_hold_national_elections
+		prerequisite = {
+			focus = PAR_hold_national_elections
+		}
+		
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_political_power = 25
+			add_stability = 0.05
+			add_ideas = {
+				PAR_expanded_native_rights
+			}
+		}
+	}
+
+	### Imprison Franco - ≧ω≦ ###
+	focus = {
+		id = PAR_imprison_franco
+		icon = GFX_PAR_imprison_franco
+		x = -4
+		y = 1
+		relative_position_id = PAR_restructure_the_country
+		prerequisite = {
+			focus = PAR_restructure_the_country
+		}
+		
+		cost = 6
+
+		available = {
+			has_government = democratic
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			custom_effect_tooltip = PAR_imprison_franco_tt
+			hidden_effect = {
+				retire_character = PAR_rafael_franco
+			}
+		}
+	}
+
+	### Ban Communism - oωo ###
+	focus = {
+		id = PAR_ban_communism
+		icon = GFX_PAR_ban_communism
+		x = 1
+		y = 1
+		relative_position_id = PAR_imprison_franco
+		prerequisite = {
+			focus = PAR_imprison_franco
+		}
+		mutually_exclusive = {
+			focus = PAR_free_the_press
+		}
+		
+		cost = 8
+
+		available = {
+			has_government = democratic
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			set_temp_variable = {
+				PAR_communist_support = party_popularity@communism
+			}
+			multiply_temp_variable = {
+				PAR_communist_support = -1
+			}
+			add_popularity = {
+				ideology = communism
+				popularity = PAR_communist_support
+			}
+			add_stability = -0.1
+		}
+	}
+
+	### Free the Press - oωo ###
+	focus = {
+		id = PAR_free_the_press
+		icon = GFX_goal_generic_propaganda
+		x = -1
+		y = 1
+		relative_position_id = PAR_imprison_franco
+		prerequisite = {
+			focus = PAR_imprison_franco
+		}
+		mutually_exclusive = {
+			focus = PAR_ban_communism
+		}
+		
+		cost = 8
+
+		available = {
+			has_government = democratic
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_political_power = 50
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.05
+			}
+		}
+	}
+
+	### Final Reforms - oωo ###
+	focus = {
+		id = PAR_final_reforms
+		icon = GFX_goal_generic_propaganda
+		x = 0
+		y = 2
+		relative_position_id = PAR_imprison_franco
+		prerequisite = {
+			focus = PAR_ban_communism
+			focus = PAR_free_the_press
+		}
+		
+		cost = 10
+
+		available = {
+			has_government = democratic
+			power_balance_value = {
+				id = PAR_military_leader_bop
+				value > 0.7
+			}
+		}
+		cancel_if_invalid = yes
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			remove_ideas = {
+				PAR_political_instability
+			}
+			
+		}
+	}
+
 	### FEB REV - Support Feb Rev ###
 	focus = {
 		id = PAR_support_the_revolution
