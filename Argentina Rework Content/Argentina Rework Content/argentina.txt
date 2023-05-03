@@ -11592,11 +11592,50 @@ focus_tree = {
 		### If political instability is less than 70%, cause civil war
 
 		## OR if balance of power is less than 70% towards the military, cause civil war
+
+		## will start the subversive peronist influence mechanic (typically triggered via event)
 	}
 
 	focus = {
-		id = ARG_
-		icon = GFX_
+		id = ARG_go_against_the_peronists
+		icon = GFX_ARG_purge_peron
+		x = 0
+		y = 1
+		relative_position_id = ARG_depose_getleader
+		prerequisite = { focus = ARG_depose_getleader }
+		mutually_exclusive = { focus = ARG_support_the_peronists }
+	}
+
+	focus = { #will cause an event to imprison peron
+		id = ARG_support_the_peronists
+		icon = GFX_ARG_support_peronism
+		x = 5
+		y = 1
+		relative_position_id = ARG_depose_getleader
+		prerequisite = { focus = ARG_depose_getleader }
+		mutually_exclusive = { focus = ARG_go_against_the_peronists }
+	}
+
+	focus = {
+		id = ARG_demand_liberation
+		icon = GFX_goal_generic_demand_territory
+		x = 0
+		y = 1
+		relative_position_id = ARG_support_the_peronists
+		prerequisite = { focus = ARG_support_the_peronists }
+	}
+
+	focus = {
+		id = ARG_deal_with_the_instability
+		icon = GFX_goal_generic_neutrality_focus
+		x = -2
+		y = 1
+		relative_position_id = ARG_depose_getleader
+		prerequisite = {
+			focus = ARG_depose_getleader
+			focus = ARG_create_our_own_faction
+			focus = ARG_placate_to_the_west
+		}
 	}
 
 	focus = { #may change to something else, but for now it stays like this
@@ -11775,7 +11814,7 @@ focus_tree = {
 		id = ARG_remove_the_communist_threat
 		icon = GFX_ARG_go_through_paraguay
 		x = -4
-		y = 4
+		y = 7
 		relative_position_id = ARG_take_advantage_of_immigrant_intellectuals
 		
 		will_lead_to_war_with = PAR
@@ -12411,7 +12450,7 @@ focus_tree = {
 		id = ARG_begin_preparing_for_Robertos_retiring
 		icon = GFX_ARG_kill_off_roberto
 		x = 1
-		y = 5
+		y = 10
 		relative_position_id = ARG_continue_our_economic_reforms
 	
 		
@@ -12460,7 +12499,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			add_war_support = 0.1
-			add_ideas = limited_conscription
+			add_ideas = extensive_conscription
 		}
 	}
 	
@@ -13175,10 +13214,13 @@ focus_tree = {
 	focus = {
 		id = ARG_perons_argentina
 		icon = GFX_ARG_peron_argentina
-		x = 2
-		y = 6
-		relative_position_id = ARG_consolidate_power
-
+		x = 4
+		y = 1
+		relative_position_id = ARG_demand_liberation
+		prerequisite = {
+			focus = ARG_demand_liberation
+			
+		}
 		
 		cost = 10
 		
@@ -13563,7 +13605,7 @@ focus_tree = {
 		}
 	}
 	
-	focus = {
+	focus = { ## MAINTAIN NEUTRALITY
 		id = ARG_create_our_own_faction
 		icon = GFX_goal_generic_alliance
 		x = 1
