@@ -21,6 +21,9 @@ focus_tree = {
 	initial_show_position = {
 		x = 0
 	}
+	continuous_focus_position = {
+		x = 100 y = 1550
+	}
 	
 	default = no
 	
@@ -300,9 +303,119 @@ focus_tree = {
 			}
 		}
 
-		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_HISTORICAL }
+		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
 			add_research_slot = 1
+		}
+	}
+
+	### Rocket Studies ###
+	focus = {
+		id = PAR_rocket_studies
+		icon = GFX_focus_rocketry
+		x = 1
+		y = 1
+		relative_position_id = PAR_expand_universities
+		prerequisite = {
+			focus = PAR_expand_universities
+		}
+
+		cost = 7
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			if = {
+                limit = {
+					NOT = {
+						has_tech = experimental_rockets
+					}
+                }
+				add_tech_bonus = {
+					name = PAR_nuclear_studies
+					category = nuclear
+					uses = 2
+					bonus = 1
+				}
+			}
+			else = {
+				add_political_power = 40
+            }
+		}
+	}
+
+	### Invest in Nuclear Studies ###
+	focus = {
+		id = PAR_invest_in_nuclear_studies
+		icon = GFX_focus_research2
+		x = -1
+		y = 1
+		relative_position_id = PAR_expand_universities
+		prerequisite = {
+			focus = PAR_expand_universities
+		}
+
+		available = {
+			num_of_factories > 34
+		}
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			if = {
+                limit = {
+					NOT = {
+						has_tech = atomic_research
+					}
+                }
+				add_tech_bonus = {
+					name = PAR_nuclear_studies
+					category = nuclear
+					uses = 2
+					bonus = 1
+				}
+			}
+			else = {
+				add_political_power = 40
+            }
+		}
+	}
+
+	### Harness Nuclear Energy ###
+	focus = {
+		id = PAR_harness_nuclear_energy
+		icon = GFX_focus_wonderweapons
+		x = 0
+		y = 1
+		relative_position_id = PAR_invest_in_nuclear_studies
+		prerequisite = {
+			focus = PAR_invest_in_nuclear_studies
+		}
+
+		cost = 8
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			if = {
+                limit = {
+					NOT = {
+						has_tech = nuclear_reactor
+					}
+                }
+				add_tech_bonus = {
+					name = PAR_nuclear_energy
+					category = nuclear
+					uses = 1
+					bonus = 1
+				}
+			}
+			else = {
+				add_political_power = 40
+            }
+            every_controlled_state = {
+				limit = { is_core_of = ROOT }
+				add_dynamic_modifier = { modifier = ARG_huemul_reactor days = 1080 }
+			}
 		}
 	}
 
