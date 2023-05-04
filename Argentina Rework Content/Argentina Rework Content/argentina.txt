@@ -11606,6 +11606,28 @@ focus_tree = {
 		mutually_exclusive = { focus = ARG_support_the_peronists }
 	}
 
+	focus = {
+		id = ARG_imprison_peron
+		icon = GFX_ARG_imprison_peron
+		x = 1
+		y = 1
+		relative_position_id = ARG_go_against_the_peronists
+		prerequisite = { focus = ARG_go_against_the_peronists }
+	}
+
+	focus = {
+		id = ARG_consolidate_absolute_power
+		icon = GFX_ARG_consolidate
+		x = 0
+		y = 2
+		relative_position_id = ARG_go_against_the_peronists
+		prerequisite = { focus = ARG_go_against_the_peronists }
+	}
+
+	focus = {
+		id = ARG_
+	}
+
 	focus = { #will cause an event to imprison peron
 		id = ARG_support_the_peronists
 		icon = GFX_ARG_support_peronism
@@ -11638,6 +11660,15 @@ focus_tree = {
 		}
 	}
 
+	focus = {
+		id = ARG_improved_mobilization
+		icon = GFX_ARG_quantity
+		x = 0
+		y = 1
+		relative_position_id = ARG_deal_with_the_instability
+		prerequisite = { focus = ARG_deal_with_the_instability }
+	}
+
 	focus = { #may change to something else, but for now it stays like this
 		id = ARG_crack_down_on_our_generals
 		icon = GFX_BOL_mil_puppet
@@ -11646,6 +11677,9 @@ focus_tree = {
 		relative_position_id = ARG_looking_ahead
 		prerequisite = { focus = ARG_looking_ahead }
 		mutually_exclusive = { focus = ARG_formalize_the_GOU }
+
+		## will add a disorganized army national spirit
+
 	}
 	
 	focus = {
@@ -11813,9 +11847,10 @@ focus_tree = {
 	focus = {
 		id = ARG_remove_the_communist_threat
 		icon = GFX_ARG_go_through_paraguay
-		x = -4
-		y = 7
-		relative_position_id = ARG_take_advantage_of_immigrant_intellectuals
+		x = -2
+		y = 1
+		relative_position_id = ARG_review_our_foreign_affairs
+		prerequisite = { focus = ARG_review_our_foreign_affairs }
 		
 		will_lead_to_war_with = PAR
 		
@@ -11831,11 +11866,7 @@ focus_tree = {
 		
 		available = {
 			PAR = {
-				NOT = {
-					has_war_with = ROOT
-					is_in_faction_with = ROOT
-				}
-				is_subject = no
+				exists = yes 
 			}
 			is_subject = no
 		}
@@ -11845,21 +11876,12 @@ focus_tree = {
 				has_completed_focus = ARG_build_better_infrastructure
 				has_completed_focus = ARG_improve_the_infrastructure_in_the_north
 			}
-			OR = {
-				AND = {
-					controls_state = 301
-					controls_state = 688
-				}
-				has_war_with = PAR
-				any_other_country = {
-					OR = {
-						is_in_faction_with = ROOT 
-						is_subject_of = ROOT 
-					}
-					AND = {
-						controls_state = 301
-						controls_state = 688
-					}
+			PAR = {
+				OR = {
+					is_subject_of = ROOT 
+					capital_scope = { is_fully_controlled_by = ROOT }
+					is_in_faction_with = ROOT
+					has_war_with = ROOT
 				}
 			}
 		}
@@ -11875,6 +11897,15 @@ focus_tree = {
 				target = PAR
 			}
 		}
+	}
+
+	focus = {
+		id = ARG_andean_claims
+		icon = GFX_ARG_claim_andes
+		x = -1
+		y = 1
+		relative_position_id = ARG_remove_the_communist_threat
+		prerequisite = { focus = ARG_remove_the_communist_threat }
 	}
 	
 	focus = {
@@ -11940,21 +11971,25 @@ focus_tree = {
 	focus = {
 		id = ARG_develop_paraguay
 		icon = GFX_ARG_develop_paraguay
-		x = 0
+		x = 1
 		y = 1
 		relative_position_id = ARG_remove_the_communist_threat
 		prerequisite = { focus = ARG_remove_the_communist_threat }
+		prerequisite = { focus = ARG_industria_extranjera }
 		
 		cost = 10
 		
 		available = {
-			688 = {
-				is_controlled_by = ROOT
+			OR = {
+				PAR = {
+					all_core_state = {
+						is_fully_controlled_by = ROOT 
+					}
+				}
+				PAR = {
+					is_subject_of = ROOT
+				}
 			}
-			301 = {
-				is_controlled_by = ROOT
-			}
-			has_war = no
 		}
 		
 		cancel_if_invalid = yes
@@ -11963,24 +11998,11 @@ focus_tree = {
 		
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
-			688 = {
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = industrial_complex 
-					level = 2
-					instant_build = yes
-				}
-				add_building_construction = {
-					type = infrastructure
-					level = 2
-					instant_build = yes
-				}
-				add_compliance = 15
-			}
-			301 = {
+			every_controlled_state = {
+				limit = { is_core_of = PAR }
 				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
-					type = arms_factory
+					type = industrial_complex 
 					level = 1
 					instant_build = yes
 				}
@@ -11989,7 +12011,7 @@ focus_tree = {
 					level = 1
 					instant_build = yes
 				}
-				add_compliance = 15
+				add_compliance = 10
 			}
 		}
 	}
@@ -12449,7 +12471,7 @@ focus_tree = {
 	focus = {
 		id = ARG_begin_preparing_for_Robertos_retiring
 		icon = GFX_ARG_kill_off_roberto
-		x = 1
+		x = 35
 		y = 10
 		relative_position_id = ARG_continue_our_economic_reforms
 	
@@ -12725,9 +12747,10 @@ focus_tree = {
 		icon = GFX_ARG_viva_la_patria
 		x = -1
 		y = 1
-		relative_position_id = ARG_increase_our_equipment_output
-		prerequisite = { focus = ARG_increase_our_equipment_output }
-		prerequisite = { focus = ARG_disband_the_army }
+		relative_position_id = ARG_ask_for_the_south_georgia_island
+		prerequisite = { focus = ARG_ask_for_the_south_georgia_island }
+		prerequisite = { focus = ARG_ask_for_the_falkland_islands }
+
 		
 		cost = 8
 		
@@ -12757,6 +12780,18 @@ focus_tree = {
 				clr_country_flag = ARG_ramon_coup
 			}
 			country_event = argentina.52
+		}
+	}
+
+	focus = {
+		id = ARG_dominance_in_the_americas
+		icon = GFX_ARG_dominance_over_america
+		x = 2
+		y = 1
+		relative_position_id = ARG_viva_la_patria_argentina
+		prerequisite = { 
+			focus = ARG_viva_la_patria_argentina
+			focus = ARG_resource_exploitation
 		}
 	}
 	
@@ -13245,10 +13280,13 @@ focus_tree = {
 	focus = {
 		id = ARG_review_our_foreign_affairs
 		icon = GFX_goal_generic_political_pressure
-		x = 4
+		x = -4
 		y = 1
 		relative_position_id = ARG_perons_argentina
-		prerequisite = { focus = ARG_perons_argentina }
+		prerequisite = { 
+			focus = ARG_perons_argentina 
+			focus = ARG_consolidate_absolute_power
+		}
 		
 		cost = 5
 		
@@ -13265,167 +13303,176 @@ focus_tree = {
 			add_political_power = 50
 		}
 	}
-	
+
 	focus = {
-		id = ARG_maintain_a_neutral_stance
-		icon = GFX_goal_generic_neutrality_focus
+		id = ARG_industria_extranjera
+		icon = GFX_BRA_generic_military
 		x = 0
 		y = 1
-		relative_position_id = ARG_oust_ramon
-		prerequisite = {
-			focus = ARG_oust_ramon
-			focus = ARG_viva_la_patria_argentina
-			focus = ARG_review_our_foreign_affairs
-		}
-		mutually_exclusive = { focus = ARG_side_with_the_axis }
-		mutually_exclusive = { focus = ARG_side_with_the_allies }
-		
-		cost = 10
-		
-		available = {
-			NOT = {
-				OR = {
-					has_completed_focus = ARG_go_back_to_our_liberal_ways
-					has_completed_focus = ARG_a_new_path
-				}
-			}
-			has_civil_war = no
-		}
-		
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
-		
-		completion_reward = {
-			if = {
-				limit = { NOT = { has_idea = neutrality_idea } }
-				add_ideas = neutrality_idea
-			}
-			add_stability = 0.05
-		}
+		relative_position_id = ARG_review_our_foreign_affairs
+		prerequisite = { focus = ARG_review_our_foreign_affairs}
 	}
 	
-	focus = {
-		id = ARG_side_with_the_axis
-		icon = GFX_focus_chi_mission_to_germany
-		x = -4
-		y = 1
-		relative_position_id = ARG_oust_ramon
-		prerequisite = {
-			focus = ARG_oust_ramon
-			focus = ARG_viva_la_patria_argentina
-			focus = ARG_review_our_foreign_affairs
-		}
-		mutually_exclusive = { focus = ARG_maintain_a_neutral_stance }
-		mutually_exclusive = { focus = ARG_side_with_the_allies }
-		
-		cost = 10
-		
-		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 0
-				is_historical_focus_on = yes
-			}
-		}
-		
-		available = {
-			NOT = {
-				OR = {
-					has_completed_focus = ARG_go_back_to_our_liberal_ways
-					has_completed_focus = ARG_a_new_path
-				}
-				GER = {
-					has_war_with = ROOT
-				}
-			}
-			has_civil_war = no
-		}
-		
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		
-		search_filters = { FOCUS_FILTER_POLITICAL }
-		
-		completion_reward = {
-			if = {
-				limit = { has_idea = monroe_doctrine_idea }
-				remove_ideas = monroe_doctrine_idea
-			}
-			GER = {
-				country_event = { id = argentina.19 days = 1 }
-			}
-			add_war_support = 0.05
-			add_political_power = 50
-		}
-	}
+	#focus = {
+	#	id = ARG_maintain_a_neutral_stance
+	#	icon = GFX_goal_generic_neutrality_focus
+	#	x = -9
+	#	y = 1
+	#	relative_position_id = ARG_review_our_foreign_affairs
+	#	prerequisite = {
+#
+#
+	#	}
+	#	mutually_exclusive = { focus = ARG_side_with_the_axis }
+	#	mutually_exclusive = { focus = ARG_side_with_the_allies }
+	#	
+	#	cost = 10
+	#	
+	#	available = {
+	#		NOT = {
+	#			OR = {
+	#				has_completed_focus = ARG_go_back_to_our_liberal_ways
+	#				has_completed_focus = ARG_a_new_path
+	#			}
+	#		}
+	#		has_civil_war = no
+	#	}
+	#	
+	#	cancel_if_invalid = yes
+	#	continue_if_invalid = no
+	#	available_if_capitulated = no
+	#	
+	#	search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
+	#	
+	#	completion_reward = {
+	#		if = {
+	#			limit = { NOT = { has_idea = neutrality_idea } }
+	#			add_ideas = neutrality_idea
+	#		}
+	#		add_stability = 0.05
+	#	}
+	#}
 	
-	focus = {
-		id = ARG_side_with_the_allies
-		icon = GFX_focus_chi_british_cooperation
-		x = 4
-		y = 1
-		relative_position_id = ARG_oust_ramon
-		prerequisite = {
-			focus = ARG_oust_ramon
-			focus = ARG_viva_la_patria_argentina
-			focus = ARG_review_our_foreign_affairs
-		}
-		mutually_exclusive = { focus = ARG_maintain_a_neutral_stance }
-		mutually_exclusive = { focus = ARG_side_with_the_axis }
-		
-		cost = 10
-		
-		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 0
-				is_historical_focus_on = yes
-			}
-		}
-		
-		available = {
-			NOT = {
-				OR = {
-					has_completed_focus = ARG_go_back_to_our_liberal_ways
-					has_completed_focus = ARG_a_new_path
-				}
-				ENG = {
-					has_war_with = ROOT
-				}
-			}
-			has_civil_war = no
-		}
-		
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		
-		search_filters = { FOCUS_FILTER_POLITICAL }
-		
-		completion_reward = {
-			if = {
-				limit = { has_idea = monroe_doctrine_idea }
-				remove_ideas = monroe_doctrine_idea
-			}
-			ENG = {
-				country_event = { id = argentina.27 days = 1 }
-			}
-			add_stability = 0.02
-			add_political_power = 50
-		}
-	}
+	#focus = {
+	#	id = ARG_side_with_the_axis
+	#	icon = GFX_focus_chi_mission_to_germany
+	#	x = -6
+	#	y = 1
+	#	relative_position_id = ARG_review_our_foreign_affairs
+	#	prerequisite = {
+#
+	#	}
+	#	mutually_exclusive = { focus = ARG_maintain_a_neutral_stance }
+	#	mutually_exclusive = { focus = ARG_side_with_the_allies }
+	#	
+	#	cost = 10
+	#	
+	#	ai_will_do = {
+	#		factor = 1
+	#		modifier = {
+	#			factor = 0
+	#			is_historical_focus_on = yes
+	#		}
+	#	}
+	#	
+	#	available = {
+	#		NOT = {
+	#			OR = {
+	#				has_completed_focus = ARG_go_back_to_our_liberal_ways
+	#				has_completed_focus = ARG_a_new_path
+	#			}
+	#			GER = {
+	#				has_war_with = ROOT
+	#			}
+	#		}
+	#		has_civil_war = no
+	#	}
+	#	
+	#	cancel_if_invalid = yes
+	#	continue_if_invalid = no
+	#	available_if_capitulated = no
+	#	
+	#	search_filters = { FOCUS_FILTER_POLITICAL }
+	#	
+	#	completion_reward = {
+	#		if = {
+	#			limit = { has_idea = monroe_doctrine_idea }
+	#			remove_ideas = monroe_doctrine_idea
+	#		}
+	#		GER = {
+	#			country_event = { id = argentina.19 days = 1 }
+	#		}
+	#		add_war_support = 0.05
+	#		add_political_power = 50
+	#	}
+	#}
+	
+	#focus = {
+	#	id = ARG_side_with_the_allies
+	#	icon = GFX_focus_chi_british_cooperation
+	#	x = 4
+	#	y = 1
+	#	relative_position_id = ARG_oust_ramon
+	#	prerequisite = {
+	#		focus = ARG_oust_ramon
+#
+	#	}
+	#	mutually_exclusive = { focus = ARG_maintain_a_neutral_stance }
+	#	mutually_exclusive = { focus = ARG_side_with_the_axis }
+	#	
+	#	cost = 10
+	#	
+	#	ai_will_do = {
+	#		factor = 1
+	#		modifier = {
+	#			factor = 0
+	#			is_historical_focus_on = yes
+	#		}
+	#	}
+	#	
+	#	available = {
+	#		NOT = {
+	#			OR = {
+	#				has_completed_focus = ARG_go_back_to_our_liberal_ways
+	#				has_completed_focus = ARG_a_new_path
+	#			}
+	#			ENG = {
+	#				has_war_with = ROOT
+	#			}
+	#		}
+	#		has_civil_war = no
+	#	}
+	#	
+	#	cancel_if_invalid = yes
+	#	continue_if_invalid = no
+	#	available_if_capitulated = no
+	#	
+	#	search_filters = { FOCUS_FILTER_POLITICAL }
+	#	
+	#	completion_reward = {
+	#		if = {
+	#			limit = { has_idea = monroe_doctrine_idea }
+	#			remove_ideas = monroe_doctrine_idea
+	#		}
+	#		ENG = {
+	#			country_event = { id = argentina.27 days = 1 }
+	#		}
+	#		add_stability = 0.02
+	#		add_political_power = 50
+	#	}
+	#}
 	
 	focus = {
 		id = ARG_reassemble_the_army
 		icon = GFX_goal_generic_axis_build_infantry
-		x = -1
+		x = -2
 		y = 1
-		relative_position_id = ARG_viva_la_patria_argentina
-		prerequisite = { focus = ARG_viva_la_patria_argentina }
+		relative_position_id = ARG_create_our_own_faction
+		prerequisite = { 
+			focus = ARG_create_our_own_faction 
+			focus = ARG_placate_to_the_west
+		}
+
 		
 		cost = 10
 		
@@ -13447,10 +13494,10 @@ focus_tree = {
 	focus = {
 		id = ARG_have_our_own_territorial_gains
 		icon = GFX_ARG_annex_uruguay 
-		x = 0
+		x = 2
 		y = 1
-		relative_position_id = ARG_side_with_the_axis
-		prerequisite = { focus = ARG_side_with_the_axis }
+		relative_position_id = ARG_review_our_foreign_affairs
+		prerequisite = { focus = ARG_review_our_foreign_affairs }
 		will_lead_to_war_with = URG
 		
 		cost = 10
@@ -13490,7 +13537,9 @@ focus_tree = {
 		x = 0
 		y = 1
 		relative_position_id = ARG_have_our_own_territorial_gains
-		prerequisite = { focus = ARG_have_our_own_territorial_gains }
+		prerequisite = {
+			focus = ARG_have_our_own_territorial_gains
+		}
 		
 		cost = 10
 		
@@ -13524,14 +13573,33 @@ focus_tree = {
 			}
 		}
 	}
+
+	focus = {
+		id = ARG_topple_the_bolivian_government
+		icon = GFX_focus_BOL_attack
+		x = 0
+		y = 1
+		relative_position_id = ARG_adopt_an_imperialist_policy
+		prerequisite = { focus = ARG_adopt_an_imperialist_policy }
+	}
+
+	focus = {
+		id = ARG_resource_exploitation
+		icon = GFX_CHL_sell_tungsten
+		x = -1
+		y = 1
+		relative_position_id = ARG_topple_the_bolivian_government
+		prerequisite = { focus = ARG_industria_extranjera }
+		prerequisite = { focus = ARG_topple_the_bolivian_government }
+	}
 	
 	focus = {
 		id = ARG_ask_for_the_falkland_islands
 		icon = GFX_ARG_ask_for_falk
-		x = 0
+		x = -1
 		y = 1
-		relative_position_id = ARG_side_with_the_allies
-		prerequisite = { focus = ARG_side_with_the_allies }
+		relative_position_id = ARG_andean_claims
+		prerequisite = { focus = ARG_andean_claims }
 		
 		cost = 5
 		
@@ -13568,10 +13636,10 @@ focus_tree = {
 	focus = {
 		id = ARG_ask_for_the_south_georgia_island
 		icon = GFX_ARG_ask_south_georgia
-		x = 0
+		x = 1
 		y = 1
-		relative_position_id = ARG_ask_for_the_falkland_islands
-		prerequisite = { focus = ARG_ask_for_the_falkland_islands }
+		relative_position_id = ARG_andean_claims
+		prerequisite = { focus = ARG_andean_claims }
 		
 		cost = 5
 		
@@ -13605,7 +13673,7 @@ focus_tree = {
 		}
 	}
 	
-	focus = { ## MAINTAIN NEUTRALITY
+	focus = { ## Go our own way (whatever let's just leave it as is)
 		id = ARG_create_our_own_faction
 		icon = GFX_goal_generic_alliance
 		x = 1
@@ -13683,16 +13751,20 @@ focus_tree = {
 		}
 	}
 	
+	focus = {
+		id = ARG_establish_a_main_central_bank
+		icon = GFX_
+	}
 	
 	focus = {
 		id = ARG_let_in_german_refugees
 		icon = GFX_focus_prc_infiltration
-		x = -1
+		x = 1
 		y = 1
-		relative_position_id = ARG_maintain_a_neutral_stance
+		relative_position_id = ARG_perons_argentina
 		prerequisite = {
-			focus = ARG_maintain_a_neutral_stance
-			focus = ARG_side_with_the_axis
+			focus = ARG_perons_argentina
+
 		}
 		
 		cost = 10
@@ -13729,9 +13801,7 @@ focus_tree = {
 		y = 8
 		relative_position_id = ARG_create_our_own_faction
 		prerequisite = {
-			focus = ARG_let_in_german_refugees
-			focus = ARG_side_with_the_allies
-			focus = ARG_side_with_the_axis
+
 		}
 		will_lead_to_war_with = GER
 		
@@ -13812,85 +13882,86 @@ focus_tree = {
 		}
 	}
 	
-	focus = {
-		id = ARG_purge_the_peronists
-		icon = GFX_ARG_purge_peron
-		x = 0
-		y = 1
-		relative_position_id = ARG_reassemble_the_army
-		prerequisite = { focus = ARG_reassemble_the_army }
-		
-		cost = 10
-		
-		available = {
-			is_subject = no
-			NOT = {
-				has_completed_focus = ARG_the_true_leader
-			}
-		}
-		
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		
-		search_filters = { FOCUS_FILTER_POLITICAL }
-		completion_reward = {
-			add_stability = ARG_peronist_support
-			if = {
-				limit = { has_idea = ARG_shadow_of_peron }
-				remove_ideas = ARG_shadow_of_peron
-			}
-			else_if = {
-				limit = { has_idea = ARG_shadow_of_peron_ramon }
-				remove_ideas = ARG_shadow_of_peron_ramon
-			}
-			add_ideas = ARG_purged_the_peronists
-		}
-	}
-		
 	#focus = {
-	#	id = ARG_the_second_cisplatine_war_focus
-	#	icon = GFX_ARG_second_cisplatine
+	#	id = ARG_purge_the_peronists
+	#	icon = GFX_ARG_purge_peron
 	#	x = 0
-	#	y = 4
-#
-	#	relative_position_id = ARG_infamous_decade
+	#	y = 1
+	#	relative_position_id = ARG_reassemble_the_army
+	#	prerequisite = { focus = ARG_reassemble_the_army }
 	#	
-	#	
-	#	cost = 5
-	#	
-	#	ai_will_do = {
-	#		factor = 50
-	#	}
+	#	cost = 10
 	#	
 	#	available = {
-	#		has_war_with = BRA
+	#		is_subject = no
 	#		NOT = {
-	#			has_government = fascism
+	#			has_completed_focus = ARG_the_true_leader
 	#		}
-	#		OR = {
-	#			has_idea = ARG_the_second_cisplatine_war
-	#			has_idea = ARG_the_second_cisplatine_war_2 
-	#		}
-	#	}
-#
-	#	allow_branch = {
-	#		has_country_flag = ARG_is_in_cisplatine_war
 	#	}
 	#	
 	#	cancel_if_invalid = yes
 	#	continue_if_invalid = no
 	#	available_if_capitulated = no
-#
-	#	search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER FOCUS_FILTER_WAR_SUPPORT }
+	#	
+	#	search_filters = { FOCUS_FILTER_POLITICAL }
 	#	completion_reward = {
-	#		add_war_support = 0.35
-	#		swap_ideas = {
-	#			remove_idea = ARG_the_second_cisplatine_war
-	#			add_idea = ARG_the_second_cisplatine_war_2
+	#		add_stability = ARG_peronist_support
+	#		if = {
+	#			limit = { has_idea = ARG_shadow_of_peron }
+	#			remove_ideas = ARG_shadow_of_peron
 	#		}
+	#		else_if = {
+	#			limit = { has_idea = ARG_shadow_of_peron_ramon }
+	#			remove_ideas = ARG_shadow_of_peron_ramon
+	#		}
+	#		add_ideas = ARG_purged_the_peronists
 	#	}
 	#}
+		
+	focus = {
+		id = ARG_the_second_cisplatine_war_focus
+		icon = GFX_ARG_second_cisplatine
+		x = 2
+		y = 1
+
+		relative_position_id = ARG_have_our_own_territorial_gains
+		prerequisite = { focus = ARG_have_our_own_territorial_gains }
+		
+		
+		cost = 5
+		
+		ai_will_do = {
+			factor = 50
+		}
+		
+		available = {
+			has_war_with = BRA
+			NOT = {
+				has_government = fascism
+			}
+			OR = {
+				has_idea = ARG_the_second_cisplatine_war
+				has_idea = ARG_the_second_cisplatine_war_2 
+			}
+		}
+
+		allow_branch = {
+			has_country_flag = ARG_is_in_cisplatine_war
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			add_war_support = 0.35
+			swap_ideas = {
+				remove_idea = ARG_the_second_cisplatine_war
+				add_idea = ARG_the_second_cisplatine_war_2
+			}
+		}
+	}
 	
 				
 		
