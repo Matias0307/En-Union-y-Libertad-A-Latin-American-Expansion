@@ -7948,7 +7948,6 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_follow_barrosos_principals
 		prerequisite = {
-			focus = BRA_follow_barrosos_principals
 			focus = BRA_plinio_to_victory
 		}
 
@@ -8483,7 +8482,6 @@ focus_tree = {
 
 		bypass = {
 			has_completed_focus = BRA_integralism_shall_rule
-			has_global_flag = paulistas_pacified
 			controls_state = 501
 		}
 
@@ -11541,6 +11539,8 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
 			EUYL_add_4_civilian = yes 
+			EUYL_add_4_civilian = yes 
+			EUYL_add_2_military = yes 
 		}
 	}
 
@@ -12342,37 +12342,35 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			if = {
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
 				limit = {
-					NOT = {
-						has_war_with = ARG 
+					OR = {
+						original_tag = ARG 
+						original_tag = CHL 
+						original_tag = URG
 					}
-				}
-				create_wargoal = {
-					type = annex_everything
-					target = ARG 
+					NOT = { has_war_with = ROOT }
+					NOT = { is_in_faction_with = ROOT }
 				}
 			}
-			if = {
-				limit = {
-					NOT = {
-						has_war_with = CHL 
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						OR = {
+							original_tag = ARG 
+							original_tag = CHL 
+							original_tag = URG
+						}
+						NOT = { has_war_with = ROOT }
+						NOT = { is_in_faction_with = ROOT }
 					}
-				}
-				create_wargoal = {
-					type = annex_everything
-					target = CHL 
-				}
-			}
-			if = {
-				limit = {
-					NOT = {
-						has_war_with = URG 
+					ROOT = {
+						create_wargoal = {
+							type = annex_everything
+							target = PREV 
+						}
 					}
-				}
-				create_wargoal = {
-					type = annex_everything
-					target = URG 
 				}
 			}
 		}
@@ -12698,7 +12696,7 @@ focus_tree = {
 
 	focus = {
 		id = BRA_establish_camel_corps
-		icon = GFX_goal_generic_cavalry
+		icon = GFX_focus_generic_camel_corps
 		x = 1
 		y = 1
 		relative_position_id = BRA_switch_the_theater
@@ -12717,7 +12715,7 @@ focus_tree = {
 
 	focus = {
 		id = BRA_conquer_the_african_continent
-		icon = GFX_goal_generic_political_pressure
+		icon = GFX_focus_generic_africa_liberation
 		x = -1
 		y = 1
 		relative_position_id = BRA_establish_camel_corps
