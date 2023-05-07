@@ -920,7 +920,6 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			set_rule = { can_create_factions = yes }
-			create_faction = "El Eje Occidental"
 		}
 	}
 	
@@ -1084,8 +1083,14 @@ focus_tree = {
 		cost = 3
 		
 		available = {
-			has_country_flag = URG_second_cisplatine_War
 			has_war_with = ARG 
+		}
+
+		bypass = {
+			has_completed_focus = URG_launch_the_plan
+			exists = yes 
+			is_subject = no 
+			NOT = { has_war_with = ARG }
 		}
 		
 		cancel_if_invalid = yes
@@ -1139,8 +1144,14 @@ focus_tree = {
 		cost = 8
 		
 		available = {
-			has_country_flag = URG_second_cisplatine_War
 			has_war_with = ARG 
+		}
+
+		bypass = {
+			has_completed_focus = URG_launch_the_plan
+			exists = yes 
+			is_subject = no 
+			NOT = { has_war_with = ARG }
 		}
 		
 		cancel_if_invalid = yes
@@ -1221,8 +1232,11 @@ focus_tree = {
 		cost = 1
 		
 		available = {
-			hidden_trigger = {
-				has_country_flag = URG_second_cisplatine_War
+			ARG = {
+				OR = {
+					capital_scope = { is_fully_controlled_by = ROOT }
+					is_subject_of = ROOT
+				}
 			}
 			NOT = {
 				has_war_with = ARG 
@@ -1893,11 +1907,11 @@ focus_tree = {
 				if = {
 					limit = {
 						check_variable = { URG_politicians_arrested < 15 }
-						random_owned_controlled_state = {
-							create_unit = {
-								division = "name = \"Nacionales\" division_template = \"Nacionales\" start_experience_factor = 0.2 start_equipment_factor = 1.0" 
-								owner = ROOT
-							}
+					}
+					random_owned_controlled_state = {
+						create_unit = {
+							division = "name = \"Nacionales\" division_template = \"Nacionales\" start_experience_factor = 0.2 start_equipment_factor = 1.0" 
+							owner = ROOT
 						}
 					}
 				}
