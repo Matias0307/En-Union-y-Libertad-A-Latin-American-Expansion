@@ -391,6 +391,8 @@ focus_tree = {
 		relative_position_id = PAR_invest_in_nuclear_studies
 		prerequisite = {
 			focus = PAR_invest_in_nuclear_studies
+		}
+		prerequisite = {
 			focus = PAR_rocket_studies
 		}
 
@@ -883,6 +885,74 @@ focus_tree = {
 		}
 	}
 
+	### Purchase Formosa ###
+	focus = {
+		id = PAR_purchase_formosa
+		icon = GFX_PAR_purchase_formosa
+		x = 0
+		y = 2
+		relative_position_id = PAR_open_our_foreign_policy
+		prerequisite = {
+			focus = PAR_join_the_allies
+			focus = PAR_go_our_own_way
+		}
+		
+		available = {
+			any_other_country = {
+				has_full_control_of_state = 980
+			}
+		}
+
+		bypass = {
+			has_full_control_of_state = 980
+		}
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			random_other_country = {
+				limit = {
+					controls_state = 980
+				}
+				country_event = {
+					id = paraguay.5
+					days = 1
+				}
+			}
+			custom_effect_tooltip = ARG_iftheyaccept
+			effect_tooltip = {
+				transfer_state = 980
+				random_owned_controlled_state = {
+					limit = { industrial_complex > 1 }
+					remove_building = {
+						type = industrial_complex
+						level = 2
+					}
+				}
+			}
+		}
+	}
+
+	### Expand Conscription ###
+	focus = {
+		id = PAR_expand_conscription
+		icon = GFX_ARG_quantity
+		x= 0
+		y = 1
+		relative_position_id = PAR_purchase_formosa
+		prerequisite = {
+			focus = PAR_purchase_formosa
+		}
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_ideas = URG_expanded_consription
+		}
+	}
+
 	### Join the Allies ###
 	focus = {
 		id = PAR_join_the_allies
@@ -983,6 +1053,164 @@ focus_tree = {
 					country_event = generic.2
 				}
 			}
+		}
+	}
+
+	### Get British Weapons ###
+	focus = {
+		id = PAR_import_british_weaponry
+		icon = GFX_BOL_purchase_british_armaments
+		x = 0
+		y = 1
+		relative_position_id = PAR_join_the_allies
+		prerequisite = {
+			focus = PAR_join_the_allies
+		}
+
+		cost = 10
+
+		available = {
+			exists = yes
+			ENG = {
+				exists = yes #unfortunately
+				is_in_faction_with = ROOT
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_equipment_to_stockpile = {
+                type = infantry_equipment
+                amount = 1000
+                producer = ENG 
+            }
+            add_equipment_to_stockpile = {
+                type = artillery_equipment
+                amount = 250
+                producer = ENG 
+            }
+            add_equipment_to_stockpile = {
+                type = support_equipment
+                amount = 250
+                producer = ENG 
+            }
+		}
+	}
+
+	### Strengthen Ties with Daddy USA ###
+	focus = {
+		id = PAR_strengthen_ties_with_us
+		icon = GFX_focus_chi_mission_to_the_us
+		x = -1
+		y = 1
+		relative_position_id = PAR_import_british_weaponry
+		prerequisite = {
+			focus = PAR_import_british_weaponry
+			focus = PAR_study_the_british_navy
+		}
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			USA = {
+                add_opinion_modifier = {
+					modifier = strengthened_ties
+					target = ROOT
+				}
+            }
+            add_opinion_modifier = {
+				modifier = strengthened_ties
+				target = USA
+			}
+		}
+	}
+
+	### Study the British Navy ###
+	focus = {
+		id = PAR_study_the_british_navy
+		icon = GFX_british_navy
+		x = -2
+		y = 1
+		relative_position_id = PAR_join_the_allies
+		prerequisite = {
+			focus = PAR_join_the_allies
+		}
+
+		cost = 10
+
+		available = {
+			exists = yes
+			any_controlled_state = {
+				is_coastal = yes
+			}
+			ENG = {
+				exists = yes #unfortunately
+				is_in_faction_with = ROOT
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			navy_experience = 30
+            add_tech_bonus = {
+                name = URG_study_the_british_navy
+                bonus = 1.0
+                uses = 1
+                category = naval_doctrine
+            }
+            EUYL_add_2_dockyard = yes
+		}
+	}
+
+	### Aid in the European Front ###
+	focus = {
+		id = PAR_aid_in_european_front
+		icon = GFX_focus_secret_rearmament
+		x = 0
+		y = 1
+		relative_position_id = PAR_strengthen_ties_with_us
+		prerequisite = {
+			focus = PAR_strengthen_ties_with_us
+		}
+
+		cost = 10
+
+		available = {
+			OR = {
+				is_in_faction_with = ENG
+				is_in_faction_with = USA
+				is_in_faction_with = FRA
+			}
+			OR = {
+				has_war_with = ITA
+				has_war_with = GER
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL FOCUS_FILTER_RESEARCH FOCUS_FILTER_ARMY_XP }
+		completion_reward = {
+			EUYL_add_1_military = yes
+			army_experience = 50
+			add_tech_bonus = {
+                name = ARG_help_out_in_dday
+                bonus = 1.0
+                uses = 1
+                technology = marines
+                technology = marines2
+            }
+            add_tech_bonus = {
+                name = ARG_help_out_in_dday
+                bonus = 1.0
+                uses = 1
+                category = tp_tech 
+            }
+			add_tech_bonus = {
+                name = ARG_help_out_in_operation_avalanche
+                bonus = 1.0
+                uses = 1
+                category = mountaineers_tech
+            }
 		}
 	}
 

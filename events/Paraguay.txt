@@ -180,3 +180,79 @@ country_event = {
 	
 
 }
+
+# Purchasing Formosa - (✿o‿o)
+country_event = {
+	id = paraguay.5
+	title = paraguay.5.t
+	desc = paraguay.5.d
+	picture = GFX_report_event_hitler_handshake
+
+	is_triggered_only = yes
+
+	#purchase Formosa
+	option = {
+		name = paraguay.5.a
+		ai_chance = {
+            base = 80
+            modifier = {
+                add = 60
+                has_opinion = {
+                    target = FROM
+                    value > 69
+                }
+            }
+            modifier = {
+                add = 40 
+                num_divisions > 24
+            }
+            modifier = {
+                add = 20
+                num_of_civilian_factories > 12
+            }
+        }
+        FROM = {
+            transfer_state = 980
+            random_owned_controlled_state = {
+                limit = { industrial_complex > 1 }
+                remove_building = {
+                    type = industrial_complex
+                    level = 2
+                }
+            }
+            country_event = { id = peru.16 hours = 3 }
+        }
+        add_offsite_building = { 
+            type = industrial_complex 
+            level = 2
+        }
+	}
+	#don't purchase formosa
+	option = {
+		name = paraguay.5.b
+		ai_chance = {
+            base = 40 
+            modifier = {
+                add = 60 
+                has_opinion = {
+                    target = FROM
+                    value < 0
+                }
+            }
+            modifier = {
+                add = 40
+                has_war = yes 
+            }
+        }
+        FROM = {
+            country_event = { id = peru.17 hours = 6 }
+            create_wargoal = {
+                target = ROOT 
+                type = take_state_focus
+                generator = { 980 }
+            }
+        }
+	}
+	
+
+}
