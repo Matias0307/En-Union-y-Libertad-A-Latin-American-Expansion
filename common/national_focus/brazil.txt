@@ -79,7 +79,7 @@ focus_tree = {
 		relative_position_id = BRA_invest_in_our_economy
 		prerequisite = { focus = BRA_invest_in_our_economy }
 
-		cost = 3
+		cost = 1
 
 		ai_will_do = {
             factor = 75
@@ -175,6 +175,7 @@ focus_tree = {
 			unlock_decision_tooltip = BRA_destroy_the_coffee_plantations_in_FROM
 			BRA_industrialize_economy_slightly = yes 
 			add_political_power = 25
+			EUYL_add_2_civilian = yes
 			hidden_effect = {
 				subtract_from_variable = { BRA_dependency_on_coffee = 10 }
 				BRA_update_opinion_variable = yes 
@@ -271,7 +272,7 @@ focus_tree = {
 		relative_position_id = BRA_construct_factories_for_an_army
 		prerequisite = { focus = BRA_construct_factories_for_an_army }
 
-		cost = 8
+		cost = 6
 
 		available = {
 			NOT = {
@@ -381,7 +382,7 @@ focus_tree = {
 		relative_position_id = BRA_maintain_our_agriculture
 		prerequisite = { focus = BRA_maintain_our_agriculture }
 
-		cost = 6
+		cost = 5
 
 		ai_will_do = {
             factor = 5
@@ -1041,8 +1042,11 @@ focus_tree = {
 		x = -2
 		y = 1
 		relative_position_id = BRA_establish_rubber_plantations
-		prerequisite = { focus = BRA_expand_our_roads_in_the_south }
-		prerequisite = { focus = BRA_establish_rubber_plantations }
+		prerequisite = { 
+			focus = BRA_expand_our_roads_in_the_south 
+			focus = BRA_establish_rubber_plantations
+		}
+
 
 		cost = 6
 
@@ -1093,7 +1097,6 @@ focus_tree = {
 		y = 1
 		relative_position_id = BRA_improve_the_mining_industry
 		prerequisite = { focus = BRA_improve_the_mining_industry }
-		prerequisite = { focus = BRA_support_private_rubber_companies }
 
 		cost = 10
 
@@ -1511,8 +1514,7 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
-			EUYL_add_2_military = yes 
-			EUYL_add_1_military = yes 
+			EUYL_add_4_military = yes 
 		}
 	}
 
@@ -1548,7 +1550,7 @@ focus_tree = {
 		relative_position_id = BRA_establish_csn
 		prerequisite = { focus = BRA_open_up_steel_mines }
 		
-		cost = 10
+		cost = 7.2
 
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
@@ -2006,7 +2008,7 @@ focus_tree = {
 		prerequisite = { focus = BRA_expand_our_naval_arsenal }
 		mutually_exclusive = { focus = BRA_produce_cheaper_naval_equipment }
 
-		cost = 10
+		cost = 5
 
 		search_filters = { }
 		completion_reward = {
@@ -2038,7 +2040,7 @@ focus_tree = {
 		prerequisite = { focus = BRA_expand_our_naval_arsenal }
 		mutually_exclusive = { focus = BRA_produce_better_naval_equipment }
 
-		cost = 10
+		cost = 5
 
 		search_filters = { }
 		completion_reward = {
@@ -2393,6 +2395,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			country_event = brazil.8
+			EUYL_add_1_military = yes
 			if = {
 				limit = { has_idea = BRA_scars_of_the_1930_revolution_1 }
 				swap_ideas = {
@@ -2424,6 +2427,27 @@ focus_tree = {
 	}
 
 	focus = {
+		id = BRA_purchase_foreign_arms
+		icon = GFX_BRA_foreign_purchases
+		x = -1
+		y = 1
+		relative_position_id = BRA_invest_in_the_army
+		prerequisite = { focus = BRA_invest_in_the_army }
+
+		cost = 5
+
+		available = {
+			exists = yes 
+			has_civil_war = no 
+			num_of_factories > 39
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = PRU_purchase_foreign_arms_from_other_country
+		}
+	}
+
+	focus = {
 		id = BRA_modernize_the_tank_korp
 		icon = GFX_goal_generic_army_tanks
 		x = 1
@@ -2431,7 +2455,7 @@ focus_tree = {
 		relative_position_id = BRA_invest_in_the_army
 		prerequisite = { focus = BRA_invest_in_the_army }
 
-		cost = 7
+		cost = 6
 
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
@@ -2575,7 +2599,7 @@ focus_tree = {
 		relative_position_id = BRA_keep_the_people_at_ease
 		prerequisite = { focus = BRA_keep_the_people_at_ease }
 
-		cost = 10
+		cost = 6
 
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
@@ -2715,7 +2739,7 @@ focus_tree = {
 		relative_position_id = BRA_keep_the_people_at_ease
 		prerequisite = { focus = BRA_keep_the_people_at_ease }
 
-		cost = 6
+		cost = 5
 
 		ai_will_do = {
             factor = 2
@@ -2744,7 +2768,7 @@ focus_tree = {
 		relative_position_id = BRA_improve_our_tactics
 		prerequisite = { focus = BRA_improve_our_tactics }
 
-		cost = 8
+		cost = 7.2
 
 		ai_will_do = {
             factor = 2
@@ -2870,7 +2894,7 @@ focus_tree = {
 		relative_position_id = BRA_solidify_control_over_the_state
 		prerequisite = { focus = BRA_solidify_control_over_the_state }
 
-		cost = 6
+		cost = 5
 
 		available = {
 			has_country_leader = {
@@ -3746,7 +3770,7 @@ focus_tree = {
 		relative_position_id = BRA_focus_on_south_america 
 		prerequisite = { focus = BRA_focus_on_south_america }
 
-		cost = 8
+		cost = 5
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
@@ -3877,7 +3901,7 @@ focus_tree = {
 
 		#add a warning saying that doing this too many times may lead to a large scale war 
 
-		cost = 10
+		cost = 5
 
 		available = {
 			has_government = democratic
@@ -5523,7 +5547,7 @@ focus_tree = {
 		relative_position_id = BRA_mediate_the_effects_of_the_political_crisis
 		prerequisite = { focus = BRA_mediate_the_effects_of_the_political_crisis }
 
-		cost = 8
+		cost = 7.2
 
 		ai_will_do = {
             factor = 3
@@ -5807,6 +5831,8 @@ focus_tree = {
 		relative_position_id = BRA_allign_ourselves_with_the_allies
 		prerequisite = { focus = BRA_allign_ourselves_with_the_allies }
 
+		cost = 5
+
 		available = {
 			is_subject = no
 			GER = {
@@ -5934,7 +5960,7 @@ focus_tree = {
 		prerequisite = { focus = BRA_join_allies }
 		will_lead_to_war_with = GER
 
-		cost = 10
+		cost = 5
 
 		available = {
 			NOT = { 
@@ -6049,7 +6075,7 @@ focus_tree = {
 		relative_position_id = BRA_establish_the_FAB 
 		prerequisite = { focus = BRA_establish_the_FAB }
 
-		cost = 10
+		cost = 5
 
 		available = {
 			NOT = {
@@ -6124,7 +6150,7 @@ focus_tree = {
 			has_active_mission = BRA_integralists_planning_attack_on_guanabara_palace
 		}
 
-		cost = 5
+		cost = 3
 
 		ai_will_do = {
             factor = 25
@@ -6153,7 +6179,7 @@ focus_tree = {
 		relative_position_id = BRA_defend_ourselves_against_the_integralists
 		prerequisite = { focus = BRA_defend_ourselves_against_the_integralists }
 
-		cost = 10
+		cost = 7.2
 
 		ai_will_do = {
             factor = 25
@@ -6239,7 +6265,7 @@ focus_tree = {
 			has_government = neutrality
 		}
 
-		cost = 6
+		cost = 5
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
@@ -6269,7 +6295,7 @@ focus_tree = {
 			has_government = neutrality
 		}
 
-		cost = 6
+		cost = 5
 
 		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
@@ -6298,7 +6324,7 @@ focus_tree = {
 			has_government = neutrality
 		}
 
-		cost = 10
+		cost = 5
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
@@ -6391,7 +6417,7 @@ focus_tree = {
 			focus = BRA_allign_ourselves_with_the_allies
 		}
 
-		cost = 7.2
+		cost = 5
 
 		available = {
 			NOT = { has_war_with = USA }
@@ -6455,7 +6481,7 @@ focus_tree = {
 			NOT = { has_war_with = GER }
 		}
 
-		cost = 6
+		cost = 5
 
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
@@ -6483,7 +6509,7 @@ focus_tree = {
 		prerequisite = { focus = BRA_allow_the_germans_to_purchase_cotton }
 		prerequisite = { focus = BRA_offer_the_use_of_coastal_bases_to_the_US }
 
-		cost = 8
+		cost = 6
 
 		available = {
 			has_war = no 
@@ -6589,7 +6615,7 @@ focus_tree = {
 			focus = BRA_allign_ourselves_with_the_axis 
 		}
 
-		cost = 10
+		cost = 7.2
 
 		available = {
 			NOT = { has_war_with = GER }
@@ -8281,7 +8307,7 @@ focus_tree = {
 		prerequisite = { focus = BRA_mobilize_the_economy }
 		mutually_exclusive = { focus = BRA_focus_on_supply_build_up }
 
-		cost = 6
+		cost = 5
 
 		ai_will_do = {
             factor = 2
@@ -8308,7 +8334,7 @@ focus_tree = {
 		}
 		prerequisite = { focus = BRA_obliterate_the_paulista_uprising }
 
-		cost = 10
+		cost = 7.2
 
 		ai_will_do = {
             factor = 2
@@ -8412,7 +8438,7 @@ focus_tree = {
 			}
 		}
 
-		cost = 8
+		cost = 6
 
 		cancel_if_invalid = yes 
 		continue_if_invalid = no 
@@ -8482,7 +8508,11 @@ focus_tree = {
 
 		bypass = {
 			has_completed_focus = BRA_integralism_shall_rule
-			controls_state = 501
+			OR = {
+				has_global_flag = paulistas_revolted
+				has_war_with = SAO 
+				has_full_control_of_state = 501
+			}
 		}
 
 		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_ANNEXATION }
@@ -8940,7 +8970,7 @@ focus_tree = {
 		prerequisite = { focus = BRA_portuguese_volunteers }
 		prerequisite = { focus = BRA_hidden_portuguese_weaponry }
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
             factor = 4
@@ -10634,7 +10664,7 @@ focus_tree = {
 		relative_position_id = BRA_develop_paraguay
 		prerequisite = { focus = BRA_develop_paraguay }
 
-		cost = 10
+		cost = 6
 
 		available = {
 			any_other_country = {
@@ -10780,12 +10810,12 @@ focus_tree = {
 		relative_position_id = BRA_internal_imperial_management
 		prerequisite = { focus = BRA_internal_imperial_management }
 
-		cost = 7.2
+		cost = 5
 
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
 			BRA_improve_civil_war_recession = yes 
-			EUYL_add_2_civilian = yes 
+			EUYL_add_4_civilian = yes 
 		}
 	}
 
@@ -11256,7 +11286,7 @@ focus_tree = {
 		relative_position_id = BRA_re_establish_a_police_force
 		prerequisite = { focus = BRA_re_establish_a_police_force }
 
-		cost = 4
+		cost = 3
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
@@ -11325,7 +11355,7 @@ focus_tree = {
 		#the name will be a scripted loc 
 		#will depend on whether the player had civil war or not 
 
-		cost = 5
+		cost = 3
 
 		ai_will_do = {
             factor = 2
@@ -11439,7 +11469,7 @@ focus_tree = {
 
 		#will also imrpove slightly the economic debuff 
 
-		cost = 6
+		cost = 5
 
 		ai_will_do = {
             factor = 2
@@ -11479,7 +11509,7 @@ focus_tree = {
 		prerequisite = { focus = BRA_invite_the_best_economists }
 		prerequisite = { focus = BRA_nationalize_our_industry }
 
-		cost = 7.2
+		cost = 6
 
 		ai_will_do = {
             factor = 2
@@ -11885,7 +11915,7 @@ focus_tree = {
 		relative_position_id = BRA_invite_the_fascist_powers
 		prerequisite = { focus = BRA_invite_the_fascist_powers }
 
-		cost = 10
+		cost = 5
 
 		available = {
 			is_faction_leader = yes 
@@ -11926,7 +11956,7 @@ focus_tree = {
 		prerequisite = { focus = BRA_invite_the_fascist_powers }
 		prerequisite = { focus = BRA_the_brazilian_economic_miracle }
 
-		cost = 10
+		cost = 5
 
 		available = {
 			is_faction_leader = yes 
@@ -13397,7 +13427,7 @@ focus_tree = {
 			has_active_mission = BRA_communist_peasant_revolt
 		}
 
-		cost = 6
+		cost = 5
 
 		ai_will_do = {
             factor = 15
@@ -14154,6 +14184,7 @@ focus_tree = {
 			OR = {
 				has_global_flag = paulistas_revolted
 				has_war_with = SAO 
+				has_full_control_of_state = 501
 			}
 		}
 
@@ -14190,6 +14221,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			custom_effect_tooltip = BRA_unlock_decision_help_from_others_tt
+			BRA_improve_militia_training = yes 
 			hidden_effect = {	
 				unlock_decision_tooltip = BRA_try_to_get_aid_from_FROM
 			}
@@ -14541,7 +14573,7 @@ focus_tree = {
 
 		#will give a temporary idea that improves factory output 
 
-		cost = 7.2
+		cost = 5
 
 		available = {
 			has_civil_war = yes 
@@ -14549,7 +14581,7 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_WAR_SUPPORT }
 		completion_reward = {
-			EUYL_add_1_military = yes 
+			EUYL_add_2_military = yes 
 			add_timed_idea = {
 				idea = BRA_resouces_for_the_army
 				days = 465
@@ -14750,7 +14782,7 @@ focus_tree = {
 
 		#just gives mills 
 
-		cost = 8
+		cost = 6
 
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
@@ -15661,11 +15693,11 @@ focus_tree = {
 		prerequisite = { focus = BRA_invest_heavily_in_the_military }
 		prerequisite = { focus = BRA_supply_hubs_in_sao_paulo }
 		
-		cost = 10
+		cost = 7.2
 
 		search_filters = { FOCUS_FILTER_ARMY_XP }
 		completion_reward = {
-			army_experience = 10
+			army_experience = 50
 			add_ideas = BRA_efficient_supply_consumption_idea
 		}
 	}
