@@ -400,3 +400,78 @@ PAR_subsidizing_paraguayan_industry = { #SUBSIDIZATION
 
 	}
 }
+
+PAR_poltical_actions = {
+	PAR_appease_the_people = {
+		icon = GFX_EUYL_attract_refugees
+		cost = 50
+
+		days_remove = 90
+
+		visible = {
+			has_idea = PAR_dissatisfied_population
+		}
+
+		available = {
+			exists = yes 
+			has_civil_war = no 
+		}
+
+		cancel_trigger = {
+			OR = {
+				has_civil_war = yes 
+				NOT = { has_idea = PAR_dissatisfied_population }
+			}
+		}
+
+		remove_effect = {
+			remove_ideas = PAR_dissatisfied_population
+		}
+	}
+
+	PAR_invest_in_our_military = {
+		icon = generic_factory
+		cost = PAR_decision_cost
+
+		days_remove = 40
+
+		visible = {
+			has_dynamic_modifier = {
+				modifier = PAR_paraguayan_military_production
+			}
+		}
+
+		available = {
+			has_civil_war = no 
+		}
+
+		complete_effect = {
+			add_to_variable = { PAR_decision_cost = 25 }
+		}
+
+		cancel_trigger = {
+			OR = {
+				has_civil_war = yes 
+				NOT = {
+					has_dynamic_modifier = {
+						modifier = PAR_paraguayan_military_production
+					}
+				}
+			}
+		}
+
+		remove_effect = {
+			custom_effect_tooltip = PAR_improve_military_production_tt
+			add_to_variable = { PAR_arms_factory_construction_speed = 0.025 }
+			add_to_variable = { PAR_factory_output = 0.025 }
+			if = {
+				limit = {
+					check_variable = {
+						PAR_decision_cost > 99
+					}
+				}
+				EUYL_add_1_military = yes 
+			}
+		}
+	}
+}

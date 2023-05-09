@@ -228,7 +228,7 @@ focus_tree = {
 		id = PAR_properly_adopt_laissez_faire
 		icon = GFX_PAR_adopt_faire_model
 		x = -1
-		y = 1
+		y = 2
 		relative_position_id = PAR_resource_extraction_effort
 		prerequisite = {
 			focus = PAR_resource_extraction_effort
@@ -288,8 +288,8 @@ focus_tree = {
 	focus = {
 		id = PAR_invest_in_our_nations_professors
 		icon = GFX_PAR_national_professors
-		x = 0
-		y = 2
+		x = -1
+		y = 1
 		relative_position_id = PAR_properly_adopt_laissez_faire
 		prerequisite = {
 			focus = PAR_properly_adopt_laissez_faire
@@ -299,13 +299,13 @@ focus_tree = {
 			focus = PAR_invite_foreign_professors
 		}
 
-		cost = 6
+		cost = 5
 
 		search_filters = {
 			FOCUS_FILTER_INDUSTRY
 		}
 		completion_reward = {
-			
+			add_ideas = PAR_national_professors
 		}
 	}
 
@@ -313,8 +313,8 @@ focus_tree = {
 	focus = {
 		id = PAR_invite_foreign_professors
 		icon = GFX_PAR_foreign_professors
-		x = 0
-		y = 2
+		x = 1
+		y = 1
 		relative_position_id = PAR_allow_foreign_investment
 		prerequisite = {
 			focus = PAR_properly_adopt_laissez_faire
@@ -324,13 +324,13 @@ focus_tree = {
 			focus = PAR_invest_in_our_nations_professors
 		}
 
-		cost = 6
+		cost = 5
 
 		search_filters = {
 			FOCUS_FILTER_INDUSTRY
 		}
 		completion_reward = {
-			
+			add_ideas = PAR_foreign_professors
 		}
 	}
 
@@ -338,7 +338,7 @@ focus_tree = {
 	focus = {
 		id = PAR_expand_universities
 		icon = GFX_focus_research
-		x = 4
+		x = 5
 		y = 1
 		relative_position_id = PAR_invest_in_our_nations_professors
 		prerequisite = {
@@ -571,11 +571,42 @@ focus_tree = {
 
 		cost = 10
 
+		available = {
+			capital_scope = {
+				is_fully_controlled_by = ROOT
+			}
+		}
+
 		search_filters = {
 			FOCUS_FILTER_INDUSTRY
 		}
 		completion_reward = {
-			#
+			capital_scope = {
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes 
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes 
+				}
+				add_dynamic_modifier = {
+					modifier = PAR_capital_investments
+				}
+			}
+			random_owned_controlled_state = {
+				limit = { is_core_of = ROOT }
+				ROOT = {
+					build_railway = {
+						level = 3
+						start_state = PREV 
+						target_state = THIS.capital
+					}
+				}
+			}
 		}
 	}
 
@@ -648,7 +679,11 @@ focus_tree = {
 			FOCUS_FILTER_INDUSTRY
 		}
 		completion_reward = {
-			#
+			add_dynamic_modifier = {
+				modifier = PAR_paraguayan_military_production 
+			}
+			unlock_decision_tooltip = PAR_invest_in_our_military
+			custom_effect_tooltip = PAR_after_3_times_tt
 		}
 	}
 
@@ -703,7 +738,7 @@ focus_tree = {
         id = PAR_allow_foreign_investment
         icon = GFX_goal_generic_intelligence_exchange
         x = -1
-        y = 1
+        y = 2
         relative_position_id = PAR_open_our_markets
         prerequisite = { focus = PAR_open_our_markets }
         prerequisite = { focus = PAR_industrial_agriculture }
@@ -1353,7 +1388,18 @@ focus_tree = {
 			FOCUS_FILTER_POLITICAL
 		}
 		completion_reward = {
-			
+			every_other_country = {
+                limit = {
+                    capital_scope = { is_on_continent = south_america }
+                    NOT = {
+                        has_war_with = ROOT 
+                    }
+                }
+                add_opinion_modifier = { modifier = BOL_chose_path_of_diplomacy target = ROOT }
+                ROOT = {
+                    add_opinion_modifier = { modifier = BOL_chose_path_of_diplomacy target = PREV }
+                }
+            }
 		}
 	}
 
@@ -1368,13 +1414,29 @@ focus_tree = {
 			focus = PAR_work_on_south_american_relations
 		}
 
-		cost = 6
+		cost = 8
 
 		search_filters = {
 			FOCUS_FILTER_POLITICAL
 		}
 		completion_reward = {
-			
+			add_stability = 0.05
+			add_political_power = 25
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = BRA 
+						original_tag = URG 
+						original_tag = ARG 
+						original_tag = BOL 
+					}
+					NOT = { has_war_with = ROOT }
+				}
+				add_opinion_modifier = { modifier = BOL_improved_relations target = ROOT }
+                ROOT = {
+                    add_opinion_modifier = { modifier = BOL_improved_relations target = PREV }
+                }
+			}
 		}
 	}
 
@@ -1389,13 +1451,26 @@ focus_tree = {
 			focus = PAR_work_on_south_american_relations
 		}
 
-		cost = 6
+		cost = 10
 
 		search_filters = {
 			FOCUS_FILTER_POLITICAL
 		}
 		completion_reward = {
-			
+			every_other_country = {
+				limit = {
+					capital_scope = { is_on_continent = south_america }
+					NOT = {
+						has_war_with = ROOT 
+					}
+					is_in_faction = no 
+					OR = {
+						has_government = democratic 
+						has_government = neutrality
+					}
+				}
+				country_event = { id = generic.5 hours = 6 }
+			}
 		}
 	}
 	### Economic Cooperation with Our Allies ###
@@ -1409,13 +1484,19 @@ focus_tree = {
 			focus = PAR_invite_south_america
 		}
 
-		cost = 6
+		cost = 10
 
 		search_filters = {
 			FOCUS_FILTER_POLITICAL
 		}
 		completion_reward = {
-			
+			every_other_country = {
+				limit = { is_in_faction_with = ROOT }
+				EUYL_add_1_civilian = yes 
+				EUYL_add_1_military = yes 
+			}
+			EUYL_add_1_civilian = yes 
+			EUYL_add_1_military = yes 
 		}
 	}
 	### Fight Communism in South America ###
@@ -1429,13 +1510,31 @@ focus_tree = {
 			focus = PAR_expand_conscription
 		}
 
-		cost = 6
+		cost = 10
 
 		search_filters = {
 			FOCUS_FILTER_POLITICAL
 		}
 		completion_reward = {
-			
+			custom_effect_tooltip = ARG_removecommunismfromcontinent
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						capital_scope = { is_on_continent = south_america }
+						has_government = communism
+						NOT = {
+							is_in_faction_with = ROOT 
+							has_war_with = ROOT
+						}
+					}
+					ROOT = {
+						create_wargoal = {
+							type = puppet_wargoal_focus
+							target = PREV
+						}
+					}
+				}
+			}
 		}
 	}
 	### Fight Fascism in South America ###
@@ -1449,13 +1548,31 @@ focus_tree = {
 			focus = PAR_expand_conscription
 		}
 
-		cost = 6
+		cost = 10
 
 		search_filters = {
 			FOCUS_FILTER_POLITICAL
 		}
 		completion_reward = {
-			
+			custom_effect_tooltip = ARG_removefascismfromcontinent
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						capital_scope = { is_on_continent = south_america }
+						has_government = fascism
+						NOT = {
+							is_in_faction_with = ROOT 
+							has_war_with = ROOT
+						}
+					}
+					ROOT = {
+						create_wargoal = {
+							type = puppet_wargoal_focus
+							target = PREV
+						}
+					}
+				}
+			}
 		}
 	}
 	### A New South America ###
@@ -1472,13 +1589,125 @@ focus_tree = {
 			focus = PAR_fight_communism
 		}
 
-		cost = 6
-
-		search_filters = {
-			FOCUS_FILTER_POLITICAL
+		cost = 10
+		available = {
+			NOT = {
+				OR = {
+					has_government = fascism 
+					has_government = communism
+				}
+			}
+			CHL = {
+				NOT = {
+					OR = {
+						has_government = fascism 
+						has_government = communism
+					}
+				}
+			}
+			URG = {
+				NOT = {
+					OR = {
+						has_government = fascism 
+						has_government = communism
+					}
+				}
+			}
+			ARG = {
+				NOT = {
+					OR = {
+						has_government = fascism 
+						has_government = communism
+					}
+				}
+			}
+			PRU = {
+				NOT = {
+					OR = {
+						has_government = fascism 
+						has_government = communism
+					}
+				}
+			}
+			BRA = {
+				NOT = {
+					OR = {
+						has_government = fascism 
+						has_government = communism
+					}
+				}
+			}
+			BOL = {
+				NOT = {
+					OR = {
+						has_government = fascism 
+						has_government = communism
+					}
+				}
+			}
+			ECU = {
+				NOT = {
+					OR = {
+						has_government = fascism 
+						has_government = communism
+					}
+				}
+			}
+			COL = {
+				NOT = {
+					OR = {
+						has_government = fascism 
+						has_government = communism
+					}
+				}
+			}
+			VEN = {
+				NOT = {
+					OR = {
+						has_government = fascism 
+						has_government = communism
+					}
+				}
+			}
 		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
 		completion_reward = {
-			
+			custom_effect_tooltip = PRU_every_south_american_nation_recieve
+			effect_tooltip = {
+				add_stability = 0.1
+				add_war_support = 0.1
+				add_popularity = {
+					ideology = democratic
+					popularity = 0.05
+				}
+			}
+			hidden_effect = {
+				add_stability = 0.1
+				add_war_support = 0.1
+				add_popularity = {
+					ideology = democratic
+					popularity = 0.05
+				}
+				every_other_country = {
+					limit = {
+						capital_scope = { is_on_continent = south_america }
+						NOT = {
+							has_war_with = ROOT 
+							OR = {
+								has_government = communism
+								has_government = fascism
+							}
+						}
+					}
+					add_stability = 0.1
+					add_war_support = 0.1
+					add_popularity = {
+						ideology = democratic
+						popularity = 0.05
+					}
+				}
+			}
 		}
 	}
 
