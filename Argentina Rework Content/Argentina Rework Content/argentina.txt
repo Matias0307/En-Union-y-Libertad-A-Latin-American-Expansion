@@ -2056,6 +2056,7 @@ focus_tree = {
 		y = 0
 		relative_position_id = ARG_focus_economy
 		mutually_exclusive = { focus = ARG_an_imminent_revolution }
+		mutually_exclusive = { focus = ARG_create_the_coalition }
 
 		ai_will_do = {
 			factor = 280
@@ -2076,8 +2077,18 @@ focus_tree = {
 		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			unlock_decision_tooltip = ARG_pressure_the_parties_for_faster_elections
-			add_political_power = 125
+			add_political_power = 100
 		}
+	}
+
+	focus = {
+		id = ARG_create_the_coalition
+		icon = GFX_ 
+		x = 40
+		y = 0
+		relative_position_id = ARG_infamous_decade
+		mutually_exclusive = { focus = ARG_infamous_decade }
+		mutually_exclusive = { focus = ARG_an_imminent_revolution }
 	}
 	
 	focus = {
@@ -5040,7 +5051,7 @@ focus_tree = {
 	focus = {
 		id = ARG_fuerzas_armadas_argentinas
 		icon = GFX_ARG_fuerzas_armadas
-		x = 125
+		x = 130
 		y = 0
 
 		
@@ -6545,6 +6556,7 @@ focus_tree = {
 		y = 0
 		relative_position_id = ARG_infamous_decade
 		mutually_exclusive = { focus = ARG_infamous_decade }
+		mutually_exclusive = { focus = ARG_create_the_coalition }
 	}
 
 	focus = {
@@ -10600,6 +10612,40 @@ focus_tree = {
 
 	focus = {
 		id = ARG_a_traditional_approach
+		icon = GFX_ARG_support_peronism
+		x = -1
+		y = 1
+		relative_position_id = ARG_consolidate_power
+		prerequisite = { focus = ARG_consolidate_power }
+		mutually_exclusive = { focus = ARG_follow_mussolinis_principles }
+	}
+
+	focus = { ## will make peron fascist
+		id = ARG_follow_mussolinis_principles
+		icon = GFX_focus_ITA_culto_del_duce
+		x = 4
+		y = 1
+		relative_position_id = ARG_consolidate_power
+		prerequisite = { focus = ARG_consolidate_power }
+		mutually_exclusive = { focus = ARG_a_traditional_approach }
+	}
+
+	focus = {
+		id = ARG_mass_nationalization
+		icon = GFX_ARG_nationalize_industry
+		x = -1
+		y = 1
+		relative_position_id = ARG_follow_mussolinis_principles
+		prerequisite = { focus = ARG_follow_mussolinis_principles }
+	}
+
+	focus = {
+		id = ARG_form_the_camisas_negras
+		icon = GFX_focus_ITA_blackshirts
+		x = 1
+		y = 1
+		relative_position_id = ARG_follow_mussolinis_principles
+		prerequisite = { focus = ARG_follow_mussolinis_principles }
 	}
 	
 	focus = { ##Promise industrial reforms
@@ -12523,8 +12569,8 @@ focus_tree = {
 		icon = GFX_focus_generic_military_mission
 		x = 0
 		y = 1
-		relative_position_id = ARG_begin_preparing_for_Robertos_retiring
-		prerequisite = { focus = ARG_begin_preparing_for_Robertos_retiring }
+		relative_position_id = ARG_invite_german_advisors
+		prerequisite = { focus = ARG_invite_german_advisors }
 		
 		cost = 10
 		
@@ -12540,223 +12586,6 @@ focus_tree = {
 		completion_reward = {
 			add_war_support = 0.1
 			add_ideas = extensive_conscription
-		}
-	}
-	
-	focus = {
-		id = ARG_go_with_the_military_plot
-		icon = GFX_goal_generic_military_deal
-		x = 3
-		y = 1
-		relative_position_id = ARG_strengthen_the_military
-		prerequisite = { focus = ARG_strengthen_the_military }
-		mutually_exclusive = { focus = ARG_defy_the_military_plot }
-		
-		cost = 5
-		
-		ai_will_do = {
-			factor = 25
-		}
-		
-		available = {
-			is_subject = no
-			has_country_flag = ARG_ramon_coup
-		}
-		
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
-		completion_reward = {
-			custom_effect_tooltip = ARG_support_coup
-		}
-	}
-	
-	focus = {
-		id = ARG_defy_the_military_plot
-		icon = GFX_ARG_go_against_military
-		x = -3
-		y = 1
-		relative_position_id = ARG_strengthen_the_military
-		mutually_exclusive = { focus = ARG_go_with_the_military_plot }
-		prerequisite = { focus = ARG_strengthen_the_military }
-		
-		cost = 5
-		
-		ai_will_do = {
-			factor = 25
-			modifier = {
-				factor = 0
-				is_historical_focus_on = yes
-			}
-		}
-		
-		available = {
-			is_subject = no
-			has_country_flag = ARG_ramon_coup
-		}
-		
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		
-		search_filters = { FOCUS_FILTER_POLITICAL }
-		completion_reward = {
-			custom_effect_tooltip = ARG_defy_coup
-		}
-	}
-	
-	focus = {
-		id = ARG_maintain_the_loyalist_support
-		icon = GFX_focus_generic_little_entente
-		x = -1
-		y = 1
-		relative_position_id = ARG_defy_the_military_plot
-		prerequisite = { focus = ARG_defy_the_military_plot }
-		
-		cost = 10
-		
-		available = {
-			is_subject = no
-			has_country_flag = ARG_ramon_coup
-		}
-		
-		bypass = {
-			NOT = {
-				has_country_flag = ARG_ramon_coup
-			}
-			has_completed_focus = ARG_defy_the_military_plot
-		}
-		
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		
-		search_filters = { FOCUS_FILTER_POLITICAL }
-		completion_reward = {
-			custom_effect_tooltip = ARG_loyalist_militias
-			add_days_mission_timeout = {
-				mission = ARG_the_possible_coup
-				days = 15
-			} 
-		}
-	}
-	
-	focus = {
-		id = ARG_conserve_our_stockpiles
-		icon = GFX_goal_generic_military_sphere
-		x = 1
-		y = 1
-		relative_position_id = ARG_defy_the_military_plot
-		prerequisite = { focus = ARG_defy_the_military_plot }
-		
-		cost = 10
-		
-		available = {
-			is_subject = no
-			has_country_flag = ARG_ramon_coup
-		}
-		
-		bypass = {
-			NOT = {
-				has_country_flag = ARG_ramon_coup
-			}
-			has_completed_focus = ARG_defy_the_military_plot
-		}
-		
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		
-		search_filters = { FOCUS_FILTER_POLITICAL }
-		completion_reward = {
-			custom_effect_tooltip = ARG_conserve_stocks
-			add_days_mission_timeout = {
-				mission = ARG_the_possible_coup
-				days = 15
-			}
-		}
-	}
-	
-	focus = {
-		id = ARG_disband_the_army
-		icon = GFX_goal_generic_forceful_treaty
-		x = 0
-		y = 1
-		relative_position_id = ARG_maintain_the_loyalist_support
-		prerequisite = { focus = ARG_maintain_the_loyalist_support }
-		
-		cost = 10
-		available = {
-			is_subject = no
-			has_country_flag = ARG_ramon_coup
-		}
-		
-		bypass = {
-			NOT = {
-				has_country_flag = ARG_ramon_coup
-			}
-			has_completed_focus = ARG_defy_the_military_plot
-		}
-		
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		
-		search_filters = { FOCUS_FILTER_POLITICAL }
-		completion_reward = {
-			custom_effect_tooltip = ARG_disbanded_army
-			effect_tooltip = {
-				add_ideas = ARG_disbanded_the_army
-			}
-			custom_effect_tooltip = ARG_disbanded_army_junta
-			effect_tooltip = {
-				add_ideas = ARG_disbanded_the_army_2
-			}
-			add_days_mission_timeout = {
-				mission = ARG_the_possible_coup
-				days = 12
-			}
-		}
-	}
-	
-	focus = {
-		id = ARG_increase_our_equipment_output
-		icon = GFX_focus_generic_license_production
-		x = 0
-		y = 1
-		relative_position_id = ARG_conserve_our_stockpiles
-		prerequisite = { focus = ARG_conserve_our_stockpiles }
-		
-		cost = 10
-		
-		available = {
-			is_subject = no
-			has_country_flag = ARG_ramon_coup
-		}
-		
-		bypass = {
-			NOT = {
-				has_country_flag = ARG_ramon_coup
-			}
-			has_completed_focus = ARG_defy_the_military_plot
-		}
-		
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		
-		search_filters = { FOCUS_FILTER_POLITICAL }
-		completion_reward = {
-			custom_effect_tooltip = ARG_gain_gun_output
-			effect_tooltip = {
-				add_ideas = ARG_gun_output
-			}
-			add_days_mission_timeout = {
-				mission = ARG_the_possible_coup
-				days = 12
-			}
 		}
 	}
 	
@@ -12814,163 +12643,12 @@ focus_tree = {
 	}
 	
 	focus = {
-		id = ARG_fire_the_loyalist_soldiers
-		icon = GFX_focus_CZE_german_puppet 
-		x = -1
-		y = 1
-		relative_position_id = ARG_go_with_the_military_plot
-		prerequisite = { focus = ARG_go_with_the_military_plot }
-		
-		cost = 7.2
-		
-		available = {
-			is_subject = no
-			has_country_flag = ARG_ramon_coup
-		}
-		
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
-		completion_reward = {
-			add_stability = -0.03
-			add_manpower = -15000
-			add_days_mission_timeout = {
-				mission = ARG_the_possible_coup
-				days = 5
-			}
-		}
-	}
-	
-	focus = {
-		id = ARG_gain_the_support_of_the_Army
-		icon = GFX_focus_generic_manpower 
-		x = 0
-		y = 1
-		relative_position_id = ARG_fire_the_loyalist_soldiers
-		prerequisite = { focus = ARG_fire_the_loyalist_soldiers }
-		
-		cost = 6
-		
-		available = {
-			is_subject = no
-			has_country_flag = ARG_ramon_coup
-		}
-		
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
-		completion_reward = {
-			add_war_support = 0.05
-		}
-	}
-	
-	focus = {
-		id = ARG_learn_from_the_failed_coups
-		icon = GFX_focus_generic_support_the_left_right
-		x = 1
-		y = 1
-		relative_position_id = ARG_go_with_the_military_plot
-		prerequisite = { focus = ARG_go_with_the_military_plot }
-		
-		cost = 7.2
-		
-		available = {
-			is_subject = no
-			has_country_flag = ARG_ramon_coup
-		}
-		
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
-		completion_reward = {
-			add_stability = -0.02
-			add_days_mission_timeout = {
-				mission = ARG_the_possible_coup
-				days = 5
-			}
-		}
-	}
-	
-	focus = {
-		id = ARG_march_to_la_casa_rosada
-		icon = GFX_ARG_casa_marcha
-		x = 0
-		y = 1
-		relative_position_id = ARG_learn_from_the_failed_coups
-		prerequisite = { focus = ARG_learn_from_the_failed_coups }
-		
-		
-		cost = 6
-		
-		available = {
-			is_subject = no
-			has_country_flag = ARG_ramon_coup
-		}
-		
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
-		completion_reward = {
-			add_stability = -0.01
-			add_political_power = 75
-		}
-	}
-	
-	focus = {
-		id = ARG_oust_ramon
-		icon = GFX_ARG_oust_catillo
-		x = -1
-		y = 1
-		relative_position_id = ARG_march_to_la_casa_rosada
-		prerequisite = { focus = ARG_march_to_la_casa_rosada }
-		prerequisite = { focus = ARG_gain_the_support_of_the_Army }
-		
-		cost = 5
-		
-		available = {
-			is_subject = no
-			has_country_flag = ARG_ramon_coup
-		}
-		
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
-		completion_reward = {
-			custom_effect_tooltip = ARG_ramon_oust
-			effect_tooltip = {
-				add_stability = 0.05
-			}
-			hidden_effect = {
-				clr_country_flag = ARG_ramon_coup
-			}
-			swap_ideas = {
-				remove_idea = ARG_shadow_of_peron_ramon
-				add_idea = ARG_shadow_of_peron_2
-			}
-			country_event = argentina.52
-			hidden_effect = {
-				country_event = { id = argentina.54 days = 385 }
-			}
-		}
-	}
-	
-	focus = {
 		id = ARG_invite_german_advisors
 		icon = GFX_focus_ger_oppose_hitler
 		x = -1
-		y = 3
+		y = 2
 		relative_position_id = ARG_consolidate_power
-
+		prerequisite = { focus = ARG_a_traditional_approach }
 		
 		cost = 6
 		
@@ -12992,13 +12670,16 @@ focus_tree = {
 		}
 	}
 	
-	focus = {
+	focus = { ## Culto de Peron
 		id = ARG_a_new_argentina
 		icon = GFX_ARG_peronist_argentina
 		x = 1
-		y = 3
+		y = 4
 		relative_position_id = ARG_consolidate_power
-
+		prerequisite = {
+			focus = ARG_a_traditional_approach
+			focus = ARG_follow_mussolinis_principles
+		}
 		
 		cost = 10
 		
@@ -13018,6 +12699,25 @@ focus_tree = {
 				add_idea = ARG_shadow_of_peron_3
 			}
 		}
+	}
+
+	focus = { ## will add a trait to Peron and weaken inexperienced leader trait
+		id = ARG_al_amigo_todo_al_enemigo_nada
+		icon = GFX_ARG_new_conscriptions
+		x = 1
+		y = 1
+		relative_position_id = ARG_perons_argentina
+		prerequisite = { focus = ARG_perons_argentina }
+	}
+
+	focus = {
+		id = ARG_capo_maximo_de_la_argentina
+		icon = GFX_ARG_bandera_argentina
+		x = 3
+		y = 1
+		relative_position_id = ARG_a_new_argentina
+		prerequisite = { focus = ARG_a_new_argentina }
+		prerequisite = { focus = ARG_follow_mussolinis_principles }
 	}
 	
 	focus = {
@@ -13269,7 +12969,7 @@ focus_tree = {
 		relative_position_id = ARG_demand_liberation
 		prerequisite = {
 			focus = ARG_demand_liberation
-			
+			focus = ARG_a_new_argentina
 		}
 		
 		cost = 10
@@ -13776,7 +13476,7 @@ focus_tree = {
 	focus = {
 		id = ARG_let_in_german_refugees
 		icon = GFX_focus_prc_infiltration
-		x = 1
+		x = 3
 		y = 1
 		relative_position_id = ARG_perons_argentina
 		prerequisite = {

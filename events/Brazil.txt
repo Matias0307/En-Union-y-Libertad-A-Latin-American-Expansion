@@ -2198,6 +2198,7 @@ country_event = {
 			959 = {
 				add_dynamic_modifier = { modifier = BRA_integralists_occupation }
 			}
+			mark_focus_tree_layout_dirty = yes 
 		}
 	}
 }
@@ -3358,6 +3359,11 @@ country_event = {
 
 	option = { #deport them all 
 		name = brazil.71.a 
+		trigger = {
+			NOT = {
+				has_global_flag = BRA_accepted_patrianovistas_support
+			}
+		}
 		ai_chance = {
 			base = 1
 		}
@@ -3447,7 +3453,7 @@ country_event = {
 		custom_effect_tooltip = EUYL_start_of_civil_war_gain_following_tt
 		unlock_decision_tooltip = BRA_strengthen_patrionavista_support
 		hidden_effect = {
-			set_variable = { BRA_patrianovista_help = 45 }
+			set_variable = { BRA_patrianovista_help = 30 }
 			set_global_flag = BRA_accepted_patrianovistas_support
 		}
 	}
@@ -4425,6 +4431,28 @@ country_event = {
 			}
 			if = {
 				limit = { 
+					check_variable = { BRA_integralist_influence > 24 }
+				}
+				every_controlled_state = {
+					create_unit = {
+						division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+						owner = ROOT
+					}
+				}
+			}
+			if = {
+				limit = { 
+					check_variable = { BRA_current_army_support > 74 }
+				}
+				every_controlled_state = {
+					create_unit = {
+						division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+						owner = ROOT
+					}
+				}
+			}
+			if = {
+				limit = { 
 					check_variable = { BRA_integralist_influence > 39 }
 				}
 				every_controlled_state = {
@@ -4637,17 +4665,17 @@ country_event = {
 		}
 	}
 
-	option = { #we're not ready just yet
-		name = brazil.89.b 
-		ai_chance = {
-			base = 10 
-			modifier = {
-				add = 35
-				check_variable = { BRA_current_army_support < 40 }
-			}
-		}
-		add_political_power = -10
-	}
+	#option = { #we're not ready just yet
+	#	name = brazil.89.b 
+	#	ai_chance = {
+	#		base = 10 
+	#		modifier = {
+	#			add = 35
+	#			check_variable = { BRA_current_army_support < 40 }
+	#		}
+	#	}
+	#	add_political_power = -10
+	#}
 }
 
 #notification of some generals coming back to brazil 

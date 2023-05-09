@@ -22,6 +22,7 @@
 #BRA_set_up_post_civil_war_idea
 #BRA_improve_civil_war_recession
 #BRA_mark_focus_tree_layout_dirty
+#BRA_reduce_scars_of_revolution
 
 BRA_set_dependency_on_coffee_idea = {
 	hidden_effect = {
@@ -1443,29 +1444,10 @@ BRA_start_integralist_uprising = {
 				create_unit = {
 					division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
 					owner = PREV
-				}
-				create_unit = {
-					division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
-					owner = PREV
-				}
-				create_unit = {
-					division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
-					owner = PREV
-				}
-				create_unit = {
-					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
-					owner = PREV
-				}
-				create_unit = {
-					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
-					owner = PREV
+					count = 4
 				}
 			}
 			random_owned_controlled_state = {
-				create_unit = {
-					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
-					owner = PREV
-				}
 				create_unit = {
 					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
 					owner = PREV
@@ -1493,23 +1475,6 @@ BRA_start_integralist_uprising = {
 				}
 				if = {
 					limit = { BRA = { check_variable = { BRA_extra_integralist_troops > 3 } } }
-					create_unit = {
-						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
-						owner = PREV
-					}
-				}
-			}
-			if = {
-				limit = { check_variable = { BRA_fascist_popularity > 0.4 } } 
-				random_owned_controlled_state = {
-					create_unit = {
-						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
-						owner = PREV
-					}
-					create_unit = {
-						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
-						owner = PREV
-					}
 					create_unit = {
 						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
 						owner = PREV
@@ -1784,23 +1749,23 @@ BRA_start_communist_civil_war = {
 				count = 4
 			}
 			if = {
-				limit = { check_variable = { BRA_communist_popularity > 0.35 } }
-				create_unit = {
-					division = "name = \"Milícias Comunistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
-					owner = PREV
-				}
-			}
-			if = {
-				limit = { BRC = { check_variable = { BRA_farmers_agreement_to_uprising > 45 } } }
+				limit = { BRC = { check_variable = { BRA_farmers_agreement_to_uprising > 39 } } }
 				create_unit = {
 					division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
 					owner = PREV
 				}
 			}
 			if = {
-				limit = { BRC = { check_variable = { BRA_farmers_agreement_to_uprising > 55 } } }
+				limit = { BRC = { check_variable = { BRA_farmers_agreement_to_uprising > 64 } } }
 				create_unit = {
-					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+					division = "name = \"Milícias Leais\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.85" 
+					owner = PREV
+				}
+			}
+			if = {
+				limit = { BRC = { check_variable = { BRA_farmers_agreement_to_uprising > 79 } } }
+				create_unit = {
+					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.05 start_equipment_factor = 0.75" 
 					owner = PREV
 				}
 			}
@@ -1811,12 +1776,6 @@ BRA_start_communist_civil_war = {
 					owner = PREV
 				}
 				clr_state_flag = BRA_conscripted_in_FROM
-			}
-		}
-		random_owned_controlled_state = {
-			create_unit = {
-				division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
-				owner = PREV
 			}
 		}
 		if = {
@@ -1977,6 +1936,18 @@ BRA_start_communist_civil_war = {
 				create_unit = {
 					division = "name = \"Soviet Volunteers\" division_template = \"Soviet Volunteers\" start_experience_factor = 0.1 start_equipment_factor = 0.95" 
 					owner = PREV
+				}
+			}
+		}
+		if = { ## To make it slightly stronger at least
+			limit = {
+				num_of_controlled_states < 5
+			}
+			every_controlled_state = {
+				create_unit = {
+					division = "name = \"Milícias Comunistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+					owner = PREV
+					count = 4
 				}
 			}
 		}
@@ -2746,4 +2717,35 @@ BRA_start_imperialist_civil_war = {
 		set_variable = { BRA_playing_as_integralists = 1 }
 	}
 	news_event = { id = news.365 days = 1 }
+}
+
+BRA_reduce_scars_of_revolution = {
+	if = {
+		limit = { has_idea = BRA_scars_of_the_1930_revolution_1 }
+		swap_ideas = {
+			remove_idea = BRA_scars_of_the_1930_revolution_1
+			add_idea = BRA_scars_of_the_1930_revolution_2
+		}
+	}
+	else_if = {
+		limit = { has_idea = BRA_scars_of_the_1930_revolution_2 }
+		swap_ideas = {
+			remove_idea = BRA_scars_of_the_1930_revolution_2
+			add_idea = BRA_scars_of_the_1930_revolution_3
+		}
+	}
+	else_if = {
+		limit = { has_idea = BRA_scars_of_the_1930_revolution_3 }
+		swap_ideas = {
+			remove_idea = BRA_scars_of_the_1930_revolution_3
+			add_idea = BRA_scars_of_the_1930_revolution_4
+		}
+	}
+	else_if = {
+		limit = { has_idea = BRA_scars_of_the_1930_revolution_4 }
+		remove_ideas = BRA_scars_of_the_1930_revolution_4
+	}
+	else = {
+		EUYL_add_1_military = yes 
+	}
 }

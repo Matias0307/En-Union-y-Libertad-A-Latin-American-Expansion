@@ -32,7 +32,7 @@ BRA_political_crisis = {
                     has_active_mission = BRA_impending_democratic_insurrection
                     has_active_mission = BRA_impending_integralist_uprising
                     has_active_mission = BRA_impending_communist_uprising
-                    has_active_mission = BRA_impending_paulista_revolt
+                    has_global_flag = BRA_paulista_revolt
                     has_active_mission = BRA_impending_imperial_uprising
                 }
             }
@@ -839,18 +839,13 @@ BRA_political_manegement = {
                         has_active_mission = BRA_estado_novo_mission_enemy
                     }
                 }
-                if = {
-                    limit = { has_active_mission = BRA_estado_novo_mission_enemy }
-                    add_days_mission_timeout = {
-                        mission = BRA_estado_novo_mission_enemy
-                        days = -10
-                    }
+                add_days_mission_timeout = {
+                    mission = BRA_estado_novo_mission_enemy
+                    days = -5
                 }
-                else = {
-                    add_days_mission_timeout = {
-                        mission = BRA_estado_novo_mission_enemy_2
-                        days = -10
-                    }
+                add_days_mission_timeout = {
+                    mission = BRA_estado_novo_mission_enemy_2
+                    days = -5
                 }
             }
             else_if = {
@@ -863,18 +858,13 @@ BRA_political_manegement = {
                         has_active_mission = BRA_estado_novo_mission_enemy
                     }
                 }
-                if = {
-                    limit = { has_active_mission = BRA_estado_novo_mission_enemy }
-                    add_days_mission_timeout = {
-                        mission = BRA_estado_novo_mission_enemy
-                        days = -20
-                    }
+                add_days_mission_timeout = {
+                    mission = BRA_estado_novo_mission_enemy
+                    days = -10
                 }
-                else = {
-                    add_days_mission_timeout = {
-                        mission = BRA_estado_novo_mission_enemy_2
-                        days = -20
-                    }
+                add_days_mission_timeout = {
+                    mission = BRA_estado_novo_mission_enemy_2
+                    days = -10
                 }
             }
             hidden_effect = {
@@ -1258,7 +1248,7 @@ BRA_political_manegement = {
             NOT = { check_variable = { BRA_playing_as_communists = 1 } }
         }
 
-        cost = 15
+        cost = 10
 
         days_remove = 25
 
@@ -3079,26 +3069,28 @@ BRA_imminent_civil_war = {
         fire_only_once = yes 
 
         timeout_effect = {
-            custom_effect_tooltip = BRA_political_parties_shutdown_tt
-            hidden_effect = {
-                BRA_clear_integralist_opinion = yes 
-                BRA_clear_congress_opinion = yes 
-                clr_country_flag = BRA_hostile_communists
-                set_country_flag = BRA_congress_shutdown
-                set_country_flag = BRA_integralists_shutdown
-                set_country_flag = BRA_communists_shutdown
-                set_country_flag = BRA_all_parties_shutdown ## IMPORTANT COUNTRY FLAG ##
-                set_country_flag = BRA_estado_novo_established
-                set_variable = { BRA_congress_influence = 0 }
-                set_variable = { BRA_integralist_influence = 0 }
-                every_controlled_state = {
-                    limit = {
-                        has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+            effect_tooltip = {
+                custom_effect_tooltip = BRA_political_parties_shutdown_tt
+                hidden_effect = {
+                    BRA_clear_integralist_opinion = yes 
+                    BRA_clear_congress_opinion = yes 
+                    clr_country_flag = BRA_hostile_communists
+                    set_country_flag = BRA_congress_shutdown
+                    set_country_flag = BRA_integralists_shutdown
+                    set_country_flag = BRA_communists_shutdown
+                    set_country_flag = BRA_all_parties_shutdown ## IMPORTANT COUNTRY FLAG ##
+                    set_country_flag = BRA_estado_novo_established
+                    set_variable = { BRA_congress_influence = 0 }
+                    set_variable = { BRA_integralist_influence = 0 }
+                    every_controlled_state = {
+                        limit = {
+                            has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+                        }
+                        remove_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
                     }
-                    remove_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+                    clear_variable = BRA_communist_subversive_activity
+                    BRA_set_up_political_crisis = yes 
                 }
-                clear_variable = BRA_communist_subversive_activity
-                BRA_set_up_political_crisis = yes 
             }
         } 
     }
@@ -3455,7 +3447,11 @@ BRA_imminent_civil_war = {
         }
 
         ai_will_do = {
-			factor = 195
+			factor = 75
+            modifier = {
+                add = 500
+                check_variable = { BRA_current_army_support > 74 }
+            }
 		}
 
         fire_only_once = yes
@@ -4848,7 +4844,7 @@ BRA_the_brazilian_civil_war = {
 
         cost = 20
 
-        days_remove = 20
+        days_remove = 30
 
         cancel_trigger = {
             OR = {
@@ -6485,7 +6481,7 @@ BRA_peasant_revolt = {
             is_subject = no
         }
 
-        days_mission_timeout = 395 
+        days_mission_timeout = 345 
 
         fire_only_once = yes 
 
@@ -6521,7 +6517,7 @@ BRA_peasant_revolt = {
 			}
         }
 
-        cost = 20
+        cost = 25
 
         days_remove = 35
 
