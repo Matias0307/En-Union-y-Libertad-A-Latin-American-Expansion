@@ -87,7 +87,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
 			add_ideas = PAR_laissez_faire_approach_1
-			EUYL_add_1_civilian = yes
+			EUYL_add_2_civilian = yes
 			custom_effect_tooltip = PAR_people_will_get_angered_tt
 			hidden_effect = {
 				country_event = {
@@ -302,7 +302,7 @@ focus_tree = {
 		cost = 5
 
 		search_filters = {
-			FOCUS_FILTER_INDUSTRY
+			FOCUS_FILTER_RESEARCH
 		}
 		completion_reward = {
 			add_ideas = PAR_national_professors
@@ -327,7 +327,7 @@ focus_tree = {
 		cost = 5
 
 		search_filters = {
-			FOCUS_FILTER_INDUSTRY
+			FOCUS_FILTER_RESEARCH
 		}
 		completion_reward = {
 			add_ideas = PAR_foreign_professors
@@ -347,12 +347,6 @@ focus_tree = {
 		}
 
 		cost = 10
-
-		available = {
-			NOT = {
-				has_idea = PAR_stagnated_economy_1
-			}
-		}
 
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
@@ -508,7 +502,7 @@ focus_tree = {
 			}
 		}
 
-		cost = 7.2
+		cost = 8
 
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
@@ -628,11 +622,12 @@ focus_tree = {
 			}
 		}
 
-		cost = 8
+		cost = 10
 
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
 			EUYL_add_2_military = yes
+			add_manpower = 44500
 			add_timed_idea = {
                 idea = ARG_early_mobilization
                 days = 365
@@ -655,7 +650,8 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
-			EUYL_add_4_military = yes
+			EUYL_add_2_military = yes
+			EUYL_add_1_military = yes 
 		}
 	}
 
@@ -723,7 +719,7 @@ focus_tree = {
             focus = PAR_push_agrarian_reforms
         }
 		
-		cost = 8
+		cost = 10
 
         search_filters = { FOCUS_FILTER_INDUSTRY }
         completion_reward = {
@@ -1036,6 +1032,10 @@ focus_tree = {
 			any_other_country = {
 				has_full_control_of_state = 980
 			}
+			has_army_manpower = {
+				size > 70000
+			}
+			num_of_factories > 20
 		}
 
 		bypass = {
@@ -1246,6 +1246,15 @@ focus_tree = {
 
 		cost = 5
 
+		bypass = {
+			USA = {
+				OR = {
+					has_war_with = ROOT
+					NOT = { has_government = democratic }
+				}
+			}
+		}
+
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			USA = {
@@ -1417,7 +1426,7 @@ focus_tree = {
 		cost = 8
 
 		search_filters = {
-			FOCUS_FILTER_POLITICAL
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY
 		}
 		completion_reward = {
 			add_stability = 0.05
@@ -1452,6 +1461,10 @@ focus_tree = {
 		}
 
 		cost = 10
+		
+		available = {
+			is_faction_leader = yes 
+		}
 
 		search_filters = {
 			FOCUS_FILTER_POLITICAL
@@ -1488,7 +1501,7 @@ focus_tree = {
 		cost = 10
 
 		search_filters = {
-			FOCUS_FILTER_POLITICAL
+			FOCUS_FILTER_INDUSTRY
 		}
 		completion_reward = {
 			every_other_country = {
@@ -1514,8 +1527,14 @@ focus_tree = {
 
 		cost = 10
 
+		available = { 
+			has_army_manpower = {
+				size > 125000
+			}
+		}
+
 		search_filters = {
-			FOCUS_FILTER_POLITICAL
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION
 		}
 		completion_reward = {
 			custom_effect_tooltip = ARG_removecommunismfromcontinent
@@ -1553,8 +1572,14 @@ focus_tree = {
 
 		cost = 10
 
+		available = { 
+			has_army_manpower = {
+				size > 125000
+			}
+		}
+
 		search_filters = {
-			FOCUS_FILTER_POLITICAL
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION
 		}
 		completion_reward = {
 			custom_effect_tooltip = ARG_removefascismfromcontinent
