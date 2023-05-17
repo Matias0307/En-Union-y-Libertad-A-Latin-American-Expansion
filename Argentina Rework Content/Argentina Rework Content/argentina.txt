@@ -2084,19 +2084,255 @@ focus_tree = {
 	focus = { #Coalición de Nacionalistas Unidos (CNU)
 		id = ARG_create_the_CNU
 		icon = GFX_ARG_form_coalition
-		x = 40
+		x = 38
 		y = 0
 		relative_position_id = ARG_infamous_decade
 		mutually_exclusive = { focus = ARG_infamous_decade }
 		mutually_exclusive = { focus = ARG_an_imminent_revolution }
 
 		## Replaces the Infamous Decade Category with Forming the Coalition category
+
+		# Could lead to coup or civil war depending on support and strength of coalition
+		# Strength will depend on fascist support and members part of the coalition
+		# will range from weak to very strong
+		# only if strength is very strong, a coup will occur
+	}
+
+	focus = {
+		id = ARG_stage_nationwide_attacks
+		icon = GFX_focus_POL_riot_of_37
+		x = 0
+		y = 1
+		relative_position_id = ARG_create_the_CNU
+		prerequisite = { focus = ARG_create_the_CNU }
+	}
+
+	focus = {
+		id = ARG_bring_the_oligarchs_into_the_mix
+		icon = GFX_goal_generic_dangerous_deal
+		x = -5
+		y = 1
+		relative_position_id = ARG_stage_nationwide_attacks
+		prerequisite = { focus = ARG_stage_nationwide_attacks }
+	}
+	
+	focus = {
+		id = ARG_rally_sectors_of_the_army
+		icon = GFX_focus_generic_fascist_troops
+		x = -1
+		y = 1
+		relative_position_id = ARG_stage_nationwide_attacks
+		prerequisite = { focus = ARG_stage_nationwide_attacks }
+	}
+
+	focus = {
+		id = ARG_coerce_the_politicans
+		icon = GFX_focus_SWI_embrace_rote_drei
+		x = -1
+		y = 1
+		relative_position_id = ARG_rally_sectors_of_the_army
+		prerequisite = { focus = ARG_rally_sectors_of_the_army }
+	}
+
+	focus = {
+		id = ARG_convince_the_catholic_church
+		icon = GFX_focus_spa_no_compromise_on_carlist_ideals
+		x = 2
+		y = 1
+		relative_position_id = ARG_stage_nationwide_attacks
+		prerequisite = { focus = ARG_stage_nationwide_attacks }
+	}
+
+	focus = {
+		id = ARG_arm_the_catholics
+		icon = GFX_focus_mex_restore_the_army_of_christ
+		x = -1
+		y = 1
+		relative_position_id = ARG_convince_the_catholic_church
+		prerequisite = { focus = ARG_convince_the_catholic_church }
+		prerequisite = { focus = ARG_rally_sectors_of_the_army }
+	}
+
+	focus = {
+		id = ARG_spread_word_of_the_coalition
+		icon = GFX_goal_generic_propaganda
+		x = 4
+		y = 1
+		relative_position_id = ARG_stage_nationwide_attacks
+		prerequisite = { focus = ARG_stage_nationwide_attacks }
+	}
+
+	focus = {
+		id = ARG_assasinate_those_against_us
+		icon = GFX_ARG_political_assasination
+		x = 0
+		y = 2
+		relative_position_id = ARG_rally_sectors_of_the_army
+		prerequisite = { focus = ARG_rally_sectors_of_the_army }
+	}
+
+	focus = { #will auto trigger the effect of the mission countdown
+		id = ARG_government_crackdown
+		icon = GFX_ARG_gov_crackdown
+		x = -2
+		y = 1
+		relative_position_id = ARG_assasinate_those_against_us
+		prerequisite = { focus = ARG_assasinate_those_against_us }
+		mutually_exclusive = { focus = ARG_catholic_takeover }
+		mutually_exclusive = { focus = ARG_a_different_approach }
+
+		## Starts a BoP between the coalition and the political enemies 
+	}
+
+	focus = { #will immediately trigger a civil war 
+		id = ARG_catholic_takeover
+		icon = GFX_focus_generic_vatican_state
+		x = 1
+		y = 3
+		relative_position_id = ARG_convince_the_catholic_church
+		prerequisite = { focus = ARG_convince_the_catholic_church }
+		mutually_exclusive = { focus = ARG_government_crackdown }
+		mutually_exclusive = { focus = ARG_a_different_approach }
+
+		## Starts a BoP between the church and the state
+	}
+
+	focus = {
+		id = ARG_desecularization_effort
+		icon = GFX_focus_generic_catholic_dominion
+		x = -1
+		y = 1
+		relative_position_id = ARG_catholic_takeover
+		prerequisite = { focus = ARG_catholic_takeover }
+	}
+
+	focus = {
+		id = ARG_reservist_mobilization
+		icon = GFX_ARG_quantity
+		x = -3
+		y = 1
+		relative_position_id = ARG_catholic_takeover
+		prerequisite = {
+			focus = ARG_government_crackdown
+			focus = ARG_catholic_takeover
+		}
+	}
+
+	focus = {
+		id = ARG_seize_local_arms_factory
+		icon = GFX_focus_generic_tank_production
+		x = 0
+		y = 1 
+		relative_position_id = ARG_reservist_mobilization
+		prerequisite = { focus = ARG_reservist_mobilization }
+	}
+
+	focus = {
+		id = ARG_the_holy_army
+		icon = GFX_ARG_the_holy_army
+		x = 2
+		y = 1
+		relative_position_id = ARG_catholic_takeover
+		prerequisite = { focus = ARG_catholic_takeover }
+	}
+
+	focus = {
+		id = ARG_
+	}
+
+	focus = {
+		id = ARG_empower_meinvielle
+		icon = GFX_ARG_meinvielle
+		x = -1
+		y = 1
+		relative_position_id = ARG_the_holy_army
+		prerequisite = { focus = ARG_the_holy_army }
+	}
+
+	focus = {
+		id = ARG_empower_the_independents
+		icon = GFX_goal_generic_forceful_treaty
+		x = 1
+		y = 1
+		relative_position_id = ARG_spread_word_of_the_coalition
+		prerequisite = {
+			focus = ARG_convince_the_catholic_church
+			focus = ARG_spread_word_of_the_coalition
+		}
+	}
+
+	focus = {
+		id = ARG_the_one_true_papal_state
+		icon = GFX_focus_generic_pope
+		x = 0
+		y = 1
+		relative_position_id = ARG_empower_meinvielle
+		prerequisite = { 
+			focus = ARG_empower_meinvielle
+			#focus = ARG_desecularization_effort
+		}
+		mutually_exclusive = { focus = ARG_establish_the_TNM }
+	}
+
+	focus = {
+		id = ARG_reclaim_our_original_land
+		icon = GFX_ARG_reclaim_the_original_lands
+		x = 0
+		y = 1
+		relative_position_id = ARG_the_one_true_papal_state
+		prerequisite = { focus = ARG_the_one_true_papal_state }
+	}
+
+	focus = {
+		id = ARG_the_holy_crusades
+		icon = GFX_
+		x = 2
+		y = 1
+		relative_position_id = ARG_the_one_true_papal_state
+		prerequisite = { focus = ARG_the_one_true_papal_state }
+		prerequisite = { focus = ARG_the_holy_army }
+	}
+
+	focus = {
+		id = ARG_the_quest_for_jerusalum
+		icon = GFX_
+		x = -1
+		y = 1
+		relative_position_id = ARG_the_holy_crusades
+		prerequisite = { focus = ARG_the_holy_crusades }
+		prerequisite = { focus = ARG_reclaim_our_original_land }
+	}
+
+	focus = { #Tacuara Nationalist Movement
+		id = ARG_establish_the_TNM
+		icon = GFX_ARG_tnm
+		x = -2
+		y = 1
+		relative_position_id = ARG_empower_meinvielle
+		prerequisite = {
+			focus = ARG_desecularization_effort
+			focus = ARG_empower_meinvielle
+		}
+		mutually_exclusive = { focus = ARG_the_one_true_papal_state }
+	}
+
+	focus = {
+		id = ARG_a_different_approach
+		icon = GFX_ARG_drift_back_towards_the_confederation
+		x = 4
+		y = 2
+		relative_position_id = ARG_empower_the_independents
+		prerequisite = { focus = ARG_empower_the_independents }
+		mutually_exclusive = { focus = ARG_catholic_takeover }
+		mutually_exclusive = { focus = ARG_government_crackdown }
+
+		## Starts a BoP between the federalists and the unionists
 	}
 	
 	focus = {
 		id = ARG_drift_back_towards_the_confederation
 		icon = GFX_ARG_drift_back_towards_the_confederation
-		x = 37
+		x = 34
 		y = 20
 		relative_position_id = ARG_infamous_decade
 		prerequisite = { }
@@ -2717,11 +2953,11 @@ focus_tree = {
 	focus = {
 		id = ARG_improve_our_consumer_sector
 		icon = GFX_goal_generic_consumer_goods
-		x = 2
+		x = -1
 		y = 1
-		relative_position_id = ARG_expand_the_industry
-		prerequisite = { focus = ARG_expand_the_industry }
-		prerequisite = { focus = ARG_viva_la_industria }
+		relative_position_id = ARG_establish_hydroelectric_powerplants
+		prerequisite = { focus = ARG_establish_hydroelectric_powerplants }
+
 		
 		cost = 5
 		
@@ -2744,10 +2980,10 @@ focus_tree = {
 	focus = {
 		id = ARG_tackle_our_economic_woes
 		icon = GFX_focus_generic_industry_3
-		x = 0
+		x = 1
 		y = 1
-		relative_position_id = ARG_improve_our_consumer_sector
-		prerequisite = { focus = ARG_improve_our_consumer_sector }
+		relative_position_id = ARG_establish_hydroelectric_powerplants
+		prerequisite = { focus = ARG_establish_hydroelectric_powerplants }
 		
 		cost = 10
 		
@@ -2757,7 +2993,6 @@ focus_tree = {
 		
 		available = {
 			is_subject = no
-			has_government = fascism
 			custom_trigger_tooltip = {
 				tooltip = ARG_not_suffering_inflation
 				NOT = {
@@ -2819,11 +3054,12 @@ focus_tree = {
 	focus = {
 		id = ARG_attract_foreign_investors
 		icon = GFX_ARG_attract_investors
-		x = 0
-		y = 2
-		relative_position_id = ARG_expand_the_industry
+		x = -1
+		y = 1
+		relative_position_id = ARG_continue_Hipolitos_legacy
 		prerequisite = {
-			focus = ARG_modernize_our_construction_companies
+			focus = ARG_continue_Hipolitos_legacy
+			focus = ARG_invest_in_our_infrastructure
 		}
 		
 		cost = 10
@@ -2842,8 +3078,8 @@ focus_tree = {
 		icon = GFX_goal_generic_construct_infrastructure 
 		x = 0
 		y = 1
-		relative_position_id = ARG_attract_foreign_investors
-		prerequisite = { focus = ARG_attract_foreign_investors }
+		relative_position_id = ARG_militarize_our_economy
+		prerequisite = { focus = ARG_militarize_our_economy }
 		
 		cost = 8
 		
@@ -2926,11 +3162,10 @@ focus_tree = {
 	focus = {
 		id = ARG_develop_uruguay
 		icon = GFX_ARG_develop_uruguayan
-		x = -3
+		x = 0
 		y = 1
-		relative_position_id = ARG_build_better_highways
+		relative_position_id = ARG_annex_uruguay
 		prerequisite = { focus = ARG_annex_uruguay }
-		prerequisite = { focus = ARG_build_better_highways }
 		
 		cost = 10
 		
@@ -3524,10 +3759,13 @@ focus_tree = {
 	focus = {
 		id = ARG_militarize_our_economy
 		icon = GFX_goal_generic_construct_mil_factory
-		x = -1
+		x = 2
 		y = 1
-		relative_position_id = ARG_win_the_second_cisplatine_war
-		prerequisite = { focus = ARG_win_the_second_cisplatine_war }
+		relative_position_id = ARG_the_holy_army
+		prerequisite = { 
+			focus = ARG_the_holy_army 
+			focus = ARG_a_different_approach
+		}
 		
 		cost = 4
 		
@@ -3536,11 +3774,7 @@ focus_tree = {
 		}
 		
 		available = {
-			has_war_with = BRA
-			OR = {
-				has_idea = ARG_the_second_cisplatine_war
-				has_idea = ARG_the_second_cisplatine_war_2 
-			}
+			has_civil_war = yes 
 		}
 		
 		cancel_if_invalid = yes
@@ -3573,7 +3807,7 @@ focus_tree = {
 		x = 1
 		y = 1
 		relative_position_id = ARG_win_the_second_cisplatine_war
-		prerequisite = { focus = ARG_win_the_second_cisplatine_war }
+
 		
 		
 		cost = 4
@@ -3607,9 +3841,7 @@ focus_tree = {
 		x = 0
 		y = 2
 		relative_position_id = ARG_win_the_second_cisplatine_war
-		prerequisite = { focus = ARG_decimate_the_brazilian_navy }
-		prerequisite = { focus = ARG_militarize_our_economy }
-		
+
 		
 		cost = 5
 		
@@ -3660,11 +3892,14 @@ focus_tree = {
 	focus = {
 		id = ARG_adopt_an_expansionist_policy
 		icon = GFX_goal_generic_major_war
-		x = 5
-		y = 1
-		relative_position_id = ARG_etsablish_the_confederation
-		prerequisite = { focus = ARG_etsablish_the_confederation }
-		
+		x = -1
+		y = 4
+		relative_position_id = ARG_the_one_true_papal_state
+		prerequisite = { 
+			focus = ARG_the_one_true_papal_state 
+			focus = ARG_establish_the_TNM
+
+		}
 		
 		cost = 5
 		
@@ -3677,9 +3912,8 @@ focus_tree = {
 	
 	focus = {
 		id = ARG_prepare_the_navy
-		icon = GFX_goal_generic_amphibious_assault
-#this line fucked lol		
-		x = -2
+		icon = GFX_goal_generic_amphibious_assault	
+		x = -4
 		y = 1
 		relative_position_id = ARG_adopt_an_expansionist_policy
 		prerequisite = { focus = ARG_adopt_an_expansionist_policy }
@@ -3866,7 +4100,7 @@ focus_tree = {
 	focus = {
 		id = ARG_prepare_the_army
 		icon = GFX_focus_generic_little_entente
-		x = 2
+		x = 1
 		y = 1
 		relative_position_id = ARG_adopt_an_expansionist_policy
 		prerequisite = { focus = ARG_adopt_an_expansionist_policy }
@@ -4035,8 +4269,10 @@ focus_tree = {
 		x = 0
 		y = 2
 		relative_position_id = ARG_prepare_the_army
-		prerequisite = { focus = ARG_demand_florianopolis }
-		prerequisite = { focus = ARG_demand_tarija }
+		prerequisite = { 
+			focus = ARG_demand_florianopolis 
+			focus = ARG_demand_tarija
+		}
 		will_lead_to_war_with = CHL
 		
 		cost = 8
@@ -4080,8 +4316,7 @@ focus_tree = {
 		x = 0
 		y = 4
 		relative_position_id = ARG_adopt_an_expansionist_policy
-		prerequisite = { focus = ARG_integrate_the_rest_of_patagonia }
-		prerequisite = { focus = ARG_go_a_step_further }
+
 		
 		cost = 10
 		
@@ -5022,8 +5257,8 @@ focus_tree = {
 		icon = GFX_ARG_federalize_our_economy
 		x = 0
 		y = 2
-		relative_position_id = ARG_build_better_highways
-		prerequisite = { focus = ARG_build_better_highways }
+		relative_position_id = ARG_develop_uruguay
+
 		prerequisite = { focus = ARG_develop_uruguay }
 		
 		cost = 10
@@ -6212,45 +6447,13 @@ focus_tree = {
 		
 		cost = 5
 		
-		available = {
-			278 = {
-				is_controlled_by = ROOT
-			}
-			966 = {
-				is_controlled_by = ROOT
-			}
-			510 = {
-				is_controlled_by = ROOT
-			}
-		}
-		
 		cancel_if_invalid = yes
 		continue_if_invalid = no
 		available_if_capitulated = no
 		
 		search_filters = { }
 		completion_reward = {
-			278 = {
-				add_building_construction = {
-					type = air_base
-					level = 1
-					instant_build = yes
-				}
-			}
-			966 = {
-				add_building_construction = {
-					type = air_base
-					level = 1
-					instant_build = yes
-				}
-			}
-			510 = {
-				add_building_construction = {
-					type = air_base
-					level = 2
-					instant_build = yes
-				}
-			}
+			EUYL_add_3_air_base = yes 
 		}
 	}
 	
@@ -6340,53 +6543,12 @@ focus_tree = {
 		
 		cost = 5
 		
-		available = {
-			510 = {
-				is_controlled_by = ROOT
-				is_core_of = ROOT
-				air_base < 8
-			}
-			979 = {
-				is_controlled_by = ROOT
-				is_core_of = ROOT
-				air_base < 8
-			}
-			978 = {
-				is_controlled_by = ROOT
-				is_core_of = ROOT
-				air_base < 8
-			}
-		}
-		
-		bypass = {
-		}
-		
 		cancel_if_invalid = yes
 		continue_if_invalid = no
 		available_if_capitulated = no
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		completion_reward = {
-			510 = {
-				add_building_construction = {
-					type = air_base
-					level = 1
-					instant_build = yes
-				}
-			}
-			979 = {
-				add_building_construction = {
-					type = air_base
-					level = 1
-					instant_build = yes
-				}
-			}
-			978 = {
-				add_building_construction = {
-					type = air_base
-					level = 1
-					instant_build = yes
-				}
-			}
+			EUYL_add_3_air_base = yes
 		}
 	}
 	
@@ -6440,6 +6602,8 @@ focus_tree = {
 			has_global_flag = ARG_elections_active
 			is_subject = no
 		}
+
+		## Starts a BoP between the government and the military || Historical
 		
 		cancel_if_invalid = yes
 		continue_if_invalid = no
@@ -6533,6 +6697,8 @@ focus_tree = {
 		prerequisite = { focus = ARG_infamous_decade }
 		mutually_exclusive = { focus = ARG_partido_socialista }
 		mutually_exclusive = { focus = ARG_concordancia }
+
+		## Starts a BoP between Azules and Grises
 		
 		cost = 5
 		
@@ -6559,6 +6725,8 @@ focus_tree = {
 		relative_position_id = ARG_infamous_decade
 		mutually_exclusive = { focus = ARG_infamous_decade }
 		mutually_exclusive = { focus = ARG_create_the_coalition }
+
+		## Starts a BoP between the Communists and the Anarchists 
 	}
 
 	focus = {
@@ -6685,14 +6853,7 @@ focus_tree = {
 		prerequisite = { focus = ARG_work_with_the_oligarchs }
 	}
 
-	focus = { #will start a BoP between the communists and anarchists
-
-		## The way this BoP will work is simple, if its halfway when the civil war starts, the Anarchists have a large influence and if not friendly, will be a burden to the player
-		## If its over 65% towards either side, that side will take over in the civil war 
-		## Adding onto the halfway point, if the treaty with the anarchists is made 
-
-		##Maybe won't do this lol, seems too complicated
-
+	focus = { 
 		id = ARG_a_bloody_revolution
 		icon = GFX_CHL_bloodshed
 		x = -1
@@ -7913,6 +8074,8 @@ focus_tree = {
 		prerequisite = { focus = ARG_infamous_decade }
 		mutually_exclusive = { focus = ARG_union_civica_radical }
 		mutually_exclusive = { focus = ARG_concordancia }
+
+		## Starts a BoP between the Socialists and the Military
 	}
 
 	focus = {
@@ -10303,7 +10466,7 @@ focus_tree = {
 	
 	focus = { #Roberto is the chosen One
 		id = ARG_save_roberto
-		icon = GFX_ARG_save_roberto
+		icon = GFX_ARG_roberto_leads
 		x = -4
 		y = 3
 		relative_position_id = ARG_concordancia
@@ -10628,7 +10791,10 @@ focus_tree = {
 		x = 4
 		y = 1
 		relative_position_id = ARG_consolidate_power
-		prerequisite = { focus = ARG_consolidate_power }
+		prerequisite = { 
+			focus = ARG_consolidate_power 
+
+		}
 		mutually_exclusive = { focus = ARG_a_traditional_approach }
 	}
 
@@ -10979,12 +11145,11 @@ focus_tree = {
 	focus = {
 		id = ARG_soviet_economic_aid
 		icon = GFX_goal_generic_soviet_construction
-		x = 1
+		x = 0
 		y = 1
-		relative_position_id = ARG_join_the_soviets
+		relative_position_id = ARG_offer_universal_education
 		prerequisite = {
-			focus = ARG_our_own_communism
-			focus = ARG_join_the_soviets
+			focus = ARG_offer_universal_education
 		}
 		
 		cost = 10
