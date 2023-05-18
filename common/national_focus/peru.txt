@@ -1056,10 +1056,26 @@ focus_tree = {
 		relative_position_id = PRU_oppress_the_communists
 		x = 1
 		y = 1
-		
-		available = {
+		allow_branch = {
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					OR = {	
+						has_completed_focus = PRU_delay_democracy
+						has_completed_focus = PRU_the_state_serves_the_people
+					}
+				}
+			}
 		}
-		
+
+		available = {
+			has_civil_war = no 
+		}
 		ai_will_do = {
 			factor = 25
 			modifier = {
@@ -1090,6 +1106,15 @@ focus_tree = {
 				set_variable = { PRU_chance_of_peaceful_coup = 0 }
 				set_variable = { PRU_size_of_government = 0.8 }
 				set_country_flag = PRU_coup_being_planned
+			}
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				mark_focus_tree_layout_dirty = yes
 			}
 		}		
 		cost = 2
@@ -3354,8 +3379,38 @@ focus_tree = {
 		relative_position_id = PRU_oppress_the_communists
 		x = -12
 		y = 1
+
+		offset = {
+			x = 12
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = PRU_delay_democracy
+			}
+		}
+
+		allow_branch = {
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					OR = {	
+						has_completed_focus = PRU_the_people_serve_the_state
+						has_completed_focus = PRU_the_state_serves_the_people
+					}
+				}
+			}
+		}
 		
 		available = {
+			has_civil_war = no 
 		}
 		
 		ai_will_do = {
@@ -3369,6 +3424,15 @@ focus_tree = {
 			add_popularity = {
 				ideology = neutrality
 				popularity = 0.05
+			}
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				mark_focus_tree_layout_dirty = yes
 			}
 		}		
 		cost = 5
@@ -4698,8 +4762,38 @@ focus_tree = {
 		relative_position_id = PRU_oppress_the_communists
 		x = 14
 		y = 1
-		
+
+		allow_branch = {
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					OR = {	
+						has_completed_focus = PRU_the_people_serve_the_state
+						has_completed_focus = PRU_delay_democracy
+					}
+				}
+			}
+		}
+
+		offset = {
+			x = -14
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = PRU_the_state_serves_the_people
+			}
+		}
+
 		available = {
+			has_civil_war = no 
 		}
 		
 		ai_will_do = {
@@ -4742,6 +4836,15 @@ focus_tree = {
 					}
 				}	
 			}	
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				mark_focus_tree_layout_dirty = yes
+			}
 		}		
 		cost = 6
 		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_ARMY_NAVY_RIVALRY FOCUS_FILTER_HISTORICAL}
