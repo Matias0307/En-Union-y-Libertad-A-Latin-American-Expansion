@@ -1802,6 +1802,72 @@ operations = {
 		}
 	}
 
+	BOL_invite_vicente_rojo_to_the_military_school = {
+		icon = eng_trade_unions_support
+
+		allowed = { original_tag = BOL }
+
+		available = {
+			exists = yes 
+			SPR = {
+				OR = {
+					exists = no 
+					has_capitulated = yes 
+					surrender_progress > 0.7
+				}
+			}
+		}
+
+		cost = 25
+
+		fire_only_once = yes 
+
+		complete_effect = {
+			custom_effect_tooltip = BOL_viente_rojo_available_tt
+			hidden_effect = {
+				BOL_vicente_rojo = {
+					clr_character_flag = BRA_living_in_the_exterior
+				}
+			}
+		}
+	}
+
+	BOL_promote_manuel_marzana_oroza = {
+		icon = generic_army_support
+
+		allowed = { original_tag = BOL }
+
+		available = {
+			OR = {
+				has_war = yes 
+				date > 1937.1.1
+			}
+			hidden_trigger = {
+				has_political_power > 24
+				command_power > 24
+			}
+		}
+
+		custom_cost_text = BRA_cost_25_pol_command
+
+		custom_cost_trigger = {
+			has_political_power > 24
+			command_power > 24
+		}
+
+		fire_only_once = yes 
+
+		complete_effect = {
+			hidden_effect = {
+				add_political_power = -25
+				add_command_power = -25
+			}
+			add_war_support = 0.05
+			custom_effect_tooltip = BOL_promote_manuel_tt
+			set_country_flag = BOL_promoted_manuel
+		}
+	}
+
 	CHL_deal_with_rebellion_in_FROM = {
 		icon = oppression
 
@@ -2360,6 +2426,77 @@ foreign_politics = {
 }
 
 economy_decisions = {
+	BOL_develop_the_province_of_FROM = {
+		icon = generic_construction
+
+		allowed = { original_tag = BOL }
+
+		state_target = yes 
+
+		target_array = controlled_states
+
+		on_map_mode = map_and_decisions_view
+
+		target_trigger = {
+			FROM = {
+				has_dynamic_modifier = { modifier = BOL_underdeveloped_province }
+			}
+		}
+
+		available = {
+			FROM = {
+				is_fully_controlled_by = ROOT
+			}
+			hidden_trigger = {
+				NOT = {
+					has_country_flag = BOL_developing_province
+				}
+			}
+		}
+
+		visible = {
+			has_completed_focus = BOL_the_bohen_plan
+		}
+
+		fire_only_once = yes 
+
+		cancel_trigger = {
+			FROM = {
+				NOT = {
+					is_controlled_by = ROOT
+				}
+			}
+		}
+
+		cost = 25
+
+		days_remove = 70
+
+		modifier = {
+			production_speed_buildings_factor = -0.1
+			consumer_goods_factor = 0.1
+		}
+
+		complete_effect = {
+			set_country_flag = BOL_developing_province
+		}
+
+		remove_effect = {
+			clr_country_flag = BOL_developing_province
+			FROM = {
+				remove_dynamic_modifier = { 
+					modifier = BOL_underdeveloped_province
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes 
+				}
+			}
+		}
+	}
+
 	infrastructure_building_slot = {
 
 		icon = generic_construction
