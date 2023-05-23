@@ -711,7 +711,7 @@ focus_tree = {
 		x = 7
 		y = 0
 		
-		cost = 2
+		cost = 5
 		
 		ai_will_do = {
 			factor = 100
@@ -729,9 +729,10 @@ focus_tree = {
 		available_if_capitulated = no
 		search_filters = {FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
+			EUYL_add_1_civilian = yes 
 			add_tech_bonus = {
 				name = ARG_focus_economy
-				bonus = 0.5
+				bonus = 1.0
 				uses = 1
 				category = industry
 			}
@@ -2172,6 +2173,7 @@ focus_tree = {
 		available_if_capitulated = no
 		search_filters = {FOCUS_FILTER_POLITICAL}
 		completion_reward = {
+			activate_mission = ARG_government_crackdown
 			custom_effect_tooltip = ARG_elections_called_off_tt
 			add_political_power = 25
 			set_party_name = {
@@ -2194,6 +2196,18 @@ focus_tree = {
 				}
 				mark_focus_tree_layout_dirty = yes
 			}
+			hidden_effect = {
+				972 = {
+					set_state_flag = ARG_federalist_state
+				}
+				982 = {
+					set_state_flag = ARG_federalist_state
+				}
+				510 = {
+					set_state_flag = ARG_federalist_state
+				}
+				set_variable = { ARG_civil_war_military_equipment = 0.65 }
+			}
 		}
 	}
 	
@@ -2209,13 +2223,16 @@ focus_tree = {
 			factor = 100
 		}
 		
-		cost = 4
+		cost = 10
 		
 		available = {
 			is_subject = no
+			has_active_mission = ARG_government_crackdown
 		}
 		
 		bypass = {
+			has_completed_focus = ARG_drift_back_towards_the_confederation
+			has_government = fascism
 		}
 		
 		cancel_if_invalid = yes
@@ -2225,6 +2242,39 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = ARG_northern
 			add_popularity = { ideology = fascism popularity = 0.05 }
+			add_days_mission_timeout = {
+				mission = ARG_government_crackdown
+				days = 5
+			}
+			hidden_effect = {
+				975 = {
+					set_state_flag = ARG_federalist_state
+				}
+				976 = {
+					set_state_flag = ARG_federalist_state
+				}
+				977 = {
+					set_state_flag = ARG_federalist_state
+				}
+				508 = {
+					set_state_flag = ARG_federalist_state
+				}
+				978 = {
+					set_state_flag = ARG_federalist_state
+				}
+				979 = {
+					set_state_flag = ARG_federalist_state
+				}
+				983 = {
+					set_state_flag = ARG_federalist_state
+				}
+				973 = {
+					set_state_flag = ARG_federalist_state
+				}
+				981 = {
+					set_state_flag = ARG_federalist_state
+				}
+			}
 		}
 	}
 	
@@ -2244,9 +2294,12 @@ focus_tree = {
 		
 		available = {
 			is_subject = no
+			has_active_mission = ARG_government_crackdown
 		}
 		
 		bypass = {
+			has_completed_focus = ARG_drift_back_towards_the_confederation
+			has_government = fascism
 		}
 		
 		cancel_if_invalid = yes
@@ -2256,6 +2309,10 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = ARG_gainsupport
 			add_popularity = { ideology = fascism popularity = 0.05 }
+			custom_effect_tooltip = EUYL_start_of_civil_war_gain_following_tt
+			effect_tooltip = {
+				add_manpower = 44500
+			}
 		}
 	}
 	
@@ -2275,9 +2332,12 @@ focus_tree = {
 		
 		available = {
 			is_subject = no
+			has_active_mission = ARG_government_crackdown
 		}
 		
 		bypass = {
+			has_completed_focus = ARG_drift_back_towards_the_confederation
+			has_government = fascism
 		}
 		
 		cancel_if_invalid = yes
@@ -2287,6 +2347,7 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = ARG_workers_support
 			add_popularity = { ideology = fascism popularity = 0.05 }
+			add_to_variable = { ARG_civil_war_military_equipment = 0.3 }
 		}
 	}
 	
@@ -2296,20 +2357,26 @@ focus_tree = {
 		x = -1
 		y = 2
 		relative_position_id = ARG_drift_back_towards_the_confederation
-		prerequisite = { focus = ARG_gain_the_support_of_the_population }
-		prerequisite = { focus = ARG_secure_the_northern_provinces }
+		prerequisite = { 
+			focus = ARG_gain_the_support_of_the_population 
+			focus = ARG_secure_the_northern_provinces
+		}
+
 		
 		ai_will_do = {
 			factor = 100
 		}
 		
-		cost = 5
+		cost = 4
 		
 		available = {
 			is_subject = no
+			has_active_mission = ARG_government_crackdown
 		}
 		
 		bypass = {
+			has_completed_focus = ARG_drift_back_towards_the_confederation
+			has_government = fascism
 		}
 		
 		cancel_if_invalid = yes
@@ -2328,20 +2395,25 @@ focus_tree = {
 		x = 1
 		y = 2
 		relative_position_id = ARG_drift_back_towards_the_confederation
-		prerequisite = { focus = ARG_gain_the_support_of_the_workers }
-		prerequisite = { focus = ARG_secure_the_northern_provinces }
+		prerequisite = { 
+			focus = ARG_gain_the_support_of_the_workers 
+			focus = ARG_secure_the_northern_provinces
+		}
 		
 		ai_will_do = {
 			factor = 100
 		}
 		
-		cost = 5
+		cost = 4
 		
 		available = {
 			is_subject = no
+			has_active_mission = ARG_government_crackdown
 		}
 		
 		bypass = {
+			has_completed_focus = ARG_drift_back_towards_the_confederation
+			has_government = fascism
 		}
 		
 		cancel_if_invalid = yes
@@ -2384,8 +2456,15 @@ focus_tree = {
 		x = 0
 		y = 3
 		relative_position_id = ARG_drift_back_towards_the_confederation
-		prerequisite = { focus = ARG_gain_the_support_of_the_high_command }
-		prerequisite = { focus = ARG_gain_the_support_of_the_military }
+		prerequisite = { 
+			focus = ARG_gain_the_support_of_the_high_command 
+			focus = ARG_gain_the_support_of_the_military
+		}
+
+		available = {
+			has_active_mission = ARG_government_crackdown
+			has_civil_war = no 
+		}
 		
 		ai_will_do = {
 			factor = 175
@@ -2405,19 +2484,21 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			custom_effect_tooltip = ARG_civilwar
-			set_capital = { state = 982 }
 			start_civil_war = {
 				ruling_party = fascism
 				ideology = ROOT
 				size = 0.5
 				capital = 966
-				states = {
-					278 966 971 974 511 970 512 969 968 967
+				states = all 
+				states_filter = {
+					NOT = { has_state_flag = ARG_federalist_state }
 				}
 				keep_unit_leaders = {
 					14855 14856
 				}
 			}
+
+			set_capital = { state = 982 }
 			
 			hidden_effect = {
 				add_ideas = ARG_death_to_the_Unitarios
@@ -2442,25 +2523,45 @@ focus_tree = {
 						infantry = { x = 3 y = 1 } 
 					} 
 				}
-				every_controlled_state = {
-					create_unit = {
-						division = "name = \"Federales\" division_template = \"Federales\" start_experience_factor = 0 start_equipment_factor = 0.6" 
-						owner = ROOT
-						count = 2
+				if = {
+					limit = {
+						has_completed_focus = ARG_gain_the_support_of_the_population
+					}
+					add_manpower = 44500
+				}
+				if = {
+					limit = {
+						has_completed_focus = ARG_gain_the_support_of_the_workers
+					}
+					every_controlled_state = {
+						create_unit = {
+							division = "name = \"Federales\" division_template = \"Federales\" start_experience_factor = 0 start_equipment_factor = 0.9" 
+							owner = ROOT
+							count = 2
+						}
 					}
 				}
-				capital_scope = {
-					create_unit = {
-						division = "name = \"Federales\" division_template = \"Federales\" start_experience_factor = 0 start_equipment_factor = 0.6" 
-						owner = ROOT
-						count = 1
+				else = {
+					every_controlled_state = {
+						create_unit = {
+							division = "name = \"Federales\" division_template = \"Federales\" start_experience_factor = 0 start_equipment_factor = 0.6" 
+							owner = ROOT
+							count = 2
+						}
 					}
 				}
 				random_owned_controlled_state = {
 					create_unit = {
-						division = "name = \"Division de Infanteria Federalista\" division_template = \"Division de Infanteria Federalista\" start_experience_factor = 0.1 start_equipment_factor = 0.7" 
+						division = "name = \"Division de Infanteria Federalista\" division_template = \"Division de Infanteria Federalista\" start_experience_factor = 0.1 start_equipment_factor = ARG_civil_war_military_equipment_var" 
 						owner = ROOT
 						count = 2
+					}
+				}
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"Federales\" division_template = \"Federales\" start_experience_factor = 0 start_equipment_factor = ARG_civil_war_military_equipment_var" 
+						owner = ROOT
+						count = 3
 					}
 				}
 			}
@@ -2493,20 +2594,21 @@ focus_tree = {
 						}
 						every_controlled_state = {
 							create_unit = {
-								division = "name = \"Unitarios\" division_template = \"Unitarios\" start_experience_factor = 0 start_equipment_factor = 0.3" 
+								division = "name = \"Unitarios\" division_template = \"Unitarios\" start_experience_factor = 0 start_equipment_factor = 0.5" 
 								owner = PREV
 								count = 2
 							}
 						}
 						capital_scope = {
 							create_unit = {
-								division = "name = \"Unitarios\" division_template = \"Unitarios\" start_experience_factor = 0 start_equipment_factor = 0.3" 
+								division = "name = \"Unitarios\" division_template = \"Unitarios\" start_experience_factor = 0 start_equipment_factor = 0.65" 
 								owner = PREV
 								count = 3
 							}
 							create_unit = {
 								division = "name = \"Division de Infanteria Unitaria\" division_template = \"Division de Infanteria Unitaria\" start_experience_factor = 0.1 start_equipment_factor = 0.7" 
 								owner = PREV
+								count = 2
 							}
 						}
 					}

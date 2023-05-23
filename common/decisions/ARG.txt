@@ -261,9 +261,9 @@ ARG_managing_the_army = {
 		priority = 15
 		icon = eng_propaganda_campaigns
 
-		cost = 20
+		cost = 30
 
-		days_remove = 70
+		days_remove = 140
 
 		available = {
 			has_completed_focus = ARG_ready_the_economy_for_war
@@ -273,6 +273,10 @@ ARG_managing_the_army = {
 		
 		ai_will_do = {
 			factor = 250
+		}
+
+		modifier = {
+			political_power_factor = -0.1
 		}
 
 		visible = {
@@ -1272,56 +1276,196 @@ ARG_robertos_deteriorating_health_condition = {
 }
 
 ARG_the_argentine_civil_war = {
-	
-	ARG_purchase_italian_weapons = {
-		priority = 10
-		icon = generic_industry
-		
-		allowed = {
-			tag = ARG
-		}
-		
+
+	ARG_government_crackdown = {
+		priority = 100
+		icon = generic_ignite_civil_war
+
+		activation = { always = no }
+
 		available = {
-			ITA = {
-				is_subject = no
-				NOT = {
-					has_war_with = ROOT
-				}
+			OR = {
+				has_civil_war = yes 
+				has_government = fascism
+				has_completed_focus = ARG_launch_the_civil_war
 			}
 		}
-		
-		cost = 40
-		
-		fire_only_once = yes
-		
-		ai_will_do = {
-			factor = 250
-		}
-		
-		complete_effect = {
-			add_equipment_to_stockpile = {
-				type = infantry_equipment
-			    amount = 600
-			    producer = ITA
+
+		days_mission_timeout = 185
+
+		is_good = no 
+
+		timeout_effect = {
+			effect_tooltip = {
+				start_civil_war = {
+					ideology = fascism
+				}
+			}
+			set_temp_variable = { ARG_civil_war_military_equipment_var = ARG_civil_war_military_equipment }
+			hidden_effect = {
+				start_civil_war = {
+					ruling_party = fascism
+					ideology = ROOT
+					size = 0.5
+					capital = 966
+					states = all 
+					states_filter = {
+						NOT = { has_state_flag = ARG_federalist_state }
+					}
+					keep_unit_leaders = {
+						14855 14856
+					}
+				}
+
+				set_capital = { state = 982 }
+
+				every_controlled_state = {
+					limit = { has_state_flag = ARG_federalist_state }
+					clr_state_flag = ARG_federalist_state
+				}
+				
+				hidden_effect = {
+					add_ideas = ARG_death_to_the_Unitarios
+					set_country_flag = ARG_civil_war_confederation
+					country_event = { id = argentina.70 days = 6 random = 32 }
+				}
+				
+				hidden_effect = {
+					division_template = { name = "Federales" division_names_group = SPAN_INF_02 is_locked = no regiments = { infantry = { x = 0 y = 0 } infantry = { x = 1 y = 0 } infantry = { x = 2 y = 0 } infantry = { x = 3 y = 0 } } }
+					division_template = { 
+						name = "Division de Infanteria Federalista" 
+						division_names_group = SPAN_INF_02 
+						is_locked = no 
+						regiments = { 
+							infantry = { x = 0 y = 0 } 
+							infantry = { x = 1 y = 0 } 
+							infantry = { x = 2 y = 0 } 
+							infantry = { x = 3 y = 0 } 
+							infantry = { x = 0 y = 1 } 
+							infantry = { x = 1 y = 1 } 
+							infantry = { x = 2 y = 1 } 
+							infantry = { x = 3 y = 1 } 
+						} 
+					}
+					if = {
+						limit = {
+							has_completed_focus = ARG_gain_the_support_of_the_workers
+						}
+						every_controlled_state = {
+							create_unit = {
+								division = "name = \"Federales\" division_template = \"Federales\" start_experience_factor = 0 start_equipment_factor = 0.9" 
+								owner = ROOT
+								count = 2
+							}
+						}
+					}
+					else = {
+						every_controlled_state = {
+							create_unit = {
+								division = "name = \"Federales\" division_template = \"Federales\" start_experience_factor = 0 start_equipment_factor = 0.6" 
+								owner = ROOT
+								count = 2
+							}
+						}
+					}
+					random_owned_controlled_state = {
+						create_unit = {
+							division = "name = \"Division de Infanteria Federalista\" division_template = \"Division de Infanteria Federalista\" start_experience_factor = 0.1 start_equipment_factor = ARG_civil_war_military_equipment_var" 
+							owner = ROOT
+							count = 2
+						}
+					}
+					if = {
+						limit = {
+							has_completed_focus = ARG_gain_the_support_of_the_population
+						}
+						add_manpower = 44500
+						random_owned_controlled_state = {
+							create_unit = {
+								division = "name = \"Federales\" division_template = \"Federales\" start_experience_factor = 0 start_equipment_factor = ARG_civil_war_military_equipment_var" 
+								owner = ROOT
+								count = 3
+							}
+						}
+					}
+				}
+				hidden_effect = {
+					random_other_country = {
+						limit = {
+							original_tag = ARG
+							has_government = neutrality
+							has_civil_war = yes
+						}
+						add_ideas = ARG_death_to_the_Federales
+						set_capital = { state = 966 }
+						
+						hidden_effect = {
+							division_template = { name = "Unitarios" division_names_group = SPAN_INF_02 is_locked = no regiments = { infantry = { x = 0 y = 0 } infantry = { x = 1 y = 0 } infantry = { x = 2 y = 0 } infantry = { x = 3 y = 0 } } }
+							division_template = { 
+								name = "Division de Infanteria Unitaria" 
+								division_names_group = SPAN_INF_02 
+								is_locked = no 
+								regiments = { 
+									infantry = { x = 0 y = 0 } 
+									infantry = { x = 1 y = 0 } 
+									infantry = { x = 2 y = 0 } 
+									infantry = { x = 3 y = 0 } 
+									infantry = { x = 0 y = 1 } 
+									infantry = { x = 1 y = 1 } 
+									infantry = { x = 2 y = 1 } 
+									infantry = { x = 3 y = 1 } 
+								} 
+							}
+							every_controlled_state = {
+								create_unit = {
+									division = "name = \"Unitarios\" division_template = \"Unitarios\" start_experience_factor = 0 start_equipment_factor = 0.5" 
+									owner = PREV
+									count = 2
+								}
+							}
+							capital_scope = {
+								create_unit = {
+									division = "name = \"Unitarios\" division_template = \"Unitarios\" start_experience_factor = 0 start_equipment_factor = 0.65" 
+									owner = PREV
+									count = 3
+								}
+								create_unit = {
+									division = "name = \"Division de Infanteria Unitaria\" division_template = \"Division de Infanteria Unitaria\" start_experience_factor = 0.1 start_equipment_factor = 0.7" 
+									owner = PREV
+									count = 2
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	}
 	
-	ARG_purchase_german_weapons = {
+	ARG_purchase_FROM_weapons = {
 		priority = 10
 		icon = generic_industry
-		
-		allowed = {
-			tag = ARG
+
+		target_trigger = {
+			FROM = {
+				is_major = yes 
+				has_government = fascism
+			}
 		}
 		
 		available = {
-			GER = {
+			FROM = {
 				is_subject = no
+				has_war = no
 				NOT = {
 					has_war_with = ROOT
 				}
 			}
+		}
+
+		visible = {
+			has_civil_war = yes 
+			has_completed_focus = ARG_launch_the_civil_war
 		}
 		
 		cost = 40
@@ -1335,42 +1479,8 @@ ARG_the_argentine_civil_war = {
 		complete_effect = {
 			add_equipment_to_stockpile = {
 				type = infantry_equipment
-			    amount = 600
-			    producer = GER
-			}
-		}
-	}
-	
-	ARG_purchase_japanese_weapons = {
-		priority = 10
-		icon = generic_industry
-		
-		allowed = {
-			tag = ARG
-		}
-		
-		available = {
-			JAP = {
-				is_subject = no
-				NOT = {
-					has_war_with = ROOT
-				}
-			}
-		}
-		
-		cost = 40
-		
-		fire_only_once = yes
-		
-		ai_will_do = {
-			factor = 250
-		}
-		
-		complete_effect = {
-			add_equipment_to_stockpile = {
-				type = infantry_equipment
-			    amount = 600
-			    producer = JAP
+			    amount = 750
+			    producer = FROM
 			}
 		}
 	}
@@ -1378,10 +1488,6 @@ ARG_the_argentine_civil_war = {
 	ARG_division_movement = {
 		priority = 10
 		icon = generic_military
-		
-		allowed = {
-			tag = ARG
-		}
 		
 		available = {
 			custom_trigger_tooltip = {
@@ -1392,6 +1498,11 @@ ARG_the_argentine_civil_war = {
 			}
 			command_power > 10
 			has_army_experience > 1
+		}
+
+		visible = {
+			has_completed_focus = ARG_gain_the_support_of_the_military
+			has_civil_war = yes 
 		}
 		
 		custom_cost_trigger = {
@@ -1430,10 +1541,6 @@ ARG_the_argentine_civil_war = {
 		priority = 10
 		icon = generic_military
 		
-		allowed = {
-			tag = ARG
-		}
-		
 		available = {
 			custom_trigger_tooltip = {
 				tooltip = ARG_decisioninprogress
@@ -1443,6 +1550,11 @@ ARG_the_argentine_civil_war = {
 			}
 			command_power > 10
 			has_army_experience > 1
+		}
+
+		visible = {
+			has_completed_focus = ARG_gain_the_support_of_the_military
+			has_civil_war = yes 
 		}
 		
 		custom_cost_trigger = {
@@ -1481,10 +1593,6 @@ ARG_the_argentine_civil_war = {
 		priority = 10
 		icon = generic_military
 		
-		allowed = {
-			tag = ARG
-		}
-		
 		available = {
 			custom_trigger_tooltip = {
 				tooltip = ARG_decisioninprogress
@@ -1499,6 +1607,11 @@ ARG_the_argentine_civil_war = {
 		custom_cost_trigger = {
 			command_power > 10
 			has_army_experience > 1
+		}
+
+		visible = {
+			has_completed_focus = ARG_gain_the_support_of_the_military
+			has_civil_war = yes 
 		}
 
 		custom_cost_text = ARG_division_bonuses_civil_war
@@ -1532,10 +1645,6 @@ ARG_the_argentine_civil_war = {
 		priority = 10
 		icon = generic_military
 		
-		allowed = {
-			tag = ARG
-		}
-		
 		available = {
 			custom_trigger_tooltip = {
 				tooltip = ARG_decisioninprogress
@@ -1550,6 +1659,11 @@ ARG_the_argentine_civil_war = {
 		custom_cost_trigger = {
 			command_power > 10
 			has_army_experience > 1
+		}
+
+		visible = {
+			has_completed_focus = ARG_gain_the_support_of_the_military
+			has_civil_war = yes 
 		}
 
 		custom_cost_text = ARG_division_bonuses_civil_war
@@ -1579,24 +1693,25 @@ ARG_the_argentine_civil_war = {
 		}
 	}
 	
-	ARG_mobilize_elite_militia_in_cordoba = {
+	ARG_mobilize_elite_militia_in_FROM = {
 
 		icon = generic_military
 
-		allowed = {
-			tag = ARG
-		}
+		state_target = yes 
+
+		targets = { 973 977 510 982 }
 
 		available = {
-			973 = {
-				is_controlled_by = ROOT
-			}
 			has_army_experience > 10
 		}
 
-		highlight_states = {
-			highlight_states_trigger = {
-				state = 973
+		visible = {
+			has_civil_war = yes 
+			FROM = {
+				is_fully_controlled_by = ROOT
+				NOT = {
+                    has_state_flag = BOL_conscripted_militia
+                }
 			}
 		}
 
@@ -1617,184 +1732,17 @@ ARG_the_argentine_civil_war = {
 		}
 
 		complete_effect = {
-			add_equipment_to_stockpile = {
-			    type = infantry_equipment
-			    amount = -200
-			}
 			army_experience = -10
 		}
 		
 		remove_effect = {
-			973 = {
+			FROM = {
 				create_unit = {
 					division = "name = \"Federales\" division_template = \"Federales\" start_experience_factor = 0.5 start_equipment_factor = 1.0" 
 					owner = ROOT
+					allow_spawning_on_enemy_provs = yes
 				}
-			}
-		}
-	}
-	
-	ARG_mobilize_elite_militia_in_catamarca = {
-		
-		icon = generic_military
-
-		allowed = {
-			tag = ARG
-		}
-
-		available = {
-			973 = {
-				is_controlled_by = ROOT
-			}
-			has_army_experience > 10
-		}
-
-		highlight_states = {
-			highlight_states_trigger = {
-				state = 977
-			}
-		}
-
-		on_map_mode = map_only
-
-		custom_cost_trigger = {
-			has_army_experience > 10
-		}
-
-		custom_cost_text = ARG_mobilize_elite 
-
-		fire_only_once = yes
-
-		days_remove = 15
-		
-		ai_will_do = {
-			factor = 250
-		}
-
-		complete_effect = {
-			add_equipment_to_stockpile = {
-			    type = infantry_equipment
-			    amount = -200
-			}
-			army_experience = -10
-		}
-		
-		remove_effect = {
-			977 = {
-				create_unit = {
-					division = "name = \"Federales\" division_template = \"Federales\" start_experience_factor = 0.5 start_equipment_factor = 1.0" 
-					owner = ROOT
-				}
-			}
-		}
-	}
-	
-	ARG_mobilize_elite_militia_in_corrientes = {
-		
-		icon = generic_military
-
-		allowed = {
-			tag = ARG
-		}
-
-		available = {
-			510 = {
-				is_controlled_by = ROOT
-			}
-			has_army_experience > 10
-		}
-
-		highlight_states = {
-			highlight_states_trigger = {
-				state = 510
-			}
-		}
-
-		on_map_mode = map_only
-
-		custom_cost_trigger = {
-			has_army_experience > 10
-		}
-
-		custom_cost_text = ARG_mobilize_elite 
-
-		fire_only_once = yes
-
-		days_remove = 15
-		
-		ai_will_do = {
-			factor = 250
-		}
-
-		complete_effect = {
-			add_equipment_to_stockpile = {
-			    type = infantry_equipment
-			    amount = -200
-			}
-			army_experience = -10
-		}
-		
-		remove_effect = {
-			510 = {
-				create_unit = {
-					division = "name = \"Federales\" division_template = \"Federales\" start_experience_factor = 0.5 start_equipment_factor = 1.0" 
-					owner = ROOT
-				}
-			}
-		}
-	}
-	
-	ARG_mobilize_elite_militia_in_chaco = {
-		
-		icon = generic_military
-
-		allowed = {
-			tag = ARG
-		}
-
-		available = {
-			509 = {
-				is_controlled_by = ROOT
-			}
-			has_army_experience > 10
-		}
-
-		highlight_states = {
-			highlight_states_trigger = {
-				state = 509
-			}
-		}
-
-		on_map_mode = map_only
-
-		custom_cost_trigger = {
-			has_army_experience > 10
-		}
-
-		custom_cost_text = ARG_mobilize_elite 
-
-		fire_only_once = yes
-
-		days_remove = 15
-		
-		ai_will_do = {
-			factor = 250
-		}
-
-		complete_effect = {
-			add_equipment_to_stockpile = {
-			    type = infantry_equipment
-			    amount = -200
-			}
-			army_experience = -10
-		}
-		
-		remove_effect = {
-			509 = {
-				create_unit = {
-					division = "name = \"Federales\" division_template = \"Federales\" start_experience_factor = 0.5 start_equipment_factor = 1.0" 
-					owner = ROOT
-				}
+				set_state_flag = BOL_conscripted_militia
 			}
 		}
 	}

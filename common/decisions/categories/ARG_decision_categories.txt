@@ -93,21 +93,35 @@ ARG_robertos_deteriorating_health_condition = {
 }
 
 ARG_the_argentine_civil_war = {
-	priority = 10
+	priority = 250
 	icon = ARG_category_civil_war
 	
 	picture = GFX_ARG_guerra_civil
 	
 	allowed = {
-		tag = ARG
+		original_tag = ARG
 	}
 	
 	visible = {
-		has_completed_focus = ARG_gain_the_support_of_the_military
-		has_civil_war = yes
+		has_completed_focus = ARG_drift_back_towards_the_confederation
+		OR = {	
+			has_civil_war = yes
+			has_active_mission = ARG_government_crackdown
+		}
 		NOT = {
 			has_completed_focus = ARG_etsablish_the_confederation
 		}
+	}
+
+	on_map_area = {
+		target_array = owned_states
+		target_trigger = {
+			FROM = {
+                has_state_flag = ARG_federalist_state
+			}
+		}
+		name = ARG_federalist_state_tt
+		zoom = 150
 	}
 }
 
