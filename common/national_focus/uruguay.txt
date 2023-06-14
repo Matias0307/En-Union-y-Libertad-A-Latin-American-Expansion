@@ -582,6 +582,15 @@ focus_tree = {
 				ruling_party = neutrality
 				elections_allowed = no 
 			}
+			random_list = {
+				50 = {
+					add_stability = -0.1
+					URG_move_10_colorado = yes 
+				}
+				50 = {
+					add_stability = 0.05
+				}
+			}
 			hidden_effect = {
 				random_list = {
 					20 = {
@@ -636,7 +645,10 @@ focus_tree = {
 		x = 1
 		y = 1
 		relative_position_id = URG_reform_the_constitution
-		prerequisite = { focus = URG_reform_the_constitution }
+		prerequisite = { 
+			focus = URG_reform_the_constitution 
+			focus = URG_rule_with_an_iron_fist
+		}
 		
 		cost = 10
 		
@@ -669,14 +681,21 @@ focus_tree = {
 	focus = {
 		id = URG_build_up_the_military
 		icon = GFX_goal_generic_construct_mil_factory 
-		x = 0
+		x = 1
 		y = 1
 		relative_position_id = URG_rule_with_an_iron_fist
 		prerequisite = {
 			focus = URG_rule_with_an_iron_fist 
+			focus = URG_consolidate_power
 		}
 		
 		cost = 10
+
+		available = {
+			NOT = {
+				has_idea = URG_violent_protests
+			}
+		}
 		
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
@@ -690,7 +709,9 @@ focus_tree = {
 		x = -1
 		y = 1
 		relative_position_id = URG_build_up_the_military
-		prerequisite = { focus = URG_build_up_the_military }
+		prerequisite = { 
+			focus = URG_build_up_the_military
+		}
 		
 		cost = 10
 		
@@ -708,7 +729,6 @@ focus_tree = {
 		relative_position_id = URG_build_up_the_military
 		prerequisite = {
 			focus = URG_build_up_the_military
-			focus = URG_consolidate_power
 		}
 		
 		cost = 10
@@ -1288,6 +1308,8 @@ focus_tree = {
 			}
 		}
 	}
+
+	## Artigist path will go here 
 
 	focus = {
 		id = URG_form_the_rioplatense_empire
