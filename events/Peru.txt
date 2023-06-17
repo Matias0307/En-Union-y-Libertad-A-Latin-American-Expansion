@@ -916,6 +916,10 @@ country_event = {
 				factor = 0
 				has_civil_war = yes 
 			}
+			modifier = {
+				factor = 0
+				has_war = yes #wont declare war if its already on a war of its own
+			}
 		}
 		declare_war_on = {
 			target = FROM 
@@ -929,7 +933,7 @@ country_event = {
 		ai_chance = {
 			base = 1
 		}
-		add_war_support = -0.03
+		add_war_support = -0.05
 	}
 }
 
@@ -1347,164 +1351,164 @@ country_event = {
 	}
 }
 
-#Peru-Bolvian Confederation gets event of stopping the war
-country_event = {
-	id = peru.8 
-	title = peru.8.t 
-	desc = peru.8.d 
-	picture = GFX_report_event_generic_rally_3 
-
-	fire_only_once = yes 
-
-	trigger = {
-		has_country_flag = is_PBC
-		has_country_flag = is_in_second_war_of_confederation
-		NOT = {
-			has_country_flag = PBC_negotiating_peace_talks
-		}
-		OR = {
-			has_war_with = CHL 
-			has_war_with = ARG 
-			has_war_with = ECU 
-			has_war_with = COL 
-		}
-		NOT = {
-			OR = {
-				has_war_with = BOA 
-				has_war_with = PRA 
-			}
-		}
-		CHL = {
-			if = { 
-				limit = {
-					has_war_with = ROOT 
-					has_country_flag = is_in_second_war_of_confederation
-				}
-				CHL = {
-					OR = {
-						has_capitulated = yes 
-						casualties > 65999
-						surrender_progress > 0.34
-					}
-				}
-			}
-		}
-		ARG = {
-			if = { 
-				limit = {
-					has_war_with = ROOT 
-					has_country_flag = is_in_second_war_of_confederation
-				}
-				ARG = {
-					OR = {
-						has_capitulated = yes 
-						casualties > 65999
-						surrender_progress > 0.34
-					}
-				}
-			}
-		}
-		ECU = {
-			if = { 
-				limit = {
-					has_war_with = ROOT 
-					has_country_flag = is_in_second_war_of_confederation
-				}
-				ECU = {
-					OR = {
-						has_capitulated = yes 
-						casualties > 65999
-						surrender_progress > 0.34
-					}
-				}
-			}
-		}
-		COL = {
-			if = { 
-				limit = {
-					has_war_with = ROOT 
-					has_country_flag = is_in_second_war_of_confederation
-				}
-				COL = {
-					OR = {
-						has_capitulated = yes 
-						casualties > 65999
-						surrender_progress > 0.34
-					}
-				}
-			}
-		}
-		
-	}
-	immediate = {
-		hidden_effect = {
-			set_country_flag = PBC_negotiating_peace_talks 
-		}
-	}
-	option = { #begin peace talks 
-		name = peru.8.a 
-		ai_chance = {
-			base = 80 
-			modifier = {
-				add = 30 
-				909 = {
-					is_controlled_by = ROOT
-				}
-			}
-			modifier = {
-				add = 30
-				910 = {
-					is_controlled_by = ROOT
-				}
-			}
-			modifier = {
-				add = 80 
-				casualties > 49999
-			}
-			modifier = {
-				add = 150
-				any_enemy_country = {
-					has_capitulated = yes 
-				}
-			}
-		}
-		custom_effect_tooltip = PBC_all_must_accept
-		effect_tooltip = {
-			every_enemy_country = {
-				white_peace = ROOT
-			}
-			every_state = {
-				limit = {
-					NOT = {
-						is_controlled_by = ROOT
-						is_owned_by = BRA
-					}
-					OR = {
-						is_claimed_by = ROOT 
-						is_core_of = ROOT
-					}
-				}
-				ROOT = {
-					transfer_state = PREV
-				}
-			}
-		}
-		every_enemy_country = {
-			country_event = { id = peru.9 random = 12 }
-		}
-	}
-
-	option = { #keep on going 
-		name = peru.8.b 
-		ai_chance = {
-			base = 10
-		}
-		add_stability = -0.25
-		add_war_support = -0.35
-		add_manpower = -45000
-		add_political_power = -100
-	}
-}
+##Peru-Bolvian Confederation gets event of stopping the war
+#country_event = {
+#	id = peru.8 
+#	title = peru.8.t 
+#	desc = peru.8.d 
+#	picture = GFX_report_event_generic_rally_3 
+#
+#	fire_only_once = yes 
+#
+#	trigger = {
+#		has_country_flag = is_PBC
+#		has_country_flag = is_in_second_war_of_confederation
+#		NOT = {
+#			has_country_flag = PBC_negotiating_peace_talks
+#		}
+#		OR = {
+#			has_war_with = CHL 
+#			has_war_with = ARG 
+#			has_war_with = ECU 
+#			has_war_with = COL 
+#		}
+#		NOT = {
+#			OR = {
+#				has_war_with = BOA 
+#				has_war_with = PRA 
+#			}
+#		}
+#		CHL = {
+#			if = { 
+#				limit = {
+#					has_war_with = ROOT 
+#					has_country_flag = is_in_second_war_of_confederation
+#				}
+#				CHL = {
+#					OR = {
+#						has_capitulated = yes 
+#						casualties > 65999
+#						surrender_progress > 0.34
+#					}
+#				}
+#			}
+#		}
+#		ARG = {
+#			if = { 
+#				limit = {
+#					has_war_with = ROOT 
+#					has_country_flag = is_in_second_war_of_confederation
+#				}
+#				ARG = {
+#					OR = {
+#						has_capitulated = yes 
+#						casualties > 65999
+#						surrender_progress > 0.34
+#					}
+#				}
+#			}
+#		}
+#		ECU = {
+#			if = { 
+#				limit = {
+#					has_war_with = ROOT 
+#					has_country_flag = is_in_second_war_of_confederation
+#				}
+#				ECU = {
+#					OR = {
+#						has_capitulated = yes 
+#						casualties > 65999
+#						surrender_progress > 0.34
+#					}
+#				}
+#			}
+#		}
+#		COL = {
+#			if = { 
+#				limit = {
+#					has_war_with = ROOT 
+#					has_country_flag = is_in_second_war_of_confederation
+#				}
+#				COL = {
+#					OR = {
+#						has_capitulated = yes 
+#						casualties > 65999
+#						surrender_progress > 0.34
+#					}
+#				}
+#			}
+#		}
+#		
+#	}
+#	immediate = {
+#		hidden_effect = {
+#			set_country_flag = PBC_negotiating_peace_talks 
+#		}
+#	}
+#	option = { #begin peace talks 
+#		name = peru.8.a 
+#		ai_chance = {
+#			base = 80 
+#			modifier = {
+#				add = 30 
+#				909 = {
+#					is_controlled_by = ROOT
+#				}
+#			}
+#			modifier = {
+#				add = 30
+#				910 = {
+#					is_controlled_by = ROOT
+#				}
+#			}
+#			modifier = {
+#				add = 80 
+#				casualties > 49999
+#			}
+#			modifier = {
+#				add = 150
+#				any_enemy_country = {
+#					has_capitulated = yes 
+#				}
+#			}
+#		}
+#		custom_effect_tooltip = PBC_all_must_accept
+#		effect_tooltip = {
+#			every_enemy_country = {
+#				white_peace = ROOT
+#			}
+#			every_state = {
+#				limit = {
+#					NOT = {
+#						is_controlled_by = ROOT
+#						is_owned_by = BRA
+#					}
+#					OR = {
+#						is_claimed_by = ROOT 
+#						is_core_of = ROOT
+#					}
+#				}
+#				ROOT = {
+#					transfer_state = PREV
+#				}
+#			}
+#		}
+#		every_enemy_country = {
+#			country_event = { id = peru.9 random = 12 }
+#		}
+#	}
+#
+#	option = { #keep on going 
+#		name = peru.8.b 
+#		ai_chance = {
+#			base = 10
+#		}
+#		add_stability = -0.25
+#		add_war_support = -0.35
+#		add_manpower = -45000
+#		add_political_power = -100
+#	}
+#}
 
 #Countries at war with the Peru-Bolivian confederation get event to surrender 
 country_event = {
@@ -1513,7 +1517,30 @@ country_event = {
 	desc = peru.9.d 
 	picture = GFX_report_event_gre_allied_diplomacy_military 
 
-	is_triggered_only = yes 
+	trigger = {
+		any_enemy_country = {
+			OR = {
+				original_tag = PRU 
+				original_tag = BOL 
+			}
+			has_cosmetic_tag = PBC_UNIFIED
+		}
+		has_country_flag = is_in_second_war_of_confederation
+		OR = {
+			AND = {
+				surrender_progress > 0.25
+				casualties > 90000
+			}
+			has_capitulated = yes 
+		}
+		NOT = {
+			has_country_flag = event_happened
+		}
+	} 
+
+	immediate = {
+		set_country_flag = event_happened
+	}
 
 	option = { #accept peace terms 
 		name = peru.9.a 
@@ -1532,18 +1559,14 @@ country_event = {
 			}
 			modifier = {
 				add = 40 
-				casualties > 23999
+				casualties > 99999
 			}
 			modifier = {
 				add = 80 
-				surrender_progress > 0.21
-			}
-			modifier = {
-				add = 150
-				has_capitulated = yes 
+				surrender_progress > 0.29
 			}
 		}
-		custom_effect_tooltip = PBC_all_must_accept
+		custom_effect_tooltip = ARG_iftheyaccept
 		effect_tooltip = {
 			white_peace = FROM 
 			every_owned_state = {
@@ -1559,7 +1582,16 @@ country_event = {
 			}
 		}
 		hidden_effect = {
-			set_country_flag = ROOT_surrendered
+			random_enemy_country = {
+				limit = {
+					OR = {
+						original_tag = PRU 
+						original_tag = BOL 
+					}
+					has_cosmetic_tag = PBC_UNIFIED
+				}
+				country_event = { id = peru.10 hours = 4 random_hours = 4 }
+			}
 		}
 	}
 
@@ -1567,81 +1599,49 @@ country_event = {
 		name = peru.9.b 
 		ai_chance = {
 			base = 10
+			modifier = {
+				add = 50
+				OR = {
+					has_government = communism
+					has_government = fascism
+				}
+			}
 		}
-		add_stability = -0.1
-		add_war_support = -0.15
+		add_ideas = EUYL_crippled_army
 	}
 }
 
-#Peru-Bolivian Confederation gets event that all other nations have agreed to surrendering 
+#Peru-Bolivian Confederation gets event that other country is willing to surrender
 country_event = {
 	id = peru.10 
 	title = peru.10.t 
 	desc = peru.10.d 
 	picture = GFX_report_event_generic_sign_treaty2 
 
-	fire_only_once = yes
+	is_triggered_only = yes 
 
-	trigger = {
-		has_country_flag = PBC_negotiating_peace_talks
-		has_country_flag = is_PBC
-		OR = {
-			has_war_with = ARG 
-			has_war_with = CHL 
-			has_war_with = COL 
-			has_war_with = ECU 
-		}
-		CHL = {
-			if = { 
-				limit = {
-					has_war_with = ROOT 
-					has_country_flag = is_in_second_war_of_confederation
-				}
-				CHL = {
-					has_country_flag = ROOT_surrendered
-				}
-			}
-		}
-		ARG = {
-			if = { 
-				limit = {
-					has_war_with = ROOT 
-					has_country_flag = is_in_second_war_of_confederation
-				}
-				ARG = {
-					has_country_flag = ROOT_surrendered
-				}
-			}
-		}
-		ECU = {
-			if = { 
-				limit = {
-					has_war_with = ROOT 
-					has_country_flag = is_in_second_war_of_confederation
-				}
-				ECU = {
-					has_country_flag = ROOT_surrendered
-				}
-			}
-		}
-		COL = {
-			if = { 
-				limit = {
-					has_war_with = ROOT 
-					has_country_flag = is_in_second_war_of_confederation
-				}
-				COL = {
-					has_country_flag = ROOT_surrendered
-				}
-			}
-		}
-	}
-
-	option = {
+	option = { #Accept surrender terms
 		name = peru.10.a 
-		set_country_flag = PBC_winner_of_war_of_independence
-		clr_country_flag = is_in_second_war_of_confederation
-		every_enemy_country = {
+		ai_chance = {
+			base = 30
+			modifier = {
+				add = 60
+				casualties > 49999
+			}
+			modifier = {
+				add = 100
+				casualties > 119999
+			}
+			modifier = { #controls a claimed state already
+				add = 50
+				any_controlled_state = {
+					is_core_of = ROOT 
+					is_core_of = FROM 
+				}
+			}
+		}
+		FROM = {
+			clr_country_flag = is_in_second_war_of_confederation
 			every_owned_state = {
 				limit = { 
 					OR = {
@@ -1654,6 +1654,25 @@ country_event = {
 				}
 			}
 			white_peace = ROOT
+		}
+		if = {
+			limit = {
+				has_war = no ## Since the white peace occurs before, this condition should tick true if last country surrenders
+			}
+			set_country_flag = PBC_winner_of_war_of_independence
+		}
+	}
+
+	option = { #We won't stop until you're D E A D
+		name = peru.10.b
+		custom_effect_tooltip = EUYL_post_war_resistance_worsened_tt
+		hidden_effect = {
+			FROM = {
+				every_owned_state = {
+					limit = { is_core_of = FROM }
+					set_state_flag = EUYL_worsen_resistance
+				}
+			}
 		}
 	}
 }

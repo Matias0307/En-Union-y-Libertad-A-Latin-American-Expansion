@@ -2184,6 +2184,49 @@ focus_tree = {
 		## Starts a BoP between the coalition and the political enemies 
 	}
 
+	focus = {
+		id = ARG_take_full_control
+		icon = GFX_focus_generic_military_dictatorship
+		x = 0
+		y = 1
+		relative_position_id = ARG_government_crackdown
+		prerequisite = { focus = ARG_government_crackdown}
+	}
+
+	focus = { 
+		id = ARG_state_of_terror
+		icon = GFX_ARG_new_conscriptions 
+		x = -2
+		y = 2
+		relative_position_id = ARG_take_full_control
+		prerequisite = { focus = ARG_take_full_control }
+		mutually_exclusive = { focus = ARG_deal_peacefully_with_our_enemies }
+	}
+
+	focus = { ## Can't take this path if you're Manuel Carles
+		id = ARG_deal_peacefully_with_our_enemies
+		icon = GFX_focus_generic_fascist_propaganda
+		x = 2
+		y = 2
+		relative_position_id = ARG_take_full_control
+		prerequisite = { focus = ARG_take_full_control }
+		mutually_exclusive = { focus = ARG_state_of_terror }
+	}
+
+	focus = {
+		id = ARG_threaten_the_oligarchs
+		icon = GFX_focus_focus_fra_maquis
+		x = -4
+		y = 1
+		relative_position_id = ARG_take_full_control
+		prerequisite = { focus = ARG_take_full_control }
+		prerequisite = { focus = ARG_bring_the_oligarchs_into_the_mix }
+	}
+
+	focus = {
+		id = ARG
+	}
+
 	focus = { #will immediately trigger a civil war 
 		id = ARG_catholic_takeover
 		icon = GFX_focus_generic_vatican_state
@@ -2974,10 +3017,6 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_CHI_INFLATION }
 		completion_reward = {
-			custom_effect_tooltip = ARG_add_5_days
-			hidden_effect = {
-				add_to_variable = { ARG_inflationary_period_days = 5 }
-			}
 			add_ideas = ARG_imrpoved_consumer_sector
 		}
 	}
@@ -3031,10 +3070,13 @@ focus_tree = {
 	focus = {
 		id = ARG_modernize_our_construction_companies
 		icon = GFX_goal_generic_construction
-		x = 0
+		x = -1
 		y = 1
-		relative_position_id = ARG_expand_the_industry
-		prerequisite = { focus = ARG_expand_the_industry }
+		relative_position_id = ARG_establish_the_TNM
+		prerequisite = { 
+			focus = ARG_establish_the_TNM 
+			focus = ARG_deal_peacefully_with_our_enemies
+		}
 		
 		cost = 10
 		
@@ -3903,7 +3945,8 @@ focus_tree = {
 		prerequisite = { 
 			focus = ARG_the_one_true_papal_state 
 			focus = ARG_establish_the_TNM
-
+			focus = ARG_deal_peacefully_with_our_enemies
+			focus = ARG_state_of_terror
 		}
 		
 		cost = 5
@@ -10798,7 +10841,8 @@ focus_tree = {
 		relative_position_id = ARG_consolidate_power
 		prerequisite = { 
 			focus = ARG_consolidate_power 
-
+			focus = ARG_state_of_terror
+			focus = ARG_deal_peacefully_with_our_enemies
 		}
 		mutually_exclusive = { focus = ARG_a_traditional_approach }
 	}
@@ -10812,6 +10856,15 @@ focus_tree = {
 		prerequisite = { focus = ARG_follow_mussolinis_principles }
 	}
 
+	focus = {
+		id = ARG_italian_equipment_shipments
+		icon = GFX_ARG_iitalian_equipment
+		x = 0
+		y = 1
+		relative_position_id = ARG_mass_nationalization
+		prerequisite = { focus = ARG_mass_nationalization }
+	}
+
 	focus = { #little militia mechanic
 		id = ARG_form_the_camisas_negras
 		icon = GFX_focus_ITA_blackshirts
@@ -10819,6 +10872,16 @@ focus_tree = {
 		y = 1
 		relative_position_id = ARG_follow_mussolinis_principles
 		prerequisite = { focus = ARG_follow_mussolinis_principles }
+	}
+
+	focus = {
+		id = ARG_nadie_se_escapa
+		icon = GFX_ARG_nadie_escapa
+		x = 1
+		y = 1
+		relative_position_id = ARG_form_the_camisas_negras
+		prerequisite = { focus = ARG_form_the_camisas_negras }
+		prerequisite = { focus = ARG_state_of_terror}
 	}
 	
 	focus = { ##Promise industrial reforms

@@ -109,20 +109,73 @@ on_actions = {
 		effect = {
 			if = {
 				limit = {
-					original_tag = ARG 
-					has_template = "Milicias Argentinas" 
-					has_template = "Gauchos"
+                    THIS = {
+                        original_tag = ARG 
+                        has_template = "Milicias Argentinas" 
+                        has_template = "Gauchos"
+                    }
 				}
-				delete_units = {
-					division_template = "Milicias Argentinas"
-					disband = yes
-				}
-				delete_units = {
-					division_template = "Gauchos"
-					disband = yes
-				}
+                THIS = {
+                    delete_units = {
+                        division_template = "Milicias Argentinas"
+                        disband = yes
+                    }
+                    delete_units = {
+                        division_template = "Gauchos"
+                        disband = yes
+                    }
+                }
 			}
 		}
+        effect = {
+            if = {
+                limit = {
+                    has_country_flag = is_in_second_war_of_confederation
+                    NOT = {
+                        OR = {
+                            original_tag = PRU 
+                            original_tag = BOL 
+                        }
+                    }
+                }
+                clr_country_flag = is_in_second_war_of_confederation
+            }
+            if = {
+                limit = {
+                    has_country_flag = is_in_second_war_of_confederation
+                    OR = {
+                        original_tag = PRU 
+                        original_tag = BOL 
+                    }
+                    has_cosmetic_tag = PBC_UNIFIED
+                }
+                clr_country_flag = is_in_second_war_of_confederation
+                set_country_flag = PBC_winner_of_war_of_independence
+            }
+        }
+        effect = {
+            if = {
+                limit = {
+                    THIS = {
+                        OR = {
+                            original_tag = PRU 
+                            original_tag = BOL 
+                        }
+                        has_cosmetic_tag = PBC_UNIFIED
+                    }
+                }
+                THIS = {
+                    every_controlled_state = {
+                        limit = { has_state_flag = EUYL_worsen_resistance }
+                        clr_state_flag = EUYL_worsen_resistance
+                        add_dynamic_modifier = {
+                            modifier = EUYL_bloody_resistance
+                            days = 900
+                        }
+                    }
+                }
+            }
+        }
 	}
 	on_declare_war = {
         effect = { #Peru-Bolivian Confederation gets event of nation attacking an ally nation with the defense pact idea
@@ -1103,6 +1156,35 @@ on_actions = {
 				country_event = { id = EUYL_startupevent.1 }
 			}
 		}
+        effect = { ## South American Naval Arms Race | will later have its own unique mechanic
+            every_country = {
+                limit = {
+                    OR = {
+                        original_tag = ARG 
+                        original_tag = BRA 
+                        original_tag = CHL 
+                    }
+                }
+                set_variable = { EUYL_naval_arms_race_dockyard_factor = 0.1 }
+                set_variable = { EUYL_naval_arms_race_industrial_capacity_dockyard = 0.05 }
+                set_variable = { EUYL_naval_arms_race_experience_gain = 0.1 }
+                set_variable = { EUYL_naval_arms_race_doctrine_cost = -0.05 }
+                set_variable = { EUYL_naval_arms_race_damage_factor = 0.05 }
+                set_variable = { EUYL_naval_arms_race_defense_factor = 0.05 }
+                set_variable = { EUYL_naval_arms_race_detection = 0.05 }
+                set_variable = { EUYL_naval_arms_race_hit_chance = 0.05 }
+                set_variable = { EUYL_naval_arms_race_morale_factor = 0.05 }
+                set_variable = { EUYL_naval_arms_race_speed_factor = 0.05 }
+                set_variable = { EUYL_naval_arms_race_coordination = 0.03 }
+                set_variable = { EUYL_naval_arms_race_accidents_chance = -0.03 }
+                hidden_effect = { ## NATIONAL SPIRIT
+                    add_dynamic_modifier = {
+                        modifier = EUYL_south_american_dreadnought_race_idea
+                    }
+                    add_ideas = EUYL_south_american_dreadnought_race
+                }
+            }
+        }
         effect = {
             ARG = {
                 every_controlled_state = {
