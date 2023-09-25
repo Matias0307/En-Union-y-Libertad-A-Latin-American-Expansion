@@ -6714,6 +6714,7 @@ ARG_spread_of_peronism = {
 					character = ARG_juan_domingo_peron
 					ruling_only = yes 
 				}
+				NOT = { has_character = ARG_juan_domingo_peron }
 			}
 		}
 
@@ -6739,11 +6740,15 @@ ARG_spread_of_peronism = {
 
 		visible = {
 			has_country_flag = ARG_peronist_mechanic_active_flag
+			has_character = ARG_juan_domingo_peron
 			NOT = {
 				has_country_leader = {
 					character = ARG_juan_domingo_peron
 					ruling_only = yes 
 				}
+			}
+			ARG_juan_domingo_peron = {
+				NOT = { has_character_flag = BRA_imprisoned }
 			}
 			NOT = {
 				OR = {
@@ -6751,6 +6756,10 @@ ARG_spread_of_peronism = {
 					has_completed_focus = ARG_kill_off_roberto
 				}
 			}
+		}
+
+		available = { 
+			has_civil_war = no 
 		}
 
 		cost = 50
@@ -6783,19 +6792,236 @@ ARG_spread_of_peronism = {
 	}
 
 	ARG_deal_with_the_peronists_in_FROM = {
-		icon = 
+		icon = oppression
+
+		state_target = yes 
+
+		target_array = controlled_states
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+				has_dynamic_modifier = { modifier = ARG_peronist_march }
+			}
+		}
+
+		visible = { 
+			has_country_flag = ARG_peronist_mechanic_active_flag
+			NOT = {
+				has_country_leader = {
+					character = ARG_juan_domingo_peron
+					ruling_only = yes 
+				}
+			}
+		}
+
+		available = {
+			has_civil_war = no 
+			has_manpower > 9999
+		}
+
+		cost = 10
+
+		days_remove = 35
+
+		modifier = {
+			political_power_factor = -0.05
+			weekly_manpower = -750
+			stability_weekly = -0.0025
+		}
+
+		remove_effect = {
+			custom_effect_tooltip = ARG_peronist_march_will_be_dealt_with_tt
+			hidden_effect = {
+				FROM = {
+					remove_dynamic_modifier = {
+						modifier = ARG_peronist_march
+					}
+				}
+			}
+		}
 	}
 
 	ARG_exile_peron = { ## will stop peronist mechanic, requires peron imprisoned, no marches, and less than 20 peronist support 
-		icon = 
+		icon = generic_air
+
+		visible = { 
+			has_country_flag = ARG_peronist_mechanic_active_flag
+			has_character = ARG_juan_domingo_peron
+			NOT = {
+				has_country_leader = {
+					character = ARG_juan_domingo_peron
+					ruling_only = yes 
+				}
+			}
+			NOT = {
+				OR = {
+					has_completed_focus = ARG_support_the_peronists
+					has_completed_focus = ARG_kill_off_roberto
+				}
+			}
+		}
+
+		available = {
+			has_civil_war = no 
+			has_manpower > 9999
+			custom_trigger_tooltip = {
+				tooltip = ARG_peronist_support_less_than_20_tt
+				check_variable = { ARG_peronist_support < 20 }
+			}
+			custom_trigger_tooltip = {
+				tooltip = ARG_peron_imprisoned_tt
+				ARG_juan_domingo_peron = {
+					has_character_flag = BRA_imprisoned
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = ARG_no_states_with_peronist_marches_tt
+				all_controlled_state = {
+					NOT = {
+						has_dynamic_modifier = {
+							modifier = ARG_peronist_march
+						}
+					}
+				}
+			}
+		}
+
+		fire_only_once = yes 
+
+		cost = 25
+
+		complete_effect = {
+			custom_effect_tooltip = ARG_peron_will_be_exiled_tt
+			clr_country_flag = ARG_peronist_mechanic_active_flag
+			hidden_effect = {
+				retire_character = ARG_juan_domingo_peron
+			}
+		}
 	}
 
 	ARG_tackle_perons_influence = { ## reduces peronist support 
-		icon = 
+		icon = generic_civil_support
+
+		visible = { 
+			has_country_flag = ARG_peronist_mechanic_active_flag
+			NOT = {
+				has_country_leader = {
+					character = ARG_juan_domingo_peron
+					ruling_only = yes 
+				}
+			}
+		}
+
+		available = {
+			has_civil_war = no 
+		}
+
+		cost = 15
+
+		remove_effect = {
+			random_list = {
+				50 = {
+					custom_effect_tooltip = ARG_remove_5_peronist_support_tt 
+					subtract_from_variable = { ARG_peronist_support = 5 }
+				}
+				35 = {
+					custom_effect_tooltip = ARG_remove_10_peronist_support_tt 
+					subtract_from_variable = { ARG_peronist_support = 10 }
+				}
+				15 = {
+					custom_effect_tooltip = ARG_remove_15_peronist_support_tt 
+					subtract_from_variable = { ARG_peronist_support = 15 }
+				}
+			}
+		}
 	}
 
-	ARG_march_in_FROM = { # for when you support peron, will liberate peron and serve as a way to increase peronist support 
-		icon = 
+	ARG_march_in_FROM = { # for when you support peron, will liberate peron and serve as the way to increase peronist support 
+		icon = eng_blackshirt_march
+
+		state_target = yes 
+
+		target_array = controlled_states
+
+		target_trigger = {
+			FROM = {
+				OR = {
+					state = 278 
+					state = 966 
+					any_neighbor_state = {
+						has_dynamic_modifier = { modifier = ARG_peronist_march }
+					}
+				}
+				NOT = { 
+					has_dynamic_modifier = { modifier = ARG_peronist_march }
+				}
+			}
+		}
+
+		visible = { 
+			has_country_flag = ARG_peronist_mechanic_active_flag
+			OR = {
+				has_completed_focus = ARG_support_the_peronists
+				has_completed_focus = ARG_commence_plans_for_the_coup 
+			}
+			ARG_juan_domingo_peron = {
+				has_character_flag = BRA_imprisoned
+			}
+			NOT = {
+				has_country_leader = {
+					character = ARG_juan_domingo_peron
+					ruling_only = yes 
+				}
+			}
+		}
+
+		custom_cost_text = ARG_10_pol_100_guns
+		custom_cost_trigger = {
+			has_political_power > 9 
+			has_equipment = { infantry_equipment > 99 }
+		}
+
+		available = {
+			has_civil_war = no 
+			has_equipment = { infantry_equipment > 99 }
+		}
+
+		cancel_trigger = {
+			FROM = {
+				NOT = { 
+					has_dynamic_modifier = { modifier = ARG_peronist_march }
+				}
+			}
+		}
+
+		days_remove = 20
+
+		complete_effect = {
+			hidden_effect = {
+				add_political_power = -10
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = -100 
+				}
+			}
+		}
+
+		remove_effect = {
+			custom_effect_tooltip = ARG_peronist_march_starts_in_FROM_tt
+			custom_effect_tooltip = ARG_add_10_peronist_support_tt
+			hidden_effect = {
+				add_to_variable = { ARG_peronist_support = 10 }
+				clamp_variable = {
+					var = ARG_peronist_support
+					min = 0
+					max = 200
+				}
+				FROM = {
+					add_dynamic_modifier = { modifier = ARG_peronist_march }
+				}
+			}
+		}
 	}	
 }
 
