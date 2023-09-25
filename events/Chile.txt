@@ -791,52 +791,82 @@ country_event = {
 	
 	option = {	#accept 
 		name = chile.15.a 
-		ai_chance = { base = 75 }
-		set_global_flag = CHL_spain_accepted_unification
-		CHL = {
+		ai_chance = { 
+			base = 20
+			modifier = {
+				factor = 4
+				strength_ratio = {
+					tag = FROM
+					ratio < 1
+				}
+			}
+			modifier = {
+				factor = 3
+				has_opinion = {
+					target = FROM
+					value > 50
+				}
+			}
+			modifier = {
+				factor = 2
+				has_war = yes 
+			}
+			modifier = {
+				factor = 2
+				FROM = {
+					num_of_factories > 34
+				}
+			}
+		}
+		if = {
+			limit = {
+				FROM = {
+					original_tag = CHL
+				}
+			}
+			set_global_flag = CHL_spain_accepted_unification
+		}
+		FROM = {
 			annex_country = {
 				target = SPC
 				transfer_troops = yes
 			}
-			add_state_core = 177
-			add_state_core = 165
-			add_state_core = 794
-			add_state_core = 166
-			add_state_core = 172
-			add_state_core = 792
-			add_state_core = 790
-			add_state_core = 171
-			add_state_core = 174
-			add_state_core = 791
-			add_state_core = 176
-			add_state_core = 793
-			add_state_core = 41
-			add_state_core = 788
-			add_state_core = 170
-			add_state_core = 175
-			add_state_core = 167
-			add_state_core = 168
-			add_state_core = 169
-			add_state_core = 789
-			add_state_core = 168
-			add_state_core = 173
-			add_state_core = 290
-			add_state_core = 699
-			add_state_core = 783
-			add_state_core = 178
-			add_state_core = 297
 			hidden_effect = {
-				country_event = { id = chile.16 days = 1 }
+				country_event = { id = peru.16 days = 1 }
 			}
 		}
 	}
 	
 	option = { #decline
 		name = chile.15.b 
-		ai_chance = { base = 10 }
+		ai_chance = { 
+			base = 15 
+			modifier = {
+				factor = 4
+				strength_ratio = {
+					tag = FROM
+					ratio > 1
+				}
+			}
+			modifier = {
+				factor = 2
+				num_of_factories > 24
+			}
+			modifier = {
+				factor = 3
+				FROM = { has_war = yes }
+			}
+			modifier = {
+				factor = 0
+				OR = {	
+					has_civil_war = yes 
+					FROM = { has_civil_war = yes }
+				}
+			}
+		}
 		hidden_effect = {
-			CHL = {
-				country_event = { id = chile.17 days = 1 }
+			FROM = {
+				country_event = { id = peru.17 days = 1 }
 			}
 		}
 	}

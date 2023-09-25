@@ -4,6 +4,1985 @@
 
 add_namespace = argentina
 add_namespace = argentina.rework
+add_namespace = argentina.rework.communist
+add_namespace = argentina.culturaldevelopment
+add_namespace = argentina.posadistambitions
+
+## Generic Argentina Cultural Development event #1 - Construct the General Paz
+country_event = {
+	id = argentina.culturaldevelopment.1
+	title = argentina.culturaldevelopment.1.t
+	desc = argentina.culturaldevelopment.1.d 
+	picture = GFX_ARG_cultural_development_1
+
+	fire_only_once = yes 
+
+	trigger = {
+		original_tag = ARG 
+		NOT = { has_completed_focus = ARG_treaty_with_the_anarchists }
+		has_civil_war = no 
+		controls_state = 966
+		controls_state = 278
+		NOT = { 
+			OR = {
+				has_active_mission = ARG_government_collapse
+				# has_active_mission = ARG_government_crackdown
+			}
+		}
+		date > 1936.3.1
+	}
+
+	option = { #We'll get it done
+		name = argentina.culturaldevelopment.1.a 
+		activate_mission = ARG_construct_general_paz
+		add_to_variable = { ARG_active_cultural_missions = 1 }
+	}
+}
+
+## Generic Argentina Cultural Development event #2 - Attract more Immigrants to the Country
+country_event = {
+	id = argentina.culturaldevelopment.2
+	title = argentina.culturaldevelopment.2.t 
+	desc = argentina.culturaldevelopment.2.d 
+	picture = GFX_ARG_cultural_development_2
+
+	fire_only_once = yes 
+
+	trigger = {
+		original_tag = ARG
+		NOT = { has_completed_focus = ARG_treaty_with_the_anarchists } 
+		has_civil_war = no 
+		date > 1939.10.1
+	}
+
+	option = { #Time to bring in more Immigrants 
+		name = argentina.culturaldevelopment.2.a 
+		activate_mission = ARG_attract_more_immigrants
+		add_to_variable = { ARG_active_cultural_missions = 1 }
+	}
+}
+
+## Generic Argentina Cultural Development event #3 - Connect the ruta 9 to Cordoba
+country_event = {
+	id = argentina.culturaldevelopment.3
+	title = argentina.culturaldevelopment.3.t 
+	desc = argentina.culturaldevelopment.3.d 
+	picture = GFX_ARG_cultural_development_1
+
+	fire_only_once = yes 
+
+	trigger = {
+		original_tag = ARG 
+		NOT = { has_completed_focus = ARG_treaty_with_the_anarchists }
+		has_civil_war = no 
+		controls_state = 966 # Buenos Aires Capital
+		controls_state = 278 # Buenos Aires Provincia
+		controls_state = 972 # Santa Fe
+		controls_state = 973 # Cordoba 
+		date > 1936.12.1
+	}
+
+	option = { #Time to get Working
+		name = argentina.culturaldevelopment.3.a 
+		activate_mission = ARG_construct_the_ruta_9
+		add_to_variable = { ARG_active_cultural_missions = 1 }
+	}
+}
+
+## Generic Argentina Cultural Development event #4 - Build the Obelisk
+country_event = {
+	id = argentina.culturaldevelopment.4
+	title = argentina.culturaldevelopment.4.t 
+	desc = argentina.culturaldevelopment.4.d 
+	picture = GFX_ARG_cultural_development_4
+
+	fire_only_once = yes 
+
+	trigger = {
+		original_tag = ARG 
+		NOT = { has_completed_focus = ARG_treaty_with_the_anarchists }
+		has_civil_war = no 
+		controls_state = 966 # Buenos Aires Capital
+		NOT = {
+			has_active_mission = ARG_government_collapse
+		}
+		date > 1936.2.1
+	}
+
+	option = { #Time to get Working
+		name = argentina.culturaldevelopment.4.a 
+		activate_mission = ARG_build_the_obelisk
+		add_to_variable = { ARG_active_cultural_missions = 1 }
+	}
+}
+
+## Generic Argentina Cultural Development event #5 - Construct the Bombonera and Monumental
+country_event = {
+	id = argentina.culturaldevelopment.5
+	title = argentina.culturaldevelopment.5.t 
+	desc = argentina.culturaldevelopment.5.d 
+	picture = GFX_ARG_cultural_development_5
+
+	fire_only_once = yes 
+
+	trigger = {
+		original_tag = ARG 
+		NOT = { has_completed_focus = ARG_treaty_with_the_anarchists }
+		has_civil_war = no 
+		controls_state = 966 # Buenos Aires Capital
+		date > 1937.4.1
+	}
+
+	option = { #We'll get them done
+		name = argentina.culturaldevelopment.5.a 
+		activate_mission = ARG_construct_the_bombonera_and_monumental
+		add_to_variable = { ARG_active_cultural_missions = 1 }
+	}
+}
+
+## Posadist Ambition #1 - Win the Civil War 
+country_event = {
+	id = argentina.posadistambitions.1 
+	title = argentina.posadistambitions.1.t 
+	desc = argentina.posadistambitions.1.d 
+	picture = GFX_ARG_juan_posadas_event_pic # Portrait of posadas needed lol 
+
+	is_triggered_only = yes 
+	fire_only_once = yes 
+
+	option = { #For the Revolution!
+		name = argentina.posadistambitions.1.a 
+		add_to_variable = { ARG_active_posadist_ambition_missions = 1 }
+		activate_mission = ARG_win_the_civil_war
+	}
+}
+
+## Posadist Ambition Triggerer - Either Rebuild the Economy, deal with the Oligarchs, or improve national infrastructure
+country_event = {
+	id = argentina.posadistambitions.102 
+	
+	hidden = yes 
+
+	fire_only_once = yes 
+
+	trigger = {
+		original_tag = ARG 
+		has_global_flag = ARG_civil_war_concluded
+		has_country_leader = {
+			character = ARG_juan_posadas
+			ruling_only = yes 
+		}
+		has_civil_war = no 
+		all_owned_state = { ## Makes sure the player has not lost any state 
+			is_fully_controlled_by = ROOT
+		}
+		NOT = { has_country_flag = ARG_intermediate_ambition_triggered }
+	}
+
+	immediate = {
+		random_list = {
+			33 = {
+				country_event = {
+					id = argentina.posadistambitions.2 ## Rebuild the Economy
+					days = 14
+					random_days = 7
+				}
+			}
+			33 = {
+				modifier = {
+					factor = 0
+					NOT = {
+						has_idea = ARG_agitated_oligarchs_idea
+					}
+				}
+				country_event = {
+					id = argentina.posadistambitions.3 ## Deal with the Oligarchs
+					days = 30
+					random_days = 14
+				}
+			}
+			34 = {
+				country_event = {
+					id = argentina.posadistambitions.4 ## Improve National Infrastructure
+					days = 14
+					random_days = 7
+				}
+			}
+		}
+		set_country_flag = ARG_intermediate_ambition_triggered
+		country_event = {
+			id = argentina.posadistambitions.5
+			days = 215
+			random_days = 110
+		}
+		country_event = {
+			id = argentina.posadistambitions.9
+			days = 400
+			random_days = 150
+		}
+	}
+}
+
+## Posadist Ambition #2 - Rebuild the Economy
+country_event = {
+	id = argentina.posadistambitions.2
+	title = argentina.posadistambitions.2.t 
+	desc = argentina.posadistambitions.2.d 
+	picture = GFX_ARG_juan_posadas_event_pic 
+
+	is_triggered_only = yes 
+	fire_only_once = yes 
+
+	option = {
+		name = argentina.posadistambitions.1.a
+		add_to_variable = { ARG_active_posadist_ambition_missions = 1 }
+		hidden_effect = {
+			set_variable = { ARG_target_num_factories = ARG.num_of_factories }
+			add_to_variable = { ARG_target_num_factories = 7 } #Might change depending on how difficult this is
+		}
+		activate_mission = ARG_rebuild_the_economy
+	}
+}
+
+## Posadist Ambition #3 - Deal with the Oligarchs
+country_event = {
+	id = argentina.posadistambitions.3
+	title = argentina.posadistambitions.3.t 
+	desc = argentina.posadistambitions.3.d 
+	picture = GFX_ARG_juan_posadas_event_pic 
+
+	is_triggered_only = yes 
+	fire_only_once = yes 
+
+	option = {
+		name = argentina.posadistambitions.1.a
+		add_to_variable = { ARG_active_posadist_ambition_missions = 1 }
+		activate_mission = ARG_deal_with_the_oligarchs
+	}
+}
+
+## Posadist Ambition #4 - Improve National Infrastructure
+country_event = {
+	id = argentina.posadistambitions.4
+	title = argentina.posadistambitions.4.t 
+	desc = argentina.posadistambitions.4.d 
+	picture = GFX_ARG_juan_posadas_event_pic
+
+	is_triggered_only = yes 
+	fire_only_once = yes 
+
+	option = {
+		name = argentina.posadistambitions.1.a 
+		add_to_variable = { ARG_active_posadist_ambition_missions = 1 }
+		activate_mission = ARG_improve_national_infrastructure
+	}
+}
+
+## Posadist Ambition #5 - Prepare for Expansion
+country_event = {
+	id = argentina.posadistambitions.5
+	title = argentina.posadistambitions.5.t 
+	desc = argentina.posadistambitions.5.d 
+	picture = GFX_ARG_juan_posadas_event_pic
+
+	is_triggered_only = yes 
+	fire_only_once = yes 
+
+	option = {
+		name = argentina.posadistambitions.1.a
+		add_to_variable = { ARG_active_posadist_ambition_missions = 1 }
+		activate_mission = ARG_prepare_for_expansion
+	}
+}
+
+## Posadist Ambition #6 - Form Posadist La Plata
+country_event = {
+	id = argentina.posadistambitions.6
+	title = argentina.posadistambitions.6.t 
+	desc = argentina.posadistambitions.6.d 
+	picture = GFX_ARG_juan_posadas_event_pic 
+
+	fire_only_once = yes 
+
+	trigger = {
+		original_tag = ARG 
+		has_country_leader = {
+			character = ARG_juan_posadas
+			ruling_only = yes 
+		}
+		has_civil_war = no 
+		OR = {
+			has_war_with = PAR 
+			has_war_with = URG
+			any_controlled_state = {
+				is_core_of = URG 
+			}
+			any_controlled_state = {
+				is_core_of = PAR 
+			}
+			has_country_flag = ARG_completed_expansion
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = { has_country_flag = ARG_started_expansion }
+				}
+			}
+			set_country_flag = ARG_started_expansion
+		}
+	}
+
+	option = {
+		name = argentina.posadistambitions.1.a
+		add_to_variable = { ARG_active_posadist_ambition_missions = 1 }
+		activate_mission = ARG_prepare_for_expansion
+	}
+}
+
+## Posadist Ambition #7 - Conquer the Andes
+country_event = {
+	id = argentina.posadistambitions.7
+	title = argentina.posadistambitions.7.t 
+	desc = argentina.posadistambitions.7.d 
+	picture = GFX_ARG_juan_posadas_event_pic 
+
+	fire_only_once = yes 
+
+	trigger = {
+		original_tag = ARG 
+		has_country_leader = {
+			character = ARG_juan_posadas
+			ruling_only = yes 
+		}
+		has_civil_war = no 
+		OR = {
+			has_war_with = CHL 
+			has_war_with = BOL
+			has_war_with = PRU
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = { has_country_flag = ARG_started_expansion }
+				}
+			}
+			set_country_flag = ARG_started_expansion
+		}
+	}
+
+	option = {
+		name = argentina.posadistambitions.1.a
+		add_to_variable = { ARG_active_posadist_ambition_missions = 1 }
+		activate_mission = ARG_conquer_the_andes
+	}
+}
+
+## Posadist Ambition #8 - Conquer Brazil
+country_event = {
+	id = argentina.posadistambitions.8
+	title = argentina.posadistambitions.8.t 
+	desc = argentina.posadistambitions.8.d 
+	picture = GFX_ARG_juan_posadas_event_pic 
+
+	fire_only_once = yes 
+
+	trigger = {
+		original_tag = ARG 
+		has_country_leader = {
+			character = ARG_juan_posadas
+			ruling_only = yes 
+		}
+		has_civil_war = no 
+		has_war_with = BRA
+	}
+
+	immediate = {
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = { has_country_flag = ARG_started_expansion }
+				}
+			}
+			set_country_flag = ARG_started_expansion
+		}
+	}
+
+	option = {
+		name = argentina.posadistambitions.1.a
+		add_to_variable = { ARG_active_posadist_ambition_missions = 1 }
+		activate_mission = ARG_conquer_the_andes
+	}
+}
+
+## Posadist Ambition #9 - Naval Expansion Program
+country_event = {
+	id = argentina.posadistambitions.9
+	title = argentina.posadistambitions.9.t 
+	desc = argentina.posadistambitions.9.d 
+	picture = GFX_ARG_juan_posadas_event_pic 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.posadistambitions.1.a
+		add_to_variable = { ARG_active_posadist_ambition_missions = 1 }
+		activate_mission = ARG_naval_expansion_program
+	}
+}
+
+## Posadist Ambition #10 - Expand Beyond South America
+country_event = {
+	id = argentina.posadistambitions.10
+	title = argentina.posadistambitions.10.t 
+	desc = argentina.posadistambitions.10.d 
+	picture = GFX_ARG_juan_posadas_event_pic 
+
+	fire_only_once = yes 
+
+	trigger = {
+		original_tag = ARG 
+		has_country_leader = {
+			character = ARG_juan_posadas
+			ruling_only = yes 
+		}
+		has_civil_war = no 
+		has_country_flag = ARG_started_expansion
+		any_controlled_state = {
+			is_core_of = BRA 
+		}
+		any_controlled_state = {
+			is_core_of = URG 
+		}
+		any_controlled_state = {
+			is_core_of = PAR
+		}
+		any_controlled_state = {
+			is_core_of = CHL
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = ARG_beyond_SA
+		}
+	}
+
+	option = {
+		name = argentina.posadistambitions.1.a
+		add_to_variable = { ARG_active_posadist_ambition_missions = 1 }
+		activate_mission = ARG_expand_beyond_south_america
+	}
+}
+
+## Posadist Ambition #11 - Extend the Revolution to Europe
+country_event = {
+	id = argentina.posadistambitions.11
+	title = argentina.posadistambitions.11.t 
+	desc = argentina.posadistambitions.11.d 
+	picture = GFX_ARG_juan_posadas_event_pic 
+
+	fire_only_once = yes 
+
+	trigger = {
+		original_tag = ARG 
+		has_country_leader = {
+			character = ARG_juan_posadas
+			ruling_only = yes 
+		}
+		has_civil_war = no 
+		has_country_flag = ARG_beyond_SA
+		any_controlled_state = {
+			is_core_of = PRU 
+		}
+		any_controlled_state = {
+			NOT = { is_on_continent = south_america }
+		}
+	}
+
+	option = {
+		name = argentina.posadistambitions.1.a
+		add_to_variable = { ARG_active_posadist_ambition_missions = 1 }
+		activate_mission = ARG_extend_the_revolution_to_europe
+	}
+}
+
+## Posadist Ambition #12 - Decimate the Pigs
+country_event = {
+	id = argentina.posadistambitions.12
+	title = argentina.posadistambitions.12.t 
+	desc = argentina.posadistambitions.12.d 
+	picture = GFX_ARG_juan_posadas_event_pic 
+
+	fire_only_once = yes 
+
+	trigger = {
+		original_tag = ARG 
+		has_country_leader = {
+			character = ARG_juan_posadas
+			ruling_only = yes 
+		}
+		has_civil_war = no 
+		has_country_flag = ARG_beyond_SA
+		OR = {
+			has_war_with = ENG 
+			has_war_with = USA 
+		}
+	}
+
+	option = {
+		name = argentina.posadistambitions.1.a
+		add_to_variable = { ARG_active_posadist_ambition_missions = 1 }
+		activate_mission = ARG_extend_the_revolution_to_europe
+	}
+}
+
+## Final Posadist Ambition - Viva la Revolución Mundial
+country_event = {
+	id = argentina.posadistambitions.13
+	title = argentina.posadistambitions.13.t 
+	desc = argentina.posadistambitions.13.d 
+	picture = GFX_ARG_juan_posadas_event_pic 
+
+	fire_only_once = yes 
+
+	trigger = {
+		original_tag = ARG 
+		has_country_leader = {
+			character = ARG_juan_posadas
+			ruling_only = yes 
+		}
+		has_civil_war = no 
+		has_country_flag = ARG_beyond_SA
+		any_controlled_state = {
+			OR = {
+				is_core_of = USA 
+				is_core_of = ENG 
+				is_core_of = POR 
+				is_core_of = FRA
+			}
+		}
+	}
+
+	option = {
+		name = argentina.posadistambitions.13.a
+		add_to_variable = { ARG_active_posadist_ambition_missions = 1 }
+		activate_mission = ARG_viva_la_revolucion_mundial
+	}
+}
+
+## Generic Posadist Ambition Sucesfully Completed
+country_event = {
+	id = argentina.posadistambitions.100
+	title = argentina.posadistambitions.100.t 
+	desc = argentina.posadistambitions.100.d 
+
+	is_triggered_only = yes 
+
+	option = { #great!
+		name = argentina.posadistambitions.100.a 
+	}
+}
+
+## Generic Posadist Ambition Failed
+country_event = {
+	id = argentina.posadistambitions.101
+	title = argentina.posadistambitions.101.t 
+	desc = argentina.posadistambitions.101.d 
+
+	is_triggered_only = yes 
+
+	option = { #great!
+		name = argentina.posadistambitions.101.a 
+	}
+}
+
+#Shall we hold the Upcoming Elections?
+country_event = {
+	id = argentina.rework.1 
+	title = argentina.rework.1.t 
+	desc = argentina.rework.1.d 
+	picture = GFX_report_event_election_vote
+
+	is_triggered_only = yes 
+
+	option = { #hold elections, will allow Infamous Decade and Change of Course paths 
+		name = argentina.rework.1.a 
+		activate_mission = ARG_the_1937_elections
+		hidden_effect = {
+			966 = {
+				add_dynamic_modifier = { modifier = ARG_dominant_ucr }
+			}
+			278 = {
+				add_dynamic_modifier = { modifier = ARG_dominant_ucr_a }
+			}
+			973 = {
+				add_dynamic_modifier = { modifier = ARG_dominant_ucr }
+			}
+			976 = {
+				add_dynamic_modifier = { modifier = ARG_dominant_ucr }
+			}
+			972 = {
+				add_dynamic_modifier = { modifier = ARG_dominant_ucr_a }
+			}
+			982 = {
+				add_dynamic_modifier = { modifier = ARG_dominant_ucr_a }
+			}
+			ARG_set_electoral_votes = yes 
+			set_global_flag = ARG_elections_active
+			country_event = {
+				id = argentina.rework.37
+				days = 12
+				random_days = 7
+			}
+		}
+	}
+
+	option = { #deny holding elections, will lead to the communist path via civil war 
+		name = argentina.rework.1.b 
+		custom_effect_tooltip = CHL_pathcivilwar #will trigger a short chain of events (3) before kickstarting the actual mission ((the choices in those events will greatly affect who becomes leader))
+		custom_effect_tooltip = ARG_will_lead_to_commie_path_tt
+		hidden_effect = {
+			set_global_flag = ARG_elections_cancelled
+			country_event = { id = argentina.rework.communist.1 random_days = 8 days = 6 hours = 48 } ## chain of events ids will be decided soon
+			set_variable = { ARG_ps_subversive_influence = 45 } ## Strongest of the factions | enemy to the player || will be trying to delay and disturb the revolution 
+			set_variable = { ARG_marxist_subversive_influence = 15 } ## Second Strongest faction | Includes Liborio and Fanny 
+			set_variable = { ARG_anarchist_subversive_influence = 5 } ## Third strongest faction | if not playing as them or neutralized them, they will also be a threat 
+			set_variable = { ARG_posadist_subversive_influence = 0 } ## No one knows about Posadas at the time, so it only makes sense 
+			set_variable = { ARG_stockpiled_guns = 0 } ## Guns that will be added to the stockpile in the civil war
+		}
+	}
+}
+
+## Stabilization effort
+country_event = {
+	id = argentina.rework.stabilization
+	title = argentina.rework.stabilization.t 
+	desc = argentina.rework.stabilization.d 
+	picture = GFX_ARG_buenos_aires
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.rework.stabilization.a 
+		add_political_power = -10
+		if = {
+			limit = {
+				has_country_flag = ARG_chose_marxist 
+			}
+			custom_effect_tooltip = ARG_decrease_marxist_influence_5_tt
+			subtract_from_variable = { ARG_marxist_subversive_influence = 5 }
+			clamp_variable = {
+				var = ARG_marxist_subversive_influence
+				min = 0
+				max = 100
+			}
+		}
+		if = {
+			limit = {
+				has_country_flag = ARG_chose_posadist 
+			}
+			custom_effect_tooltip = ARG_decrease_posadist_influence_5_tt
+			subtract_from_variable = { ARG_posadist_subversive_influence = 5 }
+			clamp_variable = {
+				var = ARG_posadist_subversive_influence
+				min = 0
+				max = 100
+			}
+		}
+		if = {
+			limit = {
+				has_country_flag = ARG_chose_anarchist_route 
+			}
+			custom_effect_tooltip = ARG_decrease_anarchist_influence_5_tt
+			subtract_from_variable = { ARG_anarchist_subversive_influence = 5 }
+			clamp_variable = {
+				var = ARG_anarchist_subversive_influence
+				min = 0
+				max = 100
+			}
+		}
+		if = {
+			limit = {
+				has_global_flag = ARG_chose_diplomacy
+			}
+			add_days_mission_timeout = {
+				mission = ARG_government_collapse
+				days = -35
+			}
+		}
+		else = {
+			add_days_mission_timeout = {
+				mission = ARG_government_collapse
+				days = -5
+			}
+		}
+		random_list = {
+			20 = {
+				ARG_decrease_5_political_tension = yes 
+			}
+			20 = {
+				ARG_decrease_10_political_tension = yes 
+			}
+			30 = {
+				ARG_decrease_15_political_tension = yes 
+			}
+			30 = {
+				ARG_decrease_20_political_tension = yes
+			}
+		}
+	}
+}
+
+### COMMUNIST CHAIN OF EVENTS ###
+
+# Violent nationwide protests #
+country_event = {
+	id = argentina.rework.communist.1
+	title = argentina.rework.communist.1.t 
+	desc = argentina.rework.communist.1.d 
+	picture = GFX_arg_communist_event_1
+
+	is_triggered_only = yes 
+
+	immediate = {
+		hidden_effect = {
+			country_event = { id = argentina.rework.communist.2 days = 7 random_days = 4 }
+			add_ideas = ARG_nationwide_protests
+			ARG_increase_10_political_tension = yes 
+		}
+	}
+
+	option = { #gain the support of the provincians 
+		name = argentina.rework.communist.1.a 
+		custom_effect_tooltip = ARG_increase_posadist_influence_10_tt
+		custom_effect_tooltip = ARG_increase_marxist_influence_5_tt
+		custom_effect_tooltip = ARG_increase_anarchist_influence_5_tt
+
+		add_political_power = 15
+
+		custom_effect_tooltip = ARG_start_with_influence_in_mendoza_san_luis_tt
+		hidden_effect = {
+			511 = {
+				add_dynamic_modifier = { modifier = ARG_communist_tendencies }
+			}
+			974 = {
+				add_dynamic_modifier = { modifier = ARG_communist_tendencies }
+			}
+			975 = {
+				add_dynamic_modifier = { modifier = ARG_communist_tendencies }
+			}
+			976 = {
+				add_dynamic_modifier = { modifier = ARG_communist_tendencies }
+			}
+			set_global_flag = ARG_chose_provinces
+			add_to_variable = { ARG_posadist_subversive_influence = 10 }
+			add_to_variable = { ARG_marxist_subversive_influence = 5 }
+			add_to_variable = { ARG_anarchist_subversive_influence = 5 }
+		}
+
+		effect_tooltip = {
+			add_ideas = ARG_nationwide_protests
+			ARG_increase_10_political_tension = yes
+		}
+	}
+
+	option = { #gain the support of the bonaerenses
+		name = argentina.rework.communist.1.b 
+		custom_effect_tooltip = ARG_increase_marxist_influence_10_tt
+		custom_effect_tooltip = ARG_increase_ps_influence_10_tt
+
+		add_political_power = 15
+
+		custom_effect_tooltip = ARG_start_with_buenos_aires_tt
+
+		hidden_effect = {
+			966 = {
+				add_dynamic_modifier = { modifier = ARG_communist_tendencies }
+			}
+			278 = {
+				add_dynamic_modifier = { modifier = ARG_communist_tendencies }
+			}
+			add_to_variable = { ARG_marxist_subversive_influence = 10 }
+			add_to_variable = { ARG_ps_subversive_influence = 10 }
+		}
+
+		effect_tooltip = {
+			add_ideas = ARG_nationwide_protests
+			ARG_increase_10_political_tension = yes
+		}
+	}
+}
+
+# The Situation is only worsening # 
+country_event = {
+	id = argentina.rework.communist.2
+	title = argentina.rework.communist.2.t 
+	desc = argentina.rework.communist.2.d 
+	picture = GFX_arg_communist_event_2
+
+	is_triggered_only = yes 
+
+	immediate = {
+		hidden_effect = {
+			country_event = { id = argentina.rework.communist.3 days = 7 random_days = 4 }
+			every_controlled_state = {
+				limit = {
+					industrial_complex > 1
+				}
+				add_dynamic_modifier = { modifier = ARG_protests }
+				set_demilitarized_zone = yes 
+			}
+			add_to_variable = { ARG_tension_increment_weekly = 1 }
+			activate_mission = ARG_government_collapse
+		}
+
+		custom_effect_tooltip = ARG_protests_will_erupt_tt
+	}
+
+	option = { #only a full scale revolution can stop this 
+		name = argentina.rework.communist.2.a 
+		custom_effect_tooltip = ARG_increase_marxist_influence_20_tt
+		custom_effect_tooltip = ARG_increase_anarchist_influence_10_tt
+		custom_effect_tooltip = ARG_increase_posadist_influence_5_tt
+		
+		add_political_power = 25
+
+		custom_effect_tooltip = ARG_tension_weekly_increment_1_tt
+
+		set_party_name = {
+			ideology = communism
+			long_name = ARG_communist_party_long
+			name = ARG_communist_party 
+		}
+
+		hidden_effect = {
+			set_global_flag = ARG_chose_revolution
+			promote_character = ARG_liborio_justo
+			add_to_variable = { ARG_marxist_subversive_influence = 20 }
+			add_to_variable = { ARG_anarchist_subversive_influence = 5 }
+			add_to_variable = { ARG_posadist_subversive_influence = 5 }
+		}
+
+		effect_tooltip = {
+			unlock_national_focus = ARG_a_bloody_revolution
+			activate_mission = ARG_government_collapse
+		}
+	}
+
+	option = { #we must remain calm! (diplomatic revolution)
+		name = argentina.rework.communist.2.b
+		custom_effect_tooltip = ARG_increase_ps_influence_10_tt
+		custom_effect_tooltip = ARG_increase_marxist_influence_5_tt
+
+		add_political_power = 50
+
+		custom_effect_tooltip = ARG_tension_weekly_increment_1_tt
+
+		hidden_effect = {
+			set_global_flag = ARG_chose_diplomacy
+			add_to_variable = { ARG_ps_subversive_influence = 10 }
+			add_to_variable = { ARG_marxist_subversive_influence = 5 }
+		}
+
+		effect_tooltip = {
+			unlock_national_focus = ARG_a_diplomatic_revolution
+			activate_mission = ARG_government_collapse
+		}
+	}
+}
+
+# Anarchist sentiment takes over in the Patagonia # 
+country_event = {
+	id = argentina.rework.communist.3
+	title = argentina.rework.communist.3.t 
+	desc = argentina.rework.communist.3.d 
+	picture = GFX_arg_communist_event_3
+
+	is_triggered_only = yes 
+
+	immediate = {
+		hidden_effect = {
+			968 = {
+				add_dynamic_modifier = { modifier = ARG_anarchist_occupation }
+			}
+			967 = {
+				add_dynamic_modifier = { modifier = ARG_anarchist_occupation }
+			}
+			set_country_flag = ARG_initiate_communist_mechanic
+		}
+	}
+
+	option = {
+		name = argentina.rework.communist.3.a 
+		trigger = {
+			has_global_flag = ARG_chose_revolution
+		}
+
+		custom_effect_tooltip = ARG_anarchists_spread_in_south_tt
+		custom_effect_tooltip = ARG_increase_anarchist_influence_10_tt
+		custom_effect_tooltip = ARG_marxists_will_treat_us_as_a_threat_tt
+		custom_effect_tooltip = ARG_autocomplete_treaty_with_the_anarchists_tt
+
+		set_country_flag = ARG_chose_anarchist_route
+		set_global_flag = ARG_anarchy
+		unlock_decision_tooltip = ARG_promote_anarchism
+
+		hidden_effect = {
+			add_to_variable = { ARG_anarchist_subversive_influence = 10 }
+		}
+	}
+
+	option = {
+		name = argentina.rework.communist.3.b 
+
+		custom_effect_tooltip = ARG_anarchists_spread_in_south_tt
+		custom_effect_tooltip = ARG_anarchists_will_actively_target_us_tt
+		custom_effect_tooltip = ARG_autocomplete_patrulla_roja_tt
+
+		set_country_flag = ARG_very_hostile_anarchists
+	}
+}
+
+## Major Anti-War Sentiment from the PS ## 
+country_event = {
+	id = argentina.rework.communist.4
+	title = argentina.rework.communist.4.t 
+	desc = argentina.rework.communist.4.d 
+	picture = GFX_report_event_generic_rally2
+
+	is_triggered_only = yes 
+
+	immediate = {
+		hidden_effect = {
+			add_ideas = ARG_major_anti_war_sentiment
+		}
+	}
+
+	option = {
+		name = argentina.rework.communist.4.a 
+		add_stability = -0.05
+		effect_tooltip = {
+			add_ideas = ARG_major_anti_war_sentiment
+		}
+	}
+}
+
+## Socialists Sabotaged one of our Reserves ##
+country_event = {
+	id = argentina.rework.communist.5
+	title = argentina.rework.communist.5.t 
+	desc = argentina.rework.communist.5.d 
+	picture = GFX_report_event_spr_anarchists2
+
+	is_triggered_only = yes 
+
+	option = { #these damn brats
+		name = argentina.rework.communist.5.a 
+		add_equipment_to_stockpile = {
+			type = infantry_equipment
+			amount = -275
+		}
+	}
+}
+
+## Popular Support for Fanny at all time High ## (occurs after bringing her back from Spain)
+country_event = {
+	id = argentina.rework.communist.6
+	title = argentina.rework.communist.6.t 
+	desc = argentina.rework.communist.6.d 
+	picture = GFX_ARG_fanny_edeleman_event_pic
+
+	is_triggered_only = yes 
+
+	option = { #She should be the one to lead
+		name = argentina.rework.communist.6.a 
+		set_global_flag = ARG_fanny_was_chosen_to_lead
+		custom_effect_tooltip = ARG_fanny_will_become_leader_tt
+		hidden_effect = {
+			promote_character = ARG_fanny_edelman
+		}
+	}
+
+	option = {
+		name = argentina.rework.communist.6.b
+		add_political_power = -5
+		add_war_support = 0.01
+	}
+}
+
+## Nationwide Anarchist Sabotage
+country_event = {
+	id = argentina.rework.communist.7
+	title = argentina.rework.communist.7.t 
+	desc = argentina.rework.communist.7.d
+	picture = GFX_report_event_generic_riot
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.rework.communist.7.a 
+		add_stability = -0.03
+		random_list = {
+			33 = {
+				custom_effect_tooltip = ARG_increase_anarchist_influence_10_tt
+				custom_effect_tooltip = ARG_anarchism_spread_to_another_state_tt
+				add_political_power = -15
+				hidden_effect = {
+					add_to_variable = {
+						ARG_anarchist_subversive_influence = 10
+					}
+					random_owned_controlled_state = {
+						limit = {
+							any_neighbor_state = {
+								has_dynamic_modifier = {
+									modifier = ARG_anarchist_occupation
+								}
+							}
+						}
+						add_dynamic_modifier = {
+							modifier = ARG_anarchist_occupation
+						}
+						if = {
+							limit = {
+								has_dynamic_modifier = {
+									modifier = ARG_communist_tendencies
+								}
+							}
+							remove_dynamic_modifier = {
+								modifier = ARG_communist_tendencies
+							}
+						}
+					}
+				}
+			}
+			34 = {
+				custom_effect_tooltip = ARG_increase_anarchist_influence_5_tt
+				if = {
+					limit = {
+						NOT = {
+							has_completed_focus = ARG_secure_the_patagonia
+						}
+					}
+					custom_effect_tooltip = ARG_anarchism_spread_to_another_state_tt
+				}
+				add_political_power = -10
+				hidden_effect = {
+					add_to_variable = {
+						ARG_anarchist_subversive_influence = 5
+					}
+					if = {
+						limit = {
+							NOT = {
+								has_completed_focus = ARG_secure_the_patagonia
+							}
+						}
+						random_owned_controlled_state = {
+							limit = {
+								any_neighbor_state = {
+									has_dynamic_modifier = {
+										modifier = ARG_anarchist_occupation
+									}
+								}
+							}
+							add_dynamic_modifier = {
+								modifier = ARG_anarchist_occupation
+							}
+						}
+					}
+				}
+			}
+			33 = {
+				add_political_power = -5
+			}
+		}
+	}
+}
+
+## Marxist Supporters Attempt to Thwart our Plans
+country_event = {
+	id = argentina.rework.communist.8
+	title = argentina.rework.communist.8.t 
+	desc = argentina.rework.communist.8.d 
+	picture = GFX_report_event_generic_riot
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.rework.communist.8.a 
+		random_list = {
+			50 = {
+				add_political_power = -15
+				custom_effect_tooltip = ARG_decrease_anarchist_influence_5_tt
+				hidden_effect = {
+					subtract_from_variable = { ARG_anarchist_subversive_influence = 5 }
+					clamp_variable = {
+						var = ARG_anarchist_subversive_influence
+						min = 0
+						max = 100
+					}
+				}
+			}
+			50 = {
+				add_political_power = -10
+			}
+		}
+	}
+}
+
+
+## Other sides of the civil war get notified of a junta taking over the government
+country_event = {
+	id = argentina.rework.communist.9
+	title = argentina.rework.communist.9.t 
+	desc = argentina.rework.communist.9.d 
+	picture = GFX_report_event_generic_army
+	
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.rework.communist.9.a 
+		if = {
+			limit = {
+				has_global_flag = ARG_anarchy
+			}
+			custom_effect_tooltip = ARG_communists_will_seek_their_chance_tt
+			activate_mission = ARG_communist_uprising
+		}
+		else = {
+			custom_effect_tooltip = ARG_anarchists_wil_seek_their_chance_tt
+			activate_mission = ARG_anarchist_uprising
+		}
+	}
+}
+
+## Soviet Union gets event of Argentina asking for Soviet Aid
+country_event = {
+	id = argentina.rework.communist.10
+	title = brazil.39.t 
+	desc = brazil.39.d 
+	picture = GFX_report_event_hitler_handshake
+
+	is_triggered_only = yes 
+
+	option = { #Agree to send aid 
+		name = brazil.39.a 
+		ai_chance = {
+			base = 1
+			modifier = {
+				add = 75
+				has_opinion = {
+					target = FROM 
+					value > 79
+				}
+			}
+			modifier = {
+				add = 45
+				has_opinion = {
+					target = FROM 
+					value > 49
+				}
+			}
+		}
+		FROM = { country_event = brazil.40 }
+		hidden_effect = {
+			FROM = {
+				set_country_flag = BRA_soviet_accepted
+			}
+		}
+	}
+
+	option = { #decline 
+		name = brazil.39.b 
+		ai_chance = {
+			base = 1
+			modifier = {
+				add = 50
+				has_war = yes 
+			}
+			modifier = {
+				add = 350
+				has_civil_war = yes 
+			}
+		}
+		FROM = { country_event = brazil.41 }
+	}
+
+}
+
+## Time to Join the Commintern
+country_event = {
+	id = argentina.rework.communist.11
+	title = argentina.rework.communist.11.t 
+	desc = argentina.rework.communist.11.d 
+	picture = GFX_report_event_stalin_01
+
+	is_triggered_only = yes 
+
+	option = { #We don't have a choice 
+		name = argentina.rework.communist.11.a 
+		ai_chance = {
+			base = 25
+			modifier = {
+				factor = 4
+				strength_ratio = {
+					tag = SOV
+					ratio < 1
+				}
+			}
+		}
+		SOV = { 
+			add_to_faction = ROOT 
+			country_event = { id = argentina.rework.communist.12 hours = 6 } #Agreed to Join
+		}
+	}
+
+	option = { #No Thanks
+		name = argentina.rework.communist.11.b
+		ai_chance = {
+			base = 25
+			modifier = {
+				factor = 4
+				strength_ratio = {
+					tag = SOV
+					ratio > 1
+				}
+			}
+		}
+		SOV = {
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = ROOT
+			}
+			country_event = { id = argentina.rework.communist.13 hours = 6 }
+		}
+	}
+}
+
+## FROM Agreed to join our faction
+country_event = {
+	id = argentina.rework.communist.12
+	title = argentina.rework.communist.12.t 
+	desc = argentina.rework.communist.12.d 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.rework.communist.12.a
+	}
+}
+
+## FROM did not join our faction
+country_event = {
+	id = argentina.rework.communist.13
+	title = argentina.rework.communist.13.t 
+	desc = argentina.rework.communist.13.d 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.rework.communist.13.a
+		effect_tooltip = {
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = FROM
+			}
+		}
+	}
+}
+
+## An Unlikely encounter with the Bandit
+country_event = {
+	id = argentina.rework.communist.14
+	title = argentina.rework.communist.14.t 
+	desc = argentina.rework.communist.14.d 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.rework.communist.14.a 
+		custom_effect_tooltip = ARG_pistolero_available_as_general_tt
+	}
+}
+
+## Alien life discovered 
+country_event = {
+	id = argentina.rework.communist.15 
+	title = argentina.rework.communist.15.t 
+	desc = argentina.rework.communist.15.d 
+	picture = GFX_ARG_alien_encounter
+
+	is_triggered_only = yes 
+
+	option = { #Your help is truly a blessing 
+		name = argentina.rework.communist.15.a 
+		add_ideas = ARG_alien_technological_aid
+	}
+}
+
+## FROM Gets event of Argentina demanding pitcairn island 
+country_event = {
+	id = argentina.rework.communist.16
+	title = argentina.rework.communist.16.t 
+	desc = argentina.rework.communist.16.d 
+
+	is_triggered_only = yes 
+
+	option = { #Hand it over 
+		name = argentina.rework.communist.16.a 
+		ai_chance = {
+			base = 15
+			modifier = {
+				factor = 4
+				strength_ratio = {
+					tag = FROM
+					ratio < 1
+				}
+			}
+			modifier = {
+				factor = 2
+				FROM = { num_of_factories > 49 }
+			}
+			modifier = {
+				factor = 3
+				has_opinion = {
+					target = FROM 
+					value > 79 
+				}
+			}
+			modifier = {
+				factor = 3
+				FROM = { has_army_manpower = { size > 249999 } }
+			}
+			modifier = {
+				factor = 5
+				OR = {
+					has_civil_war = yes 
+					has_war = yes 
+				}
+			}
+		}
+		FROM = { 
+			transfer_state = 270
+			country_event = peru.16
+		}
+	}
+
+	option = { #Never 
+		name = argentina.rework.communist.16.b
+		ai_chance = {
+			base = 20
+		}
+		FROM = { country_event = peru.17 }
+	}
+}
+
+## FROM gets event of Argentina demanding entirety of Patagonia, as well as subjegation
+country_event = {
+	id = argentina.rework.communist.17
+	title = argentina.rework.communist.17.t 
+	desc = argentina.rework.communist.17.d 
+
+	is_triggered_only = yes
+
+	option = { #agree to give patagonia and become a subject
+		name = argentina.rework.communist.17.a 
+		ai_chance = {
+			base = 10
+			modifier = {
+				factor = 4
+				strength_ratio = {
+					tag = FROM
+					ratio < 1
+				}
+			}
+			modifier = {
+				factor = 2
+				FROM = { num_of_factories > 49 }
+			}
+			modifier = {
+				factor = 3
+				has_opinion = {
+					target = FROM 
+					value > 79 
+				}
+			}
+			modifier = {
+				factor = 3
+				FROM = { has_army_manpower = { size > 249999 } }
+			}
+			modifier = {
+				factor = 5
+				has_war = yes 
+			}
+		}
+		FROM = {
+			transfer_state = 911
+			transfer_state = 507
+			transfer_state = 912
+			transfer_state = 963
+			transfer_state = 913
+			puppet = ROOT
+			country_event = peru.16
+		}
+	}
+
+	option = { #HELL NO ARE YOU CRAZY????
+		name = argentina.rework.communist.17.b 
+		ai_chance = {
+			base = 20
+			modifier = {
+				factor = 3
+				strength_ratio = {
+					tag = FROM
+					ratio > 1
+				}
+			}
+			modifier = {
+				factor = 2
+				FROM = {
+					OR = {
+						has_civil_war = yes 
+						has_war = yes 
+					}
+				}
+			}
+		}
+		FROM = { country_event = peru.17 }
+	}
+}
+
+#Corruption scandal 
+country_event = {
+	id = argentina.rework.2
+	title = argentina.rework.2.t 
+	desc = argentina.rework.2.d 
+	picture = GFX_report_event_sanation_left_victory
+
+	is_triggered_only = yes 
+
+	option = { #challenge it head on
+		name = argentina.rework.2.a 
+		custom_effect_tooltip = ARG_politicans_will_rebel_tt
+		ARG_increase_2_political_tension = yes 
+		add_timed_idea = {
+			idea = ARG_corrupt_politicans_rebelling
+			days = 25
+		}
+		if = {
+			limit = {
+				check_variable = { ARG_degree_of_corruption > 7 }
+			}
+			random_list = {
+				40 = {
+					ARG_decrease_corruption_by_1 = yes 
+				}
+				60 = {
+
+				}
+			}
+		}
+		if = {
+			limit = {
+				is_power_balance_side_active = {
+					id = ARG_general_balance_of_power
+					side = ARG_oligarchs_side
+				}
+			}
+			ARG_move_5_right = yes 
+		}
+	}
+
+	option = { #sweep it under the rug 
+		name = argentina.rework.2.b 
+		if = {
+			limit = {
+				check_variable = { ARG_degree_of_corruption < 8 }
+			}
+			ARG_increase_corruption_by_1 = yes 
+		}
+		else = {
+			add_political_power = 25
+		}
+		if = {
+			limit = {
+				is_power_balance_side_active = {
+					id = ARG_general_balance_of_power
+					side = ARG_oligarchs_side
+				}
+			}
+			ARG_move_5_left = yes 
+		}
+	}
+}
+
+#Corrupt politician is found 
+country_event = {
+	id = argentina.rework.3
+	title = argentina.rework.3.t 
+	desc = argentina.rework.3.d 
+	#picture = GFX_ 
+
+	is_triggered_only = yes 
+
+	option = { #kick them out from the government 
+		name = argentina.rework.3.a 
+		ARG_decrease_corruption_by_1 = yes 
+		if = {
+			limit = {
+				has_country_flag = ARG_tension_increase_if_corrupt_politician_found
+			}
+			ARG_increase_3_political_tension = yes 
+		}
+		custom_effect_tooltip = ARG_corrupt_politican_will_be_forcefully_retired_tt
+		hidden_effect = {
+			random_character = {
+				limit = { has_character_flag = ARG_corrupt_politician }
+				ROOT = { retire_character = PREV }
+			}
+		}
+	}
+
+	option = { #sweep our findings under the rug 
+		name = argentina.rework.3.b 
+		add_political_power = 40
+		random_list = {
+			40 = {
+				custom_effect_tooltip = ARG_corruption_will_now_aid_us_tt
+				set_variable = { ARG_corruption_status = 1 }
+			}
+			60 = {
+
+			}
+		}
+	}
+}
+
+#Investigation turns out to be a failure 
+country_event = {
+	id = argentina.rework.4
+	title = argentina.rework.4.t 
+	desc = argentina.rework.4.d 
+	#picture = GFX_ 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.rework.4.a 
+		random_list = {
+			25 = {
+				add_political_power = 5
+			}
+			25 = {
+				add_political_power = 10 
+			}
+			25 = {
+				add_political_power = 20
+			}
+			25 = {
+				add_political_power = 30 
+			}
+		}
+		random_list = {
+			50 = {
+
+			}
+			50 = {
+				custom_effect_tooltip = ARG_politicans_will_rebel_tt
+				add_timed_idea = {
+					idea = ARG_corrupt_politicans_rebelling
+					days = 20
+				}
+			}
+		}
+	}
+}
+
+#Formation of the ALN 
+country_event = {
+	id = argentina.rework.ALN 
+	title = argentina.rework.ALN.t 
+	desc = argentina.rework.ALN.d 
+	picture = GFX_ARG_ALN_formation
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.rework.ALN.a 
+		set_party_name = { 
+			ideology = neutrality 
+			long_name = ARG_ALN_party_long 
+			name = ARG_ALN_party 
+		}
+		ARG_increase_1_political_tension = yes 
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.02
+		}
+		set_country_flag = ARG_ALN_formed
+	}
+}
+
+#Terrorist attack by the Alianza Libertadora Nacionalista
+country_event = {
+	id = argentina.rework.5
+	title = argentina.rework.5.t 
+	desc = argentina.rework.5.d 
+	
+	trigger = {
+		original_tag = ARG 
+		has_civil_war = no 
+		has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
+		NOT = { has_country_flag = ARG_ALN_headquarters_destroyed }
+		has_country_flag = ARG_ALN_formed
+	}
+
+	mean_time_to_happen = {
+		days = 300
+		modifier = {
+			factor = 0.75
+			check_variable = { ARG_political_tension > 54 }
+		}
+	}
+	
+	immediate = {
+		hidden_effect = {
+			random_owned_controlled_state = {
+				limit = { 
+					is_core_of = ROOT 
+					NOT = { has_dynamic_modifier = { modifier = ARG_active_ANL_terrorist_group } }
+				}
+				add_dynamic_modifier = { modifier = ARG_active_ANL_terrorist_group }
+			}
+		}
+	}
+
+	option = {
+		name = argentina.rework.5.a 
+		custom_effect_tooltip = ARG_random_state_gets_attacked_by_terrorists_tt
+		ARG_increase_5_political_tension = yes 
+	}
+}
+
+#Alianza Libertadora Nacionalista headquarters found 
+country_event = {
+	id = argentina.rework.6
+	title = argentina.rework.6.t 
+	desc = argentina.rework.6.d 
+	picture = GFX_report_event_military_planning
+
+	is_triggered_only = yes 
+
+	option = { #target and destroy it 
+		name = argentina.rework.6.a 
+		custom_effect_tooltip = ARG_for_year_and_half_no_attacks_tt
+		set_country_flag = {
+			flag = ARG_ALN_headquarters_destroyed
+			days = 520
+			value = 1
+		}
+	}
+}
+
+#The military is displeased with how we are running the country 
+country_event = {
+	id = argentina.rework.7
+	title = argentina.rework.7.t 
+	desc = argentina.rework.7.d 
+	picture = GFX_ARG_military_displeased
+
+	is_triggered_only = yes 
+
+	option = { #we need to be careful 
+		name = argentina.rework.7.a 
+		custom_effect_tooltip = ARG_military_opinion_decrease_tt
+		subtract_from_variable = { ARG_military_opinion = 1 }
+		clamp_variable = {
+			var = ARG_military_opinion
+			min = -2
+			max = 2
+		}
+		ARG_increase_10_political_tension = yes 
+	}
+}
+
+#The military surrounds the pink house demanding the resignation of the president 
+country_event = {
+	id = argentina.rework.8
+	title = argentina.rework.8.t 
+	desc = {
+		text = argentina.rework.8.d.notHistorical
+		trigger = { 
+			NOT = {
+				has_completed_focus = ARG_save_roberto
+			}
+		}
+	}
+	desc = {
+		text = argentina.rework.8.d.historical
+		trigger = {
+			has_idea = ARG_GOU_idea
+		}
+	}
+	picture = GFX_ARG_military_coup
+
+	is_triggered_only = yes 
+
+	immediate = { 
+		set_global_flag = ARG_military_took_over 
+		if = {
+			limit = {
+				has_idea = ARG_GOU_idea
+			}
+			set_global_flag = ARG_historical 
+		}
+	}
+
+	option = { #Let the military take over 
+		name = argentina.rework.8.a 
+		hidden_effect = {
+			set_variable = { ARG_military_opinion = 3 }
+			set_variable = { ARG_concordancia_opinion = -1 }
+			set_variable = { ARG_UCR_opinion = -1 }
+			set_variable = { ARG_partido_socialista_opinion = -1 }
+		}
+		if = {
+			limit = { 
+				NOT = { has_idea = ARG_GOU_idea }
+			}
+			promote_character = ARG_the_military_junta
+			set_party_name = {
+				ideology = neutrality
+				long_name = ARG_military_party_long
+				name = ARG_military_party
+			}
+			hidden_effect = {
+				set_variable = { ARG_political_tension = 10 }
+				set_variable = { ARG_tension_increment_weekly = 1 }
+			}
+		}
+		else = {
+			promote_character = ARG_arturo_rawson
+			set_party_name = {
+				ideology = neutrality
+				long_name = ARG_GOU_party_long
+				name = ARG_GOU_party
+			}
+			hidden_effect = {
+				remove_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
+				country_event = {
+					id = argentina.rework.46 #Pedro tells arturo to fuck off 
+					days = 3 
+				}
+				every_controlled_state = {
+					limit = { 
+						has_dynamic_modifier = { modifier = ARG_GOU_state_modifier }
+					}
+					remove_dynamic_modifier = { modifier = ARG_GOU_state_modifier }
+				}
+			}
+		}
+		
+	}
+
+	option = { #defy them ## might later connect it to the historical branch even further, still need to decide on that ##
+		name = argentina.rework.8.b 
+		hidden_effect = {
+			division_template = { 
+				name = "Milicias" 
+				division_names_group = SPAN_INF_02 
+				is_locked = yes 
+				regiments = { 
+					infantry = { x = 0 y = 0 }  
+					infantry = { x = 0 y = 1 } 
+					infantry = { x = 0 y = 2 } 
+				}
+			}
+		}
+		if = {
+			limit = { has_idea = ARG_GOU_idea } #historical ahistorical civil war 
+			start_civil_war = {
+				ideology = neutrality
+				size = 0.5
+				states = all 
+				states_filter = {
+					has_dynamic_modifier = { modifier = ARG_GOU_state_modifier }
+				}
+				hidden_effect = {
+					PREV = {
+						ARG_arturo_rawson = {
+							set_nationality = PREV.PREV 
+						}
+						ARG_the_military_junta = {
+							set_nationality = PREV.PREV 
+						}
+						ARG_pedro_pablo_ramirez = {
+							set_nationality = PREV.PREV 
+						}
+						ARG_edelmiro_julian_farrell = {
+							set_nationality = PREV.PREV
+						}
+					}
+				}
+				
+			}
+		}
+		else = { 
+			start_civil_war = {
+				ruling_party = ROOT 
+				ideology = neutrality 
+				size = 0.4
+				hidden_effect = {
+					PREV = {
+						ARG_arturo_rawson = {
+							set_nationality = PREV.PREV 
+						}
+						ARG_the_military_junta = {
+							set_nationality = PREV.PREV 
+						}
+						ARG_pedro_pablo_ramirez = {
+							set_nationality = PREV.PREV 
+						}
+						ARG_edelmiro_julian_farrell = {
+							set_nationality = PREV.PREV
+						}
+					}
+				}
+			}
+		}
+		hidden_effect = {
+			remove_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
+			random_owned_controlled_state = {
+				create_unit = {
+					division = "name = \"Loyalists\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+					owner = ROOT
+				}
+				create_unit = {
+					division = "name = \"Loyalists\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+					owner = ROOT
+				}
+			}
+			random_owned_controlled_state = {
+				create_unit = {
+					division = "name = \"Loyalists\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+					owner = ROOT
+				}
+				create_unit = {
+					division = "name = \"Loyalists\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+					owner = ROOT
+				}
+			}
+			random_owned_controlled_state = {
+				create_unit = {
+					division = "name = \"Loyalists\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+					owner = ROOT
+				}
+				create_unit = {
+					division = "name = \"Loyalists\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+					owner = ROOT
+				}
+			}
+			random_other_country = {
+				limit = { 
+					original_tag = ARG 
+					has_civil_war = yes 
+				}
+				if = {
+					limit = { 
+						has_global_flag = ARG_historical 
+					}
+					promote_character = ARG_pedro_pablo_ramirez
+				}
+				else = {
+					promote_character = ARG_the_military_junta
+				}
+				if = {
+					limit = { num_of_controlled_states < 5 }
+					every_controlled_state = {
+						create_unit = {
+							division = "name = \"Milicia\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+							owner = PREV
+							count = 3
+						}
+					}
+				}
+				else = {
+					every_controlled_state = {
+						create_unit = {
+							division = "name = \"Milicia\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+							owner = PREV
+							count = 2
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+#People take up the streets in protests 
+country_event = {
+	id = argentina.rework.9
+	title = argentina.rework.9.t 
+	desc = argentina.rework.9.d 
+	picture = GFX_report_event_generic_riot
+
+	fire_only_once = no 
+
+	trigger = {
+		original_tag = ARG 
+		has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
+		has_civil_war = no 
+	}
+
+	mean_time_to_happen = { 
+		days = 365
+		modifier = {
+			factor = 0.9
+			AND = {
+				check_variable = { ARG_political_tension > 19 }
+				check_variable = { ARG_political_tension < 40 }
+			}
+		}
+		modifier = {
+			factor = 0.75
+			AND = {
+				check_variable = { ARG_political_tension > 39 }
+				check_variable = { ARG_political_tension < 65 }
+			}
+		}
+		modifier = {
+			factor = 0.6
+			check_variable = { ARG_political_tension > 64}
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			random_owned_controlled_state = {
+				limit = { 
+					is_core_of = ROOT 
+					NOT = { has_dynamic_modifier = { modifier = ARG_active_ANL_terrorist_group } }
+				}
+				add_dynamic_modifier = { 
+					modifier = ARG_protests 
+					days = 120
+				}
+			}
+		}
+	}
+
+	option = {
+		name = argentina.rework.9.a
+		ARG_increase_2_political_tension = yes  
+		custom_effect_tooltip = ARG_people_begin_protesting_in_random_state_tt
+	}
+}
 
 #Inflation strikes our nation 
 country_event = {
@@ -20,18 +1999,10 @@ country_event = {
 		effect_tooltip = {
 			if = {
 				limit = {
-					has_idea = ARG_high_inflation_risk
-				}
-				remove_ideas = {
-					ARG_high_inflation_risk
-					ARG_medium_inflation_risk
-					ARG_low_inflation_risk
-				}
-				add_ideas = ARG_inflation_6
-			}
-			else_if = {
-				limit = {
-					has_idea = ARG_medium_inflation_risk
+					OR = {
+						has_idea = ARG_high_inflation_risk
+						has_idea = ARG_medium_inflation_risk
+					}
 				}
 				remove_ideas = {
 					ARG_high_inflation_risk
@@ -53,9 +2024,428 @@ country_event = {
 	}
 }
 
-#Argentines offer to take up arms to defend the country 
+#We have been put in a political struggle 
+country_event = {
+	id = argentina.rework.11
+	title = argentina.rework.11.t 
+	desc = argentina.rework.11.d 
+	picture = GFX_report_event_poland_rejects
+
+	fire_only_once = no 
+
+	trigger = {
+		original_tag = ARG 
+		has_active_mission = ARG_the_1937_elections
+		has_civil_war = no 
+		exists = yes 
+		NOT = {
+			has_idea = ARG_political_struggle
+		}
+		any_controlled_state = {
+			NOT = {
+				has_state_flag = ARG_recently_taken_from_us
+			}
+		}
+		OR = {
+			has_completed_focus = ARG_partido_socialista
+			has_completed_focus = ARG_union_civica_radical
+			has_completed_focus = ARG_concordancia
+		}
+	}
+
+	mean_time_to_happen = { days = 200 }
+
+	option = { #we'll get through this
+		name = argentina.rework.11.a 
+		add_timed_idea = {
+			idea = ARG_political_struggle
+			days = 60 
+		}
+		if = {
+			limit = {
+				OR = {
+					check_variable = { ARG_concordancia_opinion = 2 }
+					check_variable = { ARG_UCR_opinion = 2 }
+				}
+			}
+			random_list = {
+				50 = {
+					if = {
+						limit = { 
+							check_variable = { ARG_concordancia_opinion = 2 }
+						}
+						set_temp_variable = { ARG_ps_power = ARG_predicted_PS_electoral_votes }
+						set_temp_variable = { ARG_ucr_power = ARG_predicted_UCR_electoral_votes }
+						set_temp_variable = { ARG_total = ARG_ps_power }
+						add_to_temp_variable = { ARG_total = ARG_ucr_power }
+						set_temp_variable = { ARG_chance_ps = ARG_ps_power }
+						set_temp_variable = { ARG_chance_ucr = ARG_ucr_power }
+						divide_temp_variable = { ARG_chance_ps = ARG_total }
+						divide_temp_variable = { ARG_chance_ucr = ARG_total }
+						multiply_temp_variable = { ARG_chance_ps = 100 }
+						multiply_temp_variable = { ARG_chance_ucr = 100 }
+						custom_effect_tooltip = ARG_depending_on_power_other_party_will_overtake_us_in_random_state_ucra_tt
+						hidden_effect = {
+							random_list = {
+								ARG_chance_ps = {
+									random_owned_controlled_state = {
+										limit = {
+											is_fully_controlled_by = ROOT 
+											has_dynamic_modifier = { modifier = ARG_dominant_ucr_a }
+										}
+										remove_dynamic_modifier = { modifier = ARG_dominant_ucr_a }
+										add_dynamic_modifier = { modifier = ARG_dominant_ps }
+										set_state_flag = {
+											flag = ARG_recently_taken_from_us
+											days = 50
+											value = 1
+										}
+									}
+								}
+								ARG_chance_ucr = {
+									random_owned_controlled_state = {
+										limit = {
+											is_fully_controlled_by = ROOT 
+											has_dynamic_modifier = { modifier = ARG_dominant_ucr_a }
+										}
+										remove_dynamic_modifier = { modifier = ARG_dominant_ucr_a }
+										add_dynamic_modifier = { modifier = ARG_dominant_ucr }
+										set_state_flag = {
+											flag = ARG_recently_taken_from_us
+											days = 50
+											value = 1
+										}
+									}
+								}
+							}
+						}
+					}
+					else = {
+						set_temp_variable = { ARG_ps_power = ARG_predicted_PS_electoral_votes }
+						set_temp_variable = { ARG_ucra_power = ARG_predicted_UCRA_electoral_votes }
+						set_temp_variable = { ARG_total = ARG_ps_power }
+						add_to_temp_variable = { ARG_total = ARG_ucra_power }
+						set_temp_variable = { ARG_chance_ps = ARG_ps_power }
+						set_temp_variable = { ARG_chance_ucra = ARG_ucra_power }
+						divide_temp_variable = { ARG_chance_ps = ARG_total }
+						divide_temp_variable = { ARG_chance_ucra = ARG_total }
+						multiply_temp_variable = { ARG_chance_ps = 100 }
+						multiply_temp_variable = { ARG_chance_ucra = 100 }
+						custom_effect_tooltip = ARG_depending_on_power_other_party_will_overtake_us_in_random_state_ucr_tt
+						hidden_effect = {
+							random_list = {
+								ARG_chance_ps = {
+									random_owned_controlled_state = {
+										limit = {
+											is_fully_controlled_by = ROOT 
+											has_dynamic_modifier = { modifier = ARG_dominant_ucr }
+										}
+										remove_dynamic_modifier = { modifier = ARG_dominant_ucr }
+										add_dynamic_modifier = { modifier = ARG_dominant_ps }
+										set_state_flag = {
+											flag = ARG_recently_taken_from_us
+											days = 50
+											value = 1
+										}
+									}
+								}
+								ARG_chance_ucra = {
+									random_owned_controlled_state = {
+										limit = {
+											is_fully_controlled_by = ROOT 
+											has_dynamic_modifier = { modifier = ARG_dominant_ucr }
+										}
+										remove_dynamic_modifier = { modifier = ARG_dominant_ucr }
+										add_dynamic_modifier = { modifier = ARG_dominant_ucr }
+										set_state_flag = {
+											flag = ARG_recently_taken_from_us
+											days = 50
+											value = 1
+										}
+									}
+								}
+							}
+						}
+					}
+					ARG_set_electoral_votes = yes 
+				}
+				50 = {
+
+				}
+			}
+		}
+	}
+}
+
+#Government initiates a check on the government (if corruption is favoring you)
+country_event = {
+	id = argentina.rework.12
+	title = argentina.rework.12.t 
+	desc = argentina.rework.12.d 
+	#picture = GFX_ #might find a pic later, but i might just be lazy lolololasoaosallas
+
+	trigger = {
+		original_tag = ARG 
+		has_dynamic_modifier = { modifier = ARG_corruption_scandal_idea }
+		check_variable = { ARG_corruption_status = 1 }
+		has_civil_war = no #i dont think the government would care about corruption in a state of near anarchy 
+		NOT = { has_active_mission = ARG_ongoing_government_investigation }
+	}
+
+	fire_only_once = no 
+
+	mean_time_to_happen = { 
+		days = 365 
+		modifier = {
+			factor = 0.8
+			check_variable = { ARG_degree_of_corruption > 5 }
+		}
+	}
+
+	option = {
+		name = argentina.rework.12.a 
+		activate_mission = ARG_ongoing_government_investigation
+	}
+}
+
+#1st Corrupt Demand: Military demands increased funding 
+country_event = {
+	id = argentina.rework.13
+	title = argentina.rework.13.t 
+	desc = argentina.rework.13.d 
+	picture = GFX_report_event_soldiers_marching
+
+	is_triggered_only = yes 
+
+	option = { #give them the funding 
+		name = argentina.rework.13.a #will be generic 
+		add_timed_idea = {
+			idea = ARG_military_funding
+			days = 60
+		}
+		ARG_chance_to_increase_corruption = yes 
+		random_list = {
+			20 = {
+				custom_effect_tooltip = ARG_military_opinion_increase_tt
+				hidden_effect = {
+					add_to_variable = { ARG_military_opinion = 1 }
+					clamp_variable = {
+						var = ARG_military_opinion
+						min = -2
+						max = 2 
+					}
+				}
+			}
+			80 = {
+
+			}
+		}
+	}
+
+	option = { #refuse 
+		name = argentina.rework.13.b  
+		random_list = {
+			50 = {
+				custom_effect_tooltip = ARG_corruption_will_go_against_us_tt
+				set_variable = { ARG_corruption_status = 0 }
+			}
+			50 = {
+
+			}
+		}
+		ARG_decrease_corruption_by_1 = yes
+		random_list = {
+			50 = {
+				custom_effect_tooltip = ARG_military_opinion_decrease_tt
+				hidden_effect = {
+					subtract_from_variable = { ARG_military_opinion = 1 }
+					clamp_variable = {
+						var = ARG_military_opinion
+						min = -2
+						max = 2 
+					}
+				}
+			}
+			50 = {
+				
+			}
+		}
+	}
+}
+
+#2nd Corrupt Demand: Oligarchs demand more power 
+country_event = {
+	id = argentina.rework.14
+	title = argentina.rework.14.t 
+	desc = argentina.rework.14.d 
+	picture = GFX_report_event_generic_conference
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.rework.13.a 
+		add_political_power = -40
+		ARG_chance_to_increase_corruption = yes 
+	}
+
+	option = {
+		name = argentina.rework.13.b 
+		random_list = {
+			50 = {
+				custom_effect_tooltip = ARG_corruption_will_go_against_us_tt
+				set_variable = { ARG_corruption_status = 0 }
+			}
+			50 = {
+
+			}
+		}
+		ARG_decrease_corruption_by_1 = yes
+	}
+}
+
+#3rd Corrupt Demand: Oligarchs demand increased salaries 
+country_event = {
+	id = argentina.rework.15
+	title = argentina.rework.15.t 
+	desc = argentina.rework.15.d 
+	picture = GFX_report_event_generic_conference
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.rework.13.a 
+		add_timed_idea = {
+			idea = ARG_increased_salaries
+			days = 90 
+		}
+		ARG_chance_to_increase_corruption = yes
+	}
+
+	option = {
+		name = argentina.rework.13.b 
+		random_list = {
+			50 = {
+				custom_effect_tooltip = ARG_corruption_will_go_against_us_tt
+				set_variable = { ARG_corruption_status = 0 }
+			}
+			50 = {
+
+			}
+		}
+		ARG_decrease_corruption_by_1 = yes
+	}
+}
+
+#4th Corrupt demand: Demands for fundings to be redirected to Buenos Aires 
+country_event = {
+	id = argentina.rework.16
+	title = argentina.rework.16.t 
+	desc = argentina.rework.16.d 
+	picture = GFX_ARG_buenos_aires
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.rework.13.a 
+		278 = {
+			add_dynamic_modifier = {
+				modifier = ARG_redirected_fundings_positive
+				days = 60
+			}
+		}
+		888 = {
+			add_dynamic_modifier = {
+				modifier = ARG_redirected_fundings_positive
+				days = 60 
+			}
+		}
+		every_controlled_state = {
+			limit = {
+				is_fully_controlled_by = ROOT 
+				NOT = { 
+					has_dynamic_modifier = { modifier = ARG_redirected_fundings_positive }
+				}
+			}
+			add_dynamic_modifier = {
+				modifier = ARG_redirected_fundings_negative
+				days = 60 
+			}
+		}
+		ARG_chance_to_increase_corruption = yes
+	}
+
+	option = {
+		name = argentina.rework.13.b 
+		random_list = {
+			50 = {
+				custom_effect_tooltip = ARG_corruption_will_go_against_us_tt
+				set_variable = { ARG_corruption_status = 0 }
+			}
+			50 = {
+
+			}
+		}
+		ARG_decrease_corruption_by_1 = yes
+	}
+}
+
+#Oligarchs support us 
+country_event = {
+	id = argentina.rework.17
+	title = argentina.rework.17.t 
+	desc = argentina.rework.17.d 
+	#picture = GFX_
+
+	trigger = {
+		original_tag = ARG 
+		has_civil_war = no 
+		check_variable = { ARG_corruption_status = 1 }
+		check_variable = { ARG_degree_of_corruption > 5 }
+		has_dynamic_modifier = { modifier = ARG_corruption_scandal_idea }
+		NOT = { has_idea = ARG_rebelling_oligarchs }
+	}
+
+	mean_time_to_happen = { days = 365 }
+
+	option = {
+		name = argentina.rework.17.a 
+		EUYL_add_1_civilian = yes 
+	}
+}
+
+#People take up the streets in protests || Triggered Event
 country_event = {
 	id = argentina.rework.18
+	title = argentina.rework.9.t 
+	desc = argentina.rework.9.d 
+	picture = GFX_report_event_generic_riot
+
+	is_triggered_only = yes 
+
+	immediate = {
+		hidden_effect = {
+			random_owned_controlled_state = {
+				limit = { 
+					is_core_of = ROOT 
+					NOT = { has_dynamic_modifier = { modifier = ARG_active_ANL_terrorist_group } }
+				}
+				add_dynamic_modifier = { 
+					modifier = ARG_protests 
+					days = 120
+				}
+			}
+		}
+	}
+
+	option = {
+		name = argentina.rework.9.a 
+		custom_effect_tooltip = ARG_people_begin_protesting_in_random_state_tt
+	}
+}
+
+#Argentines offer to take up arms to defend the country 
+country_event = {
+	id = argentina.rework.19
 	title = argentina.rework.18.t 
 	desc = argentina.rework.18.d 
 	picture = GFX_Arg_argentinarework18
@@ -98,10 +2488,12 @@ country_event = {
 			division_template = { 
 				name = "Gauchos" 
 				division_names_group = SPAN_INF_02 
-				is_locked = yes 
+				is_locked = no 
 				regiments = { 
 					cavalry = { x = 0 y = 0 }  
-					cavalry = { x = 0 y = 1 } 
+					cavalry = { x = 0 y = 1 }
+					cavalry = { x = 0 y = 2 } 
+					cavalry = { x = 0 y = 3 }
 				}
 			}
 			random_owned_controlled_state = {
@@ -221,9 +2613,1299 @@ country_event = {
 		name = argentina.rework.18.b
 		add_equipment_to_stockpile = {
 			type = infantry_equipment
-			amount = 1000
+			amount = 1500
 		}
 		add_manpower = 27500
+	}
+}
+
+# Conclusion of the Civil War
+country_event = {
+	id = argentina.rework.20 
+	title = argentina.rework.20.t 
+	desc = argentina.rework.20.d 
+	picture = GFX_report_event_france_victory_syria
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.rework.20.a 
+		add_ideas = ARG_post_civil_war_crisis
+		activate_mission = ARG_duration_of_the_crisis
+		if = {
+			limit = {
+				has_government = communism
+			}
+			custom_effect_tooltip = ARG_corruption_mechanic_stopped_oligarchs_get_agitated_tt
+			hidden_effect = {
+				remove_dynamic_modifier = {
+					modifier = ARG_corruption_scandal_idea
+				}
+				set_variable = { ARG_degree_of_corruption = 0 }
+				every_controlled_state = {
+					limit = {
+						OR = {
+							industrial_complex > 1
+							arms_factory > 1
+						}
+					}
+					add_dynamic_modifier = {
+						modifier = ARG_agitated_oligarchs
+					}
+				}
+			}
+		}
+	}
+}
+
+# Succesful Equipment Capture
+country_event = {
+	id = argentina.rework.21
+	title = argentina.rework.21.t 
+	desc = argentina.rework.21.d 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.rework.21.a 
+		effect_tooltip = {
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 600
+			}
+			add_war_support = 0.02
+		}
+	}
+}
+
+# Our Equipment got Stolen
+country_event = {
+	id = argentina.rework.22
+	title = argentina.rework.22.t 
+	desc = argentina.rework.22.d 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.rework.22.a 
+		effect_tooltip = {
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = -600
+			}
+		}
+	}
+}
+
+# Unsuccesful Equipment Capture
+country_event = {
+	id = argentina.rework.23
+	title = argentina.rework.23.t 
+	desc = argentina.rework.23.d 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.rework.23.a 
+		add_manpower = -25
+	}
+}
+
+# Failed attempt at stealing our equipment
+country_event = {
+	id = argentina.rework.24
+	title = argentina.rework.24.t 
+	desc = argentina.rework.24.d 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.rework.24.a 
+		effect_tooltip = {
+			add_war_support = 0.02
+		}
+	}
+}
+
+# Anarchist Argentina Stole some of our Factories
+country_event = {
+	id = argentina.rework.25
+	title = argentina.rework.25.t 
+	desc = argentina.rework.25.d 
+
+	is_triggered_only = yes 
+
+	option = { #We'll make them pay some other day
+		name = argentina.rework.25.a 
+		ai_chance = { 
+			base = 50 
+			modifier = {
+				factor = 2
+				strength_ratio = {
+					tag = FROM
+					ratio < 1
+				}
+			}
+			modifier = {
+				factor = 2
+				has_war = yes 
+			}
+		}
+	}
+
+	option = { #They're not getting away with this!
+		name = argentina.rework.26.b 
+		ai_chance = { 
+			base = 15 
+			modifier = {
+				factor = 4
+				strength_ratio = {
+					tag = FROM
+					ratio > 1
+				}
+			}
+			modifier = {
+				factor = 2
+				num_of_factories > 24
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					has_idea = BRA_scars_of_the_1930_revolution_1
+					has_idea = BRA_scars_of_the_1930_revolution_2
+					has_idea = BRA_scars_of_the_1930_revolution_3
+					has_idea = BRA_scars_of_the_1930_revolution_4
+					has_civil_war = yes 
+				}
+			}
+		}
+		create_wargoal = {
+			target = FROM 
+			type = annex_everything
+		}
+		add_war_support = 0.1
+		add_stability = -0.1
+		add_political_power = -35
+	}
+}
+
+# Anarchist Argentina Meddling inside our Country
+country_event = {
+	id = argentina.rework.26
+	title = argentina.rework.26.t 
+	desc = argentina.rework.26.d 
+
+	is_triggered_only = yes 
+
+	option = { #We'll make them pay some other day
+		name = argentina.rework.25.a 
+		ai_chance = { 
+			base = 50 
+			modifier = {
+				factor = 2
+				strength_ratio = {
+					tag = FROM
+					ratio < 1
+				}
+			}
+			modifier = {
+				factor = 2
+				has_war = yes 
+			}
+		}
+	}
+
+	option = { #They're not getting away with this!
+		name = argentina.rework.25.b 
+		ai_chance = { 
+			base = 15 
+			modifier = {
+				factor = 4
+				strength_ratio = {
+					tag = FROM
+					ratio > 1
+				}
+			}
+			modifier = {
+				factor = 2
+				num_of_factories > 24
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					has_idea = BRA_scars_of_the_1930_revolution_1
+					has_idea = BRA_scars_of_the_1930_revolution_2
+					has_idea = BRA_scars_of_the_1930_revolution_3
+					has_idea = BRA_scars_of_the_1930_revolution_4
+					has_civil_war = yes 
+				}
+			}
+		}
+		create_wargoal = {
+			target = FROM 
+			type = annex_everything
+		}
+		add_war_support = 0.1
+		add_stability = -0.1
+		add_political_power = -35
+	}
+}
+
+# hidden event to add Anarchist Argentina to civil war
+country_event = {
+	id = argentina.rework.27 
+
+	hidden = yes 
+
+	is_triggered_only = yes 
+
+	immediate = {
+		FROM = {
+			random_enemy_country = {
+				limit = {
+					has_civil_war = yes 
+					has_war_with = PREV
+				}
+				ARG = {
+					add_to_war = {
+						targeted_alliance = PREV.PREV 
+						enemy = PREV
+						hostility_reason = asked_to_join
+					}
+					puppet = PREV.PREV
+				}
+			}
+			
+		}
+	}
+}
+
+# removes anarchist occupation
+country_event = {
+	id = argentina.rework.28
+
+	hidden = yes 
+
+	is_triggered_only = yes 
+
+	immediate = {
+		every_controlled_state = {
+			limit = {
+				has_dynamic_modifier = {
+					modifier = ARG_anarchist_occupation
+				}
+			}
+			remove_dynamic_modifier = {
+				modifier = ARG_anarchist_occupation
+			}
+		}
+	}
+}
+
+# works in conjunction with rework.27
+country_event = {
+	id = argentina.rework.29 
+
+	hidden = yes 
+
+	is_triggered_only = yes 
+
+	immediate = {
+		ARG = {
+			country_event = argentina.rework.27
+		}
+	}
+}
+
+# removes communist tendencies
+country_event = {
+	id = argentina.rework.29 
+
+	hidden = yes 
+
+	is_triggered_only = yes 
+
+	immediate = {
+		every_controlled_state = {
+			limit = {
+				has_dynamic_modifier = {
+					modifier = ARG_communist_tendencies
+				}
+			}
+			remove_dynamic_modifier = {
+				modifier = ARG_communist_tendencies
+			}
+		}
+	}
+}
+
+# Argentina learns of FROM exterminating anarchists
+country_event = {
+	id = argentina.rework.30 
+	title = argentina.rework.30.t 
+	desc = argentina.rework.30.d 
+
+	is_triggered_only = yes 
+
+	immediate = {
+		add_manpower = -5000
+	}
+
+	option = { # They won't get away with this! 
+		name = argentina.rework.30.a 
+		ai_chance = {
+			base = 35 
+			modifier = {
+				factor = 4
+				strength_ratio = {
+					tag = FROM
+					ratio > 1
+				}
+			}
+			modifier = {
+				factor = 2
+				num_of_factories > 24
+			}
+			modifier = {
+				factor = 3
+				FROM = { has_war = yes }
+			}
+			modifier = {
+				factor = 0
+				OR = {	
+					has_civil_war = yes 
+					FROM = { has_civil_war = yes }
+				}
+			}
+		}
+		create_wargoal = {
+			target = FROM 
+			type = annex_everything
+		}
+	}
+
+	option = { #We can't afford an invasion right now 
+		name = argentina.rework.30.b 
+		ai_chance = {
+			base = 10
+			modifier = {
+				factor = 4
+				has_war = yes 
+			}
+		}
+		add_war_support = -0.03
+	}
+}
+
+# Chile gets an event of Anarchist Argentina demanding Subjegation
+country_event = {
+	id = argentina.rework.31
+	title = argentina.rework.31.t 
+	desc = argentina.rework.31.d 
+	picture = GFX_report_event_ast_army
+
+	is_triggered_only = yes 
+
+	option = { #Do we even have a choice?
+		name = argentina.rework.31.a 
+		ai_chance = {
+			base = 20
+			modifier = {
+				factor = 4
+				strength_ratio = {
+					tag = FROM
+					ratio < 1
+				}
+			}
+			modifier = {
+				factor = 2
+				has_war = yes 
+			}
+			modifier = {
+				factor = 2
+				FROM = {
+					num_of_factories > 34
+				}
+			}
+		}
+		FROM = {
+			annex_country = {
+				target = ROOT 
+				transfer_troops = yes 
+			}
+			country_event = { id = peru.16 hours = 4 } #generic succesful event 
+		}
+	}
+
+	option = { #Over our dead grave!
+		name = argentina.rework.31.b 
+		ai_chance = {
+			base = 15 
+			modifier = {
+				factor = 4
+				strength_ratio = {
+					tag = FROM
+					ratio > 1
+				}
+			}
+			modifier = {
+				factor = 2
+				num_of_factories > 24
+			}
+			modifier = {
+				factor = 3
+				FROM = { has_war = yes }
+			}
+			modifier = {
+				factor = 0
+				OR = {	
+					has_civil_war = yes 
+					FROM = { has_civil_war = yes }
+				}
+			}
+		}
+		add_war_support = 0.05
+		FROM = {
+			country_event = { id = peru.17 hours = 6 }
+		}
+	}
+}
+
+## FROM (Argentina) is asking for aid from us
+country_event = {
+	id = argentina.rework.32
+	title = argentina.rework.32.t 
+	desc = argentina.rework.32.d 
+	picture = GFX_report_event_generic_read_write
+
+	is_triggered_only = yes 
+
+	option = { #Give them guns 
+		name = argentina.rework.32.a 
+		ai_chance = {
+			base = 20
+			modifier = {
+				factor = 3
+				has_opinion = {
+					target = FROM 
+					value > 49
+				}
+			}
+			modifier = {
+				factor = 3
+				has_equipment = { infantry_equipment > 4999 }
+			}
+		}
+		FROM = { 
+			country_event = { id = argentina.rework.33 hours = 6 } ## FROM sent us guns!
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 2000
+				producer = ROOT
+			}
+		}
+		add_equipment_to_stockpile = {
+			type = infantry_equipment
+			amount = -2000
+		}
+	}
+
+	option = { #Send them volunteers 
+		name = argentina.rework.32.b 
+		ai_chance = {
+			base = 20
+			modifier = {
+				factor = 3
+				has_opinion = {
+					target = FROM 
+					value > 49
+				}
+			}
+			modifier = {
+				factor = 3
+				has_manpower > 199999
+			}
+		}
+		FROM = {
+			country_event = { id = brazil.56 hours = 6 } ## FROM sent us volunteers! YIPEEEEEEEEEEEEEEEEEEEEE
+			if = {
+                limit = {
+                    NOT = {
+                        has_template = "Foreign Volunteers"
+                    }
+                }
+                hidden_effect = {
+                    division_template = { 
+                        name = "Foreign Volunteers" 
+                        division_names_group = SPAN_INF_02 
+                        is_locked = yes 
+                        regiments = { 
+                            infantry = { x = 0 y = 0 }  
+                            infantry = { x = 0 y = 1 } 
+                            infantry = { x = 0 y = 2 } 
+                            infantry = { x = 0 y = 3 } 
+                            infantry = { x = 1 y = 0 }  
+                            infantry = { x = 1 y = 1 } 
+                            infantry = { x = 1 y = 2 } 
+                            infantry = { x = 1 y = 3 } 
+                        }
+                    }
+                }
+            }
+            effect_tooltip = {
+                random_owned_controlled_state = {
+                    create_unit = {
+                        division = "name = \"Foreign Volunteers\" division_template = \"Foreign Volunteers\" start_experience_factor = 0.15 start_equipment_factor = 1" 
+                        owner = ROOT
+                    }
+                }
+                random_owned_controlled_state = {
+                    create_unit = {
+                        division = "name = \"Foreign Volunteers\" division_template = \"Foreign Volunteers\" start_experience_factor = 0.15 start_equipment_factor = 1" 
+                        owner = ROOT
+                    }
+                }
+                random_owned_controlled_state = {
+                    create_unit = {
+                        division = "name = \"Foreign Volunteers\" division_template = \"Foreign Volunteers\" start_experience_factor = 0.15 start_equipment_factor = 1" 
+                        owner = ROOT
+                    }
+                }
+            }
+		}
+		add_manpower = -25000
+		add_equipment_to_stockpile = {
+			type = infantry_equipment
+			amount = -500
+		}
+	}
+
+	option = { #Send them war bonds 
+		name = argentina.rework.32.c 
+		ai_chance = {
+			base = 20
+			modifier = {
+				factor = 3
+				has_opinion = {
+					target = FROM 
+					value > 49
+				}
+			}
+			modifier = {
+				factor = 3
+				num_of_factories > 39
+			}
+		}
+		FROM = {
+			country_event = { id = brazil.55 hours = 6 } ## FROM sent us war bonds 
+			add_timed_idea = {
+				idea = FROM_war_bonds
+				days = 90
+			}
+		}
+		random_owned_controlled_state = {
+			limit = {
+				arms_factory > 0
+			}
+			remove_building = {
+				type = arms_factory
+				level = 1
+			}
+		}
+	}
+
+	option = { #Why should we give them anything?
+		name = argentina.rework.32.e 
+		ai_chance = {
+			base = 10
+			modifier = {
+				factor = 5
+				has_war = yes 
+			}
+		}
+		FROM = {
+			country_event = { id = argentina.rework.34 hours = 6 } ## FROM will not aid us!
+		}
+		set_country_flag = ARG_refused_aid
+	}
+}
+
+## FROM sent us guns
+country_event = {
+	id = argentina.rework.33
+	title = brazil.54.t 
+	desc = brazil.54.d 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = brazil.54.a 
+		effect_tooltip = {
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 2000
+			}
+		}
+	}
+}
+
+## FROM has decided not to send us aid!
+country_event = {
+	id = argentina.rework.34
+	title = argentina.rework.34.t 
+	desc = argentina.rework.34.d 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.rework.34.a
+	}
+}
+
+## Political Enemies Take Up Arms!
+country_event = {
+	id = argentina.rework.35
+	title = argentina.rework.35.t 
+	desc = argentina.rework.35.d 
+	picture = GFX_report_event_generic_riot
+
+	is_triggered_only = yes 
+
+	immediate = {
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_template = "Milicias" 
+					}
+				}
+				division_template = { 
+					name = "Milicias" 
+					division_names_group = SPAN_INF_02 
+					is_locked = no 
+					regiments = { 
+						infantry = { x = 0 y = 0 } 
+						infantry = { x = 1 y = 0 } 
+						infantry = { x = 2 y = 0 } 
+						infantry = { x = 3 y = 0 } 
+					} 
+					support = {
+						artillery = { x = 0 y = 0 }
+					}
+				}
+			}
+		}
+	}
+
+	option = { #They'll pay with their blood!
+		name = argentina.rework.35.a
+		start_civil_war = {
+			ideology = neutrality
+			size = 0.4
+			keep_all_characters = yes
+		}
+		remove_power_balance = { id = ARG_general_balance_of_power }
+		hidden_effect = {
+			random_other_country = {
+				limit = {
+					original_tag = ARG 
+					has_civil_war = yes 
+					has_government = neutrality
+				}
+				retire_country_leader = yes 
+                create_country_leader = {
+                    name = "Disorganized Nationalists"
+                    desc = "POLITICS_ARMED_CIVILIANS_DESC"
+                    picture =  "gfx/leaders/South America/EUYL_armed_civilians.dds"
+                    expire = "1965.1.1"
+                    ideology = conservatism
+                    traits = {
+                        BRA_disorganized_leadership
+                    }
+                }
+				every_controlled_state = {
+					create_unit = {
+                        division = "name = \"Milicias\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.9" 
+                        owner = PREV 
+						count = 2
+                    }
+				}
+				random_owned_controlled_state = {
+					create_unit = {
+                        division = "name = \"Milicias\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.9" 
+                        owner = PREV 
+						count = 3
+                    }
+				}
+			}
+			every_controlled_state = {
+				create_unit = {
+                    division = "name = \"Milicias\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.9" 
+                    owner = ROOT
+					count = 1
+                }
+			}
+		}
+	}	
+}
+
+## Socialists Gain More Seats in Congress
+country_event = {
+	id = argentina.rework.36
+	title = argentina.rework.36.t 
+	desc = argentina.rework.36.d
+	picture = GFX_report_event_generic_parliament
+
+	trigger = {
+		original_tag = ARG 
+		is_power_balance_side_active = {
+			id = ARG_general_balance_of_power
+			side = ARG_socialist_side
+		}
+		NOT = {
+			is_power_balance_in_range = {
+				id = ARG_general_balance_of_power
+				range = ARG_dominant_socialists
+			}
+		}
+		has_civil_war = no 
+		NOT = { has_government = communism }
+		NOT = { has_country_flag = ARG_no_more_socialist } #prevent le funy
+	}
+
+	mean_time_to_happen = { days = 365 }
+
+	option = {
+		name = argentina.rework.36.a 
+		ARG_move_10_right = yes 
+		add_popularity = {
+			ideology = communism
+			popularity = 0.02
+		}
+	}
+}
+
+## Infamous Decade Military Demand - Send Peron to Chile
+country_event = {
+	id = argentina.rework.37 
+	title = argentina.rework.37.t 
+	desc = argentina.rework.37.d 
+	picture = GFX_ARG_event_peron_italy
+
+	fire_only_once = yes 
+	is_triggered_only = yes 
+
+	option = { #send da man to shile 
+		name = argentina.rework.37.a 
+		ai_chance = {
+			base = 50
+		}
+		set_country_flag = ARG_peron_has_left
+		add_political_power = 10
+		custom_effect_tooltip = ARG_peron_sent_to_chile_tt
+		activate_mission = ARG_perons_return_from_chile
+		hidden_effect = {
+			ARG_juan_domingo_peron = {
+				set_character_flag = ARG_in_chile
+			}
+			set_country_flag = {
+				flag = ARG_recently_sent_peron
+				days = 100
+				value = 1
+			}
+		}
+	}
+
+	option = { #dont send him anywhere
+		name = argentina.rework.37.b 
+		ai_chance = {
+			base = 15
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes 
+			}
+		}
+		add_political_power = -5
+		random_list = {
+			25 = {
+				custom_effect_tooltip = ARG_military_opinion_decrease_tt
+				subtract_from_variable = { ARG_military_opinion = 1 }
+				clamp_variable = {
+					var = ARG_military_opinion
+					min = -2
+					max = 2
+				}
+			}
+			75 = { }
+		}
+	}
+}
+
+## Infamous Decade Military Demand - Send Peron to Italy
+country_event = {
+	id = argentina.rework.38
+	title = argentina.rework.38.t 
+	desc = argentina.rework.38.d 
+	picture = GFX_ARG_event_peron_italy
+
+	fire_only_once = yes 
+	trigger = {
+		original_tag = ARG 
+		has_completed_focus = ARG_infamous_decade
+		has_civil_war = no 
+		has_character = ARG_juan_domingo_peron
+		NOT = { has_completed_focus = ARG_kill_off_roberto } ## Sets off the peronist mechanic and bla bla bla
+		NOT = { has_war_with = ITA }
+		ITA = { exists = yes }
+		NOT = {
+			OR = {
+				has_country_leader = {
+					character = ARG_juan_domingo_peron
+					ruling_only = yes 
+				}
+				has_decision = ARG_send_peron_on_a_mission_to_italy
+				has_global_flag = ARG_peron_returned_from_italy
+			}
+		}
+		date > 1938.11.1
+	}
+
+	option = { #send da man to italiaaa italiaaa italiaaaaaa 
+		name = argentina.rework.38.a 
+		ai_chance = {
+			base = 50
+		}
+		add_political_power = 10
+		activate_decision = ARG_send_peron_on_a_mission_to_italy
+	}
+
+	option = { #dont send him anywhere
+		name = argentina.rework.38.b 
+		ai_chance = {
+			base = 15
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes 
+			}
+		}
+		add_political_power = -5
+		random_list = {
+			25 = {
+				custom_effect_tooltip = ARG_military_opinion_decrease_tt
+				subtract_from_variable = { ARG_military_opinion = 1 }
+				clamp_variable = {
+					var = ARG_military_opinion
+					min = -2
+					max = 2
+				}
+			}
+			75 = { }
+		}
+	}
+}
+
+## Roberto Maria Ortiz diagnosed with Diabetes
+country_event = {
+	id = argentina.rework.39 
+	title = argentina.rework.39.t 
+	desc = argentina.rework.39.d 
+	picture = GFX_ARG_roberto_diabetes
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.rework.39.a 
+		activate_mission = ARG_robertos_renounce
+	}
+}
+
+## American sent ophthalmologist arrives in Argentina
+country_event = {
+	id = argentina.rework.40 
+	title = argentina.rework.40.t 
+	desc = argentina.rework.40.d 
+	picture = GFX_ARG_oculista_de_roberto
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.rework.40.a 
+		add_ideas = ARG_ramon_castroviejo
+	}
+}
+
+## The question of leadership (concordancia)
+country_event = {
+	id = argentina.rework.41
+	title = argentina.rework.41.t 
+	desc = argentina.rework.41.d 
+	picture = GFX_report_event_sanation_left_victory
+
+	is_triggered_only = yes
+	fire_only_once = yes  
+
+	option = {
+		trigger = {
+			has_character = ARG_roberto_maria_ortiz
+		}
+		name = argentina.rework.41.a 
+		custom_effect_tooltip = ARG_once_elections_conclude_tt
+		effect_tooltip = { promote_character = ARG_roberto_maria_ortiz }
+	}
+	
+	option = {
+		trigger = {
+			has_character = ARG_leopoldo_melo
+		}
+		name = argentina.rework.41.b 
+		set_country_flag = ARG_chose_leopoldo
+		custom_effect_tooltip = ARG_once_elections_conclude_tt
+		effect_tooltip = { promote_character = ARG_leopoldo_melo }
+		hidden_effect = {
+			country_event = {
+				id = argentina.rework.42
+				days = 14
+				random_days = 14
+			}
+		}
+	}
+
+	option = {
+		trigger = {
+			has_character = ARG_leopoldo_melo
+		}
+		name = argentina.rework.41.b 
+		set_country_flag = ARG_chose_robustiano
+		custom_effect_tooltip = ARG_once_elections_conclude_tt
+		effect_tooltip = { promote_character = ARG_robustiano_patron_costas }
+		hidden_effect = {
+			country_event = {
+				id = argentina.rework.42
+				days = 14
+				random_days = 14
+			}
+		}
+	}
+}
+
+#Underground military movement present ## First part of historical GOU formation
+# triggerable event #
+country_event = {
+	id = argentina.rework.42
+	title = argentina.rework.42.t 
+	desc = argentina.rework.42.d 
+	picture = GFX_ARG_military_displeased
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.rework.42.a 
+		ARG_increase_10_political_tension = yes 
+		ARG_move_10_left = yes 
+		set_country_flag = ARG_military_movement_present_in_country_flag
+		set_country_flag = {
+			flag = ARG_buffer ## so that next event doesn't happen immediately 
+			days = 960 ## player will have some time to deal with the issues before shit truly hits the fan 
+			value = 1
+		}
+	}
+}
+# non-triggerable event # - historical
+country_event = {
+	id = argentina.rework.43
+	title = argentina.rework.42.t 
+	desc = argentina.rework.42.d 
+	picture = GFX_ARG_military_displeased
+
+	fire_only_once = yes 
+	trigger = {
+		original_tag = ARG 
+		has_civil_war = no 
+		OR = {
+			has_completed_focus = ARG_partido_socialista 
+			has_completed_focus = ARG_union_civica_radical
+			has_completed_focus = ARG_roberto_leads_the_way
+		}
+		NOT = { has_completed_focus = ARG_depoliticize_the_military } ## this national spirit makes it impossible for military to rebel
+		has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
+		OR = {
+			AND = {
+				date > 1940.1.1 ## This is for the Socialist and UCR path || yes, even they must suffer
+				NOT = { has_completed_focus = ARG_concordancia }
+			}
+			has_country_leader = {
+				character = ARG_ramon_castillo # <--- historical reason 
+				ruling_only = yes 
+			}
+		}
+	}
+
+	option = {
+		name = argentina.rework.42.a 
+		add_stability = -0.05
+		ARG_increase_10_political_tension = yes 
+		ARG_move_15_left = yes 
+		set_country_flag = ARG_military_movement_present_in_country_flag
+		set_country_flag = {
+			flag = ARG_buffer ## so that next event doesn't happen immediately 
+			days = 240 ## player will have some time to deal with the issues before shit truly hits the fan 
+			value = 1
+		}
+	}
+}
+
+# Formation of the GOU - will trigger the possible coup mission 
+country_event = {
+	id = argentina.rework.44
+	title = argentina.rework.44.t 
+	desc = argentina.rework.44.d 
+	picture = GFX_ARG_GOU
+
+	fire_only_once = yes 
+
+	trigger = {
+		original_tag = ARG 
+		has_civil_war = no 
+		has_country_flag = ARG_military_movement_present_in_country_flag
+		NOT = { has_country_flag = ARG_buffer }
+		has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
+		NOT = { has_completed_focus = ARG_kill_off_roberto }
+		NOT = { has_completed_focus = ARG_formalize_the_GOU }
+		NOT = { ## just in case
+			has_country_leader = {
+				character = ARG_the_military_junta
+				ruling_only = yes 
+			}
+		}
+	}
+
+	option = { 
+		name = argentina.rework.44.a 
+		ARG_increase_20_political_tension = yes 
+		ARG_move_35_left = yes 
+		custom_effect_tooltip = ARG_military_opinion_decrease_tt
+		subtract_from_variable = { ARG_military_opinion = 1 }
+		clamp_variable = {
+			var = ARG_military_opinion
+			min = -2
+			max = 2
+		}
+		custom_effect_tooltip = ARG_GOU_will_become_active_tt
+		hidden_effect = {
+			511 = { ## GOU historically started off in Mendoza 
+				add_dynamic_modifier = { modifier = ARG_GOU_state_modifier }
+			}
+		}
+	}
+}
+
+# GOU gains tighter grip over country
+country_event = {
+	id = argentina.rework.45
+	title = argentina.rework.45.t 
+	desc = argentina.rework.45.d 
+	picture = 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.rework.45.a 
+		random_list = {
+			50 = { ARG_increase_5_political_tension = yes }
+			50 = { ARG_increase_10_political_tension = yes }
+		}
+		ARG_move_5_left = yes 
+		custom_effect_tooltip = ARG_influence_of_gou_spread_to_neighboring_state_tt
+		hidden_effect = {
+			random_owned_controlled_state = {
+				limit = {
+					any_neighbor_state = {
+						has_dynamic_modifier = { modifier = ARG_GOU_state_modifier }
+					}
+					NOT = {
+						has_dynamic_modifier = { modifier = ARG_GOU_state_modifier }
+					}
+				}
+				add_dynamic_modifier = { modifier = ARG_GOU_state_modifier }
+			}
+		}
+	}
+}
+
+# Arturo forced to step down from power by the GOU
+country_event = {
+	id = argentina.rework.46 
+	title = argentina.rework.46.t 
+	desc = argentina.rework.46.d 
+	picture = GFX_ARG_rawson_deposed
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.rework.46.a
+		effect_tooltip = { retire_character = ARG_arturo_rawson }
+		promote_character = ARG_pedro_pablo_ramirez
+		## add the event that retires ramirez
+		hidden_effect = {
+			country_event = {
+				id = argentina.54 ## Farrell takes power over Ramirez 
+				days = 200
+				random_days = 20
+			}
+		} 
+	}
+}
+
+# Peron rises in the ranks (simply gets added as advisor)
+country_event = {
+	id = argentina.rework.47
+	title = argentina.rework.47.t 
+	desc = argentina.rework.47.d 
+	picture = GFX_ARG_peron_promoted
+
+	fire_only_once = yes 
+
+	trigger = {
+		original_tag = ARG 
+		has_civil_war = no 
+		has_character = ARG_juan_domingo_peron
+		NOT = { has_idea = ARG_juan_domingo_peron_idea }
+		NOT = {
+			has_country_leader = {
+				character = ARG_juan_domingo_peron
+				ruling_only = yes 
+			}
+		}
+		NOT = {
+			ARG_juan_domingo_peron = {
+				OR = {
+					has_character_flag = ARG_in_chile
+					has_character_flag = ARG_in_italy 
+				}
+			}
+		}
+		OR = {
+			date > 1943.1.1 #will auto trigger always regardless of country condition 
+			AND = {
+				has_global_flag = ARG_peron_returned_from_chile
+				has_global_flag = ARG_peron_returned_from_italy
+			}
+			has_completed_focus = ARG_formalize_the_GOU
+		}
+	}
+
+	option = {
+		name = argentina.rework.47.a 
+		add_ideas = ARG_juan_domingo_peron_idea # <-- never actually tried this 
+	}
+}
+
+# Support for Peron begins to rise across the country || starts the peronist support mechanic 
+country_event = {
+	id = argentina.rework.48
+	title = argentina.rework.48.t 
+	desc = argentina.rework.48.d 
+	picture = GFX_ARG_peronist_support_event
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.rework.48.a 
+		unlock_decision_category_tooltip = ARG_spread_of_peronism
+		hidden_effect = {
+			set_country_flag = ARG_peronist_mechanic_active_flag
+			set_variable = { ARG_peronist_support = 45 }
+			set_variable = { ARG_peronist_support_weekly = 2 }
+			activate_mission = ARG_days_until_peronist_support_intensifies
+		}
+	}
+}
+
+# Peronists protest the imprisonment of Peron
+country_event = {
+	id = argentina.rework.49
+	title = argentina.rework.49.t 
+	desc = argentina.rework.49.d 
+	picture = GFX_ARG_peronists_demand_lib
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.rework.49.a 
+		custom_effect_tooltip = ARG_add_25_peronist_support_tt
+		custom_effect_tooltip = ARG_protests_will_begin_in_5_random_states_tt
+		hidden_effect = {
+			add_to_variable = { ARG_peronist_support = 25 }
+			clamp_variable = {
+				var = ARG_peronist_support
+				min = 0
+				max = 200
+			}
+			set_temp_variable = { iterator = 0 }
+			while_loop_effect = {
+				limit = {
+					check_variable = { iterator < 5 }
+				}
+				random_owned_controlled_state = {
+					limit = { 
+						is_core_of = ROOT 
+						NOT = {
+							has_dynamic_modifier = { modifier = ARG_peronist_march }
+						}
+					}
+					add_dynamic_modifier = { modifier = ARG_peronist_march }
+				}
+				add_to_temp_variable = { iterator = 1 }
+			}
+		}
+	}
+}
+
+# Peronist party wins after sudden elections
+country_event = {
+	id = argentina.rework.50
+	title = argentina.rework.50.t 
+	desc = argentina.rework.50.d 
+	picture = GFX_ARG_peron_takes_power
+
+	is_triggered_only = yes 
+
+	option = { #fantastic!
+		name = argentina.rework.50.a 
+		promote_character = ARG_juan_domingo_peron
+		set_party_name = {
+			ideology = neutrality
+			long_name = ARG_peronist_party_long
+			name = ARG_peronist_party
+		}
+	}
+}
+
+# Peron is liberated
+country_event = {
+	id = argentina.rework.51
+	title = argentina.rework.51.t 
+	desc = argentina.rework.51.d 
+	picture = GFX_ARG_peron_promoted
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.rework.50.a 
+		custom_effect_tooltip = ARG_peron_will_be_liberated_and_return_to_government_tt
+		custom_effect_tooltip = ARG_add_15_peronist_support_tt
+		hidden_effect = {
+			ARG_juan_domingo_peron = {
+				clr_character_flag = BRA_imprisoned
+			}
+			add_ideas = ARG_juan_domingo_peron_idea
+			add_to_variable = { ARG_peronist_support = 15 }
+			clamp_variable = {
+				var = ARG_peronist_support
+				min = 0
+				max = 200
+			}
+		}
 	}
 }
 
@@ -237,14 +3919,13 @@ country_event = {
 	fire_only_once = yes
 	
 	trigger = {
-		ROOT = {
-			has_country_flag = ARG_civil_war_confederation
-			966 = {
-				is_controlled_by = ROOT
-			}
-			982 = {
-				is_controlled_by = ROOT
-			}
+		original_tag = ARG
+		has_country_flag = ARG_civil_war_confederation
+		966 = {
+			is_controlled_by = ROOT
+		}
+		982 = {
+			is_controlled_by = ROOT
 		}
 	}
 
@@ -309,7 +3990,6 @@ country_event = {
 		}
 		ARG = {
 			country_event = { id = argentina.3 hours = 4 }
-			mark_focus_tree_layout_dirty = yes 
 		}
 		hidden_effect = {
 			news_event = { days = 2 id = news.338 }
@@ -374,6 +4054,8 @@ country_event = {
 			is_fully_controlled_by = ROOT
 		}
 	}
+
+	immediate = { set_country_flag = EUYL_victor }
 	
 	option = { #have peace deal with Brazil
 		name = argentina.4.a
@@ -421,7 +4103,7 @@ country_event = {
 	}
 }
 
-#brazil gets option for peace
+#brazil gets option for peace || Make sure to add a balkanize brazil option
 
 country_event = {
 	id = argentina.5
@@ -436,6 +4118,20 @@ country_event = {
 		name = argentina.5.a
 		ai_chance = { base = 98 }
 		white_peace = ARG
+		if = {
+			limit = { ##Argentina
+				FROM = { has_country_flag = EUYL_victor }
+			}
+			FROM = { 
+				set_country_flag = ARG_victor_of_cisplatine_war 
+				clr_country_flag = EUYL_victor
+			}
+		}
+		if = {
+			limit = { has_country_flag = EUYL_victor } ##Brazil
+			set_country_flag = ARG_victor_of_cisplatine_war
+			clr_country_flag = EUYL_victor
+		}
 		#ARG = { 
 		#	country_event = { id = argentina.7 }
 		#}
@@ -447,6 +4143,11 @@ country_event = {
 			tag = BZE 
 		}
 		ai_chance = { base = 135 }
+		if = {
+			limit = { has_country_flag = EUYL_victor } ##Brazil
+			set_country_flag = ARG_victor_of_cisplatine_war
+			clr_country_flag = EUYL_victor
+		}
 		white_peace = ARG 
 		transfer_state = 983
 	}
@@ -495,6 +4196,7 @@ country_event = {
 				
 		white_peace = ARG
 		ARG = {
+			set_country_flag = ARG_victor_of_cisplatine_war
 			country_event = { id = argentina.7 }
 			transfer_state = 502
 		}
@@ -840,89 +4542,157 @@ country_event = {
 
 country_event = {
 	id = argentina.22
-	title = argentina.22.t
+	title = {
+		text = argentina.22.t.ucravictor
+		trigger = {
+			OR = {
+				AND = {
+					check_variable = { ARG_predicted_UCRA_electoral_votes > ARG_predicted_UCR_electoral_votes }
+					check_variable = { ARG_predicted_UCRA_electoral_votes > ARG_predicted_PS_electoral_votes }
+				}
+				AND = {
+					has_global_flag = ARG_election_fraud_done
+					check_variable = { ARG_concordancia_opinion = 2 } #Playing as Concordancia
+				}
+			}
+		}
+	}
+	title = {
+		text = argentina.22.t.ucrvictor
+		trigger = {
+			OR = {
+				AND = {
+					check_variable = { ARG_predicted_UCR_electoral_votes > ARG_predicted_UCRA_electoral_votes }
+					check_variable = { ARG_predicted_UCR_electoral_votes > ARG_predicted_PS_electoral_votes }
+				}
+				AND = {
+					has_global_flag = ARG_election_fraud_done
+					check_variable = { ARG_UCR_opinion = 2 } #Playing as UCR
+				}
+			}
+		}
+	}
+	title = {
+		text = argentina.22.t.psvictor
+		trigger = {
+			OR = {
+				AND = {
+					check_variable = { ARG_predicted_PS_electoral_votes > ARG_predicted_UCR_electoral_votes }
+					check_variable = { ARG_predicted_PS_electoral_votes > ARG_predicted_UCRA_electoral_votes }
+				}
+				AND = {
+					has_global_flag = ARG_election_fraud_done
+					check_variable = { ARG_partido_socialista_opinion = 2 } #Playing as Partido Socialista
+				}
+			}
+		}
+	}
 	desc = argentina.22.d 
 	picture = GFX_ARG_argentina22
 	
 	fire_only_once = yes
 	
 	is_triggered_only = yes 
+
+	immediate = { 
+		hidden_effect = {
+			clr_global_flag = ARG_elections_active
+		}
+	}
 	
 	option = { #concordancia
-		name = "Concordancia"
-		ai_chance = { 
-			base = 50
-			modifier = {
-				factor = 0
-				has_game_rule = { rule = ARG_ai_behavior option = ARG_COMMUNIST }
-			}
-			modifier = {
-				factor = 0
-				has_game_rule = { rule = ARG_ai_behavior option = ARG_DEMOCRATIC_AZULES }
-			}
-			modifier = {
-				factor = 0
-				has_game_rule = { rule = ARG_ai_behavior option = ARG_DEMOCRATIC_GRISES }
+		name = brazil.88.a
+		trigger = {
+			OR = {
+				AND = {
+					check_variable = { ARG_predicted_UCRA_electoral_votes > ARG_predicted_UCR_electoral_votes }
+					check_variable = { ARG_predicted_UCRA_electoral_votes > ARG_predicted_PS_electoral_votes }
+				}
+				AND = {
+					has_global_flag = ARG_election_fraud_done
+					check_variable = { ARG_concordancia_opinion = 2 } #Playing as Concordancia
+				}
 			}
 		}
-		ARG = {
-			add_timed_idea = { idea = ARG_concordancia_elected days = 90 }
-			set_country_flag = ARG_elected_concordancia
-			complete_national_focus = ARG_concordancia
-			hidden_effect = {
-				set_country_flag = ARG_roberto_in_power
-				retire_country_leader = yes
-				create_country_leader = {
-					name = "Roberto María Ortiz"
-					desc = "POLITICS_ROBERTO_MARIA_ORTIZ_DESC"
-					picture = "Portrait_Roberto_M_Ortiz.dds" 
-					expire = "1965.1.1"
-					ideology = despotism
-					traits = {
-						ARG_brutal_leader
-						ARG_expert_commercialist
-					}
-				}
+		add_timed_idea = { idea = ARG_concordancia_elected days = 90 }
+		if = {
+			limit = {
+				has_country_flag = ARG_chose_robustiano
 			}
+			promote_character = ARG_robustiano_patron_costas
+		}
+		else_if = {
+			limit = {
+				has_country_flag = ARG_chose_leopoldo
+			}
+			promote_character = ARG_leopoldo_melo
+		}
+		else = {
+			promote_character = ARG_roberto_maria_ortiz
+		}
+		set_country_flag = ARG_elected_concordancia
+		hidden_effect = {
 			if = {
 				limit = {
-					has_game_rule = {
-						rule = obsolete_focus_branches_visibility
-						option = HIDE
+					NOT = {
+						OR = {
+							has_country_flag = ARG_chose_robustiano
+							has_country_flag = ARG_chose_leopoldo
+						}
 					}
 				}
-				mark_focus_tree_layout_dirty = yes
+				country_event = { ## Roberto diagnosed with diabetes 
+					id = argentina.rework.39
+					days = 20
+					random_days = 15
+				}
 			}
 		}
 	}
 	
 	option = { #union civica radical
-		name = "Union Civica Radical"
-		ai_chance = { 
-			base = 50
-			modifier = {
-				factor = 0
-				is_historical_focus_on = yes
-			}
-		}
-		ARG = {
-			add_timed_idea = { idea = ARG_union_civica_radical_elected days = 90 }
-			set_country_flag = ARG_elected_union_civica
-			set_politics = { 
-				ruling_party = democratic 
-				elections_allowed = yes
-			}
-			complete_national_focus = ARG_union_civica_radical
-			if = {
-				limit = {
-					has_game_rule = {
-						rule = obsolete_focus_branches_visibility
-						option = HIDE
-					}
+		name = brazil.88.a
+		trigger = {
+			OR = {
+				AND = {
+					check_variable = { ARG_predicted_UCR_electoral_votes > ARG_predicted_UCRA_electoral_votes }
+					check_variable = { ARG_predicted_UCR_electoral_votes > ARG_predicted_PS_electoral_votes }
 				}
-				mark_focus_tree_layout_dirty = yes
+				AND = {
+					has_global_flag = ARG_election_fraud_done
+					check_variable = { ARG_UCR_opinion = 2 } #Playing as UCR
+				}
 			}
 		}
+		add_timed_idea = { idea = ARG_union_civica_radical_elected days = 90 }
+		set_country_flag = ARG_elected_union_civica
+		set_politics = { 
+			ruling_party = democratic 
+			elections_allowed = yes
+		}
+	}
+
+	option = { #Partido Socialista
+		name = brazil.88.a
+		trigger = {
+			OR = {
+				AND = {
+					check_variable = { ARG_predicted_PS_electoral_votes > ARG_predicted_UCR_electoral_votes }
+					check_variable = { ARG_predicted_PS_electoral_votes > ARG_predicted_UCRA_electoral_votes }
+				}
+				AND = {
+					has_global_flag = ARG_election_fraud_done
+					check_variable = { ARG_partido_socialista_opinion = 2 } #Playing as Partido Socialista
+				}
+			}
+		}
+		add_popularity = { ideology = communism popularity = 0.03 }
+		set_country_flag = ARG_elected_partido_socialista
+		set_politics = { 
+			ruling_party = communism 
+			elections_allowed = yes
+		}
+		set_cosmetic_tag = CARC
 	}
 }
 
@@ -1016,22 +4786,11 @@ country_event = {
 	option = {
 		name = argentina.26.a 
 		custom_effect_tooltip = ARG_roberto_resigns
+		promote_character = ARG_ramon_castillo
 		add_stability = -0.05
 		hidden_effect = {
 			set_country_flag = ARG_roberto_retired
 			clr_country_flag = ARG_roberto_in_power
-			retire_country_leader = yes
-			create_country_leader = {
-				name = "Ramón Castillo"
-				desc = "POLITICS_ROBERTO_MARIA_ORTIZ_DESC"
-				picture = "Portrait_Ramon_Castillo.dds" 
-				expire = "1965.1.1"
-				ideology = despotism
-				traits = {
-					ARG_expert_commercialist_3
-					ARG_brutal_leader_3
-				}
-			}
 		}
 	}
 }
@@ -1384,7 +5143,7 @@ country_event = {
 	id = argentina.45
 	title = argentina.45.t
 	desc = argentina.45.d
-	picture = GFX_report_event_eng_royal_family #temporary
+	picture = GFX_ARG_event_peron_italy
 	
 	fire_only_once = yes
 	
@@ -1409,10 +5168,18 @@ country_event = {
 	option = {
 		name = argentina.46.a
 		clr_country_flag = ARG_peron_has_left
-		set_global_flag = ARG_peron_returned_from_italy
 		hidden_effect = {
 			ARG_juan_domingo_peron = {
-				clr_character_flag = ARG_in_italy
+				if = {
+					limit = { has_character_flag = ARG_in_italy }
+					clr_character_flag = ARG_in_italy
+					ROOT = { set_global_flag = ARG_peron_returned_from_italy }
+				}
+				if = {
+					limit = { has_character_flag = ARG_in_chile }
+					clr_character_flag = ARG_in_chile
+					ROOT = { set_global_flag = ARG_peron_returned_from_chile }
+				}
 			}
 		}
 	}
@@ -1465,10 +5232,10 @@ country_event = {
 			days = -100
 		}
 		random_list = {
-			75 = {
+			50 = {
 				country_event = { id = argentina.49 days = 1 }
 			}
-			25 = {
+			50 = {
 				country_event = { id = argentina.50 days = 1 }
 			}
 		}
@@ -1518,6 +5285,8 @@ country_event = {
 
 #Military Plot
 
+## Need to decide what to do with this event soon...
+
 country_event = {
 	id = argentina.51
 	title = argentina.51.t
@@ -1525,16 +5294,8 @@ country_event = {
 	picture = GFX_report_event_generic_army
 	
 	fire_only_once = yes
+	is_triggered_only = yes 
 	
-	trigger = {
-		original_tag = ARG
-		date > 1942.1.12
-		OR = {
-			has_completed_focus = ARG_save_roberto
-			has_completed_focus = ARG_union_civica_radical
-			has_completed_focus = ARG_a_new_path
-		}
-	}
 	
 	mean_time_to_happen = { days = 1 }
 	
@@ -1641,14 +5402,20 @@ country_event = {
 						create_unit = {
 							division = "name = \"Loyalists\" division_template = \"Loyalists\" start_experience_factor = 0.4 start_equipment_factor = 1.0" 
 							owner = ROOT
-							count = 2
+						}
+						create_unit = {
+							division = "name = \"Loyalists\" division_template = \"Loyalists\" start_experience_factor = 0.4 start_equipment_factor = 1.0" 
+							owner = ROOT
 						}
 					}
 					971 = {
 						create_unit = {
 							division = "name = \"Loyalists\" division_template = \"Loyalists\" start_experience_factor = 0.4 start_equipment_factor = 1.0" 
 							owner = ROOT
-							count = 2
+						}
+						create_unit = {
+							division = "name = \"Loyalists\" division_template = \"Loyalists\" start_experience_factor = 0.4 start_equipment_factor = 1.0" 
+							owner = ROOT
 						}
 					}
 				}
@@ -1696,11 +5463,22 @@ country_event = {
 							artillery = { x = 0 y = 0 }
 						}
 					}
-					random_owned_controlled_state = {
+					970 = {
 						create_unit = {
 							division = "name = \"Militares\" division_template = \"Militares\" start_experience_factor = 1 start_equipment_factor = 1.0" 
 							owner = PREV
-							count = 4
+						}
+						create_unit = {
+							division = "name = \"Militares\" division_template = \"Militares\" start_experience_factor = 1 start_equipment_factor = 1.0" 
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Militares\" division_template = \"Militares\" start_experience_factor = 1 start_equipment_factor = 1.0" 
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Militares\" division_template = \"Militares\" start_experience_factor = 1 start_equipment_factor = 1.0" 
+							owner = PREV
 						}
 						if = {
 							limit = {
@@ -1711,15 +5489,37 @@ country_event = {
 							create_unit = {
 								division = "name = \"Militares\" division_template = \"Militares\" start_experience_factor = 1 start_equipment_factor = 1.0" 
 								owner = PREV
-								count = 2
+							}
+							create_unit = {
+								division = "name = \"Militares\" division_template = \"Militares\" start_experience_factor = 1 start_equipment_factor = 1.0" 
+								owner = PREV
 							}
 						}
 					}
-					random_owned_controlled_state = {
+					512 = {
 						create_unit = {
 							division = "name = \"Militares\" division_template = \"Militares\" start_experience_factor = 1 start_equipment_factor = 1.0" 
 							owner = PREV
-							count = 6
+						}
+						create_unit = {
+							division = "name = \"Militares\" division_template = \"Militares\" start_experience_factor = 1 start_equipment_factor = 1.0" 
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Militares\" division_template = \"Militares\" start_experience_factor = 1 start_equipment_factor = 1.0" 
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Militares\" division_template = \"Militares\" start_experience_factor = 1 start_equipment_factor = 1.0" 
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Militares\" division_template = \"Militares\" start_experience_factor = 1 start_equipment_factor = 1.0" 
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Militares\" division_template = \"Militares\" start_experience_factor = 1 start_equipment_factor = 1.0" 
+							owner = PREV
 						}
 					}
 				}
@@ -1772,17 +5572,8 @@ country_event = {
 	
 	option = {
 		name = argentina.54.a
-		retire_country_leader = yes
-		create_country_leader = {
-			name = "Edelmiro Julián Farrell"
-			desc = "POLITICS_ROBERTO_MARIA_ORTIZ_DESC"
-			picture = "Portrait_Edelmiro_Julian_Farrell.dds" 
-			expire = "1965.1.1"
-			ideology = despotism
-			traits = {
-				#
-			}
-		}
+		effect_tooltip = { retire_character = ARG_pedro_pablo_ramirez }
+		promote_character = ARG_edelmiro_julian_farrell
 	}
 }
 

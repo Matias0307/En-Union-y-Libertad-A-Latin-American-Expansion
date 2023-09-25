@@ -12,21 +12,40 @@
 #ARG_decrease_5_political_tension
 #ARG_decrease_10_political_tension
 #ARG_decrease_15_political_tension
+#ARG_decrease_20_political_tension
 #ARG_set_electoral_votes
 #ARG_get_chances_of_overwhelming_party
 #ARG_reduce_distrust_of_military
 #ARG_state_cleaner_elections
 #ARG_chance_to_increase_corruption
+#ARG_set_communist_side_divisions
+#ARG_lower_inflation_risk
 
 ARG_set_up_political_tension_idea = {
     set_temp_variable = { ARG_tension = ARG_political_tension }
     divide_temp_variable = { ARG_tension = 210 }
     multiply_temp_variable = { ARG_tension = -1 }
     set_variable = { ARG_infamous_decade_stability_modifier = ARG_tension }
+    if = {
+        limit = {
+            is_power_balance_side_active = {
+                id = ARG_general_balance_of_power
+                side = ARG_military_side
+            }
+        }
+        set_temp_variable = { ARG_tension_weekly_temp = ARG_tension_increment_weekly }
+        divide_temp_variable = { ARG_tension_weekly_temp = -100 }
+        set_variable = { ARG_power_balance_weekly_modifier = ARG_tension_weekly_temp }
+    }
     clamp_variable = {
         var = ARG_political_tension
         min = 0
         max = 100
+    }
+    clamp_variable = {
+        var = ARG_tension_increment_weekly
+        min = 0
+        max = 5
     }
 }
 
@@ -133,6 +152,14 @@ ARG_increase_15_political_tension = {
     }
 }
 
+ARG_increase_20_political_tension = {
+    custom_effect_tooltip = ARG_increase_tension_by_20_tt
+    hidden_effect = {
+        add_to_variable = { ARG_political_tension = 20 }
+        ARG_set_up_political_tension_idea = yes 
+    }
+}
+
 #This will be part of the historical path, leading into the historical 1943 coup d'etat
 ARG_increase_50_political_tension = {
     custom_effect_tooltip = ARG_increase_tension_by_50_tt
@@ -181,6 +208,15 @@ ARG_decrease_15_political_tension = {
         ARG_set_up_political_tension_idea = yes 
     }
 }
+
+ARG_decrease_20_political_tension = {
+    custom_effect_tooltip = ARG_decrease_tension_by_20_tt
+    hidden_effect = {
+        subtract_from_variable = { ARG_political_tension = 20 }
+        ARG_set_up_political_tension_idea = yes 
+    }
+}
+
 
 ARG_increase_corruption_by_1 = {
     custom_effect_tooltip = ARG_corruption_increase_one_tt
@@ -244,6 +280,18 @@ ARG_set_electoral_votes = {
         }
         set_variable = { ARG_predicted_UCR_electoral_votes = ARG_electoral_votes_UCR }
         set_variable = { ARG_predicted_UCRA_electoral_votes = ARG_electoral_votes_UCRA }
+        if = {
+            limit = {
+                has_completed_focus = ARG_gain_corrupt_votes
+            }
+            add_to_variable = { ARG_electoral_votes_PS = 50 }
+        }
+        if = {
+            limit = {
+                has_completed_focus = ARG_save_roberto
+            }
+            add_to_variable = { ARG_electoral_votes_UCRA = 20 }
+        }
         set_variable = { ARG_predicted_PS_electoral_votes = ARG_electoral_votes_PS }
     }
 }
@@ -435,4 +483,350 @@ ARG_lower_inflation_risk = {
     else = {
         remove_ideas = ARG_low_inflation_risk
     }
+}
+
+ARG_set_communist_side_divisions = {
+    every_controlled_state = { #Base militia spawning
+		create_unit = {
+			division = "name = \"Milicia Comunista\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
+			owner = ROOT ## Player
+			count = 1
+		}
+        if = {
+            limit = {
+                has_state_flag = ARG_improved_conscription
+            }
+            create_unit = {
+				division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.75" 
+				owner = ROOT
+				count = 1
+			}
+            clr_state_flag = ARG_improved_conscription
+        }
+	}
+    if = {
+        limit = {
+            check_variable = { ARG_pol_tension > 79 } ##Strongest
+        }
+        every_controlled_state = {
+            create_unit = {
+                division = "name = \"Milicia Comunista\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 1" 
+                owner = ROOT ## Player
+                count = 3
+            }
+        }
+        every_controlled_state = {
+            create_unit = {
+				division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+				owner = ROOT ## Player
+			}
+        }
+    }
+    else_if = {
+        limit = {
+            check_variable = { ARG_pol_tension > 49 } ##Middle
+        }
+        every_controlled_state = {
+            create_unit = {
+                division = "name = \"Milicia Comunista\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.6" 
+                owner = ROOT ## Player
+                count = 2
+            }
+        }
+        random_owned_controlled_state = {
+            create_unit = {
+				division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.75" 
+				owner = ROOT
+				count = 2
+			}
+        }
+    }
+    else = {
+        every_controlled_state = {
+            create_unit = {
+                division = "name = \"Milicia Comunista\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.35" 
+                owner = ROOT ## Player
+                count = 1
+            }
+        }
+    }
+}
+
+ARG_improve_posadist_4th_internationale = {
+    if = {
+        limit = {
+            has_idea = ARG_posadist_fourth_internationale_1
+        }
+        swap_ideas = {
+            remove_idea = ARG_posadist_fourth_internationale_1
+            add_idea = ARG_posadist_fourth_internationale_2
+        }
+    }
+    else_if = {
+        limit = {
+            has_idea = ARG_posadist_fourth_internationale_2
+        }
+        swap_ideas = {
+            remove_idea = ARG_posadist_fourth_internationale_2
+            add_idea = ARG_posadist_fourth_internationale_3
+        }
+    }
+    else_if = {
+        limit = {
+            has_idea = ARG_posadist_fourth_internationale_3
+        }
+        swap_ideas = {
+            remove_idea = ARG_posadist_fourth_internationale_3
+            add_idea = ARG_posadist_fourth_internationale_4
+        }
+    }
+    else_if = {
+        limit = {
+            has_idea = ARG_posadist_fourth_internationale_4
+        }
+        swap_ideas = {
+            remove_idea = ARG_posadist_fourth_internationale_4
+            add_idea = ARG_posadist_fourth_internationale_5
+        }
+    }
+    else = {
+        add_political_power = 20
+        add_stability = 0.02
+    }
+}
+
+ARG_improve_posadist_conscription = {
+    if = {
+        limit = {
+            has_idea = ARG_posadist_conscription_1
+        }
+        swap_ideas = {
+            remove_idea = ARG_posadist_conscription_1
+            add_idea = ARG_posadist_conscription_2
+        }
+    }
+    else_if = {
+        limit = {
+            has_idea = ARG_posadist_conscription_2
+        }
+        swap_ideas = {
+            remove_idea = ARG_posadist_conscription_2
+            add_idea = ARG_posadist_conscription_3
+        }
+    }
+    else = {
+        swap_ideas = {
+            remove_idea = ARG_posadist_conscription_3
+            add_idea = ARG_posadist_conscription_4
+        }
+    }
+}
+
+ARG_complete_effect_posadist_ambition = {
+    add_to_variable = { ARG_succesful_posadist_ambition_missions = 1 }
+    subtract_from_variable = { ARG_active_posadist_ambition_missions = 1 }
+    ARG_improve_posadist_4th_internationale = yes 
+    if = {
+        limit = {
+            has_completed_focus = { ARG_posadist_conscription_focus }
+        }
+        ARG_improve_posadist_conscription = yes 
+    }
+    if = {
+        limit = {
+            OR = {
+                has_country_leader_with_trait = ARG_inexperienced_leader_1
+                has_country_leader_with_trait = ARG_inexperienced_leader_2
+            }
+        }
+        random_list = {
+            25 = {
+                ARG_improve_inexperienced_leader = yes 
+            }
+            75 = {
+
+            }
+        }
+    }
+    hidden_effect = { country_event = argentina.posadistambitions.100 }
+}
+
+ARG_timeout_effect_posadist_ambition = {
+    add_to_variable = { ARG_unsuccesful_posadist_ambition_missions = 1 }
+    subtract_from_variable = { ARG_active_posadist_ambition_missions = 1 }
+    add_political_power = -10
+    add_stability = -0.01
+    if = {
+        limit = {
+            check_variable = { ARG_unsuccesful_posadist_ambition_missions > 2 }
+        }
+        add_timed_idea = {
+            idea = strikes_1
+            days = 90
+        }
+    }
+    hidden_effect = { country_event = argentina.posadistambitions.101 }
+}
+
+ARG_improve_inexperienced_leader = {
+    if = {
+        limit = {
+            has_country_leader_with_trait = ARG_inexperienced_leader_1
+        }
+        swap_ruler_traits = {
+            remove = ARG_inexperienced_leader_1
+            add = ARG_inexperienced_leader_2
+        }
+    }
+    else = {
+        remove_country_leader_trait = ARG_inexperienced_leader_2
+    }
+}
+
+ARG_improve_disorganized_militias = {
+    if = {
+        limit = {
+            has_idea = ARG_disorganized_militias_1
+        }
+        swap_ideas = {
+            remove_idea = ARG_disorganized_militias_1
+            add_idea = ARG_disorganized_militias_2
+        }
+    }
+    else_if = {
+        limit = {
+            has_idea = ARG_disorganized_militias_2
+        }
+        swap_ideas = {
+            remove_idea = ARG_disorganized_militias_2
+            add_idea = ARG_reformed_militias
+        }
+    }
+    else = {
+        army_experience = 20
+        random_list = {
+            50 = {
+                EUYL_add_1_military = yes 
+            }
+            50 = {
+                
+            }
+        }
+    }
+}
+
+ARG_move_5_right = {
+    add_power_balance_value = {
+        id = ARG_general_balance_of_power
+        value = 0.05
+    }
+}
+
+ARG_move_10_right = {
+    add_power_balance_value = {
+        id = ARG_general_balance_of_power
+        value = 0.1
+    }
+}
+
+ARG_move_15_right = {
+    add_power_balance_value = {
+        id = ARG_general_balance_of_power
+        value = 0.15
+    }
+}
+
+ARG_move_20_right = {
+    add_power_balance_value = {
+        id = ARG_general_balance_of_power
+        value = 0.2
+    }
+}
+
+ARG_move_35_right = {
+    add_power_balance_value = {
+        id = ARG_general_balance_of_power
+        value = 0.35
+    }
+}
+
+ARG_move_50_right = {
+    add_power_balance_value = {
+        id = ARG_general_balance_of_power
+        value = 0.5
+    }
+}
+
+ARG_move_5_left = {
+    add_power_balance_value = {
+        id = ARG_general_balance_of_power
+        value = -0.05
+    }
+}
+
+ARG_move_10_left = {
+    add_power_balance_value = {
+        id = ARG_general_balance_of_power
+        value = -0.1
+    }
+}
+
+ARG_move_15_left = {
+    add_power_balance_value = {
+        id = ARG_general_balance_of_power
+        value = -0.15
+    }
+}
+
+ARG_move_20_left = {
+    add_power_balance_value = {
+        id = ARG_general_balance_of_power
+        value = -0.20
+    }
+}
+
+ARG_move_35_left = {
+    add_power_balance_value = {
+        id = ARG_general_balance_of_power
+        value = -0.35
+    }
+}
+
+ARG_move_50_left = {
+    add_power_balance_value = {
+        id = ARG_general_balance_of_power
+        value = -0.50
+    }
+}
+
+ARG_improve_los_azules_idea = {
+    if = {
+        limit = { has_idea = ARG_los_azules }
+        swap_ideas = {
+            remove_idea = ARG_los_azules
+            add_ida = ARG_los_azules_2
+        }
+    }
+    else = {
+        swap_ideas = {
+            remove_idea = ARG_los_azules_2
+            add_idea = ARG_los_azules_3
+        }
+    }
+}
+
+ARG_improve_los_grises_idea = {
+    if = {
+		limit = { has_idea = ARG_los_grises }
+		swap_ideas = {
+			remove_idea = ARG_los_grises
+			add_idea = ARG_los_grises_2
+		}
+	}
+	else = {
+		swap_ideas = {
+			remove_idea = ARG_los_grises_2
+			add_idea = ARG_los_grises_3
+		}
+	}
 }

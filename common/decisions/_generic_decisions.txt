@@ -310,6 +310,196 @@ foreing_immigration = {
 }
 
 political_actions = {
+
+	PRU_radicalize_the_moderates_dec = {
+		icon = generic_speech
+
+		allowed = { original_tag = PRU }
+
+		visible = {
+			has_completed_focus = PRU_lean_more_to_the_left
+		}
+
+		available = {
+			NOT = {
+				has_government = communism
+			}
+			has_civil_war = no 
+		}
+
+		cost = 25
+
+		days_remove = 25
+
+		modifier = {
+			stability_weekly = -0.005
+			political_power_factor = -0.1
+		}
+
+		complete_effect = {
+			add_popularity = {
+				ideology = communism
+				popularity = 0.05
+			}
+		}
+
+		remove_effect = {
+			random_list = {
+				50 = {
+					add_political_power = -15
+				}
+				50 = {
+
+				}
+			}
+		}
+	}
+
+	ARG_viva_el_camarada_posadas = {
+		icon = eng_propaganda_campaigns
+
+		allowed = { original_tag = ARG }
+
+		visible = {
+			has_completed_focus = ARG_the_birth_of_posadism
+		}
+
+		modifier = {
+			political_power_factor = -0.2
+			stability_weekly = 0.005
+			war_support_weekly = 0.005
+		}
+
+		days_remove = 90
+
+		available = {
+			NOT = {
+				has_country_flag = ARG_active_propaganda_campaign
+			}
+		}
+
+		complete_effect = { 
+			set_country_flag = ARG_active_propaganda_campaign
+		}
+
+		remove_effect = {
+			clr_country_flag = ARG_active_propaganda_campaign
+		}
+	}
+
+	ARG_viva_la_revolucion_mundial_d = {
+		icon = eng_propaganda_campaigns
+
+		allowed = { original_tag = ARG }
+
+		visible = {
+			has_completed_focus = ARG_the_birth_of_posadism
+		}
+
+		modifier = {
+			political_power_factor = -0.2
+			communism_drift = 0.1
+			weekly_manpower = 1000
+		}
+
+		days_remove = 90
+
+		available = {
+			NOT = {
+				has_country_flag = ARG_active_propaganda_campaign
+			}
+		}
+
+		complete_effect = { 
+			set_country_flag = ARG_active_propaganda_campaign
+		}
+
+		remove_effect = {
+			clr_country_flag = ARG_active_propaganda_campaign
+		}
+	}
+
+	ARG_viva_la_cuarta_internacional = {
+		icon = eng_propaganda_campaigns
+
+		allowed = { original_tag = ARG }
+
+		visible = {
+			has_completed_focus = ARG_the_birth_of_posadism
+		}
+
+		modifier = {
+			political_power_factor = -0.2
+			justify_war_goal_time = -0.2
+			offensive_war_stability_factor = 0.1
+		}
+
+		days_remove = 90
+
+		available = {
+			NOT = {
+				has_country_flag = ARG_active_propaganda_campaign
+			}
+		}
+
+		complete_effect = { 
+			set_country_flag = ARG_active_propaganda_campaign
+		}
+
+		remove_effect = {
+			clr_country_flag = ARG_active_propaganda_campaign
+		}
+	}
+
+	EUYL_exterminate_the_anarchists_in_our_country = {
+		icon = generic_assassination
+
+		allowed = { always = yes }
+
+		visible = {
+			has_idea = ARG_growing_anarchist_sentiment
+		}
+
+		fire_only_once = yes 
+
+		cost = 25
+
+		days_remove = 25
+
+		available = {
+			has_manpower > 10000
+			has_equipment = { infantry_equipment > 499 }
+		}
+
+		complete_effect = {
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = -500
+			}
+		}
+
+		modifier = {
+			weekly_manpower = -1000
+		}
+
+		cancel_trigger = {
+			NOT = { has_idea = ARG_growing_anarchist_sentiment}
+		}
+
+		remove_effect = {
+			remove_ideas = ARG_growing_anarchist_sentiment
+			custom_effect_tooltip = EUYL_ARG_will_know_about_this_and_may_intervene_tt
+			hidden_effect = {
+				ARG = { 
+					country_event = {
+						id = argentina.rework.30
+						days = 4
+						random_days = 4
+					}
+				}
+			}
+		}
+	}
 	
 	targeted_race_for_the_bomb = {
 
@@ -425,6 +615,525 @@ political_actions = {
 }
 
 economy_decisions = {
+
+	PAR_construct_a_power_grid_FROM = {
+		icon = generic_construction
+
+		allowed = {
+			original_tag = PAR
+		}
+
+		state_target = yes
+		target_array = controlled_states
+		target_trigger = {
+			FROM = {
+				has_state_flag = paraguayan_starting_state
+				is_fully_controlled_by = ROOT
+				NOT = { has_dynamic_modifier = { modifier = PAR_power_grid_present } }
+			}
+		}
+
+		on_map_mode = map_and_decisions_view
+
+		cost = 25
+		days_remove = 30
+
+		fire_only_once = yes 
+
+		visible = {
+			has_completed_focus = PAR_electrical_grid
+			FROM = {
+				NOT = { has_dynamic_modifier = { modifier = PAR_power_grid_present } }
+			}
+		}
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 0
+			hidden_trigger = {
+				NOT = { has_country_flag = PAR_currently_constructing_power_grid }
+			}
+		}
+		modifier = {
+			civilian_factory_use = 1
+		}
+
+		complete_effect = { set_country_flag = PAR_currently_constructing_power_grid }
+
+		remove_effect = { 
+			clr_country_flag = PAR_currently_constructing_power_grid
+			FROM = {
+				add_dynamic_modifier = { modifier = PAR_power_grid_present }
+			}
+		}
+	}
+
+	ARG_steal_factories_from_FROM = {
+		allowed = {
+			original_tag = ARG
+		}
+
+		icon = generic_factory
+
+		target_trigger = {
+			FROM = {
+				capital_scope = { is_on_continent = south_america }
+				has_civil_war = no 
+				is_subject = no 
+				NOT = { has_war_with = ROOT }
+				num_of_factories > 9
+			}
+		}
+
+		visible = {
+			has_completed_focus = ARG_steal_foreign_factories
+			FROM = {
+				has_civil_war = no 
+			}
+		}
+
+		on_map_mode = map_only
+
+		available = {
+			has_civil_war = no 
+			NOT = { has_war_with = FROM }
+			hidden_trigger = {
+				NOT = { has_country_flag = ARG_stealing_factories }
+			}
+		}
+
+		cancel_trigger = {
+			FROM = {
+				OR = {
+					has_war_with = ROOT 
+					has_civil_war = yes 
+				}
+			}
+		}
+
+		cancel_effect = { add_political_power = 35 }
+
+		cost = 75
+
+		days_remove = 25
+
+		complete_effect = {
+			set_country_flag = ARG_stealing_factories
+		}
+
+		remove_effect = {
+			clr_country_flag = ARG_stealing_factories
+			custom_effect_tooltip = ARG_more_likely_to_steal_with_anarchist_support_tt
+			if = {
+				limit = {
+					FROM = {
+						has_country_flag = ARG_anarchist_sentiment_fomented_here
+					}
+				}
+				random_list = {
+					50 = {
+						EUYL_add_2_civilian = yes 
+						EUYL_add_2_military = yes
+						FROM = {
+							random_owned_controlled_state = {
+								limit = { arms_factory > 0 }
+								damage_building = {
+									type = arms_factory
+									damage = 1
+								}
+							}
+							random_owned_controlled_state = {
+								limit = { arms_factory > 0 }
+								damage_building = {
+									type = arms_factory
+									damage = 1
+								}
+							}
+							random_owned_controlled_state = {
+								limit = { industrial_complex > 1 }
+								damage_building = {
+									type = industrial_complex
+									damage = 2
+								}
+							}
+						} 
+					}
+					50 = {
+						EUYL_add_1_civilian = yes 
+						EUYL_add_1_military = yes 
+						FROM = {
+							random_owned_controlled_state = {
+								limit = { arms_factory > 0 }
+								damage_building = {
+									type = arms_factory
+									damage = 1
+								}
+							}
+							random_owned_controlled_state = {
+								limit = { industrial_complex > 0 }
+								damage_building = {
+									type = industrial_complex
+									damage = 1
+								}
+							}
+						}
+					}
+					FROM = {
+						country_event = argentina.rework.25
+					}
+				}
+			}
+			else = {
+				random_list = {
+					85 = {
+						EUYL_add_1_civilian = yes 
+						EUYL_add_1_military = yes 
+						FROM = {
+							random_owned_controlled_state = {
+								limit = { arms_factory > 0 }
+								damage_building = {
+									type = arms_factory
+									damage = 1
+								}
+							}
+							random_owned_controlled_state = {
+								limit = { industrial_complex > 0 }
+								damage_building = {
+									type = industrial_complex
+									damage = 1
+								}
+							}
+							country_event = argentina.rework.25
+						}
+					}
+					15 = {
+						add_political_power = 25 
+					}
+				}
+			}
+		}
+	}
+
+	ARG_promote_german_architecture_in_FROM = {
+		icon = generic_construction
+
+		allowed = { original_tag = ARG }
+
+		state_target = yes 
+		target_array = controlled_states
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+				state_population_k > 150
+				NOT = { has_dynamic_modifier = { modifier = ARG_german_influenced_architecture } }
+			}
+		}
+
+		visible = { has_completed_focus = ARG_prioritize_german_architecture }
+
+		available = {
+			hidden_trigger = {
+				NOT = {
+					has_country_flag = ARG_promoting_architecture
+				}
+			}
+		}
+
+		cost = 10
+
+		days_remove = 70
+
+		fire_only_once = yes 
+
+		cancel_trigger = {
+			FROM = {
+				NOT = {
+					is_fully_controlled_by = ROOT 
+				}
+			}
+		}
+
+		modifier = {
+			political_power_factor = -0.05
+			consumer_goods_factor = 0.03
+		}
+
+		complete_effect = {
+			set_country_flag = ARG_promoting_architecture
+		}
+
+		remove_effect = {
+			clr_country_flag = ARG_promoting_architecture
+			FROM = {
+				add_dynamic_modifier = { modifier = ARG_german_influenced_architecture }
+			}
+		}
+	}
+
+	ARG_promote_italian_architecture_in_FROM = {
+		icon = generic_construction
+
+		allowed = { original_tag = ARG }
+
+		state_target = yes 
+		target_array = controlled_states
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+				state_population_k > 150
+				NOT = { has_dynamic_modifier = { modifier = ARG_italian_influenced_architecture } }
+			}
+		}
+
+		visible = { has_completed_focus = ARG_prioritize_italian_architecture }
+
+		available = {
+			hidden_trigger = {
+				NOT = {
+					has_country_flag = ARG_promoting_architecture
+				}
+			}
+		}
+
+		cost = 10
+
+		days_remove = 70
+
+		fire_only_once = yes 
+
+		cancel_trigger = {
+			FROM = {
+				NOT = {
+					is_fully_controlled_by = ROOT 
+				}
+			}
+		}
+
+		modifier = {
+			political_power_factor = -0.05
+			consumer_goods_factor = 0.03
+		}
+
+		complete_effect = {
+			set_country_flag = ARG_promoting_architecture
+		}
+
+		remove_effect = {
+			clr_country_flag = ARG_promoting_architecture
+			FROM = {
+				add_dynamic_modifier = { modifier = ARG_italian_influenced_architecture }
+			}
+		}
+	}
+
+	ARG_the_4_year_patagonic_plan = {
+		priority = 100
+		icon = generic_factory
+
+		activation = { always = no }
+
+		allowed = { original_tag = ARG}
+
+		is_good = no 
+
+		days_mission_timeout = 1460
+
+		available = {
+			512 = {
+				infrastructure > 3
+				industrial_complex > 1
+				arms_factory > 0
+			}
+			970 = {
+				infrastructure > 3
+				industrial_complex > 1
+				arms_factory > 0
+			}
+			969 = {
+				infrastructure > 3
+				industrial_complex > 1
+				arms_factory > 0
+			}
+			968 = {
+				infrastructure > 3
+				industrial_complex > 1
+				arms_factory > 0
+			}
+			967 = {
+				infrastructure > 3
+				industrial_complex > 1
+				arms_factory > 0
+			}
+			if = {
+				limit = {
+					has_full_control_of_state = 913
+				}
+				913 = {
+					infrastructure > 2
+					OR = {
+						industrial_complex > 0
+						arms_factory > 0
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_full_control_of_state = 911
+				}
+				911 = {
+					infrastructure > 2
+					OR = {
+						industrial_complex > 0
+						arms_factory > 0
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_full_control_of_state = 912
+				}
+				912 = {
+					infrastructure > 2
+					OR = {
+						industrial_complex > 0
+						arms_factory > 0
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_full_control_of_state = 963
+				}
+				963 = {
+					infrastructure > 2
+					OR = {
+						industrial_complex > 0
+						arms_factory > 0
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_full_control_of_state = 507
+				}
+				507 = {
+					infrastructure > 2
+					OR = {
+						industrial_complex > 0
+						arms_factory > 0
+					}
+				}
+			}
+		}
+
+		cancel_trigger = {
+			OR = {
+				NOT = { controls_state = 512 }
+				NOT = { controls_state = 970 }
+				NOT = { controls_state = 969 }
+				NOT = { controls_state = 968 }
+				NOT = { controls_state = 967 }
+			}
+		}
+
+		cancel_effect = {
+			add_stability = -0.05
+			add_political_power = -25
+		}
+
+		complete_effect = {
+			effect_tooltip = {
+				unlock_national_focus = ARG_4_year_patagonic_plan
+			}
+			set_country_flag = ARG_succesful_4_year_plan_flag
+			add_timed_idea = {
+				idea = ARG_succesful_4_year_plan
+				days = 365
+			}
+		}
+
+		timeout_effect = {
+			add_stability = -0.03
+			add_timed_idea = {
+				idea = ARG_failed_4_year_plan
+				days = 365
+			}
+		}
+	}
+
+	ARG_invest_in_the_development_of_FROM = {
+		icon = generic_construction
+
+		allowed = { original_tag = ARG }
+
+		state_target = yes 
+
+		target_array = controlled_states
+
+		target_trigger = {
+			FROM = {
+				has_state_flag = ARG_patagonic_state
+				NOT = { has_dynamic_modifier = { modifier = ARG_patagonic_industrialization_state_modifier } }
+			}
+		}
+
+		on_map_mode = map_and_decisions_view
+
+		visible = { has_completed_focus = ARG_patagonic_industrialization }
+
+		available = {
+			has_government = communism
+			has_civil_war = no 
+			FROM = { is_fully_controlled_by = ROOT }
+		}
+
+		cost = 10
+
+		days_remove = 40
+
+		modifier = { consumer_goods_factor = 0.03 }
+
+		remove_effect = {
+			add_dynamic_modifier = {
+				modifier = ARG_patagonic_industrialization_state_modifier
+				days = 365
+			}
+		}
+	}
+
+	ARG_build_a_hydroelectric_power_plant_in_FROM = {
+		icon = generic_electricity
+
+		allowed = { original_tag = ARG }
+
+		state_target = yes 
+
+		targets = { 278 972 982 510 509 } ## states that border the Rio de la Plata
+
+		visible = {
+			FROM = { is_fully_controlled_by = ROOT }
+			has_completed_focus = ARG_establish_hydroelectric_powerplants
+		}
+
+		available = {
+			has_civil_war = no 
+			hidden_trigger = {
+				NOT = { has_country_flag = ARG_building_powerplant }
+			}
+		}
+
+		cost = 15
+
+		days_remove = 90
+
+		complete_effect = { set_country_flag = ARG_building_powerplant }
+
+		remove_effect = {
+			clr_country_flag = ARG_building_powerplant
+			FROM = {
+				add_dynamic_modifier = { modifier = ARG_hydroelectric_power_plant }
+			}
+		}
+	}
 
 	dismantle_maginot = {
 
@@ -1809,12 +2518,11 @@ operations = {
 
 		available = {
 			exists = yes 
-			SPR = {
-				OR = {
-					exists = no 
-					has_capitulated = yes 
-					surrender_progress > 0.7
-				}
+			SPR_scw_in_progress = yes
+			any_country_with_original_tag = {
+				original_tag_to_check = SPR
+				has_war = yes 
+				surrender_progress > 0.5
 			}
 		}
 

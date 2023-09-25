@@ -51,8 +51,7 @@ focus_tree = {
 				add_dynamic_modifier = { modifier = BRA_brazilian_economy } #National Spirit
 			}
 			custom_effect_tooltip = BRA_add_brazilian_economy_tt
-			EUYL_add_1_civilian = yes 
-			add_political_power = 50
+			add_political_power = 35
 			hidden_effect = {
 				if = {
 					limit = {
@@ -463,6 +462,7 @@ focus_tree = {
 								}
 							}
 						}
+						set_global_flag = BRA_farmers_agreed
 					}
 					BRA_chance_to_disagree = {
 						country_event = { id = brazil.7 hours = 6 }
@@ -700,7 +700,7 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
-			EUYL_add_2_civilian = yes 
+			EUYL_add_1_civilian = yes 
 		}
 	}
 
@@ -1309,7 +1309,7 @@ focus_tree = {
 		relative_position_id = BRA_the_brazilian_mining_industry
 		prerequisite = { focus = BRA_the_brazilian_mining_industry }
 
-		cost = 2
+		cost = 4
 
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
@@ -1456,10 +1456,10 @@ focus_tree = {
 				}
 			}
 			501 = {
-				add_extra_state_shared_building_slots = 2
+				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
 					type = industrial_complex 
-					level = 2
+					level = 1
 					instant_build = yes 
 				}
 			}
@@ -1730,7 +1730,7 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
-			EUYL_add_2_military = yes 
+			EUYL_add_1_military = yes 
 			hidden_effect = {
 				set_variable = { BRA_cost_to_produce = 25 }
 			}
@@ -6501,12 +6501,6 @@ focus_tree = {
 
 		available = {
 			NOT = { has_war_with = USA }
-			USA = {
-				has_opinion = {
-					target = ROOT 
-					value > 49
-				}
-			}
 		}
 
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
@@ -11330,7 +11324,7 @@ focus_tree = {
 		relative_position_id = BRA_propose_unification_with_portugal
 		prerequisite = { focus = BRA_propose_unification_with_portugal}
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
             factor = 2
@@ -11499,7 +11493,7 @@ focus_tree = {
 			}
 		}
 
-		cost = 2
+		cost = 10
 
 		ai_will_do = {
             factor = 3
@@ -11509,14 +11503,26 @@ focus_tree = {
 			has_civil_war = no 
 		}
 
-		search_filters = { FOCUS_FILTER_INDUSTRY }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			if = {
 				limit = { has_global_flag = BRA_civil_war_concluded }
-				BRA_improve_civil_war_recession = yes 
+				effect_tooltip = {
+					remove_ideas = BRA_post_civil_war_economic_recession_3
+				}
+				hidden_effect = {
+					remove_ideas = {
+						BRA_post_civil_war_economic_recession_5
+						BRA_post_civil_war_economic_recession_4
+						BRA_post_civil_war_economic_recession_3
+						BRA_post_civil_war_economic_recession_2
+						BRA_post_civil_war_economic_recession_1
+					}
+				}
 			}
 			else = {
-				add_political_power = 50 
+				add_political_power = 75 
+				EUYL_add_1_civilian = yes 
 			}
 		}
 	}
@@ -11560,7 +11566,7 @@ focus_tree = {
 		relative_position_id = BRA_dealing_with_the_post_civil_war_crisis
 		prerequisite = { focus = BRA_dealing_with_the_post_civil_war_crisis }
 
-		cost = 6
+		cost = 4
 
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
@@ -13013,7 +13019,7 @@ focus_tree = {
 		completion_reward = {
 			activate_mission_tooltip = BRA_communist_peasant_revolt
 			add_popularity = { ideology = communism popularity = 0.02 }
-			add_political_power = 125
+			add_political_power = 90
 			custom_effect_tooltip = BRA_can_only_focus_on_one_branch_tt
 			hidden_effect = {
 				set_country_flag = BRA_active_communist_revolt
@@ -14553,6 +14559,12 @@ focus_tree = {
 			}
 		}
 
+		bypass = {
+			exists = yes 
+			has_government = communism
+			has_global_flag = BRA_civil_war_concluded
+		}
+
 		#will add infantry equipment and create 2 militias 
 
 		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
@@ -14599,6 +14611,12 @@ focus_tree = {
 		available = {
 			has_global_flag = BRA_civil_war_in_progress
 			has_capitulated = no 
+		}
+
+		bypass = {
+			exists = yes 
+			has_government = communism
+			has_global_flag = BRA_civil_war_concluded
 		}
 
 		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }

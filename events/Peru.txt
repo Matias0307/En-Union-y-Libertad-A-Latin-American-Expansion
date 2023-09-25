@@ -84,6 +84,10 @@ country_event = {
 
 	is_triggered_only = yes 
 
+	immediate = {
+		set_country_flag = PRU_1936_elections_cancelled
+	}
+
 	option = {
 		name = peru.123.a 
 		add_stability = -0.05
@@ -186,8 +190,8 @@ country_event = {
 		custom_effect_tooltip = PRU_fascists_take_over_states_tt
 		set_country_flag = PRU_fascist_coup_attempt
 		unlock_decision_category_tooltip = PRU_coup_attempt_fascists
+		activate_mission = PRU_the_coup_attempt
 	}
-	
 }
 
 #Peru Requests Investment!
@@ -1654,6 +1658,7 @@ country_event = {
 				}
 			}
 			white_peace = ROOT
+			clr_country_flag = event_happened
 		}
 		if = {
 			limit = {
@@ -1665,11 +1670,17 @@ country_event = {
 
 	option = { #We won't stop until you're D E A D
 		name = peru.10.b
+		ai_chance = { base = 25 }
 		custom_effect_tooltip = EUYL_post_war_resistance_worsened_tt
 		hidden_effect = {
 			FROM = {
 				every_owned_state = {
-					limit = { is_core_of = FROM }
+					limit = { 
+						is_core_of = FROM 
+						NOT = { 
+							has_dynamic_modifier = { modifier = EUYL_bloody_resistance }
+						}
+					}
 					set_state_flag = EUYL_worsen_resistance
 				}
 			}
@@ -1700,8 +1711,10 @@ country_event = {
 		}
 		OR = {
 			has_capitulated = yes 
-			surrender_progress > 0.39
-			casualties > 119999
+			AND = {
+				surrender_progress > 0.24
+				casualties > 119999
+			}
 		}
 	}
 
@@ -1725,31 +1738,11 @@ country_event = {
 			}
 		}
 		set_country_flag = ROOT_alread_was_asked_to_surrender
-		if = {
+		every_enemy_country = { 
 			limit = {
-				PRU = {
-					is_ai = no 
-					OR = {
-						has_completed_focus = PRU_launch_the_second_war_of_the_pacific
-						has_completed_focus = PRU_retake_our_rightful_land
-						has_war_with = ROOT
-					}
-				}
+				capital_scope = { is_on_continent = south_america }
 			}
-			PRU = {
-				country_event = { id = peru.12 hours = 8}
-			}
-		}
-		else_if = {
-			limit = {
-				BOL = {
-					is_ai = no 
-					has_war_with = ROOT
-				}
-			}
-			BOL = {
-				country_event = { id = peru.12 hours = 8}
-			}
+			country_event = { id = peru.12 hours = 4 }
 		}
 		effect_tooltip = {
 			white_peace = PRU 
@@ -1782,10 +1775,15 @@ country_event = {
 		name = peru.11.b 
 		ai_chance = {
 			base = 10
+			modifier = {
+				add = 50
+				OR = {
+					has_government = communism
+					has_government = fascism
+				}
+			}
 		}
-		add_stability = -0.1
-		add_war_support = -0.15
-		set_country_flag = ROOT_alread_was_asked_to_surrender
+		add_ideas = EUYL_crippled_army
 	}
 }
 
@@ -1804,27 +1802,16 @@ country_event = {
 			base = 100
 		}
 		effect_tooltip = {
-			if = {
-				limit = { 
-					original_tag = PRU 
-					FROM = {
-						original_tag = CHL 
+			FROM = {
+				white_peace = ROOT 
+				every_owned_state = {
+					limit = {
+						is_core_of = ROOT 
+					}
+					ROOT = { 
+						transfer_state = PREV
 					}
 				}
-				transfer_state = 910
-			}
-			if = {
-				limit = { 
-					original_tag = PRU 
-					FROM = {
-						original_tag = ECU 
-					}
-				}
-				transfer_state = 924
-			}
-			if = {
-				limit = { original_tag = BOL }
-				transfer_state = 909
 			}
 		}
 		if = {
@@ -1851,43 +1838,26 @@ country_event = {
 				}
 			}
 		}
-		hidden_effect = {
+		hidden_effect = { ## event is sent to both countries
 			FROM = {
-				if = {
+				white_peace = ROOT 
+				every_controlled_state = {
 					limit = {
-						has_war_with = BOL 
+						is_core_of = FROM
+						is_core_of = ROOT 
 					}
-					white_peace = BOL
-					every_owned_state = {
-						if = {
-							limit = { is_core_of = BOL }
-							BOL = {
-								transfer_state = PREV
-							}
-						}
-					}
-				}
-				white_peace = PRU 
-				hidden_effect = {
-					every_owned_state = {
-						if = {
-							limit = {
-								is_core_of = PRU 
-							}
-							PRU = {
-								transfer_state = PREV
-							}
-						}
-					}
-				}
-				hidden_effect = {
-					FROM = {
-						clr_country_flag = is_in_second_war_of_the_pacific
+					ROOT = {
+						transfer_state = PREV
 					}
 				}
 			}
+			hidden_effect = {
+				FROM = {
+					clr_country_flag = is_in_second_war_of_the_pacific
+				}
+			}
 		}
-		hidden_effect = {
+		hidden_effect = { ## Slightly Inefficient but it works
 			BOL = {
 				if = {
 					limit = { 
@@ -1934,16 +1904,29 @@ country_event = {
 		}
 	}
 
-	option = {
+	option = { 
 		name = peru.8.b 
 		ai_chance = {
 			base = 5
+			modifier = {
+				add = 25
+				has_government = fascism
+			}
 		}
-		add_manpower = -5000
-		add_war_support = -0.03
-		add_stability = -0.05
-		add_political_power = -35
-		add_ideas = mutiny_1
+		custom_effect_tooltip = EUYL_post_war_resistance_worsened_tt
+		hidden_effect = {
+			FROM = {
+				every_owned_state = {
+					limit = { 
+						is_core_of = FROM 
+						NOT = { ## To make sure not to add to states that already have the modifier
+							has_dynamic_modifier = { modifier = EUYL_bloody_resistance }
+						}
+					}
+					set_state_flag = EUYL_worsen_resistance
+				}
+			}
+		}
 	}
 }
 
@@ -2090,6 +2073,7 @@ country_event = {
 			OR = {
 				has_government = communism
 				has_government = fascism
+				has_government = neutrality
 				has_cosmetic_tag = HSPAM
 			}
 		}
@@ -3031,6 +3015,12 @@ country_event = {
 				}
 			}
 			country_event = { id = peru.16 hours = 4 }
+			if = {
+				limit = {
+					has_any_power_balance = yes
+				}
+				PRU_increase_army_15_percent = yes 
+			}	
 		}
 		if = { 
 			limit = { has_dlc = "No Step Back" }

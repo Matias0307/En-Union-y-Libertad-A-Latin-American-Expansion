@@ -22,6 +22,588 @@ ideas = {
 				political_power_factor = -0.35
 			}
 		}
+
+		ARG_a_prepared_posadist_army = {
+			picture = generic_infantry_bonus
+
+			allowed = {
+				always = no 
+			}
+
+			allowed_civil_war = { always = no }
+
+			available = {
+				has_country_leader = {
+					character = ARG_juan_posadas
+					ruling_only = yes 
+				}
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				army_attack_factor = 0.03
+				army_defence_factor = 0.02
+			}
+		}
+
+		ARG_political_struggle = {
+			picture = ARG_struggle_pol
+
+			allowed = {
+				always = no 
+			}
+
+			available = {
+				has_active_mission = ARG_the_1937_elections
+			}
+
+			removal_cost = -1 
+			modifier = {
+				political_power_factor = -0.1
+			}
+		}
+
+		ARG_military_funding = {
+			picture = ARG_increased_funding
+
+			allowed = { original_tag = ARG }
+
+			allowed_civil_war = { always = yes }
+
+			modifier = {
+				consumer_goods_factor = 0.05
+				production_speed_buildings_factor = -0.05
+				industrial_capacity_factory = 0.05
+			}
+		}
+
+		ARG_increased_salaries = {
+			picture = generic_goods_red_bonus
+
+			allowed = { original_tag = ARG }
+
+			allowed_civil_war = { always = yes }
+
+			modifier = {
+				consumer_goods_factor = 0.05
+			}
+		}
+
+		ARG_rebelling_oligarchs = {
+			picture = COL_oligarquia_insatisfecha
+
+			allowed = { original_tag = ARG }
+
+			allowed_civil_war = { always = yes }
+
+			modifier = {
+				political_power_factor = -0.05
+				stability_factor = -0.05
+				consumer_goods_factor = 0.07
+			}
+		}
+
+		ARG_nationwide_protests = {
+			picture = ARG_natuionwide_protests
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			available = { has_civil_war = no }
+
+			removal_cost = -1
+
+			modifier = {
+				stability_weekly = -0.005
+				political_power_factor = -0.1
+			}
+		}
+
+		ARG_major_anti_war_sentiment = {
+			picture = FRA_scw_intervention_republicans_focus
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			removal_cost = -1
+
+			modifier = {
+				army_attack_factor = -0.15
+				army_defence_factor = -0.15
+				industrial_capacity_factory = -0.35
+				stability_weekly = -0.0025
+				custom_modifier_tooltip = ARG_periodic_sabotages_tt
+			}
+		}
+
+		ARG_conflicting_political_ideals = {
+			picture = generic_disjointed_gov
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			available = { 
+				has_civil_war = no 
+				NOT = {
+					has_government = communism
+				}
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				political_power_factor = -0.35
+			}
+		}
+
+		ARG_post_coup_political_crisis_1 = {
+			name = ARG_post_coup_political_crisis
+			picture = ARG_natuionwide_protests
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			removal_cost = -1
+
+			modifier = {
+				political_advisor_cost_factor = 0.2
+				political_power_factor = -0.2
+				stability_factor = -0.2
+				war_support_factor = -0.2
+				surrender_limit = 0.35
+				production_speed_buildings_factor = -0.15
+				custom_modifier_tooltip = ARG_high_risk_of_protests_tt
+				custom_modifier_tooltip = ARG_anti_government_resistance_in_states_tt
+			}
+		}
+
+		ARG_post_coup_political_crisis_2 = {
+			name = ARG_post_coup_political_crisis
+			picture = ARG_natuionwide_protests
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			removal_cost = -1
+
+			on_remove = {
+				every_controlled_state = {
+					limit = {
+						has_dynamic_modifier = {
+							modifier = ARG_anti_government_resistance 
+						}
+					}
+					remove_dynamic_modifier = {
+						modifier = ARG_anti_government_resistance
+					}
+				}
+			}
+
+			modifier = {
+				political_advisor_cost_factor = 0.1
+				political_power_factor = -0.1
+				stability_factor = -0.1
+				war_support_factor = -0.1
+				surrender_limit = 0.15
+				production_speed_buildings_factor = -0.1
+				custom_modifier_tooltip = ARG_high_risk_of_protests_tt
+				custom_modifier_tooltip = ARG_anti_government_resistance_in_states_tt
+			}
+		}
+
+		ARG_post_civil_war_crisis = { #will be removed via a countdown mission that originally starts with 720 days
+			picture = ARG_civil_war_crisis
+
+			allowed = {
+				always = no 
+			}
+
+			allowed_civil_war = { always = yes }
+
+			available = {
+				has_civil_war = no 
+			}
+
+			on_remove = {
+				every_controlled_state = {
+					limit = {
+						has_dynamic_modifier = {
+							modifier = ARG_anti_government_resistance 
+						}
+					}
+					remove_dynamic_modifier = {
+						modifier = ARG_anti_government_resistance
+					}
+				}
+			}
+
+			modifier = {
+				political_power_factor = -0.1
+				stability_factor = -0.15
+				war_support_factor = -0.2
+				consumer_goods_factor = 0.15
+				production_speed_buildings_factor = -0.2
+				army_attack_factor = -0.05
+				army_defence_factor = -0.05
+				army_speed_factor = -0.05
+				custom_modifier_tooltip = ARG_anti_government_resistance_in_states_tt
+			}
+		}
+
+		ARG_the_argentine_civil_war_idea_government = {
+			name = ARG_the_argentine_civil_war_idea
+			picture = ARG_second_cisplatine_war
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			available = {
+				any_enemy_country = {
+					original_tag = ARG 
+				}
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				surrender_limit = 1
+				max_surrender_limit_offset = 0.4
+				ai_get_ally_desire_factor = -1000
+				ai_join_ally_desire_factor = -1000
+			}
+		}
+
+		ARG_the_argentine_civil_war_idea_communist = {
+			name = ARG_the_argentine_civil_war_idea
+			picture = ARG_civil_war_commie
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			available = {
+				any_enemy_country = {
+					original_tag = ARG 
+				}
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				surrender_limit = 1
+				max_surrender_limit_offset = 0.2
+				ai_get_ally_desire_factor = -1000
+				ai_join_ally_desire_factor = -1000
+			}
+		}
+
+		ARG_the_argentine_civil_war_idea_anarchist = {
+			name = ARG_the_argentine_civil_war_idea
+			picture = ARG_civil_war_anarchist
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			available = {
+				any_enemy_country = {
+					original_tag = ARG 
+				}
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				surrender_limit = 1
+				max_surrender_limit_offset = 0.1
+				ai_get_ally_desire_factor = -1000
+				ai_join_ally_desire_factor = -1000
+			}
+		}
+
+		ARG_refined_equipment_capturing_techniques = {
+			picture = ast_volunteer_defence_corps
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			removal_cost = -1
+
+			modifier = {
+				equipment_capture_factor = 0.15
+				attrition = -0.1
+			}
+		}
+
+		ARG_cheaper_equipment_anarchist = {
+			picture = ast_volunteer_defence_corps
+			
+			allowed = {
+				always = no 
+			}
+			
+			available = {
+			}
+			
+			cancel = {
+			}
+			
+			allowed_civil_war = {
+				always = yes
+			}
+			
+			removal_cost = -1
+
+			modifier = {
+				production_speed_buildings_factor = -0.05
+			}
+			
+			equipment_bonus = {
+				infantry_weapons = {
+					build_cost_ic = -0.25
+					reliability = -0.15
+					instant = yes
+				}
+				support_tech = {
+					build_cost_ic = -0.1
+					reliability = -0.05
+					instant = yes
+				}
+			}
+		}
+
+		ARG_decentralized_syndicates = {
+			picture = POL_disjointed_industry
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			removal_cost = -1
+
+			modifier = {
+				consumer_goods_factor = 0.05
+				political_power_factor = -0.05
+				production_speed_arms_factory_factor = -0.15
+				production_speed_industrial_complex_factor = -0.15
+			}
+		}
+
+		ARG_properly_centralized_syndicates = {
+			picture = man_five_year_plan_industry
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			removal_cost = -1
+
+			modifier = {
+				production_speed_arms_factory_factor = 0.05
+				production_speed_industrial_complex_factor = 0.05
+			}
+		}
+
+		ARG_women_in_skies = {
+			picture = generic_aircraft_support
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			removal_cost = -1
+
+			modifier = {
+				air_accidents_factor = -0.15
+				air_agility_factor = 0.1
+				air_attack_factor = 0.05
+				air_defence_factor = 0.05
+			}
+		}
+
+		ARG_anarchism_knows_no_borders = {
+			name = SPR_anarchism_knows_no_borders
+
+			picture = SPR_torchbearers_of_tomorrow
+
+			allowed = {
+				always = no 
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				war_support_factor = 0.10
+				justify_war_goal_time = -0.75
+				ai_focus_war_production_factor = 0.5
+				ai_focus_aggressive_factor = 1
+			}
+		}
+
+		ARG_growing_anarchist_sentiment = {
+			picture = SPR_torchbearers_of_tomorrow
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			available = {
+				NOT = {
+					has_cosmetic_tag = TAS # Temporary Anarchist State
+				}
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				neutrality_drift = 0.05
+				stability_weekly = -0.01
+			}
+		}
+
+		ARG_foreign_recruitment = {
+			picture = mex_politicised_army_2
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			removal_cost = -1
+
+			modifier = {
+				non_core_manpower = 0.1
+			}
+		}
+
+		ARG_disorganized_militias_1 = {
+			name = ARG_disorganized_militias
+			picture = ARG_burnt_out_army
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			removal_cost = -1
+
+			modifier = {
+				army_attack_factor = -0.1
+				army_defence_factor = -0.1
+			}
+		}
+
+		ARG_disorganized_militias_2 = {
+			name = ARG_disorganized_militias
+			picture = ARG_burnt_out_army
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			removal_cost = -1
+
+			modifier = {
+				army_attack_factor = -0.05
+				army_defence_factor = -0.05
+			}
+		}
+
+		ARG_reformed_militias = {
+			picture = ARG_soldado_argentino
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			available = {
+				has_civil_war = yes 
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				army_attack_factor = 0.05
+				army_defence_factor = 0.05
+			}
+		}
+
+		ARG_professionalized_urban_militias = {
+			picture = war_of_survival
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			removal_cost = -1
+
+			modifier = {
+				army_attack_factor = 0.05
+				army_defence_factor = 0.05
+				air_superiority_bonus_in_combat = 0.05
+				land_night_attack = 0.1 # gotta test this
+			}
+		}
+
+		ARG_professionalized_rural_militias = {
+			picture = ARG_rural_militias
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			removal_cost = -1
+
+			modifier = {
+				army_attack_factor = 0.03
+				army_defence_factor = 0.03
+				acclimatization_cold_climate_gain_factor = 0.05
+				acclimatization_hot_climate_gain_factor = 0.05
+				cas_damage_reduction = 0.05
+				combat_width_factor = -0.05
+			}
+		}
+
+		ARG_formalized_gauchos = {
+			picture = ARG_gauchos_idea
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			removal_cost = -1
+
+			modifier = {
+				cavalry_attack_factor = 0.05
+				cavalry_speed_factor = 0.05
+				cavalry_defence_factor = 0.1 
+			}
+		}
+		
+		ARG_booming_industry = {
+			picture = SOV_third_five_year_plan_civilian
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			removal_cost = -1
+
+			modifier = {
+				production_speed_buildings_factor = 0.05
+				industry_repair_factor = 0.1
+			}
+		}
 	
 		ARG_burnt_out_army = {
 			picture = ARG_burnt_out_army
@@ -40,7 +622,534 @@ ideas = {
 				war_support_factor = -0.25
 			}
 		}
-		
+
+		ARG_agitated_oligarchs_idea = {
+			picture = COL_oligarquia_insatisfecha
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			available = {
+				any_controlled_state = {
+					has_dynamic_modifier = {
+						modifier = ARG_agitated_oligarchs
+					}
+				}
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				political_power_factor = -0.05
+				custom_modifier_tooltip = ARG_oligarchs_agitated_in_developed_regions_tt
+			}
+		}
+
+		ARG_disorganized_party = {
+			picture = SOV_factionalism_modifier
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			removal_cost = -1
+
+			modifier = {
+				political_power_factor = -0.1
+			}
+		}
+
+		ARG_posadist_fourth_internationale_1 = { # Gets Better with every succesful Posadist Ambition
+			name = ARG_posadist_fourth_internationale
+			picture = ARG_posadist_4th_internationale
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			available = {
+				has_country_leader = {
+					character = ARG_juan_posadas
+					ruling_only = yes 
+				}
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				political_power_factor = 0.05
+			}
+		}
+
+		ARG_posadist_fourth_internationale_2 = { # Gets Better with every succesful Posadist Ambition
+			name = ARG_posadist_fourth_internationale
+			picture = ARG_posadist_4th_internationale
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			available = {
+				has_country_leader = {
+					character = ARG_juan_posadas
+					ruling_only = yes 
+				}
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				political_power_factor = 0.07
+				stability_factor = 0.02
+				war_support_factor = 0.02
+			}
+		}
+
+		ARG_posadist_fourth_internationale_3 = { # Gets Better with every succesful Posadist Ambition
+			name = ARG_posadist_fourth_internationale
+			picture = ARG_posadist_4th_internationale
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			available = {
+				has_country_leader = {
+					character = ARG_juan_posadas
+					ruling_only = yes 
+				}
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				political_power_factor = 0.1
+				political_advisor_cost_factor = -0.03
+				stability_factor = 0.03
+				war_support_factor = 0.03
+				puppet_cost_factor = -0.05
+			}
+		}
+
+		ARG_posadist_fourth_internationale_4 = { # Gets Better with every succesful Posadist Ambition
+			name = ARG_posadist_fourth_internationale
+			picture = ARG_posadist_4th_internationale
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			available = {
+				has_country_leader = {
+					character = ARG_juan_posadas
+					ruling_only = yes 
+				}
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				political_power_factor = 0.12
+				political_advisor_cost_factor = -0.05
+				stability_factor = 0.05
+				war_support_factor = 0.05
+				puppet_cost_factor = -0.1
+			}
+		}
+
+		ARG_posadist_fourth_internationale_5 = { # Gets Better with every succesful Posadist Ambition
+			name = ARG_posadist_fourth_internationale
+			picture = ARG_posadist_4th_internationale
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			available = {
+				has_country_leader = {
+					character = ARG_juan_posadas
+					ruling_only = yes 
+				}
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				political_power_factor = 0.15
+				political_advisor_cost_factor = -0.1
+				stability_factor = 0.1
+				war_support_factor = 0.1
+				puppet_cost_factor = -0.2
+			}
+		}
+
+		ARG_succesful_4_year_plan = {
+			picture = POL_succesful_four_year_plan
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			removal_cost = -1
+
+			modifier = {
+				production_speed_buildings_factor = 0.05
+			}
+		}
+
+		ARG_failed_4_year_plan = {
+			picture = POL_disjointed_industry
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			removal_cost = -1
+
+			modifier = {
+				production_speed_buildings_factor = -0.05
+			}
+		}
+
+		ARG_university_investments = {
+			picture = generic_research_bonus
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			removal_cost = -1
+
+			modifier = {
+				research_speed_factor = 0.05
+			}
+		}
+
+		ARG_the_liberation_army_idea = {
+			picture = mex_politicised_army_2
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			available = { has_government = communism }
+
+			removal_cost = -1
+
+			modifier = {
+				conscription = 0.01
+				army_attack_factor = 0.03
+				army_core_defence_factor = 0.05
+			}
+		}
+
+		ARG_posadist_conscription_1 = {
+			name = ARG_posadist_conscription_idea 
+			picture = generic_communist_army
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			available = {
+				has_country_leader = {
+					character = ARG_juan_posadas
+					ruling_only = yes 
+				}
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				conscription = 0.01
+			}
+		}
+
+		ARG_posadist_conscription_2 = {
+			name = ARG_posadist_conscription_idea 
+			picture = generic_communist_army
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			available = {
+				has_country_leader = {
+					character = ARG_juan_posadas
+					ruling_only = yes 
+				}
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				conscription = 0.025
+			}
+		}
+
+		ARG_posadist_conscription_3 = {
+			name = ARG_posadist_conscription_idea 
+			picture = generic_communist_army
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			available = {
+				has_country_leader = {
+					character = ARG_juan_posadas
+					ruling_only = yes 
+				}
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				conscription = 0.04
+				army_attack_factor = 0.025
+				army_defence_factor = 0.0025
+			}
+		}
+
+		ARG_posadist_conscription_4 = {
+			name = ARG_posadist_conscription_idea
+			picture = generic_communist_army
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			available = {
+				has_country_leader = {
+					character = ARG_juan_posadas
+					ruling_only = yes 
+				}
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				conscription = 0.06
+				army_attack_factor = 0.05
+				army_defence_factor = 0.05
+			}
+		}
+
+		ARG_alien_technological_aid = {
+			picture = ARG_alien_tech_aid
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			available = {
+				has_country_leader = {
+					character = ARG_juan_posadas
+					ruling_only = yes 
+				}
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				research_speed_factor = 1
+			}
+		}
+
+		ARG_democratic_opposition = {
+			picture = ARG_burnt_out_army
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			available = { has_civil_war = yes }
+
+			removal_cost = -1
+
+			modifier = {
+				army_attack_factor = -0.1
+				army_defence_factor = -0.1
+				political_power_factor = -0.1
+				democratic_drift = 0.05
+			}
+		}
+
+		ARG_active_purge = {
+			picture = SOV_purged_junior_army_officers
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			removal_cost = -1
+
+			modifier = {
+				political_power_factor = -0.05
+				stability_weekly = -0.005
+				weekly_manpower = -1650
+			}
+		}
+
+		ARG_succesful_purge = {
+			picture = generic_communist_army
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			removal_cost = -1
+
+			modifier = {
+				communism_drift = 0.1
+				stability_factor = 0.1
+				war_support_factor = 0.1
+				political_power_factor = 0.05
+				conscription_factor = 0.05
+			}
+		}
+
+		ARG_naval_investments_idea = {
+			picture = generic_navy_bonus
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			removal_cost = -1
+
+			modifier = {
+				production_speed_dockyard_factor = 0.1
+				industrial_capacity_dockyard = 0.1
+			}
+		}
+
+		ARG_reforming_the_industry = {
+			picture = SOV_fourth_five_year_plan
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			removal_cost = -1
+
+			modifier = {
+				consumer_goods_factor = 0.15
+				production_speed_buildings_factor = -0.05
+			}
+		}
+
+		ARG_agricultural_syndicates_idea = {
+			picture = generic_agrarian_reform
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			removal_cost = -1
+
+			modifier = {
+				political_power_factor = 0.05
+				global_building_slots_factor = 0.05
+				local_resources_factor = 0.05
+				consumer_goods_factor = -0.03
+				stability_factor = 0.05
+			}
+			
+		}
+
+		ARG_seats_in_congress = {
+			picture = generic_pp_unity_bonus
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			available = {
+				has_government = communism
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				political_power_factor = 0.05
+			}
+		}
+
+		ARG_improved_public_transport = {
+			picture = FRA_motorized_focus
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			available = {
+				has_government = communism
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				army_speed_factor = 0.05
+				production_speed_infrastructure_factor = 0.05
+				production_speed_rail_way_factor = 0.075
+				production_speed_supply_node_factor = 0.1
+			}
+		}
+
+		ARG_ramon_castroviejo = {
+			picture = ARG_ramon_pic
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			available = { has_active_mission = ARG_robertos_renounce }
+
+			removal_cost = -1
+
+			modifier = {
+				political_power_factor = 0.05
+				stability_factor = 0.05
+			}
+		}
+
+		ARG_GOU_idea = {
+			picture = ARG_GOU_pic
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			available = {
+				has_dynamic_modifier = { modifier = ARG_infamous_decade_idea } 
+				any_controlled_state = {
+					has_dynamic_modifier = { modifier = ARG_GOU_state_modifier }
+				}
+				NOT = { ## making sure this idea doesn't persist 
+					OR = {
+						has_country_leader = {
+							character = ARG_the_military_junta
+							ruling_only = yes 
+						}
+						has_country_leader = {
+							character = ARG_arturo_rawson
+							ruling_only = yes 
+						}
+					}
+				}
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				political_power_factor = -0.05
+				stability_factor = -0.05
+				custom_modifier_tooltip = ARG_GOU_influence_tt
+			}
+		}
+
 		ARG_disorganized_army_1 = {
 			name = ARG_disorganized_army
 			picture = ARG_burnt_out_army
@@ -84,10 +1193,13 @@ ideas = {
 			allowed = { always = no }
 			
 			allowed_civil_war = { always = yes }
+
+			available = { has_government = communism }
 			
 			removal_cost =  -1
 			
 			modifier = {
+				conscription_factor = 0.05
 				war_support_factor = 0.05
 				communism_drift = 0.03
 				production_speed_arms_factory_factor = 0.05
@@ -876,7 +1988,7 @@ ideas = {
 			removal_cost = -1
 			
 			modifier = {
-				political_power_cost = 0.45
+				political_power_cost = 0.35
 				consumer_goods_factor = 0.35
 				industrial_capacity_factory = -0.15
 				industrial_capacity_dockyard = -0.15
@@ -909,6 +2021,8 @@ ideas = {
 			
 			modifier = {
 				conscription = 0.02
+				industrial_capacity_factory = -0.05
+				industrial_capacity_dockyard = -0.05
 			}
 		}
 		
@@ -937,6 +2051,8 @@ ideas = {
 			
 			modifier = {
 				conscription = 0.04
+				industrial_capacity_factory = -0.1
+				industrial_capacity_dockyard = -0.1
 			}
 		}
 
@@ -2148,7 +3264,7 @@ ideas = {
 			removal_cost = -1
 			
 			modifier = {
-				political_power_cost = 0.2
+				political_power_cost = 0.15
 				consumer_goods_factor = 0.2
 				industrial_capacity_factory = -0.05
 				industrial_capacity_dockyard = -0.05
@@ -2328,7 +3444,7 @@ ideas = {
 			removal_cost = -1
 			
 			modifier = {
-				consumer_goods_factor = -0.02
+				consumer_goods_factor = -0.01
 			}
 		}
 		
@@ -2344,7 +3460,7 @@ ideas = {
 			removal_cost = -1
 			
 			modifier = {
-				consumer_goods_factor = -0.05
+				consumer_goods_factor = -0.02
 			}
 		}
 		
@@ -2360,9 +3476,9 @@ ideas = {
 			removal_cost = -1
 			
 			modifier = {
-				consumer_goods_factor = -0.08
+				consumer_goods_factor = -0.04
 				production_speed_arms_factory_factor = -0.03
-				production_speed_industrial_complex_factor = 0.05
+				production_speed_industrial_complex_factor = 0.03
 			}
 		}
 		
@@ -2378,7 +3494,7 @@ ideas = {
 			removal_cost = -1
 			
 			modifier = {
-				production_speed_buildings_factor = 0.02
+				production_speed_buildings_factor = 0.01
 			}
 		}
 		
@@ -2394,8 +3510,8 @@ ideas = {
 			removal_cost = -1
 			
 			modifier = {
-				production_speed_buildings_factor = 0.07
-				industrial_capacity_factory = 0.04
+				production_speed_buildings_factor = 0.03
+				industrial_capacity_factory = 0.02
 			}
 		}
 		
@@ -2411,8 +3527,8 @@ ideas = {
 			removal_cost = -1
 			
 			modifier = {
-				production_speed_buildings_factor = 0.1
-				industrial_capacity_factory = 0.075
+				production_speed_buildings_factor = 0.05
+				industrial_capacity_factory = 0.04
 			}
 		}
 		
@@ -2545,8 +3661,7 @@ ideas = {
 			removal_cost = -1
 			
 			modifier = {
-				production_speed_industrial_complex_factor = 0.075
-				communism_drift = 0.1
+				production_speed_industrial_complex_factor = 0.01
 			}
 		}
 		
@@ -2783,7 +3898,7 @@ ideas = {
 		}
 		
 		ARG_accepted_debt_repayments = {
-			picture = ARG_accepted_payment
+			picture = SOV_fourth_five_year_plan
 			
 			allowed = {
 				tag = ARG
@@ -2801,7 +3916,7 @@ ideas = {
 		}
 		
 		ARG_accepted_debt_repayments_2 = {
-			picture = ARG_accepted_payment
+			picture = SOV_fourth_five_year_plan
 			
 			allowed = {
 				tag = ARG
@@ -2819,7 +3934,7 @@ ideas = {
 		}
 		
 		ARG_accepted_debt_repayments_3 = {
-			picture = ARG_accepted_payment
+			picture = SOV_fourth_five_year_plan
 			
 			allowed = {
 				tag = ARG
@@ -2837,7 +3952,7 @@ ideas = {
 		}
 		
 		ARG_accepted_debt_repayments_4 = {
-			picture = ARG_accepted_payment
+			picture = SOV_fourth_five_year_plan
 			
 			allowed = {
 				tag = ARG
@@ -2855,7 +3970,7 @@ ideas = {
 		}
 		
 		ARG_accepted_debt_repayments_5 = {
-			picture = ARG_accepted_payment
+			picture = SOV_fourth_five_year_plan
 			
 			allowed = {
 				tag = ARG
@@ -2873,7 +3988,7 @@ ideas = {
 		}
 		
 		ARG_accepted_debt_repayments_6 = {
-			picture = ARG_accepted_payment
+			picture = SOV_fourth_five_year_plan
 			
 			allowed = {
 				tag = ARG
@@ -3082,6 +4197,24 @@ ideas = {
 				consumer_goods_factor = -0.07
 				production_speed_buildings_factor = 0.05
 				local_resources_factor = 0.1
+			}
+		}
+
+		ARG_improved_nationwide_transport = {
+			picture = generic_build_infrastructure
+
+			allowed = {
+				always = no 
+			}
+
+			allowed_civil_war = { always = yes }
+
+			removal_cost = -1
+
+			modifier = {
+				consumer_goods_factor = -0.02
+				production_speed_buildings_factor = 0.05
+				local_resources_factor = 0.03
 			}
 		}
 	}	

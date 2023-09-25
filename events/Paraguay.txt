@@ -90,10 +90,30 @@ country_event = {
 	immediate = {
 		hidden_effect = {
 			retire_country_leader = yes
-			set_politics = {
-				ruling_party = neutrality
+
+			if = {
+				limit = {
+					has_country_flag = PAR_liberals_in_army
+				}
+				set_politics = {
+					ruling_party = democratic
+				}
+				promote_character = PAR_felix_paiva
+				add_popularity = {
+					ideology = democratic
+					popularity = 0.20
+				}
 			}
-			promote_character = PAR_junta
+			else = {
+				set_politics = {
+					ruling_party = neutrality
+				}
+				promote_character = PAR_junta
+				add_popularity = {
+					ideology = neutrality
+					popularity = 0.20
+				}
+			}
 		}
 	}
 
@@ -101,7 +121,15 @@ country_event = {
 		name = paraguay.2.a
 		effect_tooltip = {
 			retire_country_leader = yes
-			promote_character = PAR_junta
+			if = {
+				limit = {
+					has_country_flag = PAR_liberals_in_army
+				}
+				promote_character = PAR_felix_paiva
+			}
+			else = {
+				promote_character = PAR_junta
+			}
 		}
 	}
 }
@@ -254,6 +282,66 @@ country_event = {
             }
         }
 	}
-	
+}
 
+# A Dissatisfied Right Wing - (✿T_T)
+country_event = {
+	id = paraguay.6
+	title = paraguay.6.t
+	desc = paraguay.6.d
+	picture = GFX_PAR_agitated_right_wing_event
+
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_ideas = PAR_agitated_right_wing_revs
+		}
+	}
+	#Lean towards fascism
+	option = {
+		name = paraguay.6.a
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.05
+		}
+		effect_tooltip = {
+			unlock_national_focus = PAR_support_right_wing
+			add_ideas = PAR_agitated_right_wing_revs
+		}
+		set_country_flag = PAR_player_chose_fascism
+	}
+	#Reject fascism
+	option = {
+		name = paraguay.6.b
+		add_popularity = {
+			ideology = fascism
+			popularity = -0.05
+		}
+		add_stability = -0.05
+		effect_tooltip = {
+			add_ideas = PAR_agitated_right_wing_revs
+		}
+	}
+}
+
+# Liberal Remnants in the Army
+country_event = {
+	id = paraguay.7
+	title = paraguay.7.t
+	desc = paraguay.7.d
+	picture = GFX_report_event_generic_army
+
+	is_triggered_only = yes
+
+	#ok
+	option = {
+		name = paraguay.7.a
+		add_popularity = {
+			ideology = democratic
+			popularity = 0.04
+		}
+		PAR_move_5_military = yes
+		set_country_flag = PAR_liberals_in_army
+	}
 }

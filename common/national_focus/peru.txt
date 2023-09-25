@@ -39,23 +39,16 @@ focus_tree = {
 		}
 		
 		ai_will_do = {
-			factor = 40
+			base = 40
+			modifier = {
+				factor = 10 
+				is_historical_focus_on = yes
+			}
 		}
 		completion_reward = {
-			add_political_power = 150
-			hidden_effect = {
-				if = {
-					limit = {
-						NOT = { has_country_flag = PRU_started_1939 }
-					}
-					country_event = { id = peru.122 days = 283 }
-				}
-				else = {
-					clr_country_flag = PRU_started_1939
-				}
-			}
+			add_political_power = 100
 		}		
-		cost = 6	
+		cost = 5
 		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 	}			
 
@@ -67,7 +60,7 @@ focus_tree = {
 		icon = "GFX_focus_what_are_we"
 		prerequisite = { focus = PRU_repairing_the_nation }
 		relative_position_id = PRU_repairing_the_nation
-		x = -1
+		x = -6
 		y = 1
 		
 		ai_will_do = {
@@ -76,7 +69,7 @@ focus_tree = {
 		completion_reward = {
 			add_ideas = PRU_what_is_our_nation		
 		}		
-		cost = 4	
+		cost = 2	
 		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 	}		
 	
@@ -314,16 +307,14 @@ focus_tree = {
 		search_filters = {FOCUS_FILTER_POLITICAL}
 	}		
 	
-	#Army Start
-	
+	## Will be the Ecuador War Mechanic
+
+	# Merely Temporary
 	focus = {
 		id = PRU_strengthen_the_army
-		icon = GFX_focus_generic_commonwealth_build_infantry
-		prerequisite = { focus = PRU_repairing_the_nation }
-		relative_position_id = PRU_repairing_the_nation
-		x = -9
-		y = 1
-		
+		icon = GFX_ARG_quantity
+		x = 22
+		y = 0
 		
 		available = {
 		}
@@ -344,8 +335,33 @@ focus_tree = {
 				}
 				PRU_increase_army_10_percent = yes 
 			}	
+			random_owned_controlled_state = {
+				limit = {
+					any_neighbor_state = {
+						is_fully_controlled_by = ECU 
+					}
+				}
+				add_building_construction = {
+					type = air_base
+					level = 1
+					instant_build = yes
+				}
+			}
+			every_controlled_state = {
+				limit = {
+					any_neighbor_state = {
+						is_fully_controlled_by = ECU 
+					}
+					infrastructure < 2
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes 
+				}
+			}
 		}		
-		cost = 2
+		cost = 5
 		search_filters = {FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_ARMY_NAVY_RIVALRY FOCUS_FILTER_HISTORICAL}
 	}		
 	
@@ -354,7 +370,7 @@ focus_tree = {
 		icon = "GFX_focus_generic_combined_arms"
 		prerequisite = { focus = PRU_strengthen_the_army }
 		relative_position_id = PRU_strengthen_the_army
-		x = -1
+		x = -2
 		y = 1
 		
 		available = {
@@ -381,133 +397,22 @@ focus_tree = {
 	focus = {
 		id = PRU_expand_our_armaments
 		icon = GFX_goal_generic_construct_mil_factory
-		x = 1
+		x = 2
 		y = 1
 		relative_position_id = PRU_strengthen_the_army
 		prerequisite = { focus = PRU_strengthen_the_army }
 
-		cost = 5
+		cost = 4
+
+		ai_will_do = {
+			factor = 10
+		}
 
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			EUYL_add_1_military = yes 
 		}
 	}
-
-	focus = {
-		id = PRU_focus_on_our_navy 
-		icon = GFX_goal_generic_navy_battleship
-		x = -1
-		y = 1
-		relative_position_id = PRU_purchase_modern_arnaments
-		prerequisite = {
-			focus = PRU_purchase_modern_arnaments
-		}
-		prerequisite = { focus = PRU_expand_our_armaments }
-		mutually_exclusive = { focus = PRU_focus_on_army }
-		mutually_exclusive = { focus = PRU_focus_on_air }
-
-		cost = 2
-
-		ai_will_do = {
-			factor = 15
-		}
-
-		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_ARMY_NAVY_RIVALRY }
-		completion_reward = {
-			navy_experience = 50
-			if = {
-				limit = {
-					has_any_power_balance = yes
-				}
-				PRU_increase_navy_15_percent = yes 
-			}	
-		}
-	}
-
-	focus = {
-		id = PRU_focus_on_army
-		icon = GFX_goal_generic_allies_build_infantry
-		x = 1
-		y = 1
-		relative_position_id = PRU_purchase_modern_arnaments
-		prerequisite = {
-			focus = PRU_purchase_modern_arnaments
-		}
-		prerequisite = { focus = PRU_expand_our_armaments }
-		mutually_exclusive = { focus = PRU_focus_on_our_navy }
-		mutually_exclusive = { focus = PRU_focus_on_air }
-
-		cost = 2
-
-		ai_will_do = {
-			factor = 15
-		}
-
-		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_ARMY_NAVY_RIVALRY FOCUS_FILTER_HISTORICAL }
-		completion_reward = {
-			army_experience = 35
-			if = {
-				limit = {
-					has_any_power_balance = yes
-				}
-				PRU_increase_army_10_percent = yes 
-			}	
-		}
-	}
-
-	focus = {
-		id = PRU_focus_on_air
-		icon = GFX_goal_generic_air_fighter
-		x = 1
-		y = 1
-		relative_position_id = PRU_expand_our_armaments
-		prerequisite = {
-			focus = PRU_purchase_modern_arnaments
-		}
-		prerequisite = { focus = PRU_expand_our_armaments }
-		mutually_exclusive = { focus = PRU_focus_on_army }
-		mutually_exclusive = { focus = PRU_focus_on_our_navy }
-
-		cost = 2
-
-		ai_will_do = {
-			factor = 10
-		}
-
-		search_filters = { FOCUS_FILTER_RESEARCH }
-		completion_reward = {
-			air_experience = 45
-		}
-	}
-	
-	focus = {
-		id = PRU_prepare_for_a_potential_war
-		icon = "GFX_focus_generic_little_entente"
-		prerequisite = {
-			focus = PRU_focus_on_air
-			focus = PRU_focus_on_army
-			focus = PRU_focus_on_our_navy
-		}
-		relative_position_id = PRU_purchase_modern_arnaments
-		x = 1
-		y = 2
-		
-		available = {
-		}
-		
-		ai_will_do = {
-			factor = 10
-		}
-		completion_reward = {
-			add_ideas = PRU_preparing_for_the_worst	
-			effect_tooltip = {
-				unlock_national_focus = PRU_fuerzas_armadas
-			}
-		}		
-		cost = 4
-		search_filters = {FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL}
-	}		
 
 	#Industry 
 	
@@ -1074,6 +979,7 @@ focus_tree = {
 		}
 
 		available = {
+			has_country_flag = PRU_1936_elections_cancelled
 			has_civil_war = no 
 		}
 		ai_will_do = {
@@ -1222,11 +1128,11 @@ focus_tree = {
 	focus = {
 		id = PRU_sway_the_industrial_loyalty
 		icon = GFX_goal_generic_construct_civ_factory
-		x = 0
+		x = -2
 		y = 2
 		relative_position_id = PRU_capture_the_reserves
-		prerequisite = { focus = PRU_capture_the_reserves }
-		prerequisite = { focus = PRU_disband_the_guardia_civil }
+		prerequisite = { focus = PRU_try_to_appease_oscars_supporters }
+
 
 		cost = 8
 
@@ -1402,11 +1308,10 @@ focus_tree = {
 	focus = {
 		id = PRU_secure_the_fascist_majority_states
 		icon = GFX_goal_generic_position_armies
-		x = -1
+		x = 1
 		y = 1
 		relative_position_id = PRU_relase_fascist_prisoners
-		prerequisite = { focus = PRU_relase_fascist_prisoners }
-		prerequisite = { focus = PRU_bring_back_exiled_fascists }
+		prerequisite = { focus = PRU_try_to_appease_oscars_supporters }
 
 		cost = 6
 
@@ -1466,7 +1371,7 @@ focus_tree = {
 	focus = {
 		id = PRU_launch_the_coup
 		icon = GFX_PRU_ejercito_de_peru
-		x = -3
+		x = -1
 		y = 1
 		relative_position_id = PRU_sway_the_industrial_loyalty
 		prerequisite = { focus = PRU_sway_the_industrial_loyalty }
@@ -3770,14 +3675,14 @@ focus_tree = {
 					}
 				}
 				add_country_leader_role = {
-					character = "PRU_ricardo_perez_godoy_general"
+					character = PRU_ricardo_perez_godoy_general
 					country_leader = {
 						ideology = theocracy
 						traits = { war_industrialist }
 						expire = "1965.3.1.1"
 					}
-					promote_leader = yes 
 				}
+				promote_character = PRU_ricardo_perez_godoy_general
 				PRU_bop_remove_bop_effect = yes 
 				
 				add_ideas = {
@@ -5101,7 +5006,7 @@ focus_tree = {
 				}
 			}			
 		}		
-		cost = 5
+		cost = 2
 		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL}
 	}	
 	
@@ -5310,10 +5215,10 @@ focus_tree = {
 	focus = {
 		id = PRU_lean_more_to_the_left
 		icon = GFX_focus_generic_join_comintern
-		prerequisite = { focus = PRU_reenforce_the_progressive_tax_system }	
+		prerequisite = { focus = PRU_the_coalition_wins }	
 		relative_position_id = PRU_reenforce_the_progressive_tax_system
 		mutually_exclusive = { focus = PRU_reject_the_extremists}
-		x = 1
+		x = -1
 		y = 1
 		
 		available = {
@@ -5342,7 +5247,7 @@ focus_tree = {
 			}
 			add_popularity = {
 				ideology = communism
-				popularity = 0.1
+				popularity = 0.15
 			}
 			if = {
 				limit = {
@@ -5350,19 +5255,23 @@ focus_tree = {
 				}
 				remove_ideas = PRU_communist_oppression
 			}
+			unlock_decision_tooltip = {
+				decision = PRU_radicalize_the_moderates_dec
+				show_effect_tooltip = yes 
+				show_modifiers = yes
+			}
 		}		
-		cost = 4
+		cost = 5
 		search_filters = {FOCUS_FILTER_POLITICAL}
 	}
 
 	focus = {
 		id = PRU_reject_the_extremists
 		icon = GFX_focus_generic_anti_fascist_diplomacy
-		prerequisite = { focus = PRU_reenforce_the_progressive_tax_system focus = PRU_enforce_neutrality }	
-		prerequisite = { focus = PRU_introduce_free_trade_deals_with_our_neighbors }	
+		prerequisite = { focus = PRU_the_liberals_win }		
 		relative_position_id = PRU_reenforce_the_progressive_tax_system
 		mutually_exclusive = { focus = PRU_lean_more_to_the_left}
-		x = 3
+		x = 5
 		y = 1
 		
 		available = {
@@ -5419,7 +5328,7 @@ focus_tree = {
 		relative_position_id = PRU_reject_the_extremists
 		mutually_exclusive = { focus = PRU_social_democratic_peru}		
 		mutually_exclusive = { focus = PRU_ask_the_holy_see_for_support}		
-		x = -3
+		x = -5
 		y = 1
 		
 		available = {
@@ -5438,30 +5347,105 @@ focus_tree = {
 				}
 			}
 		}
-		completion_reward = {		
-			set_temp_variable = {
-				var = ban_ideology_var
-				value = party_popularity@democratic
-			}
-			multiply_temp_variable = {
-				var = ban_ideology_var
-				value = -0.25
-			}
-			add_popularity = {
-				ideology = democratic
-				popularity = ban_ideology_var
-			}
-			multiply_temp_variable = {
-				var = ban_ideology_var
-				value = -1
+		completion_reward = {	
+			custom_effect_tooltip = ARG_if_communism_less_than_45_civil_war_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						communism < 0.45
+					}
+					division_template = { 
+						name = "Milicias" 
+						division_names_group = SPAN_INF_02 
+						is_locked = yes 
+						regiments = { 
+							infantry = { x = 0 y = 0 }  
+							infantry = { x = 0 y = 1 } 
+							infantry = { x = 0 y = 2 } 
+						}
+					}
+					start_civil_war = {
+						ruling_party = communism
+						ideology = ROOT
+						size = 0.4
+					}
+					if = {
+						limit = {
+							NOT = {
+								has_character = PRU_jorge_del_prado_chávez
+							}
+						}
+						PRU_jorge_del_prado_chávez = {
+							set_nationality = ROOT 	
+						}
+						promote_character = PRU_jorge_del_prado_chávez 
+					}
+					every_controlled_state = {
+						create_unit = {
+							division = "name = \"Milicias Comunistas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+							owner = ROOT
+							count = 2
+						}
+					}
+					random_owned_controlled_state = {
+						create_unit = {
+							division = "name = \"Milicias Comunistas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+							owner = ROOT
+							count = 4
+						}
+					}
+					random_other_country = {
+						limit = {
+							original_tag = PRU 
+							NOT = { has_government = communism }
+						}
+						every_controlled_state = {
+							create_unit = {
+								division = "name = \"Milicias Leales\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.7" 
+								owner = PREV
+								count = 2
+							}
+						}
+					}
+				}
+				else = {
+					set_temp_variable = {
+						var = ban_ideology_var
+						value = party_popularity@democratic
+					}
+					multiply_temp_variable = {
+						var = ban_ideology_var
+						value = -0.25
+					}
+					add_popularity = {
+						ideology = democratic
+						popularity = ban_ideology_var
+					}
+					multiply_temp_variable = {
+						var = ban_ideology_var
+						value = -1
+					}	
+					add_popularity = {
+						ideology = communism
+						popularity = ban_ideology_var
+					}
+					set_politics = {
+						ruling_party = communism
+					}
+					if = {
+						limit = {
+							NOT = {
+								has_character = PRU_jorge_del_prado_chávez
+							}
+						}
+						PRU_jorge_del_prado_chávez = {
+							set_nationality = ROOT 	
+						}
+						promote_character = PRU_jorge_del_prado_chávez 
+					}
+				}
 			}	
-			add_popularity = {
-				ideology = communism
-				popularity = ban_ideology_var
-			}
-			set_politics = {
-				ruling_party = communism
-			}
+			
 		}		
 		cost = 10
 		search_filters = {FOCUS_FILTER_POLITICAL}
@@ -5476,6 +5460,8 @@ focus_tree = {
 		y = 1
 		
 		available = {
+			has_civil_war = no 
+			has_government = communism
 		}
 		
 		ai_will_do = {
@@ -5496,9 +5482,6 @@ focus_tree = {
 		relative_position_id = PRU_follow_the_teachings_of_marx	
 		x = 0
 		y = 1
-		
-		available = {
-		}
 		
 		ai_will_do = {
 			factor = 5
@@ -5523,6 +5506,8 @@ focus_tree = {
 		y = 1
 		
 		available = {
+			has_civil_war = no 
+			has_government = communism
 		}
 		
 		ai_will_do = {
@@ -5969,7 +5954,7 @@ focus_tree = {
 	focus = {
 		id = PRU_purchase_foreign_infantry_equipment
 		icon = GFX_goal_generic_small_arms 
-		x = -2
+		x = -3
 		y = 1
 		relative_position_id = PRU_legalize_the_labor_unions
 		prerequisite = {
@@ -6155,7 +6140,7 @@ focus_tree = {
 	focus = {
 		id = PRU_prepare_for_a_plan
 		icon = GFX_coop_between_peru_and_bolivia
-		x = -2
+		x = -3
 		y = 1
 		relative_position_id = PRU_strength_in_our_numbers
 		will_lead_to_war_with = CHL
@@ -6913,7 +6898,7 @@ focus_tree = {
 		}	
 		mutually_exclusive = { focus = PRU_prepare_for_a_plan }
 		relative_position_id = PRU_join_the_soviets	
-		x = -8
+		x = -9
 		y = 2
 		
 		available = {
@@ -7099,7 +7084,7 @@ focus_tree = {
 		relative_position_id = PRU_reject_the_extremists
 		mutually_exclusive = { focus = PRU_communist_peru}		
 		mutually_exclusive = { focus = PRU_ask_the_holy_see_for_support}		
-		x = -1
+		x = -2
 		y = 1
 		
 		available = {
@@ -7130,13 +7115,13 @@ focus_tree = {
 			add_ideas = PRU_social_democracy_idea
 		}		
 		cost = 5
-		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL}
+		search_filters = {FOCUS_FILTER_POLITICAL }
 	}	
 
 	focus = {
 		id = PRU_invest_in_our_agriculture
 		icon = GFX_BOL_farmer_rights
-		x = -1
+		x = -2
 		y = 1
 		relative_position_id = PRU_social_democratic_peru
 		prerequisite = {
@@ -7257,7 +7242,7 @@ focus_tree = {
 			add_stability = 0.05
 		}		
 		cost = 5
-		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
 	}	
 
 	focus = {
@@ -7311,7 +7296,7 @@ focus_tree = {
 		icon = GFX_goal_generic_forceful_treaty
 		prerequisite = { focus = PRU_work_with_social_democracies }	
 		relative_position_id = PRU_work_with_social_democracies
-		x = -4
+		x = -3
 		y = 1
 		
 		available = {
@@ -7376,7 +7361,7 @@ focus_tree = {
 		icon = GFX_PRU_work_with_scandinavia
 		prerequisite = { focus = PRU_work_with_social_democracies }	
 		relative_position_id = PRU_work_with_social_democracies
-		x = 0
+		x = 1
 		y = 1
 	
 		completion_reward = {		
@@ -7396,7 +7381,7 @@ focus_tree = {
 		icon = GFX_PRU_work_with_oceania
 		prerequisite = { focus = PRU_work_with_social_democracies }	
 		relative_position_id = PRU_work_with_social_democracies
-		x = -2
+		x = -1
 		y = 1
 		
 		available = {
@@ -8800,9 +8785,6 @@ focus_tree = {
 			}
 		}
 
-		available = {
-			has_completed_focus = PRU_prepare_for_a_potential_war
-		}
 		search_filters = { FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			army_experience = 5
@@ -8856,14 +8838,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_ARMY_NAVY_RIVALRY FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			navy_experience = 50
-			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = dockyard
-					level = 1
-					instant_build = yes 
-				}
-			}
+			EUYL_add_1_dockyard = yes 
 			if = {
 				limit = {
 					has_any_power_balance = yes
@@ -8963,7 +8938,7 @@ focus_tree = {
 		id = PRU_extend_naval_training
 		icon = GFX_goal_generic_amphibious_assault 
 		x = 0
-		y = 2
+		y = 1
 		relative_position_id = PRU_marina_de_guerra_del_peru
 		prerequisite = { focus = PRU_marina_de_guerra_del_peru }
 
@@ -9098,7 +9073,7 @@ focus_tree = {
 		id = PRU_modernize_our_weapons 
 		icon = GFX_goal_generic_small_arms 
 		x = -2
-		y = 2
+		y = 1
 		relative_position_id = PRU_ejericto_peruano
 		prerequisite = { focus = PRU_ejericto_peruano }
 
@@ -9148,7 +9123,7 @@ focus_tree = {
 		id = PRU_modernize_our_artillery
 		icon = GFX_goal_generic_army_artillery2
 		x = 2
-		y = 3
+		y = 2
 		relative_position_id = PRU_ejericto_peruano
 		prerequisite = { focus = PRU_recruit_new_generals }
 
@@ -9169,7 +9144,7 @@ focus_tree = {
 		id = PRU_recruit_new_generals
 		icon = GFX_PRU_recruit_new_generals
 		x = 2
-		y = 2
+		y = 1
 		relative_position_id = PRU_ejericto_peruano
 		prerequisite = { focus = PRU_ejericto_peruano }
 
@@ -9215,8 +9190,8 @@ focus_tree = {
 		icon = GFX_focus_generic_tank_production
 		x = 0
 		y = 1
-		relative_position_id = PRU_ejericto_peruano
-		prerequisite = { focus = PRU_ejericto_peruano }
+		relative_position_id = PRU_strengthen_our_mining_industries
+		prerequisite = { focus = PRU_strengthen_our_mining_industries }
 
 		cost = 10
 
@@ -9233,35 +9208,38 @@ focus_tree = {
 		}
 	}
 
-	focus = {
-		id = PRU_our_northern_land
-		icon = "GFX_focus_northernlands"
-		relative_position_id = PRU_repairing_the_nation
-		prerequisite = { focus = PRU_recruit_new_generals }
-		prerequisite = { focus = PRU_modernize_our_weapons }
-		x = 27
-		y = 4
-		ai_will_do = {
-			base = 1
-			modifier = {
-				add = 50
-				is_historical_focus_on = yes 
-			}
-		}
-		completion_reward = {
-			add_war_support = 0.1
-		}		
-		cost = 3
-		search_filters = {FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_HISTORICAL }
-	}		
+	#focus = {
+	#	id = PRU_our_northern_land
+	#	icon = GFX_focus_northernlands
+	#	relative_position_id = PRU_repairing_the_nation
+	#	prerequisite = { focus = PRU_recruit_new_generals }
+	#	prerequisite = { focus = PRU_modernize_our_weapons }
+	#	x = 29
+	#	y = 4
+	#	ai_will_do = {
+	#		base = 1
+	#		modifier = {
+	#			add = 50
+	#			is_historical_focus_on = yes 
+	#		}
+	#	}
+	#	completion_reward = {
+	#		add_war_support = 0.1
+	#	}		
+	#	cost = 3
+	#	search_filters = {FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_HISTORICAL }
+	#}		
 
 	focus = {
 		id = PRU_prepare_our_army_further
 		icon = "GFX_focus_chi_army_reform"
-		prerequisite = { focus = PRU_our_northern_land }
-		relative_position_id = PRU_our_northern_land
+		prerequisite = { 
+			focus = PRU_modernize_our_weapons
+			focus = PRU_recruit_new_generals 
+		}
+		relative_position_id = PRU_ejericto_peruano
 		x = 0
-		y = 1
+		y = 2
 		
 		ai_will_do = {
 			base = 1
@@ -9289,8 +9267,8 @@ focus_tree = {
 		icon = GFX_PRU_czeck_tanks
 		x = 0
 		y = 1
-		relative_position_id = PRU_ramp_up_our_armories
-		prerequisite = { focus = PRU_ramp_up_our_armories }
+		relative_position_id = PRU_strengthen_the_army
+		prerequisite = { focus = PRU_strengthen_the_army }
 
 		cost = 5
 
@@ -9319,6 +9297,12 @@ focus_tree = {
 						level = 1
 					}
 				}
+				if = {
+					limit = {
+						has_any_power_balance = yes
+					}
+					PRU_increase_army_15_percent = yes 
+				}	
 				CZE = {
 					if = { 
 						limit = { has_dlc = "No Step Back" }
@@ -9349,8 +9333,8 @@ focus_tree = {
 		id = PRU_prepare_our_people
 		#increases war support and such
 		icon = "GFX_focus_generic_military_academy"
-		prerequisite = { focus = PRU_our_northern_land }
-		relative_position_id = PRU_our_northern_land	
+		prerequisite = { focus = PRU_prepare_our_army_further }
+		relative_position_id = PRU_prepare_our_army_further	
 		x = -3
 		y = 1
 
@@ -9609,8 +9593,8 @@ focus_tree = {
 		id = PRU_increase_our_equipment_reserves
 		#adds an amount of guns and increases production rate for a year
 		icon = "GFX_goal_generic_army_artillery"
-		prerequisite = { focus = PRU_our_northern_land }
-		relative_position_id = PRU_our_northern_land
+		prerequisite = { focus = PRU_prepare_our_army_further }
+		relative_position_id = PRU_prepare_our_army_further
 		x = 3
 		y = 1
 		
@@ -9674,17 +9658,19 @@ focus_tree = {
 	focus = {
 		id = PRU_the_war_begins
 		#The War begins...
-		icon = "GFX_goal_generic_attack_allies"
-		prerequisite = { focus = PRU_learn_from_the_germans focus = PRU_continue_our_military_relationship_with_the_french}
-		prerequisite = { focus = PRU_militirize_our_people}
-		prerequisite = { focus = PRU_form_alpacalry}		
-		relative_position_id = PRU_strength_in_our_mind		
+		icon = "GFX_focus_northernlands"
+		prerequisite = { focus = PRU_purchase_modern_arnaments }
+		prerequisite = { focus = PRU_expand_our_armaments}
+		relative_position_id = PRU_expand_our_armaments		
 		will_lead_to_war_with = ECU
-		x = -1
-		y = 2
+		x = -2
+		y = 1
 		
 		available = {
-			date > 1941.04.26
+			OR = {
+				date > 1941.04.26
+				has_war_support > 0.55
+			}
 			NOT = {
 				OR = {
 					has_completed_focus = PRU_reconcile_with_ecuador
@@ -9700,11 +9686,16 @@ focus_tree = {
 		}
 		
 		ai_will_do = {
-			base = 0
+			base = 2
 			modifier = {
 				add = 250
 				is_historical_focus_on = yes
 				date > 1941.06.08 
+			}
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes 
+				date < 1941.05.01
 			}
 		}
 		completion_reward = {
@@ -9715,16 +9706,16 @@ focus_tree = {
 				expire = 0
 			}
 		}		
-		cost = 10
+		cost = 5
 		search_filters = {FOCUS_FILTER_ANNEXATION FOCUS_FILTER_HISTORICAL}
 	}
 
 	focus = {
 		id = PRU_naval_buildup_in_callao
 		icon = "GFX_goal_generic_navy_doctrines_tactics"
-		relative_position_id = PRU_our_northern_land
+		relative_position_id = PRU_extend_naval_training
 		prerequisite = { focus = PRU_extend_naval_training }
-		x = -6
+		x = 0
 		y = 1
 		
 		available = {
@@ -10052,9 +10043,6 @@ focus_tree = {
 		x = 33
 		y = 4
 		
-		available = {
-		has_completed_focus = PRU_prepare_for_a_potential_war
-		}
 		ai_will_do = {
 			factor = 5
 		}
@@ -10086,15 +10074,22 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			add_equipment_to_stockpile = {
-				type = tac_bomber_equipment_0
-				amount = 150
-				producer = ITA			
-			}	
-			add_equipment_to_stockpile = {
-				type = scout_plane_equipment_1
-				amount = 200
-				producer = ITA			
+			if = {
+				limit = {
+					has_dlc = "By Blood Alone"
+				}
+				add_equipment_to_stockpile = {
+					type = medium_plane_airframe
+					amount = 50
+					producer = ITA
+				}
+			}
+			else = {
+				add_equipment_to_stockpile = {
+					type = tac_bomber_equipment_0
+					amount = 50
+					producer = ITA
+				}
 			}
 			add_timed_idea = { idea = PRU_purchasing_3 days = 180 }	
 		}		
@@ -10119,15 +10114,22 @@ focus_tree = {
 			}
 		}
 		completion_reward = {
-			add_equipment_to_stockpile = {
-				type = cas_equipment_1
-				amount = 150
-				producer = USA		
-			}	
-			add_equipment_to_stockpile = {
-				type = fighter_equipment_0 
-				amount = 150
-				producer = USA		
+			if = {
+				limit = {
+					has_dlc = "By Blood Alone"
+				}
+				add_equipment_to_stockpile = {
+					type = small_plane_airframe
+					amount = 100
+					producer = USA
+				}
+			}
+			else = {
+				add_equipment_to_stockpile = {
+					type = fighter_equipment_0
+					amount = 100
+					producer = USA
+				}
 			}
 			add_timed_idea = { idea = PRU_purchasing_2 days = 180 }	
 		}		

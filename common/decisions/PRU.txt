@@ -4642,16 +4642,7 @@ PRU_coup_attempt_fascists = {
 		}
 		
 		activation = { 
-			has_country_flag = PRU_fascist_coup_attempt 
-			NOT = {
-				OR = {
-					has_country_flag = PRU_coup_occured
-					has_country_flag = PRU_coup_canceled
-				}
-			}
-			NOT = {
-				has_completed_focus = PRU_the_people_serve_the_state
-			}
+			always = no 
 		}
 		
 		days_mission_timeout = 190	 
@@ -4660,27 +4651,28 @@ PRU_coup_attempt_fascists = {
 
 		fire_only_once = yes 
 		
-		visible = {
-			exists = yes 
-		}
-		
 		cancel_trigger = { 
 			OR = {
 				has_civil_war = yes 
-				NOT = {
-					controls_state = 914
-				}
-				NOT = {
-					controls_state = 839
-				}
-				NOT = {
-					controls_state = 965
-				}
-				NOT = {
-					controls_state = 491
-				}
 				has_completed_focus = PRU_the_people_serve_the_state
+				has_government = fascism
+				NOT = {
+					has_full_control_of_state = 914
+					has_full_control_of_state = 919
+					has_full_control_of_state = 965
+					has_full_control_of_state = 491
+				}
 			}
+		}
+
+		cancel_effect = {
+			every_controlled_state = {
+				limit = {
+					has_state_flag = PRU_state_was_dealt_with
+				}
+				clr_state_flag = PRU_state_was_dealt_with
+			}
+			clr_country_flag = PRU_fascist_coup_attempt
 		}
 		
 		complete_effect = { add_war_support = 0.01 }
@@ -4705,21 +4697,21 @@ PRU_coup_attempt_fascists = {
 				ideology = fascism 
 				size = 0.4
 				capital = 491
-				states = { 914 491 839 965 }
+				states = { 914 491 919 965 }
+				keep_all_characters = yes 
+				PREV = {
+					PRU_luis_a_flores = {
+						set_nationality = PREV.PREV
+					}
+					every_character = {
+						limit = { has_character_flag = PRU_urrista }
+						set_nationality = PREV.PREV
+					}
+				}
+				promote_character = PRU_luis_a_flores
 			}
 			
 			hidden_effect = {
-				retire_country_leader = yes
-				create_country_leader = {
-					name = "Óscar Benavides"
-					desc = "POLITICS_OSCAR_BENAVIDES_DESC"
-					picture = "GFX_Portrait_peru_oscar_benavides"
-					expire = "1965.1.1"
-					ideology = militarism
-					traits = {
-						#
-					}
-				}
 				every_controlled_state = {
 					create_unit = {
 						division = "name = \"Milicias\" division_template = \"Milicias\" start_experience_factor = 0.04 start_equipment_factor = 0.9" 
@@ -4742,6 +4734,7 @@ PRU_coup_attempt_fascists = {
 						create_unit = {
 							division = "name = \"Milicias Fascistas\" division_template = \"Milicias\" start_experience_factor = 0.04 start_equipment_factor = 0.9" 
 							owner = PREV
+							count = 2
 						}
 					}
 				}
@@ -4758,7 +4751,7 @@ PRU_coup_attempt_fascists = {
 				914 = {
 					has_state_flag = PRU_state_was_dealt_with
 				}
-				839 = {
+				919 = {
 					has_state_flag = PRU_state_was_dealt_with
 				}
 				965 = {
@@ -4809,7 +4802,7 @@ PRU_coup_attempt_fascists = {
 		highlight_states = {
 			highlight_states_trigger = {
 				state = 914
-				state = 839
+				state = 919
 				state = 965
 				state = 491 
 			}
@@ -4817,7 +4810,7 @@ PRU_coup_attempt_fascists = {
 
 		state_target = yes 
 
-		targets = { 839 914 491 965 }
+		targets = { 919 914 491 965 }
 
 		on_map_mode = map_and_decisions_view
 

@@ -57,7 +57,7 @@ on_actions = {
                             ARG_medium_inflation_risk
                             ARG_low_inflation_risk
                         }
-                        add_ideas = ARG_inflation_6
+                        add_ideas = ARG_inflation_4
                         country_event = argentina.rework.10
                     }
                     95 = {
@@ -76,7 +76,7 @@ on_actions = {
                             ARG_medium_inflation_risk
                             ARG_low_inflation_risk
                         }
-                        add_ideas = ARG_inflation_4
+                        add_ideas = ARG_inflation_2
                         country_event = argentina.rework.10
                     }
                     98 = {
@@ -95,13 +95,156 @@ on_actions = {
                             ARG_medium_inflation_risk
                             ARG_low_inflation_risk
                         }
-                        add_ideas = ARG_inflation_3
+                        add_ideas = ARG_inflation_1
                         country_event = argentina.rework.10
                     }
                     99 = {
 
                     }
                 }
+            }
+        }
+        effect = {
+            if = {
+                limit = {
+                    has_idea = ARG_major_anti_war_sentiment
+                    has_civil_war = yes 
+                }
+                random_list = {
+                    25 = {
+                        country_event = argentina.rework.communist.5
+                    }
+                    75 = {
+
+                    }
+                }
+            }
+            if = {
+                limit = {
+                    has_idea = ARG_GOU_idea 
+                    has_civil_war = no 
+                    NOT = { has_completed_focus = ARG_formalize_the_GOU }
+                }
+                random_list = {
+                    50 = {
+                        country_event = {
+                            id = argentina.rework.45 
+                            days = 7
+                            random_days = 7
+                        }
+                    }
+                    50 = { }
+                }
+            }
+            if = {
+                limit = { ## make sure to change this to an OR for fascist path
+                    OR = {
+                        has_completed_focus = ARG_create_the_CNU
+                        has_completed_focus = ARG_an_imminent_revolution
+                    }
+                    has_country_leader = {
+                        has_character = ARG_agustín_pedro_justo
+                        ruling_only = yes 
+                    }
+                    NOT = {
+                        has_country_flag = ARG_assasination_of_politicians
+                    }
+                    NOT = { has_country_flag = ARG_chose_ps }
+                }
+                random_list = { ## Government efforts to control political tension
+                    48 = {
+                        country_event = argentina.rework.stabilization 
+                    }
+                    52 = {
+
+                    }
+                }
+            }
+            if = {
+                limit = {
+                    has_dynamic_modifier = { modifier = ARG_corruption_scandal_idea }
+                    NOT = { has_active_mission = ARG_potential_corrupt_scandal }
+                    NOT = {
+                        has_global_flag = ARG_elections_cancelled
+                    }
+                }
+                activate_mission = ARG_potential_corrupt_scandal
+            }
+            if = {
+                limit = { ##Anarchist sabotages
+                    has_country_flag = ARG_very_hostile_anarchists
+                    has_active_mission = ARG_government_collapse
+                }
+                random_list = {
+                    25 = {
+                        country_event = { id = argentina.rework.communist.7 days = 4 }
+                    }
+                    75 = {
+
+                    }
+                }
+            }
+            if = {
+                limit = {
+                    has_active_mission = ARG_government_collapse
+                    has_country_flag = ARG_chose_anarchist_route
+                }
+                random_list = { #Marxist Thwarting Attempts
+                    35 = {
+                        country_event = { id = argentina.rework.communist.8 days = 2 random_days = 4 }
+                    }
+                    65 = {
+
+                    }
+                }
+            }
+            if = {
+                limit = {
+                    has_country_leader = {
+                        character = ARG_juan_posadas
+                        ruling_only = yes 
+                    }
+                    has_completed_focus = ARG_initiate_the_posadist_science_program
+                    NOT = { has_global_flag = ARG_encountered_aliens }
+                }
+                set_temp_variable = { ARG_other = 100 }
+                subtract_from_temp_variable = { ARG_other = ARG_chance_for_alien_encounter }
+                random_list = {
+                    ARG_chance_for_alien_encounter = {
+                        country_event = argentina.rework.communist.15 ## Alien encounter 
+                        set_global_flag = ARG_encountered_aliens
+                    }
+                    ARG_other = { }
+                }
+            }
+        }
+        effect = {
+            if = {
+                limit = {
+                    OR = {
+                        has_idea = ARG_post_coup_political_crisis_1
+                        has_idea = ARG_post_coup_political_crisis_2
+                    }
+                }
+                random_list = {
+                    50 = {
+                        country_event = argentina.rework.18
+                    }
+                    50 = {
+                        add_political_power = 1 #I felt bad :)
+                    }
+                }
+            }
+        }
+    }
+	on_weekly_ARG = {
+        effect = {
+            if = {
+                limit = {
+                    has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
+                }
+                add_to_variable = { ARG_political_tension = ARG_tension_increment_weekly }
+                ARG_set_up_political_tension_idea = yes 
             }
         }
     }
@@ -157,11 +300,10 @@ on_actions = {
             if = {
                 limit = {
                     THIS = {
-                        OR = {
-                            original_tag = PRU 
-                            original_tag = BOL 
+                        capital_scope = { is_on_continent = south_america }
+                        any_controlled_state = {
+                            has_state_flag = EUYL_worsen_resistance
                         }
-                        has_cosmetic_tag = PBC_UNIFIED
                     }
                 }
                 THIS = {
@@ -550,6 +692,47 @@ on_actions = {
         #        }
         #    }
         #}
+        effect = { ## Generic on_action to disband militias
+            if = {
+                limit = {
+                    FROM = {
+                        capital_scope = { is_on_continent = south_america }
+                    }
+                    ROOT = {
+                        capital_scope = { is_on_continent = south_america }
+                        has_template = "Milicias"
+                    }
+                }
+                ROOT = {
+                    delete_unit_template_and_units = {
+                        division_template = "Milicias"
+                        disband = yes
+                    }
+                }
+            }
+        }
+
+        #OOOO000000000000OOOOOOkddOKKKKKK00000000
+        #OOOOO000000Oxdoooooolllloxk000000000000O
+        #OOOOOOO0Okxl:;;,,;;;;,,;:c:ok00000000OOO
+        #OOOOOOOOd:,,;::;''',,;;,'''':dO0000OOOOO
+        #kOOOOOOx;':loddol::cloxdl:,,';dO0OOOOOOO
+        #kkOOOOx:;cooooooollooddddolc;':xOOOOOOOO
+        #kkkkOkc,clcccllllllooooooooll;':xOOOOkOO
+        #xkkkOd,':cccclllloooooooooollc'.lOOkkkkk
+        #xxxkkd,,:ccc:;;;;:::::::cllolc'.ckkkkkxd
+        #xxxxxd:;:;,,'...'',''....',;::,'lkkkxxxd
+        #ddddxd;',,'......',.......'',,.,dkxxxddo
+        #dddxddc;:;'......''........';;';xxxxxdoo
+        #xkkkOOd:::;;;;;,;lo,.',,,,;;:;;okkxxxdol
+        #kkOOO0o;;;:::;;;:ll:;,,;::::;,;okkkxdddl
+        #OxOOO0o,;;;;,,,''''...',,,,,,,;oxxkkxool
+        #Oxdkxko'',,,'''..........''''.oKK0KXX0xl
+        #xxoxkOd'.....................'xNXXXXXXKO
+        #dkO0KKx;................... .,kXNNXKXXKK
+        #0KKK0Okl................ .....ck0XXXKKKK
+        #XK00Okxd:...............      ,ok0K0O0K0
+
         effect = {
             #End of Peruvian civil war
             if = {
@@ -1155,6 +1338,9 @@ on_actions = {
 			every_country = {
 				country_event = { id = EUYL_startupevent.1 }
 			}
+            USA = {
+                country_event = { id = conference_trigger.1 days = 7 }
+            }
 		}
         effect = { ## South American Naval Arms Race | will later have its own unique mechanic
             every_country = {
@@ -1190,6 +1376,15 @@ on_actions = {
                 every_controlled_state = {
                     limit = { has_state_flag = ARG_original_state_not_yet_integrated }
                     remove_core_of = ARG
+                    start_resistance = yes 
+                }
+            }
+            BRA = {
+                every_controlled_state = {
+                    remove_core_of = BZE
+                    remove_core_of = BUS
+                    remove_core_of = BRC
+                    remove_core_of = IBR
                 }
             }
         }

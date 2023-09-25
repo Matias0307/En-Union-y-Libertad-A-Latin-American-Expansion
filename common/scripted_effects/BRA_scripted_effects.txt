@@ -491,33 +491,32 @@ BRA_chance_to_get_protest_to_influence_increase = {
 
 BRA_add_economic_recession = {
 	if = {
-        limit = { has_idea = BRA_economic_recession_2 }
+		limit = {
+			has_idea = BRA_economic_recession_1
+		}
+		swap_ideas = {
+            remove_idea = BRA_economic_recession_1
+            add_idea = BRA_economic_recession_2
+        }
+	}
+	else_if = {
+		limit = { 
+			has_idea = BRA_economic_recession_2 
+		}
         swap_ideas = {
             remove_idea = BRA_economic_recession_2
             add_idea = BRA_economic_recession_3
         }
-    }
-    else_if = {
-        limit = { has_idea = BRA_economic_recession_1 }
-        swap_ideas = {
-            remove_idea = BRA_economic_recession_1
-            add_idea = BRA_economic_recession_2
-        }
-    }
-    else_if = {
+	}
+	else_if = {
 		limit = {
-			NOT = {
-				OR = {
-					has_idea = BRA_economic_recession_1
-					has_idea = BRA_economic_recession_2
-				}
-			}
+			has_idea = BRA_economic_recession_3
 		}
-        add_ideas = BRA_economic_recession_1
-    }
-	else = {
 		add_political_power = -25
 		add_stability = -0.01
+	}
+	else = {
+		add_ideas = BRA_economic_recession_1
 	}
 }
 
@@ -1217,6 +1216,12 @@ BRA_start_integralist_uprising = {
 			set_state_flag = BRA_fascist_state
 			remove_dynamic_modifier = { modifier = BRA_integralists_occupation }
 		}
+		every_state = {
+			limit = {
+				has_state_flag = brazilian_starting_state
+			}
+			add_core_of = IBR
+		}
 		if = {
 			limit = { has_global_flag = BRA_civil_war_in_progress } #this is for integralist uprising in the communist civil war 
 			random_owned_controlled_state = {
@@ -1506,6 +1511,12 @@ BRA_start_communist_civil_war = {
 			transfer_state = PREV 
 		}
 		set_state_flag = BRA_communist_state 
+	}
+	every_state = {
+		limit = {
+			has_state_flag = brazilian_starting_state
+		}
+		add_core_of = BRC
 	}
 	if = {
 		limit = {
@@ -2345,6 +2356,13 @@ BRA_start_imperialist_civil_war = {
 			transfer_state = PREV 
 		}
 		set_state_flag = BRA_imperial_state
+	}
+
+	every_state = {
+		limit = {
+			has_state_flag = brazilian_starting_state
+		}
+		add_core_of = BZE
 	}
 	transfer_units_fraction = {
 		target = BZE

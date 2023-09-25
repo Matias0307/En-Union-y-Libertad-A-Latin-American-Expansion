@@ -2981,13 +2981,11 @@ BOL_taking_antofagasta = {
         icon = infiltrate_state
 
         activation = {
-            has_completed_focus = BOL_draft_plans_to_take_antofagasta
+            always = no 
         }
 
         available = {
-            hidden_trigger = {
-                always = no 
-            }
+            always = no 
         }
 
         cancel_trigger = {
@@ -3006,6 +3004,39 @@ BOL_taking_antofagasta = {
         is_good = yes 
 
         fire_only_once = yes 
+		
+		cancel_effect = {
+			if = {
+				limit = { 
+					CHL = { 
+						exists = yes 
+						has_civil_war = yes 
+					} 
+				}
+				every_country_with_original_tag = {
+					original_tag_to_check = CHL  #required
+					BOL = {
+						create_wargoal = {
+							target = PREV
+							type = take_state_focus
+							generator = { 909 }
+						}
+					}
+				}
+			}
+			else = {
+				random_other_country = {
+					limit = { controls_state = 909 }
+					BOL = {
+						create_wargoal = {
+							target = PREV
+							type = take_state_focus
+							generator = { 909 }
+						}
+					}
+				}
+			}
+		}
 
         timeout_effect = {
             custom_effect_tooltip = BOL_because_of_current_claim_strength_tt
@@ -3291,6 +3322,18 @@ CHL_countering_bolivias_plan = {
 		fire_only_once = yes
 
         is_good = no 
+		
+		cancel_effect = {
+			effect_tooltip = {
+				BOL = {
+					create_wargoal = {
+						target = ROOT
+						type = take_state_focus
+						generator = { 909 }
+					}
+				}
+			}
+		}
 
         timeout_effect = {
             custom_effect_tooltip = CHL_depending_on_bol_claim_strength_tt

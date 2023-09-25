@@ -36,7 +36,7 @@ focus_tree = {
 		x = 6
 		y = 0
 
-		cost = 6
+		cost = 5
 
 		available = {
 			exists = yes 
@@ -45,7 +45,6 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
-			EUYL_add_1_civilian = yes
 			add_political_power = 50
 		}
 	}
@@ -354,20 +353,56 @@ focus_tree = {
 		}
 	}
 
-
-
-	### Rocket Studies ###
+	### Electrical Grid - AMBATUKAM ###
 	focus = {
-		id = PAR_rocket_studies
-		icon = GFX_focus_rocketry
-		x = 1
+		id = PAR_electrical_grid
+		icon = GFX_PAR_power_grids
+		x = 0
 		y = 1
 		relative_position_id = PAR_expand_universities
 		prerequisite = {
 			focus = PAR_expand_universities
 		}
 
+		cost = 5
+
+		available = { has_civil_war = no }
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			unlock_decision_tooltip = { 
+				decision = PAR_construct_a_power_grid_FROM
+				show_modifiers = yes 
+				show_effect_tooltip = yes 
+			}
+			custom_effect_tooltip = EUYL_decisions_will_be_available_in_economic_policy_tt
+		}
+	}
+
+	### Rocket Studies ###
+	focus = {
+		id = PAR_rocket_studies
+		icon = GFX_focus_rocketry
+		x = 1
+		y = 2
+		relative_position_id = PAR_expand_universities
+		prerequisite = {
+			focus = PAR_electrical_grid
+		}
+
 		cost = 10
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = PAR_every_starting_state_has_power_grid_tt
+				688 = { has_dynamic_modifier = { modifier = PAR_power_grid_present } }
+				992 = { has_dynamic_modifier = { modifier = PAR_power_grid_present } }
+				993 = { has_dynamic_modifier = { modifier = PAR_power_grid_present } }
+				301 = { has_dynamic_modifier = { modifier = PAR_power_grid_present } }
+				991 = { has_dynamic_modifier = { modifier = PAR_power_grid_present } }
+				990 = { has_dynamic_modifier = { modifier = PAR_power_grid_present } }
+			}
+		}
 
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
@@ -395,14 +430,23 @@ focus_tree = {
 		id = PAR_invest_in_nuclear_studies
 		icon = GFX_focus_research2
 		x = -1
-		y = 1
+		y = 2
 		relative_position_id = PAR_expand_universities
 		prerequisite = {
-			focus = PAR_expand_universities
+			focus = PAR_electrical_grid
 		}
 
 		available = {
-			num_of_factories > 34
+			num_of_factories > 29
+			custom_trigger_tooltip = {
+				tooltip = PAR_every_starting_state_has_power_grid_tt
+				688 = { has_dynamic_modifier = { modifier = PAR_power_grid_present } }
+				992 = { has_dynamic_modifier = { modifier = PAR_power_grid_present } }
+				993 = { has_dynamic_modifier = { modifier = PAR_power_grid_present } }
+				301 = { has_dynamic_modifier = { modifier = PAR_power_grid_present } }
+				991 = { has_dynamic_modifier = { modifier = PAR_power_grid_present } }
+				990 = { has_dynamic_modifier = { modifier = PAR_power_grid_present } }
+			}
 		}
 
 		cost = 10
@@ -506,7 +550,7 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
-			EUYL_add_2_civilian = yes
+			EUYL_add_1_civilian = yes
 		}
 	}
 
@@ -530,7 +574,6 @@ focus_tree = {
 					OR = {
 						state = 992
 						state = 993
-						state = 688
 					}
 					is_fully_controlled_by = ROOT
 				}
@@ -626,7 +669,7 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
-			EUYL_add_2_military = yes
+			EUYL_add_1_military = yes
 			add_manpower = 44500
 			add_timed_idea = {
                 idea = ARG_early_mobilization
@@ -651,7 +694,6 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
 			EUYL_add_2_military = yes
-			EUYL_add_1_military = yes 
 		}
 	}
 
@@ -724,8 +766,7 @@ focus_tree = {
         search_filters = { FOCUS_FILTER_INDUSTRY }
         completion_reward = {
             add_political_power = 50
-            EUYL_add_1_civilian = yes
-            EUYL_add_1_military = yes    
+            EUYL_add_1_civilian = yes 
         }
     }
 
@@ -745,6 +786,7 @@ focus_tree = {
 			NOT = {
 				has_idea = PAR_stagnated_economy_1
 			}
+			has_idea = free_trade
             all_neighbor_country = {
                 NOT = {
                     has_war_with = ROOT 
@@ -768,7 +810,7 @@ focus_tree = {
                         }
                     }
                     ROOT = {
-                        EUYL_add_2_civilian = yes 
+                        EUYL_add_1_civilian = yes 
                     }
                 }
             }
@@ -1744,7 +1786,7 @@ focus_tree = {
 	focus = {
 		id = PAR_expand_on_native_rights
 		icon = GFX_PAR_native_rights
-		x = 1
+		x = 2
 		y = 1
 		relative_position_id = PAR_hold_national_elections
 		prerequisite = {
@@ -1762,6 +1804,11 @@ focus_tree = {
 			}
 		}
 	}
+
+	########## GUARANI ROUTE kek ##########
+
+
+	##############
 
 	### Imprison Franco - ≧ω≦ ###
 	focus = {
@@ -1909,7 +1956,7 @@ focus_tree = {
 
 		bypass = {
 			OR = {
-				has_government = communism
+				has_government = neutrality
 				has_country_flag = PAR_february_revolution_happened
 			}
 		}
@@ -1918,7 +1965,7 @@ focus_tree = {
 		completion_reward = {
 			add_political_power = 25
 			add_popularity = {
-				ideology = communism
+				ideology = neutrality
 				popularity = 0.05
 			}
 			add_days_mission_timeout = {
@@ -2038,7 +2085,7 @@ focus_tree = {
 		}
 	}
 
-	#### FASCIST PATH ####
+	#### AHISTORICAL FASCIST PATH ####
 	### Support Right-Wing Revolutionists ###
 	focus = {
 		id = PAR_support_right_wing
@@ -2060,6 +2107,11 @@ focus_tree = {
 
 		available = {
 			has_government = communism
+			has_country_flag = PAR_player_chose_fascism
+		}
+		bypass = {
+			has_civil_war = yes
+			has_government = fascism
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
@@ -2068,61 +2120,118 @@ focus_tree = {
 		}
 	}
 
-	### Promote Félix Paiva ###
-	focus = {
-		id = PAR_promote_paiva
-		icon = GFX_PAR_felix
-		x = -2
-		y = 1
-		relative_position_id = PAR_support_right_wing
-		prerequisite = {
-			focus = PAR_support_right_wing
-		}
-		mutually_exclusive = {
-			focus = PAR_promote_morinigo
-		}
+	# ### Promote Félix Paiva ###
+	# focus = {
+	# 	id = PAR_promote_paiva
+	# 	icon = GFX_PAR_felix
+	# 	x = -2
+	# 	y = 1
+	# 	relative_position_id = PAR_support_right_wing
+	# 	prerequisite = {
+	# 		focus = PAR_support_right_wing
+	# 	}
+	# 	mutually_exclusive = {
+	# 		focus = PAR_promote_morinigo
+	# 	}
 
-		available = {
-			has_country_leader = { 
-				ruling_only = yes
-				name = "Junta Militar Paraguaya"
-			}
-		}
+	# 	available = {
+	# 		has_country_leader = { 
+	# 			ruling_only = yes
+	# 			name = "Junta Militar Paraguaya"
+	# 		}
+	# 	}
 
-		cost = 5
+	# 	cost = 5
 
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
-		completion_reward = {
-			promote_character = PAR_felix_paiva
-		}
-	}
+	# 	search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
+	# 	completion_reward = {
+	# 		promote_character = PAR_felix_paiva
+	# 	}
+	# }
 
 	### Promote Higinio Morínigo ###
 	focus = {
 		id = PAR_promote_morinigo
 		icon = GFX_PAR_higinio
-		x = 8
+		x = 1
 		y = 1
 		relative_position_id = PAR_support_right_wing
 		prerequisite = {
 			focus = PAR_support_right_wing
 		}
-		mutually_exclusive = {
-			focus = PAR_promote_paiva
-		}
+		# mutually_exclusive = {
+		# 	focus = PAR_promote_paiva
+		# }
 
 		available = {
-			has_country_leader = { 
-				ruling_only = yes
-				name = "Junta Militar Paraguaya"
-			}
+			has_country_flag = PAR_player_chose_fascism
+		}
+		bypass = {
+			has_civil_war = yes
+			has_government = fascism
 		}
 
-		cost = 5
+		cost = 6
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-			promote_character = PAR_higenio_morinigo
+			promote_character = PAR_higinio_morinigo
 		}
+	}
+
+	### Seize Equipment Reserves ###
+	focus = {
+		id = PAR_seize_equipment_reserves
+		icon = GFX_BRA_generic_military
+		x = -1
+		y = 1
+		relative_position_id = PAR_support_right_wing
+		prerequisite = {
+			focus = PAR_support_right_wing
+		}
+		available = {
+			has_country_flag = PAR_player_chose_fascism
+		}
+		bypass = {
+			has_civil_war = yes
+			has_government = fascism
+		}
+
+		cost = 6
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			custom_effect_tooltip = PAR_stronger_troops_tt
+		}
+	}
+
+	### La Patria Ante Todo ###
+	focus = {
+		id = PAR_la_patria_ante_todo
+		icon = GFX_PAR_patria_ante_todo
+		x = 1
+		y = 1
+		relative_position_id = PAR_seize_equipment_reserves
+		prerequisite = {
+			focus = PAR_seize_equipment_reserves
+		}
+		prerequisite = {
+			focus = PAR_promote_morinigo
+		}
+
+		available = {
+			has_country_flag = PAR_player_chose_fascism
+		}
+		bypass = {
+			has_civil_war = yes
+			has_government = fascism
+		}
+
+		 cost = 5
+
+		 search_filters = { FOCUS_FILTER_POLITICAL }
+		 completion_reward = {
+			#
+		 }
 	}
 }
