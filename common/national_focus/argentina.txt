@@ -2846,7 +2846,6 @@ focus_tree = {
 		available = {
 			is_subject = no
 			stability > 0.54
-			num_of_factories > 49
 			custom_trigger_tooltip = {
 				tooltip = ARG_not_suffering_inflation
 				NOT = {
@@ -6384,9 +6383,18 @@ focus_tree = {
 
 		available = { has_active_mission = ARG_the_1937_elections }
 
+		bypass = {
+			has_government = neutrality
+			NOT = { has_active_mission = ARG_the_1937_elections }
+			has_country_leader = {
+				character = ARG_roberto_maria_ortiz
+				ruling_only = yes 
+			}
+		}
+
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-
+			country_event = argentina.rework.41
 		}
 	}
 
@@ -6476,6 +6484,23 @@ focus_tree = {
 
 		cost = 5
 
+		available = { has_active_mission = ARG_the_1937_elections }
+
+		bypass = {
+			has_government = neutrality
+			NOT = { has_active_mission = ARG_the_1937_elections }
+			OR = {
+				has_country_leader = {
+					character = ARG_leopoldo_melo
+					ruling_only = yes 
+				}
+				has_country_leader = {
+					character = ARG_robustiano_patron_costas
+					ruling_only = yes 
+				}
+			}
+		}
+
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
 			add_ideas = ARG_university_investments
@@ -6526,6 +6551,29 @@ focus_tree = {
 		y = 1
 		relative_position_id = ARG_robustiano_for_president
 		prerequisite = { focus = ARG_robustiano_for_president }
+
+		cost = 7.2
+
+		available = { has_active_mission = ARG_the_1937_elections }
+
+		bypass = {
+			has_government = neutrality
+			NOT = { has_active_mission = ARG_the_1937_elections }
+			OR = {
+				has_country_leader = {
+					character = ARG_leopoldo_melo
+					ruling_only = yes 
+				}
+				has_country_leader = {
+					character = ARG_robustiano_patron_costas
+					ruling_only = yes 
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			EUYL_add_1_civilian = yes 
+		}
 	}
 	
 	focus = { 
@@ -8230,11 +8278,11 @@ focus_tree = {
 		cost = 5
 
 		available = {
-			has_full_control_of_state = 970
-			has_full_control_of_state = 512
-			has_full_control_of_state = 969
-			has_full_control_of_state = 968
-			has_full_control_of_state = 967
+			has_full_control_of_state = 970 
+			has_full_control_of_state = 512 
+			has_full_control_of_state = 969 
+			has_full_control_of_state = 968 
+			has_full_control_of_state = 967 
 		}
 
 		search_filters = { FOCUS_FILTER_INDUSTRY }
@@ -9977,6 +10025,35 @@ focus_tree = {
 		prerequisite = {
 			focus = ARG_the_socialist_war_economy
 		}
+
+		cost = 7.2
+
+		available = { has_civil_war = no }
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = SWE
+						original_tag = DEN
+						original_tag = NOR
+						original_tag = FRA
+						original_tag = NZL
+						original_tag = AST
+					}
+					NOT = {
+						has_war_with = ROOT
+					}
+				}
+				add_opinion_modifier = { modifier = URG_contacted_us target = ROOT }
+				country_event = { id = peru.13 hours = 4 }
+				ROOT = {
+					give_guarantee = PREV
+					add_opinion_modifier = { modifier = URG_contacted_us target = PREV }
+				}
+			}
+		}
 	}
 
 	focus = { ## will simply declare all the national territories as provinces lol
@@ -10109,6 +10186,41 @@ focus_tree = {
 		}
 		mutually_exclusive = { focus = ARG_go_our_own_route }
 		mutually_exclusive = { focus = ARG_placate_to_the_west }
+
+		cost = 10
+
+		available = {
+			has_army_manpower = { size > 149999 }
+			has_civil_war = no 
+			has_stability > 0.6
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			set_rule = { can_create_factions = yes }
+			create_faction = ARG_defense_council_faction
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = SWE
+						original_tag = DEN
+						original_tag = NOR
+						original_tag = FRA
+						original_tag = NZL
+						original_tag = AST
+					}
+					NOT = {
+						has_war_with = ROOT
+					}
+					NOT = { is_in_faction = yes }
+					NOT = { has_government = fascism }
+				}
+				country_event = {
+					id = generic.5 
+					hours = 6 
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -10120,6 +10232,11 @@ focus_tree = {
 		prerequisite = {
 			focus = ARG_officialize_the_defense_council
 		}
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = { add_war_support = 0.05 }
 	}
 
 	focus = {
@@ -10131,6 +10248,31 @@ focus_tree = {
 		prerequisite = {
 			focus = ARG_officialize_the_defense_council
 		}
+
+		cost = 10
+
+		available = { is_faction_leader = yes }
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			custom_effect_tooltip = PRU_every_south_american_nation_recieve
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 1500
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						exists = yes 
+						is_in_faction_with = ROOT 
+					}
+					add_equipment_to_stockpile = {
+						type = infantry_equipment
+						amount = 1500
+					}
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -10141,6 +10283,27 @@ focus_tree = {
 		relative_position_id = ARG_mutual_arms_purchase
 		prerequisite = {
 			focus = ARG_mutual_arms_purchase
+		}
+
+		cost = 10
+
+		available = { is_faction_leader = yes }
+
+		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_ARMY_XP }
+		completion_reward = {
+			custom_effect_tooltip = PRU_every_south_american_nation_recieve
+			add_manpower = 50000
+			army_experience = 50
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						exists = yes 
+						is_in_faction_with = ROOT 
+					}
+					add_manpower = 50000
+					army_experience = 50
+				}
+			}
 		}
 	}
 
@@ -10154,6 +10317,34 @@ focus_tree = {
 			focus = ARG_officialize_the_defense_council
 			focus = ARG_go_our_own_route
 		}
+
+		cost = 10
+
+		available = { 
+			is_faction_leader = yes 
+			num_of_factories > 49
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			custom_effect_tooltip = PRU_every_allied_nation_recieve
+			effect_tooltip = {
+				EUYL_add_1_civilian = yes 
+				EUYL_add_1_military = yes 
+			}
+			hidden_effect = {
+				EUYL_add_1_civilian = yes 
+				EUYL_add_1_military = yes 
+				every_other_country = {
+					limit = {
+						exists = yes 
+						is_in_faction_with = ROOT 
+					}
+					EUYL_add_1_civilian = yes 
+					EUYL_add_1_military = yes 
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -10164,6 +10355,51 @@ focus_tree = {
 		relative_position_id = ARG_mutual_economic_aid
 		prerequisite = {
 			focus = ARG_mutual_economic_aid
+		}
+
+		cost = 10
+
+		available = {
+			has_civil_war = no 
+			is_faction_leader = yes 
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			custom_effect_tooltip = ARG_gain_better_depending_on_num_members_tt
+			custom_effect_tooltip = PRU_every_allied_nation_recieve
+			if = {
+				limit = { num_faction_members > 4 }
+				add_ideas = ARG_combined_resource_extraction_3
+				every_other_country = {
+					limit = {
+						is_in_faction_with = ROOT 
+						exists = yes 
+					}
+					add_ideas = ARG_combined_resource_extraction_3
+				}
+			}
+			else_if = {
+				limit = { num_faction_members > 1 }
+				add_ideas = ARG_combined_resource_extraction_2
+				every_other_country = {
+					limit = {
+						is_in_faction_with = ROOT 
+						exists = yes 
+					}
+					add_ideas = ARG_combined_resource_extraction_2
+				}
+			}
+			else = {
+				add_ideas = ARG_combined_resource_extraction_1
+				every_other_country = {
+					limit = {
+						is_in_faction_with = ROOT 
+						exists = yes 
+					}
+					add_ideas = ARG_combined_resource_extraction_1
+				}
+			}
 		}
 	}
 
@@ -10669,39 +10905,39 @@ focus_tree = {
 		}
 
 		bypass = {
-			has_full_control_of_state = 911
-			has_full_control_of_state = 507
-			has_full_control_of_state = 912
-			has_full_control_of_state = 963
-			has_full_control_of_state = 913
+			has_full_control_of_state = 911 
+			has_full_control_of_state = 507 
+			has_full_control_of_state = 912 
+			has_full_control_of_state = 963 
+			has_full_control_of_state = 913 
 		}
 
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
 			random_other_country = {
 				limit = {
-					has_full_control_of_state = 911
-					has_full_control_of_state = 507
-					has_full_control_of_state = 912
-					has_full_control_of_state = 963
-					has_full_control_of_state = 913
+					has_full_control_of_state = 911 
+					has_full_control_of_state = 507 
+					has_full_control_of_state = 912 
+					has_full_control_of_state = 963 
+					has_full_control_of_state = 913 
 				}
 				country_event = { id = argentina.rework.communist.17 hours = 4 }
 			}
 			custom_effect_tooltip = ARG_iftheyaccept
 			effect_tooltip = {
-				transfer_state = 911
-				transfer_state = 507
-				transfer_state = 912
-				transfer_state = 963
-				transfer_state = 913
+				transfer_state = 911 
+				transfer_state = 507 
+				transfer_state = 912 
+				transfer_state = 963 
+				transfer_state = 913 
 				random_other_country = {
 					limit = {
-						has_full_control_of_state = 911
-						has_full_control_of_state = 507
-						has_full_control_of_state = 912
-						has_full_control_of_state = 963
-						has_full_control_of_state = 913
+						has_full_control_of_state = 911 
+						has_full_control_of_state = 507 
+						has_full_control_of_state = 912 
+						has_full_control_of_state = 963 
+						has_full_control_of_state = 913 
 					}
 					ROOT = { puppet = PREV }
 				}
@@ -10976,8 +11212,8 @@ focus_tree = {
 			any_controlled_state = { is_on_continent = asia }
 			any_controlled_state = { is_on_continent = europe }	
 			any_controlled_state = { is_on_continent = north_america }
-			num_of_controlled_states > 79
-			num_of_factories > 124
+			num_of_controlled_states > 80
+			num_of_factories > 150
 			any_subject_country = {
 				capital_scope = { is_on_continent = europe }
 			}
@@ -12012,11 +12248,12 @@ focus_tree = {
 		relative_position_id = ARG_reinstate_the_PAN
 		prerequisite = {focus = ARG_reinstate_the_PAN }
 
-		cost = 7.2
+		cost = 10
 
-		search_filters = { FOCUS_FILTER_MANPOWER }
+		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_RESEARCH }
 		completion_reward = {
 			EUYL_improve_immigration_decisions = yes
+			add_research_slot = 1
 		}
 	}
 
@@ -12995,11 +13232,11 @@ focus_tree = {
 			focus = ARG_invite_colombia
 		}
 		
-		cost = 10
+		cost = 8
 		
 		available = {
 			has_civil_war = no
-			has_completed_focus = ARG_deal_with_depression
+			is_faction_leader = yes 
 		}
 		
 		cancel_if_invalid = yes
@@ -13032,6 +13269,31 @@ focus_tree = {
 		y = 1
 		relative_position_id = ARG_prepare_for_war
 		prerequisite = { focus = ARG_prepare_for_war }
+
+		cost = 10
+
+		available = { is_faction_leader = yes }
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			custom_effect_tooltip = PRU_every_south_american_nation_recieve
+			EUYL_add_1_civilian = yes 
+			custom_effect_tooltip = EUYL_available_as_industrial_concern_tt
+			show_ideas_tooltip = ARG_shared_central_bank
+			add_political_power = 75
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						exists = yes 
+						is_in_faction_with = ROOT 
+					}
+					EUYL_add_1_civilian = yes 
+					custom_effect_tooltip = EUYL_available_as_industrial_concern_tt
+					show_ideas_tooltip = ARG_shared_central_bank
+					add_political_power = 75
+				} 
+			}
+		}
 	}
 
 	focus = {
@@ -13043,6 +13305,13 @@ focus_tree = {
 		prerequisite = {
 			focus = ARG_planting_our_foot
 			focus = ARG_prepare_for_war
+		}
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_ideas = ARG_stricter_conscription_laws
 		}
 	}
 	
@@ -14212,6 +14481,14 @@ focus_tree = {
 			ARG_increase_10_political_tension = yes 
 			ARG_move_10_left = yes 
 			## Unlock decision to increment tension ## 
+			unlock_decision_tooltip = {
+				decision = ARG_empower_the_army
+				show_effect_tooltip = yes 
+			}
+			unlock_decision_tooltip = {
+				decision = ARG_deestabilize_the_country_further
+				show_effect_tooltip = yes 
+			}
 		}
 	}
 	
@@ -14247,6 +14524,7 @@ focus_tree = {
 
 		bypass = {
 			has_government = neutrality
+			NOT = { has_active_mission = ARG_the_1937_elections }
 			has_country_leader = {
 				character = ARG_roberto_maria_ortiz
 				ruling_only = yes 
@@ -14281,6 +14559,13 @@ focus_tree = {
 				ruling_only = yes 
 			}
 		}
+
+		bypass = { 
+			has_country_leader = {
+				character = ARG_juan_domingo_peron
+				ruling_only = yes 
+			}
+		}
 		
 		ai_will_do = {
 			factor = 6
@@ -14292,9 +14577,7 @@ focus_tree = {
 		
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-			## Start Actual coup mission countdown ## 
-			## Peronism truly begins gaining traction ## 
-			## Start Peronist Mechanic ##
+			add_political_power = 50
 		}
 	}
 	
@@ -14398,10 +14681,8 @@ focus_tree = {
 		
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-			add_days_mission_timeout = {
-				mission = ARG_robertos_renounce
-				days = -10
-			}
+			custom_effect_tooltip = ARG_add_15_peronist_support_tt
+			add_to_variable = { ARG_peronist_support = 15 }
 		}
 	}
 	
@@ -14413,7 +14694,7 @@ focus_tree = {
 		relative_position_id = ARG_spread_the_peronist_ideals
 		prerequisite = { focus = ARG_spread_the_peronist_ideals }
 		
-		cost = 5
+		cost = 6
 		
 		ai_will_do = {
 			factor = 6
@@ -14436,25 +14717,25 @@ focus_tree = {
 		completion_reward = {
 			random_list = {
 				50 = {
-					#add_popularity = {
-					#	ideology = peronism
-					#	popularity = 0.04
-					#}
+					custom_effect_tooltip = ARG_add_10_peronist_support_tt
+					add_to_variable = { ARG_peronist_support = 10 }
 					add_popularity = {
 						ideology = democratic
 						popularity = -0.04
 					}
+					add_popularity = {
+						ideology = neutrality
+						popularity = 0.02
+					}
 				}
 				50 = {
-					#add_popularity = {
-					#	ideology = peronism
-					#	popularity = 0.01
-					#}
+					custom_effect_tooltip = ARG_add_15_peronist_support_tt
+					add_to_variable = { ARG_peronist_support = 15 }
+					add_popularity = {
+						ideology = neutrality
+						popularity = 0.01
+					}
 				}
-			}
-			add_days_mission_timeout = {
-				mission = ARG_robertos_renounce
-				days = -25
 			}
 		}
 	}
@@ -14488,15 +14769,14 @@ focus_tree = {
 		
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_CHI_INFLATION }
 		completion_reward = {
-			custom_effect_tooltip = ARG_add_15_days
-			hidden_effect = {
-				add_to_variable = { ARG_inflationary_period_days = 15 }
+			if = {
+				limit = { ARG_is_suffering_from_inflation = yes }
+				custom_effect_tooltip = ARG_add_15_days
+				hidden_effect = {
+					add_to_variable = { ARG_inflationary_period_days = 15 }
+				}
 			}
 			EUYL_add_1_civilian = yes 
-			add_days_mission_timeout = {
-				mission = ARG_robertos_renounce
-				days = -25
-			}
 		}
 	}
 	
@@ -14509,14 +14789,17 @@ focus_tree = {
 		prerequisite = { focus = ARG_consolidate_the_economy }
 		prerequisite = { focus = ARG_ask_the_UCR_to_support_peron }
 		
-		cost = 7
+		cost = 10
 		
 		ai_will_do = {
 			factor = 10
 		}
 		
 		available = {
-			has_country_flag = ARG_peron_in_power
+			has_country_leader = {
+				character = ARG_juan_domingo_peron
+				ruling_only = yes 
+			}
 		}
 		
 		cancel_if_invalid = yes
@@ -14526,10 +14809,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
 		completion_reward = {
 			add_stability = 0.1
-			swap_ideas = {
-				remove_idea = ARG_shadow_of_peron
-				add_idea = ARG_shadow_of_peron_2
-			}
+			add_ideas = ARG_shadow_of_peron_2
 		}
 	}
 
@@ -14541,6 +14821,13 @@ focus_tree = {
 		relative_position_id = ARG_consolidate_power
 		prerequisite = { focus = ARG_consolidate_power }
 		mutually_exclusive = { focus = ARG_follow_mussolinis_principles }
+
+		cost = 7.2
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			ARG_improve_inexperienced_leader = yes 
+		}
 	}
 
 	focus = { ## will make peron fascist
@@ -14555,6 +14842,8 @@ focus_tree = {
 			focus = ARG_deal_peacefully_with_our_enemies
 		}
 		mutually_exclusive = { focus = ARG_a_traditional_approach }
+
+		cost = 7.2
 
 		available = {
 			if = {
@@ -14714,6 +15003,17 @@ focus_tree = {
 		ai_will_do = {
 			factor = 6
 		}
+
+		available = { has_active_mission = ARG_the_1937_elections }
+
+		bypass = {
+			has_government = neutrality
+			NOT = { has_active_mission = ARG_the_1937_elections }
+			has_country_leader = {
+				character = ARG_roberto_maria_ortiz
+				ruling_only = yes 
+			}
+		}
 	
 		cancel_if_invalid = yes
 		continue_if_invalid = no
@@ -14757,6 +15057,21 @@ focus_tree = {
 				custom_trigger_tooltip = {
 					tooltip = ARG_corruption_currently_against_us_tt
 					check_variable = { ARG_corruption_status = 0 }
+				}
+			}
+		}
+
+		bypass = {
+			has_government = neutrality
+			NOT = { has_active_mission = ARG_the_1937_elections }
+			OR = {
+				has_country_leader = {
+					character = ARG_leopoldo_melo
+					ruling_only = yes 
+				}
+				has_country_leader = {
+					character = ARG_robustiano_patron_costas
+					ruling_only = yes 
 				}
 			}
 		}
@@ -15391,6 +15706,18 @@ focus_tree = {
 		prerequisite = { focus = ARG_roberto_leads_the_way }
 
 		cost = 5
+
+		available = { has_idea = ARG_fradulant_election_charges }
+
+		bypass = {
+			NOT = { has_idea = ARG_fradulant_election_charges }
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_stability = 0.05
+			remvoe_ideas = ARG_fradulant_election_charges
+		}
 	}
 
 	focus = { #unlock cure decisions
@@ -15529,6 +15856,13 @@ focus_tree = {
 		y = 1
 		relative_position_id = ARG_deal_with_the_fradulent_charges
 		prerequisite = { focus = ARG_deal_with_the_fradulent_charges }
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_political_power = 35
+		}
 	}
 
 	focus = {
@@ -15619,7 +15953,9 @@ focus_tree = {
 			has_manpower > 10000
 		}
 
-		cost = 2.8
+		cost = 2.9
+
+		continue_if_invalid = yes #would be really annoying if it constantly gets cancelled
 
 		## will start the subversive peronist influence mechanic (typically triggered via event)
 		## Makes Arturo Rawson leader, but after 3 days trigger event where he is forced to step down from power by the GOU itself 
@@ -16612,7 +16948,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			add_war_support = 0.1
-			add_ideas = extensive_conscription
+			add_ideas = ARG_stricter_conscription_laws
 		}
 	}
 	
@@ -16649,8 +16985,25 @@ focus_tree = {
 		prerequisite = { 
 			focus = ARG_viva_la_patria_argentina
 			focus = ARG_resource_exploitation
-			focus = ARG_deal_with_the_devil
+			focus = ARG_a_new_south_american_era
 			focus = ARG_ask_for_control_over_the_southern_atlantic
+		}
+
+		available = {
+			num_of_factories > 120
+			has_army_manpower = { size > 499999 }
+			has_navy_size = { size > 49 }
+			NOT = { is_in_faction_with = USA }
+		}
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = USA 
+			}
 		}
 	}
 	
@@ -16709,6 +17062,10 @@ focus_tree = {
 			swap_ideas = {
 				remove_idea = ARG_shadow_of_peron_2
 				add_idea = ARG_shadow_of_peron_3
+			}
+			random_list = {
+				50 = { ARG_improve_inexperienced_leader = yes }
+				50 = { }
 			}
 		}
 	}
@@ -17015,7 +17372,11 @@ focus_tree = {
 		
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
 		completion_reward = {
-			add_country_leader_trait = ARG_father_of_modern_argentina
+			add_trait = {
+				character = ARG_juan_domingo_peron
+				ideology = peronism
+				trait = ARG_father_of_modern_argentina
+			}
 			hidden_effect = {
 				clr_country_flag = ARG_peron_in_power
 			}
@@ -17044,9 +17405,10 @@ focus_tree = {
 		continue_if_invalid = no
 		available_if_capitulated = no
 		
-		search_filters = { FOCUS_FILTER_POLITICAL }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
 		completion_reward = {
-			add_political_power = 50
+			add_war_support = 0.03
+			add_political_power = 25
 		}
 	}
 

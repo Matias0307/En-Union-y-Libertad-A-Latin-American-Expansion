@@ -3654,7 +3654,15 @@ country_event = {
 		name = argentina.rework.42.a 
 		add_stability = -0.05
 		ARG_increase_10_political_tension = yes 
-		ARG_move_15_left = yes 
+		if = {
+			limit = {
+				is_power_balance_side_active = {
+					id = ARG_general_balance_of_power
+					side = ARG_military_side
+				}
+			}
+			ARG_move_15_left = yes 
+		}
 		set_country_flag = ARG_military_movement_present_in_country_flag
 		set_country_flag = {
 			flag = ARG_buffer ## so that next event doesn't happen immediately 
@@ -3692,7 +3700,15 @@ country_event = {
 	option = { 
 		name = argentina.rework.44.a 
 		ARG_increase_20_political_tension = yes 
-		ARG_move_35_left = yes 
+		if = {
+			limit = {
+				is_power_balance_side_active = {
+					id = ARG_general_balance_of_power
+					side = ARG_military_side
+				}
+			}
+			ARG_move_35_left = yes 
+		}
 		custom_effect_tooltip = ARG_military_opinion_decrease_tt
 		subtract_from_variable = { ARG_military_opinion = 1 }
 		clamp_variable = {
@@ -3724,7 +3740,16 @@ country_event = {
 			50 = { ARG_increase_5_political_tension = yes }
 			50 = { ARG_increase_10_political_tension = yes }
 		}
-		ARG_move_5_left = yes 
+		if = {
+			limit = {
+				is_power_balance_side_active = {
+					id = ARG_general_balance_of_power
+					side = ARG_military_side
+				}
+			}
+			ARG_move_5_left = yes 
+		}
+		else = { ARG_increase_3_political_tension = yes }
 		custom_effect_tooltip = ARG_influence_of_gou_spread_to_neighboring_state_tt
 		hidden_effect = {
 			random_owned_controlled_state = {
@@ -3888,6 +3913,19 @@ country_event = {
 			long_name = ARG_peronist_party_long
 			name = ARG_peronist_party
 		}
+		set_country_flag = ARG_peron_in_power
+		hidden_effect = {
+			if = {
+				limit = {
+					has_completed_focus = ARG_kill_off_roberto
+				}
+				add_trait = {
+					character = ARG_juan_domingo_peron
+					ideology = peronism
+					trait = ARG_inexperienced_leader_2
+				}
+			}
+		}
 	}
 }
 
@@ -3945,6 +3983,25 @@ country_event = {
 			}
 		}
 	}	
+}
+
+# Opposition Members Accusing us of Fraudulent Victory
+country_event = {
+	id = argentina.rework.53
+	title = argentina.rework.53.t 
+	desc = argentina.rework.53.d 
+	picture = GFX_ARG_election_fraud_image
+
+	is_triggered_only = yes 
+
+	option = { 
+		name = argentina.rework.53.a 
+		add_stability = -0.05
+		add_timed_idea = {
+			idea = ARG_fradulant_election_charges
+			days = 365
+		}
+	}
 }
 
 #choose capital
@@ -4684,6 +4741,11 @@ country_event = {
 					days = 20
 					random_days = 15
 				}
+			}
+			country_event = { ##Election fraud 
+				id = argentina.rework.53
+				days = 35
+				random_days = 20 
 			}
 		}
 	}
