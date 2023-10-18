@@ -368,6 +368,52 @@ ARG_cultural_development = {
 			set_country_flag = ARG_constructed_monumental
 		}
 	}
+
+	ARG_invest_in_nationwide_education = {
+		icon = generic_research
+
+		activation = {
+			always = no 
+		}
+
+		is_good = no 
+
+		days_mission_timeout = 700
+
+		available = {
+			OR = {
+				amount_research_slots = 5
+				amount_research_slots > 5
+			}
+		}
+
+		cancel_trigger = {
+			OR = {
+				has_civil_war = yes 
+				exists = no
+			}
+		}
+
+		cancel_effect = {
+			subtract_from_variable = { ARG_active_cultural_missions = 1 }
+		}
+
+		complete_effect = {
+			add_to_variable = { ARG_succesful_cultural_missions = 1 }
+			subtract_from_variable = { ARG_active_cultural_missions = 1 }
+			add_political_power = 10
+			add_timed_idea = {
+				idea = ARG_succesful_investment_in_education
+				days = 200
+			}
+		}
+
+		timeout_effect = {
+			subtract_from_variable = { ARG_active_cultural_missions = 1 }
+			add_stability = -0.01
+			add_political_power = -5
+		}
+	}
 }
 
 #Posadist Ambitions
@@ -6466,6 +6512,15 @@ ARG_dealing_with_the_corruption = {
 			}
 		}
 
+		complete_effect = { ## way to increase degree of corruption if you are corrupt
+			random_list = {
+				35 = {
+					ARG_increase_corruption_by_1 = yes
+				}
+				50 = { }
+			}
+		}
+
 		timeout_effect = { 
 			random_list = {
 				50 = {
@@ -6501,7 +6556,13 @@ ARG_dealing_with_the_corruption = {
 			}
 		}
 
-		ai_will_do = { factor = 125 }
+		ai_will_do = { 
+			base = 125 
+			modifier = {
+				factor = 1.5
+				check_variable = { ARG_degree_of_corruption < 6 }
+			}
+		}
 
 		cost = 30
 
@@ -6743,7 +6804,7 @@ ARG_1937_elections = {
 
 		available = { always = no }
 
-		days_mission_timeout = 145
+		days_mission_timeout = 125
 
 		fire_only_once = no 
 
@@ -6813,7 +6874,7 @@ ARG_1937_elections = {
 
 		available = { always = no }
 
-		days_mission_timeout = 165
+		days_mission_timeout = 140
 
 		fire_only_once = no 
 
@@ -6883,7 +6944,7 @@ ARG_1937_elections = {
 
 		available = { always = no }
 
-		days_mission_timeout = 195
+		days_mission_timeout = 175
 
 		fire_only_once = no 
 
