@@ -116,7 +116,7 @@ ARG_cultural_development = {
 
 		is_good = no 
 
-		days_mission_timeout = 210
+		days_mission_timeout = 395
 
 		available = {
 			custom_trigger_tooltip = {
@@ -154,7 +154,7 @@ ARG_cultural_development = {
 
 		timeout_effect = {
 			subtract_from_variable = { ARG_active_cultural_missions = 1 }
-			add_political_power = -15
+			add_political_power = -5
 		}
 	}
 
@@ -207,6 +207,8 @@ ARG_cultural_development = {
 		state_target = yes 
 
 		targets = { 966 }
+
+		ai_will_do = { factor = 225 } #should always prioritize these kinda decisions to get extra pp
 
 		visible = {
 			has_active_mission = ARG_build_the_obelisk
@@ -294,6 +296,8 @@ ARG_cultural_development = {
 
 		targets = { 966 }
 
+		ai_will_do = { factor = 225 } #should always prioritize these kinda decisions to get extra pp
+
 		visible = {
 			has_active_mission = ARG_construct_the_bombonera_and_monumental
 			has_civil_war = no 
@@ -304,6 +308,8 @@ ARG_cultural_development = {
 		available = {
 			controls_state = 966
 		}
+
+		fire_only_once = yes 
 
 		cost = 5
 
@@ -330,6 +336,8 @@ ARG_cultural_development = {
 
 		targets = { 966 }
 
+		ai_will_do = { factor = 225 } #should always prioritize these kinda decisions to get extra pp
+
 		visible = {
 			has_active_mission = ARG_construct_the_bombonera_and_monumental
 			has_civil_war = no 
@@ -340,6 +348,8 @@ ARG_cultural_development = {
 		available = {
 			controls_state = 966
 		}
+
+		fire_only_once = yes 
 
 		cost = 5
 
@@ -991,18 +1001,6 @@ ARG_bop = {
                 id = ARG_general_balance_of_power
                 side = ARG_military_side
             }
-			NOT = {
-				OR = {
-					has_country_leader = {
-						character = ARG_arturo_rawson
-						ruling_only = yes 
-					}
-					has_country_leader = {
-						character = ARG_the_military_junta
-						ruling_only = yes 
-					}
-				}
-			}
 			OR = {
 				has_completed_focus = ARG_formalize_the_GOU
 				has_completed_focus = ARG_kill_off_roberto
@@ -1039,7 +1037,366 @@ ARG_bop = {
 			custom_effect_tooltip = EUYL_decision_will_reappear_in_90_days_tt
 		}
 
+		ai_will_do = { 
+			base = 55
+			modifier = {
+				add = 150
+				power_balance_value = {
+					id = ARG_general_balance_of_power
+					value > 0
+				}
+			}
+			modifier = {
+				add = 75
+				power_balance_value = {
+					id = ARG_general_balance_of_power
+					value > -0.75
+				}
+			}
+		}
+
 		days_re_enable = 90
+	}
+
+	ARG_nationwide_speech = {
+		icon = generic_speech
+
+		visible = {
+			is_power_balance_side_active = {
+                id = ARG_general_balance_of_power
+                side = ARG_political_enemies_side
+            }
+		}
+
+		cost = 20
+
+		available = { has_government = fascism }
+
+		complete_effect = {
+			random_list = {
+				50 = {
+					ARG_move_10_right = yes 
+				}
+				50 = {
+					ARG_move_15_right = yes 
+				}
+			}
+			custom_effect_tooltip = EUYL_decision_will_reappear_in_180_days_tt
+		}
+
+		ai_will_do = { 
+			base = 55
+			modifier = {
+				add = 150
+				power_balance_value = {
+					id = ARG_general_balance_of_power
+					value < 0
+				}
+			}
+			modifier = {
+				add = 75
+				power_balance_value = {
+					id = ARG_general_balance_of_power
+					value < 0.6
+				}
+			}
+		}
+
+		days_re_enable = 180
+	}
+
+	ARG_persecute_potential_enemies_in_FROM = {
+		icon = oppression
+
+		visible = {
+			has_completed_focus = ARG_state_of_terror
+			is_power_balance_side_active = {
+                id = ARG_general_balance_of_power
+                side = ARG_political_enemies_side
+            }
+		}
+
+		available = {
+			NOT = { has_country_flag = ARG_persecuting_enemies_flag }
+		}
+
+		state_target = yes 
+
+		target_array = core_states
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+			}
+		}
+
+		ai_will_do = { 
+			base = 55
+			modifier = {
+				add = 150
+				power_balance_value = {
+					id = ARG_general_balance_of_power
+					value < 0
+				}
+			}
+			modifier = {
+				add = 75
+				power_balance_value = {
+					id = ARG_general_balance_of_power
+					value < 0.6
+				}
+			}
+		}
+
+		fire_only_once = yes 
+
+		custom_cost_text = ARG_10000_mp_tt
+		custom_cost_trigger = {
+			has_manpower > 9999
+		}
+
+		complete_effect = {
+			add_stability = -0.01
+			hidden_effect = {
+				add_manpower = -10000
+				set_country_flag = ARG_persecuting_enemies_flag
+			}
+		}
+
+		modifier = {
+			political_power_factor = -0.1
+			weekly_manpower = -750
+		}
+
+		days_remove = 30
+
+		remove_effect = {
+			add_political_power = 5
+			add_command_power = 5
+			ARG_move_10_right = yes 
+			if = {
+				limit = {
+					OR = {
+						has_idea = ARG_active_political_enemies_1
+						has_idea = ARG_active_political_enemies_2
+					}
+				}
+				random_list = {
+					50 = {
+						if = {
+							limit = {
+								has_idea = ARG_active_political_enemies_1
+							}
+							swap_ideas = {
+								remove_idea = ARG_active_political_enemies_1
+								add_idea = ARG_active_political_enemies_2
+							}
+						}
+						else = {
+							remove_ideas = ARG_active_political_enemies_2
+						}
+					}
+					50 = { }
+				}
+			}
+			hidden_effect = {
+				add_to_variable = { ARG_states_persecuted = 1 }
+			}
+		}
+	}
+
+	ARG_coerce_our_enemies_to_subside = {
+		icon = generic_political_address
+
+		visible = {
+			has_completed_focus = ARG_deal_peacefully_with_our_enemies
+			is_power_balance_side_active = {
+                id = ARG_general_balance_of_power
+                side = ARG_political_enemies_side
+            }
+		}
+
+		available = { 
+			has_civil_war = no 
+			has_government = fascism
+		}
+
+		cost = 50
+
+		ai_will_do = {
+			base = 225
+			modifier = {
+				factor = 0.25
+				NOT = {
+					OR = {
+						has_idea = ARG_active_political_enemies_1
+						has_idea = ARG_active_political_enemies_2
+					}
+				}
+			}
+		}
+
+		complete_effect = {
+			if = {
+				limit = {
+					OR = {
+						has_idea = ARG_active_political_enemies_1
+						has_idea = ARG_active_political_enemies_2
+					}
+				}
+				if = {
+					limit = {
+						has_idea = ARG_active_political_enemies_1
+					}
+					swap_ideas = {
+						remove_idea = ARG_active_political_enemies_1
+						add_idea = ARG_active_political_enemies_2
+					}
+				}
+				else = {
+					remove_ideas = ARG_active_political_enemies_2
+				}
+				ARG_move_15_right = yes 
+			}
+			else = {
+				ARG_move_25_right = yes 
+			}
+		}
+	}
+
+	ARG_empower_the_church = {
+		icon = eng_ally_imperialist_coup
+
+		visible = {
+			is_power_balance_side_active = {
+                id = ARG_general_balance_of_power
+                side = ARG_church_side
+            }
+		}
+
+		cost = 25
+
+		ai_will_do = { 
+			base = 90
+			modifier = {
+				factor = 0
+				power_balance_value = {
+					id = ARG_general_balance_of_power
+					value > 0.9
+				}
+			}
+			modifier = {
+				factor = 1.1
+				power_balance_value = {
+					id = ARG_general_balance_of_power
+					value < 0.6
+				}
+			}
+			modifier = {
+				factor = 0
+				has_completed_focus = ARG_establish_the_TNM
+			}
+		}
+
+		available = {
+			is_subject = no 
+			NOT = { surrender_progress > 0.25 }
+		}
+
+		complete_effect = {
+			ARG_move_15_right = yes 
+			custom_effect_tooltip = EUYL_decision_will_reappear_in_90_days_tt
+		}
+
+		days_re_enable = 90
+	}
+
+	ARG_moderate_state_and_church_power = {
+		icon = generic_political_address
+
+		visible = {
+			is_power_balance_side_active = {
+                id = ARG_general_balance_of_power
+                side = ARG_state_side
+            }
+		}
+
+		cost = 25
+
+		ai_will_do = { 
+			base = 90
+			modifier = {
+				factor = 0
+				OR = {
+					power_balance_value = {
+						id = ARG_general_balance_of_power
+						value > 0.9
+					}
+					power_balance_value = {
+						id = ARG_general_balance_of_power
+						value < -0.15
+					}
+				}
+			}
+			modifier = {
+				factor = 1.1
+				has_completed_focus = ARG_desecularization_effort
+			}
+		}
+
+		available = {
+			is_subject = no 
+			NOT = { surrender_progress > 0.25 }
+		}
+
+		complete_effect = {
+			add_stability = 0.01
+			ARG_move_10_left = yes 
+			custom_effect_tooltip = EUYL_decision_will_reappear_in_180_days_tt
+		}
+
+		days_re_enable = 180
+	}
+
+	ARG_worship_the_warriors_of_christ = {
+		icon = generic_military
+
+		visible = {
+			is_power_balance_side_active = {
+                id = ARG_general_balance_of_power
+                side = ARG_church_side
+            }
+			has_completed_focus = ARG_the_holy_army
+		}
+
+		ai_will_do = {
+			base = 45
+			modifier = {
+				add = 90
+				has_civil_war = yes 
+			}
+		}
+
+		custom_cost_trigger = {
+			command_power > 15
+		}
+
+		custom_cost_text = CHL_cost_15_cp
+
+		available = {
+			is_subject = no 
+			has_manpower > 20000
+			NOT = { surrender_progress > 0.15 }
+		}
+
+		complete_effect = {
+			hidden_effect = { add_command_power = -15 }
+			ARG_move_10_right = yes
+			army_experience = 5 
+			custom_effect_tooltip = EUYL_decision_will_reappear_in_210_days_tt
+		}
+		
+		days_re_enable = 210
 	}
 
 	ARG_speak_out_against_the_army = {
@@ -1069,15 +1426,33 @@ ARG_bop = {
 			}
 		}
 
-		cost = 10
+		cost = 25
+
+		ai_will_do = {
+			base = 55
+			modifier = {
+				add = 75 
+				power_balance_value = {
+					id = ARG_general_balance_of_power
+					value < 0
+				}
+			}
+			modifier = {
+				add = 150
+				power_balance_value = {
+					id = ARG_general_balance_of_power
+					value < -0.45
+				}
+			}
+		}
 
 		complete_effect = { 
 			random_list = {
-				50 = { ARG_move_5_right = yes }
 				50 = { ARG_move_10_right = yes }
+				50 = { ARG_move_15_right = yes }
 			}
 			random_list = {
-				20 = {
+				10 = {
 					custom_effect_tooltip = ARG_military_opinion_decrease_tt
                     subtract_from_variable = { ARG_military_opinion = 1 }
                     clamp_variable = {
@@ -1086,7 +1461,7 @@ ARG_bop = {
                         max = 2 
                     }
 				}
-				80 = { }
+				90 = { }
 			}
 			custom_effect_tooltip = EUYL_decision_will_reappear_in_90_days_tt
 		}
@@ -1106,6 +1481,24 @@ ARG_bop = {
 				OR = {
 					has_completed_focus = ARG_formalize_the_GOU
 					has_completed_focus = ARG_kill_off_roberto
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 75 ## slightly more priority
+			modifier = {
+				add = 75 
+				power_balance_value = {
+					id = ARG_general_balance_of_power
+					value < 0
+				}
+			}
+			modifier = {
+				add = 150
+				power_balance_value = {
+					id = ARG_general_balance_of_power
+					value < -0.45
 				}
 			}
 		}
@@ -1130,9 +1523,9 @@ ARG_bop = {
 			hidden_effect = {
 				add_manpower = -10000
 			}
-			ARG_move_15_right = yes 
+			ARG_move_20_right = yes 
 			random_list = {
-				50 = {
+				25 = {
 					custom_effect_tooltip = ARG_military_opinion_decrease_tt
                     subtract_from_variable = { ARG_military_opinion = 1 }
                     clamp_variable = {
@@ -1141,7 +1534,7 @@ ARG_bop = {
                         max = 2 
                     }
 				}
-				50 = { }
+				75 = { }
 			}
 			custom_effect_tooltip = EUYL_decision_will_reappear_in_365_days_tt
 		}
@@ -1166,6 +1559,8 @@ ARG_bop = {
 				}
 			}
 		}
+
+		ai_will_do = { factor = 120 } ##kinda let the AI decide on this one
 
 		visible = {
 			has_completed_focus = ARG_union_civica_radical
@@ -1194,6 +1589,24 @@ ARG_bop = {
             }
 		}
 
+		ai_will_do = {
+			base = 95
+			modifier = {
+				factor = 0
+				OR = {
+					power_balance_value = {
+						id = ARG_general_balance_of_power
+						value < -0.65
+					}
+					has_completed_focus = ARG_los_grises
+				}
+			}
+			modifier = {
+				factor = 1.1
+				has_completed_focus = ARG_los_azules
+			}
+		}
+
 		available = { 
 			num_of_civilian_factories_available_for_projects > 2
 			NOT = { has_idea = ARG_agitated_oligarchs_idea }
@@ -1206,7 +1619,7 @@ ARG_bop = {
 
 		modifier = { civilian_factory_use = 3 }
 
-		days_remove = 60
+		days_remove = 90
 
 		remove_effect = {
 			random_list = {
@@ -1219,6 +1632,7 @@ ARG_bop = {
 				}
 				ARG_chance_to_increase_corruption = yes
 			}
+			custom_effect_tooltip = EUYL_decision_will_reappear_in_90_days_tt
 		}
 	}
 
@@ -1230,6 +1644,24 @@ ARG_bop = {
                 id = ARG_general_balance_of_power
                 side = ARG_oligarchs_side
             }
+		}
+
+		ai_will_do = {
+			base = 105
+			modifier = {
+				factor = 0
+				OR = {
+					power_balance_value = {
+						id = ARG_general_balance_of_power
+						value < -0.65
+					}
+					has_completed_focus = ARG_los_grises
+				}
+			}
+			modifier = {
+				factor = 1.1
+				has_completed_focus = ARG_los_azules
+			}
 		}
 
 		available = { 
@@ -1244,7 +1676,7 @@ ARG_bop = {
 
 		modifier = { civilian_factory_use = 5 }
 
-		days_remove = 90
+		days_remove = 210
 
 		remove_effect = {
 			random_list = {
@@ -1264,6 +1696,7 @@ ARG_bop = {
 					50 = { }
 				}
 			}
+			custom_effect_tooltip = EUYL_decision_will_reappear_in_210_days_tt
 		}
 	}
 
@@ -1275,12 +1708,29 @@ ARG_bop = {
                 id = ARG_general_balance_of_power
                 side = ARG_oligarchs_side
             }
+			NOT = {
+				has_completed_focus = ARG_los_grises
+			}
+		}
+
+		ai_will_do = { 
+			base = 70
+			modifier = {
+				factor = 0
+				power_balance_value = {
+					id = ARG_general_balance_of_power
+					value < -0.65
+				}
+			}
 		}
 
 		available = { 
 			has_civil_war = no 
 			NOT = { has_idea = ARG_agitated_oligarchs_idea }
+			NOT = { has_completed_focus = ARG_los_grises }
 		}
+
+		cancel_trigger = { has_completed_focus = ARG_los_grises }
 
 		cost = 15
 
@@ -1292,6 +1742,155 @@ ARG_bop = {
 		days_re_enable = 365
 	}
 
+	ARG_empower_the_socialists = {
+		icon = generic_political_address
+
+		visible = {
+			is_power_balance_side_active = {
+                id = ARG_general_balance_of_power
+                side = ARG_socialist_side
+            }
+			NOT = { has_completed_focus = ARG_los_azules }
+		}
+
+		ai_will_do = { 
+			base = 90
+			modifier = {
+				add = 15
+				has_completed_focus = ARG_los_grises
+			}
+			modifier = {
+				factor = 0
+				power_balance_value = {
+					id = ARG_general_balance_of_power
+					value > 0.65
+				}
+			}
+		}
+
+		available = { 
+			has_civil_war = no 
+			NOT = { has_completed_focus = ARG_los_azules }
+		}
+
+		cancel_trigger = { has_completed_focus = ARG_los_azules }
+
+		cost = 20
+
+		complete_effect = {
+			ARG_move_10_right = yes 
+			custom_effect_tooltip = EUYL_decision_will_reappear_in_90_days_tt
+		}
+
+		days_re_enable = 90
+	}
+
+	ARG_empower_the_federalists = {
+		icon = GFX_ARG_federalists
+
+		visible = {
+			is_power_balance_side_active = {
+                id = ARG_general_balance_of_power
+                side = ARG_federalist_side
+            }
+			has_completed_focus = ARG_a_different_approach
+			has_active_mission = ARG_federlist_takeover
+		}
+
+		ai_will_do = { 
+			factor = 210
+		}
+
+		fire_only_once = yes 
+
+		available = { 
+			has_civil_war = yes 
+		}
+
+		cancel_trigger = { ARG_is_the_argentine_confederation = yes }
+
+		cost = 15
+
+		complete_effect = {
+			ARG_move_10_right = yes 
+		}
+	}
+
+	ARG_convince_the_army = {
+		icon = GFX_ARG_federalists
+
+		visible = {
+			is_power_balance_side_active = {
+                id = ARG_general_balance_of_power
+                side = ARG_federalist_side
+            }
+			has_completed_focus = ARG_a_different_approach
+			has_active_mission = ARG_federlist_takeover
+		}
+
+		ai_will_do = { 
+			factor = 200
+		}
+
+		fire_only_once = yes 
+
+		available = { 
+			has_civil_war = yes 
+		}
+
+		cancel_trigger = { ARG_is_the_argentine_confederation = yes }
+
+		custom_cost_trigger = {
+			command_power > 24
+		}
+
+		custom_cost_text = decision_cost_CP_25
+
+		complete_effect = {
+			hidden_effect = { add_command_power = -25 }
+			ARG_move_15_right = yes 
+		}
+	}
+
+	ARG_convince_the_people = {
+		icon = GFX_ARG_federalists
+
+		visible = {
+			is_power_balance_side_active = {
+                id = ARG_general_balance_of_power
+                side = ARG_federalist_side
+            }
+			has_completed_focus = ARG_a_different_approach
+			has_active_mission = ARG_federlist_takeover
+		}
+
+		ai_will_do = { 
+			factor = 190
+		}
+
+		fire_only_once = yes 
+
+		available = { 
+			has_civil_war = yes 
+		}
+
+		cancel_trigger = { ARG_is_the_argentine_confederation = yes }
+
+		custom_cost_trigger = {
+			command_power > 24
+			has_political_power > 24
+		}
+		custom_cost_text = decision_cost_CP_25_pp_25
+		
+		complete_effect = {
+			hidden_effect = {
+				add_command_power = -25
+				add_political_power = -25
+			}
+			ARG_move_20_right = yes 
+		}
+	}
+
 	ARG_sweeping_anti_corruption_reforms = {
 		icon = eng_trade_unions_demand
 
@@ -1301,6 +1900,14 @@ ARG_bop = {
                 side = ARG_oligarchs_side
             }
 			check_variable = { ARG_corruption_status = 0 }
+		}
+
+		ai_will_do = {
+			base = 115
+			modifier = {
+				factor = 0
+				has_completed_focus = ARG_los_azules
+			}
 		}
 
 		available = { 
@@ -1355,8 +1962,6 @@ ARG_bop = {
 
 		days_re_enable = 365
 	}
-
-	
 }
 
 ARG_political_crisis = {
@@ -1365,7 +1970,10 @@ ARG_political_crisis = {
 		icon = generic_civil_support
 
 		activation = {
-			has_global_flag = ARG_commie_civil_war
+			OR = {
+				has_global_flag = ARG_commie_civil_war
+				has_global_flag = ARG_fascist_civil_war
+			}
 			NOT = { ## Checks to make sure there are no remaining 'Argentinas' 
 				any_enemy_country = {
 					original_tag = ARG
@@ -1377,6 +1985,8 @@ ARG_political_crisis = {
 					has_active_mission = ARG_anarchist_uprising
 				}
 			}
+			NOT = { has_global_flag = ARG_civil_war_concluded }
+			NOT = { has_completed_focus = ARG_a_different_approach }
 		}
 
 		is_good = yes 
@@ -1391,53 +2001,42 @@ ARG_political_crisis = {
 
 		timeout_effect = {
 			hidden_effect = {
-				clr_global_flag = ARG_commie_civil_war
-				set_global_flag = ARG_civil_war_concluded
-				add_ideas = ARG_post_civil_war_crisis
-				activate_mission = ARG_duration_of_the_crisis
-				add_country_leader_trait = ARG_hero_of_the_civil_war
 				if = {
-					limit = {
-						OR = {	
-							has_government = communism
-							has_completed_focus = ARG_treaty_with_the_anarchists
-						}
-					}
-					remove_dynamic_modifier = {
-						modifier = ARG_corruption_scandal_idea
-					}
-					set_variable = { ARG_degree_of_corruption = 0 }
-					set_variable = { ARG_corruption_status = 0 }
-					every_controlled_state = {
-						limit = {
-							OR = {
-								industrial_complex > 1
-								arms_factory > 1
-							}
-						}
-						add_dynamic_modifier = {
-							modifier = ARG_agitated_oligarchs
-						}
-					}
-					add_ideas = ARG_agitated_oligarchs_idea
-					if = {
-						limit = {
-							has_country_flag = BRA_soviet_accepted
-						}
-						activate_mission = ARG_a_visit_from_stalin
-					}
+					limit = { has_global_flag = ARG_commie_civil_war }
+					clr_global_flag = ARG_commie_civil_war
 				}
+				if = {
+					limit = { has_global_flag = ARG_fascist_civil_war }
+					clr_global_flag = ARG_fascist_civil_war
+				}
+				set_global_flag = ARG_civil_war_concluded
+				add_country_leader_trait = ARG_hero_of_the_civil_war
 				every_controlled_state = { ##(Perdón mi hermosa Argentina, pero tengo que hacer esto)
 					limit = {
 						has_state_flag = ARG_add_resistance_here
 					}
-					add_dynamic_modifier = {
-						modifier = ARG_anti_government_resistance
+					if = {
+						limit = { 
+							ROOT = { has_completed_focus = ARG_a_different_approach }
+						}
+						add_dynamic_modifier = {
+							modifier = ARG_unitarian_resistance
+						}
+					}
+					else = {
+						add_dynamic_modifier = {
+							modifier = ARG_anti_government_resistance
+						}
 					}
 					clr_state_flag = ARG_add_resistance_here
 				}
 			}
 			country_event = argentina.rework.20
+			if = {
+				limit = { has_country_flag = ARG_assasination_of_politicians }
+				ARG_move_15_right = yes 
+				clr_country_flag = ARG_assasination_of_politicians
+			}
 		}
 	}
 
@@ -1472,35 +2071,69 @@ ARG_political_crisis = {
 		icon = generic_civil_support
 
 		available = {
-			OR = {
-				custom_trigger_tooltip = {
-					tooltip = ARG_political_tension_less_than_55_tt
-					check_variable = { ARG_political_tension < 55 }
+			if = {
+				limit = {
+					has_completed_focus = ARG_cave_to_the_army
 				}
-				has_country_flag = ARG_military_appeased
-				has_active_mission = ARG_military_planning_to_overthrow_the_government
+				has_stability > 0.4
+			}
+			else = {
+				OR = {
+					custom_trigger_tooltip = {
+						tooltip = ARG_political_tension_less_than_55_tt
+						check_variable = { ARG_political_tension < 55 }
+					}
+					has_country_flag = ARG_military_appeased
+					has_active_mission = ARG_military_planning_to_overthrow_the_government
+				}
 			}
 		}
 
 		activation = {
 			original_tag = ARG 
 			has_civil_war = no
-			has_dynamic_modifier = { modifier = ARG_infamous_decade_idea } 
+			if = {
+				limit = {
+					has_completed_focus = ARG_cave_to_the_army
+				}
+				has_stability < 0.35
+			}	
+			else = {
+				has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
+				check_variable = { ARG_political_tension > 54 }
+			}
 			exists = yes 
-			NOT = { check_variable = { ARG_military_opinion = 2 } }
-			check_variable = { ARG_political_tension > 54 }
+			NOT = { check_variable = { ARG_military_opinion = 3 } }
 			NOT = { has_global_flag = ARG_military_displeased_triggered }
-			has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
 			NOT = { has_global_flag = ARG_elections_cancelled }
 			NOT = { has_active_mission = ARG_military_planning_to_overthrow_the_government }
-			NOT = { has_completed_focus = ARG_formalize_the_GOU }
+			NOT = { has_country_flag = ARG_underground_movement_triggered_flag }
+			NOT = { 
+				OR = {
+					has_completed_focus = ARG_formalize_the_GOU 
+					has_completed_focus = ARG_crack_down_on_our_generals
+					has_completed_focus = ARG_depoliticize_the_military
+					has_completed_focus = ARG_create_the_CNU
+					has_completed_focus = ARG_kill_off_roberto
+				}
+			}
 		}
 
 		cancel_trigger = {
 			OR = {
 				has_civil_war = yes 
 				check_variable = { ARG_military_opinion = 3 }
+				has_country_flag = ARG_underground_movement_triggered_flag
 				has_global_flag = ARG_elections_cancelled
+				hidden_trigger = {
+					OR = {
+						has_completed_focus = ARG_formalize_the_GOU 
+						has_completed_focus = ARG_crack_down_on_our_generals
+						has_completed_focus = ARG_depoliticize_the_military
+						has_completed_focus = ARG_create_the_CNU
+						has_completed_focus = ARG_kill_off_roberto
+					}
+				}
 			}
 		}
 
@@ -1519,25 +2152,49 @@ ARG_political_crisis = {
 		activation = {
 			original_tag = ARG 
 			has_civil_war = no 
-			has_dynamic_modifier = { modifier = ARG_infamous_decade_idea } 
+			if = {
+				limit = {
+					has_completed_focus = ARG_cave_to_the_army
+				}
+				has_stability < 0.1
+			}	
+			else = {
+				has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
+				check_variable = { ARG_political_tension > 84 }
+			}
 			exists = yes 
 			NOT = { check_variable = { ARG_military_opinion = 3 } }
-			check_variable = { ARG_political_tension > 84 }
 			NOT = { has_global_flag = ARG_military_overthrow_triggered }
-			has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
 			NOT = { has_global_flag = ARG_elections_cancelled }
-			NOT = { has_completed_focus = ARG_formalize_the_GOU }
+			NOT = { has_country_flag = ARG_underground_movement_triggered_flag }
+			NOT = { 
+				OR = {
+					has_completed_focus = ARG_formalize_the_GOU 
+					has_completed_focus = ARG_crack_down_on_our_generals
+					has_completed_focus = ARG_depoliticize_the_military
+					has_completed_focus = ARG_create_the_CNU
+					has_completed_focus = ARG_kill_off_roberto
+				}
+			}
 		}
 
 		available = {
-			OR = {
-				custom_trigger_tooltip = {
-					tooltip = ARG_political_tension_less_than_85_tt
-					check_variable = { ARG_political_tension < 85 }
+			if = {
+				limit = {
+					has_completed_focus = ARG_cave_to_the_army
 				}
-				custom_trigger_tooltip = {
-					tooltip = ARG_playing_as_the_military_tt
-					check_variable = { ARG_military_opinion = 3 }
+				has_stability > 0.14
+			}
+			else = {
+				OR = {
+					custom_trigger_tooltip = {
+						tooltip = ARG_political_tension_less_than_85_tt
+						check_variable = { ARG_political_tension < 85 }
+					}
+					custom_trigger_tooltip = {
+						tooltip = ARG_playing_as_the_military_tt
+						check_variable = { ARG_military_opinion = 3 }
+					}
 				}
 			}
 		}
@@ -1546,6 +2203,16 @@ ARG_political_crisis = {
 			OR = {
 				has_civil_war = yes 
 				has_global_flag = ARG_elections_cancelled
+				has_country_flag = ARG_underground_movement_triggered_flag
+				hidden_trigger = {
+					OR = {
+						has_completed_focus = ARG_formalize_the_GOU 
+						has_completed_focus = ARG_crack_down_on_our_generals
+						has_completed_focus = ARG_depoliticize_the_military
+						has_completed_focus = ARG_create_the_CNU
+						has_completed_focus = ARG_kill_off_roberto
+					}
+				}
 			}
 		}
 
@@ -1672,6 +2339,7 @@ ARG_political_crisis = {
 					inherit_technology = ARG #gets the techs the player originally researched 
 					set_politics = {
 						ruling_party = communism
+						elections_allowed = no 
 					}
 					set_popularities = {
 						communism = 90
@@ -1911,6 +2579,7 @@ ARG_political_crisis = {
 					inherit_technology = ARG #gets the techs the player originally researched 
 					set_politics = {
 						ruling_party = neutrality
+						elections_allowed = no 
 					}
 					set_popularities = {
 						neutrality = 100
@@ -2091,6 +2760,14 @@ ARG_dealing_with_the_crisis = {
 			has_active_mission = ARG_duration_of_the_crisis
 		}
 
+		ai_will_do = {
+			base = 175
+			modifier = {
+				add = 50
+				num_of_factories > 39
+			}
+		}
+
 		available = {
 			has_idea = ARG_post_civil_war_crisis
 		}
@@ -2123,6 +2800,8 @@ ARG_dealing_with_the_crisis = {
 			}
 			NOT = { has_country_flag = ARG_easier_coup_decisions }
 		}
+
+		ai_will_do = { factor = 190 }
 
 		cost = 35
 
@@ -2170,6 +2849,8 @@ ARG_dealing_with_the_crisis = {
 			has_country_flag = ARG_easier_coup_decisions
 		}
 
+		ai_will_do = { factor = 200 }
+
 		cost = 25
 
 		days_remove = 75
@@ -2202,6 +2883,913 @@ ARG_dealing_with_the_crisis = {
 			else = {
 				remove_ideas = ARG_post_coup_political_crisis_2
 			}
+		}
+	}
+
+	ARG_deal_with_the_unitarians_in_FROM = {
+		icon = oppression
+
+		state_target = yes 
+		
+		target_trigger = controlled_states
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+				has_dynamic_modifier = { modifier = ARG_unitarian_resistance }
+			}
+		}
+
+		ai_will_do = { factor = 205 }
+
+		visible = { has_completed_focus = ARG_deal_with_the_remaining_unitarians }
+
+		available = { has_civil_war = no }
+
+		custom_cost_text = BRA_pol_10_and_man_2500
+
+        custom_cost_trigger = {
+            has_manpower > 2499
+            has_political_power > 9
+        }
+
+        complete_effect = {
+            add_manpower = -2500
+            add_political_power = -10
+        }
+
+        days_remove = 35
+
+        modifier = {
+            weekly_manpower = -150
+        }
+
+		remove_effect = {
+			FROM = { 
+				remove_dynamic_modifier = { modifier = ARG_unitarian_resistance }
+			}
+		}
+	}
+}
+
+ARG_forming_the_coalition = {
+	ARG_government_crackdown = {
+		icon = generic_ignite_civil_war
+		priority = 200
+
+		activation = { always = no }
+
+		available = {
+			always = no 
+		}
+
+		cancel_trigger = {
+			OR = {
+				has_government = fascism
+				AND = {
+					has_government = fascism
+					has_civil_war = yes 
+				}
+			}
+		}
+
+		fire_only_once = yes 
+
+		days_mission_timeout = 295
+
+		is_good = no 
+
+		cancel_effect = {
+			set_global_flag = ARG_fascist_mechanic_concluded
+			country_event = argentina.fascist.2
+			add_ideas = ARG_post_coup_political_crisis_1
+			set_power_balance = {
+				id = ARG_general_balance_of_power
+				left_side = ARG_political_enemies_side # will keep the last set side if not specified
+				right_side = ARG_coalition_side # will keep the last set side if not specified
+				set_value = 0.1 # if specified will set the value of the power balance, this option will override the effect of set_default so the two options should not be used together. if neither set_default or set_value is specified the current value of the power balance will not change
+			}
+			hidden_effect = {
+				if = {
+					limit = {
+						any_controlled_state = { has_dynamic_modifier = { modifier = ARG_active_ANL_terrorist_group } }
+					}
+					every_controlled_state = {
+						limit = { has_dynamic_modifier = { modifier = ARG_active_ANL_terrorist_group } }
+						remove_dynamic_modifier = { modifier = ARG_active_ANL_terrorist_group }
+					}
+				}
+				if = {
+					limit = {
+						any_controlled_state = {
+							has_dynamic_modifier = { modifier = ARG_protests }
+						}
+					}
+					every_controlled_state = {
+						limit = { has_dynamic_modifier = { modifier = ARG_protests } }
+						remove_dynamic_modifier = { modifier = ARG_protests }
+					}
+				}
+				remove_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
+				if = {
+					limit = {
+						NOT = { has_completed_focus = ARG_bring_the_oligarchs_into_the_mix }
+					}
+					remove_dynamic_modifier = {
+						modifier = ARG_corruption_scandal_idea
+					}
+					set_variable = { ARG_degree_of_corruption = 0 }
+					set_variable = { ARG_corruption_status = 0 }
+					every_controlled_state = {
+						limit = {
+							OR = {
+								industrial_complex > 1
+								arms_factory > 1
+							}
+						}
+						add_dynamic_modifier = {
+							modifier = ARG_agitated_oligarchs
+						}
+					}
+					add_ideas = ARG_agitated_oligarchs_idea
+				}
+			}
+		}
+
+		timeout_effect = {
+			set_global_flag = ARG_fascist_mechanic_concluded
+			hidden_effect = {
+				if = {
+					limit = {
+						any_controlled_state = { has_dynamic_modifier = { modifier = ARG_active_ANL_terrorist_group } }
+					}
+					every_controlled_state = {
+						limit = { has_dynamic_modifier = { modifier = ARG_active_ANL_terrorist_group } }
+						remove_dynamic_modifier = { modifier = ARG_active_ANL_terrorist_group }
+					}
+				}
+				if = {
+					limit = {
+						any_controlled_state = {
+							has_dynamic_modifier = { modifier = ARG_protests }
+						}
+					}
+					every_controlled_state = {
+						limit = { has_dynamic_modifier = { modifier = ARG_protests } }
+						remove_dynamic_modifier = { modifier = ARG_protests }
+					}
+				}
+			}
+			if = {
+				limit = {
+					check_variable = { ARG_coalition_strength = 5 } ## Dominant Coalition
+					NOT = { has_completed_focus = ARG_empower_the_independents }
+				}
+				set_politics = { 
+					ruling_party = fascism 
+					elections_allowed = no 
+				}
+				country_event = argentina.fascist.2
+				add_ideas = ARG_post_coup_political_crisis_1
+				set_power_balance = {
+					id = ARG_general_balance_of_power
+					left_side = ARG_political_enemies_side # will keep the last set side if not specified
+					right_side = ARG_coalition_side # will keep the last set side if not specified
+					set_value = 0.2 # if specified will set the value of the power balance, this option will override the effect of set_default so the two options should not be used together. if neither set_default or set_value is specified the current value of the power balance will not change
+				}
+				if = {
+					limit = {
+						has_country_flag = ARG_armed_catholics
+					}
+					add_political_power = 40
+					add_manpower = 25000
+					clr_country_flag = ARG_armed_catholics
+				}
+				if = {
+					limit = { has_country_flag = ARG_assasination_of_politicians }
+					ARG_move_15_right = yes 
+					clr_country_flag = ARG_assasination_of_politicians
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_global_flag = ARG_no_rebelling_oligarchs_flag
+						}
+					}
+					custom_effect_tooltip = ARG_corruption_mechanic_stopped_oligarchs_get_agitated_tt
+					hidden_effect = {
+						remove_dynamic_modifier = {
+							modifier = ARG_corruption_scandal_idea
+						}
+						set_variable = { ARG_degree_of_corruption = 0 }
+						every_controlled_state = {
+							limit = {
+								OR = {
+									industrial_complex > 1
+									arms_factory > 1
+								}
+							}
+							add_dynamic_modifier = {
+								modifier = ARG_agitated_oligarchs
+							}
+						}
+						clr_global_flag = ARG_no_rebelling_oligarchs_flag
+					}
+				}
+				else = {
+					set_variable = { ARG_degree_of_corruption = 0 }
+					set_variable = { ARG_corruption_status = 0 }
+					remove_dynamic_modifier = { modifier = ARG_corruption_scandal_idea }
+				}
+				hidden_effect = {
+					remove_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
+					if = {
+						limit = {
+							NOT = { has_global_flag = ARG_coerced_politicians_flag }
+						}
+						every_character = {
+							limit = { 
+								NOT = { has_character_flag = ARG_fascist }
+							}
+							random_list = {
+								40 = {
+									retire_character = PREV
+								}
+								60 = { }
+							}
+						}
+					}
+				}
+			}
+			else = {
+				effect_tooltip = {
+					start_civil_war = {
+						ideology = fascism
+					}
+					if = {
+						limit = { has_completed_focus = ARG_empower_the_independents }
+						set_power_balance = {
+							id = ARG_general_balance_of_power
+							left_side = ARG_unionist_side # will keep the last set side if not specified
+							right_side = ARG_federalist_side # will keep the last set side if not specified
+							set_value = -0.55 # if specified will set the value of the power balance, this option will override the effect of set_default so the two options should not be used together. if neither set_default or set_value is specified the current value of the power balance will not change
+						}
+						promote_character = ARG_leopoldo_lugones
+						activate_mission = ARG_federlist_takeover
+					}
+					else = {
+						set_power_balance = {
+							id = ARG_general_balance_of_power
+							left_side = ARG_political_enemies_side # will keep the last set side if not specified
+							right_side = ARG_coalition_side # will keep the last set side if not specified
+							set_value = -0.05 # if specified will set the value of the power balance, this option will override the effect of set_default so the two options should not be used together. if neither set_default or set_value is specified the current value of the power balance will not change
+						}
+						country_event = argentina.fascist.2
+					}
+				}
+				hidden_effect = {
+					if = {
+						limit = {
+							NOT = {
+								has_template = "Milicias"
+							}
+						}
+						division_template = { 
+							name = "Milicias" 
+							division_names_group = SPAN_INF_02 
+							is_locked = no 
+							regiments = { 
+								infantry = { x = 0 y = 0 } 
+								infantry = { x = 1 y = 0 } 
+								infantry = { x = 2 y = 0 } 
+							} 
+						}
+					}
+					set_temp_variable = { ARG_temp_coalition_strength = ARG_coalition_strength }
+					start_civil_war = {
+						ruling_party = fascism
+						ideology = ROOT 
+						size = 0.45
+						keep_all_characters = yes 
+						PREV = {
+							ARG_agustín_pedro_justo = {
+								set_nationality = PREV.PREV
+							}
+							ARG_the_military_junta = {
+								set_nationality = PREV.PREV
+							}
+							ARG_arturo_rawson = {
+								set_nationality = PREV.PREV 
+							}
+							if = {
+								limit = {
+									NOT = { has_global_flag = ARG_coerced_politicians_flag }
+								}
+								every_character = {
+									limit = { 
+										NOT = { has_character_flag = ARG_fascist }
+									}
+									random_list = {
+										40 = {
+											set_nationality = PREV.PREV
+										}
+										60 = { }
+									}
+								}
+							}
+							if = {
+								limit = { has_character = ARG_agustín_pedro_justo }
+								promote_character = ARG_agustín_pedro_justo
+							}
+							else = {
+								promote_character = ARG_arturo_rawson
+							}
+						}
+					}
+					if = {
+						limit = {
+							has_country_flag = ARG_armed_catholics
+						}
+						random_owned_controlled_state = {
+							create_unit = {
+								division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
+								owner = ROOT ## Player
+								count = 3
+							}
+						}
+						clr_country_flag = ARG_armed_catholics
+					}
+					if = {
+						limit = {
+							has_country_flag = ARG_extra_catholic_support 
+						}
+						random_owned_controlled_state = {
+							create_unit = {
+								division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
+								owner = ROOT ## Player
+								count = 2
+							}
+						}
+						clr_country_flag = ARG_extra_catholic_support
+					}
+					ARG_set_communist_side_divisions = yes 
+					if = {
+						limit = {
+							check_variable = { ARG_temp_coalition_strength > 3 }
+						}
+						every_controlled_state = {
+							create_unit = {
+								division = "name = \"Milicia Leales\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
+								owner = ROOT
+							}
+						}
+						random_owned_controlled_state = {
+							create_unit = {
+								division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
+								owner = ROOT
+							}
+						}
+					}
+					else = {
+						random_owned_controlled_state = {
+							create_unit = {
+								division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
+								owner = ROOT
+								count = 2
+							}
+						}
+					}
+					set_global_flag = ARG_fascist_civil_war
+					add_ideas = ARG_the_argentine_civil_war_idea_government
+					if = {
+						limit = { has_completed_focus = ARG_empower_the_independents }
+						set_power_balance = {
+							id = ARG_general_balance_of_power
+							left_side = ARG_unionist_side # will keep the last set side if not specified
+							right_side = ARG_federalist_side # will keep the last set side if not specified
+							set_value = -0.55 # if specified will set the value of the power balance, this option will override the effect of set_default so the two options should not be used together. if neither set_default or set_value is specified the current value of the power balance will not change
+						}
+						promote_character = ARG_leopoldo_lugones
+						activate_mission = ARG_federlist_takeover
+					}
+					else = {
+						set_power_balance = {
+							id = ARG_general_balance_of_power
+							left_side = ARG_political_enemies_side # will keep the last set side if not specified
+							right_side = ARG_coalition_side # will keep the last set side if not specified
+							set_value = -0.05 # if specified will set the value of the power balance, this option will override the effect of set_default so the two options should not be used together. if neither set_default or set_value is specified the current value of the power balance will not change
+						}
+						country_event = argentina.fascist.2
+					}
+					remove_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
+					random_other_country = {
+						limit = { 
+							original_tag = ARG 
+							has_civil_war = yes 
+						}
+						activate_mission = ARG_military_takeover_ai
+						add_ideas = ARG_the_argentine_civil_war_idea_government
+						every_controlled_state = { set_state_flag = ARG_add_resistance_here }
+						if = {
+							limit = {
+								check_variable = { ARG_temp_coalition_strength > 3 }
+							}
+							every_controlled_state = {
+								create_unit = {
+									division = "name = \"Milicia Leales\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
+									owner = PREV
+								}
+							}
+							set_temp_variable = { iterator1 = 0 }
+							random_owned_controlled_state = {
+								create_unit = {
+									division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
+									owner = PREV
+									count = 2
+								}
+							}
+							random_owned_controlled_state = {
+								create_unit = {
+									division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
+									owner = PREV
+									count = 2
+								}
+							}
+							random_owned_controlled_state = {
+								create_unit = {
+									division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
+									owner = PREV
+									count = 3
+								}
+							}
+						}
+						else = {
+							every_controlled_state = {
+								create_unit = {
+									division = "name = \"Milicia Leales\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
+									owner = PREV 
+									count = 2
+								}
+							}
+							set_temp_variable = { iterator2 = 0 }
+							random_owned_controlled_state = {
+								create_unit = {
+									division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
+									owner = PREV
+									count = 2
+								}
+							}
+							random_owned_controlled_state = {
+								create_unit = {
+									division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
+									owner = PREV
+									count = 2
+								}
+							}
+							random_owned_controlled_state = {
+								create_unit = {
+									division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
+									owner = PREV
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	ARG_convince_the_partido_fascista_to_join = {
+		icon = hol_exchange_intelligence_data
+
+		visible = {
+			has_active_mission = ARG_government_crackdown
+			check_variable = { ARG_partido_fascista_status = 0 }
+			has_civil_war = no 
+			NOT = { has_global_flag = ARG_fascist_mechanic_concluded }
+		}
+
+		ai_will_do = { 
+			factor = 295 
+		}
+
+		available = { 
+			custom_trigger_tooltip = {
+				tooltip = ARG_not_convincing_a_party_tt
+				NOT = { has_country_flag = ARG_convincing_party }
+			}
+		}
+
+		cancel_trigger = {
+			OR = {
+				NOT = { has_active_mission = ARG_government_crackdown }
+				has_government = fascism
+				AND = {
+					has_government = fascism
+					has_civil_war = yes 
+				}
+				has_global_flag = ARG_fascist_mechanic_concluded
+			}
+		}
+
+		cancel_effect = {
+			clr_country_flag = ARG_convincing_party 
+		}
+
+		cost = ARG_cost_to_convince
+
+		fire_only_once = yes 
+
+		days_remove = 35
+
+		modifier = { political_power_factor = -0.05 }
+
+		complete_effect = { 
+			set_country_flag = ARG_convincing_party 
+			add_to_variable = { ARG_cost_to_convince = 20 }
+		}
+
+		remove_effect = {
+			clr_country_flag = ARG_convincing_party 
+			custom_effect_tooltip = ARG_partido_fascist_join_coalition_tt
+			custom_effect_tooltip = ARG_improve_coalition_strength_tt
+			custom_effect_tooltip = ARG_cost_to_convince_increase_20_pp_tt
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.1
+			}
+			ARG_increase_3_political_tension = yes 
+			hidden_effect = {
+				set_variable = { ARG_partido_fascista_status = 1 } #part of coalition 
+				add_to_variable = { ARG_coalition_strength = 1 }
+				clamp_variable = {
+					var = ARG_coalition_strength
+					min = 0
+					max = 5
+				}
+			}
+		}
+	}
+
+	ARG_convince_the_liga_patriotica_to_join = {
+		icon = hol_exchange_intelligence_data
+
+		visible = {
+			has_active_mission = ARG_government_crackdown
+			check_variable = { ARG_liga_patriotica_status = 0 }
+			has_civil_war = no 
+			NOT = { has_global_flag = ARG_fascist_mechanic_concluded }
+		}
+
+		ai_will_do = { 
+			factor = 295 
+		}
+
+		available = { 
+			custom_trigger_tooltip = {
+				tooltip = ARG_not_convincing_a_party_tt
+				NOT = { has_country_flag = ARG_convincing_party }
+			}
+		}
+
+		cancel_trigger = {
+			OR = {
+				NOT = { has_active_mission = ARG_government_crackdown }
+				has_government = fascism
+				AND = {
+					has_government = fascism
+					has_civil_war = yes 
+				}
+				has_global_flag = ARG_fascist_mechanic_concluded
+			}
+		}
+
+		cancel_effect = {
+			clr_country_flag = ARG_convincing_party 
+		}
+
+		cost = ARG_cost_to_convince
+
+		fire_only_once = yes 
+
+		days_remove = 35
+
+		modifier = { political_power_factor = -0.05 }
+
+		complete_effect = { 
+			set_country_flag = ARG_convincing_party 
+			add_to_variable = { ARG_cost_to_convince = 20 }
+		}
+
+		remove_effect = {
+			clr_country_flag = ARG_convincing_party 
+			custom_effect_tooltip = ARG_liga_patriotica_join_coalition_tt
+			custom_effect_tooltip = ARG_improve_coalition_strength_tt
+			custom_effect_tooltip = ARG_cost_to_convince_increase_20_pp_tt
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.1
+			}
+			ARG_increase_3_political_tension = yes 
+			hidden_effect = {
+				set_variable = { ARG_liga_patriotica_status = 1 } #part of coalition 
+				add_to_variable = { ARG_coalition_strength = 1 }
+				clamp_variable = {
+					var = ARG_coalition_strength
+					min = 0
+					max = 5
+				}
+			}
+		}
+	}
+
+	ARG_convince_the_accion_catolica_to_join = {
+		icon = hol_exchange_intelligence_data
+
+		visible = {
+			has_active_mission = ARG_government_crackdown
+			check_variable = { ARG_accion_catolica_status = 0 }
+			has_civil_war = no 
+			NOT = { has_global_flag = ARG_fascist_mechanic_concluded }
+		}
+
+		ai_will_do = { 
+			factor = 195 ## less priority cuz you can gain it via focus
+		}
+
+		available = { 
+			custom_trigger_tooltip = {
+				tooltip = ARG_not_convincing_a_party_tt
+				NOT = { has_country_flag = ARG_convincing_party }
+			}
+		}
+
+		cancel_trigger = {
+			OR = {
+				NOT = { has_active_mission = ARG_government_crackdown }
+				has_government = fascism
+				AND = {
+					has_government = fascism
+					has_civil_war = yes 
+				}
+				has_global_flag = ARG_fascist_mechanic_concluded
+				check_variable = { ARG_accion_catolica_status = 1 }
+			}
+		}
+
+		cancel_effect = {
+			clr_country_flag = ARG_convincing_party 
+		}
+
+		cost = ARG_cost_to_convince
+
+		fire_only_once = yes 
+
+		days_remove = 35
+
+		modifier = { political_power_factor = -0.05 }
+
+		complete_effect = { 
+			set_country_flag = ARG_convincing_party 
+			add_to_variable = { ARG_cost_to_convince = 20 }
+		}
+
+		remove_effect = {
+			clr_country_flag = ARG_convincing_party 
+			custom_effect_tooltip = ARG_accion_catolica_join_coalition_tt
+			custom_effect_tooltip = ARG_improve_coalition_strength_tt
+			custom_effect_tooltip = ARG_cost_to_convince_increase_20_pp_tt
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.1
+			}
+			ARG_increase_3_political_tension = yes 
+			hidden_effect = {
+				set_variable = { ARG_accion_catolica_status = 1 } #part of coalition 
+				add_to_variable = { ARG_coalition_strength = 1 }
+				clamp_variable = {
+					var = ARG_coalition_strength
+					min = 0
+					max = 5
+				}
+			}
+		}
+	}
+
+	ARG_convince_the_political_independents_to_join = {
+		icon = hol_exchange_intelligence_data
+
+		visible = {
+			has_active_mission = ARG_government_crackdown
+			check_variable = { ARG_political_independents_status = 0 }
+			has_civil_war = no 
+			NOT = { has_global_flag = ARG_fascist_mechanic_concluded }
+		}
+
+		ai_will_do = {
+			factor = 295
+		}
+
+		available = { 
+			custom_trigger_tooltip = {
+				tooltip = ARG_not_convincing_a_party_tt
+				NOT = { has_country_flag = ARG_convincing_party }
+			}
+		}
+
+		cancel_trigger = {
+			OR = {
+				NOT = { has_active_mission = ARG_government_crackdown }
+				has_government = fascism
+				AND = {
+					has_government = fascism
+					has_civil_war = yes 
+				}
+				has_global_flag = ARG_fascist_mechanic_concluded
+			}
+		}
+
+		cancel_effect = {
+			clr_country_flag = ARG_convincing_party 
+		}
+
+		cost = ARG_cost_to_convince
+
+		fire_only_once = yes 
+
+		days_remove = 35
+
+		modifier = { political_power_factor = -0.05 }
+
+		complete_effect = { 
+			set_country_flag = ARG_convincing_party 
+			add_to_variable = { ARG_cost_to_convince = 20 }
+		}
+
+		remove_effect = {
+			clr_country_flag = ARG_convincing_party 
+			custom_effect_tooltip = ARG_political_independents_join_coalition_tt
+			custom_effect_tooltip = ARG_improve_coalition_strength_tt
+			custom_effect_tooltip = ARG_cost_to_convince_increase_20_pp_tt
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.1
+			}
+			ARG_increase_3_political_tension = yes 
+			hidden_effect = {
+				set_variable = { ARG_political_independents_status = 1 } #part of coalition 
+				add_to_variable = { ARG_coalition_strength = 1 }
+				clamp_variable = {
+					var = ARG_coalition_strength
+					min = 0
+					max = 5
+				}
+			}
+		}
+	}
+
+	ARG_smuggle_walther_darre_to_argentina = {
+		icon = SWI_expand_covert_operations
+
+		cost = 15
+
+		visible = {
+			has_active_mission = ARG_government_crackdown
+			has_character = ARG_walter_darre
+			ARG_walter_darre = {
+				has_character_flag = BRA_living_in_the_exterior
+			}
+			has_civil_war = no 
+			NOT = { has_global_flag = ARG_fascist_mechanic_concluded }
+		}
+
+		ai_will_do = {
+			factor = 100 
+		}
+
+		available = {
+			has_navy_size = {
+				size > 0
+				type = convoy
+			}
+			OR = {
+				GER = { has_civil_war = yes }
+				custom_trigger_tooltip = {
+					tooltip = ARG_political_independents_part_of_coalition_tt
+					check_variable = { ARG_political_independents_status = 1 }
+				}
+				custom_trigger_tooltip = {
+					tooltip = ARG_coalition_at_least_influential_tt
+					check_variable = { ARG_coalition_strength > 3 }
+				}
+			}
+		}
+
+		fire_only_once = yes 
+
+		complete_effect = {
+			add_equipment_to_stockpile = {
+				type = convoy 
+				amount = -1
+			}
+		}
+
+		cancel_trigger = {
+			OR = {
+				NOT = { has_active_mission = ARG_government_crackdown }
+				NOT = { has_character = ARG_walter_darre }
+			}
+		}
+
+		days_remove = 20
+
+		remove_effect = {
+			custom_effect_tooltip = ARG_darre_will_come_to_argentina_tt
+			hidden_effect = {
+				ARG_walter_darre = {
+					clr_character_flag = BRA_living_in_the_exterior
+				}
+			}
+		}
+	}
+
+	ARG_incite_a_terrorist_attack_in_FROM = {
+		icon = SWI_consolidate_council_power
+
+		state_target = yes 
+
+		target_array = core_states
+
+		target_trigger = { 
+			FROM = {
+				is_fully_controlled_by = ROOT 
+				NOT = { has_dynamic_modifier = { modifier = ARG_active_ANL_terrorist_group } }
+			}
+		}
+
+		ai_will_do = {
+			base = 90
+			modifier = {
+				add = 120
+				check_variable = { ARG_political_tension < 80 }
+			}
+		}
+
+		on_map_mode = map_only
+		
+		visible = {
+			has_active_mission = ARG_government_crackdown
+			has_completed_focus = ARG_stage_nationwide_attacks
+			has_civil_war = no
+			FROM = {
+				NOT = { has_dynamic_modifier = { modifier = ARG_active_ANL_terrorist_group } }
+			} 
+		}
+
+		fire_only_once = yes 
+
+		custom_cost_text = ARG_10_pol_100_guns
+		custom_cost_trigger = {
+			has_political_power > 9
+			has_equipment = { infantry_equipment > 99 }
+		}
+
+		available = {
+			has_equipment = { infantry_equipment > 99 }
+			NOT = { has_country_flag = ARG_inciting_terrorist_attacks }
+		}
+
+		complete_effect = {
+			hidden_effect = {
+				add_political_power = -10
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = -100
+				}
+			}
+			set_country_flag = ARG_inciting_terrorist_attacks
+		}
+
+		days_remove = 20
+
+		modifier = { 
+			weekly_manpower = -750 
+			political_power_factor = -0.03
+		}
+
+		remove_effect = {
+			clr_country_flag = ARG_inciting_terrorist_attacks
+			hidden_effect = {
+				FROM = { #to have triggered event names
+					save_event_target_as = CURRENT_STATE
+					ROOT = { country_event = argentina.rework.5 }
+					add_dynamic_modifier = { 
+						modifier = ARG_active_ANL_terrorist_group 
+						days = 180
+					}
+				}
+			}
+			custom_effect_tooltip = ARG_terrorist_attack_begin_in_FROM_tt
 		}
 	}
 }
@@ -2245,7 +3833,7 @@ ARG_the_great_revolution = {
 			}
 		}
 
-		days_mission_timeout = 255
+		days_mission_timeout = 260
 
 		cancel_trigger = {
 			OR = {
@@ -2317,10 +3905,10 @@ ARG_the_great_revolution = {
 						}
 					}
 					random_list = {
-						40 = {
+						30 = {
 							ROOT = { retire_character = PREV }
 						}
-						60 = {
+						70 = {
 
 						}
 					}
@@ -2331,8 +3919,11 @@ ARG_the_great_revolution = {
 		complete_effect = {
 			set_politics = {
 				ruling_party = communism
+				elections_allowed = no 
 			}
 			set_global_flag = ARG_communist_mechanic_concluded
+			add_ideas = ARG_agitated_oligarchs_idea
+			custom_effect_tooltip = ARG_corruption_mechanic_stopped_oligarchs_get_agitated_tt
 			hidden_effect = {
 				if = {
 					limit = {
@@ -2370,6 +3961,24 @@ ARG_the_great_revolution = {
 				remove_ideas = ARG_nationwide_protests
 				remove_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
 				set_variable = { ARG_tension_increment_weekly = 0 }
+				set_variable = { ARG_political_tension = 0 }
+				remove_dynamic_modifier = {
+					modifier = ARG_corruption_scandal_idea
+				}
+				set_variable = { ARG_degree_of_corruption = 0 }
+				set_variable = { ARG_corruption_status = 0 }
+				every_controlled_state = {
+					limit = {
+						OR = {
+							industrial_complex > 1
+							arms_factory > 1
+						}
+					}
+					add_dynamic_modifier = {
+						modifier = ARG_agitated_oligarchs
+					}
+				}
+				clr_global_flag = ARG_no_rebelling_oligarchs_flag
 				every_character = {
 					limit = {
 						NOT = {
@@ -2560,6 +4169,8 @@ ARG_the_great_revolution = {
 				}
 			}
 			else_if = {
+				set_variable = { ARG_degree_of_corruption = 1 }
+				set_variable = { ARG_corruption_status = 0 }
 				limit = {
 					has_country_flag = ARG_chose_anarchist_route
 				}
@@ -3435,6 +5046,14 @@ ARG_the_great_revolution = {
 			NOT = { has_government = communism }
 		}
 
+		ai_will_do = {
+			base = 90
+			modifier = {
+				add = 110
+				check_variable = { ARG_political_tension > 10 }
+			}
+		}
+
 		cost = 20
 
 		cancel_trigger = {
@@ -3484,6 +5103,10 @@ ARG_the_great_revolution = {
 			}
 		}
 
+		ai_will_do = {
+			factor = 165
+		}
+
 		available = {
 			has_civil_war = no 
 			NOT = { has_government = communism }
@@ -3491,6 +5114,8 @@ ARG_the_great_revolution = {
 		}
 
 		cost = 10
+
+		modifier = { political_power_factor = -0.03 }
 
 		cancel_trigger = {
 			OR = {
@@ -3575,6 +5200,10 @@ ARG_the_great_revolution = {
 			}
 		}
 
+		ai_will_do = {
+			factor = 165
+		}
+
 		available = {
 			has_civil_war = no 
 			NOT = { has_government = communism }
@@ -3643,6 +5272,10 @@ ARG_the_great_revolution = {
 			has_civil_war = yes 
 		}
 
+		ai_will_do = {
+			factor = 165
+		}
+
 		cost = 15
 
 		days_remove = 20
@@ -3684,6 +5317,7 @@ ARG_the_great_revolution = {
 					has_dynamic_modifier = { modifier = ARG_anarchist_occupation }
 				}
 			}
+			has_completed_focus = ARG_treaty_with_the_anarchists
 			has_completed_focus = ARG_secure_the_patagonia
 		}
 
@@ -3691,6 +5325,10 @@ ARG_the_great_revolution = {
 			NOT = {
 				has_country_flag = ARG_securing_anarchist_state
 			}
+		}
+
+		ai_will_do = {
+			factor = 175
 		}
 
 		cost = 25
@@ -3735,6 +5373,14 @@ ARG_the_great_revolution = {
 						modifier = ARG_anarchist_occupation
 					}
 				}
+			}
+		}
+
+		ai_will_do = {
+			base = 100
+			modifier = {
+				add = 100
+				check_variable = { ARG_pol_tension < 80 }
 			}
 		}
 
@@ -3815,6 +5461,8 @@ ARG_the_great_revolution = {
 			has_country_flag = ARG_chose_anarchist_route
 		}
 
+		ai_will_do = { factor = 250 } ## Top Priority
+
 		available = {
 			has_active_mission = ARG_government_collapse
 			FROM = {
@@ -3833,14 +5481,16 @@ ARG_the_great_revolution = {
 			}
 		}
 
-		cost = 15
+		cost = 10
 
-		days_remove = 25
+		days_remove = 14
 
 		fire_only_once = yes 
 
 		remove_effect = {
 			custom_effect_tooltip = ARG_simon_radowitzky_freed_from_jail_tt
+			custom_effect_tooltip = ARG_increase_anarchist_influence_5_tt 
+			add_to_variable = { ARG_anarchist_subversive_influence = 5 }
 			hidden_effect = {
 				ARG_simon_radowitzky = {
 					clr_character_flag = BRA_imprisoned
@@ -3863,6 +5513,8 @@ ARG_the_great_revolution = {
 				type = convoy
 			}
 		}
+
+		ai_will_do = { factor = 95 } ## let the ai decide honestly 
 
 		cancel_trigger = {
 			has_civil_war = yes 
@@ -3910,6 +5562,8 @@ ARG_the_great_revolution = {
 			has_country_flag = ARG_chose_marxist
 		}
 
+		ai_will_do = { factor = 125 } ## same as bolten but with slightly more priority 
+
 		cancel_trigger = {
 			has_civil_war = yes 
 		}
@@ -3951,6 +5605,17 @@ ARG_the_great_revolution = {
 				has_state_flag = ARG_can_spread_communism
 				is_fully_controlled_by = ROOT
 				NOT = { has_dynamic_modifier = { modifier = ARG_communist_tendencies } }
+			}
+		}
+
+		ai_will_do = { 
+			base = 175 
+			modifier = { ## AI should prioritize this if subversive influence is in check 
+				add = 90
+				OR = {
+					check_variable = { ARG_marxist_subversive_influence > ARG_ps_subversive_influence }
+					check_variable = { ARG_posadist_subversive_influence > ARG_ps_subversive_influence }
+				}
 			}
 		}
 
@@ -4048,6 +5713,14 @@ ARG_the_great_revolution = {
 			}
 		}
 
+		ai_will_do = {
+			base = 110
+			modifier = { # AI should prioritize this if it aint got guns lol
+				add = 100
+				check_variable = { ARG_stockpiled_guns < 999 }
+			}
+		}
+
 		visible = {
 			has_completed_focus = ARG_steal_national_stockpiles
 			FROM = {
@@ -4097,6 +5770,14 @@ ARG_the_great_revolution = {
 			has_country_flag = BRA_soviet_accepted
 		}
 
+		ai_will_do = {
+			base = 100 # slightly less priority
+			modifier = { # AI should prioritize this if it aint got guns lol
+				add = 100
+				check_variable = { ARG_stockpiled_guns < 999 }
+			}
+		}
+
 		cost = 10
 
 		days_remove = 15
@@ -4127,6 +5808,14 @@ ARG_the_great_revolution = {
 				has_dynamic_modifier = {
 					modifier = ARG_anarchist_occupation
 				}
+			}
+		}
+
+		ai_will_do = {
+			base = 100 # slightly less priority
+			modifier = { # AI should prioritize this if it got guns lol
+				add = 100
+				check_variable = { ARG_stockpiled_guns > 999 }
 			}
 		}
 
@@ -4208,6 +5897,14 @@ ARG_the_great_revolution = {
 			}
 		}
 
+		ai_will_do = {
+			base = 95 # slightly less priority
+			modifier = { # AI should prioritize this if it got guns lol
+				add = 100
+				check_variable = { ARG_stockpiled_guns > 499 }
+			}
+		}
+
 		visible = {
 			has_active_mission = ARG_government_collapse
 			OR = {
@@ -4275,7 +5972,24 @@ ARG_infamous_decade_cat = {
 		}
 		
 		ai_will_do = {
-			base = 180
+			base = 65
+			modifier = {
+				factor = 1.5
+				has_completed_focus = ARG_infamous_decade
+				check_variable = { ARG_political_tension > 19 }
+			}
+			modifier = {
+				factor = 3
+				check_variable = { ARG_political_tension > 39 }
+			}
+			modifier = { 
+				factor = 5
+				check_variable = { ARG_political_tension > 59 }
+			}
+			modifier = { # upmost priority
+				factor = 7
+				check_variable = { ARG_political_tension > 79 }
+			}
 		}
 
 		visible = {
@@ -4317,6 +6031,50 @@ ARG_infamous_decade_cat = {
 		}
 	}
 
+	ARG_overthrow_the_government = {
+		icon = generic_ignite_civil_war
+
+		visible = {
+			NOT = {
+				OR = {
+					has_country_leader = {
+						character = ARG_arturo_rawson
+						ruling_only = yes 
+					}
+					has_country_leader = {
+						character = ARG_the_military_junta
+						ruling_only = yes 
+					}
+				}
+			}
+			has_completed_focus = ARG_kill_off_roberto
+		}
+
+		ai_will_do = { factor = 300 } # upmost priority
+
+		cost = 50
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ARG_political_tension_at_100_tt
+				check_variable = { ARG_political_tension = 100 }
+			}
+			is_power_balance_in_range = {
+				id = ARG_general_balance_of_power
+				range = ARG_dominant_army
+			}
+			has_manpower > 10000
+			has_civil_war = no 
+		}
+
+		fire_only_once = yes 
+
+		complete_effect = { 
+			add_manpower = -10000
+			country_event = argentina.rework.8 
+		}
+	}
+
 	ARG_deestabilize_the_country_further = {
 		icon = revolt 
 
@@ -4339,9 +6097,35 @@ ARG_infamous_decade_cat = {
 			}
 		}
 
-		cost = 20
+		ai_will_do = {
+			base = 200
+			modifier = {
+				factor = 0.5
+				OR = {
+					check_variable = { ARG_political_tension > 75 }
+					power_balance_value = {
+						id = ARG_general_balance_of_power
+						value < -0.7
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				AND = {
+					check_variable = { ARG_political_tension > 95 }
+					power_balance_value = {
+						id = ARG_general_balance_of_power
+						value < -0.9
+					}
+				}
+			}
+		}
+
+		cost = 25
 
 		days_remove = 25
+
+		modifier = { political_power_factor = -0.03 }
 
 		available = {
 			has_civil_war = no 
@@ -4361,12 +6145,39 @@ ARG_infamous_decade_cat = {
 			random_list = {
 				50 = {
 					ARG_increase_10_political_tension = yes 
+					if = {
+						limit = {
+							is_power_balance_side_active = {
+								id = ARG_general_balance_of_power
+								side = ARG_military_side
+							}
+						}
+						ARG_move_5_left = yes 
+					}
 				}
 				35 = {
 					ARG_increase_15_political_tension = yes 
+					if = {
+						limit = {
+							is_power_balance_side_active = {
+								id = ARG_general_balance_of_power
+								side = ARG_military_side
+							}
+						}
+						ARG_move_10_left = yes 
+					}
 				}
 				15 = {
 					ARG_increase_20_political_tension = yes 
+					if = {
+						limit = {
+							is_power_balance_side_active = {
+								id = ARG_general_balance_of_power
+								side = ARG_military_side
+							}
+						}
+						ARG_move_15_left = yes 
+					}
 				}
 			}
 		}
@@ -4387,7 +6198,10 @@ ARG_infamous_decade_cat = {
 
 		on_map_mode = map_and_decisions_view
 
-		visible = { has_idea = ARG_GOU_idea }
+		visible = { 
+			has_idea = ARG_GOU_idea 
+			NOT = { has_completed_focus = ARG_formalize_the_GOU }
+		}
 
 		available = {
 			has_manpower > 9999
@@ -4404,6 +6218,8 @@ ARG_infamous_decade_cat = {
 				}
 			}
 		}
+
+		ai_will_do = { factor = 175 }
 
 		custom_cost_text = ARG_10_pp_10000_mp_tt
 		custom_cost_trigger = {
@@ -4447,6 +6263,14 @@ ARG_infamous_decade_cat = {
 			OR = {
 				has_completed_focus = ARG_stabilize_the_country
 				has_completed_focus = ARG_reworking_the_internals
+			}
+		}
+
+		ai_will_do = { 
+			base = 220 
+			modifier = {
+				factor = 0
+				check_variable = { ARG_tension_increment_weekly = 0 }
 			}
 		}
 
@@ -4497,6 +6321,8 @@ ARG_infamous_decade_cat = {
 			has_civil_war = no 
 		}
 
+		ai_will_do = { factor = 300 }
+
 		visible = {
 			has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
 			OR = {
@@ -4511,194 +6337,6 @@ ARG_infamous_decade_cat = {
 			hidden_effect = {
 				remove_dynamic_modifier = {
 					modifier = ARG_infamous_decade_idea 
-				}
-			}
-		}
-	}
-	
-	ARG_deal_with_the_ANL_in_FROM = {
-		icon = generic_tank
-
-		ai_will_do = {
-			base = 200
-		}
-
-		state_target = yes 
-		target_array = controlled_states
-
-		target_trigger = {
-			FROM = {
-				is_fully_controlled_by = ROOT 
-				has_dynamic_modifier = { modifier = ARG_active_ANL_terrorist_group }
-			}
-		}
-
-		available = {
-			custom_trigger_tooltip = {
-				tooltip = ARG_military_is_at_least_friendly_tt
-				check_variable = { ARG_military_opinion > 0 }
-			}
-			hidden_trigger = {
-				has_manpower > 999
-			}
-		}
-
-		visible = {
-			has_civil_war = no 
-			exists = yes 
-			NOT = { has_global_flag = ARG_elections_cancelled }
-		}
-
-		custom_cost_trigger = {
-			has_manpower > 999
-		}
-
-		custom_cost_text = CHL_manpower_1000_tt
-
-		days_remove = 60
-
-		modifier = {
-			weekly_manpower = -20
-		}
-
-		complete_effect = {
-			hidden_effect = {
-				add_manpower = -1000
-			}
-		}
-
-		remove_effect = {
-			FROM = {
-				remove_dynamic_modifier = { modifier = ARG_active_ANL_terrorist_group }
-			}
-			random_list = {
-				20 = {
-					country_event = argentina.rework.6
-				}
-				80 = {
-
-				}
-			}
-		}
-	}
-
-	ARG_use_the_military_to_deal_with_the_protestors_in_FROM = {
-		icon = generic_military
-
-		ai_will_do = {
-			base = 200
-		}
-
-		state_target = yes 
-		target_array = controlled_states
-
-		target_trigger = {
-			FROM = {
-				is_fully_controlled_by = ROOT 
-				has_dynamic_modifier = { modifier = ARG_protests }
-			}
-		}
-
-		available = {
-			custom_trigger_tooltip = {
-				tooltip = ARG_military_is_at_least_friendly_tt
-				check_variable = { ARG_military_opinion > 0 }
-			}
-			hidden_trigger = {
-				has_manpower > 999
-			}
-		}
-
-		visible = {
-			has_civil_war = no 
-			exists = yes 
-			NOT = {
-				has_global_flag = ARG_elections_cancelled
-			}
-		}
-
-		custom_cost_trigger = {
-			has_manpower > 999
-		}
-
-		custom_cost_text = CHL_manpower_1000_tt
-
-		days_remove = 25
-
-		modifier = {
-			weekly_manpower = -20
-		}
-
-		complete_effect = {
-			hidden_effect = {
-				add_manpower = -1000
-			}
-		}
-
-		remove_effect = {
-			ARG_increase_1_political_tension = yes 
-			FROM = {
-				remove_dynamic_modifier = { modifier = ARG_protests }
-			}
-		}
-	}
-
-	ARG_appease_the_military = {
-		icon = generic_army_support
-
-		cost = 50
-
-		visible = {
-			has_civil_war = no 
-			has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
-			check_variable = { ARG_military_opinion < 2 }
-			NOT = {
-				has_global_flag = ARG_elections_cancelled
-			}
-		}
-
-		available = {
-			NOT = {
-				has_active_mission = ARG_military_planning_to_overthrow_the_government
-			}
-			custom_trigger_tooltip = {
-				tooltip = ARG_military_wasnt_recently_appeased_tt
-				NOT = { has_country_flag = ARG_military_appeased }
-			}
-		}
-
-		modifier = {
-			consumer_goods_factor = 0.05
-		}
-
-		days_remove = 50
-
-		cancel_trigger = {
-			NOT = {
-				has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
-			}
-		}
-
-		remove_effect = {
-			army_experience = 5
-			custom_effect_tooltip = ARG_military_will_be_appeased_for_half_a_year_tt
-			set_country_flag = {
-				flag = ARG_military_appeased 
-				days = 190
-				value = 1
-			}
-			random_list = {
-				50 = {
-					custom_effect_tooltip = ARG_military_opinion_increase_tt
-					add_to_variable = { ARG_military_opinion = 1 }
-					clamp_variable = {
-						var = ARG_military_opinion
-						min = -2
-						max = 2 
-					}
-				}
-				50 = {
-
 				}
 			}
 		}
@@ -4726,13 +6364,14 @@ ARG_dealing_with_the_corruption = {
 
 		fire_only_once = no 
 
-		days_mission_timeout = 60 
+		days_mission_timeout = 90 ## I was feeling nice, this used to be 60
 
 		cancel_trigger = {
 			hidden_trigger = {
 				OR = {
 					check_variable = { ARG_corruption_status = 1 }
 					NOT = { has_dynamic_modifier = { modifier = ARG_corruption_scandal_idea } }
+					has_completed_focus = ARG_create_the_CNU
 				}
 			}
 		}
@@ -4757,6 +6396,18 @@ ARG_dealing_with_the_corruption = {
 		cost = ARG_cost_for_quality_check
 
 		days_remove = 90 
+
+		ai_will_do = {
+			base = 100
+			modifier = {
+				add = 100
+				has_completed_focus = ARG_anti_corruption_effort
+			}
+			modifier = {
+				factor = 0 
+				check_variable = { ARG_degree_of_corruption = 1 }
+			}
+		}
 
 		visible = {
 			check_variable = { ARG_corruption_status = 0 }
@@ -4806,7 +6457,7 @@ ARG_dealing_with_the_corruption = {
 
 		is_good = no 
 
-		days_mission_timeout = 150
+		days_mission_timeout = 180
 
 		cancel_trigger = {
 			OR = {
@@ -4850,7 +6501,9 @@ ARG_dealing_with_the_corruption = {
 			}
 		}
 
-		cost = 40
+		ai_will_do = { factor = 125 }
+
+		cost = 30
 
 		complete_effect = {
 			custom_effect_tooltip = ARG_officials_will_be_convinced_to_cancel_investigation_tt
@@ -4872,13 +6525,20 @@ ARG_dealing_with_the_corruption = {
 
 		is_good = no 
 
+		available = { 
+			OR = {
+				exists = no 
+				has_civil_war = yes 
+			}
+		}
+
 		activation = {
 			check_variable = { ARG_corruption_status = 1 }
 			NOT = { has_active_mission = ARG_potential_corrupt_scandal }
 			has_dynamic_modifier = { modifier = ARG_corruption_scandal_idea }
 		}
 
-		days_mission_timeout = 140
+		days_mission_timeout = 240
 
 		cancel_trigger = {
 			OR = {
@@ -4927,6 +6587,8 @@ ARG_dealing_with_the_corruption = {
 			}
 		}
 
+		ai_will_do = { factor = 240 } # upmost priority
+
 		on_map_mode = map_only
 
 		available = {
@@ -4960,6 +6622,7 @@ ARG_dealing_with_the_corruption = {
 			FROM = {
 				is_fully_controlled_by = ROOT 
 			}
+			NOT = { check_variable = { ARG_corruption_status = 1 } }
 		}
 
 		cancel_trigger = {
@@ -4994,8 +6657,10 @@ ARG_dealing_with_the_corruption = {
 
 		remove_effect = {
 			clr_country_flag = ARG_dealing_with_oligarchs
-			remove_dynamic_modifier = {
-				modifier = ARG_agitated_oligarchs
+			FROM = {
+				remove_dynamic_modifier = {
+					modifier = ARG_agitated_oligarchs
+				}
 			}
 			if = {
 				limit = {
@@ -5078,7 +6743,7 @@ ARG_1937_elections = {
 
 		available = { always = no }
 
-		days_mission_timeout = 95
+		days_mission_timeout = 145
 
 		fire_only_once = no 
 
@@ -5148,7 +6813,7 @@ ARG_1937_elections = {
 
 		available = { always = no }
 
-		days_mission_timeout = 105
+		days_mission_timeout = 165
 
 		fire_only_once = no 
 
@@ -5218,7 +6883,7 @@ ARG_1937_elections = {
 
 		available = { always = no }
 
-		days_mission_timeout = 150
+		days_mission_timeout = 195
 
 		fire_only_once = no 
 
@@ -5282,6 +6947,25 @@ ARG_1937_elections = {
 			}
 		}
 
+		ai_will_do = { 
+			base = 90 
+			modifier = {
+				factor = 2.5
+				if = {
+					limit = { has_completed_focus = ARG_concordancia }
+					check_variable = { ARG_predicted_UCRA_electoral_votes < 225 }
+				}
+				if = {
+					limit = { has_completed_focus = ARG_union_civica_radical }
+					check_variable = { ARG_predicted_UCR_electoral_votes < 225 }
+				}
+				if = {
+					limit = { has_completed_focus = ARG_partido_socialista }
+					check_variable = { ARG_predicted_PS_electoral_votes < 225 }
+				}
+			}
+		}
+
 		visible = {
 			has_civil_war = no 
 			has_active_mission = ARG_the_1937_elections
@@ -5292,8 +6976,8 @@ ARG_1937_elections = {
 
 		available = {
 			custom_trigger_tooltip = {
-				tooltip = ARG_military_is_actively_cooperating_tt
-				check_variable = { ARG_military_opinion = 2 }
+				tooltip = ARG_military_not_hostile_tt
+				check_variable = { ARG_military_opinion > -1 }
 			}
 			hidden_trigger = {
 				has_army_manpower = { size > 2499 }
@@ -5418,6 +7102,25 @@ ARG_1937_elections = {
 			}
 		}
 
+		ai_will_do = {
+			base = 205
+			modifier = {
+				factor = 0
+				if = {
+					limit = { has_completed_focus = ARG_concordancia }
+					check_variable = { ARG_predicted_UCRA_electoral_votes > 225 }
+				}
+				if = {
+					limit = { has_completed_focus = ARG_union_civica_radical }
+					check_variable = { ARG_predicted_UCR_electoral_votes > 225 }
+				}
+				if = {
+					limit = { has_completed_focus = ARG_partido_socialista }
+					check_variable = { ARG_predicted_PS_electoral_votes > 225 }
+				}
+			}
+		}
+
 		visible = {
 			has_active_mission = ARG_the_1937_elections
 			OR = {
@@ -5452,7 +7155,23 @@ ARG_1937_elections = {
 			}
 		}
 
-		cancel_effect = { add_political_power = 20 }
+		cancel_effect = { 
+			add_political_power = 20 
+			clr_country_flag = ARG_taking_state
+			if = {
+				limit = {
+					has_full_control_of_state = FROM
+					has_civil_war = no 
+				}
+				FROM = {
+					set_state_flag = {
+						flag = ARG_recently_taken_from_us
+						days = 110
+						value = 1
+					}
+				}
+			}
+		}
 
 		cost = ARG_cost_take_empty_province
 		days_remove = ARG_days_to_take_empty
@@ -5506,6 +7225,36 @@ ARG_1937_elections = {
 					has_dynamic_modifier = { modifier = ARG_dominant_ucr_a }
 					has_dynamic_modifier = { modifier = ARG_dominant_ucr }
 					has_dynamic_modifier = { modifier = ARG_dominant_ps }
+				}
+			}
+		}
+
+		ai_will_do = { 
+			base = 90 
+			modifier = {
+				factor = 2
+				if = {
+					limit = { has_completed_focus = ARG_partido_socialista }
+					check_variable = { ARG_predicted_PS_electoral_votes < 190 }
+				}
+				if = {
+					limit = { has_completed_focus = ARG_union_civica_radical }
+					check_variable = { ARG_predicted_UCR_electoral_votes < 200 }
+				}
+			}
+			modifier = {
+				factor = 0
+				if = {
+					limit = { has_completed_focus = ARG_concordancia }
+					check_variable = { ARG_predicted_UCRA_electoral_votes > 225 }
+				}
+				if = {
+					limit = { has_completed_focus = ARG_union_civica_radical }
+					check_variable = { ARG_predicted_UCR_electoral_votes > 225 }
+				}
+				if = {
+					limit = { has_completed_focus = ARG_partido_socialista }
+					check_variable = { ARG_predicted_PS_electoral_votes > 225 }
 				}
 			}
 		}
@@ -5676,7 +7425,7 @@ ARG_1937_elections = {
 		}
 
 		ai_will_do = {
-			factor = 160
+			factor = 75
 		}
 
 		cost = 25
@@ -5730,6 +7479,8 @@ ARG_the_spread_of_anarchism = {
 			}
 		}
 
+		ai_will_do = { factor = 115 }
+
 		available = {
 			has_civil_war = no 
 			has_manpower > 10000
@@ -5777,6 +7528,14 @@ ARG_the_spread_of_anarchism = {
 		}
 
 		fire_only_once = yes 
+
+		ai_will_do = { 
+			base = 105
+			modifier = {
+				factor = 1.2
+				has_army_manpower = { size > 299999 }
+			}
+		}
 
 		visible = {
 			has_completed_focus = ARG_initiate_our_subversive_activities
@@ -5931,6 +7690,8 @@ ARG_the_spread_of_anarchism = {
 			}
 		}
 
+		ai_will_do = { factor = 190 }
+
 		fire_only_once = yes 
 
 		available = {
@@ -5950,7 +7711,7 @@ ARG_the_spread_of_anarchism = {
 			}
 		}
 
-		cost = 75
+		cost = 100
 
 		complete_effect = {
 			annex_country = {
@@ -5988,6 +7749,23 @@ ARG_the_spread_of_anarchism = {
 			has_completed_focus = ARG_las_semillas_del_anarquismo
 		}
 
+		ai_will_do = { 
+			base = 75
+			modifier = {
+				factor = 2
+				strength_ratio = {
+					tag = FROM
+					ratio < 1 
+				}
+			}
+		}
+
+		custom_cost_trigger = {
+			command_power > 24
+			has_political_power > 24
+		}
+		custom_cost_text = decision_cost_CP_25_pp_25
+
 		days_remove = 30
 		
 		days_re_enable = 120
@@ -5995,6 +7773,8 @@ ARG_the_spread_of_anarchism = {
 		complete_effect = {
 			custom_effect_tooltip = URG_decision_will_be_avail_again_120_days_tt
 			hidden_effect = {
+				add_command_power = -25
+				add_political_power = -25
 				if = {
 					limit = {
 						NOT = {
@@ -6112,8 +7892,8 @@ ARG_the_spread_of_anarchism = {
 		available = {
 			has_civil_war = no 
 			FROM = {
-				compliance > 0.34
-				resistance < 0.2
+				compliance > 0.5
+				resistance < 0.15
 			}
 		}
 
@@ -6121,7 +7901,9 @@ ARG_the_spread_of_anarchism = {
 			has_completed_focus = ARG_anarchist_integration
 		}
 
-		cost = 35
+		ai_will_do = { factor = 190 }
+
+		cost = 50
 
 		days_remove = 70 
 
@@ -6157,6 +7939,8 @@ ARG_the_posadist_science_program = {
 			has_government = communism
 		}
 
+		ai_will_do = { factor = 60 }
+
 		days_remove = 120
 
 		modifier = {
@@ -6184,6 +7968,8 @@ ARG_the_posadist_science_program = {
 			has_government = communism
 			has_equipment = { infantry_equipment > 149 }
 		}
+
+		ai_will_do = { factor = 65 }
 
 		custom_cost_text = ARG_10_pol_150_guns
 
@@ -6234,6 +8020,8 @@ ARG_the_posadist_science_program = {
 
 	ARG_donate_motorized_to_adequately_study = { 
 		icon = rubber 
+
+		ai_will_do = { factor = 55 }
 
 		custom_cost_text = ARG_10_pol_50_mot
 
@@ -6292,6 +8080,8 @@ ARG_the_posadist_science_program = {
 	ARG_review_our_tank_designs = { 
 		icon = generic_tank 
 
+		ai_will_do = { factor = 55 }
+
 		available = { 
 			has_civil_war = no 
 			has_government = communism
@@ -6329,6 +8119,8 @@ ARG_the_posadist_science_program = {
 
 	ARG_study_land_warfare = {
 		icon = generic_army_support
+
+		ai_will_do = { factor = 55 }
 
         available = {
             has_civil_war = no 
@@ -6376,6 +8168,8 @@ ARG_the_posadist_science_program = {
 	ARG_study_naval_warfare = {
 		icon = generic_naval
 
+		ai_will_do = { factor = 55 }
+
         available = {
             has_civil_war = no 
 			has_government = communism
@@ -6421,6 +8215,8 @@ ARG_the_posadist_science_program = {
 
 	ARG_study_air_warfare = {
 		icon = generic_air
+
+		ai_will_do = { factor = 55 }
 
         available = {
             has_civil_war = no 
@@ -6470,10 +8266,6 @@ ARG_the_liberation_army = {
 	ARG_focus_our_efforts_on_FROM = {
 		icon = generic_tank
 
-        ai_will_do = {
-            base = 80
-        }
-
         target_trigger = {
             FROM = {
                 capital_scope = { 
@@ -6486,6 +8278,17 @@ ARG_the_liberation_army = {
 					has_war_with = ROOT	
 				}
             }
+        }
+
+		ai_will_do = {
+            base = 80
+			modifier = {
+				factor = 2.5
+				strength_ratio = {
+					tag = FROM
+					ratio < 1
+				}
+			}
         }
 
         available = {
@@ -6546,7 +8349,9 @@ ARG_the_liberation_army = {
             }
         }
 
-        fire_only_once = yes 
+        fire_only_once = yes
+
+		ai_will_do = { factor = 75 } 
 
         visible = {
             exists = yes 
@@ -6673,6 +8478,10 @@ ARG_spread_of_peronism = {
 		activation = { check_variable = { ARG_peronist_support = 200 } }
 		fire_only_once = yes 
 
+		available = { always = no }
+
+		is_good = no 
+
 		days_mission_timeout = 2
 
 		timeout_effect = {
@@ -6686,6 +8495,10 @@ ARG_spread_of_peronism = {
 						}
 					}
 					remove_dynamic_modifier = { modifier = ARG_peronist_march }
+				}
+				drop_cosmetic_tag = yes
+				remove_power_balance = {
+					id = ARG_general_balance_of_power
 				}
 			}
 		}
@@ -6758,6 +8571,18 @@ ARG_spread_of_peronism = {
 			}
 		}
 
+		ai_will_do = { 
+			base = 25
+			modifier = { ## happens via focus
+				factor = 0
+				is_historical_focus_on = yes 
+			}
+			modifier = { 
+				factor = 10
+				check_variable = { ARG_peronist_support > 100 }
+			}
+		}
+
 		available = { 
 			has_civil_war = no 
 		}
@@ -6787,6 +8612,11 @@ ARG_spread_of_peronism = {
 					min = 0
 					max = 200
 				}
+				country_event = {
+					id = argentina.rework.49
+					days = 4
+					random_days = 4 
+				}
 			}
 		}
 	}
@@ -6811,6 +8641,12 @@ ARG_spread_of_peronism = {
 				has_country_leader = {
 					character = ARG_juan_domingo_peron
 					ruling_only = yes 
+				}
+			}
+			NOT = {
+				OR = {
+					has_completed_focus = ARG_support_the_peronists
+					has_completed_focus = ARG_kill_off_roberto
 				}
 			}
 		}
@@ -6911,6 +8747,12 @@ ARG_spread_of_peronism = {
 					ruling_only = yes 
 				}
 			}
+			NOT = {
+				OR = {
+					has_completed_focus = ARG_support_the_peronists
+					has_completed_focus = ARG_kill_off_roberto
+				}
+			}
 		}
 
 		available = {
@@ -6962,11 +8804,12 @@ ARG_spread_of_peronism = {
 		visible = { 
 			has_country_flag = ARG_peronist_mechanic_active_flag
 			OR = {
-				has_completed_focus = ARG_support_the_peronists
+				has_completed_focus = ARG_demand_liberation
 				has_completed_focus = ARG_commence_plans_for_the_coup 
 			}
-			ARG_juan_domingo_peron = {
-				has_character_flag = BRA_imprisoned
+			OR = {
+				has_completed_focus = ARG_commence_plans_for_the_coup
+				has_country_flag = ARG_peron_imprisoned_flag
 			}
 			NOT = {
 				has_country_leader = {
@@ -6989,13 +8832,13 @@ ARG_spread_of_peronism = {
 
 		cancel_trigger = {
 			FROM = {
-				NOT = { 
-					has_dynamic_modifier = { modifier = ARG_peronist_march }
-				}
+				has_dynamic_modifier = { modifier = ARG_peronist_march }
 			}
 		}
 
 		days_remove = 20
+
+		modifier = { political_power_factor = -0.05 }
 
 		complete_effect = {
 			hidden_effect = {
@@ -7010,24 +8853,30 @@ ARG_spread_of_peronism = {
 		remove_effect = {
 			custom_effect_tooltip = ARG_peronist_march_starts_in_FROM_tt
 			custom_effect_tooltip = ARG_add_10_peronist_support_tt
-			random_list = {
-				ARG_chance_to_liberate = {
-					country_event = argentina.rework.51
+			if = {
+				limit = {
+					NOT = { has_country_flag = ARG_peron_liberated_flag }
 				}
-				ARG_chance_to_NOT_liberate = { }
-			}
-			custom_effect_tooltip = ARG_chance_to_liberate_increase_15_tt
-			add_to_variable = { ARG_chance_to_liberate = 15 }
-			subtract_from_variable = { ARG_chance_to_NOT_liberate = 15 }
-			clamp_variable = {
-				var = ARG_chance_to_liberate
-				min = 0
-				max = 100
-			}
-			clamp_variable = {
-				var = ARG_chance_to_NOT_liberate
-				min = 0
-				max = 100
+				random_list = {
+					ARG_chance_to_liberate = {
+						country_event = argentina.rework.51
+						set_country_flag = ARG_peron_liberated_flag 
+					}
+					ARG_chance_to_NOT_liberate = { }
+				}
+				custom_effect_tooltip = ARG_chance_to_liberate_increase_15_tt
+				add_to_variable = { ARG_chance_to_liberate = 15 }
+				subtract_from_variable = { ARG_chance_to_NOT_liberate = 15 }
+				clamp_variable = {
+					var = ARG_chance_to_liberate
+					min = 0
+					max = 100
+				}
+				clamp_variable = {
+					var = ARG_chance_to_NOT_liberate
+					min = 0
+					max = 100
+				}
 			}
 			hidden_effect = {
 				add_to_variable = { ARG_peronist_support = 10 }
@@ -7077,6 +8926,14 @@ ARG_territorial_management = {
 		
 		ai_will_do = {
 			factor = 500
+			modifier = {
+				factor = 0
+				OR = {
+					has_active_mission = ARG_government_collapse
+					has_active_mission = ARG_government_crackdown
+					has_active_mission = ARG_the_1937_elections
+				}
+			}
 		}
 
 		visible = {
@@ -7212,6 +9069,7 @@ ARG_territorial_management = {
 			FROM = {
 				is_fully_controlled_by = ROOT 
 				state_population_k < 70
+				has_state_flag = ARG_original_state_not_yet_integrated
 			}
 		}
 
@@ -7227,12 +9085,12 @@ ARG_territorial_management = {
 			}
 		}
 
-		cost = 35
+		cost = 25
 
 		days_remove = 50
 
 		modifier = {
-			political_power_factor = -0.1
+			political_power_factor = -0.05
 		}
 
 		remove_effect = {
@@ -7245,7 +9103,7 @@ ARG_territorial_management = {
 
 ARG_managing_the_army = {
 	ARG_gain_slightly_the_trust_of_the_people = {
-		priority = 15
+		priority = 25
 		icon = eng_propaganda_campaigns
 
 		cost = 20
@@ -7260,6 +9118,17 @@ ARG_managing_the_army = {
 		
 		ai_will_do = {
 			factor = 250
+			modifier = {
+				factor = 0
+				OR = {
+					has_active_mission = ARG_government_collapse
+					has_active_mission = ARG_government_crackdown
+				}
+			}
+			modifier = {
+				factor = 0.25
+				has_active_mission = ARG_the_1937_elections
+			}
 		}
 
 		visible = {
@@ -7279,6 +9148,69 @@ ARG_managing_the_army = {
 		}
 	}
 
+	ARG_appease_the_military = {
+		icon = ITA_reorganize_ascari
+		priority = 20
+
+		cost = 50
+
+		visible = {
+			has_civil_war = no 
+			has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
+			check_variable = { ARG_military_opinion < 2 }
+			NOT = {
+				has_global_flag = ARG_elections_cancelled
+			}
+		}
+
+		ai_will_do = {
+			base = 30
+			modifier = {
+				factor = 4
+				check_variable = { ARG_military_opinion < 0 }
+			}
+		}
+
+		available = {
+			NOT = {
+				has_active_mission = ARG_military_planning_to_overthrow_the_government
+			}
+			custom_trigger_tooltip = {
+				tooltip = ARG_military_wasnt_recently_appeased_tt
+				NOT = { has_country_flag = ARG_military_appeased }
+			}
+		}
+
+		modifier = {
+			consumer_goods_factor = 0.05
+		}
+
+		days_remove = 50
+
+		cancel_trigger = {
+			NOT = {
+				has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
+			}
+		}
+
+		remove_effect = {
+			army_experience = 5
+			custom_effect_tooltip = ARG_military_will_be_appeased_for_half_a_year_tt
+			set_country_flag = {
+				flag = ARG_military_appeased 
+				days = 190
+				value = 1
+			}
+			custom_effect_tooltip = ARG_military_opinion_increase_tt
+			add_to_variable = { ARG_military_opinion = 1 }
+			clamp_variable = {
+				var = ARG_military_opinion
+				min = -2
+				max = 2 
+			}
+		}
+	}
+
 	ARG_send_peron_on_a_mission_to_italy = {
 		priority = 20
 		icon = generic_army_support
@@ -7294,10 +9226,26 @@ ARG_managing_the_army = {
 		fire_only_once = yes 
 		
 		ai_will_do = {
-			factor = 40
+			base = 40
 			modifier = {
-				add = 250
-				is_historical_focus_on = yes 
+				factor = 0
+				is_historical_focus_on = yes
+				date < 1939.1.1 
+			}
+			modifier = { 
+				factor = 10
+				is_historical_focus_on = yes
+				date > 1939.1.2 
+			}
+		}
+
+		visible = {
+			has_character = ARG_juan_domingo_peron
+			NOT = {
+				has_country_leader = {
+					character = ARG_juan_domingo_peron
+					ruling_only = yes 
+				}
 			}
 		}
 
@@ -7321,10 +9269,13 @@ ARG_managing_the_army = {
 		}
 
 		cancel_trigger = {
-			ITA = {
-				OR = {
-					exists = no 
-					has_war_with = ROOT
+			OR = {
+				NOT = { has_character = ARG_juan_domingo_peron }
+				ITA = {
+					OR = {
+						exists = no 
+						has_war_with = ROOT
+					}
 				}
 			}
 		}
@@ -7378,13 +9329,16 @@ ARG_managing_the_army = {
 		fire_only_once = yes
 
 		cancel_trigger = {
-			CHL = {
-				OR = {
-					exists = no 
-					has_war_with = ROOT 
+			OR = {
+				NOT = { has_character = ARG_juan_domingo_peron }
+				CHL = {
+					OR = {
+						exists = no 
+						has_war_with = ROOT 
+					}
 				}
+				has_civil_war = yes 
 			}
-			has_civil_war = yes 
 		}
 
 		cancel_effect = { 
@@ -7587,6 +9541,362 @@ ARG_managing_the_army = {
 			}
 		}
 	}
+
+	ARG_integrate_the_falklands = {
+		priority = 10
+		icon = generic_form_nation
+		
+		allowed = {
+			tag = ARG
+		}
+		
+		available = {
+			controls_state = 299
+		}
+		
+		cost = 20
+		
+		fire_only_once = yes
+		
+		ai_will_do = {
+			factor = 250
+		}
+		
+		complete_effect = {
+			add_state_core = 299
+			if = {
+				limit = {
+					controls_state = 720 
+				}
+				add_state_core = 720
+			}
+			set_province_name = { id = 12960 name = "Puerto Argentino" }
+			299 = {
+				set_state_name = "Islas Malvinas"
+			}
+		}
+	}
+
+	ARG_sharpen_our_air_safety = {
+		icon = generic_air
+		allowed = {
+			original_tag = ARG
+		}
+
+		cost = 50
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 35
+		}
+
+		visible = {
+			has_country_flag = ARG_has_not_sharpened_air_safety
+			has_unit_leader = 51225
+		}
+
+		complete_effect = {
+			add_timed_idea = { idea = ARG_air_safety_regulations days = 1095 }
+			clr_country_flag = ARG_has_not_sharpened_air_safety
+		}
+	}
+}
+
+ARG_the_holy_crusades = {
+	ARG_strengthen_our_holy_warriors = {
+		icon = generic_prepare_civil_war
+
+		available = { has_civil_war = no }
+
+		ai_will_do = { factor = 145 }
+
+		visible = {
+			has_completed_focus = ARG_the_holy_crusades
+			OR = {
+				has_idea = ARG_the_holy_army_idea_1
+				has_idea = ARG_the_holy_army_idea_2
+				has_idea = ARG_the_holy_army_idea_3
+			}
+		}
+
+		custom_cost_text = ARG_50_pol_1000_guns
+		custom_cost_trigger = {
+			has_political_power > 49
+			has_equipment = {
+				infantry_equipment > 999
+			}
+		}
+
+		days_remove = 50
+
+		complete_effect = {
+			hidden_effect = {
+				add_political_power = -50
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = -1000
+				}
+			}
+		}
+
+		cancel_trigger = {
+			NOT = {
+				has_country_leader = {
+					character = ARG_julio_meinvielle_pope
+					ruling_only = yes 
+				}
+			}
+		}
+
+		remove_effect = {
+			ARG_improve_holy_army_national_spirit = yes 
+		}
+	}
+
+	ARG_spread_the_gospel = {
+		icon = generic_nationalism 
+
+		available = { has_war = yes }
+
+		custom_cost_text = CHL_cost_15_cp
+		custom_cost_trigger = { command_power > 14 }
+
+		ai_will_do = { factor = 125 }
+
+		visible = { has_completed_focus = ARG_the_holy_crusades }
+
+		days_remove = 75
+
+		modifier = { army_attack_factor = 0.075 }
+
+		complete_effect = {
+			hidden_effect = {
+				add_command_power = -15 
+			}
+		}
+
+		cancel_trigger = {
+			NOT = {
+				has_country_leader = {
+					character = ARG_julio_meinvielle_pope
+					ruling_only = yes 
+				}
+			}
+		}
+
+		remove_effect = { custom_effect_tooltip = EUYL_decision_will_reappear_in_90_days_tt }
+
+		days_re_enable = 90
+	}
+
+	ARG_the_holy_defense_of_the_lord = {
+		icon = generic_protection
+
+		available = { has_war = yes }
+
+		custom_cost_text = CHL_cost_15_cp
+		custom_cost_trigger = { command_power > 14 }
+
+		ai_will_do = { factor = 125 }
+
+		visible = { has_completed_focus = ARG_the_holy_crusades }
+
+		days_remove = 75
+
+		modifier = { army_defence_factor = 0.075 }
+
+		complete_effect = {
+			hidden_effect = {
+				add_command_power = -15 
+			}
+		}
+
+		cancel_trigger = {
+			NOT = {
+				has_country_leader = {
+					character = ARG_julio_meinvielle_pope
+					ruling_only = yes 
+				}
+			}
+		}
+
+		remove_effect = { custom_effect_tooltip = EUYL_decision_will_reappear_in_90_days_tt }
+
+		days_re_enable = 90
+	}
+
+	ARG_the_modern_crusaders = {
+		icon = generic_military
+
+		available = { has_civil_war = no }
+
+		cost = 25
+
+		ai_will_do = { factor = 125 }
+
+		visible = { has_completed_focus = ARG_the_holy_crusades }
+
+		days_remove = 90
+
+		modifier = { weekly_manpower = 1000 }
+
+		cancel_trigger = {
+			NOT = {
+				has_country_leader = {
+					character = ARG_julio_meinvielle_pope
+					ruling_only = yes 
+				}
+			}
+		}
+
+		remove_effect = { custom_effect_tooltip = EUYL_decision_will_reappear_in_180_days_tt }
+
+		days_re_enable = 180
+	}
+
+	ARG_the_will_of_the_lord = {
+		icon = generic_intelligence_operation
+
+		available = {
+			has_war_support < 0.9
+		}
+
+		cost = 25
+
+		ai_will_do = { factor = 125 }
+
+		visible = { has_completed_focus = ARG_the_holy_crusades }
+
+		days_remove = 100
+
+		modifier = { war_support_weekly = 0.005 }
+
+		cancel_trigger = {
+			NOT = {
+				has_country_leader = {
+					character = ARG_julio_meinvielle_pope
+					ruling_only = yes 
+				}
+			}
+		}
+
+		remove_effect = { custom_effect_tooltip = EUYL_decision_will_reappear_in_240_days_tt }
+
+		days_re_enable = 240
+	}
+
+	ARG_the_crusade_against_the_imposters = {
+		priority = 100
+		icon = infiltrate_state
+
+		available = {
+			NOT = { controls_state = 2 }
+			has_war_with = FROM
+		}
+
+		target_trigger = {
+			FROM = {
+				controls_state = 2
+			}
+		}
+
+		custom_cost_trigger = {
+			command_power > 4
+			has_political_power > 24
+		}
+		custom_cost_text = decision_cost_CP_5_pp_25
+
+		ai_will_do = { factor = 125 }
+
+		visible = { 
+			has_completed_focus = ARG_the_holy_crusades 
+			has_completed_focus = ARG_reclaim_our_original_land
+			NOT = { controls_state = 2 }
+		}
+
+		complete_effect = {
+			hidden_effect = {
+				add_political_power = -25
+				add_command_power = -5
+			}
+		}
+
+		days_remove = 60
+
+		cancel_trigger = {
+			NOT = {
+				has_country_leader = {
+					character = ARG_julio_meinvielle_pope
+					ruling_only = yes 
+				}
+			}
+		}
+
+		modifier = { naval_invasion_planning_bonus_speed = 0.05 }
+
+		targeted_modifier = {
+			tag = FROM 
+			attack_bonus_against = 0.1
+			defense_bonus_against = 0.1
+		}
+	}
+
+	ARG_the_crusade_for_jerusalem = {
+		priority = 100
+		icon = infiltrate_state
+
+		available = {
+			NOT = { controls_state = 454 }
+			has_war_with = FROM
+		}
+
+		target_trigger = {
+			FROM = {
+				controls_state = 454
+			}
+		}
+
+		custom_cost_trigger = {
+			command_power > 4
+			has_political_power > 24
+		}
+		custom_cost_text = decision_cost_CP_5_pp_25
+
+		ai_will_do = { factor = 125 }
+
+		visible = { 
+			has_completed_focus = ARG_the_holy_crusades 
+			has_completed_focus = ARG_the_quest_for_jerusalum
+			NOT = { controls_state = 454 }
+		}
+
+		complete_effect = {
+			hidden_effect = {
+				add_political_power = -25
+				add_command_power = -5
+			}
+		}
+
+		days_remove = 60
+
+		cancel_trigger = {
+			NOT = {
+				has_country_leader = {
+					character = ARG_julio_meinvielle_pope
+					ruling_only = yes 
+				}
+			}
+		}
+
+		modifier = { naval_invasion_planning_bonus_speed = 0.05 }
+
+		targeted_modifier = {
+			tag = FROM 
+			attack_bonus_against = 0.1
+			defense_bonus_against = 0.1
+		}
+	}
 }
 
 ARG_inflation = {
@@ -7668,10 +9978,10 @@ ARG_inflation = {
 		
 		days_remove = 35
 		
-		cost = 25
+		cost = 20
 		
 		modifier = {
-			political_power_factor = -0.1
+			political_power_factor = -0.02
 		}
 		
 		fire_only_once = no
@@ -7690,7 +10000,7 @@ ARG_inflation = {
 		
 		remove_effect = {
 			clr_country_flag = ARG_trying_to_control_inflation
-			add_popularity = { ideology = communism popularity = 0.02 }
+			add_popularity = { ideology = communism popularity = 0.015 }
 			ARG_lower_inflation = yes 
 		}
 	}
@@ -7707,10 +10017,10 @@ ARG_inflation = {
 		
 		days_remove = 40
 		
-		cost = 30
+		cost = 25
 		
 		modifier = {
-			political_power_factor = -0.05
+			political_power_factor = -0.03
 		}
 		
 		fire_only_once = no
@@ -7758,10 +10068,10 @@ ARG_inflation = {
 		
 		days_remove = 60
 		
-		cost = 80
+		cost = 75
 		
 		modifier = {
-			political_power_factor = -0.15
+			political_power_factor = -0.05
 		}
 		
 		fire_only_once = no
@@ -7856,7 +10166,7 @@ ARG_inflation = {
 			}
 		}
 		
-		cost = 25
+		cost = 20
 		
 		fire_only_once = no
 		
@@ -7903,7 +10213,6 @@ ARG_inflation = {
 		
 		modifier = {
 			consumer_goods_factor = 0.05
-			political_power_factor = -0.05
 		}
 		
 		ai_will_do = {
@@ -7959,6 +10268,8 @@ ARG_robertos_deteriorating_health_condition = {
 		}
 
 		is_good = no
+
+		complete_effect = { add_stability = 0.01 } # lil reward for your efforts :)
 
 		timeout_effect = {
 			country_event = argentina.26
@@ -8160,7 +10471,7 @@ ARG_robertos_deteriorating_health_condition = {
 		days_remove = 65
 
 		ai_will_do = {
-			factor = 105
+			factor = 195
 		}
 		
 		visible = {
@@ -8228,7 +10539,7 @@ ARG_robertos_deteriorating_health_condition = {
 		modifier = { political_power_gain = -0.05 }
 
 		ai_will_do = {
-			factor = 105
+			factor = 195
 		}
 		
 		visible = {
@@ -8267,6 +10578,32 @@ ARG_robertos_deteriorating_health_condition = {
 }
 
 ARG_the_argentine_civil_war = {
+
+	ARG_federlist_takeover = {
+		icon = GFX_ARG_federalists
+
+		activation = { always = no }
+
+		available = {
+			always = no 
+		}
+
+		is_good = yes
+
+		days_mission_timeout = 95
+
+		cancel_trigger = { 
+			OR = {
+				has_civil_war = no 
+				ARG_is_the_argentine_confederation = yes 
+			}
+		}
+
+		timeout_effect = {
+			country_event = argentina.fascist.5 ## Federalist Takeover!
+			custom_effect_tooltip = ARG_success_of_our_coup_depends_on_federalist_support_tt
+		}
+	}
 	
 	ARG_division_movement = {
 		priority = 10
@@ -8297,7 +10634,7 @@ ARG_the_argentine_civil_war = {
 		}
 		
 		ai_will_do = {
-			factor = 200
+			factor = 170
 		}
 		
 		days_remove = 35
@@ -8344,7 +10681,7 @@ ARG_the_argentine_civil_war = {
 		}
 		
 		ai_will_do = {
-			factor = 200
+			factor = 170
 		}
 		
 		days_remove = 35
@@ -8387,11 +10724,11 @@ ARG_the_argentine_civil_war = {
 		fire_only_once = no
 		
 		modifier = {
-			army_attack_factor =  0.12
+			army_attack_factor = 0.075
 		}
 		
 		ai_will_do = {
-			factor = 210
+			factor = 175
 		}
 		
 		days_remove = 35
@@ -8434,11 +10771,11 @@ ARG_the_argentine_civil_war = {
 		fire_only_once = no
 		
 		modifier = {
-			army_defence_factor =  0.12
+			army_defence_factor = 0.075
 		}
 		
 		ai_will_do = {
-			factor = 210
+			factor = 175
 		}
 		
 		days_remove = 35
@@ -8469,6 +10806,17 @@ ARG_the_argentine_civil_war = {
 			}
 		}
 
+		ai_will_do = {
+			base = 105
+			modifier = {
+				factor = 2
+				any_enemy_country = {
+					original_tag = ARG 
+					surrender_progress < 0.2
+				}
+			}
+		}
+
 		cost = 20
 
 		fire_only_once = yes 
@@ -8494,6 +10842,26 @@ ARG_the_argentine_civil_war = {
 					has_completed_focus = ARG_urban_militias
 					has_completed_focus = ARG_rural_militias
 				}
+			}
+			if = {
+				limit = {
+					OR = {
+						has_completed_focus = ARG_government_crackdown
+						has_completed_focus = ARG_catholic_takeover
+					}
+				}
+				has_completed_focus = ARG_reservist_mobilization
+			}
+			if = {
+				limit = {
+					NOT = {
+						OR = {
+							has_completed_focus = ARG_catholic_takeover
+							has_completed_focus = ARG_empower_the_independents
+						}
+					}
+				}
+				has_completed_focus = ARG_cooperation_with_fascist_deserters
 			}
 		}
 
@@ -8578,6 +10946,17 @@ ARG_the_argentine_civil_war = {
 			}
 		}
 
+		ai_will_do = {
+			base = 75
+			modifier = {
+				factor = 2
+				any_enemy_country = {
+					original_tag = ARG 
+					surrender_progress < 0.25
+				}
+			}
+		}
+
 		visible = {
 			OR = {
 				has_civil_war = yes 
@@ -8594,6 +10973,10 @@ ARG_the_argentine_civil_war = {
 					has_completed_focus = ARG_a_bloody_revolution
 				}
 				has_completed_focus = ARG_el_ejercito_del_pueblo
+			}
+			if = {
+				limit = { has_completed_focus = ARG_create_the_CNU }
+				has_completed_focus = ARG_seize_enemy_reserves
 			}
 		}
 
@@ -8663,6 +11046,14 @@ ARG_the_argentine_civil_war = {
 			}
 		}
 
+		ai_will_do = {
+			base = 90
+			modifier = {
+				factor = 2.5
+				surrender_progress > 0.1
+			}
+		}
+
 		visible = {
 			if = {
 				limit = {
@@ -8710,226 +11101,6 @@ ARG_the_argentine_civil_war = {
 
 		remove_effect = {
 			clr_country_flag = ARG_asking_for_aid
-		}
-	}
-}
-	
-#ARG_peron_left_argentina = {
-#	
-#	ARG_perons_return = {
-#		priority = 10
-#		icon = generic_speech
-#		
-#		allowed = {
-#			tag = ARG
-#		}
-#		
-#		available = {
-#			hidden_trigger = { always = no }
-#		}
-#
-#		days_mission_timeout = 700
-#		
-#		fire_only_once = yes
-#		
-#		activation = {
-#			has_country_flag = ARG_peron_has_left
-#		}
-#		
-#		visible = {
-#			custom_trigger_tooltip = {
-#				tooltip = ARG_peronhascomeback
-#				has_country_flag = ARG_peron_has_left
-#			}
-#		}
-#
-#		timeout_effect = {
-#			country_event = argentina.46
-#			clr_country_flag = ARG_peron_has_left
-#		}
-#	}
-#}
-
-ARG_the_great_coup = {
-	
-	ARG_the_coup = {
-		priority = 10
-		icon = generic_army_support
-		
-		allowed = {
-			tag = ARG
-		}
-		
-		available = {
-			hidden_trigger = { always = no }
-		}
-
-		days_mission_timeout = 250
-		
-		fire_only_once = yes
-		
-		activation = {
-			OR = {
-				has_completed_focus = ARG_commence_plans_for_the_coup
-				AND = {
-					has_completed_focus = ARG_kill_off_roberto
-					date > 1938.3.12
-				}
-			}	
-		}
-		
-		visible = {
-			is_subject = no
-		}
-
-		timeout_effect = {
-			country_event = argentina.47
-		}
-	}
-	
-	ARG_slight_concessions = {
-		priority = 10
-		icon = hol_exchange_intelligence_data
-		
-		allowed = {
-			tag = ARG 
-		}
-		
-		available = {
-			custom_trigger_tooltip = {
-				tooltip = ARG_doing_concession
-				NOT = {
-					has_country_flag = ARG_concession_in_progress
-				}
-			}
-		}
-		
-		cost = 20
-		
-		fire_only_once = no
-		
-		ai_will_do = {
-			factor = 10
-		}
-
-		days_remove = 25
-		
-		visible = {
-			tag = ARG
-			has_country_flag = ARG_elected_concordancia
-			has_completed_focus = ARG_the_great_concession
-		}
-		
-		complete_effect = {
-			set_country_flag = ARG_concession_in_progress
-		}
-		
-		remove_effect = {
-			add_days_mission_timeout = {
-				mission = ARG_the_coup
-				days = 10
-			}
-			clr_country_flag = ARG_concession_in_progress
-		}
-	}
-	
-	ARG_moderate_concessions = {
-		priority = 10
-		icon = hol_exchange_intelligence_data
-		
-		allowed = {
-			tag = ARG 
-		}
-		
-		available = {
-			custom_trigger_tooltip = {
-				tooltip = ARG_doing_concession
-				NOT = {
-					has_country_flag = ARG_concession_in_progress
-				}
-			}
-		}
-		
-		cost = 45
-		
-		fire_only_once = no
-		
-		modifier = {
-			political_power_factor =  -0.05
-		}
-		
-		ai_will_do = {
-			factor = 100
-		}
-
-		days_remove = 25
-		
-		visible = {
-			tag = ARG
-			has_country_flag = ARG_elected_concordancia
-			has_completed_focus = ARG_the_great_concession
-		}
-		
-		complete_effect = {
-			set_country_flag = ARG_concession_in_progress
-		}
-		
-		remove_effect = {
-			add_days_mission_timeout = {
-				mission = ARG_the_coup
-				days = 22
-			}
-			clr_country_flag = ARG_concession_in_progress
-		}
-	}
-	
-	ARG_large_concessions = {
-		priority = 10
-		icon = hol_exchange_intelligence_data
-		
-		allowed = {
-			tag = ARG 
-		}
-		
-		available = {
-			custom_trigger_tooltip = {
-				tooltip = ARG_doing_concession
-				NOT = {
-					has_country_flag = ARG_concession_in_progress
-				}
-			}
-		}
-		
-		cost = 75
-		
-		fire_only_once = no
-		
-		modifier = {
-			political_power_factor =  -0.1
-		}
-		
-		ai_will_do = {
-			factor = 150
-		}
-
-		days_remove = 25
-		
-		visible = {
-			tag = ARG
-			has_country_flag = ARG_elected_concordancia
-			has_completed_focus = ARG_the_great_concession
-		}
-		
-		complete_effect = {
-			set_country_flag = ARG_concession_in_progress
-		}
-		
-		remove_effect = {
-			add_days_mission_timeout = {
-				mission = ARG_the_coup
-				days = 34
-			}
-			clr_country_flag = ARG_concession_in_progress
 		}
 	}
 }
@@ -9023,12 +11194,12 @@ ARG_debt_repayments = {
 			}
 		}
 		
-		cost = 50
+		cost = 25
 		
 		fire_only_once = yes
 		
 		modifier = {
-			political_power_factor =  -0.1
+			political_power_factor = -0.1
 		}
 		
 		ai_will_do = {
@@ -9062,7 +11233,7 @@ ARG_debt_repayments = {
 			}
 		}
 		
-		cost = 50
+		cost = 35
 		
 		fire_only_once = yes
 		
@@ -9140,7 +11311,7 @@ ARG_debt_repayments = {
 			}
 		}
 		
-		cost = 50
+		cost = 25
 		
 		fire_only_once = yes
 		
@@ -9179,7 +11350,7 @@ ARG_debt_repayments = {
 			}
 		}
 		
-		cost = 50
+		cost = 35
 		
 		fire_only_once = yes
 		
@@ -9204,185 +11375,48 @@ ARG_debt_repayments = {
 	}
 }
 
-ARG_ramon_military_coup = {
-	
-	ARG_the_possible_coup = {
-		
-		priority = 20
-		icon = generic_ignite_civil_war
-		
-		allowed = {
-			tag = ARG
-		}
-		
-		available = {
-			NOT = {
-				has_country_flag = ARG_ramon_coup
-			}
-		}
+ARG_five_year_plan = {
 
-		days_mission_timeout = 240
-		
-		is_good = no
-		
-		fire_only_once = yes
-		
+	ARG_the_five_year_plan_mis = {
+		priority = 100
+		icon = generic_construction
+
 		activation = {
-			has_country_flag = ARG_ramon_coup
-		}
-		
-		cancel_trigger = {
-			OR = {
-				has_civil_war = yes 
-				NOT = {
-					controls_state = 967
-				}
-				NOT = {
-					controls_state = 968
-				}
-				NOT = {
-					controls_state = 969
-				}
-				NOT = {
-					controls_state = 512
-				}
-				NOT = {
-					controls_state = 970
-				}
-			}
-		}
-		
-		visible = {
-			is_subject = no
+			always = no 
 		}
 
-		timeout_effect = {
-			country_event = argentina.52
-			clr_country_flag = ARG_ramon_coup
-		}
-	}
-
-	ARG_shut_down_the_coup = {
-		priority = 10
-		icon = oppression
-
-		allowed = { original_tag = ARG }
+		is_good = no 
 
 		available = {
 			custom_trigger_tooltip = {
-				tooltip = ARG_all_states_were_dealt_with_tt
-				967 = {
-					has_state_flag = ARG_state_was_dealt_with
-				}
-				968 = {
-					has_state_flag = ARG_state_was_dealt_with
-				}
-				969 = {
-					has_state_flag = ARG_state_was_dealt_with
-				}
-				512 = {
-					has_state_flag = ARG_state_was_dealt_with
-				}
-				970 = {
-					has_state_flag = ARG_state_was_dealt_with
-				}
+				tooltip = ARG_more_factories_than_target_tt
+				num_of_factories > ARG_target_num_factories
 			}
 		}
 
-		ai_will_do = {
-			factor = 200
+		cancel_trigger = {
+			OR = {
+				has_civil_war = yes 
+				exists = no 
+			}
 		}
 
-		visible = {
-			has_country_flag = ARG_capable_of_countering_coup
-			has_active_mission = ARG_the_possible_coup
-		}
+		days_mission_timeout = 1825
 
 		complete_effect = {
-			custom_effect_tooltip = ARG_coup_will_be_shut_down_tt
-			clr_country_flag = ARG_ramon_coup
-			add_stability = -0.03
-		}
-	}
-
-	ARG_march_in_the_province_of_FROM = {
-		icon = eng_blackshirt_march
-
-		allowed = { original_tag = ARG }
-
-		visible = { 
-			has_country_flag = ARG_capable_of_countering_coup
-			has_active_mission = ARG_the_possible_coup
-			FROM = {
-				NOT = {
-					has_state_flag = ARG_state_was_dealt_with
-				}
+			add_timed_idea = {
+				idea = ARG_succesful_5_year_plan
+				days = 500
 			}
 		}
 
-		ai_will_do = {
-			factor = 180
-		}
-
-		highlight_states = {
-			highlight_states_trigger = {
-				state = 967
-				state = 968
-				state = 969
-				state = 970 
-				state = 512
-			}
-		}
-
-		state_target = yes 
-
-		targets = { 967 968 969 512 970 }
-
-		on_map_mode = map_and_decisions_view
-
-		target_trigger = {
-			FROM = {
-				is_fully_controlled_by = ROOT 
-				NOT = {
-					has_state_flag = ARG_state_was_dealt_with
-				}
-			}
-		}
-
-		available = {
-			divisions_in_state = {
-				size > 3
-				state = FROM
-			}
-		}
-		
-		cancel_trigger = {
-			NOT = {
-				divisions_in_state = {
-					size > 2
-					state = FROM 
-				}
-			}
-		}
-
-		cost = 10
-
-		days_remove = 70
-
-		modifier = {
-			weekly_manpower = -450
-		}
-
-		remove_effect = {
-			custom_effect_tooltip = ARG_state_will_be_dealt_with_tt
-			FROM = {
-				set_state_flag = ARG_state_was_dealt_with
+		timeout_effect = {
+			add_timed_idea = {
+				idea = ARG_failed_5_year_plan
+				days = 500
 			}
 		}
 	}
-}
-
-ARG_five_year_plan = {
 	
 	ARG_invest_in_the_civilian_economy = {
 		
@@ -9689,7 +11723,8 @@ ARG_integrate_our_territories = {
 
 		available = {
 			FROM = {
-				compliance > 24
+				compliance > 49
+				resistance < 0.15
 			}
 			has_equipment = {
 			    infantry_equipment > 299
@@ -9708,7 +11743,7 @@ ARG_integrate_our_territories = {
 			}
 		}
   
-		cost = 35
+		cost = 50
 
 		days_remove = 70
 		
@@ -9728,70 +11763,5 @@ ARG_integrate_our_territories = {
 		}
 	}
 }
-	
-	
-ARG_integration_of_the_falklands = {
-	
-	ARG_integrate_the_falklands = {
-		priority = 10
-		icon = generic_form_nation
-		
-		allowed = {
-			tag = ARG
-		}
-		
-		available = {
-			controls_state = 299
-		}
-		
-		cost = 20
-		
-		fire_only_once = yes
-		
-		ai_will_do = {
-			factor = 250
-		}
-		
-		complete_effect = {
-			add_state_core = 299
-			if = {
-				limit = {
-					controls_state = 720 
-				}
-				add_state_core = 720
-			}
-			set_province_name = { id = 12960 name = "Puerto Argentino" }
-			299 = {
-				set_state_name = "Islas Malvinas"
-			}
-		}
-	}
-}
 
-ARG_sharpen_air_safety_regulations = {
-
-	ARG_sharpen_our_air_safety = {
-		allowed = {
-			original_tag = ARG
-		}
-
-		cost = 50
-
-		fire_only_once = yes
-
-		ai_will_do = {
-			factor = 35
-		}
-
-		visible = {
-			has_country_flag = ARG_has_not_sharpened_air_safety
-			has_unit_leader = 51225
-		}
-
-		complete_effect = {
-			add_timed_idea = { idea = ARG_air_safety_regulations days = 1095 }
-			clr_country_flag = ARG_has_not_sharpened_air_safety
-		}
-	}
-}
 		

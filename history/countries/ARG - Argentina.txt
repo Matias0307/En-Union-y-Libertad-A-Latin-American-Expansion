@@ -13,6 +13,25 @@ add_ideas = {
 	EUYL_focus_on_army
 }
 
+#Fascist mechanic
+set_variable = { ARG_political_independents_status = 0 } # 0 - NOT part of coalition | 1 - part of coalition 
+set_variable = { ARG_liga_patriotica_status = 0 }
+set_variable = { ARG_legion_civica_argentina_status = 0 } #will be the one that gets auto-assigned 1
+set_variable = { ARG_accion_catolica_status = 0 }
+set_variable = { ARG_partido_fascista_status = 0 }
+set_variable = { ARG_coalition_strength = 0 }
+set_variable = { ARG_cost_to_convince = 25 }
+set_variable = { ARG_states_persecuted = 0 }
+set_variable = { ARG_camisas_negras_cost = 25 }
+
+## Rosas Mechanic
+set_variable = { ARG_rosas_conscription_factor = 0.005 }
+set_variable = { ARG_rosas_attack_factor = 0.05 }
+set_variable = { ARG_rosas_defence_factor = 0.05 }
+set_variable = { ARG_rosas_production_speed_buildings_factor = 0.00 }
+set_variable = { ARG_rosas_industrial_capacity_factory = 0.00 }
+set_variable = { ARG_rosas_consumer_goods_factor = 0.00 }
+
 #Medical Equpipment (Roberto's Mechanic)
 set_variable = { ARG_medical_equipment = 0 }
 set_variable = { ARG_medical_equipment_upper_limit = 100 }
@@ -43,7 +62,7 @@ set_variable = { ARG_concordancia_opinion = 2 }
 set_variable = { ARG_UCR_opinion = -1 }
 set_variable = { ARG_partido_socialista_opinion = 0 }
 
-#The military will range from -2 to 2 and work differently from the political parties || kinda just for show too, at least for now
+#The military will range from -2 to 3 and work differently from the political parties || kinda just for show too, at least for now
 set_variable = { ARG_military_opinion = 0 }
 
 
@@ -85,7 +104,7 @@ set_variable = { ARG_cost_challenge_other_party = 60 }
 set_variable = { ARG_days_to_challenge = 60 }
 
 #Inflation mechanic
-set_variable = { ARG_inflationary_period_days = 110 }
+set_variable = { ARG_inflationary_period_days = 125 }
 
 # Manpower Mechanic 
 set_variable = { ARG_cost_to_improve_mob = 25 }
@@ -335,7 +354,39 @@ recruit_character = ARG_logistics_naval_council
 recruit_character = ARG_anti_submarine_naval_council
 recruit_character = ARG_leopoldo_melo
 recruit_character = ARG_robustiano_patron_costas
+recruit_character = ARG_jose_p_tamborini
+recruit_character = ARG_juan_queralto
+recruit_character = ARG_juan_bautista_molina
+recruit_character = ARG_manuel_carles
+recruit_character = ARG_julio_meinvielle_normal
+recruit_character = ARG_julio_meinvielle_pope
+recruit_character = ARG_leopoldo_lugones
+recruit_character = ARG_walter_darre
+recruit_character = ARG_adolf_hitler
+recruit_character = ARG_victorio_codovilla
+recruit_character = ARG_leopoldo_lugones_federal
+recruit_character = ARG_juan_domingo_peron_fascist
 
+ARG_walter_darre = {
+	set_character_flag = BRA_living_in_the_exterior
+	set_character_flag = ARG_fascist 
+}
+
+## Fascists
+ARG_juan_queralto = { set_character_flag = ARG_fascist }
+ARG_juan_bautista_molina = { set_character_flag = ARG_fascist }
+ARG_manuel_carles = { set_character_flag = ARG_fascist }
+ARG_julio_meinvielle_normal = { set_character_flag = ARG_fascist }
+ARG_leopoldo_lugones = { set_character_flag = ARG_fascist }
+ARG_leopoldo_lugones_federal = { set_character_flag = ARG_fascist }
+ARG_julio_meinvielle_pope = { set_character_flag = ARG_fascist }
+ARG_adolf_hitler = { set_character_flag = ARG_fascist }
+ARG_nimio_de_anquin = { set_character_flag = ARG_fascist }
+ARG_juan_domingo_peron_fascist = { set_character_flag = ARG_fascist }
+
+ARG_victorio_codovilla = {
+	set_character_flag = ARG_communist
+}
 ARG_simon_radowitzky = {
 	set_character_flag = BRA_imprisoned
 	set_character_flag = ARG_communist 
@@ -435,13 +486,15 @@ ARG_anti_submarine_naval_council = {
 }
 
 promote_character = ARG_nicolas_repetto
-
+promote_character = ARG_juan_queralto
 
 
 
 # Starting tech
 set_technology = {
 	infantry_weapons = 1
+	tech_support = 1
+	tech_trucks = 1
 	motorised_infantry = 1
 	tech_mountaineers = 1
 	gw_artillery = 1
@@ -659,10 +712,10 @@ set_politics = {
 	elections_allowed = yes
 }
 set_popularities = {
-	democratic = 42
-	fascism = 5
+	democratic = 43
+	fascism = 3
 	communism = 3
-	neutrality = 50
+	neutrality = 51
 }
 
 create_country_leader = {
@@ -692,11 +745,11 @@ create_country_leader = {
 	}
 	
 	create_country_leader = {
-	name = "Roberto María Ortiz"
-	desc = "POLITICS_ROBERTO_MARIA_ORTIZ_DESC"
-	picture = "Portrait_Roberto_M_Ortiz.dds" #temporary
-	expire = "1965.1.1"
-	ideology = despotism
+		name = "Roberto María Ortiz"
+		desc = "POLITICS_ROBERTO_MARIA_ORTIZ_DESC"
+		picture = "Portrait_Roberto_M_Ortiz.dds" #temporary
+		expire = "1965.1.1"
+		ideology = despotism
 		traits = {
 			ARG_brutal_leader
 			ARG_expert_commercialist

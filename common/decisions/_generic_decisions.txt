@@ -1,315 +1,6 @@
-foreing_immigration = {
-
-	EUYL_take_in_war_refugees = {
-		icon = GFX_EUYL_attract_refugees
-
-		priority = 15
-
-		target_trigger = {
-			FROM = {
-				exists = yes 
-				OR = {
-					has_civil_war = yes 
-					has_war = yes 
-				}
-				surrender_progress > 0.4
-			}
-		}
-
-		available = {
-			exists = yes 
-			has_war = no 
-			has_stability > 0.5
-			has_navy_size = {
-				size > 10
-				type = convoy
-			}
-		}
-
-		visible = { 
-			NOT = { has_country_flag = EUYL_attracting_refugees }
-			capital_scope = { is_on_continent = south_america }
-			is_subject = no 
-			if = {
-				limit = {
-					has_government = communism
-				}
-				FROM = {
-					NOT = { has_government = fascism}
-				}
-			}
-			if = {
-				limit = {
-					has_government = fascism
-				}
-				FROM = {
-					NOT = { has_government = communism }
-				}
-			}
-		}
-
-		cost = EUYL_cost_take_in_refugees 
-
-		days_remove = 100
-
-		complete_effect = {
-			add_equipment_to_stockpile = {
-				type = convoy 
-				amount = -10
-			}
-			hidden_effect = { set_country_flag = EUYL_attracting_refugees }
-		}
-
-		remove_effect = {
-			clr_country_flag = EUYL_attracting_refugees
-		}
-
-		modifier = {
-			political_power_factor = -0.1
-			monthly_population = 1
-		}
-	}
-	
-	EUYL_attract_many_immigrants = {
-		priority = 10
-		icon = eng_blackshirt_march
-		
-		available = {
-			has_war = no 
-			OR = {
-				AND = {
-					has_stability > 0.65
-					num_of_factories > 19
-				}
-				AND = {
-					has_stability > 0.4
-					num_of_factories > 29
-				}
-				AND = {
-					has_stability > 0.25
-					num_of_factories > 39
-				}
-			}
-			has_navy_size = {
-				size > 15
-				type = convoy
-			}
-			if = {
-				limit = { 
-					NOT = {
-						original_tag = ARG 
-					}
-				}
-				has_government = democratic
-			}
-			else = {
-				OR = {
-					has_government = democratic
-					has_government = neutrality
-				}
-			}
-		}
-		
-		fire_only_once = no
-
-		modifier = {
-			monthly_population = 1.5
-			consumer_goods_factor = 0.1
-			stability_factor = -0.1
-		}
-
-		complete_effect = {
-			add_equipment_to_stockpile = {
-				type = convoy 
-				amount = -15
-			}
-		}
-
-		days_remove = 365
-		
-		cost = EUYL_cost_many_immigrants 
-		
-		ai_will_do = {
-			base = 15
-			modifier = {
-				add = 25
-				has_manpower < 5000
-			}
-		}
-	}
-	
-	EUYL_attract_some_immigrants = {
-		priority = 8
-		icon = GFX_EUYL_some_immigration
-		
-		available = {
-			has_war = no 
-			OR = {
-				AND = {
-					has_stability > 0.55
-					num_of_factories > 15
-				}
-				AND = {
-					has_stability > 0.35
-					num_of_factories > 24
-				}
-				AND = {
-					has_stability > 0.2
-					num_of_factories > 34
-				}
-			}
-			has_navy_size = {
-				size > 10
-				type = convoy
-			}
-			if = {
-				limit = { 
-					NOT = {
-						original_tag = ARG 
-					}
-				}
-				has_government = democratic
-			}
-			else = {
-				OR = {
-					has_government = democratic
-					has_government = neutrality
-				}
-			}
-		}
-		
-		fire_only_once = no
-
-		modifier = {
-			monthly_population = 1.0
-			consumer_goods_factor = 0.075
-			stability_factor = -0.075
-		}
-
-		complete_effect = {
-			add_equipment_to_stockpile = {
-				type = convoy 
-				amount = -10
-			}
-		}
-
-		days_remove = 365
-		
-		cost = EUYL_cost_some_immigrants
-		
-		ai_will_do = {
-			base = 15
-			modifier = {
-				add = 25
-				has_manpower < 5000
-			}
-		}
-	}
-
-	EUYL_attract_a_few_immigrants = {
-		priority = 6
-		icon = GFX_EUYL_little_immigration
-		
-		available = {
-			has_war = no 
-			OR = {
-				AND = {
-					has_stability > 0.45
-					num_of_factories > 12
-				}
-				AND = {
-					has_stability > 0.3
-					num_of_factories > 19
-				}
-				AND = {
-					has_stability > 0.1
-					num_of_factories > 29
-				}
-			}
-			has_navy_size = {
-				size > 5
-				type = convoy
-			}
-		}
-
-		fire_only_once = no
-
-		complete_effect = {
-			add_equipment_to_stockpile = {
-				type = convoy 
-				amount = -5
-			}
-		}
-
-		modifier = {
-			monthly_population = 0.5
-			consumer_goods_factor = 0.05
-		}
-
-		days_remove = 365
-		
-		cost = EUYL_cost_few_immigrants 
-		
-		ai_will_do = {
-			base = 15
-			modifier = {
-				add = 25
-				has_manpower < 5000
-			}
-		}
-	}	
-
-	ARG_attract_italian_immigrants = {
-		priority = 25
-		icon = GFX_EUYL_attract_refugees
-
-		target_trigger = {
-			FROM = {
-				exists = yes 
-				original_tag = ITA 
-			}
-		}
-
-		available = {
-			exists = yes 
-			has_war = no 
-			has_navy_size = {
-				size > 10
-				type = convoy
-			}
-		}
-
-		visible = {
-			original_tag = ARG 
-			has_completed_focus = ARG_take_in_spanish_immigrants
-		}
-
-		cost = 50
-
-		modifier = {
-			consumer_goods_factor = 0.05
-			political_power_factor = -0.05
-			monthly_population = 0.25
-		}
-
-		days_remove = 240
-
-		complete_effect = {
-			add_equipment_to_stockpile = {
-				type = convoy 
-				amount = -10
-			}
-		}
-
-		remove_effect = {
-			add_manpower = 35000
-		}
-
-	}
-
-}
-
 political_actions = {
+
+	## EUYL ##
 
 	PRU_radicalize_the_moderates_dec = {
 		icon = generic_speech
@@ -351,6 +42,49 @@ political_actions = {
 				50 = {
 
 				}
+			}
+		}
+	}
+
+	ARG_declare_as_an_enemy_FROM = {
+		icon = generic_prepare_civil_war
+
+		ai_will_do = { base = 90 } 
+
+		target_trigger = {
+			FROM = {
+				NOT = { has_war_with = ROOT }
+				NOT = { is_in_faction_with = ROOT }
+				exists = yes 
+				ROOT = {
+					has_opinion = {
+						target = PREV 
+						value < -50
+					}
+				}
+			}
+		}
+
+		available = {
+			FROM = {
+				NOT = {
+					OR = {
+						has_war_with = ROOT
+						is_in_faction_with = ROOT 
+					}
+				}
+			}
+		}
+
+		visible = { has_completed_focus = ARG_al_amigo_todo_al_enemigo_nada }
+
+		cost = 35
+		days_remove = 30
+
+		remove_effect = {
+			create_wargoal = {
+				type = annex_everything
+				target = FROM 
 			}
 		}
 	}
@@ -501,6 +235,8 @@ political_actions = {
 		}
 	}
 	
+	###########
+	
 	targeted_race_for_the_bomb = {
 
 		icon = generic_research
@@ -586,7 +322,7 @@ political_actions = {
 
 		modifier = {
 			stability_weekly = 0.005
-			consumer_goods_factor = 0.05
+			consumer_goods_factor = 0.10
 			industrial_capacity_factory = -0.1
 		}
 
@@ -604,17 +340,33 @@ political_actions = {
 			modifier = {
 				add = 1
 				has_stability < 0.6
+				has_political_power > 155 #Spend on other things first
 			}
 			modifier = {
 				factor = 0
 				original_tag = SPR
 				NOT = { has_global_flag = spanish_civil_war }
 			}
+			modifier = {
+				factor = 0 
+				tag = ICE
+				has_completed_focus = ICE_not_our_king
+				NOT = { has_completed_focus = ICE_break_with_the_crown }
+			}
+
+			modifier = {
+				add = 1000
+				has_stability < 0.76
+				original_tag = SWE
+				has_idea = SWE_hungershield
+			}
 		}
 	}
 }
 
 economy_decisions = {
+
+	## EUYL ##
 
 	PAR_construct_a_power_grid_FROM = {
 		icon = generic_construction
@@ -965,9 +717,9 @@ economy_decisions = {
 			}
 			if = {
 				limit = {
-					has_full_control_of_state = 913
+					has_full_control_of_state = 999
 				}
-				913 = {
+				999 = {
 					infrastructure > 2
 					OR = {
 						industrial_complex > 0
@@ -977,9 +729,9 @@ economy_decisions = {
 			}
 			if = {
 				limit = {
-					has_full_control_of_state = 911
+					has_full_control_of_state = 997
 				}
-				911 = {
+				997 = {
 					infrastructure > 2
 					OR = {
 						industrial_complex > 0
@@ -989,9 +741,9 @@ economy_decisions = {
 			}
 			if = {
 				limit = {
-					has_full_control_of_state = 912
+					has_full_control_of_state = 998
 				}
-				912 = {
+				998 = {
 					infrastructure > 2
 					OR = {
 						industrial_complex > 0
@@ -1134,6 +886,8 @@ economy_decisions = {
 			}
 		}
 	}
+	
+	#########
 
 	dismantle_maginot = {
 
@@ -1276,6 +1030,10 @@ economy_decisions = {
 			modifier = {
 				add = 1
 				has_stability > 0.74
+				NOT = {
+					original_tag = SWE
+					has_idea = SWE_hungershield
+				}
 			}
 		}
 
@@ -1286,7 +1044,7 @@ economy_decisions = {
 			}
 			add_stability = -0.05
 		}
-	}
+	}	
 }
 
 propaganda_efforts = {
@@ -1549,6 +1307,115 @@ propaganda_efforts = {
 					has_idea = limited_conscription
 					has_idea = extensive_conscription
 				}
+			}
+		}
+	}
+	
+	war_propaganda_radio_industry = { 
+
+		icon = generic_prepare_civil_war
+
+		available = {
+			threat > 0.25
+			has_tech = radio
+		}
+
+		visible = {
+			if = {
+				limit = {
+					tag = SPR
+					has_dlc = "La Resistance"
+				}
+				NOT = {
+					has_idea = SPR_political_violence
+				}
+			}
+			if = {
+				limit = {
+					original_tag = SPR
+					has_dlc = "La Resistance"
+				}
+				has_global_flag = scw_over
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 75
+
+		complete_effect = {
+			add_war_support = 0.05
+		}
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				add = 201
+				has_war_support < 0.6
+			}
+		}
+	}
+	
+	war_propaganda_film_industry = { 
+
+		icon = generic_prepare_civil_war
+
+		available = { 
+			has_war_with_non_exiled_country = yes
+			OR = {
+				is_major = yes
+				any_allied_country = {
+					is_major = yes
+				}
+			}
+			if = {
+				limit = {
+					NOT = { has_government = fascism }
+				}
+				threat > 0.5
+			}
+			else = {
+				threat > 0.30
+			}
+		}
+
+		visible = {
+			if = {
+				limit = {
+					tag = SPR
+					has_dlc = "La Resistance"
+				}
+				NOT = {
+					has_idea = SPR_political_violence
+				}
+			}
+			if = {
+				limit = {
+					original_tag = SPR
+					has_dlc = "La Resistance"
+				}
+				has_global_flag = scw_over
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 100 
+
+		complete_effect = {
+			effect_tooltip = {
+				add_war_support = 0.10
+			}
+			hidden_effect = {
+				country_event = political.33
+			}
+		}
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				add = 201
+				has_war_support < 0.6
 			}
 		}
 	}
@@ -2156,48 +2023,9 @@ operations = {
 			}
 		}
 		ai_will_do = {
-			factor = 1
+			base = 0
 			modifier = {
-				factor = 0
-				NOT = {
-					any_enemy_country = {
-						OR = {
-							controls_state = 452
-							controls_state = 447
-							controls_state = 456
-							controls_state = 457
-							controls_state = 454
-							controls_state = 455
-							OR = {
-								divisions_in_state = { state = 454 size > 2 }
-								divisions_in_state = { state = 447 size > 2 }
-								divisions_in_state = { state = 457 size > 2 }
-								divisions_in_state = { state = 456 size > 2 }
-							}
-						}
-					}
-				}
-			}
-			modifier = {
-				factor = 0 # Don't blow the canal when you've got troops needing supplies in the Horn of Africa, and no land route has been established there
-				any_allied_country = {
-					NOT = {
-						OR = {
-							has_full_control_of_state = 457
-							has_full_control_of_state = 456
-						}
-					}
-					NOT = { has_full_control_of_state = 551 }
-					OR = {
-						divisions_in_state = { state = 550 size > 0 }
-						divisions_in_state = { state = 268 size > 0 }
-						divisions_in_state = { state = 269 size > 0 }
-						divisions_in_state = { state = 559 size > 0 }
-					}
-				}
-			}
-			modifier = {
-				factor = 200 # Try to cut the enemy off from the mediterranean if you also occupy Gibraltar
+				add = 200 # Try to cut the enemy off from the mediterranean if you also occupy Gibraltar
 				OR = {
 					has_full_control_of_state = 118
 					any_allied_country = {
@@ -2206,6 +2034,33 @@ operations = {
 				}
 				has_war = yes
 				NOT = { tag = ENG }
+			}
+			modifier = {
+				add = 51 # Somewhat important if the baddies are coming
+				446 = {
+					OWNER = {
+						OR = {
+							tag = ROOT
+							is_in_faction_with = ROOT
+						}
+					}
+				}
+				OR = {
+					454 = {
+						NOT = { controller = { tag = ROOT } }
+						controller = { has_war_with = ROOT }
+					}
+					907 = {
+						NOT = { controller = { tag = ROOT } }
+						controller = { has_war_with = ROOT }
+					}
+					447 = {
+						NOT = { controller = { tag = ROOT } }
+						controller = { has_war_with = ROOT }
+					}
+				}
+				has_war = yes
+				is_in_faction_with = ENG
 			}
 		}
 	}
@@ -2466,13 +2321,63 @@ operations = {
 		}
 		
 		remove_effect = {
-			#if = {
-			#	limit = { original_tag = ARG }
-			#	remove_ideas = ARG_servicio_militar_obligatorio
-			#}
 			if = {
 				limit = { original_tag = BOL }
 				remove_ideas = BOL_servicio_militar_obligatorio
+			}
+		}
+	}
+
+	ARG_expand_the_camisas_negras = {
+		icon = generic_reorganize_irregulars
+
+		allowed = { original_tag = ARG }
+
+		ai_will_do = {
+			base = 5
+			modifier = {
+				add = 25
+				has_manpower < 9999
+			}
+			modifier = {
+				add = 45
+				has_war = yes 
+			}
+		}
+
+		cost = ARG_camisas_negras_cost
+
+		visible = { has_completed_focus = ARG_form_the_camisas_negras }
+
+		available = { 
+			has_civil_war = no 
+		}
+
+		days_remove = 90
+
+		days_re_enable = 90
+
+		complete_effect = { set_country_flag = SAU_conscription_in_progress }
+
+		remove_effect = {
+			custom_effect_tooltip = ARG_create_2_camisas_negras_tt
+			custom_effect_tooltip = ARG_cost_to_form_doubles_tt
+			custom_effect_tooltip = EUYL_decision_will_reappear_in_90_days_tt
+			hidden_effect = {
+				multiply_variable = { ARG_camisas_negras_cost = 2 }
+				random_owned_controlled_state = {
+					limit = {
+						any_neighbor_state = {
+							is_capital = yes 
+							is_fully_controlled_by = ROOT 
+						}
+					}
+					create_unit = {
+						division = "name = \"Camisas Negras\" division_template = \"Camisas Negras\" start_experience_factor = 0.2 start_equipment_factor = 0.9"
+						owner = ROOT
+						count = 2
+					}
+				}
 			}
 		}
 	}
@@ -2645,7 +2550,6 @@ operations = {
 			}
 		}
 	}
-			
 }
 
 special_projects = {
@@ -2804,7 +2708,8 @@ war_measures = {
 
 		visible = {
 			has_defensive_war = yes
-			has_offensive_war = no			
+			has_offensive_war = no	
+			num_of_controlled_states > 0
 		}
 
 		fire_only_once = no
@@ -2998,7 +2903,7 @@ war_measures = {
 		cost = GER_war_bonds_var?50
 
 		modifier = {
-			consumer_goods_factor = -0.05
+			consumer_goods_factor = -0.2
 		}
 
 		ai_will_do = {
@@ -3071,6 +2976,42 @@ war_measures = {
 			}
 		}
     }
+	
+	diversify_special_forces = {
+
+		icon = GFX_decision_generic_military
+
+		available = {
+			date > 1940.1.1
+		}
+
+		visible = {
+			has_dlc = "Arms Against Tyranny"
+			NOT = {
+				OR = {
+					tag = ENG #has a focus
+					tag = USA #has a focus
+					tag = SOV #has a focus
+					tag = JAP #has a focus
+				}
+			} 
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+
+		complete_effect = {
+			add_potential_special_forces_tree = yes
+		}
+		ai_will_do = {
+			factor = 201
+			modifier = {
+				factor = 0
+				is_major = no
+			}
+		}
+	}
 }
 
 foreign_politics = {
@@ -3134,6 +3075,9 @@ foreign_politics = {
 }
 
 economy_decisions = {
+
+	## EUYL ##
+
 	BOL_develop_the_province_of_FROM = {
 		icon = generic_construction
 
@@ -3204,6 +3148,8 @@ economy_decisions = {
 			}
 		}
 	}
+	
+	#########
 
 	infrastructure_building_slot = {
 
@@ -4546,6 +4492,362 @@ foreign_support = {
 	}
 }
 
+generic_purchase_old_ships_category = {
+	purchase_ships_eng = {
+		cost = 50
+		icon = GFX_decision_generic_naval
+		fire_only_once = no
+		visible = {
+			has_country_flag = generic_purchase_old_ships_flag
+			ENG = { 
+				NOT = { 
+					has_country_flag = sold_ships_to_us@ROOT
+					has_country_flag = negotiating_ship_purchase_flag@ROOT 
+				}
+			}
+			NOT = { has_war_with = ENG}
+		}
+		available = {
+			NOT = {
+				ENG = {
+					OR = {
+						has_civil_war = yes
+						has_capitulated = yes
+						has_opinion = {
+							target = FROM
+							value < 30
+						}
+					}					
+				}
+			}
+			
+		}
+		days_remove = 14
+		remove_effect = {
+			ENG = {
+				country_event = {
+					id = generic_purchase_ships_events.01
+					hours = 1
+				}
+				set_country_flag = negotiating_ship_purchase_flag@ROOT
+			}			
+		}
+	}
+	purchase_ships_sov = {
+		cost = 50
+		icon = GFX_decision_generic_naval
+		fire_only_once = no
+		visible = {
+			has_country_flag = generic_purchase_old_ships_flag
+			SOV = { 
+					has_country_flag = sold_ships_to_us@ROOT
+					has_country_flag = negotiating_ship_purchase_flag@ROOT 
+			}
+
+			NOT = { has_war_with = SOV}
+		}
+		available = {
+			NOT = {
+				SOV = {
+					OR = {
+						has_civil_war = yes
+						has_capitulated = yes
+						has_opinion = {
+							target = FROM
+							value < 30
+						}
+					}					
+				}
+			}
+			
+		}
+		days_remove = 14
+		remove_effect = {
+			SOV = {
+				country_event = {
+					id = generic_purchase_ships_events.01
+					hours = 1
+				}
+				set_country_flag = negotiating_ship_purchase_flag@ROOT
+			}
+		}
+	}
+	purchase_ships_ger = {
+		cost = 50
+		icon = GFX_decision_generic_naval
+		fire_only_once = no
+		visible = {
+			has_country_flag = generic_purchase_old_ships_flag
+			GER = { 
+				NOT = { 
+					has_country_flag = sold_ships_to_us@ROOT
+					has_country_flag = negotiating_ship_purchase_flag@ROOT
+				}
+
+			}
+			NOT = { has_war_with = GER}
+		}
+		available = {
+			NOT = {
+				GER = {
+					OR = {
+						has_civil_war = yes
+						has_capitulated = yes
+						has_opinion = {
+							target = FROM
+							value < 30
+						}
+					}					
+				}
+			}
+			
+		}
+		days_remove = 14
+		remove_effect = {
+			GER = {
+				country_event = {
+					id = generic_purchase_ships_events.01
+					hours = 1
+				}
+				set_country_flag = negotiating_ship_purchase_flag@ROOT
+			}
+		}
+	}
+	purchase_ships_usa = {
+		cost = 50
+		icon = GFX_decision_generic_naval
+		fire_only_once = no
+		visible = {
+			has_country_flag = generic_purchase_old_ships_flag
+			USA = { 
+				NOT = { 
+					has_country_flag = sold_ships_to_us@ROOT
+					has_country_flag = negotiating_ship_purchase_flag@ROOT  
+				}
+			}
+			NOT = { has_war_with = USA}
+		}
+		available = {
+			NOT = {
+				USA = {
+					OR = {
+						has_civil_war = yes
+						has_capitulated = yes
+						has_opinion = {
+							target = FROM
+							value < 30
+						}
+					}					
+				}
+			}
+			
+		}
+		days_remove = 14
+		remove_effect = {
+			USA = {
+				country_event = {
+					id = generic_purchase_ships_events.01
+					hours = 1
+				}
+				set_country_flag = negotiating_ship_purchase_flag@ROOT
+			}
+		}
+	}
+}
+
+generic_refit_civilian_ships_category = {
+	refit_to_destroyer = {
+		cost = 15
+		icon = GFX_decision_generic_merge_plant_ship
+		fire_only_once = no
+		visible = {
+			has_country_flag = refit_convoy_ships_flag
+		}
+		available = {	
+			has_equipment = {
+   				convoy > 9
+	  		}	
+	  		if = {
+				limit = {
+					has_dlc = "Man the Guns"
+				}
+				has_tech = early_ship_hull_light
+			}
+			else = {
+				has_tech = early_destroyer
+			}
+		}
+		days_remove = 50
+
+		complete_effect = {
+			add_equipment_to_stockpile = { 
+				type = convoy_1
+				amount = -10 
+
+			}
+		}
+		remove_effect = {
+			if = {
+				limit = {
+					has_dlc = "Man the Guns"
+				}
+				if = {
+					limit = {
+						NOT = {	has_country_flag = refit_to_destroyer_flag } #FIN gets flag along with Ship variants via the focus that unlocks these decisions
+					}			
+					set_country_flag = refit_to_destroyer_flag
+	
+					create_equipment_variant = {	
+						name = "Refitted Destroyer Class" 		
+						type = ship_hull_light_1
+						name_group = "DEN_DD_HISTORICAL" #Note: Doesn't matter if ROOT is not DEN, the effect will grab the appropriate country-specific name list anyways
+						parent_version = 0
+						modules = {
+							fixed_ship_battery_slot = ship_light_battery_1
+							fixed_ship_anti_air_slot = ship_anti_air_1
+							fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+							fixed_ship_radar_slot = empty
+							fixed_ship_engine_slot = light_ship_engine_1
+							fixed_ship_torpedo_slot = ship_torpedo_1
+							mid_1_custom_slot = empty
+							rear_1_custom_slot = empty
+						}
+						obsolete = yes
+					}
+				}
+				create_ship = {
+					type = ship_hull_light_1
+					equipment_variant = "Refitted Destroyer Class"
+					creator = ROOT
+					name = "Coastguard"
+				}
+			}
+			#NO MTG
+			else = {
+				if = {
+					limit = {
+						NOT = {	has_country_flag = refit_to_destroyer_flag }
+					}			
+					set_country_flag = refit_to_destroyer_flag
+
+					create_equipment_variant = {
+						name = "Refitted Destroyer Class"
+						type = destroyer_1
+						upgrades = {
+							ship_torpedo_upgrade = 0
+							destroyer_engine_upgrade = 0
+							ship_ASW_upgrade = 0
+							ship_anti_air_upgrade = 0
+						}
+						obsolete = yes
+					}
+				}
+				create_ship = {
+					type = destroyer_1
+					equipment_variant = "Refitted Destroyer Class"
+					creator = ROOT
+					name = "Coastguard"
+				}		
+			}
+		}
+	}
+	refit_to_cruiser = {
+		cost = 30
+		icon = GFX_decision_generic_merge_plant_ship
+		fire_only_once = no
+		visible = {
+			has_country_flag = refit_convoy_ships_flag
+		}
+		available = {	
+			has_equipment = {
+   				convoy > 19
+	  		}
+	  		if = {
+				limit = {
+					has_dlc = "Man the Guns"
+				}
+				has_tech = early_ship_hull_cruiser
+			}
+			else = {
+				has_tech = early_light_cruiser
+			}
+		}
+		days_remove = 100
+
+		complete_effect = {
+			add_equipment_to_stockpile = { 
+				type = convoy_1
+				amount = -25 
+			}
+		}
+		remove_effect = {
+			if = {
+				limit = {
+					has_dlc = "Man the Guns"
+				}
+				if = {
+					limit = {
+						NOT = {	has_country_flag = refit_to_cruiser_flag } #FIN gets flag along with Ship variants via the focus that unlocks these decisions
+					}			
+					set_country_flag = refit_to_cruiser_flag
+	
+					create_equipment_variant = {
+						name = "Refitted Cruiser Class"				
+						type = ship_hull_cruiser_1
+						name_group = DEN_CL_HISTORICAL #Note: Doesn't matter if ROOT is not DEN, the effect will grab the appropriate country-specific name list anyways
+						parent_version = 0
+						modules = {
+							fixed_ship_battery_slot = ship_light_medium_battery_1
+							fixed_ship_anti_air_slot = ship_anti_air_1
+							fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+							fixed_ship_radar_slot = empty
+							fixed_ship_engine_slot = cruiser_ship_engine_1
+							fixed_ship_armor_slot = ship_armor_cruiser_1
+							fixed_ship_secondaries_slot = dp_ship_secondaries_1
+							mid_1_custom_slot = empty
+							mid_2_custom_slot = empty
+							rear_1_custom_slot = empty
+						}
+						obsolete = yes
+					}
+				}
+				create_ship = {
+					type = ship_hull_cruiser_1
+					equipment_variant = "Refitted Cruiser Class"
+					creator = ROOT
+					name = "Protector"
+				}
+			}
+			else = {
+				if = {
+					limit = {
+						NOT = {	has_country_flag = refit_to_cruiser_flag }
+					}			
+					set_country_flag = refit_to_cruiser_flag
+
+					create_equipment_variant = {
+						name = "Refitted Cruiser Class"
+						type = light_cruiser_1
+						upgrades = {
+							ship_reliability_upgrade = 0
+							ship_engine_upgrade = 0
+							ship_gun_upgrade = 0
+							ship_anti_air_upgrade = 0
+						}
+						obsolete = yes
+					}
+				}
+				create_ship = {
+					type = light_cruiser_1
+					equipment_variant = "Refitted Cruiser Class"
+					creator = ROOT
+					name = "Protector"
+				}	
+			}
+		}
+	}
+}
+
 south_american_armament = {
 	SOA_conscript_a_weak_militia = {
 		icon = generic_army_support
@@ -5047,4 +5349,315 @@ conference_cat = {
 			
 		}
 	}
+}
+
+foreing_immigration = {
+
+	EUYL_take_in_war_refugees = {
+		icon = GFX_EUYL_attract_refugees
+
+		priority = 15
+
+		target_trigger = {
+			FROM = {
+				exists = yes 
+				OR = {
+					has_civil_war = yes 
+					has_war = yes 
+				}
+				surrender_progress > 0.4
+			}
+		}
+
+		available = {
+			exists = yes 
+			has_war = no 
+			has_stability > 0.5
+			has_navy_size = {
+				size > 10
+				type = convoy
+			}
+		}
+
+		visible = { 
+			NOT = { has_country_flag = EUYL_attracting_refugees }
+			capital_scope = { is_on_continent = south_america }
+			is_subject = no 
+			if = {
+				limit = {
+					has_government = communism
+				}
+				FROM = {
+					NOT = { has_government = fascism}
+				}
+			}
+			if = {
+				limit = {
+					has_government = fascism
+				}
+				FROM = {
+					NOT = { has_government = communism }
+				}
+			}
+		}
+
+		cost = EUYL_cost_take_in_refugees 
+
+		days_remove = 100
+
+		complete_effect = {
+			add_equipment_to_stockpile = {
+				type = convoy 
+				amount = -10
+			}
+			hidden_effect = { set_country_flag = EUYL_attracting_refugees }
+		}
+
+		remove_effect = {
+			clr_country_flag = EUYL_attracting_refugees
+		}
+
+		modifier = {
+			political_power_factor = -0.1
+			monthly_population = 1
+		}
+	}
+	
+	EUYL_attract_many_immigrants = {
+		priority = 10
+		icon = eng_blackshirt_march
+		
+		available = {
+			has_war = no 
+			OR = {
+				AND = {
+					has_stability > 0.65
+					num_of_factories > 19
+				}
+				AND = {
+					has_stability > 0.4
+					num_of_factories > 29
+				}
+				AND = {
+					has_stability > 0.25
+					num_of_factories > 39
+				}
+			}
+			has_navy_size = {
+				size > 15
+				type = convoy
+			}
+			if = {
+				limit = { 
+					NOT = {
+						original_tag = ARG 
+					}
+				}
+				has_government = democratic
+			}
+			else = {
+				OR = {
+					has_government = democratic
+					has_government = neutrality
+				}
+			}
+		}
+		
+		fire_only_once = no
+
+		modifier = {
+			monthly_population = 1.5
+			consumer_goods_factor = 0.1
+			stability_factor = -0.1
+		}
+
+		complete_effect = {
+			add_equipment_to_stockpile = {
+				type = convoy 
+				amount = -15
+			}
+		}
+
+		days_remove = 365
+		
+		cost = EUYL_cost_many_immigrants 
+		
+		ai_will_do = {
+			base = 15
+			modifier = {
+				add = 25
+				has_manpower < 5000
+			}
+		}
+	}
+	
+	EUYL_attract_some_immigrants = {
+		priority = 8
+		icon = GFX_EUYL_some_immigration
+		
+		available = {
+			has_war = no 
+			OR = {
+				AND = {
+					has_stability > 0.55
+					num_of_factories > 15
+				}
+				AND = {
+					has_stability > 0.35
+					num_of_factories > 24
+				}
+				AND = {
+					has_stability > 0.2
+					num_of_factories > 34
+				}
+			}
+			has_navy_size = {
+				size > 10
+				type = convoy
+			}
+			if = {
+				limit = { 
+					NOT = {
+						original_tag = ARG 
+					}
+				}
+				has_government = democratic
+			}
+			else = {
+				OR = {
+					has_government = democratic
+					has_government = neutrality
+				}
+			}
+		}
+		
+		fire_only_once = no
+
+		modifier = {
+			monthly_population = 1.0
+			consumer_goods_factor = 0.075
+			stability_factor = -0.075
+		}
+
+		complete_effect = {
+			add_equipment_to_stockpile = {
+				type = convoy 
+				amount = -10
+			}
+		}
+
+		days_remove = 365
+		
+		cost = EUYL_cost_some_immigrants
+		
+		ai_will_do = {
+			base = 15
+			modifier = {
+				add = 25
+				has_manpower < 5000
+			}
+		}
+	}
+
+	EUYL_attract_a_few_immigrants = {
+		priority = 6
+		icon = GFX_EUYL_little_immigration
+		
+		available = {
+			has_war = no 
+			OR = {
+				AND = {
+					has_stability > 0.45
+					num_of_factories > 12
+				}
+				AND = {
+					has_stability > 0.3
+					num_of_factories > 19
+				}
+				AND = {
+					has_stability > 0.1
+					num_of_factories > 29
+				}
+			}
+			has_navy_size = {
+				size > 5
+				type = convoy
+			}
+		}
+
+		fire_only_once = no
+
+		complete_effect = {
+			add_equipment_to_stockpile = {
+				type = convoy 
+				amount = -5
+			}
+		}
+
+		modifier = {
+			monthly_population = 0.5
+			consumer_goods_factor = 0.05
+		}
+
+		days_remove = 365
+		
+		cost = EUYL_cost_few_immigrants 
+		
+		ai_will_do = {
+			base = 15
+			modifier = {
+				add = 25
+				has_manpower < 5000
+			}
+		}
+	}	
+
+	ARG_attract_italian_immigrants = {
+		priority = 25
+		icon = GFX_EUYL_attract_refugees
+
+		target_trigger = {
+			FROM = {
+				exists = yes 
+				original_tag = ITA 
+			}
+		}
+
+		available = {
+			exists = yes 
+			has_war = no 
+			has_navy_size = {
+				size > 10
+				type = convoy
+			}
+		}
+
+		visible = {
+			original_tag = ARG 
+			has_completed_focus = ARG_take_in_spanish_immigrants
+		}
+
+		cost = 50
+
+		modifier = {
+			consumer_goods_factor = 0.05
+			political_power_factor = -0.05
+			monthly_population = 0.25
+		}
+
+		days_remove = 240
+
+		complete_effect = {
+			add_equipment_to_stockpile = {
+				type = convoy 
+				amount = -10
+			}
+		}
+
+		remove_effect = {
+			add_manpower = 35000
+		}
+
+	}
+
 }

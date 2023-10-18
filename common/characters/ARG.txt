@@ -162,7 +162,9 @@ characters={
 				original_tag  = ARG
 			}
 			available = {
-				NOT = { has_government = communism }
+				NOT = { has_government = fascism }
+				has_civil_war = no 
+				num_of_factories > 39
 			}
 			on_add = {
 				ROOT = {
@@ -180,6 +182,9 @@ characters={
 						ARG_move_5_right = yes 
 					}
 				}
+			}
+			ai_will_do = {
+				factor = 55
 			}
 			traits  = {
 				financial_expert 
@@ -362,6 +367,7 @@ characters={
 	}
 
 	ARG_jose_p_tamborini = {
+		name = "Jose P. Tamborini"
 		country_leader = {
 			desc = "POLITICS_TAMBORINI_DESC"
 			expire = "1965.1.1"
@@ -372,8 +378,7 @@ characters={
 		}
 		portraits={
 			army={
-				small="GFX_idea_ARG_honorio_pueyrredon_icon"
-				large = "gfx/leaders/ARG/ARG_honorio_pueyrredon.png"
+				large = "gfx/leaders/ARG/ARG_tamborini.png"
 			}
 		}
 	}
@@ -510,9 +515,19 @@ characters={
 		advisor={
 			slot = political_advisor
 			idea_token = ARG_juan_domingo_peron_idea
-			cost = 50
-			allowed  = {
+			cost = 75
+			allowed = {
 				original_tag  = ARG
+			}
+			visible = { 
+				ROOT = {
+					NOT = {
+						has_country_leader = {
+							character = ARG_juan_domingo_peron
+							ruling_only = yes 
+						}
+					}
+				}
 			}
 			available  = {
 				custom_trigger_tooltip = {
@@ -528,13 +543,28 @@ characters={
 					NOT = { has_character_flag = BRA_imprisoned }
 				}
 				NOT = { has_government = communism }
+				NOT = { 
+					OR = {
+						has_completed_focus = ARG_create_the_CNU
+						has_completed_focus = ARG_an_imminent_revolution
+					}
+				}
 				OR = {
 					has_global_flag = ARG_peron_returned_from_chile
 					has_global_flag = ARG_peron_returned_from_italy
 				}
+				OR = {
+					date > 1940.6.1
+					has_country_leader = {
+						character = ARG_the_military_junta
+						ruling_only = yes 
+					}
+					has_country_flag = ARG_military_movement_present_in_country_flag
+					has_idea = ARG_GOU_idea
+				}
 			}
 			traits  = {
-				national_integralist 
+				ARG_minister_of_labor_employment_social_security 
 			}
 			on_add = {
 				hidden_effect = {
@@ -546,8 +576,8 @@ characters={
 						}
 						country_event = {
 							id = argentina.rework.48 
-							days = 30
-							random_days = 30 
+							days = 45
+							random_days = 25
 						}
 					}
 				}
@@ -570,6 +600,23 @@ characters={
 			id=-1
 		}
 	}
+	ARG_juan_domingo_peron_fascist = {
+		name = "Juan Domingo Peron"
+		portraits = {
+			civilian={
+				large="gfx/leaders/ARG/Portrait_Argentina_Juan_Domingo_Peron.dds"
+			}
+		}
+
+		country_leader={
+			desc="POLITICS_JUAN_DOMINGO_PERON_DESC"
+			ideology=fascism_ideology
+			traits={ fascist_sympathies }
+			expire="1965.1.1.1"
+			id=-1
+		}
+
+	}
 	ARG_nimio_de_anquin={
 		name="Nimio de Anquin"
 		portraits={
@@ -579,10 +626,276 @@ characters={
 		}
 		country_leader={
 			desc="POLITICS_NIMO_DE_ANQUIN_DESC"
+			ideology=fascism_ideology
+			traits={  }
+			expire="1965.1.1.1"
+			id=-1
+		}
+	}
+	ARG_juan_queralto = {
+		name = "Juan Queraltó"
+		portraits={
+			civilian={
+				large="gfx/leaders/ARG/portrait_ARG_juan_queralto.png"
+			}
+		}
+		country_leader={
+			desc="POLITICS_JUAN_QUERALTO_DESC"
+			ideology=fascism_ideology
+			traits={ PRU_compassionate_leader }
+			expire="1965.1.1.1"
+			id=-1
+		}
+	}
+	ARG_manuel_carles = {
+		name = "Manuel Carlés"
+		portraits={
+			civilian={
+				large="gfx/leaders/ARG/portrait_ARG_carles.dds"
+			}
+		}
+		country_leader={
+			desc="POLITICS_MANUEL_CARLES_DESC"
+			ideology=gen_nazism
+			traits={ ARG_ruthless_leader }
+			expire="1965.1.1.1"
+			id=-1
+		}
+	}
+	ARG_juan_bautista_molina = {
+		name = "Juan Bautista Molina"
+		portraits={
+			army = {
+				small = "GFX_idea_ARG_bautista_icon"
+			}
+			civilian={
+				large="gfx/leaders/ARG/portrait_ARG_juan_bautista_molina.png"
+			}
+		}
+		corps_commander={
+			traits={  }
+			skill=1
+			attack_skill=1
+			defense_skill=2
+			planning_skill=1
+			logistics_skill=1
+			legacy_id=-1
+		}
+		country_leader={
+			desc="POLITICS_BAUTISTA_DESC"
+			ideology=fascism_ideology
+			traits={ COL_el_general }
+			expire="1965.1.1.1"
+			id=-1
+		}
+		advisor = {
+			slot = political_advisor
+			idea_token = ARG_juan_bautista
+			allowed = {
+				original_tag = ARG
+				has_dlc = "La Resistance"
+			}
+			available = {
+				NOT = { has_government = communism }
+				OR = {
+					has_government = fascism
+					has_country_leader = {
+						character = ARG_the_military_junta
+						ruling_only = yes 
+					}
+					has_country_leader = {
+						character = ARG_arturo_rawson
+						ruling_only = yes 
+					}
+					has_country_leader = {
+						character = ARG_pedro_pablo_ramirez
+						ruling_only = yes 
+					}
+					has_country_leader = {
+						character = ARG_edelmiro_julian_farrell
+						ruling_only = yes 
+					}
+				}
+			}
+			ai_will_do = { factor = 20 }
+			traits = {
+				falangist_militarist 
+			}
+		}
+	}
+	ARG_julio_meinvielle_normal = {
+		name = "Julio Meinvielle"
+		portraits={
+			civilian={
+				large="gfx/leaders/ARG/ARG_meinvielle.png"
+			}
+		}
+		country_leader={
+			desc="POLITICS_MEINVIELLE_DESC"
+			ideology=falangism
+			traits={ ARG_preacher_of_the_gospel }
+			expire="1965.1.1.1"
+			id=-1
+		}
+	}
+	ARG_julio_meinvielle_pope = {
+		name = "Papa Meinvielle"
+		portraits={
+			civilian={
+				large="gfx/leaders/ARG/ARG_meinvielle_pope.png"
+			}
+		}
+		country_leader={
+			desc="POLITICS_MEINVIELLE_DESC"
+			ideology=falangism
+			traits={ ARG_preacher_of_the_gospel }
+			expire="1965.1.1.1"
+			id=-1
+		}
+	}
+	ARG_leopoldo_lugones = {
+		name = "Leopoldo Lugones" 
+		portraits={
+			civilian={
+				large="gfx/leaders/ARG/ARG_leopoldo_lugones.png"
+			}
+		}
+		country_leader={
+			desc="POLITICS_LUGONES_DESC"
+			ideology=fascism_ideology
+			traits={ ARG_the_charming_poet }
+			expire="1965.1.1.1"
+			id=-1
+		}
+	}
+
+	ARG_leopoldo_lugones_federal = {
+		name = "Leopoldo Lugones" 
+		portraits={
+			civilian={
+				large="gfx/leaders/ARG/ARG_leopoldo_lugones.png"
+			}
+		}
+		country_leader={
+			desc="POLITICS_LUGONES_DESC"
 			ideology=federalism
+			traits={ ARG_the_charming_poet }
+			expire="1965.1.1.1"
+			id=-1
+		}
+	}
+
+	ARG_walter_darre = {
+		name = "Richard Walther Darré"
+		portraits={
+			army = {
+				small = "GFX_idea_ARG_walter_darre_icon"
+			}
+			civilian={
+				large="gfx/leaders/ARG/portrait_ARG_walter_darre.png"
+			}
+		}
+		country_leader={
+			desc="POLITICS_DARRE_DESC"
+			ideology=nazism
+			traits={ ARG_devout_nazi }
+			expire="1965.1.1.1"
+			id=-1
+		}
+		advisor = {
+			slot = political_advisor
+			idea_token = ARG_juan_bautista
+			allowed = {
+				original_tag = ARG
+				has_dlc = "La Resistance"
+			}
+			available = {
+				custom_trigger_tooltip = {
+					tooltip = ARG_not_in_germany_tt
+					NOT = { has_character_flag = BRA_living_in_the_exterior }
+				}
+			}
+			traits = {
+				ARG_minister_of_food_and_agriculture 
+			}
+		}
+	}
+	ARG_adolf_hitler={
+		name=GER_adolf_hitler
+		portraits={
+			civilian={
+				large=gfx/leaders/ARG/portrait_ARG_adolf_hitler.png
+			}
+			army = {
+				small = "GFX_idea_ARG_adolf_hilter_icon"
+			}
+		}
+		country_leader={
+			ideology=nazism
 			traits={ dictator }
 			expire="1965.1.1.1"
 			id=-1
+		}
+		advisor = {
+			slot = political_advisor
+			idea_token = ARG_adolf_hitler_idea
+			allowed = {
+				original_tag = ARG
+				has_dlc = "La Resistance"
+			}
+			cost = 50
+			on_add = {
+				set_country_flag = {
+					flag = ARG_hitler_recently_appointed_flag
+					days = 60
+					value = 1
+				}
+			}
+			visible = {
+				has_country_flag = ARG_allowed_hitler_government_role_flag
+			}
+			traits = {
+				nazi_sympathizer 
+			}
+		}
+	}
+	ARG_victorio_codovilla = {
+		name = "Victorio Codovilla"
+		portraits = {
+			army = {
+				small = "GFX_idea_ARG_victorio_codovillo_icon"
+			}
+		}
+		advisor = {
+			slot = political_advisor
+			idea_token = ARG_victorio_codavilla_idea
+			allowed = {
+				original_tag = ARG
+				has_dlc = "La Resistance"
+			}
+
+			ai_will_do = {
+				base = 25
+				modifier = {
+					factor = 15
+					has_active_mission = ARG_government_collapse
+				}
+			}
+
+			cost = 20
+
+			available = {
+				OR = {
+					custom_trigger_tooltip = {
+						tooltip = ARG_the_revolution_is_active_tt
+						has_completed_focus = ARG_an_imminent_revolution
+					}
+					has_government = communism
+				}
+			}
+			traits = {
+				marxist_academic 
+			}
 		}
 	}
 	ARG_marcelo_t_de_alvear={

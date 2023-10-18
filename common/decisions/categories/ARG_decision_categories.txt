@@ -35,6 +35,37 @@ ARG_posadist_ambitions = {
 	visible_when_empty = yes 
 }
 
+ARG_forming_the_coalition = {
+	priority = 200
+	icon = GFX_ARG_coalition_formation
+
+	allowed = { original_tag = ARG }
+
+	picture = GFX_ARG_forming_coalition_pic
+
+	visible = {
+		has_completed_focus = ARG_create_the_CNU
+		NOT = { 
+			has_global_flag = ARG_fascist_mechanic_concluded
+		}
+	}
+
+	scripted_gui = ARG_coalition_ui
+
+	visible_when_empty = yes 
+}
+
+ARG_the_holy_crusades = {
+	priority = 135
+	icon = GFX_ARG_holy_crusades_dec_icon
+
+	allowed = { original_tag = ARG }
+
+	picture = GFX_ARG_holy_crusades_pic
+
+	visible = { has_completed_focus	= ARG_the_holy_crusades }
+}
+
 ARG_the_posadist_science_program = {
 	priority = 100
 	icon = GFX_ARG_generic_research_icon
@@ -82,11 +113,25 @@ ARG_dealing_with_the_crisis = {
 		zoom = 150
 	}
 
+	on_map_area = {
+		target_array = owned_states
+		target_trigger = {
+			FROM = {
+                has_dynamic_modifier = { modifier = ARG_unitarian_resistance }
+			}
+		}
+		name = ARG_provinces_with_unitarians_tt
+		zoom = 150
+	}
+
 	visible = {
 		OR = {
 			has_idea = ARG_post_civil_war_crisis
 			has_idea = ARG_post_coup_political_crisis_1
 			has_idea = ARG_post_coup_political_crisis_2
+			any_controlled_state = {
+				has_dynamic_modifier = { modifier = ARG_unitarian_resistance }
+			}
 		}
 	}
 }
@@ -216,9 +261,6 @@ ARG_1937_elections = {
 	}
 
 	visible = {
-		NOT = {
-			has_completed_focus = ARG_drift_back_towards_the_confederation
-		}
 		has_active_mission = ARG_the_1937_elections
 	}
 }
@@ -275,6 +317,9 @@ ARG_bop = {## BALANCE OF POWER
 		has_dynamic_modifier = { modifier = ARG_infamous_decade_idea } 
 		NOT = {
 			has_global_flag = ARG_elections_cancelled
+		}
+		NOT = {
+			has_completed_focus = ARG_create_the_CNU
 		}
 	}
 }
@@ -340,6 +385,8 @@ ARG_spread_of_peronism = {
 		name = ARG_marches_tt
 		zoom = 150
 	}
+
+	visible_when_empty = yes 
 }
 
 ARG_territorial_management = {
@@ -419,7 +466,7 @@ ARG_robertos_deteriorating_health_condition = {
 }
 
 ARG_the_argentine_civil_war = {
-	priority = 100
+	priority = 175
 	icon = ARG_category_civil_war
 	
 	picture = GFX_ARG_guerra_civil
@@ -530,29 +577,5 @@ ARG_integrate_our_territories = {
 	
 	visible = {
 		has_country_flag = EUYL_can_integrate
-	}
-}
-
-ARG_integration_of_the_falklands = {
-	priority = 10
-	icon = ARG_integrate_falklands
-	
-	allowed = {
-		original_tag = ARG 
-	}
-}
-
-ARG_sharpen_air_safety_regulations = {
-	priority = 10
-	icon = GFX_ARG_air_safety
-
-	picture = GFX_ARG_air_safety_large
-
-	allowed = {
-		original_tag = ARG 
-	}
-
-	visible = {
-		has_unit_leader = 51225
 	}
 }
