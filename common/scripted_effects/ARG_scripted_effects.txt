@@ -256,26 +256,26 @@ ARG_set_electoral_votes = {
         set_temp_variable = { ARG_electoral_votes_UCRA = 0 }
         set_temp_variable = { ARG_electoral_votes_PS = 0 }
         every_core_state = {
-            set_temp_variable = { ARG_pop_province = state_population_k }
-            divide_temp_variable = { ARG_pop_province = 28 }
-            round_variable = ARG_pop_province
+            set_variable = { ARG_electoral_votes = state_population_k }
+            divide_variable = { ARG_electoral_votes = 28 }
+            round_variable = ARG_electoral_votes
             if = {
                 limit = {
                     has_dynamic_modifier = { modifier = ARG_dominant_ucr }
                 }
-                add_to_temp_variable = { ARG_electoral_votes_UCR = ARG_pop_province }
+                add_to_temp_variable = { ARG_electoral_votes_UCR = ARG_electoral_votes }
             }
             else_if = {
                 limit = { 
                     has_dynamic_modifier = { modifier = ARG_dominant_ucr_a }
                 }
-                add_to_temp_variable = { ARG_electoral_votes_UCRA = ARG_pop_province }
+                add_to_temp_variable = { ARG_electoral_votes_UCRA = ARG_electoral_votes }
             }
             else_if = {
                 limit = { 
                     has_dynamic_modifier = { modifier = ARG_dominant_ps }
                 }
-                add_to_temp_variable = { ARG_electoral_votes_PS = ARG_pop_province }
+                add_to_temp_variable = { ARG_electoral_votes_PS = ARG_electoral_votes }
             }
         }
         if = {
@@ -361,13 +361,16 @@ ARG_state_cleaner_elections = {
         }
         remove_dynamic_modifier = { modifier = ARG_dominant_ucr_a }
     }
-    else_if = {
+    if = {
         limit = {
             has_dynamic_modifier = { modifier = ARG_dominant_ucr }
         }
         remove_dynamic_modifier = { modifier = ARG_dominant_ucr }
     }  
-    else = {
+    if = {
+        limit = {
+            has_dynamic_modifier = { modifier = ARG_dominant_ps }
+        }
         remove_dynamic_modifier = { modifier = ARG_dominant_ps }
     }
 }
@@ -500,7 +503,7 @@ ARG_lower_inflation_risk = {
 ARG_set_communist_side_divisions = {
     every_controlled_state = { #Base militia spawning
 		create_unit = {
-			division = "name = \"Milicia Comunista\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
+			division = "name = \"Milicia\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
 			owner = ROOT ## Player
 			count = 1
 		}
@@ -518,13 +521,13 @@ ARG_set_communist_side_divisions = {
 	}
     if = {
         limit = {
-            check_variable = { ARG_pol_tension > 79 } ##Strongest
+            check_variable = { ARG_pol_tension > 64 } ##Strongest
         }
         every_controlled_state = {
             create_unit = {
                 division = "name = \"Milicia\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 1" 
                 owner = ROOT ## Player
-                count = 3
+                count = 2
             }
         }
         every_controlled_state = {
@@ -536,20 +539,19 @@ ARG_set_communist_side_divisions = {
     }
     else_if = {
         limit = {
-            check_variable = { ARG_pol_tension > 49 } ##Middle
+            check_variable = { ARG_pol_tension > 39 } ##Middle
         }
         every_controlled_state = {
             create_unit = {
                 division = "name = \"Milicia\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.6" 
                 owner = ROOT ## Player
-                count = 2
             }
         }
         random_owned_controlled_state = {
             create_unit = {
 				division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.75" 
 				owner = ROOT
-				count = 2
+				count = 3
 			}
         }
     }
@@ -558,7 +560,6 @@ ARG_set_communist_side_divisions = {
             create_unit = {
                 division = "name = \"Milicia\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.35" 
                 owner = ROOT ## Player
-                count = 1
             }
         }
     }
@@ -958,5 +959,196 @@ ARG_improve_holy_army_national_spirit = {
             remove_idea = ARG_the_holy_army_idea_3
             add_idea = ARG_the_holy_army_idea_4
         }
+    }
+}
+
+ARG_start_fascist_civil_war = {
+    if = { ## Strongest civil war possibility
+        limit = {
+            check_variable = { ARG_temp_coalition_strength > 4 }
+        }
+        start_civil_war = {
+			ruling_party = fascism
+			ideology = ROOT 
+			size = 0.35
+			keep_all_characters = yes 
+            capital = 966
+            states = { 278 966 971 974 511 970 512 969 968 967 982 }
+			PREV = {
+				ARG_agustín_pedro_justo = {
+					set_nationality = PREV.PREV
+				}
+				ARG_the_military_junta = {
+					set_nationality = PREV.PREV
+				}
+				ARG_arturo_rawson = {
+					set_nationality = PREV.PREV 
+				}
+				if = {
+					limit = {
+						NOT = { has_global_flag = ARG_coerced_politicians_flag }
+					}
+					every_character = {
+						limit = { 
+							NOT = { has_character_flag = ARG_fascist }
+						}
+						random_list = {
+							40 = {
+								set_nationality = PREV.PREV
+							}
+							60 = { }
+						}
+					}
+				}
+				if = {
+					limit = { has_character = ARG_agustín_pedro_justo }
+					promote_character = ARG_agustín_pedro_justo
+				}
+				else = {
+					promote_character = ARG_arturo_rawson
+				}
+			}
+		}
+    }
+    else_if = { ## Middle lower difficulty
+        limit = {
+            check_variable = { ARG_temp_coalition_strength > 3 }
+        }
+        start_civil_war = {
+			ruling_party = fascism
+			ideology = ROOT 
+			size = 0.37 
+            capital = 966
+            states = { 278 966 971 974 511 970 512 969 968 967 510 983 }
+            keep_all_characters = yes
+			PREV = {
+				ARG_agustín_pedro_justo = {
+					set_nationality = PREV.PREV
+				}
+				ARG_the_military_junta = {
+					set_nationality = PREV.PREV
+				}
+				ARG_arturo_rawson = {
+					set_nationality = PREV.PREV 
+				}
+				if = {
+					limit = {
+						NOT = { has_global_flag = ARG_coerced_politicians_flag }
+					}
+					every_character = {
+						limit = { 
+							NOT = { has_character_flag = ARG_fascist }
+						}
+						random_list = {
+							40 = {
+								set_nationality = PREV.PREV
+							}
+							60 = { }
+						}
+					}
+				}
+				if = {
+					limit = { has_character = ARG_agustín_pedro_justo }
+					promote_character = ARG_agustín_pedro_justo
+				}
+				else = {
+					promote_character = ARG_arturo_rawson
+				}
+			}
+		}
+    }
+    else_if = { ## Middle difficulty
+        limit = {
+            check_variable = { ARG_temp_coalition_strength > 2 }
+        }
+        start_civil_war = {
+			ruling_party = fascism
+			ideology = ROOT 
+			size = 0.4
+			keep_all_characters = yes 
+            capital = 966
+            states = { 278 966 971 974 511 970 512 969 968 967 982 972 510 983 }
+			PREV = {
+				ARG_agustín_pedro_justo = {
+					set_nationality = PREV.PREV
+				}
+				ARG_the_military_junta = {
+					set_nationality = PREV.PREV
+				}
+				ARG_arturo_rawson = {
+					set_nationality = PREV.PREV 
+				}
+				if = {
+					limit = {
+						NOT = { has_global_flag = ARG_coerced_politicians_flag }
+					}
+					every_character = {
+						limit = { 
+							NOT = { has_character_flag = ARG_fascist }
+						}
+						random_list = {
+							40 = {
+								set_nationality = PREV.PREV
+							}
+							60 = { }
+						}
+					}
+				}
+				if = {
+					limit = { has_character = ARG_agustín_pedro_justo }
+					promote_character = ARG_agustín_pedro_justo
+				}
+				else = {
+					promote_character = ARG_arturo_rawson
+				}
+			}
+		}
+    }
+    else_if = { ## Most difficult
+        limit = {
+            check_variable = { ARG_temp_coalition_strength > 0 }
+        }
+        start_civil_war = {
+			ruling_party = fascism
+			ideology = ROOT 
+			size = 0.45
+			keep_all_characters = yes 
+            capital = 966
+            states = { 278 966 971 974 511 970 512 969 968 967 982 972 510 983 509 980 }
+			PREV = {
+				ARG_agustín_pedro_justo = {
+					set_nationality = PREV.PREV
+				}
+				ARG_the_military_junta = {
+					set_nationality = PREV.PREV
+				}
+				ARG_arturo_rawson = {
+					set_nationality = PREV.PREV 
+				}
+				if = {
+					limit = {
+						NOT = { has_global_flag = ARG_coerced_politicians_flag }
+					}
+					every_character = {
+						limit = { 
+							NOT = { has_character_flag = ARG_fascist }
+						}
+						random_list = {
+							40 = {
+								set_nationality = PREV.PREV
+							}
+							60 = { }
+						}
+					}
+				}
+				if = {
+					limit = { has_character = ARG_agustín_pedro_justo }
+					promote_character = ARG_agustín_pedro_justo
+				}
+				else = {
+					promote_character = ARG_arturo_rawson
+				}
+			}
+		}
     }
 }

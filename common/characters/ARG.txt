@@ -80,6 +80,12 @@ characters={
 						has_government = communism
 					}
 				}
+				NOT = {
+					has_country_leader = {
+						character = ARG_roberto_maria_ortiz
+						ruling_only = yes 
+					}
+				}
 			}
 			on_add = {
 				ROOT = {
@@ -108,6 +114,9 @@ characters={
 			civilian = {
 				large = "gfx/leaders/ARG/ARG_leopoldo_melo.png"
 			}
+			army={
+				small="GFX_idea_ARG_leopoldo_melo_icon"
+			}
 		}
 		country_leader = {
 			desc = "POLITICS_LEOPOLDO_MELO_DESC"
@@ -118,12 +127,77 @@ characters={
 			expire="1965.1.1.1"
 			id = -1
 		}
+		advisor={
+			slot = political_advisor
+			idea_token = ARG_leopoldo_melo_idea
+			allowed  = {
+				original_tag = ARG
+			}
+			available = {
+				has_country_flag = ARG_elected_concordancia
+				NOT = {
+					has_country_leader = {
+						character = ARG_leopoldo_melo
+						ruling_only = yes 
+					}
+				}
+			}
+			on_add = {
+				ROOT = {
+					if = {
+						limit = {
+							is_power_balance_side_active = {
+								id = ARG_general_balance_of_power
+								side = ARG_government_side
+							}
+						}
+						ARG_move_5_right = yes 
+					}
+				}
+			}
+			traits  = {
+				ARG_minister_of_interior 
+			}
+			ai_will_do = {
+				factor = 1
+			}
+		}
 	}
 	ARG_robustiano_patron_costas = {
 		name = "Robustiano Patrón Costas"
 		portraits = {
 			civilian = {
 				large = "gfx/leaders/ARG/ARG_robustiano_patron_costas.png"
+			}
+			army={
+				small="GFX_idea_ARG_robustiano_icon"
+			}
+		}
+		advisor={
+			slot = political_advisor
+			idea_token = ARG_robustiano_patron_costas_idea
+			allowed  = {
+				original_tag = ARG
+			}
+			available = {
+				has_country_flag = ARG_elected_concordancia
+				NOT = {
+					has_country_leader = {
+						character = ARG_robustiano_patron_costas
+						ruling_only = yes 
+					}
+				}
+			}
+			on_add = {
+				978 = {
+					add_extra_state_shared_building_slots = 1
+				}
+			}
+			traits  = {
+				ARG_governor_of_the_people 
+			}
+			ai_will_do = {
+				factor = 1
 			}
 		}
 		country_leader = {
@@ -165,6 +239,12 @@ characters={
 				NOT = { has_government = fascism }
 				has_civil_war = no 
 				num_of_factories > 39
+				NOT = {
+					has_country_leader = {
+						character = ARG_fanny_edelman
+						ruling_only = yes 
+					}
+				}
 			}
 			on_add = {
 				ROOT = {
@@ -221,6 +301,14 @@ characters={
 			}
 			available = {
 				NOT = { has_government = fascism }
+				ROOT = {
+					NOT = {
+						has_country_leader = {
+							character = ARG_liborio_justo
+							ruling_only = yes 
+						}
+					}
+				}
 			}
 			on_add = {
 				ROOT = {
@@ -326,6 +414,12 @@ characters={
 					tooltip = ARG_not_exiled_tt
 					NOT = {
 						has_character_flag = ARG_exiled
+					}
+				}
+				NOT = {
+					has_country_leader = {
+						character = ARG_honorio_pueyrredon
+						ruling_only = yes 
 					}
 				}
 			}
@@ -528,6 +622,7 @@ characters={
 						}
 					}
 				}
+				NOT = { has_idea = ARG_juan_domingo_peron_country_idea }
 			}
 			ai_will_do = {
 				factor = 1
@@ -581,8 +676,10 @@ characters={
 				hidden_effect = {
 					if = {
 						limit = {
-							NOT = { 
-								has_country_flag = ARG_peronist_mechanic_active_flag
+							ROOT = {
+								NOT = { 
+									has_country_flag = ARG_peronist_mechanic_active_flag
+								}
 							}
 						}
 						country_event = {
@@ -591,9 +688,9 @@ characters={
 							random_days = 25
 						}
 					}
+					add_ideas = ARG_juan_domingo_peron_country_idea
 				}
 			}
-			allowed_to_remove = { always = no }
 		}
 		portraits={
 			army={
@@ -708,6 +805,12 @@ characters={
 			}
 			available = {
 				NOT = { has_government = communism }
+				NOT = {
+					has_country_leader = {
+						character = ARG_juan_bautista_molina
+						ruling_only = yes 
+					}
+				}
 				OR = {
 					has_government = fascism
 					has_country_leader = {
@@ -769,6 +872,64 @@ characters={
 		portraits={
 			civilian={
 				large="gfx/leaders/ARG/ARG_leopoldo_lugones.png"
+			}
+			army={
+				small="GFX_idea_ARG_leopoldo_lugones_icon"
+			}
+		}
+		advisor={
+			slot = political_advisor
+			idea_token = ARG_leopoldo_lugones_idea
+			allowed  = {
+				original_tag = ARG
+			}
+			cost = 75
+			available = {
+				OR = {
+					has_government = fascism
+					has_government = neutrality
+				}
+				NOT = {
+					OR = {
+						has_country_leader = {
+							character = ARG_leopoldo_lugones
+							ruling_only = yes 
+						}
+						has_country_leader = {
+							character = ARG_leopoldo_lugones_federal
+							ruling_only = yes 
+						}
+					}
+				}
+			}
+			on_add = {
+				ROOT = {
+					if = {
+						limit = {
+							is_power_balance_side_active = {
+								id = ARG_general_balance_of_power
+								side = ARG_government_side
+							}
+						}
+						ARG_move_5_left = yes 
+					}
+					if = {
+						limit = {
+							is_power_balance_side_active = {
+								id = ARG_general_balance_of_power
+								side = ARG_coalition_side
+							}
+						}
+						ARG_move_5_right = yes 
+					}
+					add_war_support = 0.03
+				}
+			}
+			traits  = {
+				editor 
+			}
+			ai_will_do = {
+				factor = 1
 			}
 		}
 		country_leader={
@@ -856,10 +1017,12 @@ characters={
 			}
 			cost = 50
 			on_add = {
-				set_country_flag = {
-					flag = ARG_hitler_recently_appointed_flag
-					days = 60
-					value = 1
+				ROOT = {
+					set_country_flag = {
+						flag = ARG_hitler_recently_appointed_flag
+						days = 60
+						value = 1
+					}
 				}
 			}
 			visible = {
@@ -943,6 +1106,52 @@ characters={
 		portraits={
 			civilian={
 				large="gfx/leaders/ARG/portrait_ARG_alfredo_palacios.png"
+			}
+			army={
+				small="GFX_idea_ARG_alfredo_palacios_icon"
+			}
+		}
+		advisor={
+			slot = political_advisor
+			idea_token = ARG_alfredo_palacios_idea
+			allowed  = {
+				original_tag = ARG
+			}
+			cost = 100
+			available = {
+				OR = {
+					has_country_flag = ARG_elected_partido_socialista
+					AND = {
+						has_completed_focus = ARG_union_civica_radical
+						NOT = { has_completed_focus = ARG_los_azules }
+					}
+				}
+				NOT = {
+					has_country_leader = {
+						character = ARG_alfredo_palacios
+						ruling_only = yes 
+					}
+				}
+			}
+			on_add = {
+				ROOT = {
+					if = {
+						limit = {
+							is_power_balance_side_active = {
+								id = ARG_general_balance_of_power
+								side = ARG_socialist_side
+							}
+						}
+						ARG_move_10_right = yes 
+					}
+					add_stability = 0.03
+				}
+			}
+			traits  = {
+				pragmatic_socialist 
+			}
+			ai_will_do = {
+				factor = 1
 			}
 		}
 		country_leader={
@@ -1287,6 +1496,15 @@ characters={
 			allowed  = {
 				original_tag  = ARG
 			}
+			available = {
+				has_country_flag = ARG_elected_concordancia
+				NOT = {
+					has_country_leader = {
+						character = ARG_honorio_pueyrredon
+						ruling_only = yes 
+					}
+				}
+			}
 			traits  = {
 				quartermaster_general 
 			}
@@ -1536,11 +1754,12 @@ characters={
 			slot = political_advisor
 			idea_token = ARG_luis_podesta_costa
 			allowed  = {
-					original_tag  = ARG
-				}
-				traits  = {
-					backroom_backstabber 
-				}
+				original_tag  = ARG
+			}
+			traits  = {
+				backroom_backstabber 
+			}
+			cost = 75
 		}
 		name="ARG_luis_podesta_costa"
 		portraits={
@@ -1555,8 +1774,8 @@ characters={
 			slot = army_chief
 			idea_token = ARG_defensive_military_council
 			allowed  = {
-					original_tag  = ARG
-				}
+				original_tag  = ARG
+			}
 			visible = {
 				has_cosmetic_tag = AARC
 			}
@@ -1567,12 +1786,12 @@ characters={
 					has_government = democratic
 				}
 			}
-				traits  = {
-					army_chief_defensive_2 
-				}
-				ai_will_do  = {
-					factor  = 1.000
-				}
+			traits  = {
+				army_chief_defensive_2 
+			}
+			ai_will_do  = {
+				factor  = 1.000
+			}
 		}
 		name="Defensive Military Council"
 		portraits={

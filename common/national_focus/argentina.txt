@@ -1087,6 +1087,13 @@ focus_tree = {
 		
 		ai_will_do = {
 			factor = 3
+			modifier = {
+				factor = 0
+				OR = {
+					has_active_mission = ARG_government_collapse
+					has_active_mission = ARG_government_crackdown
+				}
+			}
 		}
 		
 		cancel_if_invalid = yes
@@ -1147,7 +1154,7 @@ focus_tree = {
 		}
 		
 		ai_will_do = {
-			factor = 25
+			factor = 5
 		}
 		
 		cancel_if_invalid = yes
@@ -1173,7 +1180,7 @@ focus_tree = {
 		cost = 8
 		
 		ai_will_do = {
-			factor = 25
+			factor = 5
 		}
 		
 		available = {
@@ -1218,7 +1225,7 @@ focus_tree = {
 		cost = 6
 		
 		ai_will_do = {
-			factor = 25
+			factor = 5
 		}
 		
 		available = {
@@ -1263,7 +1270,7 @@ focus_tree = {
 		cost = 10
 		
 		ai_will_do = {
-			factor = 25
+			factor = 5
 		}
 		
 		available = {
@@ -1545,6 +1552,35 @@ focus_tree = {
 		search_filters = {FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			remove_ideas = ARG_economic_depression_2
+		}
+	}
+
+	focus = { #make it add a national spirit or something like that idk lol
+		id = ARG_make_an_effort_to_mobilize #improve our mobilization 
+		icon = GFX_goal_generic_small_arms
+		x = 0
+		y = 1
+		relative_position_id = ARG_ready_the_economy_for_war
+		prerequisite = { focus = ARG_ready_the_economy_for_war }
+		
+		available = {
+			threat > 0.05
+			has_completed_focus = ARG_el_ejercito_argentino
+		}
+
+		ai_will_do = {
+			factor = 3
+		}
+		
+		cost = 6
+		
+		search_filters = {FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			add_timed_idea = {
+				idea = ARG_early_mobilization
+				days = 365
+			}
+			unlock_decision_tooltip = ARG_improve_our_mobilization
 		}
 	}
 	
@@ -1844,35 +1880,6 @@ focus_tree = {
 			}
 		}
 	}
-	
-	focus = { #make it add a national spirit or something like that idk lol
-		id = ARG_make_an_effort_to_mobilize #improve our mobilization 
-		icon = GFX_goal_generic_small_arms
-		x = 0
-		y = 1
-		relative_position_id = ARG_ready_the_economy_for_war
-		prerequisite = { focus = ARG_ready_the_economy_for_war }
-		
-		available = {
-			threat > 0.05
-			has_completed_focus = ARG_el_ejercito_argentino
-		}
-
-		ai_will_do = {
-			factor = 3
-		}
-		
-		cost = 6
-		
-		search_filters = {FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
-		completion_reward = {
-			add_timed_idea = {
-				idea = ARG_early_mobilization
-				days = 365
-			}
-			unlock_decision_tooltip = ARG_improve_our_mobilization
-		}
-	}
 
 	focus = {
 		id = ARG_juremos_con_gloria_morir
@@ -2107,6 +2114,52 @@ focus_tree = {
 		ai_will_do = {
 			factor = 270
 		}
+
+		offset = {
+			x = -20
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_infamous_decade
+			}
+		}
+		offset = {
+			x = -5
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_infamous_decade
+				OR = {
+					has_completed_focus = ARG_partido_socialista
+					has_completed_focus = ARG_union_civica_radical
+					has_completed_focus = ARG_concordancia
+				}
+			}
+		}
+
+		allow_branch = {
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					OR = { 
+						has_global_flag = ARG_elections_cancelled
+						has_completed_focus = ARG_an_imminent_revolution
+						has_completed_focus = ARG_create_the_CNU
+					}
+				}
+			}
+		}
 		
 		cost = 5
 		
@@ -2123,6 +2176,15 @@ focus_tree = {
 			add_political_power = 50
 			hidden_effect = {
 				country_event = { id = argentina.rework.ALN days = 240 random_days = 180 hours = 6 }
+			}
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				mark_focus_tree_layout_dirty = yes
 			}
 		}
 	}
@@ -2141,6 +2203,36 @@ focus_tree = {
 			custom_trigger_tooltip = {
 				tooltip = ARG_political_tension_more_than_35_tt
 				check_variable = { ARG_political_tension > 35 }
+			}
+		}
+
+		offset = {
+			x = -63
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_create_the_CNU
+			}
+		}
+
+		allow_branch = {
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					OR = { 
+						has_global_flag = ARG_elections_cancelled
+						has_completed_focus = ARG_an_imminent_revolution
+						has_completed_focus = ARG_infamous_decade
+					}
+				}
 			}
 		}
 
@@ -2186,12 +2278,15 @@ focus_tree = {
 					min = 0
 					max = 5
 				}
-				if = {
-					limit = {
-						is_ai = yes 
+			}
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
 					}
-					add_ideas = ARG_dont_focus_on_army
 				}
+				mark_focus_tree_layout_dirty = yes
 			}
 		}
 	}
@@ -2347,7 +2442,16 @@ focus_tree = {
 
 		cost = 10
 
-		ai_will_do = { factor = 20 }
+		ai_will_do = { 
+			base = 20 
+			modifier = {
+				factor = 2
+				has_game_rule = {
+					rule = ARG_ai_behavior
+					option = ARG_CATHOLIC
+				}
+			}
+		}
 
 		available = { 
 			has_active_mission = ARG_government_crackdown
@@ -2476,9 +2580,12 @@ focus_tree = {
 				tooltip = ARG_coalition_strength_at_least_moderate_tt
 				check_variable = { ARG_coalition_strength > 2 }
 			}
-			custom_trigger_tooltip = {
-				tooltip = ARG_political_tension_more_than_65_tt
-				check_variable = { ARG_political_tension > 65 }
+			if = {
+				limit = { is_ai = no }
+				custom_trigger_tooltip = {
+					tooltip = ARG_political_tension_more_than_65_tt
+					check_variable = { ARG_political_tension > 65 }
+				}
 			}
 		}
 
@@ -2954,9 +3061,12 @@ focus_tree = {
 				tooltip = ARG_coalition_strength_at_least_influential_tt
 				check_variable = { ARG_coalition_strength > 3 }
 			}
-			custom_trigger_tooltip = {
-				tooltip = ARG_political_tension_more_than_65_tt
-				check_variable = { ARG_political_tension > 65 }
+			if = {
+				limit = { is_ai = no }
+				custom_trigger_tooltip = {
+					tooltip = ARG_political_tension_more_than_65_tt
+					check_variable = { ARG_political_tension > 65 }
+				}
 			}
 		}
 
@@ -2969,7 +3079,10 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_BALANCE_OF_POWER }
 		completion_reward = {
-			hidden_effect = { remove_mission = ARG_government_crackdown }
+			hidden_effect = { 
+				remove_mission = ARG_government_crackdown
+			}
+			set_global_flag = ARG_fascist_mechanic_concluded
 			custom_effect_tooltip = ARG_catholics_will_begin_civil_war_tt
 			effect_tooltip = { 
 				promote_character = ARG_julio_meinvielle_normal
@@ -2982,6 +3095,9 @@ focus_tree = {
 				}
 			}
 			hidden_effect = {
+				every_controlled_state = {
+					ARG_state_cleaner_elections = yes 
+				}
 				if = {
 					limit = {
 						any_controlled_state = { has_dynamic_modifier = { modifier = ARG_active_ANL_terrorist_group } }
@@ -3011,70 +3127,34 @@ focus_tree = {
 					division_template = { 
 						name = "Milicias" 
 						division_names_group = SPAN_INF_02 
-						is_locked = no 
+						is_locked = yes 
 						regiments = { 
 							infantry = { x = 0 y = 0 } 
 							infantry = { x = 1 y = 0 } 
 							infantry = { x = 2 y = 0 } 
+							infantry = { x = 3 y = 0 }
 						} 
 					}
 				}
 				set_temp_variable = { ARG_temp_coalition_strength = ARG_coalition_strength }
-				start_civil_war = {
-					ruling_party = fascism
-					ideology = ROOT 
-					size = 0.45
-					keep_all_characters = yes 
-					PREV = {
-						ARG_agustín_pedro_justo = {
-							set_nationality = PREV.PREV
-						}
-						ARG_the_military_junta = {
-							set_nationality = PREV.PREV
-						}
-						ARG_arturo_rawson = {
-							set_nationality = PREV.PREV 
-						}
-						if = {
-							limit = {
-								NOT = { has_global_flag = ARG_coerced_politicians_flag }
-							}
-							every_character = {
-								limit = { 
-									NOT = { has_character_flag = ARG_fascist }
-								}
-								random_list = {
-									40 = {
-										set_nationality = PREV.PREV
-									}
-									60 = { }
-								}
-							}
-						}
-					}
-					if = {
-						limit = { has_character = ARG_agustín_pedro_justo }
-						promote_character = ARG_agustín_pedro_justo
-					}
-					else = {
-						promote_character = ARG_arturo_rawson
-					}
-				}
+				ARG_start_fascist_civil_war = yes 
 				ARG_set_communist_side_divisions = yes 
 				if = {
 					limit = {
 						check_variable = { ARG_temp_coalition_strength > 4 }
 					}
-					every_controlled_state = {
+					random_owned_controlled_state = {
 						create_unit = {
 							division = "name = \"Milicia Leales\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
 							owner = ROOT
+							count = 3
 						}
 					}
 					random_owned_controlled_state = {
 						create_unit = {
 							division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
 							owner = ROOT
+							count = 4
 						}
 					}
 				}
@@ -3083,7 +3163,7 @@ focus_tree = {
 						create_unit = {
 							division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
 							owner = ROOT
-							count = 3
+							count = 2
 						}
 					}
 				}
@@ -3116,7 +3196,7 @@ focus_tree = {
 				set_cosmetic_tag = FARGD
 				promote_character = ARG_julio_meinvielle_normal
 				set_global_flag = ARG_fascist_civil_war
-				add_ideas = ARG_the_argentine_civil_war_idea_government
+				add_ideas = ARG_the_argentine_civil_war_idea_player
 				set_power_balance = {
 					id = ARG_general_balance_of_power
 					left_side = ARG_state_side # will keep the last set side if not specified
@@ -3138,61 +3218,57 @@ focus_tree = {
 						}
 						every_controlled_state = {
 							create_unit = {
-								division = "name = \"Milicia Leales\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
-								owner = PREV
-								count = 1
-							}
-						}
-						set_temp_variable = { iterator1 = 0 }
-						random_owned_controlled_state = {
-							create_unit = {
-								division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
+								division = "name = \"Milicia Leales\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.4" 
 								owner = PREV
 								count = 2
 							}
 						}
 						random_owned_controlled_state = {
 							create_unit = {
-								division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
+								division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.4" 
 								owner = PREV
 								count = 2
 							}
 						}
 						random_owned_controlled_state = {
 							create_unit = {
-								division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
+								division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.5" 
 								owner = PREV
-								count = 3
+								count = 2
+							}
+						}
+						random_owned_controlled_state = {
+							create_unit = {
+								division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.45" 
+								owner = PREV
 							}
 						}
 					}
 					else = {
 						every_controlled_state = {
 							create_unit = {
-								division = "name = \"Milicia Leales\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
+								division = "name = \"Milicia Leales\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.55" 
 								owner = PREV 
 								count = 2
 							}
 						}
-						set_temp_variable = { iterator2 = 0 }
 						random_owned_controlled_state = {
 							create_unit = {
-								division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
+								division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.5" 
 								owner = PREV
-								count = 2
 							}
 						}
 						random_owned_controlled_state = {
 							create_unit = {
-								division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
+								division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.5" 
 								owner = PREV
-								count = 2
 							}
 						}
 						random_owned_controlled_state = {
 							create_unit = {
-								division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
+								division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.5" 
 								owner = PREV
+								count = 3
 							}
 						}
 					}
@@ -3255,7 +3331,6 @@ focus_tree = {
 				limit = {
 					has_civil_war = yes 
 				}
-				add_political_power = 20
 				unlock_decision_tooltip = ARG_militia_recruitment_in_FROM
 			}
 			else = {
@@ -3280,7 +3355,7 @@ focus_tree = {
 			has_civil_war = yes 
 			any_enemy_country = {
 				original_tag = ARG 
-				surrender_progress > 0.35
+				surrender_progress > 0.25
 			}
 		}
 
@@ -3393,7 +3468,14 @@ focus_tree = {
 			modifier = {
 				factor = 2
 				has_completed_focus = ARG_spread_word_of_the_coalition
-			} 
+			}
+			modifier = {
+				factor = 10
+				has_game_rule = {
+					rule = ARG_ai_behavior 
+					option = ARG_CONFEDERATION
+				}
+			}
 		}
 
 		available = {
@@ -3423,6 +3505,7 @@ focus_tree = {
 				ideology = fascism_ideology
 				trait = ARG_striving_for_a_change
 			}
+			add_command_power = 10
 			hidden_effect = {
 				add_trait = {
 					character = ARG_leopoldo_lugones_federal
@@ -3707,6 +3790,11 @@ focus_tree = {
 				ARG_move_10_left = yes 
 			} 
 			set_cosmetic_tag = ARG_TNM
+			set_party_name = {
+				ideology = fascism
+				long_name = ARG_TNM_party_long
+				name = ARG_TNM_party
+			}
 		}
 	}
 
@@ -3754,9 +3842,10 @@ focus_tree = {
 		completion_reward = {
 			add_days_mission_timeout = {
 				mission = ARG_federlist_takeover
-				days = 15
+				days = 25
 			}
 			custom_effect_tooltip = ARG_unlock_decisions_to_boost_federalism_tt
+			add_command_power = 10
 			if = {
 				limit = {
 					is_power_balance_side_active = {
@@ -3957,6 +4046,16 @@ focus_tree = {
 		search_filters = {FOCUS_FILTER_POLITICAL}
 		completion_reward = {
 			custom_effect_tooltip = ARG_rosas_immortalized_idea_gain_extra_3_attack_defense_tt
+			add_command_power = 5
+			if = {
+				limit = {
+					is_power_balance_side_active = {
+						id = ARG_general_balance_of_power
+						side = ARG_federalist_side
+					}
+				}
+				ARG_move_5_right = yes 
+			}
 			hidden_effect = {
 				add_to_variable = { ARG_rosas_attack_factor = 0.03 }
 				add_to_variable = { ARG_rosas_defence_factor = 0.03 }
@@ -4032,15 +4131,7 @@ focus_tree = {
 		}
 
 		available = {
-			custom_trigger_tooltip = {
-				tooltip = ARG_is_the_confederation_tt
-				has_cosmetic_tag = AARC 
-				NOT = { has_active_mission = ARG_federlist_takeover }
-				has_country_leader = {
-					character = ARG_leopoldo_lugones
-					ruling_only = yes 
-				}
-			}
+			ARG_is_the_argentine_confederation = yes 
 		}
 		
 		ai_will_do = {
@@ -4078,7 +4169,7 @@ focus_tree = {
 			has_civil_war = yes 
 			any_enemy_country = {
 				original_tag = ARG 
-				surrender_progress > 0.2
+				surrender_progress > 0.15
 			}
 		}
 
@@ -4120,6 +4211,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_MANPOWER }
 		completion_reward = {
 			add_manpower = 12500
+			add_political_power = 20
 			unlock_decision_tooltip = ARG_militia_recruitment_in_FROM
 		}
 	}
@@ -4163,15 +4255,7 @@ focus_tree = {
 		}
 		
 		available = {
-			custom_trigger_tooltip = {
-				tooltip = ARG_is_the_confederation_tt
-				has_cosmetic_tag = AARC 
-				NOT = { has_active_mission = ARG_federlist_takeover }
-				has_country_leader = {
-					character = ARG_leopoldo_lugones
-					ruling_only = yes 
-				}
-			}
+			ARG_is_the_argentine_confederation = yes 
 			has_civil_war = no
 		}
 	
@@ -4186,7 +4270,6 @@ focus_tree = {
 				add_state_core = 985
 				add_state_claim = 507
 			}
-			country_event = argentina.53
 			add_political_power = 50
 			hidden_effect = { 
 				news_event = { id = news.360 days = 2} 
@@ -4212,7 +4295,7 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-			add_ideas = ARG_federalized_society
+			add_ideas = ARG_federalized_society_idea
 			custom_effect_tooltip = ARG_every_developed_urban_state_tt
 			every_owned_state = {
 				limit = {
@@ -4257,6 +4340,40 @@ focus_tree = {
 			}
 		}
 	}
+
+	focus = {
+		id = ARG_modernize_our_construction_companies
+		icon = GFX_goal_generic_construction
+		x = -1
+		y = 2
+		relative_position_id = ARG_establish_the_TNM
+		prerequisite = { 
+			focus = ARG_establish_the_TNM 
+			focus = ARG_deal_peacefully_with_our_enemies
+			focus = ARG_state_of_terror
+			focus = ARG_the_one_true_papal_state
+		}
+		
+		cost = 7.2
+
+		ai_will_do = { factor = 3 }
+		
+		available = {
+			is_subject = no
+			has_government = fascism
+			has_civil_war = no 
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_CHI_INFLATION }
+		completion_reward = {
+			add_ideas = ARG_modernize_construction_companies
+		}
+	}
+
 
 	focus = { #Economic recovery
 		id = ARG_expand_the_industry
@@ -4360,7 +4477,7 @@ focus_tree = {
 		
 		available = {
 			is_subject = no
-			stability > 0.54
+			has_stability > 0.49
 			custom_trigger_tooltip = {
 				tooltip = ARG_not_suffering_inflation
 				NOT = {
@@ -4391,39 +4508,6 @@ focus_tree = {
 		}
 	}
 	
-	focus = {
-		id = ARG_modernize_our_construction_companies
-		icon = GFX_goal_generic_construction
-		x = -1
-		y = 2
-		relative_position_id = ARG_establish_the_TNM
-		prerequisite = { 
-			focus = ARG_establish_the_TNM 
-			focus = ARG_deal_peacefully_with_our_enemies
-			focus = ARG_state_of_terror
-			focus = ARG_the_one_true_papal_state
-		}
-		
-		cost = 7.2
-
-		ai_will_do = { factor = 3 }
-		
-		available = {
-			is_subject = no
-			has_government = fascism
-			has_civil_war = no 
-		}
-		
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_CHI_INFLATION }
-		completion_reward = {
-			add_ideas = ARG_modernize_construction_companies
-		}
-	}
-
 	focus = {
 		id = ARG_fascist_intellectuals
 		icon = GFX_goal_generic_scientific_exchange
@@ -4466,7 +4550,7 @@ focus_tree = {
 		x = 0
 		y = 1
 		relative_position_id = ARG_continue_Hipolitos_legacy
-		prerequisite = { focus = ARG_honorio_pueyrredon }
+		prerequisite = { focus = ARG_continue_Hipolitos_legacy }
 		
 		
 		cost = 10
@@ -4559,46 +4643,20 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
-			986 = {
-				add_extra_state_shared_building_slots = 2
+			every_controlled_state = {
+				limit = { is_core_of = PAR }
+				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
 					type = industrial_complex 
 					level = 1
 					instant_build = yes
 				}
 				add_building_construction = {
-					type = arms_factory 
+					type = infrastructure
 					level = 1
 					instant_build = yes
 				}
-				if = {
-					limit = { 
-						infrastructure < 10
-					}
-					add_building_construction = {
-						type = infrastructure
-						level = 3
-						instant_build = yes
-					}
-				}
-			}
-			300 = {
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = industrial_complex
-					level = 2
-					instant_build = yes
-				}
-				if = {
-					limit = { 
-						infrastructure < 10
-					}
-					add_building_construction = {
-						type = infrastructure
-						level = 2
-						instant_build = yes
-					}
-				}
+				add_compliance = 10
 			}
 		}
 	}
@@ -4763,7 +4821,7 @@ focus_tree = {
 				set_capital = { state = 300 }
 				start_civil_war = {
 					ruling_party = democratic
-					ideology = ROOT
+					ideology = fascism
 					size = 0.45
 					capital = 986
 					states = {
@@ -4976,7 +5034,7 @@ focus_tree = {
 			else = {
 				add_political_power = 150
 			}
-			EUYL_add_1_military = yes 
+			EUYL_add_2_military = yes 
 		}
 	}
 	
@@ -5763,8 +5821,7 @@ focus_tree = {
 		ai_will_do = { factor = 5 }
 		
 		available = {
-			is_subject = no
-			has_government = fascism
+			ARG_is_the_argentine_confederation = yes 
 			OR = {
 				controls_state = 985
 				any_other_country = {
@@ -5936,7 +5993,6 @@ focus_tree = {
 		}
 		
 		bypass = {
-			has_government = fascism
 			ROOT = {
 				OR = {
 					AND = {
@@ -6300,6 +6356,12 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
 			custom_effect_tooltip = ARG_unlock_integrate_territory
+			if = {
+				limit = {
+					NOT = { has_country_flag = EUYL_can_integrate }
+				}
+				set_country_flag = EUYL_can_integrate
+			}
 		}
 	}
 	
@@ -6601,8 +6663,7 @@ focus_tree = {
 		ai_will_do = { factor = 4 }
 		
 		available = {
-			is_subject = no
-			has_government = fascism
+			ARG_is_the_argentine_confederation = yes 
 		}
 		
 		cancel_if_invalid = yes
@@ -6741,6 +6802,82 @@ focus_tree = {
 
 		cost = 2
 
+		offset = {
+			x = -60
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				OR = {
+					has_completed_focus = ARG_an_imminent_revolution
+					has_completed_focus = ARG_create_the_CNU
+					has_global_flag = ARG_elections_cancelled
+				}
+			}
+		}
+
+		offset = {
+			x = -43
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_infamous_decade
+				NOT = {
+					OR = {
+						has_completed_focus = ARG_partido_socialista
+						has_completed_focus = ARG_union_civica_radical
+						has_completed_focus = ARG_concordancia
+					}
+				}
+			}
+		}
+
+		offset = {
+			x = -63
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_infamous_decade
+				OR = {
+					has_completed_focus = ARG_partido_socialista
+					has_completed_focus = ARG_union_civica_radical
+				}
+			}
+		}
+
+		offset = {
+			x = -10
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_concordancia
+			}
+		}
+
+		offset = {
+			x = -53
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_infamous_decade
+				has_completed_focus = ARG_concordancia
+			}
+		}
+
 		ai_will_do = { 
 			base = 5 
 			modifier = {
@@ -6781,7 +6918,8 @@ focus_tree = {
 		available_if_capitulated = no
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
-			EUYL_add_4_dockyard = yes 
+			EUYL_add_2_dockyard = yes 
+			EUYL_add_1_dockyard = yes 
 		}
 	}
 	
@@ -8046,6 +8184,44 @@ focus_tree = {
 		mutually_exclusive = { focus = ARG_partido_socialista }
 		
 		cost = 5
+
+		ai_will_do = { factor = 210 }
+
+		offset = {
+			x = -16
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_concordancia
+			}
+		}
+
+		allow_branch = {
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					OR = { 
+						has_global_flag = ARG_elections_cancelled
+						has_completed_focus = ARG_an_imminent_revolution
+						has_completed_focus = ARG_create_the_CNU
+					}
+				}
+				NOT = {
+					OR = { 
+						has_completed_focus = ARG_union_civica_radical
+						has_completed_focus = ARG_partido_socialista
+					}
+				}
+			}
+		}
 		
 		available = {
 			has_global_flag = ARG_elections_active
@@ -8068,6 +8244,15 @@ focus_tree = {
 				right_side = ARG_government_side # will keep the last set side if not specified
 				set_value = 0.15 # if specified will set the value of the power balance, this option will override the effect of set_default so the two options should not be used together. if neither set_default or set_value is specified the current value of the power balance will not change
 			}
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				mark_focus_tree_layout_dirty = yes
+			}
 		}
 	}
 
@@ -8088,9 +8273,10 @@ focus_tree = {
 		bypass = {
 			NOT = { has_active_mission = ARG_the_1937_elections }
 		}
-		search_filters = { FOCUS_FILTER_POLITICAL }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_POLITICAL_TENSION }
 		completion_reward = {
 			add_political_power = 35
+			ARG_decrease_5_political_tension = yes 
 		}
 	}
 
@@ -8137,6 +8323,18 @@ focus_tree = {
 		}
 
 		cost = 5 
+
+		offset = {
+			x = 6
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_concordancia
+			}
+		}
 
 		ai_will_do = { factor = 100 }
 
@@ -8333,6 +8531,30 @@ focus_tree = {
 				is_historical_focus_on = yes 
 			}
 		}
+
+		allow_branch = {
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					OR = { 
+						has_global_flag = ARG_elections_cancelled
+						has_completed_focus = ARG_an_imminent_revolution
+						has_completed_focus = ARG_create_the_CNU
+					}
+				}
+				NOT = {
+					OR = { 
+						has_completed_focus = ARG_partido_socialista
+						has_completed_focus = ARG_concordancia
+					}
+				}
+			}
+		}
 		
 		cost = 5
 		
@@ -8358,6 +8580,15 @@ focus_tree = {
 			}
 			set_variable = { ARG_concordancia_opinion = -1 }
 			set_variable = { ARG_UCR_opinion = 2 }
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				mark_focus_tree_layout_dirty = yes
+			}
 		}
 	}
 
@@ -8371,6 +8602,23 @@ focus_tree = {
 		mutually_exclusive = { focus = ARG_create_the_CNU }
 
 		cost = 2
+
+		allow_branch = {
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					OR = { 
+						has_completed_focus = ARG_infamous_decade
+						has_completed_focus = ARG_create_the_CNU
+					}
+				}
+			}
+		}
 
 		ai_will_do = {
 			factor = 400
@@ -8402,6 +8650,15 @@ focus_tree = {
 			add_political_power = 35
 			custom_effect_tooltip = available_political_advisor
 			show_ideas_tooltip = ARG_victorio_codavilla_idea
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				mark_focus_tree_layout_dirty = yes
+			}
 		}
 	}
 
@@ -8431,7 +8688,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			custom_effect_tooltip = ARG_unlock_promote_decisions_tt
-			add_political_power = 50
+			add_political_power = 40
 			add_popularity = {
 				ideology = communism
 				popularity = 0.05
@@ -8778,6 +9035,18 @@ focus_tree = {
 			focus = ARG_stick_with_nicolas
 		}
 
+		offset = {
+			x = 10
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_partido_socialista
+			}
+		}
+
 		cost = 5
 
 		ai_will_do = {
@@ -8843,6 +9112,18 @@ focus_tree = {
 		}
 		mutually_exclusive = {
 			focus = ARG_no_one_other_than_alfredo_palacios
+		}
+
+		offset = {
+			x = 10
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_partido_socialista
+			}
 		}
 
 		cost = 5
@@ -9095,7 +9376,7 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER }
 		completion_reward = { ## Send Soviets an event asking for aid 
-			add_political_power = 25
+			add_political_power = 20
 			SOV = { 
 				country_event = { 
 					id = argentina.rework.communist.10
@@ -9245,7 +9526,7 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			add_political_power = 25
+			add_political_power = 20
 			unlock_decision_tooltip = {
 				decision = ARG_recruit_a_proper_division_in_FROM
 				show_effect_tooltip = yes 
@@ -9273,7 +9554,7 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			add_political_power = 40
+			add_political_power = 35
 			unlock_decision_tooltip = {
 				decision = ARG_seize_national_stockpile_in_FROM
 				show_effect_tooltip = yes 
@@ -11733,6 +12014,18 @@ focus_tree = {
 
 		cost = 5
 
+		offset = {
+			x = 6
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_partido_socialista
+			}
+		}
+
 		ai_will_do = { factor = 3 }
 
 		search_filters = { FOCUS_FILTER_INDUSTRY }
@@ -11905,6 +12198,18 @@ focus_tree = {
 		relative_position_id = ARG_the_revolution
 		prerequisite = { 
 			focus = ARG_move_to_secure_parliament
+		}
+
+		offset = {
+			x = 8
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_partido_socialista
+			}
 		}
 
 		available = {
@@ -12130,6 +12435,18 @@ focus_tree = {
 		prerequisite = { focus = ARG_democracia_y_socialismo }
 
 		cost = 7.2
+
+		offset = {
+			x = -3
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_partido_socialista
+			}
+		}
 
 		ai_will_do = { factor = 10 }
 
@@ -12751,12 +13068,11 @@ focus_tree = {
 	focus = {
 		id = ARG_liberate_paraguay
 		icon = GFX_ARG_go_through_paraguay 
-		x = -1
-		y = 1
+		x = 1
+		y = 2
 		relative_position_id = ARG_patagonic_industrialization
 		prerequisite = { 
-			focus = ARG_patagonic_industrialization 
-			focus = ARG_eliminate_the_oligarchs
+			focus = ARG_demand_the_patagonia 
 		}
 		will_lead_to_war_with = PAR
 
@@ -12790,10 +13106,9 @@ focus_tree = {
 	focus = {
 		id = ARG_form_the_posadist_la_plata
 		icon = GFX_focus_generic_support_the_left_right
-		x = -1
+		x = 0
 		y = 1
-		relative_position_id = ARG_liberate_paraguay
-		prerequisite = { focus = ARG_liberate_paraguay }
+		relative_position_id = ARG_cleanse_the_extremists
 		prerequisite = { focus = ARG_cleanse_the_extremists }
 
 		cost = 10
@@ -13032,7 +13347,7 @@ focus_tree = {
 	focus = { #Succesful 4 year Patagonic Plan
 		id = ARG_4_year_patagonic_plan
 		icon = GFX_goal_generic_construct_civ_factory
-		x = -1
+		x = -3
 		y = 1
 		relative_position_id = ARG_demand_the_patagonia
 		prerequisite = { focus = ARG_demand_the_patagonia }
@@ -13076,7 +13391,7 @@ focus_tree = {
 	focus = {
 		id = ARG_patagonic_nuclear_campaign
 		icon = GFX_focus_wonderweapons
-		x = -1
+		x = 0
 		y = 1
 		relative_position_id = ARG_4_year_patagonic_plan
 		prerequisite = { focus = ARG_4_year_patagonic_plan }
@@ -13260,6 +13575,42 @@ focus_tree = {
 
 		## Starts a BoP between the Socialists and the Military
 
+		offset = {
+			x = 10
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_partido_socialista
+			}
+		}
+
+		allow_branch = {
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					OR = { 
+						has_global_flag = ARG_elections_cancelled
+						has_completed_focus = ARG_an_imminent_revolution
+						has_completed_focus = ARG_create_the_CNU
+					}
+				}
+				NOT = {
+					OR = { 
+						has_completed_focus = ARG_union_civica_radical
+						has_completed_focus = ARG_concordancia
+					}
+				}
+			}
+		}
+
 		cost = 5
 
 		ai_will_do = {
@@ -13296,6 +13647,15 @@ focus_tree = {
 					mission = ARG_the_1937_elections
 					days = 10
 				}
+			}
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				mark_focus_tree_layout_dirty = yes
 			}
 		}
 	}
@@ -13572,6 +13932,18 @@ focus_tree = {
 
 		cost = 5
 
+		offset = {
+			x = -3
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_partido_socialista
+			}
+		}
+
 		ai_will_do = { factor = 175 }
 
 		available = {
@@ -13604,6 +13976,18 @@ focus_tree = {
 		mutually_exclusive = { focus = ARG_focus_on_securing_empty_provinces }
 
 		cost = 5
+
+		offset = {
+			x = -3
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_partido_socialista
+			}
+		}
 
 		ai_will_do = { factor = 105 }
 
@@ -14652,6 +15036,18 @@ focus_tree = {
 		
 		cost = 10
 
+		offset = {
+			x = 10
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_partido_socialista
+			}
+		}
+
 		ai_will_do = { factor = 5 }
 		
 		available = {
@@ -14815,6 +15211,18 @@ focus_tree = {
 		
 		cost = 5
 
+		offset = {
+			x = 8
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_partido_socialista
+			}
+		}
+
 		ai_will_do = { factor = 2 }
 		
 		available = {
@@ -14851,11 +15259,26 @@ focus_tree = {
 		
 		cost = 5
 
+		offset = {
+			x = -17
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_concordancia
+			}
+		}
+
 		ai_will_do = { factor = 2 }
 		
 		available = {
 			is_subject = no
-			has_government = democratic
+			OR = {
+				has_government = democratic
+				has_government = neutrality
+			}
 		}
 		
 		cancel_if_invalid = yes
@@ -15655,7 +16078,7 @@ focus_tree = {
 					is_in_faction = no 
 					has_opinion = {
 						target = ROOT 
-						value > 49
+						value > 79
 					}
 					is_subject = no 
 				}
@@ -15678,6 +16101,18 @@ focus_tree = {
 		will_lead_to_war_with = FRA 
 		
 		cost = 10
+
+		offset = {
+			x = -18
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_concordancia
+			}
+		}
 		
 		available = {
 			is_subject = no
@@ -15702,14 +16137,41 @@ focus_tree = {
 		
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			add_threat = 5.0
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = ENG
+			add_threat = 2.0
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = ENG 
+						original_tag = FRA 
+						is_subject_of = ENG 
+						is_subject_of = FRA
+					}
+					NOT = { has_war_with = ROOT }
+					NOT = { is_in_faction_with = ROOT }
+				}
 			}
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = FRA
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						OR = {
+							original_tag = ENG 
+							original_tag = FRA 
+						}
+						OR = {
+							is_subject_of = ENG 
+							is_subject_of = FRA 
+						}
+						NOT = { has_war_with = ROOT }
+						NOT = { is_in_faction_with = ROOT }
+					}
+					ROOT = {
+						create_wargoal = {
+							type = annex_everything
+							target = PREV 
+						}
+					}
+				}
 			}
 		}
 	}
@@ -15726,6 +16188,18 @@ focus_tree = {
 		}
 		
 		cost = 10
+
+		offset = {
+			x = -16
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_concordancia
+			}
+		}
 		
 		available = {
 			is_subject = no
@@ -16731,7 +17205,7 @@ focus_tree = {
 			}
 			custom_trigger_tooltip = {
 				tooltip = ARG_peron_as_advisor_tt
-				has_idea = ARG_juan_domingo_peron_idea
+				has_idea = ARG_juan_domingo_peron_country_idea
 			}
 		}
 
@@ -16739,6 +17213,14 @@ focus_tree = {
 			has_country_leader = {
 				character = ARG_juan_domingo_peron
 				ruling_only = yes 
+			}
+		}
+
+		select_effect = {
+			country_event = {
+				id = argentina.rework.52
+				days = 20
+				random_days = 25
 			}
 		}
 		
@@ -17029,6 +17511,18 @@ focus_tree = {
 			focus = ARG_deal_peacefully_with_our_enemies
 		}
 		mutually_exclusive = { focus = ARG_a_traditional_approach }
+
+		offset = {
+			x = -63
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_create_the_CNU
+			}
+		}
 
 		cost = 7.2
 
@@ -17868,15 +18362,7 @@ focus_tree = {
 					is_in_faction_with = ROOT 
 				}
 			}
-			PAR = {
-				OR = {
-					is_subject_of = ROOT 
-					capital_scope = { is_fully_controlled_by = ROOT }
-					is_in_faction_with = ROOT 
-				}
-			}
 			985 = { is_controlled_by = ROOT }
-			984 = { is_controlled_by = ROOT }
 		}
 
 		search_filters = { FOCUS_FILTER_ANNEXATION }
@@ -18035,7 +18521,7 @@ focus_tree = {
 			NOT = { has_idea = ARG_fradulant_election_charges }
 		}
 
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			add_stability = 0.05
 			remove_ideas = ARG_fradulant_election_charges
@@ -18074,6 +18560,16 @@ focus_tree = {
 			}
 			hidden_effect = {
 				add_to_variable = { ARG_medical_equipment = 25 }
+				if = {
+					limit = { 
+						is_ai = yes 
+						is_historical_focus_on = yes 
+					}
+					add_days_mission_timeout = {
+						mission = ARG_robertos_renounce
+						days = 365
+					}
+				}
 			}
 		}
 	}
@@ -18178,7 +18674,7 @@ focus_tree = {
 
 		ai_will_do = { factor = 2 }
 
-		search_filters = { FOCUS_FILTER_POLITICAL }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			add_political_power = 25
 		}
@@ -18205,7 +18701,10 @@ focus_tree = {
 			modifier = { # high priority
 				factor = 10
 				is_historical_focus_on = yes 
-				date > 1943.2.1
+				OR = {
+					date > 1943.2.1
+					has_idea = ARG_GOU_idea
+				}
 			}
 		}
 
@@ -18240,7 +18739,7 @@ focus_tree = {
  
 		## Unlock decisions to increase political tension and empower the army 
 
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_POLITICAL_TENSION FOCUS_FILTER_BALANCE_OF_POWER }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_POLITICAL_TENSION FOCUS_FILTER_BALANCE_OF_POWER FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			add_political_power = 25
 			unlock_decision_tooltip = {
@@ -18303,7 +18802,7 @@ focus_tree = {
 			}
 		}
 
-		search_filters = { FOCUS_FILTER_POLITICAL_TENSION }
+		search_filters = { FOCUS_FILTER_POLITICAL_TENSION FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			ARG_increase_10_political_tension = yes 
 			custom_effect_tooltip = ARG_gain_control_of_4_states_as_GOU_tt
@@ -18394,7 +18893,7 @@ focus_tree = {
 			}
 		}
 
-		search_filters = { FOCUS_FILTER_BALANCE_OF_POWER }
+		search_filters = { FOCUS_FILTER_BALANCE_OF_POWER FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			ARG_move_15_left = yes 
 			custom_effect_tooltip = ARG_gain_control_of_4_states_as_GOU_tt
@@ -18480,7 +18979,7 @@ focus_tree = {
 
 		## will start the subversive peronist influence mechanic (typically triggered via event)
 		## Makes Arturo Rawson leader, but after 3 days trigger event where he is forced to step down from power by the GOU itself 
-
+		search_filters = { FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			add_threat = 1.0
 			country_event = argentina.rework.8
@@ -18667,7 +19166,7 @@ focus_tree = {
 			}
 		}
 
-		search_filters = { FOCUS_FILTER_POLITICAL }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			custom_effect_tooltip = ARG_add_10_peronist_support_tt
 			add_to_variable = { ARG_peronist_support = 10 }
@@ -18707,7 +19206,7 @@ focus_tree = {
 
 		ai_will_do = { factor = 7 }
 
-		search_filters = { FOCUS_FILTER_POLITICAL }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			custom_effect_tooltip = ARG_add_10_peronist_support_tt
 			add_to_variable = { ARG_peronist_support = 10 }
@@ -19761,6 +20260,34 @@ focus_tree = {
 			focus = ARG_ask_for_control_over_the_southern_atlantic
 		}
 
+		offset = {
+			x = -6
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_partido_socialista
+			}
+		}
+
+		offset = {
+			x = -14
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				NOT = { has_completed_focus = ARG_create_the_CNU }
+				OR = {
+					has_global_flag = ARG_elections_cancelled
+					has_completed_focus = ARG_an_imminent_revolution
+				}
+			}
+		}
+
 		available = {
 			num_of_factories > 120
 			has_army_manpower = { size > 499999 }
@@ -19817,6 +20344,30 @@ focus_tree = {
 			focus = ARG_a_traditional_approach
 			focus = ARG_follow_mussolinis_principles
 		}
+
+		allow_branch = {
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					OR = { 
+						has_global_flag = ARG_elections_cancelled
+						has_completed_focus = ARG_an_imminent_revolution
+						has_completed_focus = ARG_create_the_CNU
+					}
+				}
+				NOT = {
+					OR = { 
+						has_completed_focus = ARG_union_civica_radical
+						has_completed_focus = ARG_partido_socialista
+					}
+				}
+			}
+		}
 		
 		cost = 10
 
@@ -19847,9 +20398,9 @@ focus_tree = {
 	focus = { ## will add a trait to Peron and weaken inexperienced leader trait
 		id = ARG_al_amigo_todo_al_enemigo_nada
 		icon = GFX_ARG_new_conscriptions
-		x = 1
-		y = 1
-		relative_position_id = ARG_perons_argentina
+		x = 5
+		y = 2
+		relative_position_id = ARG_demand_liberation
 		prerequisite = { focus = ARG_perons_argentina }
 
 		## Allows the capability to declare war on countries with enough negative opinion towards the player 
@@ -20181,7 +20732,7 @@ focus_tree = {
 		continue_if_invalid = no
 		available_if_capitulated = no
 		
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			add_country_leader_trait = ARG_father_of_modern_argentina
 			hidden_effect = {

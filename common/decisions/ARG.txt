@@ -381,10 +381,7 @@ ARG_cultural_development = {
 		days_mission_timeout = 700
 
 		available = {
-			OR = {
-				amount_research_slots = 5
-				amount_research_slots > 5
-			}
+			amount_research_slots > 4
 		}
 
 		cancel_trigger = {
@@ -412,6 +409,53 @@ ARG_cultural_development = {
 			subtract_from_variable = { ARG_active_cultural_missions = 1 }
 			add_stability = -0.01
 			add_political_power = -5
+		}
+	}
+
+	ARG_construct_the_military_hospital = {
+		icon = SOV_place_hq
+
+		activation = {
+			always = no 
+		}
+
+		is_good = no 
+
+		days_mission_timeout = 245
+
+		available = {
+			has_completed_focus = ARG_build_the_military_hospital
+		}
+
+		cancel_trigger = {
+			OR = {
+				has_civil_war = yes 
+				NOT = { controls_state = 966 }
+			}
+		}
+
+		cancel_effect = {
+			subtract_from_variable = { ARG_active_cultural_missions = 1 }
+		}
+
+		complete_effect = {
+			add_to_variable = { ARG_succesful_cultural_missions = 1 }
+			subtract_from_variable = { ARG_active_cultural_missions = 1 }
+			add_political_power = 10
+			add_command_power = 5
+		}
+
+		timeout_effect = {
+			subtract_from_variable = { ARG_active_cultural_missions = 1 }
+			add_political_power = -5
+			if = {
+				limit = {
+					has_dynamic_modifier = {
+						modifier = ARG_infamous_decade_idea
+					}
+				}
+				ARG_increase_1_political_tension = yes 
+			}
 		}
 	}
 }
@@ -1210,7 +1254,7 @@ ARG_bop = {
 		}
 
 		modifier = {
-			political_power_factor = -0.1
+			political_power_factor = -0.05
 			weekly_manpower = -750
 		}
 
@@ -1606,7 +1650,23 @@ ARG_bop = {
 			}
 		}
 
-		ai_will_do = { factor = 120 } ##kinda let the AI decide on this one
+		ai_will_do = { 
+			base = 120 
+			modifier = {
+				factor = 0
+				has_game_rule = {
+					rule = ARG_ai_behavior 
+					option = ARG_DEMOCRATIC_GRISES
+				}
+			}
+			modifier = {
+				factor = 1.3
+				has_game_rule = {
+					rule = ARG_ai_behavior 
+					option = ARG_DEMOCRATIC_AZULES
+				}
+			}
+		} ##kinda let the AI decide on this one
 
 		visible = {
 			has_completed_focus = ARG_union_civica_radical
@@ -1645,11 +1705,22 @@ ARG_bop = {
 						value < -0.65
 					}
 					has_completed_focus = ARG_los_grises
+					has_game_rule = {
+						rule = ARG_ai_behavior 
+						option = ARG_DEMOCRATIC_GRISES
+					}
 				}
 			}
 			modifier = {
 				factor = 1.1
 				has_completed_focus = ARG_los_azules
+			}
+			modifier = {
+				factor = 1.3
+				has_game_rule = {
+					rule = ARG_ai_behavior 
+					option = ARG_DEMOCRATIC_AZULES
+				}
 			}
 		}
 
@@ -1707,6 +1778,13 @@ ARG_bop = {
 			modifier = {
 				factor = 1.1
 				has_completed_focus = ARG_los_azules
+			}
+			modifier = {
+				factor = 1.3
+				has_game_rule = {
+					rule = ARG_ai_behavior 
+					option = ARG_DEMOCRATIC_AZULES
+				}
 			}
 		}
 
@@ -1768,6 +1846,20 @@ ARG_bop = {
 					value < -0.65
 				}
 			}
+			modifier = {
+				factor = 1.3
+				has_game_rule = {
+					rule = ARG_ai_behavior 
+					option = ARG_DEMOCRATIC_AZULES
+				}
+			}
+			modifier = {
+				factor = 0
+				has_game_rule = {
+					rule = ARG_ai_behavior 
+					option = ARG_DEMOCRATIC_GRISES
+				}
+			}
 		}
 
 		available = { 
@@ -1810,6 +1902,20 @@ ARG_bop = {
 				power_balance_value = {
 					id = ARG_general_balance_of_power
 					value > 0.65
+				}
+			}
+			modifier = {
+				factor = 1.3
+				has_game_rule = {
+					rule = ARG_ai_behavior 
+					option = ARG_DEMOCRATIC_GRISES
+				}
+			}
+			modifier = {
+				factor = 0
+				has_game_rule = {
+					rule = ARG_ai_behavior 
+					option = ARG_DEMOCRATIC_AZULES
 				}
 			}
 		}
@@ -2032,7 +2138,6 @@ ARG_political_crisis = {
 				}
 			}
 			NOT = { has_global_flag = ARG_civil_war_concluded }
-			NOT = { has_completed_focus = ARG_a_different_approach }
 		}
 
 		is_good = yes 
@@ -2282,7 +2387,7 @@ ARG_political_crisis = {
 			always = no 
 		}
 
-		days_mission_timeout = 45
+		days_mission_timeout = 60
 
 		cancel_trigger = {
 			exists = no 
@@ -2299,18 +2404,21 @@ ARG_political_crisis = {
 				limit = { original_tag = ARG }
 				country_event = argentina.rework.communist.9
 			}
-			random_owned_controlled_state = {
-				create_unit = {
-					division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.75" 
-					owner = ROOT
-					count = 2
+			if = {
+				limit = { has_global_flag = ARG_commie_civil_war }
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.75" 
+						owner = ROOT
+						count = 2
+					}
 				}
-			}
-			random_owned_controlled_state = {
-				create_unit = {
-					division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.75" 
-					owner = ROOT
-					count = 2
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.75" 
+						owner = ROOT
+						count = 2
+					}
 				}
 			}
 			set_party_name = {
@@ -2400,11 +2508,12 @@ ARG_political_crisis = {
 						division_template = { 
 							name = "Milicias" 
 							division_names_group = SPAN_INF_02 
-							is_locked = no 
+							is_locked = yes 
 							regiments = { 
 								infantry = { x = 0 y = 0 } 
 								infantry = { x = 1 y = 0 } 
 								infantry = { x = 2 y = 0 } 
+								infantry = { x = 3 y = 0 }
 							} 
 						}
 					}
@@ -2809,8 +2918,12 @@ ARG_dealing_with_the_crisis = {
 		ai_will_do = {
 			base = 175
 			modifier = {
-				add = 50
+				factor = 2
 				num_of_factories > 39
+			}
+			modifier = {
+				factor = 4
+				has_political_power > 49
 			}
 		}
 
@@ -2847,7 +2960,7 @@ ARG_dealing_with_the_crisis = {
 			NOT = { has_country_flag = ARG_easier_coup_decisions }
 		}
 
-		ai_will_do = { factor = 190 }
+		ai_will_do = { factor = 290 }
 
 		cost = 35
 
@@ -2895,7 +3008,7 @@ ARG_dealing_with_the_crisis = {
 			has_country_flag = ARG_easier_coup_decisions
 		}
 
-		ai_will_do = { factor = 200 }
+		ai_will_do = { factor = 300 }
 
 		cost = 25
 
@@ -2937,16 +3050,16 @@ ARG_dealing_with_the_crisis = {
 
 		state_target = yes 
 		
-		target_trigger = controlled_states
+		target_array = controlled_states
 
 		target_trigger = {
 			FROM = {
-				is_fully_controlled_by = ROOT 
+				is_fully_controlled_by = ROOT
 				has_dynamic_modifier = { modifier = ARG_unitarian_resistance }
 			}
 		}
 
-		ai_will_do = { factor = 205 }
+		ai_will_do = { factor = 400 }
 
 		visible = { has_completed_focus = ARG_deal_with_the_remaining_unitarians }
 
@@ -3001,7 +3114,7 @@ ARG_forming_the_coalition = {
 
 		fire_only_once = yes 
 
-		days_mission_timeout = 295
+		days_mission_timeout = 275
 
 		is_good = no 
 
@@ -3016,6 +3129,9 @@ ARG_forming_the_coalition = {
 				set_value = 0.1 # if specified will set the value of the power balance, this option will override the effect of set_default so the two options should not be used together. if neither set_default or set_value is specified the current value of the power balance will not change
 			}
 			hidden_effect = {
+				every_controlled_state = {
+					ARG_state_cleaner_elections = yes 
+				}
 				if = {
 					limit = {
 						any_controlled_state = { has_dynamic_modifier = { modifier = ARG_active_ANL_terrorist_group } }
@@ -3065,6 +3181,9 @@ ARG_forming_the_coalition = {
 		timeout_effect = {
 			set_global_flag = ARG_fascist_mechanic_concluded
 			hidden_effect = {
+				every_controlled_state = {
+					ARG_state_cleaner_elections = yes 
+				}
 				if = {
 					limit = {
 						any_controlled_state = { has_dynamic_modifier = { modifier = ARG_active_ANL_terrorist_group } }
@@ -3158,10 +3277,10 @@ ARG_forming_the_coalition = {
 								NOT = { has_character_flag = ARG_fascist }
 							}
 							random_list = {
-								40 = {
-									retire_character = PREV
+								35 = {
+									ROOT = { retire_character = PREV }
 								}
-								60 = { }
+								65 = { }
 							}
 						}
 					}
@@ -3194,6 +3313,9 @@ ARG_forming_the_coalition = {
 					}
 				}
 				hidden_effect = {
+					every_controlled_state = {
+						ARG_state_cleaner_elections = yes 
+					}
 					if = {
 						limit = {
 							NOT = {
@@ -3203,55 +3325,17 @@ ARG_forming_the_coalition = {
 						division_template = { 
 							name = "Milicias" 
 							division_names_group = SPAN_INF_02 
-							is_locked = no 
+							is_locked = yes 
 							regiments = { 
 								infantry = { x = 0 y = 0 } 
 								infantry = { x = 1 y = 0 } 
 								infantry = { x = 2 y = 0 } 
+								infantry = { x = 3 y = 0 }
 							} 
 						}
 					}
 					set_temp_variable = { ARG_temp_coalition_strength = ARG_coalition_strength }
-					start_civil_war = {
-						ruling_party = fascism
-						ideology = ROOT 
-						size = 0.45
-						keep_all_characters = yes 
-						PREV = {
-							ARG_agustín_pedro_justo = {
-								set_nationality = PREV.PREV
-							}
-							ARG_the_military_junta = {
-								set_nationality = PREV.PREV
-							}
-							ARG_arturo_rawson = {
-								set_nationality = PREV.PREV 
-							}
-							if = {
-								limit = {
-									NOT = { has_global_flag = ARG_coerced_politicians_flag }
-								}
-								every_character = {
-									limit = { 
-										NOT = { has_character_flag = ARG_fascist }
-									}
-									random_list = {
-										40 = {
-											set_nationality = PREV.PREV
-										}
-										60 = { }
-									}
-								}
-							}
-							if = {
-								limit = { has_character = ARG_agustín_pedro_justo }
-								promote_character = ARG_agustín_pedro_justo
-							}
-							else = {
-								promote_character = ARG_arturo_rawson
-							}
-						}
-					}
+					ARG_start_fascist_civil_war = yes 
 					if = {
 						limit = {
 							has_country_flag = ARG_armed_catholics
@@ -3281,18 +3365,20 @@ ARG_forming_the_coalition = {
 					ARG_set_communist_side_divisions = yes 
 					if = {
 						limit = {
-							check_variable = { ARG_temp_coalition_strength > 3 }
+							check_variable = { ARG_temp_coalition_strength > 4 }
 						}
-						every_controlled_state = {
+						random_owned_controlled_state = {
 							create_unit = {
 								division = "name = \"Milicia Leales\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
 								owner = ROOT
+								count = 3
 							}
 						}
 						random_owned_controlled_state = {
 							create_unit = {
 								division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
 								owner = ROOT
+								count = 4
 							}
 						}
 					}
@@ -3306,7 +3392,7 @@ ARG_forming_the_coalition = {
 						}
 					}
 					set_global_flag = ARG_fascist_civil_war
-					add_ideas = ARG_the_argentine_civil_war_idea_government
+					add_ideas = ARG_the_argentine_civil_war_idea_player
 					if = {
 						limit = { has_completed_focus = ARG_empower_the_independents }
 						set_power_balance = {
@@ -3342,60 +3428,57 @@ ARG_forming_the_coalition = {
 							}
 							every_controlled_state = {
 								create_unit = {
-									division = "name = \"Milicia Leales\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
-									owner = PREV
-								}
-							}
-							set_temp_variable = { iterator1 = 0 }
-							random_owned_controlled_state = {
-								create_unit = {
-									division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
+									division = "name = \"Milicia Leales\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.4" 
 									owner = PREV
 									count = 2
 								}
 							}
 							random_owned_controlled_state = {
 								create_unit = {
-									division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
+									division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.4" 
 									owner = PREV
 									count = 2
 								}
 							}
 							random_owned_controlled_state = {
 								create_unit = {
-									division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
+									division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.5" 
 									owner = PREV
-									count = 3
+									count = 2
+								}
+							}
+							random_owned_controlled_state = {
+								create_unit = {
+									division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.45" 
+									owner = PREV
 								}
 							}
 						}
 						else = {
 							every_controlled_state = {
 								create_unit = {
-									division = "name = \"Milicia Leales\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
+									division = "name = \"Milicia Leales\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.55" 
 									owner = PREV 
 									count = 2
 								}
 							}
-							set_temp_variable = { iterator2 = 0 }
 							random_owned_controlled_state = {
 								create_unit = {
-									division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
+									division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.5" 
 									owner = PREV
-									count = 2
 								}
 							}
 							random_owned_controlled_state = {
 								create_unit = {
-									division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
+									division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.5" 
 									owner = PREV
-									count = 2
 								}
 							}
 							random_owned_controlled_state = {
 								create_unit = {
-									division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.7" 
+									division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.5" 
 									owner = PREV
+									count = 3
 								}
 							}
 						}
@@ -3633,7 +3716,14 @@ ARG_forming_the_coalition = {
 		}
 
 		ai_will_do = {
-			factor = 295
+			base = 295
+			modifier = {
+				factor = 2
+				has_game_rule = {
+					rule = ARG_ai_behavior
+					option = ARG_CONFEDERATION
+				}
+			}
 		}
 
 		available = { 
@@ -3711,6 +3801,13 @@ ARG_forming_the_coalition = {
 
 		ai_will_do = {
 			factor = 100 
+			modifier = {
+				factor = 0
+				has_game_rule = {
+					rule = ARG_ai_behavior
+					option = ARG_CONFEDERATION
+				}
+			}
 		}
 
 		available = {
@@ -3816,11 +3913,10 @@ ARG_forming_the_coalition = {
 			set_country_flag = ARG_inciting_terrorist_attacks
 		}
 
-		days_remove = 20
+		days_remove = 15
 
 		modifier = { 
 			weekly_manpower = -750 
-			political_power_factor = -0.03
 		}
 
 		remove_effect = {
@@ -4110,11 +4206,12 @@ ARG_the_great_revolution = {
 					division_template = { 
 						name = "Milicias" 
 						division_names_group = SPAN_INF_02 
-						is_locked = no 
+						is_locked = yes 
 						regiments = { 
 							infantry = { x = 0 y = 0 } 
 							infantry = { x = 1 y = 0 } 
 							infantry = { x = 2 y = 0 } 
+							infantry = { x = 3 y = 0 }
 						} 
 					}
 				}
@@ -4144,22 +4241,20 @@ ARG_the_great_revolution = {
 					states_filter = {
 						has_dynamic_modifier = { modifier = ARG_communist_tendencies }
 					}
-					hidden_effect = {
-						keep_all_characters = yes 
-						PREV = {
-							every_character = {
-								limit = { has_character_flag = ARG_communist }
-								set_nationality = PREV.PREV
-							}
+					keep_all_characters = yes 
+					PREV = {
+						every_character = {
+							limit = { has_character_flag = ARG_communist }
+							set_nationality = PREV.PREV
 						}
-						random_list = {
-							50 = {
-								promote_character = ARG_fanny_edelman
-								set_cosmetic_tag = FARC
-							}
-							50 = {
-								promote_character = ARG_liborio_justo
-							}
+					}
+					random_list = {
+						50 = {
+							promote_character = ARG_fanny_edelman
+							set_cosmetic_tag = FARC
+						}
+						50 = {
+							promote_character = ARG_liborio_justo
 						}
 					}
 				}
@@ -4292,7 +4387,7 @@ ARG_the_great_revolution = {
 						}
 						every_controlled_state = {
 							create_unit = {
-								division = "name = \"Loyalists\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.8" 
+								division = "name = \"Loyalists\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.6" 
 								owner = PREV
 							}
 						}
@@ -4321,10 +4416,9 @@ ARG_the_great_revolution = {
 							}
 						}
 					}
-
 					if = {
 						limit = {
-							check_variable = { ARG_pol_tension > 74 } ##Strongest
+							check_variable = { ARG_pol_tension > 69 } ##Strongest
 						}
 						every_controlled_state = {
 							create_unit = {
@@ -4342,7 +4436,7 @@ ARG_the_great_revolution = {
 					}
 					else_if = {
 						limit = {
-							check_variable = { ARG_pol_tension > 45 } ##Middle
+							check_variable = { ARG_pol_tension > 41 } ##Middle
 						}
 						every_controlled_state = {
 							create_unit = {
@@ -4512,7 +4606,7 @@ ARG_the_great_revolution = {
 
 					every_character = { ## removes the old theorists and high commands
 						limit = {
-							NOT = { has_country_flag = ARG_anarchist }
+							NOT = { has_character_flag = ARG_anarchist }
 							OR = {
 								is_high_command = yes 
 								is_theorist = yes 
@@ -4601,7 +4695,7 @@ ARG_the_great_revolution = {
 								ruling_party = communism
 								ideology = ROOT 
 								size = 0.55
-								capital = 966
+								capital = 511
 								states = all
 								states_filter = {
 									NOT = { has_dynamic_modifier = { modifier = ARG_communist_tendencies } }
@@ -4646,7 +4740,7 @@ ARG_the_great_revolution = {
 							}
 							every_controlled_state = {
 								create_unit = {
-									division = "name = \"Loyalists\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.9" 
+									division = "name = \"Loyalists\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.65" 
 									owner = PREV
 									count = 2
 								}
@@ -4660,7 +4754,6 @@ ARG_the_great_revolution = {
 								create_unit = {
 									division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
 									owner = PREV
-									count = 2
 								}
 							}
 							random_owned_controlled_state = {
@@ -4672,7 +4765,6 @@ ARG_the_great_revolution = {
 								create_unit = {
 									division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
 									owner = PREV
-									count = 2
 								}
 							}
 							random_owned_controlled_state = {
@@ -4684,7 +4776,6 @@ ARG_the_great_revolution = {
 								create_unit = {
 									division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
 									owner = PREV
-									count = 1
 								}
 							}
 						}
@@ -5490,8 +5581,8 @@ ARG_the_great_revolution = {
 					add_dynamic_modifier = {
 						modifier = ARG_protests
 					}
+					set_demilitarized_zone = yes 
 				}
-				set_demilitarized_zone = yes 
 			}
 		}
 	}
@@ -6020,21 +6111,45 @@ ARG_infamous_decade_cat = {
 		ai_will_do = {
 			base = 65
 			modifier = {
-				factor = 1.5
+				factor = 2
 				has_completed_focus = ARG_infamous_decade
 				check_variable = { ARG_political_tension > 19 }
 			}
 			modifier = {
-				factor = 3
+				add = 200
+				OR = {
+					has_completed_focus = ARG_stabilize_the_country
+					has_completed_focus = ARG_reworking_the_internals
+				}
+			}
+			modifier = {
+				factor = 5
 				check_variable = { ARG_political_tension > 39 }
 			}
 			modifier = { 
-				factor = 5
+				factor = 8
 				check_variable = { ARG_political_tension > 59 }
 			}
 			modifier = { # upmost priority
-				factor = 7
+				factor = 15
 				check_variable = { ARG_political_tension > 79 }
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					has_game_rule = {
+						rule = ARG_ai_behavior 
+						option = ARG_FASCIST
+					}
+					has_game_rule = {
+						rule = ARG_ai_behavior 
+						option = ARG_CATHOLIC
+					}
+					has_game_rule = {
+						rule = ARG_ai_behavior 
+						option = ARG_CONFEDERATION
+					}
+				}
 			}
 		}
 
@@ -6072,6 +6187,13 @@ ARG_infamous_decade_cat = {
 				}
 				ARG_chance_lower_15 = {
 					ARG_decrease_15_political_tension = yes 
+				}
+			}
+			hidden_effect = { ##AI KEEPS FAILING :skull:
+				if = {
+					limit = { is_ai = yes }
+					ARG_decrease_10_political_tension = yes 
+					add_political_power = 15
 				}
 			}
 		}
@@ -6648,7 +6770,17 @@ ARG_dealing_with_the_corruption = {
 			}
 		}
 
-		ai_will_do = { factor = 240 } # upmost priority
+		ai_will_do = { 
+			base = 240 
+			modifier = {
+				factor = 3
+				has_equipment = { infantry_equipment > 1499 }
+			}
+			modifier = {
+				factor = 2
+				has_active_mission = ARG_deal_with_the_oligarchs
+			}
+		} # upmost priority
 
 		on_map_mode = map_only
 
@@ -6765,6 +6897,16 @@ ARG_1937_elections = {
 			has_country_leader = {
 				character = ARG_the_military_junta
 				ruling_only = yes 
+			}
+		}
+
+		cancel_trigger = { has_civil_war = yes }
+		cancel_effect = { 
+			clr_global_flag = ARG_elections_active 
+			hidden_effect = {
+				every_controlled_state = {
+					ARG_state_cleaner_elections = yes 
+				} 
 			}
 		}
 
@@ -7244,6 +7386,7 @@ ARG_1937_elections = {
 		remove_effect = {
 			clr_country_flag = ARG_taking_state
 			custom_effect_tooltip = ARG_we_will_take_control_of_province_tt
+			custom_effect_tooltip = ARG_this_province_gives_THIS_electoral_votes_tt
 			hidden_effect = {
 				if = {
 					limit = {
@@ -7387,6 +7530,7 @@ ARG_1937_elections = {
 			OR = {
 				has_civil_war = yes 
 				NOT = { has_active_mission = ARG_the_1937_elections }
+				has_country_flag = ARG_taking_state
 				#if = {
 				#	limit = { 
 				#		has_completed_focus = ARG_partido_socialista 
@@ -7414,6 +7558,7 @@ ARG_1937_elections = {
 			set_temp_variable = { ARG_chance_of_failure = 0 }
 			set_temp_variable = { ARG_chance_of_success = 100 }
 			custom_effect_tooltip = ARG_depending_on_population_popularity_chance_of_securring_vote_tt
+			custom_effect_tooltip = ARG_this_province_gives_THIS_electoral_votes_tt
 			ARG_get_chances_of_overwhelming_party = yes 
 			random_list = {
 				ARG_chance_of_success = {
@@ -7665,11 +7810,12 @@ ARG_the_spread_of_anarchism = {
 						division_template = { 
 							name = "Milicias" 
 							division_names_group = SPAN_INF_02 
-							is_locked = no 
+							is_locked = yes 
 							regiments = { 
 								infantry = { x = 0 y = 0 } 
 								infantry = { x = 1 y = 0 } 
 								infantry = { x = 2 y = 0 } 
+								infantry = { x = 3 y = 0 }
 							} 
 						}
 					}
@@ -7699,7 +7845,7 @@ ARG_the_spread_of_anarchism = {
 							has_civil_war = yes
 							has_government = neutrality
 						} 
-						country_event = { id = argentina.rework.29 hours = 2 } # have to do it this way :skull:
+						country_event = { id = argentina.rework.290 hours = 2 } # have to do it this way :skull:
 						set_cosmetic_tag = TAS # generic anarchist state tag
 						set_rule = { can_join_factions = no	}
 						set_party_name = {
@@ -7953,8 +8099,8 @@ ARG_the_spread_of_anarchism = {
 		available = {
 			has_civil_war = no 
 			FROM = {
-				compliance > 0.5
-				resistance < 0.15
+				compliance > 50
+				resistance < 15
 			}
 		}
 
@@ -8357,29 +8503,23 @@ ARG_the_liberation_army = {
             FROM = {
                 has_war_with = ROOT 
             }
-            hidden_trigger = {
-                NOT = {
-                    has_country_flag = URG_focusing_on_enemy
-                }
-            }
         }
 
         visible = {
             has_completed_focus = ARG_prepare_the_liberating_army
         }
 
-        custom_cost_text = CHL_cost_15_cp
-
-		custom_cost_trigger = {
-			command_power > 14
+        custom_cost_trigger = {
+			command_power > 24
 		}
+
+		custom_cost_text = decision_cost_CP_25
 
         days_remove = 90
 
         complete_effect = {
-            set_country_flag = URG_focusing_on_enemy
 			hidden_effect = {
-				add_command_power = -15
+				add_command_power = -25
 			}
         }
 
@@ -8392,10 +8532,6 @@ ARG_the_liberation_army = {
         modifier = {
             political_power_factor = -0.05
 			industrial_capacity_factory = -0.05
-        }
-
-        remove_effect = {
-            clr_country_flag = URG_focusing_on_enemy
         }
 	}
 
@@ -8667,7 +8803,7 @@ ARG_spread_of_peronism = {
 				ARG_juan_domingo_peron = {
 					set_character_flag = BRA_imprisoned
 				}
-				remove_ideas = ARG_juan_domingo_peron_idea
+				remove_ideas = ARG_juan_domingo_peron_country_idea
 				clamp_variable = {
 					var = ARG_peronist_support
 					min = 0
@@ -8916,6 +9052,7 @@ ARG_spread_of_peronism = {
 			custom_effect_tooltip = ARG_add_10_peronist_support_tt
 			if = {
 				limit = {
+					has_country_flag = ARG_peron_imprisoned_flag
 					NOT = { has_country_flag = ARG_peron_liberated_flag }
 				}
 				random_list = {
@@ -9426,7 +9563,7 @@ ARG_managing_the_army = {
 		}
 		
 		available = {
-			#has_completed_focus = ARG_demand_peron_to_report_notes
+			NOT = { has_country_flag = ARG_recently_sent_peron }
 			ITA = {
 				is_subject = no
 			}
@@ -9504,6 +9641,18 @@ ARG_managing_the_army = {
 
 		cost = 35
 
+		ai_will_do = {
+			base = 25
+			modifier = {
+				factor = 20
+				has_active_mission = ARG_perons_return_from_chile
+				OR = {
+					has_country_flag = ARG_chose_leopoldo
+					has_country_flag = ARG_chose_robustiano
+				}
+			}
+		}
+
 		complete_effect = {
 			custom_effect_tooltip = ARG_peron_will_be_forced_to_return_tt
 			add_stability = -0.01
@@ -9570,7 +9719,22 @@ ARG_managing_the_army = {
 		}
 		
 		ai_will_do = {
-			factor = 75
+			base = 75
+			modifier = {
+				factor = 3
+				has_idea = ARG_military_conscription_1
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					has_active_mission = ARG_government_collapse
+					has_active_mission = ARG_government_crackdown
+				}
+			}
+			modifier = {
+				factor = 0.2
+				has_active_mission = ARG_the_1937_elections
+			}
 		}
 
 		remove_effect = {
@@ -10316,6 +10480,15 @@ ARG_robertos_deteriorating_health_condition = {
 			} 
 		}
 
+		cancel_trigger = {
+			NOT = {
+				has_country_leader = {
+					character = ARG_roberto_maria_ortiz
+					ruling_only = yes 
+				}
+			}
+		}
+
 		days_mission_timeout = 720
 		
 		fire_only_once = yes
@@ -10349,10 +10522,14 @@ ARG_robertos_deteriorating_health_condition = {
 		}
 
 		ai_will_do = {
-			factor = 135
+			base = 135
 			modifier = {
 				has_political_power < 20
 				factor = 0
+			}
+			modifier = {
+				factor = 2.5
+				is_historical_focus_on = yes 
 			}
 		}
 
@@ -10906,21 +11083,14 @@ ARG_the_argentine_civil_war = {
 			}
 			if = {
 				limit = {
-					OR = {
-						has_completed_focus = ARG_government_crackdown
-						has_completed_focus = ARG_catholic_takeover
-					}
+					has_completed_focus = ARG_create_the_CNU
+					NOT = { has_completed_focus = ARG_empower_the_independents }
 				}
 				has_completed_focus = ARG_reservist_mobilization
 			}
 			if = {
 				limit = {
-					NOT = {
-						OR = {
-							has_completed_focus = ARG_catholic_takeover
-							has_completed_focus = ARG_empower_the_independents
-						}
-					}
+					has_completed_focus = ARG_empower_the_independents
 				}
 				has_completed_focus = ARG_cooperation_with_fascist_deserters
 			}
@@ -10948,44 +11118,9 @@ ARG_the_argentine_civil_war = {
 		}
 
 		remove_effect = {
-			if = {
-				limit = {
-					has_completed_focus = ARG_treaty_with_the_anarchists
-				}
-				create_unit = {
-					division = "name = \"Milícia Anarquista\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
-					owner = ROOT
-				}
-			}
-			else_if = {
-				limit = {
-					has_government = communism
-				}
-				FROM = {
-					create_unit = {
-						division = "name = \"Milícia Comunista\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
-						owner = ROOT
-					}
-				}
-			}
-			else_if = {
-				limit = {
-					has_government = fascism
-				}
-				FROM = {
-					create_unit = {
-						division = "name = \"Milícia Fascista\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
-						owner = ROOT
-					}
-				}
-			}
-			else = {
-				FROM = {
-					create_unit = {
-						division = "name = \"Milícia Leal\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
-						owner = ROOT
-					}
-				}
+			create_unit = {
+				division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.9" 
+				owner = ROOT
 			}
 		}
 	}
@@ -11785,7 +11920,7 @@ ARG_integrate_our_territories = {
 		available = {
 			FROM = {
 				compliance > 50
-				resistance < 0.15
+				resistance < 15
 			}
 			has_equipment = {
 			    infantry_equipment > 299

@@ -10,10 +10,6 @@ ideas = {
 				always = yes
 			}
 
-			available = {
-				has_active_mission = ARG_government_crackdown
-			}
-			
 			removal_cost = -1
 			
 			modifier = {
@@ -26,6 +22,39 @@ ideas = {
 	country = {
 	
 		### Argentina Rework ###
+		ARG_juan_domingo_peron_country_idea = {
+			picture = ARG_minister_juan_peron
+
+			allowed = { always = no }
+
+			available = {
+				has_character = ARG_juan_domingo_peron
+				NOT = {
+					OR = {
+						has_country_leader = {
+							character = ARG_juan_domingo_peron
+							ruling_only = yes 
+						}
+						has_country_leader = {
+							character = ARG_juan_domingo_peron_fascist
+							ruling_only = yes 
+						}
+					}
+				}
+			}
+
+			on_add = { remove_ideas = ARG_juan_domingo_peron_idea }
+
+			allowed_civil_war = { always = no }
+
+			removal_cost = -1
+
+			modifier = {
+				political_power_gain = 0.05
+				industrial_capacity_factory = 0.03
+			}
+		}
+
 		ARG_succesful_investment_in_education = {
 			picture = generic_research_bonus
 
@@ -315,6 +344,30 @@ ideas = {
 			}
 		}
 
+		ARG_the_argentine_civil_war_idea_player = {
+			name = ARG_the_argentine_civil_war_idea
+			picture = ARG_second_cisplatine_war
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			available = {
+				any_enemy_country = {
+					original_tag = ARG 
+				}
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				surrender_limit = 1
+				max_surrender_limit_offset = 0.1
+				ai_get_ally_desire_factor = -1000
+				ai_join_ally_desire_factor = -1000
+			}
+		}
+
 		ARG_the_argentine_civil_war_idea_communist = {
 			name = ARG_the_argentine_civil_war_idea
 			picture = ARG_civil_war_commie
@@ -509,7 +562,7 @@ ideas = {
 		}
 
 		ARG_foreign_recruitment = {
-			picture = mex_politicised_army_2
+			picture = MEX_politicised_army_2
 
 			allowed = { always = no }
 
@@ -620,7 +673,7 @@ ideas = {
 
 			modifier = {
 				cavalry_attack_factor = 0.05
-				cavalry_speed_factor = 0.05
+				army_speed_factor = 0.05
 				cavalry_defence_factor = 0.1 
 			}
 		}
@@ -890,7 +943,7 @@ ideas = {
 		}
 
 		ARG_the_liberation_army_idea = {
-			picture = mex_politicised_army_2
+			picture = MEX_politicised_army_2
 
 			allowed = { always = no }
 
@@ -1214,7 +1267,7 @@ ideas = {
 		}
 
 		ARG_stricter_conscription_laws = {
-			picture = mex_politicised_army_2
+			picture = MEX_politicised_army_2
 
 			allowed = { always = no }
 
@@ -1379,7 +1432,7 @@ ideas = {
 
 			modifier = {
 				political_power_factor = -0.02
-				army_attack_factor = -0.03
+				army_attack_factor = -0.02
 				army_defence_factor = -0.03
 				attrition = 0.03
 				command_power_gain_mult = -0.03
@@ -1399,9 +1452,9 @@ ideas = {
 			removal_cost = -1
 
 			modifier = {
-				political_power_factor = -0.0075
-				army_attack_factor = -0.05
-				army_defence_factor = -0.0075
+				political_power_factor = -0.05
+				army_attack_factor = -0.04
+				army_defence_factor = -0.05
 				attrition = 0.05
 				command_power_gain_mult = -0.1
 			}
@@ -1421,8 +1474,8 @@ ideas = {
 
 			modifier = {
 				political_power_factor = -0.1
-				army_attack_factor = -0.1
-				army_defence_factor = -0.1
+				army_attack_factor = -0.075
+				army_defence_factor = -0.075
 				attrition = 0.1
 				command_power_gain_mult = -0.15
 			}
@@ -1442,8 +1495,8 @@ ideas = {
 
 			modifier = {
 				political_power_factor = -0.15
-				army_attack_factor = -0.15
-				army_defence_factor = -0.15
+				army_attack_factor = -0.1
+				army_defence_factor = -0.1
 				attrition = 0.2
 				command_power_gain_mult = -0.25
 			}
@@ -1462,11 +1515,32 @@ ideas = {
 			removal_cost = -1
 
 			modifier = {
-				political_power_factor = -0.25
-				army_attack_factor = -0.2
-				army_defence_factor = -0.2
+				political_power_factor = -0.2
+				army_attack_factor = -0.15
+				army_defence_factor = -0.15
 				attrition = 0.2
 				command_power_gain_mult = -0.3
+			}
+		}
+
+		ARG_unitarian_opposition_6 = {
+			name = ARG_unitarian_opposition 
+			picture = ARG_unitarian_opposition_icon
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			available = { has_civil_war = yes }
+
+			removal_cost = -1
+
+			modifier = {
+				political_power_factor = -0.06
+				army_attack_factor = -0.05
+				army_defence_factor = -0.06
+				attrition = 0.05
+				command_power_gain_mult = -0.1
 			}
 		}
 
@@ -1660,7 +1734,7 @@ ideas = {
 			}
 		}
 
-		ARG_federalized_society = {
+		ARG_federalized_society_idea = {
 			picture = hol_aloof_neutrality
 
 			allowed = { always = no }
