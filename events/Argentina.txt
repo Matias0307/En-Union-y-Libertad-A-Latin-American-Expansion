@@ -2184,8 +2184,17 @@ country_event = {
 	
 	option = {
 		name = "Ok"
-		custom_effect_tooltip = ARG_random_state_gets_attacked_by_terrorists_tt
-		ARG_increase_10_political_tension = yes 
+		random_list = {
+			50 = {
+				ARG_increase_5_political_tension = yes
+			}
+			35 = {
+				ARG_increase_10_political_tension = yes
+			}
+			15 = {
+				ARG_increase_15_political_tension = yes
+			}
+		} 
 	}
 }
 
@@ -3109,7 +3118,12 @@ country_event = {
 		if = {
 			limit = {
 				has_government = fascism
-				has_completed_focus = ARG_government_crackdown
+				NOT = {
+					OR = {
+						has_completed_focus = ARG_empower_the_independents
+						has_completed_focus = ARG_catholic_takeover
+					}
+				}
 			}
 			## add the political enemies idea that moves it to political enemies side weekly 
 			custom_effect_tooltip = ARG_political_enemies_begin_protesting_nationwide_tt
@@ -4662,7 +4676,7 @@ country_event = {
 	
 	trigger = {
 		original_tag = ARG
-		has_cosmetic_tag = AARC 
+		has_cosmetic_tag = ARCC ## Makes sure only the confederation can have this event
 		has_civil_war = yes 
 		966 = {
 			is_fully_controlled_by = ROOT
@@ -4675,17 +4689,15 @@ country_event = {
 	option = { #Make Buenos Aires capital
 		name = argentina.1.a
 		ai_chance = { base = 80 }
-		ARG = {
-			set_capital = { state = 966 }
-		}
+		set_capital = { state = 966 }
+		add_stability = 0.01
 	}
 	
 	option = { #Make Paraná capital
 		name = argentina.1.b
 		ai_chance = { base = 20 }
-		ARG = {
-			set_capital = { state = 982 }
-		}
+		set_capital = { state = 982 }
+		add_war_support = 0.01 
 	}
 }
 

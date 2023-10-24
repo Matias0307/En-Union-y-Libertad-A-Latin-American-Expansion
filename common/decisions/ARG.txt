@@ -2210,7 +2210,7 @@ ARG_political_crisis = {
 
 		activation = { always = no }
 
-		days_mission_timeout = 60
+		days_mission_timeout = 30
 
 		timeout_effect = {
 			country_event = argentina.rework.communist.11 ## Time to Join the Commintern
@@ -3114,7 +3114,7 @@ ARG_forming_the_coalition = {
 
 		fire_only_once = yes 
 
-		days_mission_timeout = 275
+		days_mission_timeout = 265
 
 		is_good = no 
 
@@ -3913,9 +3913,10 @@ ARG_forming_the_coalition = {
 			set_country_flag = ARG_inciting_terrorist_attacks
 		}
 
-		days_remove = 15
+		days_remove = 20
 
 		modifier = { 
+			political_power_factor = -0.05
 			weekly_manpower = -750 
 		}
 
@@ -5964,6 +5965,10 @@ ARG_the_great_revolution = {
 
 		available = {
 			has_active_mission = ARG_government_collapse
+			custom_trigger_tooltip = {
+				tooltip = ARG_more_than_100_stockpiled_guns_tt
+				check_variable = { ARG_stockpiled_guns > 99 }
+			}
 			hidden_trigger = {
 				NOT = {
 					has_country_flag = ARG_dealing_with_anarchists
@@ -6031,6 +6036,13 @@ ARG_the_great_revolution = {
 						modifier = ARG_anarchist_occupation
 					}
 				}
+			}
+		}
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ARG_more_than_100_stockpiled_guns_tt
+				check_variable = { ARG_stockpiled_guns > 99 }
 			}
 		}
 
@@ -11055,7 +11067,7 @@ ARG_the_argentine_civil_war = {
 			}
 		}
 
-		cost = 20
+		cost = ARG_militia_recruitment_cost_var
 
 		fire_only_once = yes 
 
@@ -11117,10 +11129,14 @@ ARG_the_argentine_civil_war = {
 			weekly_manpower = -350
 		}
 
+		complete_effect = { multiply_variable = { ARG_militia_recruitment_cost_var = 2 } } ##yuh it wont be that easy
+
 		remove_effect = {
-			create_unit = {
-				division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.9" 
-				owner = ROOT
+			FROM = {
+				create_unit = {
+					division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.9" 
+					owner = ROOT
+				}
 			}
 		}
 	}
