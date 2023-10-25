@@ -90,46 +90,34 @@ country_event = {
 	immediate = {
 		hidden_effect = {
 			retire_country_leader = yes
-
-			if = {
-				limit = {
-					has_country_flag = PAR_liberals_in_army
-				}
-				set_politics = {
-					ruling_party = democratic
-				}
-				promote_character = PAR_felix_paiva
-				add_popularity = {
-					ideology = democratic
-					popularity = 0.20
-				}
+			set_politics = {
+				ruling_party = neutrality
 			}
-			else = {
-				set_politics = {
-					ruling_party = neutrality
-				}
-				promote_character = PAR_junta
-				add_popularity = {
-					ideology = neutrality
-					popularity = 0.20
-				}
+			promote_character = PAR_junta
+			add_popularity = {
+				ideology = neutrality
+				popularity = 0.20
 			}
 		}
 	}
 
 	option = {
 		name = paraguay.2.a
+		if = {
+			limit = {
+				has_completed_focus = PAR_go_against_franco
+				NOT = { has_country_flag = PAR_paiva_called_up_flag }
+			}
+			custom_effect_tooltip = PAR_military_will_put_paiva_in_charge_soon_tt
+			country_event = { ## calls the event
+				id = paraguay.9
+				days = 4
+			}
+			set_country_flag = PAR_paiva_called_up_flag ## prevent event from happening again
+		}
 		effect_tooltip = {
 			retire_country_leader = yes
-			if = {
-				limit = {
-					has_country_flag = PAR_liberals_in_army
-				}
-				promote_character = PAR_felix_paiva
-			}
-			else = {
-				promote_character = PAR_junta
-			}
+			promote_character = PAR_junta
 		}
 	}
 }
@@ -275,11 +263,18 @@ country_event = {
         }
         FROM = {
             country_event = { id = peru.17 hours = 6 }
-            create_wargoal = {
-                target = ROOT 
-                type = take_state_focus
-                generator = { 980 }
-            }
+            effect_tooltip = {
+				random_list = {
+					50 = {
+						create_wargoal = {
+							target = ROOT 
+							type = take_state_focus
+							generator = { 980 }
+						}
+					}
+					50 = { }
+				}
+			}
         }
 	}
 }
@@ -343,5 +338,160 @@ country_event = {
 		}
 		PAR_move_5_military = yes
 		set_country_flag = PAR_liberals_in_army
+	}
+}
+
+# "Kindly" asking for Gran Chaco
+country_event = {
+	id = paraguay.8
+	title = paraguay.8.t
+	desc = paraguay.8.d
+	picture = GFX_report_event_hitler_handshake
+
+	is_triggered_only = yes
+
+	# "Kindly" ask for Gran Chaco 
+	option = {
+		name = paraguay.8.a
+		ai_chance = {
+            base = 75
+            modifier = {
+                add = 60
+                has_opinion = {
+                    target = FROM
+                    value > 69
+                }
+            }
+            modifier = {
+                add = 40 
+                num_divisions > 24
+            }
+            modifier = {
+                add = 20
+                num_of_civilian_factories > 12
+            }
+        }
+        FROM = {
+            transfer_state = 994
+            country_event = { id = peru.16 hours = 3 }
+        }
+	}
+	# Rudely demand control of Gran Chaco =＾● ⋏ ●＾=
+	option = {
+		name = paraguay.8.b
+		ai_chance = {
+            base = 80 
+            modifier = {
+                add = 60 
+                has_opinion = {
+                    target = FROM
+                    value < 0
+                }
+            }
+            modifier = {
+                add = 40
+                has_war = yes 
+            }
+        }
+        FROM = {
+            country_event = { id = peru.17 hours = 6 }
+            effect_tooltip = {
+				random_list = {
+					50 = {
+						create_wargoal = {
+							target = ROOT 
+							type = take_state_focus
+							generator = { 994 }
+						}
+					}
+					50 = { }
+				}
+			}
+        }
+	}
+}
+
+# Military puts Felix Paiva in control ((MAKE CUSTOM PIC))
+country_event = {
+	id = paraguay.9
+	title = paraguay.9.t
+	desc = paraguay.8.d
+	picture = GFX_PAR_paiva_event
+
+	is_triggered_only = yes
+
+	# promote Paiva
+	option = {
+		name = paraguay.9.a
+		set_politics = {
+			ruling_party = democratic
+			elections_allowed = yes
+		}
+		promote_character = PAR_felix_paiva
+		activate_mission = PAR_days_until_the_elections
+		hidden_effect = {
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.3
+			}
+		}
+	}
+}
+
+# Elect José Félix Estigarribia
+country_event = {
+	id = paraguay.10
+	title = paraguay.10.t
+	desc  = paraguay.10.d
+	picture = GFX_report_event_election_vote
+
+	is_triggered_only = yes
+
+	option = {
+		name = paraguay.10.a
+		promote_character = PAR_jose_felix_estigarribia
+		hidden_effect = {
+			country_event = {
+				id = paraguay.11
+				days = 380
+			}
+		}
+	}
+}
+
+# Plane Crashes (sadge)
+country_event = {
+	id = paraguay.11
+	title = paraguay.11.t
+	desc = paraguay.11.d
+	picture = GFX_PAR_jose_felix_death
+
+	is_triggered_only = yes 
+
+	immediate = { set_country_flag = PAR_jose_felix_died_flag }
+
+	option = {
+		name = paraguay.11.a 
+		if = {
+			limit = {
+				has_character = {
+					character = PAR_jose_felix_estigarribia
+					ruling_only = yes 
+				}
+			}
+			set_politics = {
+				ruling_party = neutrality
+				elections_allowed = no 
+			}
+			promote_character = PAR_junta ## This is another way to take power in commie or fascist route
+			hidden_effect = {
+				add_popularity = {
+					ideology = neutrality
+					popularity = 0.1
+				}
+			}
+		}
+		else = { add_stability = -0.01 }
+		retire_character = PAR_jose_felix_estigarribia
 	}
 }

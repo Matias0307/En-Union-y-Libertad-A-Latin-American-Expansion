@@ -70,6 +70,13 @@ PAR_move_10_military = {
     }
 }
 
+PAR_move_15_military = {
+    add_power_balance_value = {
+        id = PAR_military_leader_bop
+        value = -0.15
+    }
+}
+
 PAR_move_20_military = {
     add_power_balance_value = {
         id = PAR_military_leader_bop
@@ -93,4 +100,22 @@ PAR_move_70_military = {
 
 PAR_bop_remove_bop_effect = {
 	remove_power_balance = { id = PAR_military_leader_bop }
+}
+
+PAR_improve_worn_out_army = {
+    if = {
+        limit = { has_idea = PAR_worn_out_army_1 }
+        swap_ideas = {
+            remove_idea = PAR_worn_out_army_1
+            add_idea = PAR_worn_out_army_2
+        }
+    }
+    else_if = {
+        limit = { has_idea = PAR_worn_out_army_2 }
+        remove_ideas = PAR_worn_out_army_2
+    }
+    else = {
+        add_command_power = 15
+        army_experience = 5
+    }
 }

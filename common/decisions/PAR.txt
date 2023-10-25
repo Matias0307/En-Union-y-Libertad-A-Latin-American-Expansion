@@ -122,16 +122,18 @@ PAR_february_revolution = { #FEBRUARY REVOLUTION
 				}
 				set_country_flag = PAR_february_revolution_happened
 
-				country_event = {
-					id = paraguay.7
-					days = 20
-					random_days = 20
-				}
+				hidden_effect = {
+					country_event = {
+						id = paraguay.7
+						days = 20
+						random_days = 20
+					}
 
-				country_event = {
-					id = paraguay.6
-					days = 50
-					random_days = 30
+					country_event = {
+						id = paraguay.6
+						days = 50
+						random_days = 30
+					}
 				}
 			}
 		}
@@ -180,6 +182,7 @@ PAR_bop = { # BALANCE OF POWER
 		cost = PAR_slight_support_cost
 
 		visible = {
+			NOT = { has_completed_focus = PAR_go_against_franco }
 			NOT = {
 				has_country_leader = { 
 					ruling_only = yes
@@ -202,6 +205,7 @@ PAR_bop = { # BALANCE OF POWER
 		cost = PAR_major_support_cost
 
 		visible = {
+			NOT = { has_completed_focus = PAR_go_against_franco }
 			NOT = {
 				has_country_leader = { 
 					ruling_only = yes
@@ -223,6 +227,34 @@ PAR_bop = { # BALANCE OF POWER
 					add_political_power = -25
 				}
 			}
+		}
+	}
+
+	#empower the army 
+	PAR_empower_the_army = {
+		icon = generic_military
+		cost = 25
+
+		visible = { 
+			has_completed_focus = PAR_go_against_franco
+			NOT = {
+				OR = {
+					has_government = democratic
+					has_country_leader = {
+						character = PAR_junta
+						ruling_only = yes 
+					}
+				}
+			} 
+		}
+
+		days_re_enable = 90
+
+		complete_effect = {
+			PAR_move_15_military = yes 
+			army_experience = 5
+			add_command_power = 5
+			custom_effect_tooltip = EUYL_decision_will_reappear_in_90_days_tt
 		}
 	}
 
@@ -352,7 +384,7 @@ PAR_subsidizing_paraguayan_industry = { #SUBSIDIZATION
 		}
 
 		modifier = {
-			consumer_goods_factor = 0.15
+			consumer_goods_factor = 0.175
 			political_power_factor = -0.1
 		}
 		remove_effect = {
@@ -393,7 +425,7 @@ PAR_subsidizing_paraguayan_industry = { #SUBSIDIZATION
 		}
 
 		modifier = {
-			consumer_goods_factor = 0.2
+			consumer_goods_factor = 0.3
 			political_power_factor = -0.15
 		}
 		remove_effect = {
@@ -414,6 +446,78 @@ PAR_subsidizing_paraguayan_industry = { #SUBSIDIZATION
 }
 
 PAR_poltical_actions = {
+
+	PAR_improve_the_army = {
+		icon = generic_military
+
+		cost = 50
+
+		fire_only_once = yes 
+
+		visible = { has_idea = PAR_worn_out_army_2 }
+
+		available = { has_civil_war = no }
+
+		complete_effect = { 
+			PAR_improve_worn_out_army = yes 
+			army_experience = 5
+		}
+	}
+
+	PAR_days_until_the_elections = {
+		icon = SWI_no_elected_president
+
+		days_mission_timeout = 720
+
+		activation = { always = no }
+
+		available = {
+			OR = {
+				has_government = communism
+				has_government = fascism
+			}
+		}
+
+		fire_only_once = yes 
+
+		cancel_trigger = { has_civil_war = yes }
+
+		timeout_effect = { country_event = paraguay.10 }
+	}
+
+	#rush the elections 
+	PAR_rush_elections = {
+		icon = SWI_dismiss_council
+
+		cost = 15
+
+		ai_will_do = {
+			base = 10
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes 
+			}
+		}
+
+		visible = { has_active_mission = PAR_days_until_the_elections }
+
+		cancel_trigger = {
+			OR = {
+				has_civil_war = yes
+				NOT = { has_active_mission = PAR_days_until_the_elections }
+			}
+		}
+
+		days_re_enable = 90
+
+		complete_effect = {
+			add_days_mission_timeout = {
+				mission = PAR_days_until_the_elections
+				days = -35
+			}
+		}
+	}
+
 	PAR_appease_the_people = {
 		icon = GFX_EUYL_attract_refugees
 		cost = 75
