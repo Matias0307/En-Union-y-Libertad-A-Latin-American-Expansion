@@ -11,15 +11,7 @@ country_event = {
 	desc = brazil.1.d
 	picture = GFX_report_event_tur_industry
 	
-	fire_only_once = no 
-    trigger = {
-        original_tag = BRA 
-        check_variable = { BRA_coffee_companies_opinion > 0 }
-		NOT = { has_global_flag = BRA_civil_war_in_progress }
-        BRA_coffee_plantations_active = yes 
-    }
-	
-	mean_time_to_happen = { days = 170 }
+	is_triggered_only = yes 
 
 	option = {
 		name = brazil.1.a
@@ -51,21 +43,7 @@ country_event = {
 	desc = brazil.2.d 
 	picture = GFX_BRA_brazil_2
 
-	fire_only_once = no 
-	trigger = {
-		original_tag = BRA 
-		AND = {
-			check_variable = { BRA_dependency_on_coffee > 39 }
-			check_variable = { BRA_dependency_on_coffee < 95 }
-		}
-		NOT = {
-			has_idea = BRA_rebellious_coffee_plantations_idea
-		}
-		BRA_coffee_plantations_active = yes 
-		NOT = { has_global_flag = BRA_civil_war_in_progress }
-	}
-
-	mean_time_to_happen = { days = 225 }
+	is_triggered_only = yes 
 
 	option = {
 		name = brazil.2.a 
@@ -109,25 +87,10 @@ country_event = {
 	desc = brazil.3.d
 	picture = GFX_BRA_brazil_3
 	
-	fire_only_once = no 
-    trigger = {
-        original_tag = BRA 
-        check_variable = { BRA_coffee_companies_opinion < 0 }
-		AND = {
-			check_variable = { BRA_dependency_on_coffee < 95 }
-			check_variable = { BRA_dependency_on_coffee > 4 }
-		}
-		NOT = {
-			has_idea = BRA_rebellious_coffee_plantations_idea
-		}
-        BRA_coffee_plantations_active = yes 
-		NOT = { has_global_flag = BRA_civil_war_in_progress }
-    }
-	
-	mean_time_to_happen = { days = 222 }
+	is_triggered_only = yes 
 
 	immediate = {
-		add_stability = -0.01
+		add_political_power = -5
 	}
 
 	option = { #let them do it 
@@ -185,7 +148,7 @@ country_event = {
 				has_completed_focus = BRA_begin_industrializing_the_nation
 			}
 		}
-		add_stability = -0.02
+		add_stability = -0.01
 		custom_effect_tooltip = BRA_coffee_dependency_decreases_3_tt
 		hidden_effect = {
 			subtract_from_variable = { BRA_dependency_on_coffee = 3 }
@@ -202,19 +165,11 @@ country_event = {
 	desc = brazil.4.d 
 	picture = GFX_report_event_generic_riot
 
-	fire_only_once = no 
-	trigger = {
-		original_tag = BRA 
-		BRA_coffee_plantations_active = yes 
-		has_idea = BRA_rebellious_coffee_plantations_idea
-		NOT = { has_global_flag = BRA_civil_war_in_progress }
-	}
-
-	mean_time_to_happen = { days = 90 }
+	is_triggered_only = yes 
 
 	option = {
 		name = brazil.4.a 
-		add_stability = -0.01
+		add_stability = -0.005
 		random_owned_controlled_state = {
 			limit = {
 				OR = {
@@ -845,18 +800,12 @@ country_event = {
 	desc = brazil.15.d 
 	picture = GFX_BRA_brazil_15
 
-	trigger = {
-		original_tag = BRA 
-		has_civil_war = no 
-		has_country_flag = BRA_hostile_vargas
-		NOT = { check_variable = { BRA_playing_as_vargas = 1 } }
-	}
-
-	fire_only_once = yes 
+	is_triggered_only = yes 
 
 	option = {
 		name = brazil.15.a 
 		set_country_flag = BRA_vargas_enemy_estado_novo
+		add_ideas = BRA_establishing_estado_novo
 		BRA_increment_progress_to_dictatorship = yes 
 	}
 }
@@ -868,39 +817,18 @@ country_event = {
 	desc = brazil.16.d 
 	picture = GFX_report_event_generic_parliament
 
-	fire_only_once = no 
-
-	trigger = {
-		original_tag = BRA 
-		has_civil_war = no 
-		check_variable = { BRA_playing_as_vargas = 1 }
-		has_country_flag = BRA_hostile_congress
-		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
-		NOT = { has_idea = BRA_police_brutality_3 }
-		NOT = { has_country_flag = BRA_congress_shutdown }
-		date > 1936.2.1
-	}
-
-	mean_time_to_happen = { 
-		days = 205 
-		modifier = {
-			factor = 1.15
-			has_idea = BRA_police_brutality_1
-		}
-		modifier = {
-			factor = 1.4
-			has_idea = BRA_police_brutality_2
-		}	
-	}
+	is_triggered_only = yes 
 
 	option = {
 		name = brazil.16.a 
 		custom_effect_tooltip = BRA_vargas_influence_decrease_by_4_tt
-		custom_effect_tooltip = BRA_progress_dictatorship_decrease_2_tt
+		if = {
+			limit = { has_any_power_balance = yes }
+			BRA_move_5_democracy = yes 
+		}
 		custom_effect_tooltip = BRA_congress_increase_influence_1_tt
 		hidden_effect = {
 			subtract_from_variable = { BRA_vargas_influence = 4 }
-			subtract_from_variable = { BRA_progress_to_dictatorship = 2 }
 			add_to_variable = { BRA_congress_influence = 1 }
 			BRA_set_up_political_crisis = yes 
 		}
@@ -914,38 +842,17 @@ country_event = {
 	desc = brazil.17.d 
 	picture = GFX_report_event_generic_rally_3
 
-	fire_only_once = no 
-
-	trigger = {
-		original_tag = BRA 
-		has_civil_war = no 
-		check_variable = { BRA_playing_as_vargas = 1 }
-		has_country_flag = BRA_hostile_congress
-		check_variable = { BRA_congress_influence > 24 }
-		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
-		NOT = { has_idea = BRA_police_brutality_3 }
-		NOT = { has_country_flag = BRA_congress_shutdown }
-	}
-
-	mean_time_to_happen = { 
-		days = 125 
-		modifier = {
-			factor = 1.1
-			has_idea = BRA_police_brutality_1
-		}
-		modifier = {
-			factor = 1.45
-			has_idea = BRA_police_brutality_2
-		}
-	}
+	is_triggered_only = yes 
 
 	option = {
 		name = brazil.17.a 
-		custom_effect_tooltip = BRA_progress_dictatorship_decrease_3_tt
+		if = {
+			limit = { has_any_power_balance = yes }
+			BRA_move_5_democracy = yes 
+		}
 		custom_effect_tooltip = BRA_vargas_influence_decrease_by_1_tt
 		custom_effect_tooltip = BRA_congress_increase_influence_2_tt
 		hidden_effect = {
-			subtract_from_variable = { BRA_progress_to_dictatorship = 3 }
 			add_to_variable = { BRA_congress_influence = 2 }
 			subtract_from_variable = { BRA_vargas_influence = 1 }
 			BRA_set_up_political_crisis = yes 
@@ -960,19 +867,7 @@ country_event = {
 	desc = brazil.18.d 
 	picture = GFX_report_event_communist_leader
 
-	fire_only_once = no 
-
-	trigger = {
-		original_tag = BRA 
-		has_civil_war = no
-		NOT = { check_variable = {BRA_playing_as_communists = 1 } }
-		NOT = { has_country_flag = BRA_communists_shutdown }
-		NOT = { has_global_flag = BRA_prestes_assasinated }
-		check_variable = { BRA_communist_subversive_activity > 2 }
-		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
-	}
-
-	mean_time_to_happen = { days = 325 }
+	is_triggered_only = yes 
 
 	option = { #let them 
 		name = brazil.18.a 
@@ -1036,8 +931,8 @@ country_event = {
 				custom_effect_tooltip = BRA_communists_not_take_state_tt
 			}
 			BRA_chance_to_counter = {
-				add_political_power = -25
-				add_stability = -0.02
+				add_political_power = -20
+				add_stability = -0.01
 				add_popularity = { ideology = communism popularity = 0.02 }
 				custom_effect_tooltip = BRA_communist_subversive_activity_will_spread_to_nearby_state_tt
 				hidden_effect = {
@@ -1066,27 +961,7 @@ country_event = {
 	desc = brazil.19.d 
 	picture = GFX_report_event_generic_rally2
 
-	trigger = {
-		original_tag = BRA 
-		has_civil_war = no
-		date > 1936.2.10
-		NOT = { check_variable = { BRA_playing_as_communists = 1 } }
-		NOT = { has_country_flag = BRA_communists_shutdown }
-		any_controlled_state = {
-			has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
-		}
-		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
-	}
-
-	fire_only_once = no 
-
-	mean_time_to_happen = {
-		days = 150
-		modifier = {
-			factor = 1.4
-			has_completed_focus = BRA_the_war_on_communism_vargas
-		}
-	}
+	is_triggered_only = yes 
 
 	option = {
 		name = brazil.19.a 
@@ -1115,30 +990,7 @@ country_event = {
 	desc = brazil.20.d
 	picture = GFX_report_event_generic_battle
 
-	trigger = {
-		original_tag = BRA 
-		has_civil_war = no 
-		NOT = { check_variable = { BRA_playing_as_communists = 1 } }
-		NOT = { has_active_mission = BRA_communists_planning_to_take_FROM }
-		any_controlled_state = {
-			has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
-			NOT = { has_state_flag = BRA_communist_state_taken }
-		}
-		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
-		NOT = { has_country_flag = BRA_communists_shutdown }
-		NOT = { has_country_flag = recently_started_game }
-	}
-
-	fire_only_once = no 
-
-
-	mean_time_to_happen = {
-		days = 155
-		modifier = {
-			factor = 1.35
-			check_variable = { BRA_communist_subversive_activity < 3 }
-		}
-	}
+	is_triggered_only = yes 
 
 	immediate = {
 		hidden_effect = {
@@ -1181,23 +1033,7 @@ country_event = {
 	desc = brazil.22.d 
 	picture = GFX_BRA_integralist_generic_increase_influence_pic
 
-	fire_only_once = no 
-
-	trigger = {
-		original_tag = BRA 
-		has_civil_war = no 
-		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
-		NOT = { has_country_flag = BRA_integralists_shutdown }
-		NOT = { has_idea = BRA_police_brutality_3 }
-	}
-
-	mean_time_to_happen = {
-		days = 162
-		modifier = {
-			factor = 0.6
-			check_variable = { BRA_integralist_influence > 34 }
-		}
-	}
+	is_triggered_only = yes 
 
 	option = {
 		trigger = {
@@ -1233,31 +1069,7 @@ country_event = {
 	desc = brazil.23.d 
 	picture = GFX_report_event_generic_parliament
 
-	fire_only_once = no 
-
-	trigger = {
-		original_tag = BRA 
-		has_civil_war = no 
-		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
-		NOT = { has_idea = BRA_police_brutality_3 }
-		NOT = { has_country_flag = BRA_congress_shutdown }
-	}
-
-	mean_time_to_happen = {
-		days = 155
-		modifier = {
-			factor = 0.6
-			check_variable = { BRA_congress_influence > 34 }
-		}
-		modifier = {
-			factor = 1.2
-			has_idea = BRA_police_brutality_1
-		}
-		modifier = {
-			factor = 1.6
-			has_idea = BRA_police_brutality_2
-		}
-	}
+	is_triggered_only = yes 
 
 	immediate = {
 		hidden_effect = {
@@ -1272,7 +1084,15 @@ country_event = {
 			}
 		}
 		name = brazil.23.a
-		custom_effect_tooltip = BRA_increase_congress_by_4_tt
+		if = {
+			limit = {
+				has_completed_focus = BRA_manipulate_behind_the_scenes
+			}
+			add_political_power = -10
+		}
+		else = {
+			custom_effect_tooltip = BRA_increase_congress_by_4_tt
+		}
 		hidden_effect = {
 			add_to_variable = { BRA_congress_influence = 4 }
 			BRA_set_up_political_crisis = yes 
@@ -1397,25 +1217,7 @@ country_event = {
 	desc = brazil.27.d 
 	picture = GFX_report_event_generic_army
 
-	fire_only_once = no 
-
-	trigger = {
-		original_tag = BRA 
-		NOT = { check_variable = { BRA_playing_as_integralists = 1 } }
-		NOT = { has_completed_focus = BRA_manipulate_behind_the_scenes }
-		has_country_flag = BRA_hostile_integralists
-		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
-		NOT = { has_active_mission = BRA_integralists_planning_uprising }
-		NOT = { has_country_flag = BRA_integralists_shutdown }
-	}
-
-	mean_time_to_happen = { 
-		days = 110
-		modifier = {
-			factor = 0.85
-			has_active_mission = BRA_integralist_protests_worsen
-		} 
-	}
+	is_triggered_only = yes 
 
 	immediate = {
 		if = {
@@ -1461,27 +1263,7 @@ country_event = {
 	desc = brazil.28.d 
 	picture = GFX_report_event_generic_riot
 
-	fire_only_once = no 
-
-	trigger = {
-		original_tag = BRA 
-		NOT = { check_variable = { BRA_playing_as_integralists = 1 } }
-		any_controlled_state = {
-			has_dynamic_modifier = { modifier = BRA_integralists_occupation }
-		}
-		has_country_flag = BRA_hostile_integralists
-		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
-		NOT = { has_active_mission = BRA_integralists_planning_uprising }
-		NOT = { has_country_flag = BRA_integralists_shutdown }
-	}
-
-	mean_time_to_happen = { 
-		days = 60
-		modifier = {
-			factor = 1.4
-			check_variable = { BRA_number_of_states_integralist_protesting > 2 }
-		}
-	}
+	is_triggered_only = yes
 
 	option = {
 		name = brazil.28.a 
@@ -1560,15 +1342,7 @@ country_event = {
 	desc = brazil.30.d 
 	picture = GFX_BRA_integralist_generic_increase_influence_pic 
 
-	trigger = {
-		original_tag = BRA 
-		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
-		has_active_mission = BRA_integralists_planning_uprising
-		NOT = { check_variable = { BRA_playing_as_integralists = 1 } }
-		has_civil_war = no 
-	}
-
-	mean_time_to_happen = { days = 90 }
+	is_triggered_only = yes 
 
 	immediate = {
 		add_days_mission_timeout = {
@@ -1725,13 +1499,7 @@ country_event = {
 	desc = brazil.35.d 
 	picture = GFX_report_event_SOV_demands
 
-	mean_time_to_happen = { days = 245 }
-
-	trigger = {
-		original_tag = BRA 
-		check_variable = { BRA_coffee_companies_opinion < 0 }
-		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
-	}
+	is_triggered_only = yes 
 
 	option = {
 		name = brazil.35.a 
@@ -1773,15 +1541,7 @@ country_event = {
 	desc = brazil.36.d 
 	picture = GFX_report_event_generic_conference
 
-	trigger = {
-		original_tag = BRA 
-		check_variable = { BRA_coffee_companies_opinion < 0 }
-		has_dynamic_modifier = { modifier = BRA_brazilian_economy }
-		has_civil_war = no 
-		BRA_coffee_plantations_active = yes 
-	}
-
-	mean_time_to_happen = { days = 285 }
+	is_triggered_only = yes 
 
 	option = {
 		name = brazil.36.a 
@@ -1820,7 +1580,10 @@ country_event = {
 		NOT = { has_completed_focus = BRA_political_cooperation_with_plinio }
 		has_civil_war = no 
 		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
-		has_active_mission = BRA_estado_novo_mission_enemy
+		is_power_balance_in_range = {
+			id = BRA_progress_to_dictatorship_bop
+			range < BRA_total_control
+		}
 	}
 
 	mean_time_to_happen = {
@@ -2234,7 +1997,7 @@ country_event = { #Integralists win elections
 			BRA_clear_integralist_opinion = yes 
 			BRA_clear_vargas_opinion = yes 
 			set_variable = { BRA_playing_as_vargas = 0 }
-			set_variable = { BRA_progress_to_dictatorship = 0 }
+			BRA_bop_remove_bop_effect = yes 
 			set_variable = { BRA_playing_as_integralists = 1 }
 			promote_character = BRA_plínio_salgado
 			set_politics = {
@@ -2269,7 +2032,7 @@ country_event = { #Neutral party wins elections
 			BRA_clear_integralist_opinion = yes 
 			BRA_clear_vargas_opinion = yes 
 			set_variable = { BRA_playing_as_vargas = 0 }
-			set_variable = { BRA_progress_to_dictatorship = 0 }
+			BRA_bop_remove_bop_effect = yes 
 			promote_character = BRA_jose_americo_de_almeida
 			add_popularity = { ideology = neutrality popularity = 0.05 }
 			set_country_flag = BRA_neutrality_won_elections
@@ -2306,7 +2069,6 @@ country_event = { #democratic union party wins elections
 			BRA_clear_integralist_opinion = yes 
 			BRA_clear_vargas_opinion = yes 
 			set_variable = { BRA_playing_as_vargas = 0 }
-			set_variable = { BRA_progress_to_dictatorship = 0 }
 			BRA_clear_congress_opinion = yes 
 			set_variable = { BRA_playing_as_congress = 1 }
 			promote_character = BRA_armando_sales
@@ -2323,6 +2085,7 @@ country_event = { #democratic union party wins elections
 				}
 				complete_national_focus = BRA_a_free_brazil
 			}
+			BRA_move_20_democracy = yes 
 		}
 	}
 
@@ -3811,15 +3574,7 @@ country_event = {
 
 	option = { #perfect 
 		name = brazil.80.a 
-		custom_effect_tooltip = BRA_progress_to_dictatorship_increase_20_tt
-		hidden_effect = {
-			add_to_variable = { BRA_progress_to_dictatorship = 20 }
-			clamp_variable = {
-				var = BRA_progress_to_dictatorship
-				min = 0
-				max = 100
-			}
-		}
+		BRA_move_20_dictatorship = yes 
 	}
 }
 
@@ -4279,7 +4034,7 @@ country_event = {
 	}
 }
 
-#We are Fully Prepared for the Civil War, shall we launch our Attack?
+#We need to launch our attack NOW, shall we do it?
 country_event = {
 	id = brazil.89
 	title = brazil.89.t 
@@ -4775,5 +4530,88 @@ country_event = {
 
 	option = {
 		name = brazil.94.a
+	}
+}
+
+# Estado Novo Established
+country_event = {
+	id = brazil.95
+	title = brazil.95.t 
+	desc = brazil.95.d 
+	picture = GFX_BRA_brazil_15
+
+	is_triggered_only = yes 
+
+	option = { # We have to take our chances now | starts civil war 
+		name = brazil.95.a 
+		ai_chance = { base = 50 }
+		if = {
+			limit = { has_completed_focus = BRA_manipulate_behind_the_scenes }
+			effect_tooltip = {
+                start_civil_war = {
+                    ruling_party = ROOT 
+                    ideology = communism
+                    size = 0.4
+                }
+            }
+            hidden_effect = {
+				remove_mission = BRA_communist_peasant_revolt
+                BRA_start_communist_civil_war = yes 
+                set_global_flag = BRA_civil_war_in_progress
+                clr_country_flag = BRA_active_communist_revolt
+                news_event = { id = news.363 days = 2 }
+            }
+		}
+		else = {
+			country_event = brazil.89
+			effect_tooltip = {
+				start_civil_war = {
+                    ruling_party = ROOT 
+                    ideology = fascism
+                    size = 0.4
+                }
+			}
+		}
+		hidden_effect = { BRA_bop_remove_bop_effect = yes }
+	}
+
+	option = { # Looks like we need to back down
+		name = brazil.95.b 
+		custom_effect_tooltip = BRA_political_parties_shutdown_tt
+		set_politics = {
+			ruling_party = neutrality
+			elections_allowed = no 
+		}
+		set_party_name = {
+			ideology = neutrality
+			long_name = BRA_estado_novo_long
+			name = BRA_estado_novo
+		}
+		unlock_national_focus = BRA_officialy_establish_the_estado_novo ## just cuz why not
+        hidden_effect = {
+            BRA_clear_integralist_opinion = yes 
+            BRA_clear_congress_opinion = yes
+			BRA_bop_remove_bop_effect = yes 
+            clr_country_flag = BRA_hostile_communists
+            set_country_flag = BRA_congress_shutdown
+            set_country_flag = BRA_integralists_shutdown
+            set_country_flag = BRA_communists_shutdown
+            set_country_flag = BRA_all_parties_shutdown ## IMPORTANT COUNTRY FLAG ##
+            set_country_flag = BRA_estado_novo_established
+            set_variable = { BRA_congress_influence = 0 }
+            set_variable = { BRA_integralist_influence = 0 }
+            every_controlled_state = {
+                limit = {
+                    has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+                }
+                remove_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
+            }
+            clear_variable = BRA_communist_subversive_activity
+            BRA_set_up_political_crisis = yes
+			add_popularity = {
+				ideology = neutrality
+				popularity = 0.25
+			} 
+        }
 	}
 }

@@ -86,6 +86,16 @@ BRA_foreign_plane_purchases = {
     visible = { always = no }
 }
 
+BRA_BoP_decision_category = {
+    icon = GFX_decision_category_generic_democracy
+
+    allowed = { original_tag = BRA }
+
+    visible = {
+        has_any_power_balance = yes ## only one balance of power lol
+    }
+}
+
 BRA_political_manegement = {
     priority = 200
     icon = GFX_brazilian_government_management
@@ -171,8 +181,19 @@ BRA_imminent_civil_war = {
         check_variable = { BRA_playing_as_integralists = 1 }
         has_country_flag = BRA_integralist_player_planning_uprising
         has_civil_war = no 
-        has_active_mission = BRA_estado_novo_mission_enemy_2
+        is_power_balance_in_range = {
+			id = BRA_progress_to_dictatorship_bop
+			range < BRA_total_control
+		}
+        NOT = {
+            OR = {
+                has_global_flag = BRA_civil_war_in_progress
+                has_global_flag = BRA_civil_war_concluded
+            }
+        }
     }
+
+    visible_when_empty = yes 
 
     allowed = { original_tag = BRA }
 }

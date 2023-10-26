@@ -2454,7 +2454,7 @@ focus_tree = {
 		relative_position_id = BRA_invest_in_the_army
 		prerequisite = { focus = BRA_invest_in_the_army }
 
-		cost = 5
+		cost = 10
 
 		available = {
 			exists = yes 
@@ -2886,17 +2886,17 @@ focus_tree = {
 
 		cost = 2
 
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL FOCUS_FILTER_BALANCE_OF_POWER }
 		#will activate an elections mission timeout ## Already does that silly old me ##
 		completion_reward = {
-			add_political_power = 125
+			add_political_power = 90
 			custom_effect_tooltip = BRA_time_to_increase_progress_decrease_by_10_days_tt
 			custom_effect_tooltip = BRA_other_parties_will_try_to_bring_you_down_tt
 			hidden_effect = {
 				subtract_from_variable = { BRA_days_to_make_progress = 10 }
 				if = {
 					limit = { is_ai = yes }
-					add_political_power = 50
+					add_political_power = 35
 				}
 			}
 			if = {
@@ -2936,9 +2936,10 @@ focus_tree = {
 			}
 		}
 
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL FOCUS_FILTER_BALANCE_OF_POWER }
 		completion_reward = {
 			custom_effect_tooltip = BRA_strengthening_police_force_and_censoring_increase_dictatorship_tt
+			unlock_decision_tooltip = BRA_strengthen_our_grip_on_the_country
 		}
 	}
 
@@ -3042,7 +3043,7 @@ focus_tree = {
 			}
 		}
 
-		search_filters = { FOCUS_FILTER_POLITICAL }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_BALANCE_OF_POWER }
 		completion_reward = {
 			add_popularity = {
 				ideology = fascism
@@ -3053,8 +3054,7 @@ focus_tree = {
 				popularity = 0.02
 			}
 			add_political_power = 10
-			custom_effect_tooltip = BRA_decrease_dictatorship_by_3_tt
-			subtract_from_variable = { BRA_progress_to_dictatorship = 3 }
+			BRA_move_5_democracy = yes 
 		}
 	}
 
@@ -3222,22 +3222,15 @@ focus_tree = {
 			set_country_flag = BRA_vargas_stop_dictatorship
 		}
 
-		search_filters = { FOCUS_FILTER_POLITICAL }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_BALANCE_OF_POWER }
 		completion_reward = {
-			custom_effect_tooltip = BRA_progress_dictatorship_decrease_10_tt
+			BRA_move_10_democracy = yes 
+			unlock_decision_tooltip = BRA_cut_back_further_on_our_censorship
 			custom_effect_tooltip = BRA_vargas_stop_incrementing_progress_tt
-            subtract_from_variable = { BRA_progress_to_dictatorship = 10 }
 			add_days_mission_timeout = {
 				mission = BRA_the_1938_elections
 				days = 15
 			}
-            hidden_effect = {
-                clamp_variable = {
-                    var = BRA_progress_to_dictatorship
-                    min = 0
-                    max = 100
-                }
-            }
 			add_popularity = {
 				ideology = democratic
 				popularity = 0.05
@@ -3272,6 +3265,16 @@ focus_tree = {
 		available = {
 			has_civil_war = no 
 			has_active_mission = BRA_the_1938_elections
+			OR = {
+				is_power_balance_in_range = {
+					id = BRA_progress_to_dictatorship_bop
+					range = BRA_crippling_democracy
+				}
+				is_power_balance_in_range = {
+					id = BRA_progress_to_dictatorship_bop
+					range < BRA_crippling_democracy
+				}
+			}
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
@@ -3280,6 +3283,7 @@ focus_tree = {
 				ideology = democratic
 				popularity = 0.05
 			}
+			BRA_move_5_democracy = yes 
 			set_variable = { BRA_playing_as_vargas = 0 }
 			set_variable = { BRA_playing_as_congress = 1 }
 			BRA_clear_congress_opinion = yes 
@@ -3390,6 +3394,7 @@ focus_tree = {
 				ideology = neutrality
 				popularity = 0.03
 			}
+			hidden_effect = { BRA_bop_remove_bop_effect = yes }
 		}
 	}
 
@@ -3433,7 +3438,7 @@ focus_tree = {
 		relative_position_id = BRA_an_era_of_democracy
 		prerequisite = { focus = BRA_an_era_of_democracy }
 
-		cost = 7.2
+		cost = 5
 
 		ai_will_do = {
             factor = 5
@@ -3457,7 +3462,7 @@ focus_tree = {
 			has_government = democratic
 		}
 
-		search_filters = { FOCUS_FILTER_POLITICAL }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_BALANCE_OF_POWER }
 		completion_reward = {
 			custom_effect_tooltip = BRA_washington_luis_comes_back_tt
 			custom_effect_tooltip = BRA_increase_congress_by_4_tt
@@ -3494,13 +3499,14 @@ focus_tree = {
 			has_government = democratic
 		}
 
-		search_filters = { FOCUS_FILTER_POLITICAL }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_BALANCE_OF_POWER }
 		completion_reward = {
 			add_political_power = 75
 			add_popularity = {
 				ideology = democratic
 				popularity = 0.03
 			}
+			BRA_move_10_democracy = yes
 			custom_effect_tooltip = BRA_increase_congress_by_4_tt
 			hidden_effect = {
 				add_to_variable = { BRA_congress_influence = 4 }
@@ -3536,12 +3542,13 @@ focus_tree = {
 			has_government = democratic
 		}
 
-		search_filters = { FOCUS_FILTER_POLITICAL }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_BALANCE_OF_POWER }
 		completion_reward = {
 			add_popularity = {
 				ideology = democratic
 				popularity = 0.07
 			}
+			BRA_move_10_democracy = yes 
 		}
 	}
 
@@ -3558,6 +3565,10 @@ focus_tree = {
 		available = {
 			has_government = democratic
 			has_country_flag = BRA_democrats_won_elections
+			is_power_balance_in_range = {
+				id = BRA_progress_to_dictatorship_bop
+				range = BRA_true_democracy
+			}
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
@@ -5148,13 +5159,13 @@ focus_tree = {
 				character = BRA_getulio_vargas
 				ruling_only = yes
 			}
-			custom_trigger_tooltip = {
-				tooltip = BRA_progress_to_dctatorship_over_20_tt
-				check_variable = { BRA_progress_to_dictatorship > 20 }
+			power_balance_value = {
+				id = BRA_progress_to_dictatorship_bop
+				value > 0
 			}
 		}
 
-		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL FOCUS_FILTER_BALANCE_OF_POWER }
 		completion_reward = {
 			add_political_power = 35
 			add_stability = -0.03
@@ -5162,8 +5173,7 @@ focus_tree = {
 				ideology = neutrality
 				popularity = 0.05
 			}
-			custom_effect_tooltip = BRA_increase_progress_by_5_tt
-			add_to_variable = { BRA_progress_to_dictatorship = 5 }
+			BRA_move_5_dictatorship = yes 
 		}
 	}
 
@@ -5385,7 +5395,7 @@ focus_tree = {
 			}
 		}
 
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL FOCUS_FILTER_BALANCE_OF_POWER }
 		completion_reward = {
 			add_political_power = 100
 			BRA_increment_progress_to_dictatorship = yes 
@@ -5429,7 +5439,7 @@ focus_tree = {
 			has_country_flag = BRA_parliament_convinced
 		}
 
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL FOCUS_FILTER_BALANCE_OF_POWER }
 		completion_reward = {
 			add_political_power = 40
 			add_days_mission_timeout = {
@@ -5474,7 +5484,7 @@ focus_tree = {
 			}
 		}
 
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL FOCUS_FILTER_BALANCE_OF_POWER }
 		completion_reward = {
 			add_popularity = {
 				ideology = democratic
@@ -5550,7 +5560,7 @@ focus_tree = {
 			fascism < 0.2
 		}
 
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL FOCUS_FILTER_BALANCE_OF_POWER }
 		completion_reward = {
 			BRA_clear_integralist_opinion = yes 
 			custom_effect_tooltip = BRA_integralist_movement_will_be_shattered_tt
@@ -5727,7 +5737,7 @@ focus_tree = {
 			}
 		}
 
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL FOCUS_FILTER_BALANCE_OF_POWER }
 		completion_reward = {
 			add_political_power = 50
 			add_stability = -0.03
@@ -5759,9 +5769,9 @@ focus_tree = {
 				character = BRA_getulio_vargas
 				ruling_only = yes
 			}
-			custom_trigger_tooltip = {
-				tooltip = BRA_progress_to_a_dictatorship_above_90_tt
-				check_variable = { BRA_progress_to_dictatorship > 90 }
+			is_power_balance_in_range = {
+				id = BRA_progress_to_dictatorship_bop
+				range = BRA_total_control
 			}
 			has_active_mission = BRA_the_1938_elections
 			has_country_flag = BRA_integralists_shutdown
@@ -6973,7 +6983,7 @@ focus_tree = {
 			unlock_decision_category_tooltip = BRA_imminent_civil_war
 			unlock_decision_tooltip = BRA_launch_the_civil_war
 			custom_effect_tooltip = BRA_put_race_against_time_tt
-			add_political_power = 125
+			add_political_power = 90
 			hidden_effect = {
 				set_variable = { BRA_playing_as_vargas = 0 }
 				set_variable = { BRA_playing_as_integralists = 1 }
@@ -6981,11 +6991,14 @@ focus_tree = {
 				set_variable = { BRA_cost_to_expand = 50 }
 				set_variable = { BRA_integralist_equipped_percentage = 0.2 }
 				set_variable = { BRA_current_army_support = 0 }
-				activate_mission = BRA_estado_novo_mission_enemy
-				activate_mission = BRA_estado_novo_mission_enemy_2
 				BRA_clear_vargas_opinion = yes 
 				BRA_clear_integralist_opinion = yes 
 				set_country_flag = BRA_hostile_vargas
+				country_event = { 
+					id = brazil.15
+					hours = 6
+					random_hours = 18
+				}
 				set_country_flag = BRA_integralist_player_planning_uprising
 				957 = {
 					add_dynamic_modifier = { modifier = BRA_integralists_occupation }
@@ -7029,7 +7042,10 @@ focus_tree = {
         }
 
 		available = {
-			has_active_mission = BRA_estado_novo_mission_enemy
+			is_power_balance_in_range = {
+				id = BRA_progress_to_dictatorship_bop
+				range < BRA_total_control
+			}
 			custom_trigger_tooltip = {
 				tooltip = BRA_integralists_not_shutdown_tt
 				NOT = { has_country_flag = BRA_integralists_shutdown }
@@ -7071,7 +7087,10 @@ focus_tree = {
         }
 
 		available = {
-			has_active_mission = BRA_estado_novo_mission_enemy
+			is_power_balance_in_range = {
+				id = BRA_progress_to_dictatorship_bop
+				range < BRA_total_control
+			}
 			custom_trigger_tooltip = {
 				tooltip = BRA_integralist_influence_over_20_tt
 				check_variable = { BRA_integralist_influence > 20 }
@@ -7112,7 +7131,10 @@ focus_tree = {
         }
 
 		available = {
-			has_active_mission = BRA_estado_novo_mission_enemy
+			is_power_balance_in_range = {
+				id = BRA_progress_to_dictatorship_bop
+				range < BRA_total_control
+			}
 			custom_trigger_tooltip = {
 				tooltip = BRA_integralist_influence_over_25_tt
 				check_variable = { BRA_integralist_influence > 25 }
@@ -7159,7 +7181,10 @@ focus_tree = {
         }
 
 		available = {
-			has_active_mission = BRA_estado_novo_mission_enemy
+			is_power_balance_in_range = {
+				id = BRA_progress_to_dictatorship_bop
+				range < BRA_total_control
+			}
 			custom_trigger_tooltip = {
 				tooltip = BRA_integralists_not_shutdown_tt
 				NOT = { has_country_flag = BRA_integralists_shutdown }
@@ -7193,7 +7218,10 @@ focus_tree = {
         }
 
 		available = {
-			has_active_mission = BRA_estado_novo_mission_enemy
+			is_power_balance_in_range = {
+				id = BRA_progress_to_dictatorship_bop
+				range < BRA_total_control
+			}
 			custom_trigger_tooltip = {
 				tooltip = BRA_integralists_not_shutdown_tt
 				NOT = { has_country_flag = BRA_integralists_shutdown }
@@ -7276,6 +7304,7 @@ focus_tree = {
 				}
 			}
 			add_political_power = 75
+			country_event = { id = brazil.71 days = 7 random_days = 5 }
 			hidden_effect = {
 				set_country_flag = {
                     flag = BRA_recently_spawned
@@ -7465,7 +7494,6 @@ focus_tree = {
 						random_days = 25
 					}
 				}
-				country_event = { id = brazil.71 days = 7 random_days = 5 }
 				if = {
 					limit = { has_completed_focus = BRA_confiscate_stockpiled_weapons }
 					add_manpower = 10000
@@ -7644,7 +7672,10 @@ focus_tree = {
         }
 
 		available = {
-			has_active_mission = BRA_estado_novo_mission_enemy
+			is_power_balance_in_range = {
+				id = BRA_progress_to_dictatorship_bop
+				range < BRA_total_control
+			}
 			NOT = {
 				has_war_with = ITA 
 			}
@@ -7691,7 +7722,10 @@ focus_tree = {
         }
 
 		available = {
-			has_active_mission = BRA_estado_novo_mission_enemy
+			is_power_balance_in_range = {
+				id = BRA_progress_to_dictatorship_bop
+				range < BRA_total_control
+			}
 			custom_trigger_tooltip = {
 				tooltip = BRA_GER_accepted
 				has_country_flag = BRA_GER_agreed_to_help
@@ -7754,7 +7788,10 @@ focus_tree = {
         }
 
 		available = {
-			has_active_mission = BRA_estado_novo_mission_enemy
+			is_power_balance_in_range = {
+				id = BRA_progress_to_dictatorship_bop
+				range < BRA_total_control
+			}
 			custom_trigger_tooltip = {
 				tooltip = BRA_GER_accepted
 				has_country_flag = BRA_GER_agreed_to_help
@@ -7834,7 +7871,10 @@ focus_tree = {
         }
 
 		available = {
-			has_active_mission = BRA_estado_novo_mission_enemy
+			is_power_balance_in_range = {
+				id = BRA_progress_to_dictatorship_bop
+				range < BRA_total_control
+			}
 			custom_trigger_tooltip = {
 				tooltip = BRA_integralists_not_shutdown_tt
 				NOT = { has_country_flag = BRA_integralists_shutdown }
@@ -7877,7 +7917,10 @@ focus_tree = {
         }
 
 		available = {
-			has_active_mission = BRA_estado_novo_mission_enemy
+			is_power_balance_in_range = {
+				id = BRA_progress_to_dictatorship_bop
+				range < BRA_total_control
+			}
 			custom_trigger_tooltip = {
 				tooltip = BRA_integralists_not_shutdown_tt
 				NOT = { has_country_flag = BRA_integralists_shutdown }
@@ -7922,7 +7965,10 @@ focus_tree = {
         }
 
 		available = {
-			has_active_mission = BRA_estado_novo_mission_enemy
+			is_power_balance_in_range = {
+				id = BRA_progress_to_dictatorship_bop
+				range < BRA_total_control
+			}
 			custom_trigger_tooltip = {
 				tooltip = BRA_integralists_not_shutdown_tt
 				NOT = { has_country_flag = BRA_integralists_shutdown }
@@ -7959,7 +8005,10 @@ focus_tree = {
         }
 
 		available = {
-			has_active_mission = BRA_estado_novo_mission_enemy
+			is_power_balance_in_range = {
+				id = BRA_progress_to_dictatorship_bop
+				range < BRA_total_control
+			}
 			custom_trigger_tooltip = {
 				tooltip = BRA_integralists_not_shutdown_tt
 				NOT = { has_country_flag = BRA_integralists_shutdown }
@@ -8002,7 +8051,10 @@ focus_tree = {
         }
 
 		available = {
-			has_active_mission = BRA_estado_novo_mission_enemy
+			is_power_balance_in_range = {
+				id = BRA_progress_to_dictatorship_bop
+				range < BRA_total_control
+			}
 			custom_trigger_tooltip = {
 				tooltip = BRA_integralists_not_shutdown_tt
 				NOT = { has_country_flag = BRA_integralists_shutdown }
@@ -8054,7 +8106,10 @@ focus_tree = {
         }
 
 		available = {
-			has_active_mission = BRA_estado_novo_mission_enemy
+			is_power_balance_in_range = {
+				id = BRA_progress_to_dictatorship_bop
+				range < BRA_total_control
+			}
 			custom_trigger_tooltip = {
 				tooltip = BRA_integralists_not_shutdown_tt
 				NOT = { has_country_flag = BRA_integralists_shutdown }
@@ -8100,7 +8155,10 @@ focus_tree = {
         }
 
 		available = {
-			has_active_mission = BRA_estado_novo_mission_enemy
+			is_power_balance_in_range = {
+				id = BRA_progress_to_dictatorship_bop
+				range < BRA_total_control
+			}
 			custom_trigger_tooltip = {
 				tooltip = BRA_integralists_not_shutdown_tt
 				NOT = { has_country_flag = BRA_integralists_shutdown }
@@ -8149,7 +8207,10 @@ focus_tree = {
         }
 
 		available = {
-			has_active_mission = BRA_estado_novo_mission_enemy
+			is_power_balance_in_range = {
+				id = BRA_progress_to_dictatorship_bop
+				range < BRA_total_control
+			}
 			custom_trigger_tooltip = {
 				tooltip = BRA_prestes_not_imprisoned_tt
 				BRA_luis_carlos_prestes = {
@@ -8219,7 +8280,10 @@ focus_tree = {
         }
 
 		available = {
-			has_active_mission = BRA_estado_novo_mission_enemy
+			is_power_balance_in_range = {
+				id = BRA_progress_to_dictatorship_bop
+				range < BRA_total_control
+			}
 			custom_trigger_tooltip = {
 				tooltip = BRA_integralists_not_shutdown_tt
 				NOT = { has_country_flag = BRA_integralists_shutdown }
@@ -8269,7 +8333,10 @@ focus_tree = {
         }
 
 		available = {
-			has_active_mission = BRA_estado_novo_mission_enemy
+			is_power_balance_in_range = {
+				id = BRA_progress_to_dictatorship_bop
+				range < BRA_total_control
+			}
 			custom_trigger_tooltip = {
 				tooltip = BRA_integralists_not_shutdown_tt
 				NOT = { has_country_flag = BRA_integralists_shutdown }
@@ -8317,7 +8384,10 @@ focus_tree = {
         }
 
 		available = {
-			has_active_mission = BRA_estado_novo_mission_enemy
+			is_power_balance_in_range = {
+				id = BRA_progress_to_dictatorship_bop
+				range < BRA_total_control
+			}
 			custom_trigger_tooltip = {
 				tooltip = BRA_integralists_not_shutdown_tt
 				NOT = { has_country_flag = BRA_integralists_shutdown }
@@ -13032,7 +13102,6 @@ focus_tree = {
 			hidden_effect = {
 				set_country_flag = BRA_active_communist_revolt
 				set_global_flag = BRA_chose_commie_route
-				activate_mission = BRA_estado_novo_mission_enemy
 				set_variable = { BRA_cost_to_delay_communists = 20 }
 				BRC = { 
 					set_variable = { BRA_amount_of_equipment_hidden = 0 } 
@@ -13042,10 +13111,14 @@ focus_tree = {
 				set_variable = { BRA_amount_of_equipment_hidden = 0 }
 				set_variable = { BRA_playing_as_vargas = 0 }
 				set_variable = { BRA_playing_as_communists = 1 }
-
+				set_country_flag = BRA_hostile_vargas
 				set_country_flag = BRA_vargas_interfering
 				BRA_clear_vargas_opinion = yes 
-				set_country_flag = BRA_hostile_vargas
+				country_event = { 
+					id = brazil.15
+					hours = 6
+					random_hours = 18
+				}
 				BRC = { unlock_national_focus = BRA_manipulate_behind_the_scenes }
 				if = {
 					limit = { is_ai = yes }

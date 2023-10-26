@@ -24,6 +24,96 @@
 #BRA_mark_focus_tree_layout_dirty
 #BRA_reduce_scars_of_revolution
 
+BRA_initiate_balance_of_power = {
+    set_power_balance = {
+        id = BRA_progress_to_dictatorship_bop
+        left_side = BRA_democracy_side # will keep the last set side if not specified
+        right_side = BRA_dictatorship_side # will keep the last set side if not specified
+        set_value = -0.65 # if specified will set the value of the power balance, this option will override the effect of set_default so the two options should not be used together. if neither set_default or set_value is specified the current value of the power balance will not change
+    }
+}
+
+BRA_move_5_dictatorship = {
+    add_power_balance_value = {
+        id = BRA_progress_to_dictatorship_bop
+        value = 0.05
+    }
+}
+
+BRA_move_10_dictatorship = {
+    add_power_balance_value = {
+        id = BRA_progress_to_dictatorship_bop
+        value = 0.1
+    }
+}
+
+BRA_move_15_dictatorship = {
+    add_power_balance_value = {
+        id = BRA_progress_to_dictatorship_bop
+        value = 0.15
+    }
+}
+
+BRA_move_20_dictatorship = {
+    add_power_balance_value = {
+        id = BRA_progress_to_dictatorship_bop
+        value = 0.2
+    }
+}
+
+BRA_move_35_dictatorship = {
+    add_power_balance_value = {
+        id = BRA_progress_to_dictatorship_bop
+        value = 0.35
+    }
+}
+
+BRA_move_70_dictatorship = {
+    add_power_balance_value = {
+        id = BRA_progress_to_dictatorship_bop
+        value = 0.7
+    }
+}
+
+BRA_move_5_democracy = {
+    add_power_balance_value = {
+        id = BRA_progress_to_dictatorship_bop
+        value = -0.05
+    }
+}
+
+BRA_move_10_democracy = {
+    add_power_balance_value = {
+        id = BRA_progress_to_dictatorship_bop
+        value = -0.1
+    }
+}
+
+BRA_move_20_democracy = {
+    add_power_balance_value = {
+        id = BRA_progress_to_dictatorship_bop
+        value = -0.2
+    }
+}
+
+BRA_move_35_democracy = {
+    add_power_balance_value = {
+        id = BRA_progress_to_dictatorship_bop
+        value = -0.35
+    }
+}
+
+BRA_move_70_democracy = {
+    add_power_balance_value = {
+        id = BRA_progress_to_dictatorship_bop
+        value = -0.7
+    }
+}
+
+BRA_bop_remove_bop_effect = {
+	remove_power_balance = { id = BRA_progress_to_dictatorship_bop }
+}
+
 BRA_set_dependency_on_coffee_idea = {
 	hidden_effect = {
 		if = {
@@ -85,7 +175,9 @@ BRA_set_dependency_on_coffee_idea = {
 
 BRA_update_opinion_variable = {
 	hidden_effect = {
+		set_temp_variable = { BRA_opinion_var = 0 }
 		set_temp_variable = { BRA_coffee_states = 0 }
+		set_temp_variable = { BRA_dependency_var = BRA_dependency_on_coffee }
 		every_controlled_state = {
 			limit = { 
 				has_dynamic_modifier = { modifier = BRA_small_coffee_plantations }
@@ -98,18 +190,18 @@ BRA_update_opinion_variable = {
 			}
 			add_to_temp_variable = { BRA_coffee_states = 2 }
 		}
+		multiply_temp_variable = { BRA_coffee_states = 5 } ##will now also prioritize coffee states
+		divide_temp_variable = { BRA_dependency_var = 3 }
+		add_to_temp_variable = { BRA_opinion_var = BRA_dependency_var }
+		add_to_temp_variable = { BRA_opinion_var = BRA_coffee_states }
+		clamp_variable = {
+			var = BRA_opinion_var
+			min = 0
+			max = 100
+		}
 		if = {
 			limit = {
-				OR = {
-					AND = {
-						check_variable = { BRA_coffee_states > 11 }
-						check_variable = { BRA_dependency_on_coffee > 64 }
-					}
-					AND = {
-						check_variable = { BRA_coffee_states > 8 }
-						check_variable = { BRA_dependency_on_coffee > 79 }
-					}
-				}
+				check_variable = { BRA_opinion_var > 80 }
 				NOT = {
 					has_idea = BRA_rebellious_coffee_plantations_1
 				}
@@ -118,16 +210,7 @@ BRA_update_opinion_variable = {
 		}
 		else_if = {
 			limit = {
-				OR = {
-					AND = {
-						check_variable = { BRA_coffee_states > 8 }
-						check_variable = { BRA_dependency_on_coffee > 54 }
-					}
-					AND = {
-						check_variable = { BRA_coffee_states > 6 }
-						check_variable = { BRA_dependency_on_coffee > 64 }
-					}
-				}
+				check_variable = { BRA_opinion_var > 60 }
 				NOT = {
 					has_idea = BRA_rebellious_coffee_plantations_1
 				}
@@ -136,16 +219,7 @@ BRA_update_opinion_variable = {
 		}
 		else_if = {
 			limit = {
-				OR = {
-					AND = {
-						check_variable = { BRA_coffee_states > 6 }
-						check_variable = { BRA_dependency_on_coffee > 39 }
-					}
-					AND = {
-						check_variable = { BRA_coffee_states > 4 }
-						check_variable = { BRA_dependency_on_coffee > 49 }
-					}
-				}
+				check_variable = { BRA_opinion_var > 40 }
 				NOT = {
 					has_idea = BRA_rebellious_coffee_plantations_1
 				}
@@ -154,16 +228,7 @@ BRA_update_opinion_variable = {
 		}
 		else_if = {
 			limit = {
-				OR = {
-					AND = {
-						check_variable = { BRA_coffee_states > 4 }
-						check_variable = { BRA_dependency_on_coffee > 19 }
-					}
-					AND = {
-						check_variable = { BRA_coffee_states > 1 }
-						check_variable = { BRA_dependency_on_coffee > 34 }
-					}
-				}
+				check_variable = { BRA_opinion_var > 20 }
 				NOT = {
 					has_idea = BRA_rebellious_coffee_plantations_1
 				}
@@ -238,71 +303,90 @@ BRA_increment_progress_to_dictatorship = {
 			OR = {
 				AND = {
 					check_variable = { BRA_vargas_influence > 60 }
-					check_variable = { BRA_progress_to_dictatorship < 55 }
+					power_balance_value = {
+						id = BRA_progress_to_dictatorship_bop
+						value < 0.45
+					}
 				}
 				AND = {
 					check_variable = { BRA_vargas_influence > 45 }
-					check_variable = { BRA_progress_to_dictatorship < 35 }
+					power_balance_value = {
+						id = BRA_progress_to_dictatorship_bop
+						value < 0.05
+					}
 				}
 				AND = {
 					check_variable = { BRA_vargas_influence > 30 }
-					check_variable = { BRA_progress_to_dictatorship < 25 }
+					power_balance_value = {
+						id = BRA_progress_to_dictatorship_bop
+						value < -0.15
+					}
 				}
 			}
 		}
-		custom_effect_tooltip = BRA_increase_progress_by_4_tt
-		add_to_variable = { BRA_progress_to_dictatorship = 4 }
+		BRA_move_15_dictatorship = yes 
 	}
 	else_if = {
 		limit = {
 			OR = {
 				AND = {
 					check_variable = { BRA_vargas_influence > 45 }
-					check_variable = { BRA_progress_to_dictatorship < 70 }
+					power_balance_value = {
+						id = BRA_progress_to_dictatorship_bop
+						value < 0.6
+					}
 				}
 				AND = {
 					check_variable = { BRA_vargas_influence > 30 }
-					check_variable = { BRA_progress_to_dictatorship < 55 }
+					power_balance_value = {
+						id = BRA_progress_to_dictatorship_bop
+						value < 0.15
+					}
 				}
 				AND = {
 					check_variable = { BRA_vargas_influence > 25 }
-					check_variable = { BRA_progress_to_dictatorship < 30 }
+					power_balance_value = {
+						id = BRA_progress_to_dictatorship_bop
+						value < -0.05
+					}
 				}
 			}
 		}
-		custom_effect_tooltip = BRA_increase_progress_by_3_tt
-		add_to_variable = { BRA_progress_to_dictatorship = 3 }
+		BRA_move_10_dictatorship = yes 
 	}
 	else_if = {
 		limit = {
 			OR = {
 				AND = {
 					check_variable = { BRA_vargas_influence > 40 }
-					check_variable = { BRA_progress_to_dictatorship < 90 }
+					power_balance_value = {
+						id = BRA_progress_to_dictatorship_bop
+						value < 0.75
+					}
 				}
 				AND = {
 					check_variable = { BRA_vargas_influence > 20 }
-					check_variable = { BRA_progress_to_dictatorship < 75 }
+					power_balance_value = {
+						id = BRA_progress_to_dictatorship_bop
+						value < 0.45
+					}
 				}
 				AND = {
 					check_variable = { BRA_vargas_influence > 10 }
-					check_variable = { BRA_progress_to_dictatorship < 35 }
+					power_balance_value = {
+						id = BRA_progress_to_dictatorship_bop
+						value < 0.1
+					}
 				}
 			}
 		}
-		custom_effect_tooltip = BRA_increase_progress_by_2_tt
-		add_to_variable = { BRA_progress_to_dictatorship = 2 }
+		BRA_move_5_dictatorship = yes 
 	}
 	else = {
-		custom_effect_tooltip = BRA_increase_progress_by_1_tt
-		add_to_variable = { BRA_progress_to_dictatorship = 1 }
-	}
-	hidden_effect = {
-		clamp_variable = {
-            var = BRA_progress_to_dictatorship
-            min = 0
-            max = 100
-        }
+		random_list = {
+			50 = { BRA_move_5_dictatorship = yes }
+			50 = { }
+		} 
 	}
 }
 
@@ -322,15 +406,15 @@ BRA_chance_to_get_protest_to_influence_increase = {
 			limit = {
 				check_variable = { BRA_integralist_influence > 20 }
 			}
-			add_to_temp_variable = { BRA_chance_to_get_countered = 10 }
-			subtract_from_temp_variable = { BRA_chance_not_countered = 10 }
+			add_to_temp_variable = { BRA_chance_to_get_countered = 5 }
+			subtract_from_temp_variable = { BRA_chance_not_countered = 5 }
 		}
 		if = {
 			limit = {
 				check_variable = { BRA_integralist_influence > 35 }
 			}
-			add_to_temp_variable = { BRA_chance_to_get_countered = 15 }
-			subtract_from_temp_variable = { BRA_chance_not_countered = 15 }
+			add_to_temp_variable = { BRA_chance_to_get_countered = 5 }
+			subtract_from_temp_variable = { BRA_chance_not_countered = 5 }
 		}
 		if = {
 			limit = {
@@ -343,15 +427,15 @@ BRA_chance_to_get_protest_to_influence_increase = {
 			limit = {
 				check_variable = { BRA_congress_influence > 20 }
 			}
-			add_to_temp_variable = { BRA_chance_to_get_countered = 10 }
-			subtract_from_temp_variable = { BRA_chance_not_countered = 10 }
+			add_to_temp_variable = { BRA_chance_to_get_countered = 5 }
+			subtract_from_temp_variable = { BRA_chance_not_countered = 5 }
 		}
 		if = {
 			limit = {
 				check_variable = { BRA_congress_influence > 35 }
 			}
-			add_to_temp_variable = { BRA_chance_to_get_countered = 15 }
-			subtract_from_temp_variable = { BRA_chance_not_countered = 15 }
+			add_to_temp_variable = { BRA_chance_to_get_countered = 5 }
+			subtract_from_temp_variable = { BRA_chance_not_countered = 5 }
 		}
 	}
 	else_if = {
@@ -367,15 +451,15 @@ BRA_chance_to_get_protest_to_influence_increase = {
 			limit = {
 				check_variable = { BRA_vargas_influence > 20 }
 			}
-			add_to_temp_variable = { BRA_chance_to_get_countered = 10 }
-			subtract_from_temp_variable = { BRA_chance_not_countered = 10 }
+			add_to_temp_variable = { BRA_chance_to_get_countered = 5 }
+			subtract_from_temp_variable = { BRA_chance_not_countered = 5 }
 		}
 		if = {
 			limit = {
 				check_variable = { BRA_vargas_influence > 35 }
 			}
-			add_to_temp_variable = { BRA_chance_to_get_countered = 15 }
-			subtract_from_temp_variable = { BRA_chance_not_countered = 15 }
+			add_to_temp_variable = { BRA_chance_to_get_countered = 5 }
+			subtract_from_temp_variable = { BRA_chance_not_countered = 5 }
 		}
 		if = {
 			limit = {
@@ -388,15 +472,15 @@ BRA_chance_to_get_protest_to_influence_increase = {
 			limit = {
 				check_variable = { BRA_congress_influence > 20 }
 			}
-			add_to_temp_variable = { BRA_chance_to_get_countered = 10 }
-			subtract_from_temp_variable = { BRA_chance_not_countered = 10 }
+			add_to_temp_variable = { BRA_chance_to_get_countered = 5 }
+			subtract_from_temp_variable = { BRA_chance_not_countered = 5 }
 		}
 		if = {
 			limit = {
 				check_variable = { BRA_congress_influence > 35 }
 			}
-			add_to_temp_variable = { BRA_chance_to_get_countered = 15 }
-			subtract_from_temp_variable = { BRA_chance_not_countered = 15 }
+			add_to_temp_variable = { BRA_chance_to_get_countered = 5 }
+			subtract_from_temp_variable = { BRA_chance_not_countered = 5 }
 		}
 	}
 	else_if = {
@@ -412,15 +496,15 @@ BRA_chance_to_get_protest_to_influence_increase = {
 			limit = {
 				check_variable = { BRA_vargas_influence > 20 }
 			}
-			add_to_temp_variable = { BRA_chance_to_get_countered = 10 }
-			subtract_from_temp_variable = { BRA_chance_not_countered = 10 }
+			add_to_temp_variable = { BRA_chance_to_get_countered = 5 }
+			subtract_from_temp_variable = { BRA_chance_not_countered = 5 }
 		}
 		if = {
 			limit = {
 				check_variable = { BRA_vargas_influence > 35 }
 			}
-			add_to_temp_variable = { BRA_chance_to_get_countered = 15 }
-			subtract_from_temp_variable = { BRA_chance_not_countered = 15 }
+			add_to_temp_variable = { BRA_chance_to_get_countered = 5 }
+			subtract_from_temp_variable = { BRA_chance_not_countered = 5 }
 		}
 		if = {
 			limit = {
@@ -433,21 +517,21 @@ BRA_chance_to_get_protest_to_influence_increase = {
 			limit = {
 				check_variable = { BRA_integralist_influence > 20 }
 			}
-			add_to_temp_variable = { BRA_chance_to_get_countered = 10 }
-			subtract_from_temp_variable = { BRA_chance_not_countered = 10 }
+			add_to_temp_variable = { BRA_chance_to_get_countered = 5 }
+			subtract_from_temp_variable = { BRA_chance_not_countered = 5 }
 		}
 		if = {
 			limit = {
 				check_variable = { BRA_integralist_influence > 35 }
 			}
-			add_to_temp_variable = { BRA_chance_to_get_countered = 15 }
-			subtract_from_temp_variable = { BRA_chance_not_countered = 15 }
+			add_to_temp_variable = { BRA_chance_to_get_countered = 5 }
+			subtract_from_temp_variable = { BRA_chance_not_countered = 5 }
 		}
 	}
 	if = {
 		limit = { has_stability < 0.2 } 
-		add_to_temp_variable = { BRA_chance_to_get_countered = 15 }
-		subtract_from_temp_variable = { BRA_chance_not_countered = 15 }
+		add_to_temp_variable = { BRA_chance_to_get_countered = 5 }
+		subtract_from_temp_variable = { BRA_chance_not_countered = 5 }
 	}
 	else_if = {
 		limit = { has_stability < 0.4 } 
@@ -461,13 +545,13 @@ BRA_chance_to_get_protest_to_influence_increase = {
 	}
 	else_if = {
 		limit = { has_idea = BRA_police_brutality_2 }
-		add_to_temp_variable = { BRA_chance_not_countered = 10 }
-		subtract_from_temp_variable = { BRA_chance_to_get_countered = 10 }
+		add_to_temp_variable = { BRA_chance_not_countered = 15 }
+		subtract_from_temp_variable = { BRA_chance_to_get_countered = 15 }
 	}
 	else_if = {
 		limit = { has_idea = BRA_police_brutality_3 } #basically makes it near impossible
-		add_to_temp_variable = { BRA_chance_not_countered = 20 }
-		subtract_from_temp_variable = { BRA_chance_to_get_countered = 20 }
+		add_to_temp_variable = { BRA_chance_not_countered = 25 }
+		subtract_from_temp_variable = { BRA_chance_to_get_countered = 25 }
 	}
 	clamp_variable = {
         var = BRA_chance_to_get_countered
@@ -574,24 +658,24 @@ BRA_set_up_post_civil_war_idea = {
 
 BRA_get_chances_of_spies_countering_communists = {
 	set_temp_variable = { BRA_chance_succeed = 0 }
-	set_temp_variable = { BRA_chance_fail = 100 }
+	set_temp_variable = { BRA_chance_fail = 70 }
 	if = {
 		limit = {
 			check_variable = { BRA_times_spies_were_sent_to_counter > 4 }
 		}
 		add_to_temp_variable = { BRA_chance_succeed = 30 }
-		subtract_from_temp_variable = { BRA_chance_fail = 30 }
+		subtract_from_temp_variable = { BRA_chance_fail = 15 }
 	}
 	else_if = {
 		limit = {
 			check_variable = { BRA_times_spies_were_sent_to_counter > 0 }
 		}
 		add_to_temp_variable = { BRA_chance_succeed = 55 }
-		subtract_from_temp_variable = { BRA_chance_fail = 55 }
+		subtract_from_temp_variable = { BRA_chance_fail = 35 }
 	}
 	else = {
 		add_to_temp_variable = { BRA_chance_succeed = 70 }
-		subtract_from_temp_variable = { BRA_chance_fail = 70 }
+		subtract_from_temp_variable = { BRA_chance_fail = 50 }
 	}
 	if = {
 		limit = { has_country_flag = BRA_spies_defeated }
@@ -659,7 +743,7 @@ BRA_get_chances_of_spies_countering_communists = {
 
 BRA_get_chance_of_vargas_interfering = {
 	set_temp_variable = { BRA_chance_succeed = 0 }
-	set_temp_variable = { BRA_chance_fail = 100 }
+	set_temp_variable = { BRA_chance_fail = 70 }
 	if = {
 		limit = {
 			has_stability < 0.3
@@ -698,14 +782,12 @@ BRA_get_chance_of_vargas_interfering = {
 			communism > 0.24
 		}
 		add_to_temp_variable = { BRA_chance_succeed = 10 }
-		subtract_from_temp_variable = { BRA_chance_fail = 10 }
 	}
 	if = {
 		limit = {
 			check_variable = { BRA_vargas_influence < 35 }
 		}
 		add_to_temp_variable = { BRA_chance_succeed = 5 }
-		subtract_from_temp_variable = { BRA_chance_fail = 5 }
 	}
 	if = {
 		limit = {
@@ -719,7 +801,6 @@ BRA_get_chance_of_vargas_interfering = {
 			has_completed_focus = BRA_destabilize_the_government
 		}
 		add_to_temp_variable = { BRA_chance_succeed = 15 }
-		subtract_from_temp_variable = { BRA_chance_fail = 15 }
 	}
 	clamp_variable = {
 		var = BRA_chance_succeed
