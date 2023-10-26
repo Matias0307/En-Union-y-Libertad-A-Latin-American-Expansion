@@ -377,7 +377,7 @@ focus_tree = {
 	### Expand the Universities ;3 meow ###
 	focus = {
 		id = PAR_expand_universities
-		icon = GFX_focus_research
+		icon = GFX_focus_SWE_education_reform
 		x = 5
 		y = 1
 		relative_position_id = PAR_invest_in_our_nations_professors
@@ -1011,7 +1011,7 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_BALANCE_OF_POWER }
 		completion_reward = {
-			add_political_power = 25
+			add_political_power = 20
 			PAR_move_5_leader = yes
 			add_popularity = {
 				ideology = democratic
@@ -1069,7 +1069,7 @@ focus_tree = {
 			focus = PAR_restructure_the_country
 		}
 		
-		cost = 7.2
+		cost = 10
 
 		available = {
 			has_government = democratic
@@ -1078,6 +1078,26 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			country_event = paraguay.4
+		}
+	}
+
+	focus = {
+		id = PAR_expand_national_education
+		icon = GFX_focus_generic_university_1
+		x = 1
+		y = 1
+		relative_position_id = PAR_hold_national_elections
+		prerequisite = { focus = PAR_hold_national_elections }
+
+		cost = 10
+
+		available = {
+			NOT = { has_idea = PAR_political_instability }
+		}
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_research_slot = 1
 		}
 	}
 
@@ -1904,7 +1924,7 @@ focus_tree = {
 	focus = {
 		id = PAR_imprison_franco
 		icon = GFX_PAR_imprison_franco
-		x = -4
+		x = -3
 		y = 1
 		relative_position_id = PAR_restructure_the_country
 		prerequisite = {
@@ -2065,6 +2085,24 @@ focus_tree = {
 		}
 	}
 
+	focus = {
+		id = PAR_open_new_schools
+		icon = GFX_focus_generic_university_3
+		x = 0
+		y = 1
+		relative_position_id = PAR_support_the_revolution
+		prerequisite = { focus = PAR_support_the_revolution }
+
+		cost = 10
+
+		available = {
+			num_of_factories > 14
+		}
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = { add_research_slot = 1 }
+	}
+
 	### Ok so my idea is to cause an event around 80 to 120ish days 
 	### after the revolution called "Agitated Right-Wing Revolutionaries in the Army"
 	### which will push the BoP even faster to the army 
@@ -2076,7 +2114,7 @@ focus_tree = {
 	focus = {
 		id = PAR_solidify_control
 		icon = GFX_focus_generic_self_management
-		x = -1
+		x = -2
 		y = 1
 		relative_position_id = PAR_support_the_revolution
 		prerequisite = {
@@ -2100,7 +2138,7 @@ focus_tree = {
 	focus = {
 		id = PAR_establish_labor_reforms
 		icon = GFX_col_focus_revolucion_en_marcha
-		x = 1
+		x = 2
 		y = 1
 		relative_position_id = PAR_support_the_revolution
 		prerequisite = {
@@ -2126,8 +2164,8 @@ focus_tree = {
 	### Go with Franco ###
 	focus = {
 		id = PAR_go_with_franco
-		icon = GFX_ 
-		x = -4
+		icon = GFX_PAR_support_franco
+		x = -2
 		y = 1
 		relative_position_id = PAR_solidify_control
 		prerequisite = { focus = PAR_solidify_control }
@@ -2173,11 +2211,22 @@ focus_tree = {
 		}
 	}
 
+
+	## Purchase Italian Aircraft ##
+
+	## Create New Ministries ##
+
+	## Repeal the 1870 Constitution ##
+
+	## (Shared focus w/ commie) Nationwide Infrastructure ##
+
+	## 
+
 	#### AGAINST FRANCO (✿˵•́ ૩•̀˵)৴♡* ####
 	### Go against Franco ###
 	focus = {
 		id = PAR_go_against_franco
-		icon = GFX_ 
+		icon = GFX_PAR_against_franco
 		x = 4
 		y = 1
 		relative_position_id = PAR_establish_labor_reforms
@@ -2209,7 +2258,7 @@ focus_tree = {
 	focus = {
 		id = PAR_go_against_right_wing
 		icon = GFX_focus_spr_the_anti_fascist_workers_revolution
-		x = 3
+		x = 5
 		y = 2
 		relative_position_id = PAR_solidify_control
 		prerequisite = { focus = PAR_go_against_franco }
@@ -2459,10 +2508,10 @@ focus_tree = {
 			air_experience = 5
 			add_command_power = 5
 			random_list = {
-				33 = {
+				25 = {
 					PAR_improve_worn_out_army = yes 
 				}
-				66 = { }
+				75 = { }
 			}
 		}
 	}	
@@ -2603,7 +2652,7 @@ focus_tree = {
 			OR = {
 				num_of_military_factories > 9
 				threat > 0.24
-				has_war_support > 0.5
+				has_war_support > 0.7
 				has_war = yes 
 			}
 		}
@@ -2665,7 +2714,7 @@ focus_tree = {
 		relative_position_id = PAR_the_more_the_merrier
 		prerequisite = { focus = PAR_the_more_the_merrier }
 		
-		cost = 5
+		cost = 10
 		
 		cancel_if_invalid = yes
 		continue_if_invalid = no
@@ -2694,7 +2743,7 @@ focus_tree = {
 			OR = {
 				num_of_military_factories > 9
 				threat > 0.24
-				has_war_support > 0.5
+				has_war_support > 0.7
 				has_war = yes 
 			}
 		}
@@ -2730,7 +2779,8 @@ focus_tree = {
 					}
 				}
 				PAR_improve_worn_out_army = yes 
-				
+				custom_effect_tooltip = PAR_not_yet_fully_removed_tt
+				unlock_decision_tooltip = PAR_improve_the_army
 			}
 			else = {
 				add_command_power = 25
@@ -2765,7 +2815,7 @@ focus_tree = {
 			OR = {
 				num_of_military_factories > 11
 				threat > 0.34
-				has_war_support > 0.6
+				has_war_support > 0.8
 				has_war = yes 
 			}
 		}
@@ -2773,7 +2823,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
 		completion_reward = {
 			unlock_decision_category_tooltip = south_american_armament
-			EUYL_add_2_military = yes 
+			EUYL_add_1_military = yes 
 		}
 	}
 
@@ -2891,7 +2941,7 @@ focus_tree = {
 		available = {
 			num_of_military_factories > 14
 			num_of_controlled_states > 8
-			has_war_support > 0.65
+			has_war_support > 0.9
 		}
 
 		search_filters = { FOCUS_FILTER_INDUSTRY }
