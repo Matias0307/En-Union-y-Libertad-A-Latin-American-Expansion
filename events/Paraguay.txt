@@ -137,12 +137,21 @@ country_event = {
 			set_politics = {
 				ruling_party = neutrality
 			}
+			add_popularity = {
+				ideology = neutrality
+				popularity = 0.2
+			}
 			promote_character = PAR_rafael_franco
 			set_power_balance = {
 				id = PAR_military_leader_bop
 				right_side = PAR_franco_side 
 			}
-			PAR_move_70_leader = yes
+			set_power_balance = {
+				id = PAR_military_leader_bop
+				left_side = PAR_military_side # will keep the last set side if not specified
+				right_side = PAR_franco_side # will keep the last set side if not specified
+				set_value = -0.2 # if specified will set the value of the power balance, this option will override the effect of set_default so the two options should not be used together. if neither set_default or set_value is specified the current value of the power balance will not change
+			}
 		}
 	}
 
@@ -151,7 +160,7 @@ country_event = {
 		add_stability = -0.03
 		add_political_power = -20
 		set_party_name = {
-			ideology = communism
+			ideology = neutrality
 			long_name = "Unión Nacional Revolucionaria"
 			name = "UNR"
 		}
@@ -324,6 +333,7 @@ country_event = {
 		}
 		PAR_move_5_military = yes
 		set_country_flag = PAR_liberals_in_army
+		add_ideas = PAR_liberal_remnants_idea
 	}
 }
 
@@ -479,5 +489,21 @@ country_event = {
 			}
 		}
 		retire_character = PAR_jose_felix_estigarribia
+	}
+}
+
+# Abolishment of the 1870 Constitution
+country_event = {
+	id = paraguay.12
+	title = paraguay.12.t
+	desc = paraguay.12.d
+	picture = GFX_report_event_generic_read_write
+
+	is_triggered_only = yes
+
+	option = {
+		name = paraguay.12.a
+		add_political_power = 5
+		add_stability = -0.01
 	}
 }

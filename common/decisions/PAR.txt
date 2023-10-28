@@ -174,6 +174,78 @@ PAR_february_revolution = { #FEBRUARY REVOLUTION
 	}
 }
 
+PAR_a_change_in_course = { 
+	PAR_march_in_FROM = {
+		icon = eng_blackshirt_march
+
+		cost = 40
+
+		state_target = yes 
+
+		target_array = core_states
+
+		target_trigger = {
+			FROM = {
+				has_state_flag = paraguayan_starting_state
+				NOT = { has_state_flag = PAR_marched_in_FROM_flag }
+				is_fully_controlled_by = ROOT 
+			}
+		}
+
+		days_remove = 55
+
+		visible = {
+			OR = {
+				has_completed_focus = PAR_support_right_wing
+				has_completed_focus = PAR_go_against_right_wing
+			}
+			FROM = {
+				NOT = {
+					has_state_flag = PAR_marched_in_FROM_flag
+				}
+			}
+		}
+
+		available = {
+			NOT = { has_country_flag = PAR_marching_flag }
+			has_full_control_of_state = FROM 
+		}
+
+		cancel_trigger = {
+			OR = {
+				has_government = communism
+				has_government = fascism
+				FROM = { NOT = { is_fully_controlled_by = ROOT } }
+			}
+		}
+
+		cancel_effect = { add_political_power = 20 }
+
+		complete_effect = { set_country_flag = PAR_marching_flag }
+
+		remove_effect = {
+			clr_country_flag = PAR_marching_flag
+			custom_effect_tooltip = PAR_well_march_in_FROM_tt
+			if = {
+				limit = { has_completed_focus = PAR_support_right_wing }
+				add_popularity = {
+					ideology = fascism
+					popularity = 0.05
+				}
+			}
+			else = {
+				add_popularity = {
+					ideology = communism
+					popularity = 0.05
+				}
+			}
+			hidden_effect = {
+				FROM = { set_state_flag = PAR_marched_in_FROM_flag }
+			}
+		}
+	}
+}
+
 PAR_bop = { # BALANCE OF POWER
 
 	# slightly support leader
@@ -182,7 +254,13 @@ PAR_bop = { # BALANCE OF POWER
 		cost = PAR_slight_support_cost
 
 		visible = {
-			NOT = { has_completed_focus = PAR_go_against_franco }
+			if = {
+				limit = { has_completed_focus = PAR_go_against_franco }
+				OR = {
+					has_completed_focus = PAR_promote_barthe
+					has_completed_focus = PAR_promote_morinigo
+				}
+			}
 			NOT = {
 				has_country_leader = { 
 					ruling_only = yes
@@ -205,7 +283,13 @@ PAR_bop = { # BALANCE OF POWER
 		cost = PAR_major_support_cost
 
 		visible = {
-			NOT = { has_completed_focus = PAR_go_against_franco }
+			if = {
+				limit = { has_completed_focus = PAR_go_against_franco }
+				OR = {
+					has_completed_focus = PAR_promote_barthe
+					has_completed_focus = PAR_promote_morinigo
+				}
+			}
 			NOT = {
 				has_country_leader = { 
 					ruling_only = yes
@@ -240,6 +324,8 @@ PAR_bop = { # BALANCE OF POWER
 			NOT = {
 				OR = {
 					has_government = democratic
+					has_government = fascism
+					has_government = communism
 					has_country_leader = {
 						character = PAR_junta
 						ruling_only = yes 
@@ -446,6 +532,58 @@ PAR_subsidizing_paraguayan_industry = { #SUBSIDIZATION
 }
 
 PAR_poltical_actions = {
+
+	PAR_perform_a_search_within_the_country = {
+		icon = generic_operation
+
+		cost = 50
+
+		visible = {
+			OR = {
+				has_idea = PAR_agitated_right_wing_revs
+				has_idea = PAR_liberal_remnants_idea
+			}
+			has_completed_focus = PAR_focus_on_national_matters
+		}
+
+		available = {
+			has_country_leader = {
+				character = PAR_rafael_franco
+				ruling_only = yes 
+			}
+			has_civil_war = no 
+		}
+
+		days_remove = 60
+
+		modifier = {
+			political_power_factor = -0.03
+			weekly_manpower = -10
+		}
+
+		remove_effect = {
+			random_list = {
+				33 = {
+					modifier = {
+						factor = 0
+						NOT = { has_idea = PAR_agitated_right_wing_revs }
+					}
+					remove_ideas = PAR_agitated_right_wing_revs
+				}
+				33 = {
+					modifier = {
+						factor = 0
+						NOT = { has_idea = PAR_liberal_remnants_idea }
+					}
+					remove_ideas = PAR_liberal_remnants_idea
+				}
+				33 = {
+					custom_effect_tooltip = PAR_failed_search_tt
+					add_political_power = 10
+				}
+			}
+		}
+	}
 
 	PAR_improve_the_army = {
 		icon = generic_military

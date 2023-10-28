@@ -61,3 +61,34 @@ PAR_poltical_actions = {
 		exists = yes 
 	}
 }
+
+PAR_a_change_in_course = {
+	priority = 300
+	icon = GFX_decision_category_NOR_fascist_deploy_prep
+
+	allowed = { original_tag = PAR }
+
+	on_map_area = {
+		target_array = owned_states
+		target_trigger = {
+			FROM = {
+                has_state_flag = PAR_marched_in_FROM_flag
+			}
+		}
+		name = PAR_states_weve_marched_in_tt
+		zoom = 150
+	}
+
+	visible = {
+		OR = {
+			has_completed_focus = PAR_go_against_right_wing
+			has_completed_focus = PAR_support_right_wing
+		}
+		NOT = {
+			OR = {
+				has_government = fascism
+				has_government = communism
+			}
+		}
+	}
+}
