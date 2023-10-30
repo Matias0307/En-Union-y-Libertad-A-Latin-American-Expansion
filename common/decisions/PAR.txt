@@ -174,6 +174,174 @@ PAR_february_revolution = { #FEBRUARY REVOLUTION
 	}
 }
 
+PAR_committee_of_civilian_mobilization_cat = {
+	PAR_invest_more_into_the_committee = {
+		icon = generic_fundraising
+
+		cost = 100
+
+		visible = {
+			OR = {
+				has_idea = PAR_committee_of_civilian_mobilization
+				has_idea = PAR_committee_of_civilian_mobilization_1
+			}
+		}
+
+		available = {
+			has_civil_war = no 
+			is_subject = no 
+			num_of_civilian_factories_available_for_projects > 2
+		}
+
+		days_remove = 100
+
+		modifier = {
+			civilian_factory_use = 3
+		}
+
+		cancel_trigger = {
+			NOT = {
+				OR = {
+					has_idea = PAR_committee_of_civilian_mobilization
+					has_idea = PAR_committee_of_civilian_mobilization_1
+				}
+			}
+		}
+
+		remove_effect = {
+			if = {
+				limit = {
+					has_idea = PAR_committee_of_civilian_mobilization
+				}
+				swap_ideas = {
+					remove_idea = PAR_committee_of_civilian_mobilization
+					add_idea = PAR_committee_of_civilian_mobilization_1
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = PAR_committee_of_civilian_mobilization_1 
+					add_idea = PAR_committee_of_civilian_mobilization_2
+				}
+			}
+		}
+	}
+
+	PAR_invest_in_the_construction_of_an_arms_factory = {
+		icon = generic_prepare_civil_war
+
+		cost = 150
+
+		available = {
+			NOT = { has_country_flag = PAR_investing_in_construction }
+		}
+
+		visible = {
+			has_completed_focus = PAR_commence_the_armament_project
+			exists = yes 
+		}
+
+		days_remove = 125
+
+		cancel_trigger = { exists = no }
+
+		modifier = {
+			consumer_goods_factor = 0.1
+			production_speed_buildings_factor = -0.1
+		}
+
+		complete_effect = { set_country_flag = PAR_investing_in_construction }
+		remove_effect = {
+			clr_country_flag = PAR_investing_in_construction
+			EUYL_add_1_military = yes 
+		}
+	}
+
+	PAR_invest_in_the_construction_of_a_civilian_factory = {
+		icon = generic_factory
+
+		cost = 175
+
+		available = {
+			NOT = { has_country_flag = PAR_investing_in_construction }
+		}
+
+		visible = {
+			has_completed_focus = PAR_economic_reactivaiton
+			exists = yes 
+		}
+
+		days_remove = 135
+
+		modifier = {
+			consumer_goods_factor = 0.1
+			production_speed_buildings_factor = -0.1
+		}
+
+		cancel_trigger = { exists = no }
+
+		complete_effect = { set_country_flag = PAR_investing_in_construction }
+		remove_effect = {
+			clr_country_flag = PAR_investing_in_construction
+			EUYL_add_1_civilian = yes 
+		}
+	}
+
+	PAR_invest_in_railway_construction_from_FROM_to_the_capital = {
+		icon = railroad_construction
+
+		cost = 75
+
+		days_remove = 65
+
+		state_target = yes 
+
+		target_array = core_states
+
+		target_trigger ={ 
+			FROM = {
+				is_fully_controlled_by = ROOT 
+				is_capital = no 
+			}
+		}
+
+		fire_only_once = yes 
+
+		visible = {
+			has_completed_focus = PAR_economic_reactivaiton
+			can_build_railway = {
+				start_state = FROM
+				target_state = ROOT.capital
+				build_only_on_allied = yes 
+			}
+		}
+
+		on_map_mode = map_and_decisions_view
+
+		modifier = {
+			consumer_goods_factor = 0.075
+			production_speed_buildings_factor = -0.075
+		}
+
+		cancel_trigger = {
+			OR = {
+				exists = no 
+				NOT = { controls_state = FROM }
+			}
+		}
+
+		complete_effect = { set_country_flag = PAR_investing_in_construction }
+		remove_effect = {
+			clr_country_flag = PAR_investing_in_construction
+			build_railway = {
+				level = 1
+				start_state = FROM
+				target_state = ROOT.capital
+			} 
+		}
+	}
+}
+
 PAR_a_change_in_course = { 
 	PAR_march_in_FROM = {
 		icon = eng_blackshirt_march
@@ -269,6 +437,28 @@ PAR_bop = { # BALANCE OF POWER
 			}
 		}
 
+		ai_will_do = {
+			base = 125
+			modifier = {
+				factor = 2
+				OR = {
+					has_completed_focus = PAR_fight_for_our_freedom
+					has_completed_focus = PAR_go_with_franco
+				}
+			}
+			modifier = {
+				factor = 2.5
+				power_balance_value = {
+					id = PAR_military_leader_bop
+					value < -0.1
+				}
+			}
+			modifier = {
+				factor = 2.5
+				has_country_flag = PAR_capable_of_removing_political_instability_flag
+			}
+		}
+
 		days_re_enable = 60
 
 		complete_effect = {
@@ -295,6 +485,28 @@ PAR_bop = { # BALANCE OF POWER
 					ruling_only = yes
 					name = "Junta Militar Paraguaya"
 				}
+			}
+		}
+
+		ai_will_do = {
+			base = 125
+			modifier = {
+				factor = 2
+				OR = {
+					has_completed_focus = PAR_fight_for_our_freedom
+					has_completed_focus = PAR_go_with_franco
+				}
+			}
+			modifier = {
+				factor = 2.5
+				power_balance_value = {
+					id = PAR_military_leader_bop
+					value < -0.1
+				}
+			}
+			modifier = {
+				factor = 2.5
+				has_country_flag = PAR_capable_of_removing_political_instability_flag
 			}
 		}
 
@@ -334,6 +546,17 @@ PAR_bop = { # BALANCE OF POWER
 			} 
 		}
 
+		ai_will_do = { 
+			base = 250
+			modifier = {
+				factor = 0 
+				power_balance_value = {
+					id = PAR_military_leader_bop
+					value < -0.85
+				}
+			}
+		}
+
 		days_re_enable = 90
 
 		complete_effect = {
@@ -365,6 +588,8 @@ PAR_bop = { # BALANCE OF POWER
 		}
 		fire_only_once = yes
 
+		ai_will_do = { factor = 320 }
+
 		complete_effect = {
 			PAR_move_5_leader = yes
 
@@ -381,6 +606,8 @@ PAR_bop = { # BALANCE OF POWER
             command_power > 14
         }
         custom_cost_text = CHL_cost_15_cp
+
+		ai_will_do = { factor = 320 }
 
 		visible = {
 			has_active_mission = PAR_the_february_revolution
@@ -425,7 +652,7 @@ PAR_subsidizing_paraguayan_industry = { #SUBSIDIZATION
 		days_remove = 80
 
 		ai_will_do = {
-			factor = 125
+			factor = 185
 		}
 
 		modifier = {
@@ -466,7 +693,7 @@ PAR_subsidizing_paraguayan_industry = { #SUBSIDIZATION
 		days_remove = 135
 
 		ai_will_do = {
-			factor = 150
+			factor = 250
 		}
 
 		modifier = {
@@ -507,7 +734,7 @@ PAR_subsidizing_paraguayan_industry = { #SUBSIDIZATION
 		days_remove = 175
 
 		ai_will_do = {
-			factor = 175
+			factor = 375
 		}
 
 		modifier = {
@@ -545,6 +772,8 @@ PAR_poltical_actions = {
 			}
 			has_completed_focus = PAR_focus_on_national_matters
 		}
+
+		ai_will_do = { factor = 225 }
 
 		available = {
 			has_country_leader = {
@@ -610,6 +839,8 @@ PAR_poltical_actions = {
 			has_idea = PAR_worn_out_army_2 
 			has_completed_focus = PAR_new_training_regiments
 		}
+
+		ai_will_do = { factor = 300 }
 
 		available = { has_civil_war = no }
 
@@ -683,6 +914,8 @@ PAR_poltical_actions = {
 		visible = {
 			has_idea = PAR_dissatisfied_population
 		}
+
+		ai_will_do = { factor = 265 }
 
 		available = {
 			exists = yes 
