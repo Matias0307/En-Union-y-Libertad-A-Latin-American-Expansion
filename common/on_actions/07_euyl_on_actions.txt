@@ -43,6 +43,41 @@ on_actions = {
                 }
             }
         }
+        effect = {
+            if = {
+                limit = { original_tag = PAR }
+                add_to_variable = { PAR_government_changes = 1 }
+            }
+        }
+    }
+    on_monthly_PAR = { ## Just to make sure 
+        if = {
+            limit = { 
+                has_cosmetic_tag = PAR_NATIVE
+                has_global_flag = PAR_chose_native_path_flag
+                has_completed_focus = PAR_native_solidarity
+                any_controlled_state = {
+                    OR = {
+                        has_dynamic_modifier = { modifier = EUYL_native_population }
+                        has_dynamic_modifier = { modifier = EUYL_agitated_natives }
+                    }
+                }
+            }
+            every_controlled_state = {
+                limit = {
+                    has_dynamic_modifier = { modifier = EUYL_native_population }
+                }
+                remove_dynamic_modifier = { modifier = EUYL_native_population }
+                add_dynamic_modifier = { modifier = EUYL_cooperating_natives }
+            }
+            every_controlled_state = {
+                limit = {
+                    has_dynamic_modifier = { modifier = EUYL_agitated_natives }
+                }
+                remove_dynamic_modifier = { modifier = EUYL_agitated_natives }
+                add_dynamic_modifier = { modifier = EUYL_cooperating_natives }
+            }
+        }
     }
 	on_monthly_ARG = {
         effect = { ##Only for ahistorical peronist path
@@ -451,6 +486,84 @@ on_actions = {
                 }
             }
         }
+        effect = { #country declares war on Paraguay with faction formed
+            if = {
+                limit = {
+                    capital_scope = { is_on_continent = south_america }
+                    is_faction_leader = yes 
+                    has_global_flag = triple_alliance_formed_flag
+                    NOT = { has_global_flag = triple_alliance_war_event_triggered }
+                    FROM = {
+                        original_tag = PAR 
+                    }
+                }
+                news_event = {
+					id = news.369
+					days = 4
+					random_days = 3
+				}
+				set_global_flag = triple_alliance_war_event_triggered
+            }
+        }
+        effect = { #Paraguay starts war with any country, increasing global concern
+            if = {
+                limit = {
+                    original_tag = PAR 
+                    check_variable = { PAR_global_concern > 2 }
+                    NOT = { has_global_flag = triple_alliance_formed_flag }
+                    FROM = {
+                        capital_scope = { is_on_continent = south_america }
+                    }
+                }
+                custom_effect_tooltip = PAR_public_concern_will_worsen_tt
+			    PAR_worsen_public_concern = yes
+                if = {
+                    limit = {
+                        NOT = { has_global_flag = triple_alliance_formed_flag }
+                    }
+                    custom_effect_tooltip = PAR_neighboring_countries_become_more_concerned_tt
+                    add_to_variable = { PAR_global_concern = 1 }
+                }
+                hidden_effect = {
+                    FROM = {
+                        random_list = {
+                            15 = {
+                                modifier = {
+                                    factor = 1.5
+                                    check_variable = { PAR.PAR_global_concern > 3 }
+                                }
+                                modifier = {
+                                    factor = 2
+                                    check_variable = { PAR.PAR_global_concern > 4 }
+                                }
+                                modifier = {
+                                    factor = 3
+                                    check_variable = { PAR.PAR_global_concern > 5 }
+                                }
+                                modifier = {
+                                    factor = 5
+                                    check_variable = { PAR.PAR_global_concern > 6 }
+                                }
+                                modifier = {
+                                    factor = 0
+                                    OR = {
+                                        has_global_flag = triple_alliance_formed_flag
+                                        is_in_faction = yes 
+                                    }
+                                }
+                                country_event = {
+                                    id = paraguay.15 ## form the anti-paraguay pact
+                                    hours = 6 
+                                }
+                            }
+                            80 = {
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
         effect = { #Brazil starts war with Uruguay 
             if = {
                 limit = {
@@ -783,6 +896,32 @@ on_actions = {
         #        }
         #    }
         #}
+        effect = { ## historical conclusion of 1947 civil war 
+            if = {
+                limit ={ 
+                    FROM = { original_tag = PAR }
+                    ROOT = {
+                        original_tag = PAR 
+                        has_country_flag = PAR_historical_flag
+                    }
+                }
+                ROOT = {
+                    if = {
+                        limit = {
+                            NOT = { has_government = democratic }
+                        }
+                        set_politics = { ruling_party = democratic}
+                    }
+                    set_politics = { elections_allowed = yes }
+                    promote_character = PAR_juan_manuel_frutos
+                    clr_country_flag = PAR_historical_flag
+                    if = {
+                        limit = { has_any_power_balance = yes }
+                        PAR_bop_remove_bop_effect = yes 
+                    }
+                }
+            }
+        }
         effect = { ## Generic on_action to disband militias
             if = {
                 limit = {

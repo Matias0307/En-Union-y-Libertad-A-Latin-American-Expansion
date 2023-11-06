@@ -3499,6 +3499,17 @@ ARG_forming_the_coalition = {
 		}
 	}
 
+	ARG_test_civil_war = {
+		visible = { is_debug = yes }
+
+		complete_effect = {
+			add_days_mission_timeout = {
+				mission = ARG_government_crackdown
+				days = -250
+			}
+		}
+	}
+
 	ARG_convince_the_partido_fascista_to_join = {
 		icon = hol_exchange_intelligence_data
 
@@ -5485,7 +5496,7 @@ ARG_the_great_revolution = {
 		}
 
 		ai_will_do = {
-			factor = 175
+			factor = 295
 		}
 
 		cost = 25
@@ -6066,9 +6077,9 @@ ARG_the_great_revolution = {
 		}
 
 		ai_will_do = {
-			base = 95 # slightly less priority
+			base = 105 # slightly less priority
 			modifier = { # AI should prioritize this if it got guns lol
-				add = 100
+				add = 125
 				check_variable = { ARG_stockpiled_guns > 499 }
 			}
 		}
@@ -9615,8 +9626,10 @@ ARG_managing_the_army = {
 		}
 
 		visible = {
-			ARG_juan_domingo_peron = {
-				has_character_flag = ARG_in_italy
+			ROOT = {
+				ARG_juan_domingo_peron = {
+					has_character_flag = ARG_in_italy
+				}
 			}
 		}
 		
@@ -9662,10 +9675,12 @@ ARG_managing_the_army = {
 		icon = infiltrate_state
 
 		visible = {
-			ARG_juan_domingo_peron = {
-				OR = {	
-					has_character_flag = ARG_in_italy
-					has_character_flag = ARG_in_chile
+			ROOT = {
+				ARG_juan_domingo_peron = {
+					OR = {	
+						has_character_flag = ARG_in_italy
+						has_character_flag = ARG_in_chile
+					}
 				}
 			}
 		}
@@ -10875,11 +10890,27 @@ ARG_the_argentine_civil_war = {
 		cancel_effect = {
 			country_event = argentina.fascist.5 ## Federalist Takeover!
 			custom_effect_tooltip = ARG_success_of_our_coup_depends_on_federalist_support_tt
+			hidden_effect = {
+				retire_character = ARG_pedro_pablo_ramirez
+                retire_character = ARG_basilio_pertiné
+                retire_character = ARG_edelmiro_julian_farrell
+                retire_character = ARG_nicolas_accame
+                retire_character = ARG_carlos_marquez
+                retire_character = ARG_arturo_rawson
+			}
 		}
 
 		timeout_effect = {
 			country_event = argentina.fascist.5 ## Federalist Takeover!
 			custom_effect_tooltip = ARG_success_of_our_coup_depends_on_federalist_support_tt
+			hidden_effect = {
+				retire_character = ARG_pedro_pablo_ramirez
+                retire_character = ARG_basilio_pertiné
+                retire_character = ARG_edelmiro_julian_farrell
+                retire_character = ARG_nicolas_accame
+                retire_character = ARG_carlos_marquez
+                retire_character = ARG_arturo_rawson
+			}
 		}
 	}
 	

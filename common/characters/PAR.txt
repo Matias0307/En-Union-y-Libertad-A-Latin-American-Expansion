@@ -88,6 +88,22 @@ characters={
 		}
 	}
 
+	PAR_revolutionary_army={
+		name="Fuerzas Armadas Revolucionarias"
+		portraits={
+			civilian={
+				large="gfx/leaders/PAR/portrait_PAR_revolutionary_army.png"
+			}
+		}
+		country_leader = {
+			desc="POLITICS_JUNTA_MILITAR_DESC"
+			ideology=conservatism
+			traits = { BRA_disorganized_leadership }
+			expire="1965.1.1.1"
+			id=-1
+		}
+	}
+
 	PAR_armed_civilians = {
         name = "Resistencia Civil"
         portraits = {
@@ -103,6 +119,110 @@ characters={
             id=-1
         }
     }
+
+	PAR_juan_manuel_frutos={
+		advisor={
+			slot = army_chief
+			idea_token = PAR_juan_manuel_frutos
+			allowed = {
+				original_tag = PAR
+			}
+			traits = {
+				army_chief_defensive_2
+			}
+			cost = 100
+			ai_will_do = {
+				factor = 1.000
+			}
+			available = { has_government = democratic }
+		}
+# TODO[ PORTRAIT LARGE ]: Missing large portrait please check!
+		name="Juan Manuel Frutos"
+		portraits={
+			army={
+				small="GFX_idea_PAR_manuel_frutos_icon"
+			}
+			civilian = {
+				large = "gfx/leaders/PAR/portrait_PAR_juan_manuel_frutos.png"
+			}
+		}
+		country_leader={
+            traits = { }
+            desc="POLITICS_JUAN_MANUEL_FRUTOS_DESC"
+            ideology=conservatism
+            expire="1965.1.1.1"
+            id=-1
+        }
+	}
+
+	PAR_carlos_pastore = {
+		name = "Carlos Pastore"
+		portraits = {
+			army = {
+				small = "GFX_idea_generic_democratic_reformer_southamerican_2d"
+			}
+		}
+		advisor={
+			slot = political_advisor
+			idea_token = PAR_carlos_pastore_idea
+			available = { 
+				NOT = {
+					OR = {
+						has_government = fascism
+						has_country_leader = {
+							character = PAR_higinio_morinigo
+							ruling_only = yes 
+						}
+					}
+				}
+			}
+			allowed = {
+				original_tag = PAR
+			}
+			traits  = {
+				PAR_liberal_irredentist 
+			}
+		}
+	}
+
+	PAR_juan_sinforiano_bogarin = {
+		name = "Juan Sinforiano Bogarín"
+		portraits = {
+			army = {
+				small = "GFX_idea_PAR_juan_sinforiano"
+			}
+		}
+
+		advisor={
+			slot = political_advisor
+			idea_token = PAR_carlos_pastore_idea
+			available = { 
+				NOT = {
+					OR = {
+						has_government = communism
+						has_country_leader = {
+							character = PAR_felix_paiva
+							ruling_only = yes 
+						}
+					}
+				}
+			}
+			on_add = {
+				PAR = {
+					if = {
+						limit = { has_any_power_balance = yes }
+					}
+					PAR_move_10_leader = yes 
+				}
+			}
+			allowed = {
+				original_tag = PAR
+			}
+			traits  = {
+				PAR_arzobispo_anticomunista 
+			}
+		}
+	}
 
 	#José Félix Estigarribia
 	PAR_jose_felix_estigarribia = {
@@ -233,6 +353,24 @@ characters={
 		}
 	}
 
+	PAR_ramon_l_parades = {
+		name = "Ramón L. Paredes"
+		portraits = {
+			civilian = {
+				large = "gfx/leaders/PAR/portrait_PAR_ramon_paredes.png"
+			}
+		}
+		field_marshal={
+			traits={  }
+			skill=2
+			attack_skill=2
+			defense_skill=2
+			planning_skill=1
+			logistics_skill=2
+			legacy_id=-1
+		}
+	}
+
 	### Juan Stefanich ###
 	PAR_juan_stefanich = {
 		instance = {
@@ -354,7 +492,7 @@ characters={
 				PAR_mayor 
 			}
 			on_add = {
-				ROOT = {
+				PAR = {
 					if = {
 						limit = { has_full_control_of_state = 991 }
 					}
@@ -395,7 +533,7 @@ characters={
 			}
 			cost = 75
 			available = {
-				ROOT = {
+				PAR = {
 					NOT = {
 						has_country_leader = {
 							character = PAR_juan_belaieff
@@ -459,8 +597,25 @@ characters={
 	PAR_higinio_morinigo={
 		name="Higinio Morínigo"
 		portraits={
+			army = {
+				small = "GFX_idea_PAR_higinio_icon"
+			}
 			civilian={
 				large=gfx/leaders/PAR/PAR_higinio.png
+			}
+		}
+		advisor={
+			cost = 100
+			
+			slot = theorist
+			idea_token = PAR_higenio_morinigo_martinez
+			ledger = navy
+			allowed = {
+				original_tag = PAR
+			}
+			
+			traits = {
+				military_theorist
 			}
 		}
 		country_leader={
@@ -552,56 +707,6 @@ characters={
 		portraits={
 			army={
 				small="GFX_idea_generic_navy_south_america_2"
-			}
-		}
-	}
-	PAR_juan_stefanich={
-		advisor={
-			
-			
-			slot = navy_chief
-			idea_token = PAR_juan_stefanich
-			allowed = {
-					original_tag = PAR
-				}
-				traits = {
-					navy_chief_commerce_raiding_2
-				}
-				cost = 100
-				ai_will_do = {
-					factor = 1.000
-				}
-		}
-# TODO[ PORTRAIT LARGE ]: Missing large portrait please check!
-		name="Juan Stefanich"
-		portraits={
-			army={
-				small="GFX_idea_generic_navy_south_america_3"
-			}
-		}
-	}
-	PAR_juan_manuel_frutos={
-		advisor={
-			
-			
-			slot = army_chief
-			idea_token = PAR_juan_manuel_frutos
-			allowed = {
-					original_tag = PAR
-				}
-				traits = {
-					army_chief_defensive_2
-				}
-				cost = 100
-				ai_will_do = {
-					factor = 1.000
-				}
-		}
-# TODO[ PORTRAIT LARGE ]: Missing large portrait please check!
-		name="Juan Manuel Frutos"
-		portraits={
-			army={
-				small="GFX_idea_generic_army_south_america_2"
 			}
 		}
 	}
@@ -759,24 +864,27 @@ characters={
 	}
 	PAR_juan_natalicio_gonzalez={
 		advisor={
-			cost = 100
-			
-			slot = theorist
-			idea_token = PAR_juan_natalicio_gonzalez
-			ledger = army
-				allowed = {
-					original_tag = PAR
+			slot = political_advisor
+			idea_token = PAR_juan_natalicio_gonzalez_idea
+			cost = 175
+			allowed  = {
+				original_tag  = PAR
+			}
+			traits  = {
+				PAR_prominent_colorado 
+			}
+			available = { NOT = { has_government = communism } }
+			on_add = {
+				PAR = {
+					PAR_move_10_leader = yes 
 				}
-				
-				traits = {
-					military_theorist
-				}
+			}
 		}
 # TODO[ PORTRAIT LARGE ]: Missing large portrait please check!
 		name="Juan Natalicio Gonzalez"
 		portraits={
 			army={
-				small="GFX_idea_generic_political_advisor_south_america_3"
+				small="GFX_idea_PAR_natalicio_icon"
 			}
 		}
 	}
@@ -803,11 +911,12 @@ characters={
 		advisor={
 			slot = political_advisor
 			idea_token = PAR_francisco_esculies
+			cost = 100
 			allowed  = {
 					original_tag  = PAR
 				}
 				traits  = {
-					popular_figurehead 
+					PAR_minister_of_finance 
 				}
 		}
 # TODO[ PORTRAIT LARGE ]: Missing large portrait please check!

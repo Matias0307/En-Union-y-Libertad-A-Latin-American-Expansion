@@ -104,3 +104,78 @@ PAR_committee_of_civilian_mobilization_cat = {
 		exists = yes 
 	}
 }
+
+PAR_legacy_of_solano_lopez_cat = {
+	priority = 350
+	icon = GFX_PAR_legacy_of_selano_lopez_icon
+
+	picture = GFX_PAR_legacy_of_solano_lopez_image
+
+	allowed = { original_tag = PAR }
+
+	on_map_area = {
+		target_array = core_states
+		target_trigger = {
+			FROM = {
+                NOT = { has_state_flag = paraguayan_starting_state }
+			}
+		}
+		name = PAR_core_states_tt
+		zoom = 150
+	}
+
+	visible = {
+		has_completed_focus = PAR_the_legacy_of_selano_lopez
+		has_country_flag = PAR_solano_lopez_active_flag
+		has_any_power_balance = yes 
+	}
+
+	visible_when_empty = yes
+}
+
+PAR_epua_arma_pe = {
+	priority = 350
+	icon = GFX_decision_category_spr_the_seeds_of_revolution
+
+	picture = GFX_PAR_native_uprising_pic
+
+	visible = { has_active_mission = PAR_impending_native_uprising }
+
+	allowed = { original_tag = PAR }
+
+	on_map_area = {
+		target_array = core_states
+		target_trigger = {
+			FROM = {
+                has_state_flag = PAR_native_controlled_flag
+			}
+		}
+		name = PAR_native_controlled_states_tt
+		zoom = 150
+	}
+}
+
+PAR_native_solidarity_cat = {
+	priority = 365
+	icon = GFX_PBC_reforming_old_nations
+
+	picture = PAR_native_solidarity_img
+
+	visible = { has_completed_focus = PAR_native_solidarity }
+
+	allowed = { original_tag = PAR }
+
+	on_map_area = {
+		target_array = core_states
+		target_trigger = {
+			FROM = {
+                OR = {
+					has_dynamic_modifier = { modifier = EUYL_native_population }
+					has_dynamic_modifier = { modifier = EUYL_agitated_natives }
+				}
+			}
+		}
+		name = PAR_states_with_natives_tt
+		zoom = 150
+	}
+}

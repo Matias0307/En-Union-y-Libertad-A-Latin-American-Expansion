@@ -2270,6 +2270,10 @@ country_event = {
 			}
 			set_global_flag = ARG_historical 
 		}
+		if = {
+			limit = { has_active_mission = ARG_the_1937_elections }
+			remove_mission = ARG_the_1937_elections
+		}
 	}
 
 	option = { #Let the military take over 
@@ -5443,9 +5447,49 @@ country_event = {
 				}
 				country_event = { ## Roberto diagnosed with diabetes 
 					id = argentina.rework.39
-					days = 20
+					days = 32
 					random_days = 15
 				}
+				if = {
+					limit = { 
+						NOT = {
+							has_completed_focus = ARG_save_roberto
+						}
+					}
+					complete_national_focus = ARG_save_roberto
+				}
+				if = {
+					limit = { 
+						NOT = {
+							has_completed_focus = ARG_strenghten_robertos_ideals
+						}
+					}
+					complete_national_focus = ARG_strenghten_robertos_ideals
+				}
+			}
+			else = { ##leopoldo and robustiano
+				if = {
+					limit = {
+						NOT = { has_completed_focus = ARG_kill_off_roberto }
+					}
+					if = {
+						limit = { 
+							NOT = {
+								has_completed_focus = ARG_expand_the_facultad_de_derecho
+							}
+						}
+						complete_national_focus = ARG_expand_the_facultad_de_derecho
+					}
+					if = {
+						limit = { 
+							NOT = {
+								has_completed_focus = ARG_push_forward_anitcorruption_reforms
+							}
+						}
+						complete_national_focus = ARG_push_forward_anitcorruption_reforms
+					}
+				}
+				else = { add_political_power = 5 }
 			}
 			country_event = { ##Election fraud 
 				id = argentina.rework.53

@@ -9,6 +9,7 @@ PAR_military_leader_bop = {
 		min = -0.1
 		max = 0.1
 	}
+	## MILITARY SIDE ##
 	side = {
 		id = PAR_military_side
 		icon = GFX_PAR_BoP_military_side
@@ -29,7 +30,6 @@ PAR_military_leader_bop = {
 								ruling_only = yes
 								name = "Junta Militar Paraguaya"
 							}
-							has_country_flag = PAR_player_chose_fascism
 						}
 					}
 					country_event = paraguay.2
@@ -60,6 +60,66 @@ PAR_military_leader_bop = {
 			}
 		}
 	}
+	## PUBLIC CONCERN SIDE ##
+	side = {
+		id = PAR_public_concern_side
+		icon = GFX_ARG_BoP_Political_Enemies
+		range = {
+			id = PAR_total_public_freakout
+			min = -1
+			max = -0.85
+			modifier = {
+				political_power_factor = -0.1
+				army_attack_factor = -0.1
+				army_defence_factor = -0.1
+				industrial_capacity_factory = -0.25
+				industrial_capacity_dockyard = -0.25
+				conscription = -0.03
+				production_speed_buildings_factor = -0.25
+				training_time_factor = 0.3
+			}
+			on_activate = { ## Activates mission (60 days), will cause civil war and stop BoP
+				activate_mission = PAR_impending_civilian_takeover
+			}
+			on_deactivate = {
+				if = {
+					limit = { has_active_mission = PAR_impending_civilian_takeover }
+					remove_mission = PAR_impending_civilian_takeover
+				}
+				else = { add_political_power = 15 }
+			}
+		}
+		range = {
+			id = PAR_nationwide_concern
+			min = -0.85
+			max = -0.5
+			modifier = {
+				political_power_factor = -0.05
+				army_attack_factor = -0.05
+				army_defence_factor = -0.05
+				industrial_capacity_factory = -0.1
+				industrial_capacity_dockyard = -0.1
+				conscription = -0.01
+				production_speed_buildings_factor = -0.1
+				training_time_factor = 0.15
+			}
+		}
+		range = {
+			id = PAR_growing_concern
+			min = -0.5
+			max = -0.1
+			modifier = {
+				political_power_factor = -0.03
+				army_attack_factor = -0.03
+				army_defence_factor = -0.03
+				industrial_capacity_factory = -0.05
+				industrial_capacity_dockyard = -0.05
+				conscription = -0.005
+				production_speed_buildings_factor = -0.05
+				training_time_factor = 0.1
+			}
+		}
+	}
 	## AYALA'S SIDE ##
 	side = {
 		id = PAR_ayala_side
@@ -78,7 +138,89 @@ PAR_military_leader_bop = {
 			min = 0.1
 			max = 0.75
 			modifier = {
+				political_power_factor = 0.05
+			}
+		}
+	}
+	## PAIVA'S SIDE ##
+	side = {
+		id = PAR_paiva_side
+		icon = GFX_PAR_BoP_felix_paiva
+		range = {
+			id = PAR_dominant_paiva
+			min = 0.75
+			max = 1
+			modifier = {
+				political_power_factor = 0.075
+				stability_factor = 0.1
+			}
+			on_activate = {
+				if = {
+					limit = {
+						has_country_leader_with_trait = ARG_inexperienced_leader_1
+					}
+					remove_country_leader_trait = ARG_inexperienced_leader_1
+				}
+			}
+		}
+
+        range = {
+			id = PAR_empowered_paiva
+			min = 0.1
+			max = 0.75
+			modifier = {
 				political_power_factor = 0.03
+				stability_factor = 0.05
+			}
+		}
+	}
+	## ALBERTO'S SIDE ##
+	side = {
+		id = PAR_alberto_side
+		icon = GFX_PAR_BoP_Luis_Alberto
+		range = {
+			id = PAR_dominant_alberto
+			min = 0.75
+			max = 1
+			modifier = {
+				political_power_factor = 0.05
+				production_speed_buildings_factor = 0.05
+				consumer_goods_factor = -0.05
+			}
+		}
+
+        range = {
+			id = PAR_empowered_alberto
+			min = 0.1
+			max = 0.75
+			modifier = {
+				political_power_factor = 0.03
+				production_speed_buildings_factor = 0.02
+				consumer_goods_factor = -0.02
+			}
+		}
+	}
+	## PATRICIO'S SIDE ##
+	side = {
+		id = PAR_patricio_side
+		icon = GFX_PAR_BoP_Jose_Patricio
+		range = {
+			id = PAR_dominant_patricio
+			min = 0.75
+			max = 1
+			modifier = {
+				political_power_factor = 0.05
+				industrial_capacity_factory = 0.075
+			}
+		}
+
+        range = {
+			id = PAR_empowered_patricio
+			min = 0.1
+			max = 0.75
+			modifier = {
+				political_power_factor = 0.03
+				industrial_capacity_factory = 0.03
 			}
 		}
 	}

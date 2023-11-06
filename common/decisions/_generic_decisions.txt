@@ -2,6 +2,52 @@ political_actions = {
 
 	## EUYL ##
 
+	BOL_form_the_anti_paraguay_pact = {
+		priority = 100
+		icon = generic_nationalism
+
+		allowed = { original_tag = BOL }
+
+		visible = {
+			PAR = {
+				has_country_flag = PAR_solano_lopez_active_flag
+				check_variable = { PAR_global_concern > 2 }
+			}
+		}
+
+		fire_only_once = yes 
+
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 0
+				check_variable = { PAR.PAR_global_concern < 5 }
+			}
+			modifier = {
+				factor = 1
+				check_variable = { PAR.PAR_global_concern > 4 }
+			}
+			modifier = {
+				factor = 3
+				check_variable = { PAR.PAR_global_concern > 5 }
+			}
+			modifier = {
+				factor = 6
+				check_variable = { PAR.PAR_global_concern > 6 }
+			}
+			modifier = {
+				factor = 20
+				check_variable = { PAR.PAR_global_concern > 7 }
+			}
+			modifier = {
+				factor = 3
+				has_war_with = PAR
+			}
+		}
+
+		complete_effect = { country_event = paraguay.15 }
+	}
+
 	PRU_radicalize_the_moderates_dec = {
 		icon = generic_speech
 
@@ -5659,6 +5705,28 @@ foreing_immigration = {
 			add_manpower = 35000
 		}
 
+	}
+
+	PAR_attract_the_mennonites = {
+		priority = 25
+
+		icon = GFX_EUYL_attract_refugees
+
+		visible = { original_tag = PAR }
+
+		fire_only_once = yes 
+
+		cost = 50
+
+		available = {
+			exists = yes 
+			has_civil_war = no 
+			has_stability > 0.5
+		}
+
+		complete_effect = {
+			add_manpower = 25000
+		}
 	}
 
 }

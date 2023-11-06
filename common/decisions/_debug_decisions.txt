@@ -1,5 +1,83 @@
 debug_decisions = {
 
+	trigger_test = {
+		visible = { always = yes }
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = PAR_switched_governments_4_times_tt
+				check_variable = { PAR.PAR_government_changes > 3 }
+			}
+		}
+
+		complete_effect = { add_political_power = 1 }
+	}
+
+	native_insurrection_test = {
+		visible = { always = yes }
+
+		target_trigger = {
+			FROM = {
+				capital_scope = { is_on_continent = south_america }
+				has_war_with = ROOT 
+			}
+		}
+
+		fire_only_once = yes 
+
+		complete_effect = {
+			custom_effect_tooltip = PAR_natives_begin_uprising_in_controlled_states_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						NOT = { has_template = "Brigada Nativa" }
+					}
+					division_template = {
+						name = "Brigada Nativa"
+						division_names_group = SPAN_INF_02
+						template_counter = 3
+						
+						regiments = {
+							infantry = { x = 0 y = 0 }
+							infantry = { x = 0 y = 1 }
+							infantry = { x = 0 y = 2 }
+							infantry = { x = 0 y = 3 }
+						}
+					}
+				}
+				FROM = {
+					set_country_flag = PAR_uprising_triggered_flag
+					every_controlled_state = {
+						limit = { has_dynamic_modifier = { modifier = EUYL_native_population } }
+						create_unit = {
+							division = "division_template = \"Brigada Nativa\" start_experience_factor = 0.1" 
+							owner = ROOT
+							count = 2
+							allow_spawning_on_enemy_provs = yes
+						}
+					}
+					random_owned_controlled_state = {
+						limit = { has_dynamic_modifier = { modifier = EUYL_native_population } }
+						create_unit = {
+							division = "division_template = \"Brigada Nativa\" start_experience_factor = 0.1" 
+							owner = ROOT
+							count = 2
+							allow_spawning_on_enemy_provs = yes
+						}
+					}
+					random_owned_controlled_state = {
+						limit = { has_dynamic_modifier = { modifier = EUYL_native_population } }
+						create_unit = {
+							division = "division_template = \"Brigada Nativa\" start_experience_factor = 0.1" 
+							owner = ROOT
+							allow_spawning_on_enemy_provs = yes
+						}
+					}
+				}
+			}
+		}
+	}
+
 	var_test = {
 		available = {
 			USA = { set_temp_variable = { USA_num_of_factories = num_of_factories } }
