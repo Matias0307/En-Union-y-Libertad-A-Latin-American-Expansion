@@ -1746,6 +1746,26 @@ focus_tree = {
 			NOT = { has_government = communism }
 		}
 
+		select_effect = {
+			every_country = {
+				limit = {
+					has_government = communism
+					NOT = { is_in_faction_with = ROOT }
+					OR = {
+						is_major = yes
+						is_neighbor_of = ROOT
+					}
+				}
+				ROOT = {
+					add_ai_strategy = {
+						type = prepare_for_war
+						id = PREV
+						value = 100
+					}
+				}
+			}
+		}
+
 		search_filters = {
 			FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION
 		}
@@ -1793,6 +1813,26 @@ focus_tree = {
 				size > 125000
 			}
 			NOT = { has_government = fascism }
+		}
+
+		select_effect = {
+			every_country = {
+				limit = {
+					has_government = fascism
+					NOT = { is_in_faction_with = ROOT }
+					OR = {
+						is_major = yes
+						is_neighbor_of = ROOT
+					}
+				}
+				ROOT = {
+					add_ai_strategy = {
+						type = prepare_for_war
+						id = PREV
+						value = 100
+					}
+				}
+			}
 		}
 
 		search_filters = {
@@ -1893,6 +1933,17 @@ focus_tree = {
 		
 		cost = 10
 
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 10
+				has_game_rule = {
+					rule = PAR_ai_behavior 
+					option = PAR_NATIVE
+				}
+			}
+		}
+
 		available = {
 			NOT = { has_idea = PAR_political_instability }
 		}
@@ -1925,6 +1976,8 @@ focus_tree = {
 
 		cost = 2.2
 
+		ai_will_do = { factor = 10 }
+
 		available = { has_active_mission = PAR_impending_native_uprising }
 
 		bypass = {
@@ -1953,6 +2006,8 @@ focus_tree = {
 
 		cost = 5
 
+		ai_will_do = { factor = 10 }
+
 		available = { has_active_mission = PAR_impending_native_uprising }
 
 		bypass = { has_civil_war = yes }
@@ -1976,6 +2031,8 @@ focus_tree = {
 		}
 
 		cost = 10
+
+		ai_will_do = { factor = 10 }
 
 		available = { has_active_mission = PAR_impending_native_uprising }
 
@@ -2008,6 +2065,8 @@ focus_tree = {
 
 		cost = 5
 
+		ai_will_do = { factor = 10 }
+
 		available = { has_active_mission = PAR_impending_native_uprising }
 
 		bypass = { has_civil_war = yes }
@@ -2034,6 +2093,8 @@ focus_tree = {
 		}
 
 		cost = 10
+
+		ai_will_do = { factor = 10 }
 
 		available = { has_active_mission = PAR_impending_native_uprising }
 
@@ -2073,6 +2134,8 @@ focus_tree = {
 
 		cost = 7.2
 
+		ai_will_do = { factor = 3 }
+
 		available = {
 			OR = {
 				has_active_mission = PAR_impending_native_uprising
@@ -2081,6 +2144,10 @@ focus_tree = {
 					ruling_only = yes 
 				}
 			}
+		}
+
+		select_effect = {
+			add_ideas = PAR_expansionist_path
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
@@ -2111,7 +2178,26 @@ focus_tree = {
 
 		cost = 10
 
+		ai_will_do = { factor = 10 }
+
 		available = { has_civil_war = no }
+
+		select_effect = {
+			every_other_country = {
+				limit = { 
+					any_controlled_state = {
+						is_core_of = ROOT
+					}
+				}
+				ROOT = {
+					add_ai_strategy = {
+						type = prepare_for_war
+						id = PREV
+						value = 70
+					}
+				}
+			}
+		}
 
 		### Unlocks the Native Solidarity decision category ###
 		search_filters = { FOCUS_FILTER_ANNEXATION FOCUS_FILTER_POLITICAL }
@@ -2155,6 +2241,8 @@ focus_tree = {
 
 		cost = 7.2
 
+		ai_will_do = { factor = 2 }
+
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
 			if = {
@@ -2197,6 +2285,8 @@ focus_tree = {
 		prerequisite = { focus = PAR_mobilize_the_economy }
 
 		cost = 10
+
+		ai_will_do = { factor = 3 }
 
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
@@ -2255,6 +2345,8 @@ focus_tree = {
 
 		cost = 5
 
+		ai_will_do = { factor = 2 }
+
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			custom_effect_tooltip = PAR_unlock_intensify_FROM_tt
@@ -2271,6 +2363,8 @@ focus_tree = {
 		prerequisite = { focus = PAR_native_solidarity }
 
 		cost = 10
+
+		ai_will_do = { factor = 3 }
 
 		available = {
 			any_controlled_state = {
@@ -2301,6 +2395,8 @@ focus_tree = {
 
 		cost = 10
 
+		ai_will_do = { factor = 2 }
+
 		available = { 
 			has_equipment = { infantry_equipment > 499 }
 			has_army_manpower = { size > 74999 }
@@ -2323,6 +2419,8 @@ focus_tree = {
 
 		cost = 10
 
+		ai_will_do = { factor = 2 }
+
 		available = { has_army_manpower = { size > 99999 } }
 
 		search_filters = { FOCUS_FILTER_ANNEXATION }
@@ -2341,6 +2439,8 @@ focus_tree = {
 		prerequisite = { focus = PAR_native_solidarity }
 
 		cost = 5
+
+		ai_will_do = { factor = 2 }
 
 		available = { has_army_manpower = { size > 139999 } }
 
@@ -2361,6 +2461,8 @@ focus_tree = {
 		will_lead_to_war_with = BOL 
 
 		cost = 7.2
+
+		ai_will_do = { factor = 2 }
 
 		available = {
 			NOT = { is_in_faction_with = PAR }
@@ -4223,6 +4325,25 @@ focus_tree = {
 				value > 0.8
 			}
 		}
+
+		select_effect = {
+			add_ideas = PAR_expansionist_path
+			every_other_country = {
+				limit = { 
+					any_controlled_state = {
+						is_core_of = ROOT
+					}
+				}
+				ROOT = {
+					add_ai_strategy = {
+						type = prepare_for_war
+						id = PREV
+						value = 70
+					}
+				}
+			}
+		}
+
 		search_filters = { FOCUS_FILTER_ANNEXATION FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_BALANCE_OF_POWER }
 		completion_reward = {
 			custom_effect_tooltip = PAR_military_side_replaced_with_public_concern_tt
@@ -5166,6 +5287,17 @@ focus_tree = {
 		prerequisite = { focus = PAR_the_paraguayan_army }
 		
 		cost = 10
+
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 10
+				has_game_rule = {
+					rule = PAR_ai_behavior 
+					option = PAR_NATIVE
+				}
+			}
+		}
 
 		search_filters = { FOCUS_FILTER_ARMY_XP }
 		completion_reward = {
