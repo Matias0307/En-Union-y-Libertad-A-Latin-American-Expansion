@@ -2288,7 +2288,7 @@ ARG_political_crisis = {
 			}
 		}
 
-		days_mission_timeout = 75
+		days_mission_timeout = 90
 
 		timeout_effect = {
 			country_event = argentina.rework.7
@@ -2367,7 +2367,7 @@ ARG_political_crisis = {
 			}
 		}
 
-		days_mission_timeout = 125 
+		days_mission_timeout = 155 
 
 		timeout_effect = {
 			hidden_effect = { set_global_flag = ARG_military_overthrow_triggered }
@@ -6175,7 +6175,7 @@ ARG_infamous_decade_cat = {
 
 		cost = ARG_cost_to_decrease_tension
 
-		days_remove = 25
+		days_remove = 20
 
 		available = {
 			has_civil_war = no 
@@ -6250,7 +6250,11 @@ ARG_infamous_decade_cat = {
 			}
 		}
 
-		remove_effect = {
+		modifier = {
+			political_power_cost = 0.05
+		}
+
+		complete_effect = {
 			random_list = {
 				ARG_chance_lower_5 = {
 					ARG_decrease_5_political_tension = yes 
@@ -9373,6 +9377,48 @@ ARG_territorial_management = {
 }
 
 ARG_managing_the_army = {
+
+	ARG_army_preparing_to_rebel = {
+		priority = 100
+		icon = revolt 
+
+		activation = {
+			has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
+			NOT = { has_completed_focus = ARG_depoliticize_the_military } #if depoliticized, military basically cant do shit 
+			has_civil_war = no 
+			check_variable = { ARG_military_opinion < -1 }
+			NOT = { has_idea = EUYL_rebelling_army }
+		}
+
+		available = { 
+			custom_trigger_tooltip = {
+				tooltip = ARG_military_isnt_extremely_hostile_tt
+				check_variable = { ARG_military_opinion > -2 }
+			}	
+		}
+
+		cancel_trigger = {
+			OR = {
+				has_civil_war = yes 
+				has_country_leader = {
+					character = ARG_the_military_junta
+					ruling_only = yes 
+				}
+				check_variable = { ARG_military_opinion > -1 }
+				has_idea = EUYL_rebelling_army
+				NOT = {
+					has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
+				}
+			}
+		}
+
+		days_mission_timeout = 60
+
+		timeout_effect = {
+			country_event = argentina.rework.56
+		}
+	}
+
 	ARG_gain_slightly_the_trust_of_the_people = {
 		priority = 25
 		icon = eng_propaganda_campaigns
@@ -9440,6 +9486,10 @@ ARG_managing_the_army = {
 				factor = 4
 				check_variable = { ARG_military_opinion < 0 }
 			}
+			modifier = {
+				factor = 10
+				has_idea = EUYL_rebelling_army
+			}
 		}
 
 		available = {
@@ -9473,6 +9523,10 @@ ARG_managing_the_army = {
 				value = 1
 			}
 			custom_effect_tooltip = ARG_military_opinion_increase_tt
+			if = {
+				limit = { has_idea = EUYL_rebelling_army }
+				remove_ideas = EUYL_rebelling_army
+			}
 			add_to_variable = { ARG_military_opinion = 1 }
 			clamp_variable = {
 				var = ARG_military_opinion

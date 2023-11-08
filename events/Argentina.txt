@@ -2198,6 +2198,53 @@ country_event = {
 	}
 }
 
+#Military Rebels Againsts Us
+country_event = {
+	id = argentina.rework.56
+	title = argentina.rework.56.t 
+	desc = argentina.rework.56.d 
+	picture = GFX_report_event_soldiers_marching
+
+	is_triggered_only = yes 
+
+	immediate = { 
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = { has_idea = EUYL_rebelling_army }
+				}
+				add_ideas = EUYL_rebelling_army
+			}
+			else = { add_stability = -0.05 }
+		}
+	}
+
+	option = {
+		name = argentina.rework.56.a 
+		effect_tooltip = {
+			if = {
+				limit = {
+					NOT = { has_idea = EUYL_rebelling_army }
+				}
+				add_ideas = EUYL_rebelling_army
+			}
+			else = { add_stability = -0.05 }
+		}
+		custom_effect_tooltip = ARG_able_to_remove_by_appeasing_the_military_tt
+		if = {
+			limit = {
+				is_power_balance_side_active = {
+					id = ARG_general_balance_of_power
+					side = ARG_military_side
+				}
+			}
+			ARG_move_15_left = yes 
+		}
+		else = { add_political_power = -15 }
+		ARG_increase_10_political_tension = yes 
+	}
+}
+
 #Alianza Libertadora Nacionalista headquarters found 
 country_event = {
 	id = argentina.rework.6

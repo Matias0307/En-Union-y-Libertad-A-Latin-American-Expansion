@@ -4409,7 +4409,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_CHI_INFLATION }
 		completion_reward = {
 			EUYL_add_2_civilian = yes 
-			EUYL_add_1_military = yes  
+			EUYL_add_2_military = yes  
 		}
 	}
 	
@@ -14409,11 +14409,18 @@ focus_tree = {
 		continue_if_invalid = no
 		available_if_capitulated = no
 		
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL_TENSION }
 		completion_reward = {
 			custom_effect_tooltip = EUYL_available_as_industrial_concern_tt
 			show_ideas_tooltip = ARG_central_bank_company
 			add_political_power = 35
+			if = {
+				limit = {
+					has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
+				}
+				ARG_decrease_3_political_tension = yes 
+			}
+			else = { add_political_power = 20 }
 		}
 	}
 	
@@ -14537,10 +14544,11 @@ focus_tree = {
 		continue_if_invalid = no
 		available_if_capitulated = no
 		
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_POLITICAL_TENSION }
 		completion_reward = {
 			add_political_power = 25
 			add_stability = 0.05
+			ARG_decrease_5_political_tension = yes 
 			add_popularity = {
 				ideology = democratic
 				popularity = 0.05
@@ -14569,10 +14577,11 @@ focus_tree = {
 
 		ai_will_do = { factor = 15 }
 
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_BALANCE_OF_POWER }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_BALANCE_OF_POWER FOCUS_FILTER_POLITICAL_TENSION }
 		completion_reward = {
 			add_political_power = 25
 			add_stability = 0.05
+			ARG_decrease_5_political_tension = yes 
 			set_party_name = {
 				ideology = democratic
 				long_name = ARG_PAN_party_long
@@ -14775,10 +14784,16 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER }
 		completion_reward = {
-			add_timed_idea = {
-				idea = EUYL_rebelling_army
-				days = 235
+			if = {
+				limit = {
+					NOT = { has_idea = EUYL_rebelling_army }
+				}
+				add_timed_idea = {
+					idea = EUYL_rebelling_army
+					days = 235
+				}
 			}
+			else = { add_stability = -0.03 }
 			custom_effect_tooltip = ARG_military_wont_be_able_to_overthrow_you_tt
 		}
 	}
@@ -14826,7 +14841,7 @@ focus_tree = {
 		continue_if_invalid = no
 		available_if_capitulated = no
 		
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_POLITICAL_TENSION }
 		completion_reward = {
 			add_stability = 0.03
 			swap_ideas = {
@@ -14838,6 +14853,13 @@ focus_tree = {
 				long_name = ARG_democratic_liberal_party_long
 				name = ARG_democratic_liberal_party
 			}
+			if = {
+				limit = {
+					has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
+				}
+				ARG_decrease_3_political_tension = yes 
+			}
+			else = { add_political_power = 20 }
 		}
 	}
 			
@@ -15016,7 +15038,7 @@ focus_tree = {
 		continue_if_invalid = no
 		available_if_capitulated = no
 		
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_BALANCE_OF_POWER FOCUS_FILTER_POLITICAL_TENSION }
 		completion_reward = {
 			add_ideas = ARG_workers_in_parliament
 			add_political_power = 25
@@ -15029,6 +15051,13 @@ focus_tree = {
 				}
 				ARG_move_10_right = yes 
 			}
+			if = {
+				limit = {
+					has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
+				}
+				ARG_decrease_3_political_tension = yes 
+			}
+			else = { add_political_power = 20 }
 		}
 	}
 			
@@ -18460,10 +18489,11 @@ focus_tree = {
 		continue_if_invalid = no
 		available_if_capitulated = no
 		
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_POLITICAL_TENSION FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			add_stability = 0.05
 			add_political_power = 25
+			ARG_decrease_3_political_tension = yes 
 		}
 	}
 
@@ -18485,10 +18515,11 @@ focus_tree = {
 			NOT = { has_idea = ARG_fradulant_election_charges }
 		}
 
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_POLITICAL_TENSION FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			add_stability = 0.05
 			remove_ideas = ARG_fradulant_election_charges
+			ARG_decrease_5_political_tension = yes 
 		}
 	}
 
