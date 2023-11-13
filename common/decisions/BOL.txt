@@ -3041,20 +3041,47 @@ BOL_taking_antofagasta = {
         timeout_effect = {
             custom_effect_tooltip = BOL_because_of_current_claim_strength_tt
             random_list = {
-                chance_of_taking_state = {
+                1 = {
+                    modifier = {
+                        factor = 20
+                        check_variable = { BOL_claim_strength = 1 }
+                    }
+                    modifier = {
+                        factor = 50
+                        check_variable = { BOL_claim_strength = 2 }
+                    }
+                    modifier = {
+                        factor = 85
+                        check_variable = { BOL_claim_strength = 3 }
+                    }
                     transfer_state = 995
                     add_war_support = 0.03
                     CHL = {
                         add_war_support = -0.05
+                        country_event = {
+                            id = bolivia.10
+                            hours = 3
+                        }
                     }
                 }
-                chance_of_not_taking_state = {
+                100 = {
+                    modifier = {
+                        factor = 0.8
+                        check_variable = { BOL_claim_strength = 1 }
+                    }
+                    modifier = {
+                        factor = 0.5
+                        check_variable = { BOL_claim_strength = 2 }
+                    }
+                    modifier = {
+                        factor = 0.15
+                        check_variable = { BOL_claim_strength = 3 }
+                    }
                     add_war_support = -0.05
-                    CHL = {
-                        add_war_support = 0.03
+                    BOL = {
                         create_wargoal = {
                             type = annex_everything
-                            target = BOL
+                            target = CHL
                         }
                     }
                 }
@@ -3064,8 +3091,6 @@ BOL_taking_antofagasta = {
                 clear_variable = BOL_cost_to_claim_state
                 clear_variable = BOL_days_to_claim_state
                 clear_variable = CHL_cost_to_counter_claim
-                clear_variable = chance_of_taking_state
-                clear_variable = chance_of_not_taking_state
             }
         }
     }
@@ -3126,6 +3151,9 @@ BOL_taking_antofagasta = {
 
         available = {
             has_army_manpower = { size > 999 }
+            hidden_trigger = {
+                NOT = { check_variable = { BOL_claim_strength = 3 } }
+            }
         }
 
         visible = {
@@ -3176,23 +3204,6 @@ BOL_taking_antofagasta = {
                 hidden_effect = {
                     add_to_variable = { BOL_claim_strength = 1 }
                     CHL = { add_to_variable = { CHL_bol_claim_strength = 1 } }
-                    if = {
-                        limit = { check_variable = { BOL_claim_strength < 3 } }
-                        add_to_variable = { chance_of_taking_state = 33 }
-                        subtract_from_variable = { chance_of_not_taking_state = 33 }
-                        CHL = {
-                            add_to_variable = { CHL_chance_of_taking_state = 33 }
-                            subtract_from_variable = { CHL_chance_of_not_taking_state = 33 }
-                        }
-                    }
-                    else = {
-                        add_to_variable = { CHL_chance_of_taking_state = 34 }
-                        subtract_from_variable = { CHL_chance_of_not_taking_state = 34 }
-                        CHL = {
-                            add_to_variable = { chance_of_taking_state = 34 }
-                            subtract_from_variable = { CHL_chance_of_not_taking_state = 34 }
-                        }
-                    }
                     CHL = {
                         clr_country_flag = BOL_claiming_state
                     }
@@ -3290,6 +3301,14 @@ BOL_taking_antofagasta = {
             add_days_mission_timeout = {
                 mission = BOL_time_until_we_execute_the_plan
                 days = 30
+            }
+            hidden_effect = {
+                CHL = {
+                    add_days_mission_timeout = {
+                        mission = CHL_bolivia_time_until_execute_plan
+                        days = 30
+                    }
+                }
             }
         }
     }
@@ -3485,8 +3504,16 @@ CHL_countering_bolivias_plan = {
 
         complete_effect = {
             add_days_mission_timeout = {
-                mission = BOL_time_until_we_execute_the_plan
+                mission = CHL_bolivia_time_until_execute_plan
                 days = -25
+            }
+            hidden_effect = {
+                BOL = {
+                    add_days_mission_timeout = {
+                        mission = BOL_time_until_we_execute_the_plan
+                        days = -25
+                    }
+                }
             }
         }
     }

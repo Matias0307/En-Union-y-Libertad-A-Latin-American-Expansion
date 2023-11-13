@@ -1261,6 +1261,7 @@ ARG_bop = {
 		days_remove = 30
 
 		remove_effect = {
+			clr_country_flag = ARG_persecuting_enemies_flag
 			add_political_power = 5
 			add_command_power = 5
 			ARG_move_10_right = yes 
@@ -2554,6 +2555,7 @@ ARG_political_crisis = {
 						}
 						50 = {
 							promote_character = ARG_liborio_justo
+							drop_cosmetic_tag = yes 
 						}
 					}
 					declare_war_on = {
@@ -3347,6 +3349,22 @@ ARG_forming_the_coalition = {
 					set_temp_variable = { ARG_temp_coalition_strength = ARG_coalition_strength }
 					ARG_start_fascist_civil_war = yes 
 					add_ideas = ARG_disorganized_militias_1
+					if = {
+						limit = { is_ai = yes }
+						every_controlled_state = {
+							create_unit = {
+								division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+								owner = ROOT
+							}
+						}
+						random_owned_controlled_state = {
+							create_unit = {
+								division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+								owner = ROOT
+								count = 2
+							}
+						}
+					}
 					if = {
 						limit = {
 							has_country_flag = ARG_armed_catholics
@@ -4339,14 +4357,15 @@ ARG_the_great_revolution = {
 				}
 			}
 			else_if = {
-				set_variable = { ARG_degree_of_corruption = 1 }
-				set_variable = { ARG_corruption_status = 0 }
 				limit = {
 					has_country_flag = ARG_chose_anarchist_route
 				}
+				set_variable = { ARG_degree_of_corruption = 1 }
+				set_variable = { ARG_corruption_status = 0 }
+				ARG_set_up_corruption = yes 
 				effect_tooltip = {
 					start_civil_war = {
-						ruling_party = neutrality
+						ideology = neutrality
 					}
 				}
 				hidden_effect = {
@@ -4356,40 +4375,93 @@ ARG_the_great_revolution = {
 						}
 						set_state_flag = ARG_add_resistance_here
 					}
-					start_civil_war = {
-						ruling_party = neutrality
-						ideology = ROOT
-						size = ARG_anarchist_strength
-						capital = 966
-						states = all 
-						states_filter = {
-							NOT = { has_dynamic_modifier = { modifier = ARG_anarchist_occupation } }
-						}
-						keep_all_characters = yes 
-						PREV = {
-							ARG_agustín_pedro_justo = {
-								set_nationality = PREV.PREV
-							}
-							ARG_the_military_junta = {
-								set_nationality = PREV.PREV
-							}
-							every_character = {
-								limit = {
-									NOT = {
-										has_character_flag = ARG_anarchist
-									}
+					if = {
+						limit = { is_ai = yes }
+						start_civil_war = {
+							ruling_party = neutrality
+							ideology = ROOT
+							size = 0.65
+							keep_all_characters = yes 
+							PREV = {
+								ARG_agustín_pedro_justo = {
+									set_nationality = PREV.PREV
 								}
-								random_list = {
-									45 = {
-										set_nationality = PREV.PREV
+								ARG_the_military_junta = {
+									set_nationality = PREV.PREV
+								}
+								every_character = {
+									limit = {
+										NOT = {
+											has_character_flag = ARG_anarchist
+										}
 									}
-									55 = {
+									random_list = {
+										45 = {
+											set_nationality = PREV.PREV
+										}
+										55 = {
 
+										}
 									}
 								}
 							}
+							promote_character = ARG_agustín_pedro_justo
 						}
-						promote_character = ARG_agustín_pedro_justo
+					}
+					else = {
+						start_civil_war = {
+							ruling_party = neutrality
+							ideology = ROOT
+							size = 0.45
+							capital = 966
+							states = all 
+							states_filter = {
+								NOT = { has_dynamic_modifier = { modifier = ARG_anarchist_occupation } }
+							}
+							keep_all_characters = yes 
+							PREV = {
+								ARG_agustín_pedro_justo = {
+									set_nationality = PREV.PREV
+								}
+								ARG_the_military_junta = {
+									set_nationality = PREV.PREV
+								}
+								every_character = {
+									limit = {
+										NOT = {
+											has_character_flag = ARG_anarchist
+										}
+									}
+									random_list = {
+										45 = {
+											set_nationality = PREV.PREV
+										}
+										55 = {
+
+										}
+									}
+								}
+							}
+							promote_character = ARG_agustín_pedro_justo
+						}
+					}
+					if = {
+						limit = {
+							has_completed_focus = ARG_the_council_shall_lead
+						}
+						promote_character = ARG_anarchist_council
+					}
+					else_if = {
+						limit = {
+							ARG_virginia_bolten = {
+								NOT = { has_character_flag = BRA_living_in_the_exterior }
+							}
+							has_completed_focus = ARG_virginia_bolten_shall_lead
+						}
+						promote_character = ARG_virginia_bolten
+					}
+					else = {
+						promote_character = ARG_simon_radowitzky
 					}
 					set_party_name = {
 						ideology = neutrality
@@ -4417,6 +4489,18 @@ ARG_the_great_revolution = {
 						add_ideas = ARG_the_argentine_civil_war_idea_government
 						USA = {
 							give_guarantee = PREV
+						}
+						ROOT = {
+							add_ai_strategy = {
+								type = declare_war
+								id = PREV
+								value = 100
+							}
+							add_ai_strategy = {
+								type = prepare_for_war
+								id = PREV
+								value = 100
+							}
 						}
 						every_controlled_state = {
 							create_unit = {
@@ -4495,12 +4579,38 @@ ARG_the_great_revolution = {
 							}
 						}
 					}
-		
+					if = {
+						limit = { is_ai = yes }
+						every_controlled_state = {
+							create_unit = {
+								division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+								owner = ROOT
+								count = 2
+							}
+							create_unit = {
+								division = "name = \"Milicia Anarquista\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.6" 
+								owner = ROOT ## Player
+							}
+						}
+						random_owned_controlled_state = {
+							create_unit = {
+								division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+								owner = ROOT
+								count = 2
+							}
+						}
+					}
 					if = {
 						limit = {
 							check_variable = { ARG_anarchist_subversive_influence > 49 }
 						}
 						every_controlled_state = {
+							create_unit = {
+								division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+								owner = ROOT
+							}
+						}
+						random_owned_controlled_state = {
 							create_unit = {
 								division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
 								owner = ROOT
@@ -4543,12 +4653,9 @@ ARG_the_great_revolution = {
 
 					if = {
 						limit = {
-							ARG_simon_radowitzky = {
-								NOT = { has_character_flag = BRA_imprisoned }
-							}
-							has_completed_focus = ARG_simon_radowitzky_will_lead_us
+							has_completed_focus = ARG_the_council_shall_lead
 						}
-						promote_character = ARG_simon_radowitzky
+						promote_character = ARG_anarchist_council
 					}
 					else_if = {
 						limit = {
@@ -4560,7 +4667,7 @@ ARG_the_great_revolution = {
 						promote_character = ARG_virginia_bolten
 					}
 					else = {
-						promote_character = ARG_anarchist_council
+						promote_character = ARG_simon_radowitzky
 					}
 					
 					if = {
@@ -4598,6 +4705,7 @@ ARG_the_great_revolution = {
 					}
 
 					every_controlled_state = {
+						limit = { has_dynamic_modifier = { modifier = ARG_anarchist_occupation } }
 						remove_dynamic_modifier = {
 							modifier = ARG_anarchist_occupation
 						}
@@ -4822,6 +4930,22 @@ ARG_the_great_revolution = {
 							}
 						}
 						ARG_set_communist_side_divisions = yes 
+						if = {
+							limit = { is_ai = yes }
+							every_controlled_state = {
+								create_unit = {
+									division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+									owner = ROOT
+								}
+							}
+							random_owned_controlled_state = {
+								create_unit = {
+									division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+									owner = ROOT
+									count = 2
+								}
+							}
+						}
 						capital_scope = {
 							create_unit = {
 								division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.75" 
@@ -4865,6 +4989,7 @@ ARG_the_great_revolution = {
 						if = { ## Dominant Posadists
 							limit = {
 								check_variable = { ARG_posadist_strength > ARG_marxist_strength }
+								has_country_flag = ARG_chose_posadist
 							}
 							promote_character = ARG_juan_posadas
 							set_cosmetic_tag = PARGC
@@ -5035,6 +5160,22 @@ ARG_the_great_revolution = {
 							}
 						}
 						ARG_set_communist_side_divisions = yes 
+						if = {
+							limit = { is_ai = yes }
+							every_controlled_state = {
+								create_unit = {
+									division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+									owner = ROOT
+								}
+							}
+							random_owned_controlled_state = {
+								create_unit = {
+									division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+									owner = ROOT
+									count = 2
+								}
+							}
+						}
 						capital_scope = {
 							create_unit = {
 								division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.75" 
@@ -5077,6 +5218,7 @@ ARG_the_great_revolution = {
 						if = { ## Dominant Posadists
 							limit = {
 								check_variable = { ARG_posadist_strength > ARG_marxist_strength }
+								has_country_flag = ARG_chose_posadist
 							}
 							promote_character = ARG_juan_posadas
 							set_cosmetic_tag = PARGC
@@ -5537,6 +5679,8 @@ ARG_the_great_revolution = {
 		complete_effect = {
 			set_country_flag = ARG_securing_anarchist_state
 		}
+
+		cancel_trigger = { has_civil_war = yes }
 
 		modifier = {
 			political_power_factor = -0.05
@@ -7340,6 +7484,14 @@ ARG_1937_elections = {
 			has_active_mission = ARG_the_1937_elections
 			has_civil_war = no 
 			exists = yes 
+		}
+
+		ai_will_do = {
+			factor = 15
+			modifier = {
+				factor = 500
+				has_completed_focus = ARG_partido_socialista
+			}
 		}
 
 		available = {
@@ -9588,6 +9740,13 @@ ARG_managing_the_army = {
 					ruling_only = yes 
 				}
 			}
+			NOT = {
+				OR = {
+					has_completed_focus = ARG_commence_plans_for_the_coup
+					has_completed_focus = ARG_support_the_peronists
+				}
+			}
+			NOT = { has_idea = ARG_juan_domingo_peron_country_idea }
 			hidden_trigger = {
 				command_power > 14
 			}

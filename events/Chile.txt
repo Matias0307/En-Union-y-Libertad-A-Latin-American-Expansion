@@ -1264,24 +1264,30 @@ country_event = {
 		original_tag = CHL 
 		has_dynamic_modifier = { modifier = CHL_political_instability }
 		date > 1936.5.1
+		has_civil_war = no 
+
 	}
 
 	mean_time_to_happen = { days = 165 }
 
 	immediate = {
 		random_list = {
-			65 = {
-				if = {
-					limit = {
-						NOT = {
-							has_country_flag = CHL_nacista_defeated
-						}
-					}
-					country_event = { id = chile.28 days = 35 } #Nacista increase
+			40 = {
+				modifier = {
+					factor = 0
+					has_country_flag = CHL_nacista_defeated
 				}
+				country_event = { id = chile.28 days = 35 } #Nacista increase
 			}
-			35 = {
+			40 = {
+				modifier = {
+					factor = 0
+					has_country_flag = CHL_communist_defeated
+				}
 				country_event = { id = chile.28 days = 35 } #Communist increase
+			}
+			20 = {
+
 			}
 		}
 	}
@@ -1297,7 +1303,7 @@ country_event = {
 	is_triggered_only = yes 
 
 	option = {
-		name = chile.28.a 
+		name = "Ok" 
 		custom_effect_tooltip = CHL_increase_nacista_by_2
 		add_popularity = { ideology = fascism popularity = 0.01 }
 		hidden_effect = {
@@ -1321,7 +1327,7 @@ country_event = {
 	is_triggered_only = yes 
 
 	option = {
-		name = chile.29.a 
+		name = "Ok"
 		custom_effect_tooltip = CHL_increase_communist_by_2
 		add_popularity = { ideology = communism popularity = 0.01 }
 		hidden_effect = {
@@ -1358,51 +1364,52 @@ country_event = {
 		name = chile.30.a 
 		random_list = {
 			50 = {
-				if = {
-					limit = {
-						NOT = {
-							has_country_flag = CHL_nacista_defeated
-						}
+				modifier = {
+					factor = 0
+					has_country_flag = CHL_nacista_defeated
+				}
+				custom_effect_tooltip = CHL_nacista_triumphant_over_c_tt
+				custom_effect_tooltip = CHL_increase_nacista_by_5
+				custom_effect_tooltip = CHL_decrease_comunista_by_5
+				hidden_effect = {
+					add_to_variable = { CHL_nacista_power = 5 }
+					if = {
+						limit = { check_variable = { CHL_communists_power > 4 } }
+						subtract_from_variable = { CHL_communists_power = 5 }
 					}
-					custom_effect_tooltip = CHL_nacista_triumphant_over_c_tt
-					custom_effect_tooltip = CHL_increase_nacista_by_5
-					custom_effect_tooltip = CHL_decrease_comunista_by_5
-					hidden_effect = {
-						add_to_variable = { CHL_nacista_power = 5 }
-						if = {
-							limit = { check_variable = { CHL_communists_power > 4 } }
-							subtract_from_variable = { CHL_communists_power = 5 }
-						}
-						else_if = {
-							limit = { check_variable = { CHL_communists_power > 3 } }
-							subtract_from_variable = { CHL_communists_power = 4 }
-						}
-						else_if = {
-							limit = { check_variable = { CHL_communists_power > 2 } }
-							subtract_from_variable = { CHL_communists_power = 3 }
-						}
-						else_if = {
-							limit = { check_variable = { CHL_communists_power > 1 } }
-							subtract_from_variable = { CHL_communists_power = 2 }
-						}
-						else_if = {
-							limit = { check_variable = { CHL_communists_power > 0 } }
-							subtract_from_variable = { CHL_communists_power = 1 }
-						}
-						else = {
-							add_popularity = { ideology = communism popularity = -0.01 }
-						}
-						add_popularity = { ideology = fascism popularity = 0.02 }
-						add_popularity = { ideology = communism popularity = -0.02 }
-						set_temp_variable = { CHL_temp_power = 100 }
-						set_temp_variable = { CHL_power_subtraction = CHL_communists_power }
-						add_to_temp_variable = { CHL_power_subtraction = CHL_nacista_power }
-						subtract_from_temp_variable = { CHL_temp_power = CHL_power_subtraction }
-						set_variable = { CHL_control_over_nation = CHL_temp_power }
+					else_if = {
+						limit = { check_variable = { CHL_communists_power > 3 } }
+						subtract_from_variable = { CHL_communists_power = 4 }
 					}
+					else_if = {
+						limit = { check_variable = { CHL_communists_power > 2 } }
+						subtract_from_variable = { CHL_communists_power = 3 }
+					}
+					else_if = {
+						limit = { check_variable = { CHL_communists_power > 1 } }
+						subtract_from_variable = { CHL_communists_power = 2 }
+					}
+					else_if = {
+						limit = { check_variable = { CHL_communists_power > 0 } }
+						subtract_from_variable = { CHL_communists_power = 1 }
+					}
+					else = {
+						add_popularity = { ideology = communism popularity = -0.01 }
+					}
+					add_popularity = { ideology = fascism popularity = 0.02 }
+					add_popularity = { ideology = communism popularity = -0.02 }
+					set_temp_variable = { CHL_temp_power = 100 }
+					set_temp_variable = { CHL_power_subtraction = CHL_communists_power }
+					add_to_temp_variable = { CHL_power_subtraction = CHL_nacista_power }
+					subtract_from_temp_variable = { CHL_temp_power = CHL_power_subtraction }
+					set_variable = { CHL_control_over_nation = CHL_temp_power }
 				}
 			}
 			50 = {
+				modifier = {
+					factor = 0
+					has_country_flag = CHL_communist_defeated
+				}
 				custom_effect_tooltip = CHL_communist_triumpthant_over_f_tt
 				custom_effect_tooltip = CHL_increase_communist_by_5
 				custom_effect_tooltip = CHL_decrease_nacista_by_5
@@ -1440,6 +1447,7 @@ country_event = {
 					set_variable = { CHL_control_over_nation = CHL_temp_power }
 				}
 			}
+			25 = { }
 		}
 	}
 }
@@ -2142,6 +2150,22 @@ country_event = {
 				create_unit = {
 					division = "name = \"Militares\" division_template = \"Militares\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
 					owner = ROOT
+				}
+			}
+			if = {
+				limit = { is_ai = yes }
+				every_controlled_state = {
+					create_unit = {
+						division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+						owner = PREV
+					}
+				}
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+						owner = PREV
+						count = 3
+					}
 				}
 			}
 			279 = {

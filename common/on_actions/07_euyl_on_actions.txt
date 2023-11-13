@@ -61,32 +61,64 @@ on_actions = {
             }
         }
     }
+    on_monthly_PRU = {
+        effect = {
+            if = {
+                limit = {
+                    has_completed_focus = PRU_communist_peru
+                    NOT = { has_government = communism }
+                    has_active_mission = PRU_government_crackdown_on_our_movement
+                }
+                random_list = {
+                    60 = {
+                        modifier = {
+                            factor = 0
+                            has_government = communism
+                        }
+                        modifier = {
+                            factor = 0.35
+                            has_completed_focus = PRU_thwart_the_governments_attempts
+                        }
+                        country_event = {
+                            id = peru.36
+                            days = 1
+                            random_days = 3
+                            random_hours = 12
+                        }
+                    }
+                    40 = { }
+                }
+            }
+        }
+    }
     on_monthly_PAR = { ## Just to make sure 
-        if = {
-            limit = { 
-                has_cosmetic_tag = PAR_NATIVE
-                has_global_flag = PAR_chose_native_path_flag
-                has_completed_focus = PAR_native_solidarity
-                any_controlled_state = {
-                    OR = {
-                        has_dynamic_modifier = { modifier = EUYL_native_population }
-                        has_dynamic_modifier = { modifier = EUYL_agitated_natives }
+        effect = {
+            if = {
+                limit = { 
+                    has_cosmetic_tag = PAR_NATIVE
+                    has_global_flag = PAR_chose_native_path_flag
+                    has_completed_focus = PAR_native_solidarity
+                    any_controlled_state = {
+                        OR = {
+                            has_dynamic_modifier = { modifier = EUYL_native_population }
+                            has_dynamic_modifier = { modifier = EUYL_agitated_natives }
+                        }
                     }
                 }
-            }
-            every_controlled_state = {
-                limit = {
-                    has_dynamic_modifier = { modifier = EUYL_native_population }
+                every_controlled_state = {
+                    limit = {
+                        has_dynamic_modifier = { modifier = EUYL_native_population }
+                    }
+                    remove_dynamic_modifier = { modifier = EUYL_native_population }
+                    add_dynamic_modifier = { modifier = EUYL_cooperating_natives }
                 }
-                remove_dynamic_modifier = { modifier = EUYL_native_population }
-                add_dynamic_modifier = { modifier = EUYL_cooperating_natives }
-            }
-            every_controlled_state = {
-                limit = {
-                    has_dynamic_modifier = { modifier = EUYL_agitated_natives }
+                every_controlled_state = {
+                    limit = {
+                        has_dynamic_modifier = { modifier = EUYL_agitated_natives }
+                    }
+                    remove_dynamic_modifier = { modifier = EUYL_agitated_natives }
+                    add_dynamic_modifier = { modifier = EUYL_cooperating_natives }
                 }
-                remove_dynamic_modifier = { modifier = EUYL_agitated_natives }
-                add_dynamic_modifier = { modifier = EUYL_cooperating_natives }
             }
         }
     }
@@ -260,6 +292,14 @@ on_actions = {
                         modifier = {
                             factor = 0.9
                             has_active_mission = ARG_government_crackdown
+                        }
+                        modifier = {
+                            factor = 1.25
+                            check_variable = { ARG_political_tension > 55 }
+                        }
+                        modifier = {
+                            factor = 1.6
+                            check_variable = { ARG_political_tension > 84 }
                         }
                         modifier = {
                             factor = 0
@@ -494,6 +534,128 @@ on_actions = {
                         }
                     }
                     country_event = { id = perubolivia.6 hours = 8 }
+                }
+            }
+        }
+        effect = {
+            if = {
+                limit = {
+                    original_tag = PRU 
+                    has_completed_focus = PRU_communist_peru
+                    FROM = { 
+                        original_tag = CHL 
+                        controls_state = 995
+                        NOT = { 
+                            OR = {
+                                is_in_faction_with = BOL
+                                has_war_with = BOL 
+                            }
+                        }
+                    }
+                }
+                hidden_effect = {
+                    BOL = {
+                        country_event = {
+                            id = peru.39
+                            hours = 4
+                            random_hours = 4
+                        }
+                        add_ai_strategy = {
+                            type = declare_war
+                            id = CHL
+                            value = 100
+                        }
+                    }
+                }
+            }
+        }
+        effect = {
+            if = {
+                limit = {
+                    OR = {
+                        original_tag = PRU 
+                        original_tag = BOL 
+                    }
+                    NOT = { has_country_flag = is_in_second_war_of_the_pacific }
+                    OR = {
+                        is_in_faction_with = BOL 
+                        is_in_faction_with = PRU 
+                        BOL = { has_country_flag = BOL_influenced_by_peru_flag }
+                    }
+                    FROM = {
+                        original_tag = CHL 
+                        OR = {
+                            has_war_with = PRU 
+                            has_war_with = BOL 
+                        }
+                    }
+                }
+                hidden_effect = { ## Second war of the Pacific
+                    every_country = {
+                        limit = {
+                            OR = {
+                                original_tag = PRU 
+                                original_tag = CHL 
+                                original_tag = BOL 
+                            }
+                            NOT = { has_country_flag = is_in_second_war_of_the_pacific}
+                        }
+                        set_country_flag = is_in_second_war_of_the_pacific
+                        if = {
+                            limit = {
+                                has_country_flag = BOL_influenced_by_peru_flag
+                            }
+                            clr_country_flag = BOL_influenced_by_peru_flag
+                        }
+                    }
+                    news_event = { 
+                        id = news.343
+                        days = 2
+                    }
+                    if = {
+                        limit = {
+                            ECU = { 
+                                exists = yes 
+                                NOT = {
+                                    OR = {
+                                        has_war_with = CHL 
+                                        has_war_with = BOL 
+                                        has_war_with = PRU 
+                                        has_country_flag = is_in_second_war_of_the_pacific
+                                    }
+                                }
+                            }
+                        }
+                        ECU = { 
+                            country_event = {
+                                id = peru.6
+                                hours = 12
+                                random_hours = 12
+                            }
+                        }
+                    }
+                    else_if = {
+                        limit = {
+                            COL = {
+                                exists = yes 
+                                NOT = {
+                                    OR = {
+                                        has_war_with = CHL 
+                                        has_war_with = BOL 
+                                        has_war_with = PRU 
+                                        has_country_flag = is_in_second_war_of_the_pacific
+                                    }
+                                }
+                            }
+                        }
+                        COL = {
+                            country_event = {
+                                id = peru.6
+                                hours = 12
+                                random_hours = 12
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -999,6 +1161,41 @@ on_actions = {
                     country_event = { id = peru.24 hours = 8 }
                 }
                 set_global_flag = end_peru_civil_war_fash
+            }
+            if = {
+                limit ={ 
+                    FROM = { 
+                        original_tag = PRU 
+                    }
+                    ROOT = {
+                        original_tag = PRU 
+                        has_government = communism
+                        NOT = { has_completed_focus = PRU_take_hold_of_the_country }
+                        NOT = { has_country_flag = event_triggered_flag }
+                    }
+                }
+                ROOT = {
+                    if = {
+                        limit = {
+                            NOT = { has_idea = PRU_social_and_economic_crisis_1 }
+                        }
+                        add_ideas = PRU_social_and_economic_crisis_1
+                    }
+                    country_event = {
+                        id = peru.24
+                        days = 1
+                        hours = 4
+                        random_hours = 6 
+                    }
+                    if = {
+                        limit = {
+                            NOT = { has_completed_focus = PRU_gain_the_armys_support }
+                        }
+                        add_ideas = PRU_rebelling_army_1
+                    }
+                    add_ideas = PRU_rebelling_navy_1
+                    set_country_flag = event_triggered_flag
+                }
             }
         }
         effect = {

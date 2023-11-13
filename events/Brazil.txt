@@ -4150,19 +4150,8 @@ country_event = {
 				create_unit = {
                     division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
                     owner = ROOT
+					count = 4
                 }
-				create_unit = {
-                    division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
-                    owner = ROOT
-                }
-				create_unit = {
-                    division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
-                    owner = ROOT
-                }
-				create_unit = {
-					division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
-					owner = ROOT
-				}
 				if = {
 					limit = {
 						has_state_flag = BRA_conscripted_here
@@ -4183,6 +4172,22 @@ country_event = {
 					create_unit = {
 						division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
 						owner = ROOT
+					}
+				}
+			}
+			if = {
+				limit = { is_ai = yes }
+				every_controlled_state = {
+					create_unit = {
+						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+						owner = PREV
+					}
+				}
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+						owner = PREV
+						count = 3
 					}
 				}
 			}
@@ -4562,6 +4567,10 @@ country_event = {
                 BRA_start_communist_civil_war = yes 
                 set_global_flag = BRA_civil_war_in_progress
                 clr_country_flag = BRA_active_communist_revolt
+				if = {
+					limit = { has_active_mission = BRA_communist_peasant_revolt }
+					remove_mission = BRA_communist_peasant_revolt
+				}
                 news_event = { id = news.363 days = 2 }
             }
 		}

@@ -1604,6 +1604,37 @@ focus_tree = {
 	}
 
 	focus = {
+		id = BRA_brasilia 
+		icon = GFX_BRA_brasilia_icon
+		x = 0
+		y = 1
+		relative_position_id = BRA_expand_our_petroleum_industry
+		prerequisite = { focus = BRA_expand_our_petroleum_industry }
+
+		cost = 5
+
+		available = { 
+			date > 1943.1.1 
+			has_civil_war = no 
+			has_full_control_of_state = 505
+		}
+
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			add_stability = 0.03
+			custom_effect_tooltip = BRA_form_brasilia_and_add_15_vp_tt
+			hidden_effect = {
+				add_victory_points = {
+					province = 13989
+					value = 15
+				}
+				set_province_name = { id = 13989 name = "Brasilia" }
+				set_capital = { state = 505 }
+			}
+		}
+	}
+
+	focus = {
 		id = BRA_forcas_armadas_brasileiras
 		icon = GFX_BRA_forcas_armadas
 		x = 83
@@ -6934,13 +6965,14 @@ focus_tree = {
 			has_active_mission = BRA_the_1938_elections
 		}
 
-		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_POLITICAL }
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_POLITICAL FOCUS_FILTER_BALANCE_OF_POWER }
 
 		completion_reward = { #will start imminent civil war mechanism 
 			unlock_decision_category_tooltip = BRA_imminent_civil_war
 			unlock_decision_tooltip = BRA_launch_the_civil_war
-			custom_effect_tooltip = BRA_put_race_against_time_tt
 			add_political_power = 90
+			BRA_move_5_democracy = yes 
+			custom_effect_tooltip = BRA_put_race_against_time_tt
 			hidden_effect = {
 				set_variable = { BRA_playing_as_vargas = 0 }
 				set_variable = { BRA_playing_as_integralists = 1 }
@@ -6948,6 +6980,7 @@ focus_tree = {
 				set_variable = { BRA_cost_to_expand = 50 }
 				set_variable = { BRA_integralist_equipped_percentage = 0.2 }
 				set_variable = { BRA_current_army_support = 0 }
+				set_variable = { BRA_days_to_make_progress = 50 }
 				BRA_clear_vargas_opinion = yes 
 				BRA_clear_integralist_opinion = yes 
 				set_country_flag = BRA_hostile_vargas
@@ -6964,6 +6997,9 @@ focus_tree = {
 					add_dynamic_modifier = { modifier = BRA_integralists_occupation }
 				}
 				503 = {
+					add_dynamic_modifier = { modifier = BRA_integralists_occupation }
+				}
+				500 = {
 					add_dynamic_modifier = { modifier = BRA_integralists_occupation }
 				}
 				if = {
@@ -6999,6 +7035,7 @@ focus_tree = {
         }
 
 		available = {
+			has_any_power_balance = yes 
 			is_power_balance_in_range = {
 				id = BRA_progress_to_dictatorship_bop
 				range < BRA_total_control
@@ -7012,10 +7049,11 @@ focus_tree = {
 		cancel_if_invalid = yes 
 		continue_if_invalid = no 
 
-		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_POLITICAL }
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_POLITICAL FOCUS_FILTER_BALANCE_OF_POWER }
 		completion_reward = {
 			add_political_power = 5
 			custom_effect_tooltip = BRA_slight_chance_of_vargas_finding_out_tt
+			BRA_move_10_democracy = yes 
 			hidden_effect = {
 				random_list = {
 					20 = {
@@ -7061,12 +7099,13 @@ focus_tree = {
 		cancel_if_invalid = yes 
 		continue_if_invalid = no 
 
-		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_BALANCE_OF_POWER }
 		completion_reward = {
 			add_political_power = 50
 			custom_effect_tooltip = BRA_civil_war_progress_increase_10_tt
 			add_ideas = BRA_integralist_protests_1
 			unlock_decision_tooltip = BRA_strengthen_our_protests
+			BRA_move_5_democracy = yes
 			hidden_effect = {
 				add_to_variable = { BRA_progress_to_a_civil_war = 10 }
 			}
@@ -7088,6 +7127,7 @@ focus_tree = {
         }
 
 		available = {
+			has_any_power_balance = yes
 			is_power_balance_in_range = {
 				id = BRA_progress_to_dictatorship_bop
 				range < BRA_total_control
@@ -7102,12 +7142,13 @@ focus_tree = {
 			}
 		}
 
-		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_ANNEXATION }
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_ANNEXATION FOCUS_FILTER_BALANCE_OF_POWER }
 		completion_reward = {
 			add_political_power = 50
 			custom_effect_tooltip = BRA_progress_to_civil_war_increase_5_tt
 			custom_effect_tooltip = BRA_gain_support_in_sao_paulo_tt
 			unlock_decision_tooltip = BRA_let_the_voice_of_integralism_be_heard_in_FROM
+			BRA_move_5_democracy = yes 
 			hidden_effect = {
 				country_event = { id = brazil.72 days = 70 random_days = 70 }
 				add_to_variable = { BRA_progress_to_a_civil_war = 5 }
@@ -7138,6 +7179,7 @@ focus_tree = {
         }
 
 		available = {
+			has_any_power_balance = yes
 			is_power_balance_in_range = {
 				id = BRA_progress_to_dictatorship_bop
 				range < BRA_total_control
@@ -7175,6 +7217,7 @@ focus_tree = {
         }
 
 		available = {
+			has_any_power_balance = yes
 			is_power_balance_in_range = {
 				id = BRA_progress_to_dictatorship_bop
 				range < BRA_total_control
@@ -7196,12 +7239,13 @@ focus_tree = {
 
 		cancel_if_invalid = yes 
 		continue_if_invalid = no 
-		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_BALANCE_OF_POWER }
 		completion_reward = {
 			add_political_power = 35
 			custom_effect_tooltip = BRA_progress_to_civil_war_increase_5_tt
 			custom_effect_tooltip = BRA_army_support_increase_5_tt
 			custom_effect_tooltip = BRA_gain_3_proper_divisions_at_start_civil_war_tt
+			BRA_move_5_democracy = yes
 			hidden_effect = {
 				add_to_variable = { BRA_current_army_support = 5 }
 				add_to_variable = { BRA_progress_to_a_civil_war = 5 }
@@ -7342,19 +7386,8 @@ focus_tree = {
 					create_unit = {
                         division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
                         owner = ROOT
+						count = 4
                     }
-					create_unit = {
-                        division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
-                        owner = ROOT
-                    }
-					create_unit = {
-                        division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
-                        owner = ROOT
-                    }
-					create_unit = {
-						division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
-						owner = ROOT
-					}
 					if = {
 						limit = {
 							has_state_flag = BRA_conscripted_here
@@ -7375,6 +7408,22 @@ focus_tree = {
 						create_unit = {
 							division = "name = \"Milícias Integralistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
 							owner = ROOT
+						}
+					}
+				}
+				if = {
+					limit = { is_ai = yes }
+					every_controlled_state = {
+						create_unit = {
+							division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+							owner = PREV
+						}
+					}
+					random_owned_controlled_state = {
+						create_unit = {
+							division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+							owner = PREV
+							count = 3
 						}
 					}
 				}
@@ -7629,6 +7678,7 @@ focus_tree = {
         }
 
 		available = {
+			has_any_power_balance = yes
 			is_power_balance_in_range = {
 				id = BRA_progress_to_dictatorship_bop
 				range < BRA_total_control
@@ -7679,6 +7729,7 @@ focus_tree = {
         }
 
 		available = {
+			has_any_power_balance = yes
 			is_power_balance_in_range = {
 				id = BRA_progress_to_dictatorship_bop
 				range < BRA_total_control
@@ -7745,6 +7796,7 @@ focus_tree = {
         }
 
 		available = {
+			has_any_power_balance = yes
 			is_power_balance_in_range = {
 				id = BRA_progress_to_dictatorship_bop
 				range < BRA_total_control
@@ -7828,6 +7880,7 @@ focus_tree = {
         }
 
 		available = {
+			has_any_power_balance = yes
 			is_power_balance_in_range = {
 				id = BRA_progress_to_dictatorship_bop
 				range < BRA_total_control
@@ -7842,12 +7895,13 @@ focus_tree = {
 		cancel_if_invalid = yes 
 		continue_if_invalid = no 
 
-		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_BALANCE_OF_POWER }
 		completion_reward = {
 			add_political_power = 40
 			custom_effect_tooltip = BRA_army_support_increase_15_tt
 			unlock_decision_tooltip = BRA_convince_the_soldiers
 			unlock_decision_tooltip = BRA_convince_an_army_general
+			BRA_move_5_democracy = yes 
 			hidden_effect = {
 				add_to_variable = { BRA_current_army_support = 15 }
 				set_variable = { BRA_guns_acquired = 0 }
@@ -7874,6 +7928,7 @@ focus_tree = {
         }
 
 		available = {
+			has_any_power_balance = yes
 			is_power_balance_in_range = {
 				id = BRA_progress_to_dictatorship_bop
 				range < BRA_total_control
@@ -7922,6 +7977,7 @@ focus_tree = {
         }
 
 		available = {
+			has_any_power_balance = yes
 			is_power_balance_in_range = {
 				id = BRA_progress_to_dictatorship_bop
 				range < BRA_total_control
@@ -7962,6 +8018,7 @@ focus_tree = {
         }
 
 		available = {
+			has_any_power_balance = yes
 			is_power_balance_in_range = {
 				id = BRA_progress_to_dictatorship_bop
 				range < BRA_total_control
@@ -8008,6 +8065,7 @@ focus_tree = {
         }
 
 		available = {
+			has_any_power_balance = yes
 			is_power_balance_in_range = {
 				id = BRA_progress_to_dictatorship_bop
 				range < BRA_total_control
@@ -8063,6 +8121,7 @@ focus_tree = {
         }
 
 		available = {
+			has_any_power_balance = yes
 			is_power_balance_in_range = {
 				id = BRA_progress_to_dictatorship_bop
 				range < BRA_total_control
@@ -8112,6 +8171,7 @@ focus_tree = {
         }
 
 		available = {
+			has_any_power_balance = yes
 			is_power_balance_in_range = {
 				id = BRA_progress_to_dictatorship_bop
 				range < BRA_total_control
@@ -8164,6 +8224,7 @@ focus_tree = {
         }
 
 		available = {
+			has_any_power_balance = yes
 			is_power_balance_in_range = {
 				id = BRA_progress_to_dictatorship_bop
 				range < BRA_total_control
@@ -8237,6 +8298,7 @@ focus_tree = {
         }
 
 		available = {
+			has_any_power_balance = yes
 			is_power_balance_in_range = {
 				id = BRA_progress_to_dictatorship_bop
 				range < BRA_total_control
@@ -8290,6 +8352,7 @@ focus_tree = {
         }
 
 		available = {
+			has_any_power_balance = yes
 			is_power_balance_in_range = {
 				id = BRA_progress_to_dictatorship_bop
 				range < BRA_total_control
@@ -8341,6 +8404,7 @@ focus_tree = {
         }
 
 		available = {
+			has_any_power_balance = yes
 			is_power_balance_in_range = {
 				id = BRA_progress_to_dictatorship_bop
 				range < BRA_total_control
@@ -8659,7 +8723,7 @@ focus_tree = {
 		cost = 3
 
 		ai_will_do = {
-            factor = 3
+            factor = 15
         }
 
 		available = {
@@ -8691,6 +8755,14 @@ focus_tree = {
 				unlock_decision_tooltip = BRA_obliterate_the_paulistas
 			}
 			else = { add_ideas = BRA_crush_the_paulistas }
+			hidden_effect = {
+				if = {
+					limit = {
+						is_ai = yes 
+					}
+					add_political_power = 50
+				}
+			}
 		}
 	}
 
@@ -11002,7 +11074,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
 			BRA_improve_civil_war_recession = yes 
-			EUYL_add_4_civilian = yes 
+			EUYL_add_2_civilian = yes 
 		}
 	}
 
@@ -11804,8 +11876,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
 			EUYL_add_4_civilian = yes 
-			EUYL_add_4_civilian = yes 
-			EUYL_add_2_military = yes 
+			EUYL_add_1_military = yes 
 		}
 	}
 
@@ -12484,7 +12555,7 @@ focus_tree = {
 				}
 				add_resource = {
 					type = oil 
-					amount = 8
+					amount = 10
 				}
 			}
 		}
@@ -13067,13 +13138,14 @@ focus_tree = {
 		
 		cost = 1
 
-		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_BALANCE_OF_POWER }
 
 		#will trigger the peasant revolt mission, player side 
 		completion_reward = {
 			activate_mission_tooltip = BRA_communist_peasant_revolt
 			add_popularity = { ideology = communism popularity = 0.02 }
 			add_political_power = 90
+			BRA_move_5_democracy = yes 
 			custom_effect_tooltip = BRA_can_only_focus_on_one_branch_tt
 			hidden_effect = {
 				set_country_flag = BRA_active_communist_revolt
@@ -13087,6 +13159,7 @@ focus_tree = {
 				set_variable = { BRA_amount_of_equipment_hidden = 0 }
 				set_variable = { BRA_playing_as_vargas = 0 }
 				set_variable = { BRA_playing_as_communists = 1 }
+				set_variable = { BRA_days_to_make_progress = 45 }
 				set_country_flag = BRA_hostile_vargas
 				set_country_flag = BRA_vargas_interfering
 				BRA_clear_vargas_opinion = yes 
@@ -13187,10 +13260,11 @@ focus_tree = {
 			has_active_mission = BRA_communist_peasant_revolt
 		}
 
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_BALANCE_OF_POWER }
 		completion_reward = {
 			unlock_decision_tooltip = BRA_coerce_the_farmers_to_our_movement
 			add_political_power = 15
+			BRA_move_5_democracy = yes 
 			custom_effect_tooltip = BRA_higher_agreement_better_tt #detail why it is better for farmers to agree
 		}
 	}
@@ -13279,9 +13353,10 @@ focus_tree = {
 			}
 		}
 
-		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_MANPOWER }
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_MANPOWER FOCUS_FILTER_BALANCE_OF_POWER }
 		completion_reward = {
 			add_political_power = 25
+			BRA_move_5_democracy = yes 
 			unlock_decision_tooltip = BRA_secret_conscription_in_FROM
 		}
 		 
@@ -13529,11 +13604,12 @@ focus_tree = {
 			has_active_mission = BRA_communist_peasant_revolt
 		}
 
-		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_BALANCE_OF_POWER }
 		completion_reward = {
 			add_political_power = 40
 			add_stability = -0.08
 			add_popularity = { ideology = communism popularity = 0.03 }
+			BRA_move_5_democracy = yes 
 			hidden_effect = { 
 				BRC = { unlock_national_focus = BRA_destabilize_the_government }
 			}
@@ -13564,9 +13640,10 @@ focus_tree = {
 			has_active_mission = BRA_communist_peasant_revolt
 		}
 
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_BALANCE_OF_POWER }
 		completion_reward = {
 			custom_effect_tooltip = BRA_vargas_will_stop_interfering_with_our_plans
+			BRA_move_10_democracy = yes 
 			hidden_effect = {
 				clr_country_flag = BRA_vargas_interfering
 				BRC = { unlock_national_focus = BRA_interfere_with_vargas_plans }
@@ -13639,11 +13716,12 @@ focus_tree = {
 			has_active_mission = BRA_communist_peasant_revolt
 		}
 
-		search_filters = { FOCUS_FILTER_ANNEXATION FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
+		search_filters = { FOCUS_FILTER_ANNEXATION FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_BALANCE_OF_POWER }
 		completion_reward = {
 			add_political_power = 20
 			unlock_decision_tooltip = BRA_spread_movement_in_FROM
 			add_popularity = { ideology = communism popularity = 0.05 }
+			BRA_move_5_democracy = yes 
 		}
 	}
 
@@ -13709,6 +13787,7 @@ focus_tree = {
 			add_political_power = 100
 			add_stability = -0.1
 			custom_effect_tooltip = BRA_gain_support_in_sao_paulo_tt
+			BRA_move_10_democracy = yes 
 			add_days_mission_timeout = {
 				mission = BRA_communist_peasant_revolt
 				days = 20

@@ -110,8 +110,8 @@ country_event = {
 					add_to_temp_variable = { PRU_chance_of_coup_attempt = 10 }
 				}
 				if = {
-					limit = { has_stability > 0.25 }
-					add_to_temp_variable = { PRU_chance_of_coup_attempt = 25 }
+					limit = { has_stability < 0.25 }
+					add_to_temp_variable = { PRU_chance_of_coup_attempt = 15 }
 				}
 				if = {
 					limit = { has_war_support < 0.3 }
@@ -119,11 +119,11 @@ country_event = {
 				}
 				if = {
 					limit = { fascism > 0.15 }
-					add_to_temp_variable = { PRU_chance_of_coup_attempt = 10 }
+					add_to_temp_variable = { PRU_chance_of_coup_attempt = 5 }
 				}
 				if = {
 					limit = { fascism > 0.3 }
-					add_to_temp_variable = { PRU_chance_of_coup_attempt = 20 }
+					add_to_temp_variable = { PRU_chance_of_coup_attempt = 15 }
 				}
 				if = {
 					limit = {
@@ -133,7 +133,7 @@ country_event = {
 							JAP = { has_government = fascism }
 						}
 					}
-					add_to_temp_variable = { PRU_chance_of_coup_attempt = 10 }
+					add_to_temp_variable = { PRU_chance_of_coup_attempt = 5 }
 				}
 				if = {
 					limit = {
@@ -143,11 +143,11 @@ country_event = {
 							FRA = { has_government = fascism }
 						}
 					}
-					add_to_temp_variable = { PRU_chance_of_coup_attempt = 15 }
+					add_to_temp_variable = { PRU_chance_of_coup_attempt = 10 }
 				}
 				if = {
 					limit = { threat > 0.2 }
-					add_to_temp_variable = { PRU_chance_of_coup_attempt = 10 }
+					add_to_temp_variable = { PRU_chance_of_coup_attempt = 5 }
 				}
 				if = {
 					limit = { 
@@ -162,9 +162,12 @@ country_event = {
 					min = 0
 					max = 100
 				}
-				subtract_from_temp_variable = { PRU_nothing = PRU_chance_of_coup_attempt }
 				random_list = {
 					PRU_chance_of_coup_attempt = {
+						modifier = {
+							factor = 0
+							has_completed_focus = PRU_communist_peru
+						}
 						country_event = { id = peru.80 days = 14 }
 					}
 					PRU_nothing = {
@@ -1283,8 +1286,17 @@ country_event = {
 		hidden_effect = {
 			if = {
 				limit = {
+					original_tag = ECU
 					COL = {
 						NOT = { has_country_flag = COL_already_recieved_event}
+						NOT = {
+							OR = {
+								has_war_with = CHL 
+                                has_war_with = BOL 
+                                has_war_with = PRU 
+                                has_country_flag = is_in_second_war_of_the_pacific
+							}
+						}
 					}
 				}
 				COL = {
@@ -2074,6 +2086,16 @@ country_event = {
 
 	option = { #take it back by force 
 		name = peru.17.a 
+		ai_chance = {
+			base = 1
+			modifier = {
+				factor = 10
+				OR = {
+					has_government = communism
+					has_government = fascism
+				}
+			}
+		}
 		trigger = {
 			OR = {
 				has_government = communism
@@ -2096,6 +2118,16 @@ country_event = {
 
 	option = { #let them go 
 		name = peru.17.b 
+		ai_chance = {
+			base = 1
+			modifier = {
+				factor = 10
+				OR = {
+					has_war = yes 
+					has_government = democratic
+				}
+			}
+		}
 		add_war_support = -0.01
 	}
 }
@@ -3118,5 +3150,199 @@ country_event = {
 			}
 		}
 		FROM = { country_event = { id = peru.17 hours = 4 } }
+	}
+}
+
+## The Choice between Eudocio and Jorge del Prado Chavez 
+country_event = {
+	id = peru.34
+	title = peru.34.t 
+	desc = peru.34.d 
+	picture = GFX_PRU_prado_and_eudocino
+
+	is_triggered_only = yes 
+
+	option = { #Eudocio Ravines
+		trigger = { has_character = PRU_eudocio_ravines }
+		name = "Eudocio Ravines"
+		PRU_add_5_revolution_support = yes 
+		effect_tooltip = { promote_character = PRU_eudocio_ravines }
+		set_country_flag = PRU_chose_eudocio_flag
+	}
+
+	option = { #Jorge del Prado Chavez
+		trigger = { has_character = PRU_jorge_del_prado_chávez }
+		name = "Jorge del Prado Chávez"
+		PRU_add_5_revolution_support = yes 
+		promote_character = PRU_jorge_del_prado_chávez
+		set_country_flag = PRU_chose_jorge_del_prado_flag 
+	}
+}
+
+## Peruvian Government Begins Crackdown Efforts Aaginsts Us
+country_event = {
+	id = peru.35
+	title = peru.35.t 
+	desc = peru.35.d 
+	picture = GFX_PRU_government_begins_crackdown
+
+	fire_only_once = yes 
+	trigger = {
+		original_tag = PRU 
+		NOT = { has_government = communism }
+		check_variable = { PRU_support_for_the_revolution > 19 }
+	}
+
+	option = { #Damn Bastards 
+		name = peru.35.a
+		PRU_remove_5_revolution_support = yes 
+		activate_mission = PRU_government_crackdown_on_our_movement
+		custom_effect_tooltip = PRU_government_periodically_will_brutally_opress_us_tt
+	}
+}
+
+## Government Persecuted our Supporters
+country_event = {
+	id = peru.36 
+	title = peru.36.t 
+	desc = peru.36.d 
+	picture = GFX_PRU_government_persecution
+
+	is_triggered_only = yes 
+
+	option = {
+		name = peru.36.a 
+		PRU_remove_5_revolution_support = yes 
+		add_popularity = {
+			ideology = communism
+			popularity = -0.01
+		}
+		add_political_power = -10
+		add_days_mission_timeout = {
+			days = -10
+			mission = PRU_government_crackdown_on_our_movement
+		}
+	}
+}
+
+## We've Succesfully Taken Over
+country_event = {
+	id = peru.37
+	title = peru.37.t 
+	desc = peru.37.d 
+	picture = GFX_report_event_sanation_left_victory
+
+	is_triggered_only = yes 
+
+	option = {
+		name = peru.37.a 
+		effect_tooltip = {
+			set_politics = {
+				ruling_party = communism
+				elections_allowed = no 
+			}
+			add_ideas = PRU_social_and_economic_crisis_1
+			if = {
+				limit = {
+					NOT = { has_completed_focus = PRU_gain_the_armys_support }
+				}
+				add_ideas = PRU_rebelling_army_1
+			}
+			add_ideas = PRU_rebelling_navy_1
+		}
+	}
+}
+
+## Government Cracks Down on our Movement
+country_event = {
+	id = peru.38
+	title = peru.38.t 
+	desc = peru.38.d 
+	picture = GFX_PRU_government_begins_crackdown
+
+	is_triggered_only = yes 
+
+	option = { # Everyone to Arms! Fight for your Freedom!
+		name = peru.38.a 
+		effect_tooltip = { 
+			start_civil_war = { ideology = communism }
+		}
+		hidden_effect = { 
+			PRU_start_communist_civil_war = yes 
+		}
+	}
+}
+
+## Peru Declared War on Chile, this is our Golden Opportunity
+country_event = {
+	id = peru.39
+	title = peru.39.t 
+	desc = peru.39.d 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = peru.39.a 
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0
+				OR = {
+					has_civil_war = yes 
+					surrender_progress > 0.2
+				}
+			}
+		}
+		create_wargoal = {
+			type = take_state_focus
+			generator = { 995 }
+			target = CHL
+		}
+		hidden_effect = {
+			add_ai_strategy = {
+				type = declare_war
+				id = CHL
+				value = 100
+			}
+		}
+		set_country_flag = BOL_influenced_by_peru_flag
+	}
+
+	option = {
+		name = peru.39.b 
+		ai_chance = { base = 1 }
+		add_war_support = -0.02
+	}
+}
+
+## The Choice between Haya de la Torre and Luis Antonio Eguiguren Escudero
+country_event = {
+	id = peru.40
+	title = peru.40.t 
+	desc = peru.40.d 
+	picture = GFX_PRU_peru_40
+
+	is_triggered_only = yes 
+
+	option = {
+		trigger = { has_character = PRU_haya_de_la_torre }
+		name = "Víctor Raúl Haya de la Torre"
+		promote_character = PRU_haya_de_la_torre
+		set_party_name = {
+			ideology = democratic
+			long_name = PRU_democratic_party_1_long
+			name = PRU_democratic_party_1
+		}
+	}
+
+	option = {
+		trigger = { has_character = PRU_luis_antonio_eguiguren_escudero }
+		name = "Luis Antonio Eguiguren Escudero"
+		promote_character = PRU_luis_antonio_eguiguren_escudero
+		set_party_name = {
+			ideology = democratic
+			long_name = PRU_democratic_party_2_long
+			name = PRU_democratic_party_2
+		}
 	}
 }

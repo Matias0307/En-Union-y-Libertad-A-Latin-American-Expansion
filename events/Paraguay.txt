@@ -44,11 +44,15 @@ country_event = {
 						}
 					}
 				}
-				start_civil_war = {
-					ideology = democratic
-					size = 0.4
+				effect_tooltip = {
+					start = { ideology = democratic }
 				}
 				hidden_effect = {
+					start_civil_war = {
+						ideology = democratic
+						size = 0.4
+						keep_all_characters = yes 
+					}
 					every_controlled_state = {
 						create_unit = {
 							division = "name = \"Milicias Leales\" division_template = \"Milicia\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
@@ -738,6 +742,7 @@ country_event = {
 						num_of_factories > 24
 						has_army_manpower = { size > 229999 }
 						num_of_controlled_states > 8
+						has_war_with = ROOT
 					}
 				}
 			}
@@ -747,6 +752,10 @@ country_event = {
 					tag = PAR
 					ratio < 1
 				}
+			}
+			modifier = {
+				factor = 0
+				has_civil_war = yes 
 			}
 		}
 		set_rule = { can_create_factions = yes }
@@ -760,6 +769,11 @@ country_event = {
 				type = annex_everything
 				target = PAR 
 			}
+		}
+		add_ai_strategy = { ## to motivate the AI to declare war on Paraguay
+			type = declare_war
+			id = PAR
+			value = 100
 		}
 		every_other_country = {
 			limit = {
@@ -782,15 +796,10 @@ country_event = {
 						has_war_with = PAR 
 						NOT = { has_global_flag = triple_alliance_war_event_triggered }
 					}
-					news_event = {
-						id = news.369
-						days = 4
-						random_days = 3
-					}
 					set_global_flag = triple_alliance_war_event_triggered
 				}
-				ai_strategy = { ## to motivate the AI to declare war on Paraguay
-					type = conquer
+				add_ai_strategy = { ## to motivate the AI to declare war on Paraguay
+					type = declare_war
 					id = PAR
 					value = 100
 				}
@@ -1170,5 +1179,53 @@ country_event = {
 		add_war_support = 0.05
 		add_command_power = 20
 		add_manpower = -15
+	}
+}
+
+## Liberal Remnants in the army dealt wit
+country_event = {
+	id = paraguay.21
+	title = paraguay.21.t 
+	desc = paraguay.21.d 
+	picture = GFX_URG_event_2
+
+	is_triggered_only = yes 
+
+	option = {
+		name = paraguay.21.a 
+		effect_tooltip = {
+			remove_ideas = PAR_liberal_remnants_idea
+		}
+	}
+}
+
+## Agitated Right Wing Crackdown
+country_event = {
+	id = paraguay.22
+	title = paraguay.22.t 
+	desc = paraguay.22.d 
+	picture = GFX_URG_event_3
+
+	is_triggered_only = yes 
+
+	option = {
+		name = paraguay.21.a 
+		effect_tooltip = {
+			remove_ideas = PAR_agitated_right_wing_revs
+		}
+	}
+}
+
+## Failed Search 
+country_event = {
+	id = paraguay.23
+	title = paragauy.23.t 
+	desc = paragauy.23.d 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = paraguay.23.a 
+		effect_tooltip = { add_political_power = 15 }
 	}
 }

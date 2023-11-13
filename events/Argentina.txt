@@ -1156,13 +1156,13 @@ country_event = {
 				}
 				add_days_mission_timeout = {
 					mission = ARG_government_collapse
-					days = -25
+					days = -20
 				}
 			}
 			else = {
 				add_days_mission_timeout = {
 					mission = ARG_government_collapse
-					days = -10
+					days = -8
 				}
 			}
 			add_political_power = -5
@@ -1172,7 +1172,7 @@ country_event = {
 			add_political_power = -10
 			add_days_mission_timeout = {
 				mission = ARG_government_crackdown
-				days = -10
+				days = -12
 			}
 		}
 		random_list = {
@@ -1536,39 +1536,55 @@ country_event = {
 		name = argentina.rework.communist.7.a 
 		add_stability = -0.01
 		random_list = {
-			33 = {
+			16 = {
 				custom_effect_tooltip = ARG_increase_anarchist_influence_10_tt
-				custom_effect_tooltip = ARG_anarchism_spread_to_another_state_tt
+				if = {
+					limit = {
+						any_controlled_state = {
+							has_state_flag = ARG_patagonic_state
+							NOT = { has_dynamic_modifier = { modifier = ARG_anarchist_occupation } }
+						}
+					}
+					custom_effect_tooltip = ARG_anarchism_spread_to_another_state_tt
+				}
 				add_political_power = -15
 				hidden_effect = {
 					add_to_variable = {
 						ARG_anarchist_subversive_influence = 10
 					}
-					random_owned_controlled_state = {
+					if = {
 						limit = {
-							any_neighbor_state = {
-								has_dynamic_modifier = {
-									modifier = ARG_anarchist_occupation
-								}
+							any_controlled_state = {
+								has_state_flag = ARG_patagonic_state
+								NOT = { has_dynamic_modifier = { modifier = ARG_anarchist_occupation } }
 							}
 						}
-						add_dynamic_modifier = {
-							modifier = ARG_anarchist_occupation
-						}
-						if = {
+						random_owned_controlled_state = {
 							limit = {
-								has_dynamic_modifier = {
+								any_neighbor_state = {
+									has_dynamic_modifier = {
+										modifier = ARG_anarchist_occupation
+									}
+								}
+							}
+							add_dynamic_modifier = {
+								modifier = ARG_anarchist_occupation
+							}
+							if = {
+								limit = {
+									has_dynamic_modifier = {
+										modifier = ARG_communist_tendencies
+									}
+								}
+								remove_dynamic_modifier = {
 									modifier = ARG_communist_tendencies
 								}
-							}
-							remove_dynamic_modifier = {
-								modifier = ARG_communist_tendencies
 							}
 						}
 					}
 				}
 			}
-			34 = {
+			52 = {
 				custom_effect_tooltip = ARG_increase_anarchist_influence_5_tt
 				if = {
 					limit = {
@@ -1604,7 +1620,7 @@ country_event = {
 					}
 				}
 			}
-			33 = {
+			35 = {
 				add_political_power = -5
 			}
 		}
@@ -4377,6 +4393,9 @@ country_event = {
 		has_civil_war = no 
 		has_character = ARG_juan_domingo_peron
 		NOT = { has_idea = ARG_juan_domingo_peron_idea }
+		has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
+		## ^ realistically speaking, Peron would only become popular if the country is still suffering from the infamous decade
+		## as in real life, Peron gained popularity because he was seen as the one to finally solve the crisis going on in Argentina
 		NOT = {
 			has_country_leader = {
 				character = ARG_juan_domingo_peron
@@ -4403,7 +4422,10 @@ country_event = {
 
 	option = {
 		name = argentina.rework.47.a 
-		add_ideas = ARG_juan_domingo_peron_country_idea
+		effect_tooltip = { add_ideas = ARG_juan_domingo_peron_country_idea }
+		hidden_effect = {
+			add_ideas = ARG_juan_domingo_peron
+		}
 	}
 }
 
@@ -4681,6 +4703,7 @@ country_event = {
 		hidden_effect = {
 			remove_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
 			add_ideas = ARG_disbanded_the_army
+			ARG_move_50_right = yes 
 			random_owned_controlled_state = {
 				create_unit = {
 					division = "name = \"Loyalists\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
@@ -5573,6 +5596,7 @@ country_event = {
 		set_politics = { 
 			ruling_party = democratic 
 			elections_allowed = yes
+			election_frequency = 48
 		}
 		hidden_effect = {
 			if = {
@@ -5615,6 +5639,7 @@ country_event = {
 		set_politics = { 
 			ruling_party = communism 
 			elections_allowed = yes
+			election_frequency = 48
 		}
 		set_cosmetic_tag = CARC
 		hidden_effect = {
@@ -6404,13 +6429,9 @@ country_event = {
 	
 	option = {
 		name = argentina.58.a 
-		declare_war_on = {
-			target = URG
+		create_wargoal = {
 			type = annex_everything
-		}
-		hidden_effect = {
-			BRA = { country_event = { id = argentina.59 days = 2 } }
-			news_event = { days = 3 id = news.338 }
+			target = URG
 		}
 	}
 }
