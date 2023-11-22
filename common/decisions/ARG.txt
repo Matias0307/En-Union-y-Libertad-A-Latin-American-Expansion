@@ -2388,7 +2388,7 @@ ARG_political_crisis = {
 			always = no 
 		}
 
-		days_mission_timeout = 60
+		days_mission_timeout = 50
 
 		cancel_trigger = {
 			exists = no 
@@ -2401,9 +2401,19 @@ ARG_political_crisis = {
 			add_war_support = 0.2
 			set_cosmetic_tag = ARG_military_junta
 			add_country_leader_trait = ARG_victoria_ante_todo
+			hidden_effect = {
+				load_focus_tree = {
+					tree = argentine_focus
+					keep_completed = no 
+				}
+			}
 			every_other_country = {
 				limit = { original_tag = ARG }
 				country_event = argentina.rework.communist.9
+			}
+			if = {
+				limit = { has_character = ARG_juan_domingo_peron }
+				retire_character = ARG_juan_domingo_peron
 			}
 			if = {
 				limit = { has_global_flag = ARG_commie_civil_war }
@@ -2465,26 +2475,19 @@ ARG_political_crisis = {
 					}
 					RAR = {
 						transfer_state = PREV 
+						add_state_core = PREV
 					}
-				}
-				every_owned_state = {
-					limit = {
-						has_state_flag = argentine_starting_core_state
-					}
-					add_core_of = RAR 
 				}
 				divide_variable = { ARG_marxist_subversive_influence = 100 }
-				every_character = {
-					limit = {
-						has_character_flag = ARG_communist
-						NOT = {
-							has_character_flag = ARG_anarchist
-						}
-					}
-					set_nationality = RAR
-				}
 				ARG_fanny_edelman = { set_nationality = RAR }
 				ARG_liborio_justo = { set_nationality = RAR }
+				ARG_alfredo_palacios = { set_nationality = RAR }
+				ARG_juan_posadas = { set_nationality = RAR }
+				ARG_pistolero_mate_cocido = { set_nationality = RAR }
+				ARG_victorio_codovilla = { set_nationality = RAR }
+				ARG_pistolero_mate_cocido = {
+					set_character_flag = ARG_recruited
+				}
 				transfer_units_fraction = {
 					target = RAR
 					stockpile_ratio = 0.2
@@ -2502,6 +2505,7 @@ ARG_political_crisis = {
 						communism = 90
 						democratic = 10
 					}
+					set_variable = { ARG_militia_recruitment_cost_var = 15 }
 					if = {
 						limit = {
 							NOT = {
@@ -2545,6 +2549,19 @@ ARG_political_crisis = {
 					}
 					add_ideas = ARG_the_argentine_civil_war_idea_communist
 					country_event = { id = argentina.rework.29 hours = 1 }
+					load_focus_tree = {
+						tree = argentine_focus
+						keep_completed = no 
+					}
+					unlock_national_focus = ARG_an_imminent_revolution
+					unlock_national_focus = ARG_spread_the_word
+					unlock_national_focus = ARG_a_bloody_revolution
+					unlock_national_focus = ARG_founded_the_ERP
+					unlock_national_focus = ARG_build_up_militias
+					unlock_national_focus = ARG_secure_the_northa
+					unlock_national_focus = ARG_the_revolution
+					complete_national_focus = ARG_focus_economy
+					complete_national_focus = ARG_ready_the_economy_for_war
 					random_list = {
 						50 = {
 							ARG_fanny_edelman = {
@@ -2627,6 +2644,30 @@ ARG_political_crisis = {
 						amount = 1000
 					}
 				}
+				if = {
+					limit = {
+						has_completed_focus = ARG_simon_radowitzky_will_lead_us
+						NOT = { has_character = ARG_simon_radowitzky }
+					}
+					ARG_simon_radowitzky = { set_nationality = ROOT }
+					promote_character = ARG_simon_radowitzky
+				}
+				if = {
+					limit = {
+						has_completed_focus = ARG_the_council_shall_lead
+						NOT = { has_character = ARG_anarchist_council }
+					}
+					ARG_anarchist_council = { set_nationality = ROOT }
+					promote_character = ARG_anarchist_council
+				}
+				if = {
+					limit = {
+						has_completed_focus = ARG_virginia_bolten_shall_lead
+						NOT = { has_character = ARG_virginia_bolten }
+					}
+					ARG_virginia_bolten = { set_nationality = ROOT }
+					promote_character = ARG_virginia_bolten
+				}
 			}
 		}
 	}
@@ -2666,13 +2707,8 @@ ARG_political_crisis = {
 					}
 					AAR = {
 						transfer_state = PREV 
+						add_state_core = PREV
 					}
-				}
-				every_state = {
-					limit = {
-						has_state_flag = argentine_starting_state
-					}
-					add_core_of = AAR 
 				}
 				divide_variable = { ARG_anarchist_subversive_influence = 100 }
 				every_character = {
@@ -2748,6 +2784,19 @@ ARG_political_crisis = {
 						long_name = ARG_anarchist_party_long
 						name = ARG_anarchist_party 
 					}
+					set_variable = { ARG_militia_recruitment_cost_var = 15 }
+					load_focus_tree = {
+						tree = argentine_focus
+						keep_completed = no 
+					}
+					unlock_national_focus = ARG_an_imminent_revolution
+					unlock_national_focus = ARG_spread_the_word
+					unlock_national_focus = ARG_a_bloody_revolution
+					unlock_national_focus = ARG_treaty_with_the_anarchists
+					unlock_national_focus = ARG_radicalize_the_masses
+					unlock_national_focus = ARG_secure_the_patagonia
+					complete_national_focus = ARG_focus_economy
+					complete_national_focus = ARG_ready_the_economy_for_war
 					if = {
 						limit = {
 							NOT = {
@@ -2800,15 +2849,18 @@ ARG_political_crisis = {
 							URG = {
 								retire_character = URG_virginia_bolten_c
 							}
+							unlock_national_focus = ARG_virginia_bolten_shall_lead
 						}
 						33 = {
 							ARG_simon_radowitzky = {
 								clr_character_flag = BRA_imprisoned
 							}
 							promote_character = ARG_simon_radowitzky
+							unlock_national_focus = ARG_simon_radowitzky_will_lead_us
 						}
 						34 = {
 							promote_character = ARG_anarchist_council
+							unlock_national_focus = ARG_the_council_shall_lead
 						}
 					}
 					declare_war_on = {
@@ -2878,6 +2930,36 @@ ARG_political_crisis = {
 					add_equipment_to_stockpile = { #Only bcuz im such a nice person 
 						type = infantry_equipment
 						amount = 1000
+					}
+					if = {
+						limit = {
+							NOT = { has_character = ARG_fanny_edelman }
+						}
+						ARG_fanny_edelman = { set_nationality = ROOT }
+						if = {
+							limit = { has_global_flag = ARG_fanny_was_chosen_to_lead }
+							promote_character = ARG_fanny_edelman
+						}
+					}
+					if = {
+						limit = { 
+							NOT = { has_character = ARG_juan_posadas }
+						}
+						ARG_juan_posadas = {
+							set_nationality = ROOT
+						}
+						if = {
+							limit = {
+								has_completed_focus = ARG_a_new_type_of_communism
+							}
+							promote_character = ARG_juan_posadas
+						}
+					}
+					if = {
+						limit = {
+							NOT = { has_character = ARG_pistolero_mate_cocido }
+						}
+						ARG_pistolero_mate_cocido = { set_nationality = ROOT }
 					}
 				}
 			}
@@ -3450,6 +3532,7 @@ ARG_forming_the_coalition = {
 						}
 						activate_mission = ARG_military_takeover_ai
 						add_ideas = ARG_the_argentine_civil_war_idea_government
+						set_variable = { ARG_militia_recruitment_cost_var = 15 }
 						every_controlled_state = { set_state_flag = ARG_add_resistance_here }
 						if = {
 							limit = {
@@ -4487,6 +4570,7 @@ ARG_the_great_revolution = {
 						set_country_flag = ARG_original ##will be easier to tag to this Argentina
 						activate_mission = ARG_military_takeover_ai
 						add_ideas = ARG_the_argentine_civil_war_idea_government
+						set_variable = { ARG_militia_recruitment_cost_var = 15 }
 						USA = {
 							give_guarantee = PREV
 						}
@@ -4882,6 +4966,7 @@ ARG_the_great_revolution = {
 							set_country_flag = ARG_original ##will be easier to tag to this Argentina
 							activate_mission = ARG_military_takeover_ai
 							add_ideas = ARG_the_argentine_civil_war_idea_government
+							set_variable = { ARG_militia_recruitment_cost_var = 15 }
 							USA = {
 								give_guarantee = PREV
 							}
@@ -5124,6 +5209,7 @@ ARG_the_great_revolution = {
 							set_country_flag = ARG_original ##will be easier to tag to this Argentina
 							activate_mission = ARG_military_takeover_ai
 							add_ideas = ARG_the_argentine_civil_war_idea_government
+							set_variable = { ARG_militia_recruitment_cost_var = 15 }
 							USA = {
 								give_guarantee = PREV
 							}
@@ -6976,6 +7062,49 @@ ARG_dealing_with_the_corruption = {
 		}
 	}
 
+	ARG_smuggle_tax_money_to_the_oligarchs = {
+		icon = hol_attract_foreign_investors
+
+		visible = {
+			has_civil_war = no 
+			check_variable = { ARG_corruption_status = 1 }
+		}
+
+		available = { 
+			num_of_civilian_factories_available_for_projects > 4
+			NOT = { has_idea = ARG_agitated_oligarchs_idea }
+		}
+
+		custom_cost_trigger = {
+			num_of_civilian_factories_available_for_projects > 4
+		}
+		custom_cost_text = decision_cost_civ_factory_5
+
+		cancel_trigger = {
+			hidden_trigger = {
+				OR = {
+					NOT = { check_variable = { ARG_corruption_status = 1 } }
+					has_civil_war = yes 
+					exists = no 
+				}
+			}
+		}
+
+		modifier = { 
+			civilian_factory_use = 5 
+			political_power_cost = 0.2
+		}
+
+		days_remove = 75
+
+		days_re_enable = 210
+
+		remove_effect = {
+			ARG_increase_corruption_by_1 = yes 
+			custom_effect_tooltip = EUYL_decision_will_reappear_in_210_days_tt
+		}
+	}
+
 	ARG_deal_with_the_oligarchs_in_FROM = {
 		icon = generic_prepare_civil_war
 
@@ -7895,22 +8024,16 @@ ARG_the_spread_of_anarchism = {
 
 		visible = {
 			has_completed_focus = ARG_foment_anarchist_sentiment_in_our_neighbors
-			if = {
-				limit = {
-					FROM = { original_tag = CHL }
-				}
-				NOT = { has_completed_focus = CHL_support_the_radicals }
-			}
-			if = {
-				limit = {
-					FROM = { original_tag = URG }
-				}
-				NOT = { has_completed_focus = URG_anarchist_takeover }
-			}
 			FROM = {
 				NOT = { has_war_with = ROOT }
 				has_civil_war = no 
 				NOT = { has_country_flag = ARG_anarchist_sentiment_fomented_here }
+				NOT = {
+					OR = {
+						has_completed_focus = URG_anarchist_takeover
+						has_completed_focus = CHL_support_the_radicals
+					}
+				}
 			}
 		}
 
@@ -9539,7 +9662,7 @@ ARG_managing_the_army = {
 			NOT = { has_completed_focus = ARG_depoliticize_the_military } #if depoliticized, military basically cant do shit 
 			has_civil_war = no 
 			check_variable = { ARG_military_opinion < -1 }
-			NOT = { has_idea = EUYL_rebelling_army }
+			NOT = { has_idea = EUYL_rebelling_army_1 }
 		}
 
 		available = { 
@@ -9557,7 +9680,7 @@ ARG_managing_the_army = {
 					ruling_only = yes 
 				}
 				check_variable = { ARG_military_opinion > -1 }
-				has_idea = EUYL_rebelling_army
+				has_idea = EUYL_rebelling_army_1
 				NOT = {
 					has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
 				}
@@ -9676,8 +9799,8 @@ ARG_managing_the_army = {
 			}
 			custom_effect_tooltip = ARG_military_opinion_increase_tt
 			if = {
-				limit = { has_idea = EUYL_rebelling_army }
-				remove_ideas = EUYL_rebelling_army
+				limit = { has_idea = EUYL_rebelling_army_1 }
+				remove_ideas = EUYL_rebelling_army_1
 			}
 			add_to_variable = { ARG_military_opinion = 1 }
 			clamp_variable = {
@@ -9724,6 +9847,7 @@ ARG_managing_the_army = {
 					ruling_only = yes 
 				}
 			}
+			NOT = { has_country_flag = ARG_sent_peron_to_italy_flag }
 		}
 
 		available = {
@@ -9749,6 +9873,7 @@ ARG_managing_the_army = {
 			NOT = { has_idea = ARG_juan_domingo_peron_country_idea }
 			hidden_trigger = {
 				command_power > 14
+				NOT = { has_country_flag = ARG_sent_peron_to_italy_flag }
 			}
 		}
 
@@ -9765,6 +9890,7 @@ ARG_managing_the_army = {
 						has_war_with = ROOT
 					}
 				}
+				has_country_flag = ARG_sent_peron_to_italy_flag
 			}
 		}
 
@@ -9789,6 +9915,7 @@ ARG_managing_the_army = {
 					days = 100
 					value = 1
 				}
+				set_country_flag = ARG_sent_peron_to_italy_flag
 			}
 		}
 
@@ -9870,7 +9997,9 @@ ARG_managing_the_army = {
 		}
 
 		visible = {
-			ROOT = {
+			has_character = ARG_juan_domingo_peron
+			if = {
+				limit = { has_character = ARG_juan_domingo_peron }
 				ARG_juan_domingo_peron = {
 					has_character_flag = ARG_in_italy
 				}
@@ -9919,7 +10048,9 @@ ARG_managing_the_army = {
 		icon = infiltrate_state
 
 		visible = {
-			ROOT = {
+			has_character = ARG_juan_domingo_peron
+			if = {
+				limit = { has_character = ARG_juan_domingo_peron }
 				ARG_juan_domingo_peron = {
 					OR = {	
 						has_character_flag = ARG_in_italy
@@ -10690,7 +10821,7 @@ ARG_inflation = {
 		fire_only_once = no
 		
 		ai_will_do = {
-			factor = 165
+			factor = 85
 		}
 		
 		complete_effect = {
@@ -11447,17 +11578,17 @@ ARG_the_argentine_civil_war = {
 	ARG_try_to_steal_equipment_from_our_enemy = {
 		icon = generic_prepare_civil_war
 
-		custom_cost_text = CHL_cost_15_cp
-
 		custom_cost_trigger = {
-			command_power > 14
+			command_power > 24
 		}
 
-		days_remove = 75
+		custom_cost_text = decision_cost_CP_25
+
+		days_remove = 25
 
 		complete_effect = {
 			hidden_effect = {
-				add_command_power = -15
+				add_command_power = -25
 			}
 		}
 
@@ -11477,20 +11608,9 @@ ARG_the_argentine_civil_war = {
 				has_civil_war = yes 
 				has_global_flag = ARG_commie_civil_war
 			}
-			if = {
-				limit = {
-					has_completed_focus = ARG_treaty_with_the_anarchists
-				}
+			OR = {
 				has_completed_focus = ARG_equipment_capturing_techniques
-			}
-			if = {
-				limit = {
-					has_completed_focus = ARG_a_bloody_revolution
-				}
 				has_completed_focus = ARG_el_ejercito_del_pueblo
-			}
-			if = {
-				limit = { has_completed_focus = ARG_create_the_CNU }
 				has_completed_focus = ARG_seize_enemy_reserves
 			}
 		}
@@ -11505,6 +11625,8 @@ ARG_the_argentine_civil_war = {
 				has_civil_war = no 
 			}
 		}
+
+		days_re_enable = 60
 
 		modifier = {
 			weekly_manpower = -1000
@@ -11545,6 +11667,7 @@ ARG_the_argentine_civil_war = {
 					}
 				}
 			}
+			custom_effect_tooltip = EUYL_will_be_available_60_tt
 		}
 	}
 

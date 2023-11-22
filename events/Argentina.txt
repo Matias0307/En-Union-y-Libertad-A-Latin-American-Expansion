@@ -321,6 +321,7 @@ country_event = {
 			}
 			add_opinion_modifier = { target = ROOT modifier = ARG_poses_global_threat }
 		}
+		mark_focus_tree_layout_dirty = yes 
 	}
 
 	option = { # we can't let such a lunatic take power! 
@@ -2177,7 +2178,7 @@ country_event = {
 	option = {
 		name = argentina.rework.ALN.a 
 		set_party_name = { 
-			ideology = neutrality 
+			ideology = fascism 
 			long_name = ARG_ALN_party_long 
 			name = ARG_ALN_party 
 		}
@@ -2227,9 +2228,9 @@ country_event = {
 		hidden_effect = {
 			if = {
 				limit = {
-					NOT = { has_idea = EUYL_rebelling_army }
+					NOT = { has_idea = EUYL_rebelling_army_1 }
 				}
-				add_ideas = EUYL_rebelling_army
+				add_ideas = EUYL_rebelling_army_1
 			}
 			else = { add_stability = -0.05 }
 		}
@@ -2240,9 +2241,9 @@ country_event = {
 		effect_tooltip = {
 			if = {
 				limit = {
-					NOT = { has_idea = EUYL_rebelling_army }
+					NOT = { has_idea = EUYL_rebelling_army_1 }
 				}
-				add_ideas = EUYL_rebelling_army
+				add_ideas = EUYL_rebelling_army_1
 			}
 			else = { add_stability = -0.05 }
 		}
@@ -2254,10 +2255,10 @@ country_event = {
 					side = ARG_military_side
 				}
 			}
-			ARG_move_15_left = yes 
+			ARG_move_10_left = yes 
 		}
 		else = { add_political_power = -15 }
-		ARG_increase_10_political_tension = yes 
+		ARG_increase_5_political_tension = yes 
 	}
 }
 
@@ -5419,6 +5420,12 @@ country_event = {
 	title = {
 		text = argentina.22.t.ucravictor
 		trigger = {
+			if = {
+				limit = {
+					has_global_flag = ARG_election_fraud_done
+				}
+				check_variable = { ARG_concordancia_opinion = 2 } #Playing as UCRA
+			}
 			OR = {
 				AND = {
 					check_variable = { ARG_predicted_UCRA_electoral_votes > ARG_predicted_UCR_electoral_votes }
@@ -5434,6 +5441,12 @@ country_event = {
 	title = {
 		text = argentina.22.t.ucrvictor
 		trigger = {
+			if = {
+				limit = {
+					has_global_flag = ARG_election_fraud_done
+				}
+				check_variable = { ARG_UCR_opinion = 2 } #Playing as UCR
+			}
 			OR = {
 				AND = {
 					check_variable = { ARG_predicted_UCR_electoral_votes > ARG_predicted_UCRA_electoral_votes }
@@ -5449,6 +5462,12 @@ country_event = {
 	title = {
 		text = argentina.22.t.psvictor
 		trigger = {
+			if = {
+				limit = {
+					has_global_flag = ARG_election_fraud_done
+				}
+				check_variable = { ARG_partido_socialista_opinion = 2 } #Playing as PS
+			}
 			OR = {
 				AND = {
 					check_variable = { ARG_predicted_PS_electoral_votes > ARG_predicted_UCR_electoral_votes }
@@ -5477,6 +5496,12 @@ country_event = {
 	option = { #concordancia
 		name = brazil.88.a
 		trigger = {
+			if = {
+				limit = {
+					has_global_flag = ARG_election_fraud_done
+				}
+				check_variable = { ARG_concordancia_opinion = 2 } #Playing as UCRA
+			}
 			OR = {
 				AND = {
 					check_variable = { ARG_predicted_UCRA_electoral_votes > ARG_predicted_UCR_electoral_votes }
@@ -5580,6 +5605,12 @@ country_event = {
 	option = { #union civica radical
 		name = brazil.88.a
 		trigger = {
+			if = {
+				limit = {
+					has_global_flag = ARG_election_fraud_done
+				}
+				check_variable = { ARG_UCR_opinion = 2 } #Playing as UCR
+			}
 			OR = {
 				AND = {
 					check_variable = { ARG_predicted_UCR_electoral_votes > ARG_predicted_UCRA_electoral_votes }
@@ -5623,6 +5654,12 @@ country_event = {
 	option = { #Partido Socialista
 		name = brazil.88.a
 		trigger = {
+			if = {
+				limit = {
+					has_global_flag = ARG_election_fraud_done
+				}
+				check_variable = { ARG_partido_socialista_opinion = 2 } #Playing as PS
+			}
 			OR = {
 				AND = {
 					check_variable = { ARG_predicted_PS_electoral_votes > ARG_predicted_UCR_electoral_votes }

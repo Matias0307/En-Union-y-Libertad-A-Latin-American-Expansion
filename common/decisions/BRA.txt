@@ -79,22 +79,52 @@ BRA_political_crisis = {
 
         timeout_effect = {
             add_stability = -0.1
-            set_politics = {
-                ruling_party = fascism 
-            }
-            set_popularities = {
-                neutrality = 30
-                fascism = 35
-                democratic = 25
-                communism = 10
+            start_civil_war = {
+                ideology = fascism
+                size = 0.15
+                capital = 500
+                states = { 500 }
+                keep_all_characters = yes 
+                PREV = {
+					every_character = {
+						limit = { has_character_flag = BRA_integralist }
+						set_nationality = PREV.PREV
+					}
+				}
+                promote_character = BRA_plinio_salgado
             }
             hidden_effect = {
-                set_variable = { BRA_playing_as_vargas = 0 }
-                set_variable = { BRA_playing_as_integralists = 1 }
-                clr_country_flag = BRA_integralists_shutdown
-                set_variable = { BRA_integralist_influence = 35 }
-                retire_character = BRA_getulio_vargas
-                BRA_set_up_political_crisis = yes 
+                random_other_country = {
+                    limit = { 
+                        original_tag = BRA 
+                        has_government = fascism
+                    }
+                    if = {
+                        limit = {
+                            NOT = {
+                                has_template = "Milicias"
+                            }
+                        }
+                        division_template = { 
+                            name = "Milicias" 
+                            division_names_group = BRA_INF_01 
+                            is_locked = yes 
+                            regiments = { 
+                                infantry = { x = 0 y = 0 } 
+                                infantry = { x = 1 y = 0 } 
+                                infantry = { x = 2 y = 0 } 
+                                infantry = { x = 3 y = 0 }
+                            } 
+                        }
+                    }
+                    500 = {
+                        create_unit = {
+							division = "name = \"Milicia Integralista\" division_template = \"Milicias\" start_experience_factor = 0.05 start_equipment_factor = 0.9" 
+							owner = PREV
+							count = 9
+						}
+                    }
+                }
             }
         }
     }
@@ -647,6 +677,83 @@ BRA_political_crisis = {
                 set_country_flag = BRA_pedro_enrique_imprisoned
             }
         }
+    }
+
+    BRA_gain_the_edge_against_from = {
+		icon = decision_generic_operation
+
+		on_map_mode = map_and_decisions_view
+
+		target_trigger = {
+			FROM = {
+				capital_scope = { is_on_continent = europe }
+				has_war_with = ROOT 
+			}
+		}
+
+		available = {
+			has_completed_focus = BRA_focus_our_efforts_against_the_european_powers
+		}
+
+		cost = 20
+
+		days_remove = 90
+
+        ai_will_do = {
+			factor = 140
+		}
+
+		targeted_modifier = {
+			tag = FROM 
+			attack_bonus_against = 0.1
+			defense_bonus_against = 0.1
+		}
+	}
+
+    BRA_conquer_africa = {
+        icon = generic_nationalism
+        available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_conquered_every_african_state_tt
+				all_state = {
+                    is_on_continent = africa 
+                    is_controlled_by = ROOT
+                }
+			}
+		}
+
+		activation = {
+			always = no
+		}
+
+		is_good = yes 
+
+		days_mission_timeout = 1475
+
+		fire_only_once = yes 
+
+		timeout_effect = {
+			add_stability = -0.05
+			add_war_support = -0.1
+		}
+
+		complete_effect = {
+			add_stability = 0.1
+			add_war_support = 0.2
+            custom_effect_tooltip = PRU_integrate_states_tt
+			hidden_effect = {
+				every_owned_state = {
+					limit = { 
+						NOT = {
+							is_core_of = ROOT 
+							is_on_continent = africa
+						}
+						compliance > 34
+					}
+					add_core_of = ROOT 
+				}
+			}
+		}
     }
 
 }
@@ -2412,83 +2519,6 @@ BRA_integralist_management = {
                 }
             }
         }
-    }
-
-    BRA_gain_the_edge_against_from = {
-		icon = decision_generic_operation
-
-		on_map_mode = map_and_decisions_view
-
-		target_trigger = {
-			FROM = {
-				capital_scope = { is_on_continent = europe }
-				has_war_with = ROOT 
-			}
-		}
-
-		available = {
-			has_completed_focus = BRA_focus_our_efforts_against_the_european_powers
-		}
-
-		cost = 20
-
-		days_remove = 90
-
-        ai_will_do = {
-			factor = 140
-		}
-
-		targeted_modifier = {
-			tag = FROM 
-			attack_bonus_against = 0.1
-			defense_bonus_against = 0.1
-		}
-	}
-
-    BRA_conquer_africa = {
-        icon = generic_nationalism
-        available = {
-			custom_trigger_tooltip = {
-				tooltip = BRA_conquered_every_african_state_tt
-				all_state = {
-                    is_on_continent = africa 
-                    is_controlled_by = ROOT
-                }
-			}
-		}
-
-		activation = {
-			always = no
-		}
-
-		is_good = yes 
-
-		days_mission_timeout = 1400
-
-		fire_only_once = yes 
-
-		timeout_effect = {
-			add_stability = -0.05
-			add_war_support = -0.1
-		}
-
-		complete_effect = {
-			add_stability = 0.1
-			add_war_support = 0.2
-            custom_effect_tooltip = PRU_integrate_states_tt
-			hidden_effect = {
-				every_owned_state = {
-					limit = { 
-						NOT = {
-							is_core_of = ROOT 
-							is_on_continent = africa
-						}
-						compliance > 34
-					}
-					add_core_of = ROOT 
-				}
-			}
-		}
     }
 }
 

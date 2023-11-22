@@ -3764,6 +3764,8 @@ focus_tree = {
 
 		cost = 7.2
 
+		ai_will_do = { factor = 10 }
+
 		available = {
 			OR = {
 				communism > 0.5
@@ -4838,15 +4840,24 @@ focus_tree = {
 				hidden_effect = {
 					if = {
 						limit = { 
-							BOL = { exists = yes }
+							BOL = { 
+								exists = yes 
+								is_subject = no 
+								num_of_controlled_states > 0
+							}
 						}
 						BOL = { country_event = paraguay.15 }
 					}
 					else = {
 						random_other_country = {
 							limit = { 
-								is_neighbor_of = ROOT 
-								has_civil_war = no 
+								OR = {
+									is_neighbor_of = ROOT 
+									has_war_with = ROOT
+								}
+								has_civil_war = no
+								is_subject = no  
+								num_of_controlled_states > 0
 							}
 							country_event = paraguay.15
 						}
@@ -4875,7 +4886,7 @@ focus_tree = {
 		relative_position_id = PAR_form_greater_paraguay
 		prerequisite = { focus = PAR_form_greater_paraguay }
 
-		cost = 10
+		cost = 5
 
 		available = {
 			power_balance_value = {

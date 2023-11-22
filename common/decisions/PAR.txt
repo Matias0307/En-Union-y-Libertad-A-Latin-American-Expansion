@@ -352,6 +352,8 @@ PAR_a_change_in_course = {
 
 		days_remove = 50
 
+		ai_will_do = { factor = 235 }
+
 		visible = {
 			OR = {
 				has_completed_focus = PAR_support_right_wing
@@ -1214,7 +1216,7 @@ PAR_legacy_of_solano_lopez_cat = {
 			is_subject = no 
 		}
 
-		days_re_enable = 90
+		days_re_enable = 60
 
 		complete_effect = {
 			PAR_improve_public_concern = yes 
@@ -1236,20 +1238,64 @@ PAR_legacy_of_solano_lopez_cat = {
 		ai_will_do = {
 			base = 1
 			modifier = {
-				factor = 100
-				surrender_progress > 0.25
+				factor = 220
+				surrender_progress > 0.1
+			}
+			modifier = {
+				factor = 400
+				AND = {
+					has_war_with = BRA 
+					has_war_with = ARG
+				}
 			}
 		}
 
 		available = {
 			OR = {
-				surrender_progress > 0.2
-				casualties_k > 199
+				surrender_progress > 0.1
+				casualties_k > 100
+				AND = {
+					has_war_with = BRA 
+					has_war_with = ARG
+				}
 			}
 		}
 
 		complete_effect = {
-			add_manpower = 225000
+			add_manpower = 115000
+			if = {
+				limit = {
+					NOT = {
+						has_template = "Brigada Paraguaya"
+					}
+				}
+				division_template = {
+					name = "Brigada Paraguaya"
+					division_names_group = SPAN_INF_02
+					template_counter = 3
+					
+					regiments = {
+						infantry = { x = 0 y = 0 }
+						infantry = { x = 0 y = 1 }
+						infantry = { x = 0 y = 2 }
+						infantry = { x = 0 y = 3 }
+					}
+				}
+			}
+			every_controlled_state = {
+				create_unit = {
+					division = "name = \"Brigada Paraguaya\" division_template = \"Brigada Paraguaya\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+					owner = ROOT
+					count = 2
+				}
+			}
+			hidden_effect = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 2000
+					producer = ROOT
+				}
+			}
 			add_ideas = PAR_women_and_children_in_the_army
 			custom_effect_tooltip = PAR_public_concern_will_worsen_tt
 			PAR_worsen_public_concern = yes 
@@ -1562,8 +1608,8 @@ PAR_legacy_of_solano_lopez_cat = {
 			}
 		}
 
-		cost = 20
-		days_remove = 40
+		cost = 25
+		days_remove = 15
 
 		fire_only_once = yes 
 
@@ -1574,8 +1620,13 @@ PAR_legacy_of_solano_lopez_cat = {
 				type = annex_everything
 				target = FROM 
 			}
-			custom_effect_tooltip = PAR_public_concern_will_worsen_tt
-			PAR_worsen_public_concern = yes
+			random_list = {
+				50 = {
+					custom_effect_tooltip = PAR_public_concern_will_worsen_tt
+					PAR_worsen_public_concern = yes
+				}
+				50 = { }
+			}
 			if = { ### If it somehow still hasn't triggered lol 
                 limit = {
                     NOT = { has_global_flag = triple_alliance_formed_flag }

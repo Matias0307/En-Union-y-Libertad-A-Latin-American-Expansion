@@ -3121,6 +3121,7 @@ focus_tree = {
 					}
 					activate_mission = ARG_military_takeover_ai
 					add_ideas = ARG_the_argentine_civil_war_idea_government
+					set_variable = { ARG_militia_recruitment_cost_var = 15 }
 					every_controlled_state = { set_state_flag = ARG_add_resistance_here }
 					if = {
 						limit = {
@@ -5733,7 +5734,7 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = ARG_depends_on_num_of_controlled_states_tt
 			if = {
-				limit = { num_of_controlled_states > 49 }
+				limit = { num_of_controlled_states > 39 }
 				EUYL_add_4_military = yes 
 			}
 			else_if = {
@@ -10884,7 +10885,67 @@ focus_tree = {
 		completion_reward = {
 			add_political_power = 25
 			add_war_support = 0.05
-			
+			hidden_effect = {
+				every_state = {
+					limit = {
+						has_state_flag = ARG_original_state_not_yet_integrated
+						NOT = { is_core_of = ROOT }
+					}
+					clr_state_flag = ARG_original_state_not_yet_integrated
+					add_core_of = ROOT 
+					if = {
+						limit = {
+							state = 509
+						}
+						set_state_name = "Chaco"
+					}
+					else_if = {
+						limit = {
+							state = 512
+						}
+						set_state_name = "Rio Negro"
+					}
+					else_if = {
+						limit = {
+							state = 967
+						}
+						set_state_name = "Tierra del Fuego"
+					}
+					else_if = {
+						limit = {
+							state = 968
+						}
+						set_state_name = "Santa Cruz"
+					}
+					else_if = {
+						limit = {
+							state = 969
+						}
+						set_state_name = "Chubut"
+					}
+					else_if = {
+						limit = {
+							state = 970
+						}
+						set_state_name = "Neuquen"
+					}
+					else_if = {
+						limit = {
+							state = 971
+						}
+						set_state_name = "La Pampa"
+					}
+					else_if = {
+						limit = {
+							state = 980
+						}
+						set_state_name = "Formosa"
+					}
+					else = {
+						set_state_name = "Misiones"
+					}
+				}
+			}
 		}
 	}
 
@@ -11493,7 +11554,8 @@ focus_tree = {
 		completion_reward = {
 			add_ideas = ARG_expansionist_policy
 			add_political_power = 50
-			unlock_decision_category_tooltip = ARG_the_spread_of_anarchism
+			#unlock_decision_category_tooltip = ARG_the_spread_of_anarchism
+			## people keep believing this sis a bug so imma just remove this LOL
 			every_neighbor_country = {
 				add_stability = -0.02
 			}
@@ -11525,7 +11587,7 @@ focus_tree = {
 		cost = 5
 
 		available = {
-			has_army_manpower = { size > 99999 }
+			has_army_manpower = { size > 89999 }
 		}
 
 		search_filters = { FOCUS_FILTER_ANNEXATION }
@@ -11581,7 +11643,7 @@ focus_tree = {
 		ai_will_do = { factor = 3 }
 
 		available = {
-			has_army_manpower = { size > 199999 }
+			has_army_manpower = { size > 149999 }
 		}
 
 		search_filters = { FOCUS_FILTER_ANNEXATION }
@@ -11608,8 +11670,11 @@ focus_tree = {
 		ai_will_do = { factor = 2 }
 
 		available = {
-			num_subjects > 2 # at least 3 puppets 
-			has_army_manpower = { size > 299999 }
+			OR = {
+				num_subjects > 2 # at least 3 puppets 
+				num_of_controlled_states > 29
+			}
+			has_army_manpower = { size > 209999 }
 		}
 
 		search_filters = { FOCUS_FILTER_ANNEXATION FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
@@ -13957,9 +14022,15 @@ focus_tree = {
 		
 		available = {
 			has_active_mission = ARG_the_1937_elections
-			is_power_balance_in_range = {
-				id = ARG_general_balance_of_power
-				range = ARG_slightly_influential_oligarchs
+			OR = {
+				is_power_balance_in_range = {
+					id = ARG_general_balance_of_power
+					range = ARG_slightly_influential_oligarchs
+				}
+				is_power_balance_in_range = {
+					id = ARG_general_balance_of_power
+					range < ARG_slightly_influential_oligarchs
+				}
 			}
 		}
 		
@@ -14185,9 +14256,15 @@ focus_tree = {
 		
 		available = {
 			has_active_mission = ARG_the_1937_elections
-			is_power_balance_in_range = {
-				id = ARG_general_balance_of_power
-				range = ARG_slightly_influential_socialists
+			OR = {
+				is_power_balance_in_range = {
+					id = ARG_general_balance_of_power
+					range = ARG_slightly_influential_socialists
+				}
+				is_power_balance_in_range = {
+					id = ARG_general_balance_of_power
+					range > ARG_slightly_influential_socialists
+				}
 			}
 		}
 		
@@ -14662,7 +14739,7 @@ focus_tree = {
 		
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_POLITICAL_TENSION }
 		completion_reward = {
-			add_political_power = 25
+			add_political_power = 50
 			add_stability = 0.05
 			ARG_decrease_5_political_tension = yes 
 			add_popularity = {
@@ -14695,7 +14772,7 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_BALANCE_OF_POWER FOCUS_FILTER_POLITICAL_TENSION }
 		completion_reward = {
-			add_political_power = 25
+			add_political_power = 50
 			add_stability = 0.05
 			ARG_decrease_5_political_tension = yes 
 			set_party_name = {
@@ -18628,7 +18705,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_POLITICAL_TENSION FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			add_stability = 0.05
-			add_political_power = 25
+			add_political_power = 50
 			ARG_decrease_3_political_tension = yes 
 		}
 	}
@@ -21066,6 +21143,12 @@ focus_tree = {
 				type = motorized_equipment
 				amount = 250
 				producer = GER
+			}
+			GER = {
+				add_offsite_building = {
+					type = industrial_complex
+					level = 1
+				}
 			}
 		}
 	}

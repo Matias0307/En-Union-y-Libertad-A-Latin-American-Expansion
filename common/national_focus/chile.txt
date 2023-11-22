@@ -342,6 +342,10 @@ focus_tree = {
 		ai_will_do = {
 			factor = 3
 		}
+
+		available = {
+			NOT = { has_idea = CHL_remnants_of_the_great_depression }
+		}
 		
 		cancel_if_invalid = yes
 		continue_if_invalid = no
@@ -358,11 +362,35 @@ focus_tree = {
 			add_ideas = CHL_aftermath_of_the_great_depression_idea
 		}
 	}
+
+	focus = {
+		id = CHL_the_ISI_model
+		icon = GFX_CHL_ISI_model
+		x = 0
+		y = 1
+		relative_position_id = CHL_aftermath_of_the_great_depression
+		prerequisite = { focus = CHL_aftermath_of_the_great_depression }
+
+		cost = 5
+
+		available = {
+			has_civil_war = no 
+			num_of_factories > 19
+			NOT = { has_idea = free_trade }
+		}	
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			add_ideas = CHL_ISI_1
+			custom_effect_tooltip = EUYL_available_as_industrial_concern_tt
+			show_ideas_tooltip = CHL_CORFO
+		}
+	}
 	
 	focus = {
 		id = CHL_maintain_the_stability_of_the_nation
 		icon = GFX_goal_generic_neutrality_focus 
-		x = -1
+		x = -2
 		y = 1
 		relative_position_id = CHL_aftermath_of_the_great_depression
 		prerequisite = { focus = CHL_aftermath_of_the_great_depression }
@@ -388,7 +416,7 @@ focus_tree = {
 	focus = {
 		id = CHL_embrace_chilean_nationalism
 		icon = GFX_CHL_nationalism
-		x = 1
+		x = 2
 		y = 1
 		relative_position_id = CHL_aftermath_of_the_great_depression
 		prerequisite = { focus = CHL_aftermath_of_the_great_depression }
@@ -501,7 +529,7 @@ focus_tree = {
 			focus = CHL_invest_more_in_the_military
 		}
 		
-		cost = 8
+		cost = 7.2
 		
 		cancel_if_invalid = yes
 		continue_if_invalid = no
@@ -512,6 +540,7 @@ focus_tree = {
 				limit = {
 					is_core_of = ROOT 
 					is_owned_by = ROOT 
+					Infrastructure < 3
 				}
 				add_building_construction = {
 					type = infrastructure
@@ -523,6 +552,24 @@ focus_tree = {
 				level = 1
 				start_state = ROOT.capital
 				target_state = 998
+			}
+			custom_effect_tooltip = CHL_if_completed_ISI_model_tt
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = CHL_ISI_1
+					add_idea = CHL_ISI_2
+				}
+			}
+			hidden_effect = {
+				if = {
+					limit = {
+						has_idea = CHL_ISI_1
+					}
+					swap_ideas = {
+						remove_idea = CHL_ISI_1
+						add_idea = CHL_ISI_2
+					}
+				}
 			}
 		}
 	}
@@ -662,12 +709,8 @@ focus_tree = {
 		cost = 8
 		
 		available = {
-			279 = {
-				is_controlled_by = ROOT 
-			}
+			has_full_control_of_state = 279
 		}
-		
-		cost = 10
 		
 		cancel_if_invalid = yes
 		continue_if_invalid = no
@@ -687,6 +730,30 @@ focus_tree = {
 					}
 					add_building_construction = {
 						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			custom_effect_tooltip = CHL_over_65_stability_tt
+			effect_tooltip = {
+				279 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			hidden_effect = {
+				if = {
+					limit = { has_stability > 0.65 }
+				}
+				279 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
 						level = 1
 						instant_build = yes
 					}
@@ -745,6 +812,7 @@ focus_tree = {
 
 		available = {
 			num_of_factories > 24
+			has_stability > 0.6
 		}
 		
 		cancel_if_invalid = yes
@@ -780,8 +848,8 @@ focus_tree = {
 		cost = 8
 		
 		available = {
-			controls_state = 995
-			controls_state = 996
+			has_full_control_of_state = 995
+			has_full_control_of_state = 996
 		}
 		
 		cancel_if_invalid = yes
@@ -804,6 +872,16 @@ focus_tree = {
 					level = 1
 					instant_build = yes
 				}
+			}
+			custom_effect_tooltip = CHL_over_65_war_support_tt
+			effect_tooltip = {
+				EUYL_add_1_military = yes 
+			}
+			hidden_effect = {
+				if = {
+					limit = { has_war_support > 0.65 }
+				}
+				EUYL_add_1_military = yes 
 			}
 		}
 	}
@@ -855,6 +933,7 @@ focus_tree = {
 
 		available = {
 			num_of_factories > 24
+			has_war_support > 0.7
 		}
 		
 		cancel_if_invalid = yes
@@ -1222,6 +1301,13 @@ focus_tree = {
 			custom_effect_tooltip = CHL_replace_balance_with_cooperate_tt
 			effect_tooltip = {
 				remove_ideas = CHL_highly_divided_social_classes_idea
+			}
+			if = {
+				limit = { has_idea = CHL_remnants_of_the_great_depression }
+				modify_timed_idea = {
+					idea = CHL_remnants_of_the_great_depression
+					days = -65
+				}
 			}
 			hidden_effect = {
 				add_to_variable = { CHL_communists_power = 1 }
@@ -1650,7 +1736,12 @@ focus_tree = {
 			custom_effect_tooltip = CHL_pan_highway_tooltip
 			add_ideas = CHL_the_pan_american_highway_complete
 			add_popularity = { ideology = communism popularity = 0.025 }
-			
+			if = {
+				limit = { 
+					has_idea = CHL_CORFO
+				}
+				add_stability = 0.05
+			}
 			hidden_effect = {
 				every_country = {
 					limit = {
@@ -1673,88 +1764,15 @@ focus_tree = {
 						}
 					}
 				}
-				PRU = {
-				add_opinion_modifier = { target = CHL modifier = pan_american_highway }		
-				}		
-				ECU = {
-				add_opinion_modifier = { target = CHL modifier = pan_american_highway }		
-				}		
-				COL = {
-				add_opinion_modifier = { target = CHL modifier = pan_american_highway }		
-				}	
-				PAN = {
-				add_opinion_modifier = { target = CHL modifier = pan_american_highway }		
-				}	
-				USA = {
-				add_opinion_modifier = { target = CHL modifier = pan_american_highway }		
-				}		
-				COS = {
-				add_opinion_modifier = { target = CHL modifier = pan_american_highway }		
-				}			
-				NIC = {
-				add_opinion_modifier = { target = CHL modifier = pan_american_highway }		
-				}				
-				HON = {
-				add_opinion_modifier = { target = CHL modifier = pan_american_highway }		
-				}	
-				ELS = {
-				add_opinion_modifier = { target = CHL modifier = pan_american_highway }		
-				}				
-				GUA = {
-				add_opinion_modifier = { target = CHL modifier = pan_american_highway }		
-				}	
-				MEX = {
-				add_opinion_modifier = { target = CHL modifier = pan_american_highway }		
-				}	
-
-				PRU = {
-				add_opinion_modifier = { target = CHL modifier = pan_american_highway_2 }		
-				}		
-				ECU = {
-				add_opinion_modifier = { target = CHL modifier = pan_american_highway_2 }		
-				}		
-				COL = {
-				add_opinion_modifier = { target = CHL modifier = pan_american_highway_2 }		
-				}	
-				PAN = {
-				add_opinion_modifier = { target = CHL modifier = pan_american_highway_2 }		
-				}	
-				USA = {
-				add_opinion_modifier = { target = CHL modifier = pan_american_highway_2 }		
-				}		
-				COS = {
-				add_opinion_modifier = { target = CHL modifier = pan_american_highway_2 }		
-				}			
-				NIC = {
-				add_opinion_modifier = { target = CHL modifier = pan_american_highway_2 }		
-				}				
-				HON = {
-				add_opinion_modifier = { target = CHL modifier = pan_american_highway_2 }		
-				}	
-				ELS = {
-				add_opinion_modifier = { target = CHL modifier = pan_american_highway_2 }		
-				}				
-				GUA = {
-				add_opinion_modifier = { target = CHL modifier = pan_american_highway_2 }		
-				}	
-				MEX = {
-				add_opinion_modifier = { target = CHL modifier = pan_american_highway_2 }		
-				}		
-
-
-				CHL = {
-					add_opinion_modifier = { target = PRU modifier = pan_american_highway }		
-					add_opinion_modifier = { target = ECU modifier = pan_american_highway }		
-					add_opinion_modifier = { target = COL modifier = pan_american_highway }		
-					add_opinion_modifier = { target = PAN modifier = pan_american_highway }		
-					add_opinion_modifier = { target = USA modifier = pan_american_highway }		
-					add_opinion_modifier = { target = USA modifier = pan_american_highway }		
-					add_opinion_modifier = { target = COS modifier = pan_american_highway }		
-					add_opinion_modifier = { target = NIC modifier = pan_american_highway }		
-					add_opinion_modifier = { target = HON modifier = pan_american_highway }		
-					add_opinion_modifier = { target = ELS modifier = pan_american_highway }		
-					add_opinion_modifier = { target = GUA modifier = pan_american_highway }		
-					add_opinion_modifier = { target = MEX modifier = pan_american_highway }		
+				every_other_country = {
+					limit = {
+						OR = {
+							capital_scope = { is_on_continent = south_america }
+							capital_scope = { is_on_continent = north_america }
+						}
+					}
+					add_opinion_modifier = { target = CHL modifier = pan_american_highway }
+					ROOT = { add_opinion_modifier = { target = PREV modifier = pan_american_highway } }
 				}
 			}
 		}
@@ -3966,6 +3984,13 @@ focus_tree = {
 			effect_tooltip = {
 				remove_ideas = CHL_highly_divided_social_classes_idea
 			}
+			if = {
+				limit = { has_idea = CHL_remnants_of_the_great_depression }
+				modify_timed_idea = {
+					idea = CHL_remnants_of_the_great_depression
+					days = -65
+				}
+			}
 			hidden_effect = {
 				add_to_variable = { CHL_communists_power = 1 }
 				set_variable = { CHL_lower_class_opinion = -1 }
@@ -4447,6 +4472,8 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			add_political_power = 40
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = CHL_jorge_gonzales_von_marées_ideas
 		}
 	}
 
@@ -4877,6 +4904,8 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
 		completion_reward = {
 			custom_effect_tooltip = CHL_starts_uprising_mission_tt 
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = CHL_carlos_ibáñez_del_campo_idea
 			hidden_effect = {
 				division_template = { 
 					name = "Militares" 
@@ -10500,6 +10529,18 @@ focus_tree = {
 		}
 		x = -3
 		y = 1
+
+		available = { is_faction_leader = yes }
+
+		bypass = {
+			is_in_faction = yes 
+			any_other_country = {
+				capital_scope = { is_on_continent = south_america }
+				is_in_faction_with = ROOT 
+				is_subject = no
+			}
+		}
+
 		completion_reward = {
 		    every_country = {
 				limit = {

@@ -18,6 +18,63 @@ ideas = {
 			}
 		}
 
+		CHL_remnants_of_the_great_depression = {
+			picture = generic_economic_crisis
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			removal_cost = -1
+
+			modifier = {
+				consumer_goods_factor = 0.4
+				production_speed_buildings_factor = -0.2
+				stability_factor = -0.05
+				industrial_capacity_factory = -0.1
+				industrial_capacity_dockyard = -0.1
+			}
+		}
+
+		CHL_ISI_1 = {
+			name = CHL_ISI
+			picture = generic_central_management
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			removal_cost = -1
+
+			available = { NOT = { has_idea = free_trade } }
+
+			modifier = {
+				production_speed_buildings_factor = 0.05
+				local_resources_factor = 0.05
+				min_export = -0.05
+			}	
+		}
+
+		CHL_ISI_2 = {
+			name = CHL_ISI
+			picture = generic_central_management
+
+			allowed = { always = no }
+
+			allowed_civil_war = { always = yes }
+
+			removal_cost = -1
+
+			available = { NOT = { has_idea = free_trade } }
+
+			modifier = {
+				production_speed_buildings_factor = 0.075
+				local_resources_factor = 0.075
+				industrial_capacity_factory = 0.05
+				min_export = -0.05
+			}
+		}
+
 		CHL_purchasing_arica = {
 
 			picture = generic_foreign_capital
@@ -2659,6 +2716,38 @@ ideas = {
 			available = { has_completed_focus = CHL_central_bank }
 
 			traits = { central_bank }
+		}
+
+		CHL_CORFO = {
+			name = "Corporación de Fomento de la Producción"
+
+			picture = CHL_corfo_icon
+
+			allowed = { original_tag = CHL }
+
+			available = {
+				has_completed_focus = CHL_the_ISI_model
+				OR = {
+					has_stability > 0.74
+					has_country_leader = {
+						character = CHL_pedro_aguirre_cerda
+						ruling_only = yes 
+					}
+					num_of_factories > 29
+				}
+			}
+
+			research_bonus = {
+				industry = 0.1
+			}
+			
+			traits = { industrial_concern }
+
+			modifier = {
+				line_change_production_efficiency_factor = 0.1
+				production_factory_efficiency_gain_factor = 0.05
+				production_factory_max_efficiency_factor = 0.05
+			}
 		}
 	}
 	
