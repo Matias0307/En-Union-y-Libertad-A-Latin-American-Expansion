@@ -7305,7 +7305,7 @@ focus_tree = {
 				}
 			}
 			add_political_power = 75
-			country_event = { id = brazil.71 days = 7 random_days = 5 }
+			country_event = { id = brazil.71 days = 1 random_days = 2 }
 			hidden_effect = {
 				set_country_flag = {
                     flag = BRA_recently_spawned
@@ -9710,9 +9710,12 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-			#set_cosmetic_tag = BRA_SECOND_EMPIRE
+			hidden_effect = { drop_cosmetic_tag = yes }
+			set_cosmetic_tag = BRA_SECOND_EMPIRE
 			## Doesn't work :/// ##
+			# OR DOES IT??? XDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD (im going insane lolsies)
 			add_war_support = 0.03
+			add_stability = 0.03
 			add_political_power = 50
 			custom_effect_tooltip = BRA_problems_within_royal_family_tt
 			hidden_effect = {
@@ -9756,7 +9759,7 @@ focus_tree = {
 		completion_reward = {
 			add_political_power = 20
 			add_war_support = 0.04
-			custom_effect_tooltip = CHL_people_will_get_mad_tt
+			#custom_effect_tooltip = CHL_people_will_get_mad_tt
 		}
 	}
 
@@ -9799,6 +9802,7 @@ focus_tree = {
 							is_in_faction_with = ROOT 
 							has_government = neutrality
 						}
+						exists = no 
 					}
 				}
 				URG = {
@@ -9855,6 +9859,7 @@ focus_tree = {
 							is_in_faction_with = ROOT 
 							has_government = neutrality
 						}
+						exists = no 
 					}
 				}
 				URG = {
@@ -9910,6 +9915,7 @@ focus_tree = {
 							is_in_faction_with = ROOT 
 							has_government = neutrality
 						}
+						exists = no 
 					}
 				}
 				URG = {
@@ -9986,6 +9992,7 @@ focus_tree = {
 							is_fully_controlled_by = ROOT 
 						}
 					}
+					ARG = { exists = no }
 				}
 			}
 		}
@@ -10948,13 +10955,14 @@ focus_tree = {
 		prerequisite = { focus = BRA_officialy_establish_the_empire }
 		mutually_exclusive = { focus = BRA_offer_pedro_a_cabinet_seat }
 
-		cost = 4
+		cost = 5
 
 		ai_will_do = {
             factor = 3
         }
 
 		available = {
+			has_character = BRA_pedro_gastao_orleans
 			has_active_mission = BRA_pedro_gastao_demanding_the_throne
 		}
 
@@ -10963,10 +10971,12 @@ focus_tree = {
 			add_stability = -0.05
 			add_political_power = 40
 			custom_effect_tooltip = BRA_pedro_gastao_imprisoned_tt
+			remove_ideas = BRA_problems_royal_family
             hidden_effect = {
                 BRA_pedro_gastao_orleans = {
                     set_character_flag = BRA_imprisoned
                 }
+				remove_mission = BRA_pedro_gastao_demanding_the_throne
             }
 		}
 	}
@@ -10987,15 +10997,19 @@ focus_tree = {
         }
 
 		available = {
+			has_character = BRA_pedro_gastao_orleans
 			has_active_mission = BRA_pedro_gastao_demanding_the_throne
 		}
 
 		bypass = {
-			has_country_leader = {
-                name = "Prince Pedro Gastão of Orléans-Braganza"
-                ruling_only = yes 
-            }
-			has_country_flag = BRA_pedro_enrique_imprisoned
+			OR = {
+				has_country_leader = {
+					name = "Prince Pedro Gastão of Orléans-Braganza"
+					ruling_only = yes 
+				}
+				has_country_flag = BRA_pedro_enrique_imprisoned
+				NOT = { has_character = BRA_pedro_gastao_orleans }
+			}
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
@@ -11005,7 +11019,10 @@ focus_tree = {
 				days = 50
 			}
 			custom_effect_tooltip = BRA_pedro_gastao_available_advisor_tt
-			unlock_decision_tooltip = BRA_appease_pedro
+			unlock_decision_tooltip = { 
+				decision = BRA_appease_pedro
+				show_effect_tooltip = yes 
+			}
 		}
 	}
 
@@ -11026,7 +11043,7 @@ focus_tree = {
 			}
 		}
 
-		cost = 5
+		cost = 4
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
 		completion_reward = {
@@ -11185,7 +11202,7 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_STABILITY }
 		completion_reward = {
-			add_stability = 0.05
+			add_stability = 0.07
 		}
 	}
 
