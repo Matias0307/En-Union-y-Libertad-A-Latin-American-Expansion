@@ -1696,7 +1696,10 @@ focus_tree = {
 				}
 			}
 			else = { EUYL_add_1_military = yes }
-			unlock_decision_tooltip = ARG_gain_slightly_the_trust_of_the_people
+			unlock_decision_tooltip = {
+				decision = ARG_gain_slightly_the_trust_of_the_people
+				show_effect_tooltip = yes 
+			}
 		}
 	}
 	
@@ -5762,55 +5765,15 @@ focus_tree = {
 		
 		available = {
 			ARG_is_the_argentine_confederation = yes 
-			OR = {
-				controls_state = 985
-				any_other_country = {
-					OR = {
-						is_in_faction_with = ROOT
-						is_subject_of = ROOT 
-					}
-					controls_state = 985
-				}
-			}
-			OR = {
-				controls_state = 984
-				any_other_country = {
-					OR = {
-						is_in_faction_with = ROOT
-						is_subject_of = ROOT 
-					}
-					controls_state = 984
-				}
-			}
-			OR = {
-				AND = {
-					controls_state = 986
-					controls_state = 300
-				}
-				has_country_flag = URG_ARG_agreement
-				any_other_country = {
-					OR = {
-						is_in_faction_with = ROOT
-						is_subject_of = ROOT 
-					}
-					controls_state = 300
-					controls_state = 986
-				} 
-			}
-			OR = {
-				controls_state = 507
-				any_other_country = {
-					OR = {
-						is_in_faction_with = ROOT
-						is_subject_of = ROOT 
-					}
-					controls_state = 507
-				}
-			}
-			controls_state = 299
-			controls_state = 720
-			controls_state = 704
-			controls_state = 703
+			985 = { controls_or_subject_of = yes }
+			984 = { controls_or_subject_of = yes }
+			986 = { controls_or_subject_of = yes }
+			300 = { controls_or_subject_of = yes }
+			507 = { controls_or_subject_of = yes }
+			299 = { controls_or_subject_of = yes }
+			720 = { controls_or_subject_of = yes }
+			704 = { controls_or_subject_of = yes }
+			703 = { controls_or_subject_of = yes }
 		}
 		
 		cancel_if_invalid = yes
@@ -5819,6 +5782,18 @@ focus_tree = {
 		
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
 		completion_reward = {
+			if = {
+				limit = { NOT = { controls_state = 507 } }
+				transfer_state = 507
+			}
+			if = {
+				limit = { NOT = { controls_state = 299 } }
+				transfer_state = 299
+			}
+			if = {
+				limit = { NOT = { controls_state = 720 } }
+				transfer_state = 720
+			}
 			ROOT = {
 				add_state_core = 507
 				add_state_core = 299
@@ -21335,7 +21310,10 @@ focus_tree = {
 		bypass = {
 			has_completed_focus = ARG_side_with_the_axis
 			URG = {
-				is_in_faction_with = ROOT
+				OR = {
+					is_in_faction_with = ROOT
+					capital_scope = { controls_or_subject_of = yes }
+				}
 			}
 		}
 		

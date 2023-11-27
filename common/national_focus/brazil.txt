@@ -1637,7 +1637,7 @@ focus_tree = {
 	focus = {
 		id = BRA_forcas_armadas_brasileiras
 		icon = GFX_BRA_forcas_armadas
-		x = 83
+		x = 85
 		y = 0
 
 		cost = 1
@@ -2874,6 +2874,7 @@ focus_tree = {
 		y = 0
 		mutually_exclusive = { focus = BRA_reject_the_estado_navo }
 		mutually_exclusive = { focus = BRA_manipulate_behind_the_scenes }
+		mutually_exclusive = { focus = BRA_empower_the_patrianovistas }
 		available = {
 			has_civil_war = no 
 			custom_trigger_tooltip = {
@@ -6918,6 +6919,7 @@ focus_tree = {
 		y = 0
 		mutually_exclusive = { focus = BRA_the_path_to_estado_novo }
 		mutually_exclusive = { focus = BRA_manipulate_behind_the_scenes }
+		mutually_exclusive = { focus = BRA_empower_the_patrianovistas}
 
 		cost = 1
 
@@ -8971,7 +8973,7 @@ focus_tree = {
 
 		###unlocks decisions to control states before the uprising starts 
 
-		cost = 5
+		cost = 4
 
 		ai_will_do = {
             factor = 7
@@ -9304,12 +9306,12 @@ focus_tree = {
 	focus = {
 		id = BRA_learn_from_the_frontlines
 		icon = GFX_focus_generic_military_academy
-		x = -3
+		x = 3
 		y = 1
-		relative_position_id = BRA_a_visit_to_the_past
+		relative_position_id = BRA_integralism_shall_rule
 		prerequisite = {
-			focus = BRA_a_visit_to_the_past
 			focus = BRA_integralism_shall_rule
+			focus = BRA_a_visit_to_the_past
 		}
 
 		cost = 3
@@ -9734,9 +9736,18 @@ focus_tree = {
 		x = 4
 		y = 1
 		relative_position_id = BRA_officialy_establish_the_empire
-		prerequisite = { focus = BRA_officialy_establish_the_empire }
+		prerequisite = { focus = BRA_officialy_establish_the_empire focus = BRA_propose_unification_with_portugal }
 
 		cost = 2
+
+		available = { 
+			NOT = {
+				OR = {
+					has_idea = BRA_problems_royal_family
+					has_idea = BRA_disjointed_armies_unif
+				}
+			}
+		}
 
 		select_effect = {
 			every_other_country = {
@@ -11281,23 +11292,23 @@ focus_tree = {
 		}
 	}
 
-	focus = {
+	focus = { ## Claim the French Throne 
 		id = BRA_target_france
 		icon = GFX_focus_attack_france
-		x = -1
+		x = -3
 		y = 2
 		relative_position_id = BRA_take_out_spain
-		prerequisite = { focus = BRA_take_out_spain }
+		prerequisite = { focus = BRA_build_up_in_liberia focus = BRA_win_the_second_cisplatine_war }
 		will_lead_to_war_with = FRA
 
 		cost = 10
 
 		available = {
+			has_army_manpower =  { size > 249999 }
 			NOT = { is_in_faction_with = FRA }
 		}
 
 		bypass = {
-			has_completed_focus = BRA_take_out_spain
 			OR = {
 				has_war_with = FRA 
 				FRA = { is_subject_of = ROOT }
@@ -11307,9 +11318,27 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			create_wargoal = {
-				type = annex_everything
-				target = FRA
+			custom_effect_tooltip = BRA_gain_claim_on_every_french_state_tt
+			every_state = {
+				limit = { 
+					is_core_of = FRA 
+					NOT = {
+						OR = {
+							is_claimed_by = ROOT 
+							is_controlled_by = ROOT 
+						}
+					}
+				}
+				add_claim_by = ROOT 
+			}
+			random_other_country = {
+				limit = { has_full_control_of_state = 16 }
+				ROOT = {
+					create_wargoal = {
+						type = annex_everything
+						target = PREV
+					}
+				}
 			}
 		}
 	}
@@ -11317,11 +11346,11 @@ focus_tree = {
 	focus = {
 		id = BRA_target_colonial_france
 		icon = GFX_BRA_take_out_colonial_france
-		x = -2
+		x = 1
 		y = 1
 		relative_position_id = BRA_target_france
 		prerequisite = { focus = BRA_target_france }
-		prerequisite = { focus = BRA_build_up_in_liberia }
+
 
 		cost = 5
 
@@ -11437,7 +11466,7 @@ focus_tree = {
 	focus = {
 		id = BRA_integrate_galicia
 		icon = GFX_goal_generic_position_armies
-		x = 2
+		x = 0
 		y = 1
 		relative_position_id = BRA_take_out_spain
 		prerequisite = { focus = BRA_take_out_spain }
@@ -11451,6 +11480,10 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
 			171 = {
+				add_core_of = ROOT
+			}
+			every_controlled_state = { 
+				limit = { any_neighbor_state= { state = 171 } }
 				add_core_of = ROOT
 			}
 		}
@@ -13105,6 +13138,7 @@ focus_tree = {
 			focus = BRA_the_path_to_estado_novo 
 		}
 		mutually_exclusive = { focus = BRA_reject_the_estado_navo }
+		mutually_exclusive = { focus = BRA_empower_the_patrianovistas }
 
 		allow_branch = {
 			if = {

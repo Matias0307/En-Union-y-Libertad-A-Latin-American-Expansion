@@ -563,6 +563,8 @@ ARG_posadist_ambitions = {
 			always = no 
 		}
 
+		is_good = no 
+
 		available = {
 			NOT = { has_idea = ARG_agitated_oligarchs_idea }
 		}
@@ -601,6 +603,8 @@ ARG_posadist_ambitions = {
 		activation = {
 			always = no 
 		}
+
+		is_good = no 
 
 		available = {
 			custom_trigger_tooltip = {
@@ -649,6 +653,8 @@ ARG_posadist_ambitions = {
 			always = no 
 		}
 
+		is_good = no 
+
 		available = {
 			has_army_manpower = { size > 249999 }
 			num_of_military_factories > 14
@@ -691,6 +697,8 @@ ARG_posadist_ambitions = {
 			always = no 
 		}
 
+		is_good = no 
+
 		available = {
 			has_completed_focus = ARG_form_the_posadist_la_plata
 		}
@@ -730,12 +738,14 @@ ARG_posadist_ambitions = {
 			always = no 
 		}
 
+		is_good = no 
+
 		available = {
 			custom_trigger_tooltip = {
 				tooltip = ARG_controls_capitals_of_bolivia_chile_peru_tt
-				303 = { is_controlled_by = ROOT }
-				302 = { is_controlled_by = ROOT }
-				279 = { is_controlled_by = ROOT }
+				303 = { controls_or_subject_of = yes }
+				302 = { controls_or_subject_of = yes }
+				279 = { controls_or_subject_of = yes }
 			}
 		}
 
@@ -787,13 +797,15 @@ ARG_posadist_ambitions = {
 			always = no 
 		}
 
+		is_good = no 
+
 		available = {
 			OR = {
 				BRA = { is_subject_of = ROOT }
 				BRA = { has_capitulated = yes }
 				AND = {
-					500 = { is_fully_controlled_by = ROOT }
-					501 = { is_fully_controlled_by = ROOT }
+					500 = { controls_or_subject_of = yes }
+					501 = { controls_or_subject_of = yes }
 					NOT = { has_war_with = BRA }
 				}
 				has_country_flag = ARG_victor_of_cisplatine_war
@@ -833,6 +845,8 @@ ARG_posadist_ambitions = {
 		activation = {
 			always = no 
 		}
+
+		is_good = no 
 
 		available = {
 			has_navy_size = { size > 49 }
@@ -877,6 +891,8 @@ ARG_posadist_ambitions = {
 			always = no 
 		}
 
+		is_good = no 
+
 		available = {
 			any_controlled_state = {
 				NOT = { is_on_continent = south_america }
@@ -917,6 +933,8 @@ ARG_posadist_ambitions = {
 			always = no 
 		}
 
+		is_good = no 
+
 		available = {
 			any_controlled_state = {
 				is_on_continent = europe 
@@ -930,13 +948,13 @@ ARG_posadist_ambitions = {
 			POR = {
 				OR = {
 					is_subject_of = ROOT 
-					capital_scope = { is_fully_controlled_by = ROOT }
+					capital_scope = { controls_or_subject_of = yes }
 				}
 			}
 			SPR = {
 				OR = {
 					is_subject_of = ROOT 
-					capital_scope = { is_fully_controlled_by = ROOT }
+					capital_scope = { controls_or_subject_of = yes }
 				}
 			}
 		}
@@ -976,16 +994,18 @@ ARG_posadist_ambitions = {
 			always = no 
 		}
 
+		is_good = no 
+
 		available = {
 			OR = {
 				ENG = { has_capitulated = yes }
 				ENG = { is_subject_of = ROOT }
-				126 = { is_fully_controlled_by = ROOT }
+				126 = { controls_or_subject_of = yes }
 			}
 			OR = {
 				USA = { has_capitulated = yes }
 				USA = { is_subject_of = ROOT }
-				361 = { is_fully_controlled_by = ROOT }
+				361 = { controls_or_subject_of = yes }
 			}
 		}
 
@@ -1030,6 +1050,8 @@ ARG_posadist_ambitions = {
 		activation = {
 			always = no 
 		}
+
+		is_good = no 
 
 		available = {
 			has_completed_focus = ARG_a_red_world
@@ -5361,6 +5383,65 @@ ARG_the_great_revolution = {
 						}
 					}
 				}
+				every_state = {
+					limit = {
+						has_state_flag = ARG_original_state_not_yet_integrated
+						NOT = { is_core_of = ROOT }
+					}
+					clr_state_flag = ARG_original_state_not_yet_integrated
+					add_core_of = ROOT 
+					if = {
+						limit = {
+							state = 509
+						}
+						set_state_name = "Chaco"
+					}
+					else_if = {
+						limit = {
+							state = 512
+						}
+						set_state_name = "Rio Negro"
+					}
+					else_if = {
+						limit = {
+							state = 967
+						}
+						set_state_name = "Tierra del Fuego"
+					}
+					else_if = {
+						limit = {
+							state = 968
+						}
+						set_state_name = "Santa Cruz"
+					}
+					else_if = {
+						limit = {
+							state = 969
+						}
+						set_state_name = "Chubut"
+					}
+					else_if = {
+						limit = {
+							state = 970
+						}
+						set_state_name = "Neuquen"
+					}
+					else_if = {
+						limit = {
+							state = 971
+						}
+						set_state_name = "La Pampa"
+					}
+					else_if = {
+						limit = {
+							state = 980
+						}
+						set_state_name = "Formosa"
+					}
+					else = {
+						set_state_name = "Misiones"
+					}
+				}
 				every_country_with_original_tag = {
 					original_tag_to_check = ARG 
 					add_ideas = ARG_disorganized_militias_1
@@ -8711,14 +8792,14 @@ ARG_the_posadist_science_program = {
 				limit = { has_completed_focus = ARG_expand_the_posadist_science_program }
 				add_doctrine_cost_reduction = {
 					cost_reduction = 0.75
-					uses = 1
+					uses = 3
 					category = land_doctrine
 				}
 			}
 			else = {
 				add_doctrine_cost_reduction = {
 					cost_reduction = 0.5
-					uses = 1
+					uses = 2
 					category = land_doctrine
 				}
 			}
@@ -8759,14 +8840,14 @@ ARG_the_posadist_science_program = {
 				limit = { has_completed_focus = ARG_expand_the_posadist_science_program }
 				add_doctrine_cost_reduction = {
 					cost_reduction = 0.75
-					uses = 1
+					uses = 3
 					category = naval_doctrine
 				}
 			}
 			else = {
 				add_doctrine_cost_reduction = {
 					cost_reduction = 0.5
-					uses = 1
+					uses = 2
 					category = naval_doctrine
 				}
 			}
@@ -8807,14 +8888,14 @@ ARG_the_posadist_science_program = {
 				limit = { has_completed_focus = ARG_expand_the_posadist_science_program }
 				add_doctrine_cost_reduction = {
 					cost_reduction = 0.75
-					uses = 1
+					uses = 3
 					category = naval_doctrine
 				}
 			}
 			else = {
 				add_doctrine_cost_reduction = {
 					cost_reduction = 0.5
-					uses = 1
+					uses = 2
 					category = naval_doctrine
 				}
 			}
@@ -9848,7 +9929,7 @@ ARG_managing_the_army = {
 					ruling_only = yes 
 				}
 			}
-			NOT = { has_country_flag = ARG_sent_peron_to_italy_flag }
+			has_global_flag = ARG_peron_returned_from_italy
 		}
 
 		available = {
@@ -9891,7 +9972,7 @@ ARG_managing_the_army = {
 						has_war_with = ROOT
 					}
 				}
-				has_country_flag = ARG_sent_peron_to_italy_flag
+				has_global_flag = ARG_peron_returned_from_italy
 			}
 		}
 
@@ -9924,10 +10005,10 @@ ARG_managing_the_army = {
 			country_event = argentina.46
 			add_corps_commander_role = {
 				Character = ARG_juan_domingo_peron
-				skill = 3
+				skill 2
 				attack_skill = 2
 				defense_skill = 3
-				planning_skill = 4
+				planning_skill = 2
 				logistics_skill = 3
 			}
 		}

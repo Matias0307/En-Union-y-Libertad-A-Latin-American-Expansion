@@ -2503,26 +2503,27 @@ POR_preparing_the_monarchist_uprising = {
             hidden_trigger = { NOT = { has_global_flag = BRA_spreading_influence } }
         }
 
-        cost = 30
+        cost = 35
 
-        days_remove = 25
+        days_remove = 20
+
+        modifier = { political_power_cost = 0.1 }
 
         ai_will_do = {
 			factor = 95
 		}
 
-        complete_effect = {
-            set_global_flag = BRA_spreading_influence
-        }
-
         cancel_trigger = {
-            NOT = {
-                has_active_mission = POR_impending_imperialist_uprising_in_brazil
+            OR = {
+                NOT = {
+                    has_active_mission = POR_impending_imperialist_uprising_in_brazil
+                }
+                FROM = { has_dynamic_modifier = { modifier = BRA_monarchist_influence } }
+                has_global_flag = BRA_civil_war_concluded
             }
         }
 
         remove_effect = {
-            clr_global_flag = BRA_spreading_influence
             FROM = {
                 add_dynamic_modifier = { modifier = BRA_monarchist_influence }
             }
@@ -2560,6 +2561,7 @@ BRA_monarchism_on_the_rise = {
             OR = {
                 tag = BZE 
                 has_war_with = BZE
+                has_global_flag = BRA_civil_war_concluded
             }
         }
 
@@ -2598,6 +2600,7 @@ BRA_monarchism_on_the_rise = {
             OR = {
                 tag = BZE 
                 has_war_with = BZE
+                has_global_flag = BRA_civil_war_concluded
             }
         }
 
@@ -2701,8 +2704,11 @@ BRA_monarchism_on_the_rise = {
             FROM = {
                 is_core_of = ROOT 
                 NOT = { has_dynamic_modifier = { modifier = BRA_monarchist_influence } }
-                any_neighbor_state = {
-                    has_dynamic_modifier = { modifier = BRA_monarchist_influence }
+                OR = {
+                    any_neighbor_state = {
+                        has_dynamic_modifier = { modifier = BRA_monarchist_influence }
+                    }
+                    is_fully_controlled_by = ROOT
                 }
             }
         }
@@ -2717,26 +2723,27 @@ BRA_monarchism_on_the_rise = {
             hidden_trigger = { NOT = { has_global_flag = BRA_spreading_influence } }
         }
 
-        cost = 30
+        cost = 35
+        
+        days_remove = 20
 
-        days_remove = 25
+        modifier = { political_power_cost = 0.1 }
 
         ai_will_do = {
-			factor = 180
+			factor = 380
 		}
 
-        complete_effect = {
-            set_global_flag = BRA_spreading_influence
-        }
-
         cancel_trigger = {
-            NOT = {
-                has_active_mission = BRA_impending_imperial_uprising
+            OR = {
+                NOT = {
+                    has_active_mission = POR_impending_imperialist_uprising_in_brazil
+                }
+                FROM = { has_dynamic_modifier = { modifier = BRA_monarchist_influence } }
+                has_global_flag = BRA_civil_war_concluded
             }
         }
 
         remove_effect = {
-            clr_global_flag = BRA_spreading_influence
             FROM = {
                 add_dynamic_modifier = { modifier = BRA_monarchist_influence }
             }
@@ -3796,7 +3803,10 @@ BRA_the_brazilian_civil_war = {
         }
 
         cancel_trigger = {
-            has_global_flag = paulistas_revolted
+            OR = {
+                has_global_flag = paulistas_revolted
+                has_global_flag = BRA_civil_war_concluded
+            }
         }
 
         is_good = no 
@@ -4037,7 +4047,10 @@ BRA_the_brazilian_civil_war = {
         }
 
         cancel_trigger = {
-            has_war_with = BRC
+            OR = {
+                has_war_with = BRC
+                has_global_flag = BRA_civil_war_concluded
+            }
         }
 
         is_good = no 
@@ -4099,10 +4112,13 @@ BRA_the_brazilian_civil_war = {
         }
 
         cancel_trigger = {
-            any_enemy_country = {
-                original_tag = BRA 
-                has_government = fascism
-                has_civil_war = yes 
+            OR = {
+                any_enemy_country = {
+                    original_tag = BRA 
+                    has_government = fascism
+                    has_civil_war = yes 
+                }
+                has_global_flag = BRA_civil_war_concluded
             }
         }
 
@@ -4184,10 +4200,13 @@ BRA_the_brazilian_civil_war = {
         }
 
         cancel_trigger = {
-            any_enemy_country = {
-                original_tag = BRA 
-                has_government = fascism
-                has_civil_war = yes 
+            OR = {
+                any_enemy_country = {
+                    original_tag = BRA 
+                    has_government = fascism
+                    has_civil_war = yes 
+                }
+                has_global_flag = BRA_civil_war_concluded
             }
         }
 
