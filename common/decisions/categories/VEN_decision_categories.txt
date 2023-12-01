@@ -1,0 +1,102 @@
+################
+##### VEN ######
+################
+
+VEN_looming_oil_strike_cat = {
+    priority = 200
+    icon = GFX_VEN_oil_strike_pic
+
+    picture = GFX_VEN_oil_strike_image
+
+    allowed = { original_tag = VEN }
+
+    custom_icon = {
+		tag = CVE
+		value = VEN_civil_war_communists_counter_val_tt
+		desc = VEN_civil_war_communists_counter_text_tt
+
+		visible = { 
+            #has_completed_focus = VEN_support_the_workers_cause
+		}
+	}
+
+    custom_icon = {
+		tag = VEN
+		value = VEN_civil_war_government_counter_val_tt
+		desc = VEN_civil_war_government_counter_text_tt
+
+		visible = {
+            #has_completed_focus = VEN_support_the_workers_cause
+		}
+	}
+
+    on_map_area = {
+		target_array = core_states
+		target_trigger = {
+			FROM = {
+				is_core_of = CVE
+			}
+		}
+		name = VEN_controlled_by_communists_tt
+		zoom = 150
+	}
+
+    visible = {
+        exists = yes 
+        has_active_mission = VEN_looming_oil_strike
+    }
+}
+
+VEN_oil_management = {
+    priority = 100
+    icon = GFX_VEN_oil_management_icon
+
+    picture = GFX_VEN_oil_management_image
+
+    allowed = { original_tag = VEN }
+
+    on_map_area = {
+		target_array = owned_states
+		target_trigger = {
+			FROM = {
+				OR = {
+                    has_dynamic_modifier = { modifier = VEN_inefficient_oil_extraction_1 }
+                    has_dynamic_modifier = { modifier = VEN_inefficient_oil_extraction_2 }
+                    has_dynamic_modifier = { modifier = VEN_inefficient_oil_extraction_3 }
+                }
+			}
+		}
+		name = VEN_states_with_inefficient_oil_extraction_tt
+		zoom = 150
+	}
+
+    visible = {
+        exists = yes 
+        is_subject = no 
+    }
+
+    visible_when_empty = yes 
+}
+
+VEN_bop_cat = {
+
+    allowed = { original_tag = VEN }
+
+    visible = {
+        has_any_power_balance = yes 
+    }
+}
+
+VEN_abc_islands = {
+	
+	icon = saf_anti_colonialist_crusade
+
+	allowed = {
+		original_tag = VEN
+		has_dlc = "Man the Guns"
+	}
+
+	visible = {
+		HOL = { owns_state = 695 }
+	}
+}

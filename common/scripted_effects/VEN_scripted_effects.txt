@@ -1,0 +1,144 @@
+VEN_improve_oil_extraction_idea = {
+    if = {
+        limit = {
+            has_idea = VEN_dependent_on_oil_extraction_1
+        }
+        swap_ideas = {
+            remove_idea = VEN_dependent_on_oil_extraction_1
+            add_idea = VEN_dependent_on_oil_extraction_2
+        }
+    }
+    else_if = {
+        limit = {
+            has_idea = VEN_dependent_on_oil_extraction_2
+        }
+        swap_ideas = {
+            remove_idea = VEN_dependent_on_oil_extraction_2
+            add_idea = VEN_dependent_on_oil_extraction_3
+        }
+    }
+    else_if = {
+        limit = {
+            has_idea = VEN_dependent_on_oil_extraction_3
+        }
+        swap_ideas = {
+            remove_idea = VEN_dependent_on_oil_extraction_3
+            add_idea = VEN_dependent_on_oil_extraction_4
+        }
+    }
+    else_if = {
+        limit = {
+            has_idea = VEN_dependent_on_oil_extraction_4
+        }
+        swap_ideas = {
+            remove_idea = VEN_dependent_on_oil_extraction_4
+            add_idea = VEN_dependent_on_oil_extraction_5
+        }
+    }
+    else = {
+        add_political_power = 25
+        EUYL_add_1_civilian = yes 
+    }
+}
+
+VEN_improve_oil_extraction_state_modifier = {
+    if = {
+        limit = {
+            has_dynamic_modifier = { modifier = VEN_inefficient_oil_extraction_1 }
+        }
+        remove_dynamic_modifier = { modifier = VEN_inefficient_oil_extraction_1 }
+        add_dynamic_modifier = { modifier = VEN_inefficient_oil_extraction_2 }
+    }
+    else_if = {
+        limit = {
+            has_dynamic_modifier = { modifier = VEN_inefficient_oil_extraction_2 }
+        }
+        remove_dynamic_modifier = { modifier = VEN_inefficient_oil_extraction_2 }
+        add_dynamic_modifier = { modifier = VEN_inefficient_oil_extraction_3 }
+        custom_effect_tooltip = VEN_environment_will_be_affected_tt
+        hidden_effect = { add_dynamic_modifier = { modifier = VEN_concerning_enviornmental_impact } }
+    }
+    else_if = {
+        limit = {
+            has_dynamic_modifier = { modifier = VEN_inefficient_oil_extraction_3 }
+        }
+        remove_dynamic_modifier = { modifier = VEN_inefficient_oil_extraction_3 }
+        add_dynamic_modifier = { modifier = VEN_advanced_oil_extraction }
+        custom_effect_tooltip = VEN_environment_will_be_affected_tt
+        hidden_effect = {
+            remove_dynamic_modifier = { modifier = VEN_concerning_enviornmental_impact }
+            add_dynamic_modifier = { modifier = VEN_severe_enviornmental_impact }
+        }
+    }
+}
+
+VEN_worsen_strikes = {
+    if = {
+        limit = { 
+            NOT = {
+                OR = {
+                    has_idea = strikes_1
+                    has_idea = strikes_2
+                    has_idea = strikes_3
+                }
+            }
+        }
+        add_ideas = strikes_1
+    }
+    else_if = {
+        limit = { has_idea = strikes_1 }
+        swap_ideas = {
+            remove_idea = strikes_1
+            add_idea = strikes_2
+        }
+    }
+    else_if = {
+        limit = { has_idea = strikes_2 }
+        swap_ideas = {
+            remove_idea = strikes_2
+            add_idea = strikes_3
+        }
+    }
+    else = {
+        add_stability = -0.01
+        add_political_power = -15
+    }
+}
+
+VEN_improve_abrupt_government_transition_idea = {
+    if = {
+        limit = {
+            has_idea = VEN_abrupt_government_transition_4
+        }
+        swap_ideas = {
+            remove_idea = VEN_abrupt_government_transition_4
+            add_idea = VEN_abrupt_government_transition_3
+        }
+    }
+    else_if = {
+        limit = {
+            has_idea = VEN_abrupt_government_transition_3
+        }
+        swap_ideas = {
+            remove_idea = VEN_abrupt_government_transition_3
+            add_idea = VEN_abrupt_government_transition_2
+        }
+    }
+    else_if = {
+        limit = {
+            has_idea = VEN_abrupt_government_transition_2
+        }
+        swap_ideas = {
+            remove_idea = VEN_abrupt_government_transition_2
+            add_idea = VEN_abrupt_government_transition_1
+        }
+    }
+    else_if = {
+        limit = { has_idea = VEN_abrupt_government_transition_1 }
+        remove_ideas = VEN_abrupt_government_transition_1
+    }
+    else = {
+        add_political_power = 40
+        add_stability = 0.03
+    }
+}

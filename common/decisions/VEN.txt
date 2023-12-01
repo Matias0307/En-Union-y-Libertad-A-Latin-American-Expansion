@@ -1,0 +1,597 @@
+VEN_looming_oil_strike_cat = {
+    VEN_looming_oil_strike = {
+        priority = 200
+
+        icon = revolt 
+
+        activation = { always = no }
+
+        available = {
+            OR = {
+                NOT = { has_idea = VEN_underground_communist_movement }
+                AND = {
+                    has_country_flag = VEN_improved_worker_salaries_flag
+                    has_country_flag = VEN_reduced_work_hours_flag
+                    has_country_flag = VEN_improved_worker_conditions_flag
+                }
+            }
+        }
+
+        days_mission_timeout = 349
+
+        cancel_trigger = {
+            OR = {
+                any_enemy_country = {
+                    original_tag = VEN 
+                    has_government = communism
+                }
+                has_government = communism
+                exists = no 
+            }
+        }
+
+        is_good = no 
+
+        complete_effect = {
+            add_stability = 0.03
+            add_political_power = 25
+            add_timed_idea = {
+                idea = VEN_communists_appeased
+                days = 120
+            }
+            hidden_effect = {
+                clr_country_flag = VEN_improved_worker_salaries_flag
+                clr_country_flag = VEN_reduced_work_hours_flag
+                clr_country_flag = VEN_improved_worker_conditions_flag
+            }
+        }
+
+        timeout_effect = {
+            custom_effect_tooltip = VEN_due_to_current_conditions_following_will_occur_tt
+            effect_tooltip = {
+                if = {
+                    limit = {
+                        OR = {
+                            has_stability > 0.49
+                            has_completed_focus = VEN_promise_worker_condition_improvements
+                        }
+                        NOT = { has_completed_focus = VEN_support_the_workers_cause }
+                    }
+                    VEN_worsen_strikes = yes 
+                }
+                else = {
+                    start_civil_war = { ideology = communism }
+                    if = {
+                        limit = { has_completed_focus = VEN_support_the_workers_cause }
+                        custom_effect_tooltip = VEN_take_control_of_communists_tt
+                    }
+                }
+            }
+            hidden_effect = {
+                if = {
+					limit = {
+						NOT = {
+							has_template = "Milicias"
+						}
+					}
+					division_template = { 
+						name = "Milicias" 
+						division_names_group = SPAN_INF_02 
+						template_counter = 3
+						is_locked = yes 
+						regiments = { 
+							infantry = { x = 0 y = 0 }  
+							infantry = { x = 0 y = 1 } 
+							infantry = { x = 0 y = 2 } 
+						}
+					}
+				}
+                if = {
+                    limit = {
+                        OR = {
+                            has_stability > 0.49
+                            has_completed_focus = VEN_promise_worker_condition_improvements
+                        }
+                        NOT = { has_completed_focus = VEN_support_the_workers_cause }
+                    }
+                    VEN_worsen_strikes = yes 
+                }
+                else = {
+                    if = {
+                        limit = {
+                            has_completed_focus = VEN_support_the_workers_cause
+                        }
+                        start_civil_war = {
+                            ruling_party = communism
+                            ideology = ROOT 
+                            size = 0.4
+                            capital = 941
+                            states = { 941 947 944 945 943 488 938 }
+                            keep_all_characters = yes 
+                            PREV = {
+                                VEN_eleazar_lopez_contreras = { set_nationality = PREV.PREV }
+                                VEN_romelo_bentancourt = { set_nationality = PREV.PREV }
+                            }
+                            promote_character = VEN_eleazar_lopez_contreras
+                        }
+                        add_ideas = VEN_venezuelan_civil_war
+                        every_controlled_state = {
+                            create_unit = {
+                                division = "name = \"Milicias Comunistas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+                                owner = ROOT
+                                count = 2
+                            }
+                            if = {
+                                limit = {
+                                    check_variable = { VEN_communist_strength = 3 }
+                                }
+                                create_unit = {
+                                    division = "name = \"División de Infanteria Comunista\" division_template = \"División de Infanteria\" start_experience_factor = 0.1 start_equipment_factor = 0.85" 
+                                    owner = ROOT
+                                    count = 3
+                                }
+                            }
+                            else_if = {
+                                limit = {
+                                    check_variable = { VEN_communist_strength = 2 }
+                                }
+                                create_unit = {
+                                    division = "name = \"División de Infanteria Comunista\" division_template = \"División de Infanteria\" start_experience_factor = 0.1 start_equipment_factor = 0.85" 
+                                    owner = ROOT
+                                    count = 2
+                                }
+                            }
+                            else_if = {
+                                limit = {
+                                    check_variable = { VEN_communist_strength = 1 }
+                                }
+                                create_unit = {
+                                    division = "name = \"División de Infanteria Comunista\" division_template = \"División de Infanteria\" start_experience_factor = 0.1 start_equipment_factor = 0.85" 
+                                    owner = ROOT
+                                }
+                            }
+                        }
+                        random_other_country = { ##also make sure to load the focus tree
+                            limit = {
+                                original_tag = VEN 
+                                NOT = { has_government = communism }
+                            }
+                            VEN_eleazar_lopez_contreras = {
+                                add_corps_commander_role = {
+                                    skill = 3
+                                    attack_skill = 4
+                                    defense_skill = 3
+                                    planning_skill = 3
+                                    logistics_skill = 2
+                                }
+                            }
+                            add_ideas = VEN_venezuelan_civil_war
+                            every_controlled_state = {
+                                create_unit = {
+                                    division = "name = \"Milicias Leales\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+                                    owner = PREV
+                                    count = 2
+                                }
+                            }
+                            random_owned_controlled_state = {
+                                create_unit = {
+                                    division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.1 start_equipment_factor = 0.85" 
+                                    owner = PREV
+                                    count = 2
+                                }
+                            }
+                        }
+                    }
+                    else = {
+                        start_civil_war = {
+                            ideology = communism
+                            size = 0.45
+                            capital = 489 
+                            states = { 489 942 946 307 }
+                            keep_all_characters = yes 
+                            PREV = {
+                                VEN_juan_bautista_fuenmayor = { set_nationality = PREV.PREV }
+                                VEN_rodolfo_quintero = { set_nationality = PREV.PREV }
+                                VEN_revolutionary_army = { set_nationality = PREV.PREV }
+                            }
+                            promote_character = VEN_revolutionary_army
+                        }
+                        add_ideas = VEN_venezuelan_civil_war
+                        every_controlled_state = {
+                            create_unit = {
+                                division = "name = \"Milicias Leales\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+                                owner = ROOT
+                                count = 2
+                            }
+                        }
+                        random_owned_controlled_state = {
+                            create_unit = {
+                                division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.1 start_equipment_factor = 0.85" 
+                                owner = ROOT
+                                count = 2
+                            }
+                            create_unit = {
+                                division = "name = \"Milicias Leales\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+                                owner = ROOT
+                                count = 2
+                            }
+                        }
+                        random_owned_controlled_state = {
+                            create_unit = {
+                                division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.1 start_equipment_factor = 0.85" 
+                                owner = ROOT
+                            }
+                            create_unit = {
+                                division = "name = \"Milicias Leales\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+                                owner = ROOT
+                                count = 2
+                            }
+                        }
+                        random_other_country = {
+                            limit = {
+                                original_tag = VEN 
+                                has_government = communism
+                            }
+                            add_ideas = VEN_venezuelan_civil_war
+                            VEN_rodolfo_quintero = {
+                                add_corps_commander_role = {
+                                    skill = 2
+                                    attack_skill = 2
+                                    defense_skill = 4
+                                    planning_skill = 2
+                                    logistics_skill = 2
+                                }
+                            }
+                            every_controlled_state = {
+                                create_unit = {
+                                    division = "name = \"Milicias Comunistas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+                                    owner = PREV
+                                    count = 3
+                                }
+                                create_unit = {
+                                    division = "name = \"División de Infanteria Comunista\" division_template = \"División de Infanteria\" start_experience_factor = 0.1 start_equipment_factor = 0.85" 
+                                    owner = PREV
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    VEN_improve_worker_salary = {
+        icon = generic_welfare
+
+        visible = {
+            has_completed_focus = VEN_promise_worker_condition_improvements
+            has_active_mission = VEN_looming_oil_strike
+        }
+
+        available = {
+            num_of_civilian_factories_available_for_projects > 2
+        }
+
+        custom_cost_trigger = {
+            num_of_civilian_factories_available_for_projects > 2
+        }
+
+        custom_cost_text = decision_cost_civ_factory_3
+
+        modifier = {
+            civilian_factory_use = 3
+        }
+
+        cancel_trigger = { NOT = { has_active_mission = VEN_looming_oil_strike } }
+
+        days_remove = 90
+        remove_effect = {
+            set_country_flag = VEN_improved_worker_salaries_flag
+            custom_effect_tooltip = VEN_improve_worker_salary_tt
+        }
+    }
+    VEN_reduce_work_hours = {
+        icon = generic_merge_plant_materiel
+
+        visible = {
+            has_completed_focus = VEN_promise_worker_condition_improvements
+            has_active_mission = VEN_looming_oil_strike
+        }
+
+        available = {
+            num_of_civilian_factories_available_for_projects > 2
+        }
+
+        cost = 20
+
+        modifier = {
+            industrial_capacity_factory = -0.15
+            consumer_goods_factor = 0.1
+        }
+
+        cancel_trigger = { NOT = { has_active_mission = VEN_looming_oil_strike } }
+
+        days_remove = 90
+        remove_effect = {
+            set_country_flag = VEN_reduced_work_hours_flag
+            custom_effect_tooltip = VEN_reduce_work_hours_tt
+        }
+    }
+    VEN_improved_worker_conditions = {
+        icon = eng_trade_unions_support
+
+        visible = {
+            has_completed_focus = VEN_promise_worker_condition_improvements
+            has_active_mission = VEN_looming_oil_strike
+        }
+
+        available = {
+            num_of_civilian_factories_available_for_projects > 2
+        }
+
+        cost = 10
+
+        modifier = {
+            political_power_cost = 0.2
+        }
+
+        cancel_trigger = { NOT = { has_active_mission = VEN_looming_oil_strike } }
+
+        days_remove = 90
+        remove_effect = {
+            set_country_flag = VEN_improved_worker_conditions_flag
+            custom_effect_tooltip = VEN_improved_worker_conditions_tt
+        }
+    }
+}
+
+VEN_oil_management = {
+    VEN_improve_oil_extraction_general = {
+        icon = {
+			key = GFX_decision_VEN_oil_extraction_0
+			trigger = {
+                FROM = {
+                    has_dynamic_modifier = { modifier = VEN_inefficient_oil_extraction_1 }
+                }
+			}
+		}
+        icon = {
+			key = GFX_decision_VEN_oil_extraction_1
+			trigger = {
+                FROM = {
+                    has_dynamic_modifier = { modifier = VEN_inefficient_oil_extraction_2 }
+                }
+			}
+		}
+        icon = {
+			key = GFX_decision_VEN_oil_extraction_2
+			trigger = {
+                FROM = {
+                    has_dynamic_modifier = { modifier = VEN_inefficient_oil_extraction_3 }
+                }
+			}
+		}
+        icon = {
+			key = GFX_decision_VEN_oil_extraction_3
+			trigger = {
+                FROM = {
+                    has_dynamic_modifier = { modifier = VEN_advanced_oil_extraction }
+                }
+			}
+		}
+        cost = 25
+
+        state_target = yes 
+
+        target_array = controlled_states
+
+        target_trigger = {
+            VEN_has_negative_oil_extraction_state = yes
+            FROM = { 
+                NOT = { state = 947 }
+            }
+        }
+
+        visible = {
+            has_completed_focus = VEN_nationwide_oil_extraction_improvements
+            has_civil_war = no 
+            VEN_has_negative_oil_extraction_state = yes
+        }
+
+        available = {
+            if = {
+                limit = {
+                    FROM = { has_dynamic_modifier = { modifier = VEN_inefficient_oil_extraction_3 } }
+                }
+                has_tech = excavation3
+            }
+            else_if = {
+                limit = {
+                    FROM = { has_dynamic_modifier = { modifier = VEN_inefficient_oil_extraction_2 } }
+                }
+                has_tech = excavation2
+            }
+            else = {
+                has_tech = excavation1
+            }
+            hidden_trigger = { NOT = { has_country_flag = VEN_improving_oil_extraction_flag } }
+        }
+
+        days_remove = 20
+
+        on_map_mode = map_only
+
+        modifier = {
+            political_power_cost = 0.07
+            consumer_goods_factor = 0.07
+            industrial_capacity_factory = -0.05
+        }
+
+        cancel_trigger = {
+            OR = {
+                exists = no 
+                has_civil_war = yes 
+                FROM = { NOT = { is_fully_controlled_by = ROOT } }
+                FROM = { has_dynamic_modifier = { modifier = VEN_advanced_oil_extraction } }
+            }
+        }
+
+        cancel_effect = {
+            add_political_power = 10
+            clr_country_flag = VEN_improving_oil_extraction_flag
+        }
+
+        complete_effect = { set_country_flag = VEN_improving_oil_extraction_flag }
+
+        remove_effect = {
+            clr_country_flag = VEN_improving_oil_extraction_flag
+            FROM = { VEN_improve_oil_extraction_state_modifier = yes }
+        }
+    }
+
+    VEN_improve_oil_extraction_anzoategui = {
+        icon = {
+			key = GFX_decision_VEN_oil_extraction_0
+			trigger = {
+                FROM = {
+                    has_dynamic_modifier = { modifier = VEN_inefficient_oil_extraction_1 }
+                }
+			}
+		}
+        icon = {
+			key = GFX_decision_VEN_oil_extraction_1
+			trigger = {
+                FROM = {
+                    has_dynamic_modifier = { modifier = VEN_inefficient_oil_extraction_2 }
+                }
+			}
+		}
+        icon = {
+			key = GFX_decision_VEN_oil_extraction_2
+			trigger = {
+                FROM = {
+                    has_dynamic_modifier = { modifier = VEN_inefficient_oil_extraction_3 }
+                }
+			}
+		}
+        icon = {
+			key = GFX_decision_VEN_oil_extraction_3
+			trigger = {
+                FROM = {
+                    has_dynamic_modifier = { modifier = VEN_advanced_oil_extraction }
+                }
+			}
+		}
+        cost = 50
+
+        state_target = yes 
+
+        target_array = controlled_states
+
+        target_trigger = {
+            VEN_has_negative_oil_extraction_state = yes
+            FROM = { 
+                state = 947
+            }
+        }
+
+        visible = {
+            has_completed_focus = VEN_nationwide_oil_extraction_improvements
+            has_civil_war = no 
+            VEN_has_negative_oil_extraction_state = yes
+        }
+
+        available = {
+            if = {
+                limit = {
+                    FROM = { has_dynamic_modifier = { modifier = VEN_inefficient_oil_extraction_3 } }
+                }
+                has_tech = excavation3
+            }
+            else_if = {
+                limit = {
+                    FROM = { has_dynamic_modifier = { modifier = VEN_inefficient_oil_extraction_2 } }
+                }
+                has_tech = excavation2
+            }
+            else = {
+                has_tech = excavation1
+            }
+            hidden_trigger = { NOT = { has_country_flag = VEN_improving_oil_extraction_flag } }
+        }
+
+        days_remove = 40
+
+        on_map_mode = map_only
+
+        cancel_trigger = {
+            OR = {
+                exists = no 
+                has_civil_war = yes 
+                FROM = { NOT = { is_fully_controlled_by = ROOT } }
+                FROM = { has_dynamic_modifier = { modifier = VEN_advanced_oil_extraction } }
+            }
+        }
+
+        cancel_effect = {
+            add_political_power = 25
+            clr_country_flag = VEN_improving_oil_extraction_flag
+        }
+
+        modifier = {
+            political_power_cost = 0.15
+            consumer_goods_factor = 0.15
+            industrial_capacity_factory = -0.1
+        }
+
+        complete_effect = { set_country_flag = VEN_improving_oil_extraction_flag }
+
+        remove_effect = {
+            clr_country_flag = VEN_improving_oil_extraction_flag
+            FROM = { VEN_improve_oil_extraction_state_modifier = yes }
+        }
+    }
+}
+
+VEN_abc_islands = {
+
+	HOL_offer_venezuelan_protection = {
+
+		icon = decision_generic_nationalism
+
+		allowed = {
+			original_tag = VEN
+		}
+
+		available = {
+			NOT = { has_war_with = USA }
+			NOT = { has_war_with = ENG }
+			NOT = { has_war_with = HOL }
+			695 = { is_owned_and_controlled_by = HOL }
+			HOL = { has_capitulated = yes }
+		}
+
+		cost = 25
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 100
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+
+		visible = {
+			original_tag = VEN
+			695 = { is_owned_and_controlled_by = HOL }
+			NOT = { has_global_flag = ven_claims_abc_islands }
+		}
+
+		complete_effect = {
+			HOL = { country_event = { id = mtg_netherlands.1 hours = 6 } }
+		}
+
+	}
+
+}

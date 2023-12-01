@@ -3,6 +3,18 @@ on_actions = {
     on_government_change = {
         effect = {
             if = {
+                limit = {
+                    original_tag = VEN 
+                    has_government = communism
+                }
+                every_core_state = {
+                    limit = { is_core_of = CVE }
+                    remove_core_of = CVE
+                }
+            }
+        }
+        effect = {
+            if = {
 				limit = {
 					original_tag = PRU
 					has_government = communism
@@ -58,6 +70,76 @@ on_actions = {
                     has_any_power_balance = yes 
                 }
                 BRA_bop_remove_bop_effect = yes 
+            }
+        }
+    }
+    on_monthly_VEN = {
+        effect = { ##Strikes orchestrated by the communists
+            if = {
+                limit = {
+                    has_idea = VEN_underground_communist_movement
+                    has_civil_war = no 
+                    NOT = { has_country_flag = VEN_temp_buffer_flag }
+                    NOT = { has_government = communism } #main strike will be triggered manually
+                }
+                random_list = {
+                    25 = {
+                        modifier = {
+                            factor = 0
+                            OR = {
+                                date < 1936.5.1
+                                has_government = communism
+                                has_civil_war = yes 
+                                has_idea = strikes_1
+                                has_idea = strikes_2
+                                has_idea = strikes_3
+                            }
+                        }
+                        modifier = {
+                            factor = 1.75
+                            OR = {
+                                has_stability > 0.4
+                                communism > 0.24
+                            }
+                        }
+                        country_event = { 
+                            id = venezuela.4
+                            days = 3
+                            random_days = 3
+                            random_hours = 6
+                        }
+                    }
+                    75 = {
+                        modifier = { ## historical june strike
+                            factor = 0
+                            AND = {
+                                date > 1936.5.17
+                                date < 1936.6.21
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        effect = {
+            if = {
+                limit = {
+                    VEN_abrupt_government_transition_active = yes 
+                    has_civil_war = no 
+                }
+                random_list = {
+                    40 = {
+                        country_event = {
+                            id = venezuela.3
+                            days = 7
+                            random_days = 4
+                            random_hours = 20
+                        }
+                    }
+                    60 = {
+                        
+                    }
+                }
             }
         }
     }

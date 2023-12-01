@@ -1,0 +1,95 @@
+###########################
+# Venezuelan Events
+###########################
+
+add_namespace = venezuela 
+
+## Oil Discovery in the Miocene Tar Sands
+country_event = {
+    id = venezuela.1
+    title = venezuela.1.t 
+    desc = venezuela.1.d 
+    picture = GFX_VEN_miocone_oil_discovery
+
+    is_triggered_only = yes 
+
+    option = {
+        name = venezuela.1.a 
+        add_political_power = 10
+        effect_tooltip = { unlock_national_focus = VEN_drill_the_miocene_tar_sands_oil }
+        set_country_flag = VEN_discovered_oil_in_the_miocene
+        947 = {
+            add_resource = {
+				type = oil 
+				amount = 1
+			}
+        }
+    }
+}
+
+## The February Massacre
+country_event = {
+    id = venezuela.2
+    title = venezuela.2.t 
+    desc = venezuela.2.d 
+    picture = GFX_VEN_february_massacre
+
+    is_triggered_only = yes 
+
+    option = {
+        name = venezuela.2.a 
+        add_manpower = -6
+        swap_ideas = {
+            remove_idea = VEN_abrupt_government_transition_3
+            add_idea = VEN_abrupt_government_transition_4
+        }
+        capital_scope = {
+            add_dynamic_modifier = { modifier = BRA_protests days = 120 }
+        }
+        set_country_flag = VEN_february_massacre_triggered_flag
+    }
+}
+
+## Generic Protest in the Country
+country_event = {
+    id = venezuela.3
+    title = venezuela.3.t 
+    desc = venezuela.3.d 
+    picture = GFX_report_event_gathering_protest
+
+    is_triggered_only = yes 
+
+    option = {
+        name = venezuela.3.a 
+        random_list = {
+            50 = { add_stability = -0.01 }
+            50 = { add_political_power = -5 }
+        }
+        random_owned_controlled_state = {
+            limit = {
+                is_fully_controlled_by = ROOT 
+                NOT = { has_dynamic_modifier = { modifier = BRA_protests } }
+            }
+            add_dynamic_modifier = {
+                modifier = BRA_protests
+                days = 90
+            }
+        }
+    }
+}
+
+## Nationwide Strike || Generic
+country_event = {
+    id = venezuela.4
+    title = venezuela.4.t 
+    desc = venezuela.4.d 
+    picture = GFX_report_event_generic_riot
+
+    is_triggered_only = yes 
+
+    option = {
+        name = venezuela.4.a
+        add_popularity = { ideology = communism popularity = 0.01 }
+        VEN_worsen_strikes = yes 
+    }
+}

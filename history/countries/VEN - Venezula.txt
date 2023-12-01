@@ -1,14 +1,31 @@
 ﻿capital = 941
 add_ideas = {
-	#VEN_abrupt_government_transition
+	VEN_abrupt_government_transition_3
 	VEN_transition_to_democracy
-	#VEN_dependent_on_oil_extraction
-	#VEN_underground_communist_movement
-	#VEN_german_infleunce_in_venezuela
+	VEN_dependent_on_oil_extraction_1
+	VEN_underground_communist_movement
+	VEN_german_infleunce_in_venezuela
 	limited_exports
 	monroe_doctrine_idea
 }
 oob = "VEN_1936"
+
+set_variable = { VEN_civil_war_communists_counter_val = 17 }
+set_variable = { VEN_civil_war_government_counter_val = 22 }
+
+activate_mission = VEN_looming_oil_strike
+
+country_event = { ## Oil Discovery in Miocene Tar Sands
+	id = venezuela.1
+	days = 10
+	random_hours = 13
+}
+
+country_event = { ## February Massacre
+	id = venezuela.2
+	days = 44
+	random_hours = 8
+}
 
 # Starting tech
 set_technology = {
@@ -17,6 +34,17 @@ set_technology = {
 	early_fighter = 1
 	fuel_silos = 1
 	fuel_refining = 1
+}
+
+create_dynamic_country = {
+    original_tag = VEN
+    set_country_flag = VEN_communist_venezuela
+	set_politics = {
+		ruling_party = communism
+	}
+	set_cosmetic_tag = CVE_communist
+	set_research_slots = 3
+    reserve_dynamic_country = yes
 }
 
 recruit_character = VEN_eleazar_lopez_contreras
@@ -41,8 +69,39 @@ recruit_character = VEN_carlos_delgado_chalbaud
 recruit_character = VEN_manuel_diaz_rodriguez
 recruit_character = VEN_romulo_gallegos_freire
 recruit_character = VEN_isidoro_ruiz_tuerro
+recruit_character = VEN_rodolfo_quintero
+recruit_character = VEN_revolutionary_army
+recruit_character = VEN_junta
+recruit_character = VEN_francisco_antonio_riquez
+recruit_character = VEN_felix_galavis_figueroa
 
+for_each_scope_loop = {
+	array = core_states
 
+	set_state_flag = venezuelan_starting_state
+	if = {
+		limit = {
+			has_resources_amount = {
+				resource = oil
+				amount > 0
+			}
+		}
+		add_dynamic_modifier = { modifier = VEN_inefficient_oil_extraction_1 }
+	}
+	if = {
+		limit = {
+			NOT = {
+				OR = {
+					state = 489
+					state = 942
+					state = 946
+					state = 307
+				}
+			}
+		}
+		remove_core_of = CVE
+	}
+}
 
 938 = { add_dynamic_modifier = { modifier = EUYL_native_population } }
 943 = { add_dynamic_modifier = { modifier = EUYL_native_population } }
@@ -100,7 +159,8 @@ set_country_flag = monroe_doctrine
 }
 
 set_convoys = 20
-set_stability = 0.4
+set_stability = 0.43
+set_research_slots = 3
 set_politics = {
 	ruling_party = neutrality
 	last_election = "1936.1.1"
@@ -108,8 +168,8 @@ set_politics = {
 	elections_allowed = no
 }
 set_popularities = {
-	democratic = 12
+	democratic = 15
 	fascism = 1
-	communism = 19
+	communism = 16
 	neutrality = 68
 }

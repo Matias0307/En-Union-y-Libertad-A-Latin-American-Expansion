@@ -1,0 +1,225 @@
+### search_filters = {FOCUS_FILTER_POLITICAL}
+### search_filters = {FOCUS_FILTER_RESEARCH}
+### search_filters = {FOCUS_FILTER_INDUSTRY}
+### search_filters = {FOCUS_FILTER_STABILITY}
+### search_filters = {FOCUS_FILTER_WAR_SUPPORT}
+### search_filters = {FOCUS_FILTER_MANPOWER}
+### search_filters = {FOCUS_FILTER_ANNEXATION}
+
+focus_tree = {
+	id = venezuela_focus
+	
+	country = {
+		factor = 0
+		
+		modifier = {
+			add = 10
+			tag = VEN
+		}
+	}
+	
+	initial_show_position = {
+		x = 0
+	}
+	continuous_focus_position = {
+		x = 100 y = 1550
+	}
+	
+	default = no
+	
+	################ INDUSTRY TREE #######################
+	
+	#Drill the Miocene Tar Sands Oil 
+	focus = {
+		id = VEN_drill_the_miocene_tar_sands_oil
+		icon = GFX_goal_generic_oil_refinery
+		x = 6
+		y = 0
+
+		available = {
+			has_civil_war = no 
+			has_full_control_of_state = 947
+			has_country_flag = VEN_discovered_oil_in_the_miocene
+		}
+
+		cost = 5
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			947 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes 
+				}
+				add_resource = {
+					type = oil 
+					amount = 8
+				}
+			}
+		}
+	}
+
+	#Nationwide Oil Extraction Improvements 
+	focus = {
+		id = VEN_nationwide_oil_extraction_improvements
+		icon = GFX_VEN_drill_oil
+		x = 0
+		y = 1
+		relative_position_id = VEN_drill_the_miocene_tar_sands_oil
+		prerequisite = { focus = VEN_drill_the_miocene_tar_sands_oil }
+
+		cost = 2
+
+		available = {
+			OR = {
+				has_tech = excavation1
+				num_of_factories > 19
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+
+		}
+	}
+
+	#Invest in the Consumer Market 
+	focus = {
+		id = VEN_invest_in_the_consumer_market
+		icon = GFX_ARG_subsidize_industry
+		x = -5
+		y = 1
+		relative_position_id = VEN_drill_the_miocene_tar_sands_oil
+		prerequisite = { focus = VEN_drill_the_miocene_tar_sands_oil }
+
+		cost = 6
+
+		available = { has_civil_war = no }
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			VEN_improve_oil_extraction_idea = yes 
+			EUYL_add_1_civilian = yes 
+		}
+	}
+
+	#Promise Worker Condition Improvements 
+	focus = {
+		id = VEN_promise_worker_condition_improvements
+		icon = GFX_ARG_minimum_salary
+		x = -1
+		y = 1
+		relative_position_id = VEN_invest_in_the_consumer_market
+		prerequisite = { focus = VEN_invest_in_the_consumer_market }
+
+		cost = 5
+
+		available = {
+			has_active_mission = VEN_looming_oil_strike
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			custom_effect_tooltip = VEN_communist_civil_war_avoided_tt
+			unlock_decision_tooltip = {
+				decision = VEN_improve_worker_salary
+				show_effect_tooltip = yes 
+			}
+			unlock_decision_tooltip = {
+				decision = VEN_reduce_work_hours
+				show_effect_tooltip = yes 
+			}
+			unlock_decision_tooltip = {
+				decision = VEN_improved_worker_conditions
+				show_effect_tooltip = yes 
+			}
+		}
+	}
+
+	#Military Investments
+	focus = {
+		id = VEN_establish_the_guardia_nacional
+		icon = GFX_VEN_guardia_nacional_icon
+		x = 5
+		y = 1
+		relative_position_id = VEN_drill_the_miocene_tar_sands_oil
+		prerequisite = { focus = VEN_drill_the_miocene_tar_sands_oil }
+
+		cost = 7.2
+
+		available = {
+			OR = {
+				threat > 0.05
+				num_of_military_factories > 4
+			}
+		}
+
+		select_effect = { 
+			division_template = { 
+				name = "Guardia Nacional" 
+				division_names_group = SPAN_INF_02 
+				template_counter = 9
+				regiments = { 
+					infantry = { x = 0 y = 0 }
+					infantry = { x = 0 y = 1 }
+					infantry = { x = 1 y = 0 }
+					infantry = { x = 1 y = 1 }
+					infantry = { x = 2 y = 0 }
+					infantry = { x = 2 y = 1 }
+					artillery_brigade = { x = 3 y = 0 }
+					artillery_brigade = { x = 3 y = 1 }
+				}
+				support = { 
+					engineer = { x = 0 y = 0 }
+					artillery = { x = 0 y = 1 }
+				}
+			}
+		}
+
+		cancel_if_invalid = no 
+		continue_if_invalid = yes 
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			VEN_improve_oil_extraction_idea = yes 
+			EUYL_add_1_military = yes 
+			custom_effect_tooltip = VEN_create_guardia_nacional_template_tt
+			capital_scope = {
+				create_unit = {
+					division = "name = \"Guardia Nacional\" division_template = \"Guardia Nacional\" start_experience_factor = 0.2 start_equipment_factor = 1.0"
+					owner = ROOT
+					count = 3
+				}
+			}
+			hidden_effect = { add_manpower = 12500 }
+		}
+	}
+
+	### POLITICAL TREE ###
+
+	focus = {
+		id = VEN_support_galavis_actions
+		icon = GFX_ 
+		x = 26
+		y = 0
+
+
+	}
+
+	focus = {
+		id = VEN_support_the_workers_cause
+	}
+	
+	## IDEAS ##
+	
+	# Expanding the oil market
+	# Potentially either selling oil to the axis or allies
+	# Try to increase power in the oil market, possibly supplanting the US
+	# Either preserving nature or razing the land
+	# Appeal to the farmers or go oil happy
+	# Nationalize the oil industry or empower privately owned oil industries, Nationalizing means more funds but chance to upset the US
+	# Eventually, a focus for protecting oil from being seized from belligerent nations
+	
+}
