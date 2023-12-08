@@ -105,6 +105,28 @@ VEN_worsen_strikes = {
     }
 }
 
+VEN_improve_strikes = {
+    if = {
+        limit = { has_idea = strikes_3 }
+        swap_ideas = {
+            remove_idea = strikes_3
+            add_idea = strikes_2
+        }
+    }
+    else_if = {
+        limit = { has_idea = strikes_2 }
+        swap_ideas = {
+            remove_idea = strikes_2
+            add_idea = strikes_1
+        }
+    }
+    else_if = {
+        limit = { has_idea = strikes_1 }
+        remove_ideas = strikes_1 
+    }
+    else = { add_stability = 0.05 }
+}
+
 VEN_improve_abrupt_government_transition_idea = {
     if = {
         limit = {
@@ -141,4 +163,87 @@ VEN_improve_abrupt_government_transition_idea = {
         add_political_power = 40
         add_stability = 0.03
     }
+}
+
+VEN_initiate_balance_of_power = {
+    set_power_balance = {
+        id = VEN_foreign_influence_BoP
+        left_side = VEN_allied_side # will keep the last set side if not specified
+        right_side = VEN_axis_side # will keep the last set side if not specified
+        set_value = 0.05 # if specified will set the value of the power balance, this option will override the effect of set_default so the two options should not be used together. if neither set_default or set_value is specified the current value of the power balance will not change
+    }
+}
+
+VEN_move_5_left = {
+    add_power_balance_value = {
+        id = VEN_foreign_influence_BoP
+        value = -0.05
+    }
+}
+
+VEN_move_10_left = {
+    add_power_balance_value = {
+        id = VEN_foreign_influence_BoP
+        value = -0.1
+    }
+}
+
+VEN_move_15_left = {
+    add_power_balance_value = {
+        id = VEN_foreign_influence_BoP
+        value = -0.15
+    }
+}
+
+VEN_move_25_left = {
+    add_power_balance_value = {
+        id = VEN_foreign_influence_BoP
+        value = -0.25
+    }
+}
+
+VEN_move_100_left = { ##debug
+    add_power_balance_value = {
+        id = VEN_foreign_influence_BoP
+        value = -1
+    }
+}
+
+VEN_move_5_right = {
+    add_power_balance_value = {
+        id = VEN_foreign_influence_BoP
+        value = 0.05
+    }
+}
+
+VEN_move_10_right = {
+    add_power_balance_value = {
+        id = VEN_foreign_influence_BoP
+        value = 0.1
+    }
+}
+
+VEN_move_15_right = {
+    add_power_balance_value = {
+        id = VEN_foreign_influence_BoP
+        value = 0.15
+    }
+}
+
+VEN_move_25_right = {
+    add_power_balance_value = {
+        id = VEN_foreign_influence_BoP
+        value = 0.25
+    }
+}
+
+VEN_move_100_right = { ##debug
+    add_power_balance_value = {
+        id = VEN_foreign_influence_BoP
+        value = 1
+    }
+}
+
+VEN_BoP_remove_effect = {
+    remove_power_balance = { id = VEN_foreign_influence_BoP }
 }

@@ -81,8 +81,36 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
-
+			unlock_decision_tooltip = VEN_improve_oil_extraction_general
 		}
+	}
+
+	## Nationalize the Oil fields || will also remove the balance of power 
+	focus = {
+		id = VEN_nationalize_the_oil_fields
+		icon = GFX_ARG_limit_exports
+		x = -1
+		y = 1
+		relative_position_id = VEN_nationwide_oil_extraction_improvements
+		prerequisite = { focus = VEN_nationwide_oil_extraction_improvements }
+
+		mutually_exclusive = { focus = VEN_adopt_pro_market_policies }
+
+		cost = 10
+	}
+
+	## Adopt Pro-Market Policies || unlocks decisions to sell resource rights to foreign powers 
+	focus = {
+		id = VEN_adopt_pro_market_policies
+		icon = GFX_ARG_open_our_borders
+		x = 1
+		y = 1
+		relative_position_id = VEN_nationwide_oil_extraction_improvements
+		prerequisite = { focus = VEN_nationwide_oil_extraction_improvements }
+
+		mutually_exclusive = { focus = VEN_nationalize_the_oil_fields }
+
+		cost = 5
 	}
 
 	#Invest in the Consumer Market 
@@ -108,7 +136,7 @@ focus_tree = {
 	#Promise Worker Condition Improvements 
 	focus = {
 		id = VEN_promise_worker_condition_improvements
-		icon = GFX_ARG_minimum_salary
+		icon = GFX_ARG_worker_rights
 		x = -1
 		y = 1
 		relative_position_id = VEN_invest_in_the_consumer_market
@@ -200,16 +228,284 @@ focus_tree = {
 	### POLITICAL TREE ###
 
 	focus = {
+		id = VEN_temporarily_imprison_galavis
+		icon = GFX_VEN_imprison_galavis
+		x = 45
+		y = 0
+		mutually_exclusive = { focus = VEN_support_galavis_actions }
+
+		available = {
+			has_country_flag = VEN_february_massacre_triggered_flag
+		}
+
+		cost = 4
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			custom_effect_tooltip = VEN_in_event_of_protest_tt
+			unlock_decision_tooltip = VEN_appease_the_protestors_in_FROM
+			custom_effect_tooltip = VEN_in_event_of_strikes_tt
+			unlock_decision_tooltip = VEN_cave_to_the_strikers_demands
+			add_stability = 0.03
+			custom_effect_tooltip = VEN_felix_imprisoned_for_a_year_tt
+			if = {
+				limit = {
+					has_idea = VEN_felix_galavis_figueroa_idea
+				}
+				remove_ideas = VEN_felix_galavis_figueroa_idea
+			}
+			hidden_effect = {
+				VEN_felix_galavis_figueroa = {
+					set_character_flag = {
+						flag = BRA_imprisoned
+						days = 365
+						value = 1
+					}
+				}
+			}
+		}
+	}
+
+	focus = { ## This focus will lock out the communists and anarchists 
+		id = VEN_establish_the_GetYear_constitution
+		icon = GFX_focus_generic_treaty
+		x = -10
+		y = 1
+		relative_position_id = VEN_temporarily_imprison_galavis
+		prerequisite = {
+			focus = VEN_temporarily_imprison_galavis
+			focus = VEN_support_galavis_actions
+		}
+
+		available = {
+			has_civil_war = no 
+			NOT = { has_completed_focus = VEN_support_the_workers_cause }
+		}
+
+		cost = 7.2
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			add_political_power = 75
+			if = {
+				limit = {
+					NOT = { has_government = fascism } 
+				}
+				set_politics = {
+					ruling_party = ROOT 
+					elections_allowed = yes 
+					election_frequency = 60
+				}
+			}
+			else = {
+				set_rule = { can_create_factions = yes }
+			}
+			add_timed_idea = {
+				idea = VEN_recently_written_consitution
+				days = 180
+			}
+			custom_effect_tooltip = EUYL_effects_when_removed_tt
+			effect_tooltip = { add_stability = 0.05 }
+
+			custom_effect_tooltip = VEN_unlocks_decisions_to_improve_abrupt_government_transition_tt
+		}
+	}
+
+	focus = {
+		id = VEN_enact_the_february_plan
+		icon = GFX_PAR_lifted_market_restrictions
+		x = 0
+		y = 1
+		relative_position_id = VEN_temporarily_imprison_galavis
+		prerequisite = { focus = VEN_temporarily_imprison_galavis }
+
+		cost = 5
+
+		available = { 
+			has_civil_war = no 
+			has_country_leader = {
+				character = VEN_eleazar_lopez_contreras
+				ruling_only = yes 
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			add_political_power = 25
+			add_stability = 0.03
+
+			custom_effect_tooltip = VEN_unlocks_decisions_to_improve_abrupt_government_transition_tt
+		}
+	}
+
+	focus = {
+		id = VEN_promote_nationwide_hygiene
+		icon = GFX_VEN_promote_higiene
+		x = 1
+		y = 1
+		relative_position_id = VEN_enact_the_february_plan
+		prerequisite = { focus = VEN_enact_the_february_plan }
+
+		cost = 6
+
+		available = {
+			has_civil_war = no 
+			has_country_leader = {
+				character = VEN_eleazar_lopez_contreras
+				ruling_only = yes 
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			add_ideas = VEN_improved_hygiene
+		}
+	}
+
+	focus = {
+		id = VEN_create_the_ministry_of_health_and_social_assistance
+		icon = GFX_focus_generic_modernize_industry
+		x = -1
+		y = 1
+		relative_position_id = VEN_enact_the_february_plan
+		prerequisite = { focus = VEN_enact_the_february_plan }
+
+		cost = 4
+
+		available = {
+			has_country_leader = {
+				character = VEN_eleazar_lopez_contreras
+				ruling_only = yes 
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = VEN_santos_dominici_idea
+		}
+	}
+
+	focus = {
+		id = VEN_ley_lara
+		icon = GFX_VEN_ley_para_icon
+		x = -3
+		y = 1
+		relative_position_id = VEN_create_the_ministry_of_health_and_social_assistance
+		prerequisite = {
+			focus = VEN_create_the_ministry_of_health_and_social_assistance
+			focus = VEN_promote_nationwide_hygiene
+		}
+
+		mutually_exclusive = { focus = VEN_support_the_workers_cause }
+
+		cost = 7.2
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			VEN_improve_strikes = yes 
+			unlock_decision_tooltip = VEN_repress_the_protestors_in_FROM
+			unlock_decision_tooltip = VEN_force_the_strikers_back_to_work
+
+			custom_effect_tooltip = VEN_unlocks_decisions_to_improve_abrupt_government_transition_tt
+
+			custom_effect_tooltip = VEN_protests_will_become_slightly_more_common_tt
+		}
+	}
+
+	focus = {
 		id = VEN_support_galavis_actions
-		icon = GFX_ 
+		icon = GFX_VEN_support_galavis
 		x = 26
 		y = 0
+		mutually_exclusive = { focus = VEN_temporarily_imprison_galavis }
 
+		available = {
+			has_country_flag = VEN_february_massacre_triggered_flag
+		}
 
+		cost = 4
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			custom_effect_tooltip = VEN_in_event_of_protest_tt
+			unlock_decision_tooltip = VEN_repress_the_protestors_in_FROM
+			custom_effect_tooltip = VEN_in_event_of_strikes_tt
+			unlock_decision_tooltip = VEN_force_the_strikers_back_to_work
+
+			remove_ideas = VEN_transition_to_democracy
+			remove_country_leader_trait = VEN_firm_believer_of_democracy
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.05
+			}
+			add_popularity = { 
+				ideology = neutrality
+				popularity = 0.03
+			}
+			add_stability = -0.02
+			add_ideas = fascist_influence
+
+			set_party_name = {
+				ideology = neutrality
+				long_name = "Partido Neutral Venezolano"
+				name = "PNV"
+			}
+
+			set_party_name = {
+				ideology = fascism
+				long_name = "Ejército Venezolano"
+				name = "Ejército Venezolano"
+			}
+
+			custom_effect_tooltip = VEN_transition_to_an_authoritarian_state_will_result_in_protests_and_democratic_uprising_tt
+			hidden_effect = {
+				add_country_leader_role = {
+					character = VEN_felix_galavis_figueroa
+					promote_leader = yes
+					country_leader = {
+						ideology = fascistic_militarism
+						expire = "1965.1.1.1"
+						traits = { VEN_military_officer ARG_inexperienced_leader_2 }
+					}
+				}
+			}
+		}
 	}
 
 	focus = {
 		id = VEN_support_the_workers_cause
+		icon = GFX_VEN_support_workers
+		x = 6
+		y = 1
+		relative_position_id = VEN_promote_nationwide_hygiene
+		prerequisite = { 
+			focus = VEN_promote_nationwide_hygiene
+			focus = VEN_create_the_ministry_of_health_and_social_assistance
+		}
+
+		mutually_exclusive = { focus = VEN_ley_lara }
+
+		cost = 5
+
+		available = { 
+			has_active_mission = VEN_looming_oil_strike 
+			NOT = { has_completed_focus = VEN_establish_the_GetYear_constitution }
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			custom_effect_tooltip = CHL_pathcivilwar
+			add_days_mission_timeout = {
+				mission = VEN_looming_oil_strike
+				days = 35
+			}
+			add_popularity = { 
+				ideology = communism
+				popularity = 0.05
+			}
+			add_ideas = communist_influence
+		}
 	}
 	
 	## IDEAS ##
