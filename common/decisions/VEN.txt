@@ -732,6 +732,112 @@ VEN_oil_management = {
             FROM = { VEN_improve_oil_extraction_state_modifier = yes }
         }
     }
+
+    VEN_discuss_selling_resource_rights_to_FROM = {
+        icon = generic_political_discourse
+
+        target_trigger = {
+            FROM = {
+                NOT = { has_war_with = ROOT }
+                is_major = yes 
+                is_faction_leader = yes 
+            }
+        }
+
+        visible = {
+            FROM = {
+                exists = yes 
+                num_of_controlled_states > 0
+                is_subject = no
+            }
+            if = {
+                limit = {
+                    NOT = { has_government = communism }
+                }
+                FROM = { 
+                    NOT = {
+                        has_government = communism
+                    }
+                }
+            }
+            if = {
+                limit = {
+                    is_power_balance_side_active = {
+                        id = VEN_foreign_influence_BoP
+                        side = VEN_allied_side
+                    }
+                    power_balance_value = {
+                        id = VEN_foreign_influence_BoP
+                        value > 0.4
+                    }
+                }
+                FROM = { 
+                    NOT = {
+                        has_government = fascism
+                    }
+                }
+            }
+            if = {
+                limit = {
+                    is_power_balance_side_active = {
+                        id = VEN_foreign_influence_BoP
+                        side = VEN_axis_side
+                    }
+                    power_balance_value = {
+                        id = VEN_foreign_influence_BoP
+                        value < -0.4
+                    }
+                }
+                FROM = { 
+                    NOT = {
+                        has_government = democratic
+                    }
+                }
+            }
+            if = {
+                limit = {
+                    has_government = communism
+                    has_any_power_balance = yes
+                }
+                FROM = {
+                    NOT = {
+                        OR = {
+                            has_government = fascism
+                            has_government = democratic
+                        }
+                    }
+                }
+            }
+        }
+
+        available = {
+            NOT = {
+                has_global_flag = VEN_discussed_selling_resources_flag
+            }
+            FROM = {
+                NOT = {
+                    has_war_with = ROOT
+                }
+            }
+        }
+
+        cost = 50
+
+        complete_effect = {
+            set_global_flag = {
+                flag = VEN_discussed_selling_resources_flag
+                days = 365
+                value = 1
+            }
+            FROM = {
+                country_event = {
+                    id = venezuela.12
+                    hours = 3
+                    random_hours = 6
+                }
+            }
+        }
+    }
 }
 
 VEN_gloria_al_bravo_pueblo_cat = {
@@ -1496,6 +1602,83 @@ VEN_influencing_venezuela = {
                 FROM = { VEN_move_5_left = yes }
             }
             custom_effect_tooltip = EUYL_will_be_available_60_tt
+        }
+    }
+
+    VEN_demand_access_to_resource_rights_in_FROM_general = {
+        icon = eng_trade_unions_demand
+
+        state_target = yes 
+
+        target_array = VEN.core_states_at_game_start
+
+        target_trigger = {
+            FROM = {
+                is_fully_controlled_by = ROOT 
+                has_resources_amount = {
+                    resource = oil
+                    amount > 0
+                }
+                has_resources_amount = {
+                    resource = oil
+                    amount < 40
+                }
+            }
+        }
+
+        on_map_mode = map_and_decisions_view
+
+        visible = {
+            VEN_our_side_active = yes 
+            any_country = {
+                NOT = {
+                    has_resources_rights = {
+                        state = FROM
+                        resources = {
+                            oil
+                        }
+                    }
+                }
+            }
+        }
+
+        available = {
+            if = {
+                limit = {
+                    has_government = democratic
+                }
+                VEN = {
+                    power_balance_value = {
+                        id = VEN_foreign_influence_BoP
+                        value < -0.7
+                    }
+                }
+            }
+            else = {
+                VEN = {
+                    power_balance_value = {
+                        id = VEN_foreign_influence_BoP
+                        value > 0.7
+                    }
+                }
+            }
+        }
+
+        fire_only_once = yes
+
+        cost = 40
+
+        complete_effect = {
+            FROM = {
+                save_event_target_as = VEN_RESOURCE_TARGET_STATE
+            }
+            VEN = { 
+                country_event = {
+                    id = venezuela.10 
+                    hours = 3
+                    random_hours = 4
+                }
+            }
         }
     }
 }

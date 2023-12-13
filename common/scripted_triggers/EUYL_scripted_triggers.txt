@@ -239,3 +239,38 @@ VEN_has_negative_oil_extraction_state = {
 		}
 	}
 }
+
+VEN_our_side_active = {
+	VEN = { has_any_power_balance = yes }
+	if = {
+		limit = { original_tag = GER }
+		VEN = { 
+			is_power_balance_side_active = {
+				id = VEN_foreign_influence_BoP
+				side = VEN_axis_side
+			}
+		}
+	}
+	else_if = {
+		limit = { 
+			OR = {
+				original_tag = ENG 
+				original_tag = USA 
+			}
+		}
+		VEN = { 
+			is_power_balance_side_active = {
+				id = VEN_foreign_influence_BoP
+				side = VEN_allied_side
+			}
+		}
+	}
+	else = {
+		VEN = { 
+			is_power_balance_side_active = {
+				id = VEN_foreign_influence_BoP
+				side = VEN_commintern_side
+			}
+		}
+	}
+}

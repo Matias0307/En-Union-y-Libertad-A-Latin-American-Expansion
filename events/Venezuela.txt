@@ -263,3 +263,307 @@ country_event = {
     }
 }
 
+## Venezuela has nationalized their oil
+country_event = {
+    id = venezuela.9
+    title = venezuela.9.t 
+    desc = venezuela.9.d 
+
+    is_triggered_only = yes 
+
+    option = { #intervene militarily
+        name = venezuela.9.a
+        trigger = {
+            VEN = {
+                NOT ={
+                    OR = {
+                        is_in_faction_with = ROOT 
+                        has_war_with = ROOT
+                    }
+                }
+            }
+        } 
+        ai_chance = {
+            base = 1
+            modifier = {
+                factor = 20
+                VEN = {
+                    has_war = yes 
+                }
+            }
+            modifier = {
+                factor = 5
+                NOT = { has_government = ROOT 
+            }
+        }
+        create_wargoal = {
+            type = puppet_wargoal_focus
+            target = FROM
+        }
+        add_stability = -0.1
+        add_war_support = -0.05
+        add_political_power = -25
+    }
+
+    option = { ##issue a stern warning
+        name = venezuela.5.b
+        ai_chance = {
+            base = 50
+            modifier = {
+                factor = 0
+                has_war_with_major = yes 
+            }
+        }
+        add_political_power = 25
+        VEN = { 
+            country_event = {
+                id = venezuela.6
+                days = 1
+                random_hours = 6
+            }
+        }
+    }
+
+    option = { # let them go
+        name = venezuela.5.c
+        add_stability = 0.05
+        add_war_support = -0.05
+    }
+}
+
+## FROM is demanding resource rights to [VEN_RESOURCE_TARGET_STATE.GetName]
+country_event = {
+    id = venezuela.10
+    title = venezuela.10.t 
+    desc = venezuela.10.d 
+    
+
+    is_triggered_only = yes
+
+    option = { ##give them resource rights
+        name = venezuela.10.a 
+        trigger = {
+            NOT = {
+                any_other_country = {
+                    has_resources_rights = {
+                        state = event_target:VEN_RESOURCE_TARGET_STATE
+                    }
+                }
+            }
+            NOT = {
+                has_war_with = FROM
+            }
+        }
+        ai_chance = {
+            base = 1
+            modifier = {
+                add = 50
+                strength_ratio = {
+					tag = FROM
+					ratio < 1
+				}
+            }
+            modifier = {
+                factor = 2
+                has_government = FROM 
+            }
+        }
+        give_resource_rights = {
+            receiver = FROM 
+            state = event_target:VEN_RESOURCE_TARGET_STATE
+            resources = { oil }
+        }
+        FROM = { country_event = peru.16 }
+    }
+
+    option = { ## they wont be getting access to this
+        name = venezuela.10.b 
+        ai_chance = {
+            base = 2
+            modifier = {
+                add = 20
+                NOT = {
+                    has_government = FROM 
+                }
+            }
+            modifier = {
+                add = 40
+                strength_ratio = {
+					tag = FROM
+					ratio > 1
+				}
+            }
+        }
+        FROM = { country_event = peru.17 } 
+        add_war_support = 0.01
+    }
+}
+
+## Shall we demand for resource rights in the Orinoco Belt
+country_event = {
+    id = venezuela.11
+    title = venezuela.11.t 
+    desc = venezuela.11.d 
+
+    is_triggered_only = yes 
+
+    immediate = {
+        947 = { save_event_target_as = VEN_RESOURCE_TARGET_STATE } 
+    }
+
+    option = {
+        name = venezuela.11.a 
+        ai_chance = {
+            base = 15
+            modifier = {
+                factor = 2
+                OR = {
+                    strength_ratio = {
+                        tag = FROM
+                        ratio > 1
+                    }
+                    FROM = { num_of_factories < 49 }
+                }
+
+            }
+        }
+        FROM = {
+            country_event = {
+                id = venezuela.10
+                hours = 2
+                random_hours = 4
+            }
+        }
+        set_global_flag = VEN_orinoco_belt_rights_flag_triggered
+    }
+
+    option = {
+        name = "No"
+        ai_chance = {
+            base = 1
+            modifier = {
+                add = 25
+                strength_ratio = {
+                    tag = FROM
+                    ratio < 1
+                }
+            }
+        }
+        add_political_power = -10
+        add_stability = 0.01
+    }
+}
+
+## FROM (venezuela) is willing to dicuss the selling of resource rights in their country to us
+country_event = {
+    id = venezuela.12
+    title = venezuela.12.t 
+    desc = venezuela.12.d 
+    picture = GFX_report_event_generic_read_write
+
+    is_triggered_only = yes 
+
+    option = { ## sure, let's see what they offer
+        name = venezuela.12.a
+        ai_chance = {
+            base = 1
+            modifier = {
+                add = 20
+                num_of_factories > 59
+            }
+            modifier = {
+                add = 15
+                has_opinion = {
+                    target = FROM 
+                    value > 49
+                }
+            }
+        } 
+        THIS = { save_global_event_target_as = VEN_TARGET_SELLER }
+        FROM = { 
+            country_event = {
+                id = venezuela.13 
+                hours = 4
+                random_hours = 8 
+            }
+        }
+    }
+
+    option = { ## we cant afford this right now
+        name = venezuela.12.b
+        ai_chance = {
+            base = 1
+            modifier = {
+                add = 20 
+                OR = {
+                    num_of_factories < 54
+                    has_war = yes 
+                    has_opinion = {
+                        target = FROM 
+                        value < 0
+                    }
+                }
+            }
+        }
+        FROM = {
+            country_event = {
+                id = venezuela.14
+                hours = 3
+                random_hours = 8
+            }
+        }
+    }
+}
+
+## FROM has accepted our proposal to discuss resource right selling
+country_event = {
+    id = venezuela.13
+    title = venezuela.13.t 
+    desc = venezuela.13.d 
+    picture = GFX_report_event_hitler_handshake
+
+    is_triggered_only = yes 
+
+    option = {
+        name = venezuela.13.a 
+        set_country_flag = VEN_active_resource_right_decisions_flag 
+        custom_effect_tooltip = VEN_unlock_decisions_to_choose_which_state_to_sell_resource_rights_to_tt
+    }
+}
+
+## FROM has denied our proposal to discuss resource right selling 
+country_event = {
+    id = venezuela.14 
+    title = venezuela.14.t 
+    desc = venezuela.14.d 
+
+    is_triggered_only = yes 
+
+    option = {
+        name = venezuela.14.a 
+        add_political_power = 5
+    }
+}
+
+## FROM (Venezuela) has given us resource rights to [VEN_RESOURCE_SELLING_TARGET_STATE.GetName]
+country_event = {
+    id = venezuela.15
+    title = venezuela.15.t 
+    desc = venezuela.15.d   
+    picture = GFX_report_event_generic_sign_treaty2
+
+    is_triggered_only = yes 
+
+    option = {
+        name = venezuela.15.a 
+        FROM = {
+            give_resource_rights = {
+                receiver = ROOT 
+                state = event_target:VEN_RESOURCE_SELLING_TARGET_STATE
+                resources = { oil }
+            }
+            clr_country_flag = VEN_active_resource_right_decisions_flag
+        }
+        custom_effect_tooltip = VEN_will_demand_repayment_every_so_often_tt
+    }
+}
