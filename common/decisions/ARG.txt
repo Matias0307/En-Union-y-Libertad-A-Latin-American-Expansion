@@ -1891,8 +1891,6 @@ ARG_bop = {
 			NOT = { has_completed_focus = ARG_los_grises }
 		}
 
-		cancel_trigger = { has_completed_focus = ARG_los_grises }
-
 		cost = 15
 
 		complete_effect = {
@@ -1948,8 +1946,6 @@ ARG_bop = {
 			NOT = { has_completed_focus = ARG_los_azules }
 		}
 
-		cancel_trigger = { has_completed_focus = ARG_los_azules }
-
 		cost = 20
 
 		complete_effect = {
@@ -1982,8 +1978,6 @@ ARG_bop = {
 			has_civil_war = yes 
 		}
 
-		cancel_trigger = { ARG_is_the_argentine_confederation = yes }
-
 		cost = 15
 
 		complete_effect = {
@@ -2012,8 +2006,6 @@ ARG_bop = {
 		available = { 
 			has_civil_war = yes 
 		}
-
-		cancel_trigger = { ARG_is_the_argentine_confederation = yes }
 
 		custom_cost_trigger = {
 			command_power > 24
@@ -2048,8 +2040,6 @@ ARG_bop = {
 		available = { 
 			has_civil_war = yes 
 		}
-
-		cancel_trigger = { ARG_is_the_argentine_confederation = yes }
 
 		custom_cost_trigger = {
 			command_power > 24
@@ -4894,6 +4884,7 @@ ARG_the_great_revolution = {
 					effect_tooltip = {
 						start_civil_war = {
 							ruling_party = communism
+							ideology = ROOT
 						}
 					}
 					hidden_effect = {
@@ -5137,6 +5128,7 @@ ARG_the_great_revolution = {
 					effect_tooltip = {
 						start_civil_war = {
 							ruling_party = communism
+							ideology = ROOT
 						}
 					}
 					hidden_effect = {
@@ -7060,13 +7052,6 @@ ARG_dealing_with_the_corruption = {
 			has_civil_war = no 
 		}
 
-		cancel_trigger = {
-			OR = {
-				check_variable = { ARG_corruption_status = 0 }
-				NOT = { has_dynamic_modifier = { modifier = ARG_corruption_scandal_idea } }
-			}
-		}
-
 		ai_will_do = { 
 			base = 125 
 			modifier = {
@@ -8340,15 +8325,6 @@ ARG_the_spread_of_anarchism = {
 			FROM = {
 				has_civil_war = no 
 				exists = yes 
-			}
-		}
-
-		cancel_trigger = {
-			FROM = {
-				OR = {
-					exists = no
-					has_civil_war = yes 
-				}
 			}
 		}
 
@@ -12410,12 +12386,10 @@ ARG_integrate_our_territories = {
 			base = 0
 			modifier = {
 				add = 100
-				FROM = {
-					OR = {
-						has_government = fascism
-						has_government = neutrality
-						has_government = communism
-					}
+				OR = {
+					has_government = fascism
+					has_government = neutrality
+					has_government = communism
 				}
 			}
 			modifier = {
