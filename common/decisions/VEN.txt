@@ -136,7 +136,7 @@ VEN_political_crisis = { ## need to make custom trigger tooltips for these :/
 
         activation = { always = no }
 
-        target_trigger = { FROM = { original_tag = USA } }
+        #target_trigger = { FROM = { original_tag = USA } }
 
         fire_only_once = yes 
 
@@ -745,15 +745,30 @@ VEN_oil_management = {
             FROM = {
                 NOT = { has_war_with = ROOT }
                 is_major = yes 
-                is_faction_leader = yes 
+                has_civil_war = no
             }
         }
 
         visible = {
+            if = {
+                limit = {
+                    date < 1940.1.1
+                }
+                FROM = {
+                    num_of_factories > 49
+                }
+            }
+            else = {
+                FROM = {
+                    num_of_factories > 99
+                }
+            }
             FROM = {
                 exists = yes 
                 num_of_controlled_states > 0
                 is_subject = no
+                has_capitulated = no
+                has_civil_war = no
             }
             if = {
                 limit = {
@@ -763,6 +778,18 @@ VEN_oil_management = {
                     NOT = {
                         has_government = communism
                     }
+                }
+            }
+        }
+
+        available = {
+            has_completed_focus = VEN_adopt_pro_market_policies
+            NOT = {
+                has_global_flag = VEN_discussed_selling_resources_flag
+            }
+            FROM = {
+                NOT = {
+                    has_war_with = ROOT
                 }
             }
             if = {
@@ -778,7 +805,7 @@ VEN_oil_management = {
                 }
                 FROM = { 
                     NOT = {
-                        has_government = fascism
+                        has_government = democratic
                     }
                 }
             }
@@ -795,7 +822,10 @@ VEN_oil_management = {
                 }
                 FROM = { 
                     NOT = {
-                        has_government = democratic
+                        OR = {
+                            has_government = communism
+                            has_government = fascism
+                        }
                     }
                 }
             }
@@ -815,17 +845,6 @@ VEN_oil_management = {
             }
         }
 
-        available = {
-            NOT = {
-                has_global_flag = VEN_discussed_selling_resources_flag
-            }
-            FROM = {
-                NOT = {
-                    has_war_with = ROOT
-                }
-            }
-        }
-
         cost = 50
 
         complete_effect = {
@@ -840,6 +859,193 @@ VEN_oil_management = {
                     hours = 3
                     random_hours = 6
                 }
+            }
+        }
+    }
+
+    VEN_sell_FROMs_resources_to_VEN_TARGET_SELLER = {
+        icon = generic_fundraising
+
+        state_target = yes 
+
+        target_array = core_states
+
+        target_trigger = {
+            FROM = {
+                is_fully_controlled_by = ROOT 
+                has_resources_amount = {
+                    resource = oil
+                    amount > 9
+                }
+            }
+        }
+
+        on_map_mode = map_and_decisions_view
+
+        visible = {
+            has_country_flag = VEN_active_resource_right_decisions_flag
+            has_resources_rights = {
+                state = FROM
+            }
+        }
+
+        ai_will_do = {
+            base = 345
+            modifier = {
+                factor = 0.5
+                FROM = {
+                    has_resources_amount = {
+                        resource = oil
+                        amount > 40
+                    }
+                }
+            }
+        }
+
+        available = {
+            NOT = {
+                has_country_flag = VEN_discussing_resource_selling_flag
+                has_war_with = event_target:VEN_TARGET_SELLER
+            }
+            event_target:VEN_TARGET_SELLER = {
+                exists = yes 
+                has_civil_war = no
+            }
+        }
+
+        complete_effect = {
+            set_country_flag = VEN_discussing_resource_selling_flag
+            FROM = {
+                save_event_target_as = VEN_RESOURCE_SELLING_TARGET_STATE
+            }
+            event_target:VEN_TARGET_SELLER = {
+                country_event = {
+                    id = venezuela.15 
+                    hours = 4
+                }
+            }
+            if = {
+                limit = {
+                    has_any_power_balance = yes 
+                }
+                if = {
+                    limit = {
+                        event_target:VEN_TARGET_SELLER = {
+                            OR = {
+                                has_government = communism
+                                has_government = fascism
+                            }
+                        }
+                    }
+                    VEN_move_15_right = yes
+                }
+                else = {
+                    VEN_move_15_left = yes
+                }
+            }
+            effect_tooltip = {
+                give_resource_rights = {
+                    receiver = event_target:VEN_TARGET_SELLER 
+                    state = FROM
+                }
+            }
+        }
+    }
+
+    VEN_demand_repayment_from_FROM = {
+        icon = gre_paying_ifc_debt
+
+        state_target = yes 
+
+        target_array = controlled_states
+
+        target_trigger = {
+            FROM = {
+                is_fully_controlled_by = ROOT 
+                has_resources_amount = {
+                    resource = oil
+                    amount > 9
+                }
+            }
+        }
+
+        visible = {
+            FROM = {
+                is_fully_controlled_by = ROOT
+            }
+            NOT = {
+                has_resources_rights = {
+                    state = FROM
+                }
+            }
+        }
+
+        cost = 25
+
+        modifier = {
+            political_power_factor = -0.05
+            production_speed_buildings_factor = -0.05
+        }
+
+        available = {
+            has_civil_war = no
+            NOT = {
+                has_country_flag = VEN_demanding_repayment_flag
+            }
+        }
+
+        days_remove = 195
+
+        cancel_trigger = {
+            OR = {
+                NOT = {
+                    has_full_control_of_state = FROM
+                }
+                has_resources_rights = {
+                    state = FROM
+                }
+            }
+        }
+
+        complete_effect = {
+            set_country_flag = VEN_demanding_repayment_flag
+        }
+
+        remove_effect = {
+            clr_country_flag = VEN_demanding_repayment_flag
+            if = {
+                limit = {
+                    FROM = {
+                        has_resources_amount = {
+                            resource = oil
+                            amount > 149
+                        }
+                    }
+                }
+                add_offsite_building = {
+                    type = industrial_complex
+                    level = 3
+                } 
+            }
+            else_if = {
+                limit = {
+                    FROM = {
+                        has_resources_amount = {
+                            resource = oil
+                            amount > 59
+                        }
+                    }
+                }
+                add_offsite_building = {
+                    type = industrial_complex
+                    level = 2
+                }  
+            }
+            else = {
+                add_offsite_building = {
+                    type = industrial_complex
+                    level = 1
+                }  
             }
         }
     }
@@ -1023,7 +1229,10 @@ VEN_gloria_al_bravo_pueblo_cat = {
         icon = generic_civil_support
 
         visible = {
-            has_completed_focus = VEN_support_galavis_actions
+            OR = {
+                has_completed_focus = VEN_support_galavis_actions
+                has_completed_focus = VEN_ley_lara
+            }
             OR = {
                 has_idea = strikes_1
                 has_idea = strikes_2
@@ -1615,18 +1824,18 @@ VEN_influencing_venezuela = {
 
         state_target = yes 
 
-        target_array = VEN.core_states_at_game_start
+        target_array = VEN.core_states
 
         target_trigger = {
             FROM = {
-                is_fully_controlled_by = ROOT 
+                is_fully_controlled_by = VEN 
                 has_resources_amount = {
                     resource = oil
-                    amount > 0
+                    amount > 9
                 }
                 has_resources_amount = {
                     resource = oil
-                    amount < 40
+                    amount < 44
                 }
             }
         }
@@ -1635,14 +1844,9 @@ VEN_influencing_venezuela = {
 
         visible = {
             VEN_our_side_active = yes 
-            any_country = {
-                NOT = {
-                    has_resources_rights = {
-                        state = FROM
-                        resources = {
-                            oil
-                        }
-                    }
+            VEN = {
+                has_resources_rights = {
+                    state = FROM
                 }
             }
         }

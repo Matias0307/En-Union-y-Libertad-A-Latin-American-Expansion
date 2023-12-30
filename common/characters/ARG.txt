@@ -285,6 +285,89 @@ characters={
 			legacy_id=-1
 		}
 	}
+	ARG_fanny_edelman_official={
+		name="Fanny Edelman"
+		portraits={
+			civilian={
+				large="gfx/leaders/ARG/Portrait_Argentina_Fanny_Jabcovsky.dds"
+			}
+			army={
+				small="GFX_idea_ARG_fanny_icon"
+			}
+		}
+		country_leader={
+			desc="POLITICS_FANNY_JABCOVSKY_DESC"
+			ideology=marxism
+			traits={  
+				ARG_mother_of_the_revolution
+			}
+			expire="1965.1.1.1"
+			id=-1
+		}
+		advisor={
+			slot = political_advisor
+			idea_token = ARG_fanny_ad
+			allowed  = {
+				original_tag  = ARG
+			}
+			available = {
+				NOT = { has_government = fascism }
+				has_civil_war = no 
+				num_of_factories > 39
+				NOT = {
+					has_country_leader = {
+						character = ARG_fanny_edelman
+						ruling_only = yes 
+					}
+				}
+			}
+			visible = {
+				NOT = {
+					has_character = ARG_fanny_edelman
+				}
+			}
+			on_add = {
+				ROOT = {
+					add_popularity = {
+						ideology = communism
+						popularity = 0.02
+					}
+					if = {
+						limit = {
+							is_power_balance_side_active = {
+								id = ARG_general_balance_of_power
+								side = ARG_socialist_side
+							}
+						}
+						ARG_move_5_right = yes 
+					}
+				}
+			}
+			ai_will_do = {
+				factor = 55
+			}
+			traits  = {
+				financial_expert 
+			}
+			ai_will_do = {
+				factor = 1
+			}
+		}
+		corps_commander={
+			visible = {
+				has_government = communism
+				NOT = {
+					has_character = ARG_fanny_edelman
+				}
+			}
+			skill=2
+			attack_skill=2
+			defense_skill=2
+			planning_skill=3
+			logistics_skill=1
+			legacy_id=-1
+		}
+	}
 	ARG_liborio_justo = {
 		name="Liborio Justo"
 		portraits={
@@ -364,6 +447,41 @@ characters={
 		corps_commander={
 			visible = {
 				has_cosmetic_tag = AARC
+				ARG_simon_radowitzky = {
+					NOT = { 
+						has_character_flag = BRA_imprisoned
+					}
+				}
+			}
+			skill=3
+			attack_skill=3
+			defense_skill=2
+			planning_skill=3
+			logistics_skill=3
+			legacy_id=-1
+		}
+	}
+	ARG_simon_radowitzky_official = {
+		name = "Simón Radowitzky" 
+		portraits = {
+			army = {
+				large = "gfx/leaders/ARG/ARG_Simon_Rdowitzky.png"
+			}
+		}
+		country_leader = {
+			desc = "POLITICS_SIMON_RADOWITZKY_DESC"
+			expire = "1965.1.1"
+			ideology = anarchism
+			traits = {
+				ARG_hero_of_the_anarchists 
+			}
+		}
+		corps_commander={
+			visible = {
+				has_cosmetic_tag = AARC
+				NOT = {
+					has_character = ARG_simon_radowitzky
+				}
 				ARG_simon_radowitzky = {
 					NOT = { 
 						has_character_flag = BRA_imprisoned

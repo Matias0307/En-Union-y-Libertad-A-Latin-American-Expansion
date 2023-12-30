@@ -12006,7 +12006,7 @@ focus_tree = {
 
 		available = {
 			has_country_leader = {
-				character = ARG_fanny_edelman
+				character = ARG_fanny_edelman_official
 				ruling_only = yes 
 			}
 		}
@@ -12016,7 +12016,7 @@ focus_tree = {
 			add_political_power = 25
 			remove_ideas = ARG_disorganized_party
 			add_trait = {
-				character = ARG_fanny_edelman
+				character = ARG_fanny_edelman_official
 				ideology = marxism
 				trait = ARG_first_female_ruler
 			}
@@ -12405,6 +12405,18 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_POLITICAL_TENSION }
 		completion_reward = {
 			add_political_power = 15
+			if = {
+				limit = {
+					has_any_power_balance = no
+					has_global_flag = ARG_elections_cancelled
+				}
+				set_power_balance = {
+					id = ARG_general_balance_of_power
+					left_side = ARG_military_side # will keep the last set side if not specified
+					right_side = ARG_socialist_side # will keep the last set side if not specified
+					set_value = 0.05 # if specified will set the value of the power balance, this option will override the effect of set_default so the two options should not be used together. if neither set_default or set_value is specified the current value of the power balance will not change
+				}
+			}
 			if = { 
 				limit = { 
 					has_dynamic_modifier = { modifier = ARG_infamous_decade_idea } 

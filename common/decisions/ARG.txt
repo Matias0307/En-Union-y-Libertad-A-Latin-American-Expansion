@@ -2487,18 +2487,22 @@ ARG_political_crisis = {
 					}
 					RAR = {
 						transfer_state = PREV 
-						add_state_core = PREV
 					}
 				}
+				every_state = {
+					limit = {
+						is_core_of = ARG
+					}
+					add_core_of = RAR
+				}
 				divide_variable = { ARG_marxist_subversive_influence = 100 }
-				ARG_fanny_edelman = { set_nationality = RAR }
-				ARG_liborio_justo = { set_nationality = RAR }
-				ARG_alfredo_palacios = { set_nationality = RAR }
-				ARG_juan_posadas = { set_nationality = RAR }
-				ARG_pistolero_mate_cocido = { set_nationality = RAR }
-				ARG_victorio_codovilla = { set_nationality = RAR }
-				ARG_pistolero_mate_cocido = {
-					set_character_flag = ARG_recruited
+				every_character = {
+					limit = {
+						NOT = { has_character_flag = ARG_anarchist }
+						has_character_flag = ARG_communist
+						is_country_leader = no ## literally this easy (istg if this dont work)
+					}
+					set_nationality = RAR
 				}
 				transfer_units_fraction = {
 					target = RAR
@@ -2576,13 +2580,18 @@ ARG_political_crisis = {
 					complete_national_focus = ARG_ready_the_economy_for_war
 					random_list = {
 						50 = {
-							ARG_fanny_edelman = {
-								clr_character_flag = BRA_living_in_the_exterior
+							modifier = {
+								factor = 0
+								NOT = { has_character = ARG_fanny_edelman }
 							}
 							promote_character = ARG_fanny_edelman
 							set_cosmetic_tag = FARC
 						}
 						50 = {
+							modifier = {
+								factor = 0
+								NOT = { has_character = ARG_liborio_justo }
+							}
 							promote_character = ARG_liborio_justo
 							drop_cosmetic_tag = yes 
 						}
@@ -2656,30 +2665,6 @@ ARG_political_crisis = {
 						amount = 1000
 					}
 				}
-				if = {
-					limit = {
-						has_completed_focus = ARG_simon_radowitzky_will_lead_us
-						NOT = { has_character = ARG_simon_radowitzky }
-					}
-					ARG_simon_radowitzky = { set_nationality = ROOT }
-					promote_character = ARG_simon_radowitzky
-				}
-				if = {
-					limit = {
-						has_completed_focus = ARG_the_council_shall_lead
-						NOT = { has_character = ARG_anarchist_council }
-					}
-					ARG_anarchist_council = { set_nationality = ROOT }
-					promote_character = ARG_anarchist_council
-				}
-				if = {
-					limit = {
-						has_completed_focus = ARG_virginia_bolten_shall_lead
-						NOT = { has_character = ARG_virginia_bolten }
-					}
-					ARG_virginia_bolten = { set_nationality = ROOT }
-					promote_character = ARG_virginia_bolten
-				}
 			}
 		}
 	}
@@ -2719,13 +2704,19 @@ ARG_political_crisis = {
 					}
 					AAR = {
 						transfer_state = PREV 
-						add_state_core = PREV
 					}
+				}
+				every_state = {
+					limit = {
+						is_core_of = ARG
+					}
+					add_core_of = AAR
 				}
 				divide_variable = { ARG_anarchist_subversive_influence = 100 }
 				every_character = {
 					limit = {
 						has_character_flag = ARG_anarchist
+						is_country_leader = no ## literally this easy (istg if this dont work)
 					}
 					set_nationality = AAR
 				}
@@ -2854,6 +2845,10 @@ ARG_political_crisis = {
 					add_manpower = 100000
 					random_list = {
 						33 = {
+							modifier = {
+								factor = 0 
+								NOT = { has_character = ARG_virginia_bolten }
+							}
 							ARG_virginia_bolten = {
 								clr_character_flag = BRA_living_in_the_exterior
 							}
@@ -2864,6 +2859,10 @@ ARG_political_crisis = {
 							unlock_national_focus = ARG_virginia_bolten_shall_lead
 						}
 						33 = {
+							modifier = {
+								factor = 0 
+								NOT = { has_character = ARG_simon_radowitzky }
+							}
 							ARG_simon_radowitzky = {
 								clr_character_flag = BRA_imprisoned
 							}
@@ -2871,6 +2870,10 @@ ARG_political_crisis = {
 							unlock_national_focus = ARG_simon_radowitzky_will_lead_us
 						}
 						34 = {
+							modifier = {
+								factor = 0 
+								NOT = { has_character = ARG_anarchist_council }
+							}
 							promote_character = ARG_anarchist_council
 							unlock_national_focus = ARG_the_council_shall_lead
 						}
@@ -2942,36 +2945,6 @@ ARG_political_crisis = {
 					add_equipment_to_stockpile = { #Only bcuz im such a nice person 
 						type = infantry_equipment
 						amount = 1000
-					}
-					if = {
-						limit = {
-							NOT = { has_character = ARG_fanny_edelman }
-						}
-						ARG_fanny_edelman = { set_nationality = ROOT }
-						if = {
-							limit = { has_global_flag = ARG_fanny_was_chosen_to_lead }
-							promote_character = ARG_fanny_edelman
-						}
-					}
-					if = {
-						limit = { 
-							NOT = { has_character = ARG_juan_posadas }
-						}
-						ARG_juan_posadas = {
-							set_nationality = ROOT
-						}
-						if = {
-							limit = {
-								has_completed_focus = ARG_a_new_type_of_communism
-							}
-							promote_character = ARG_juan_posadas
-						}
-					}
-					if = {
-						limit = {
-							NOT = { has_character = ARG_pistolero_mate_cocido }
-						}
-						ARG_pistolero_mate_cocido = { set_nationality = ROOT }
 					}
 				}
 			}
@@ -4165,7 +4138,7 @@ ARG_the_great_revolution = {
 						limit = {
 							has_global_flag = ARG_fanny_was_chosen_to_lead
 						}
-						promote_character = ARG_fanny_edelman
+						promote_character = ARG_fanny_edelman_official
 						set_cosmetic_tag = FARC
 					}
 					else = {
@@ -4225,7 +4198,7 @@ ARG_the_great_revolution = {
 						limit = {
 							has_global_flag = ARG_fanny_was_chosen_to_lead
 						}
-						promote_character = ARG_fanny_edelman
+						promote_character = ARG_fanny_edelman_official
 						set_cosmetic_tag = FARC
 					}
 					else = {
@@ -4307,7 +4280,7 @@ ARG_the_great_revolution = {
 										ruling_only = yes
 									}
 									has_country_leader = {
-										character = ARG_fanny_edelman
+										character = ARG_fanny_edelman_official
 										ruling_only = yes
 									}
 								}
@@ -4392,7 +4365,7 @@ ARG_the_great_revolution = {
 					}
 					random_list = {
 						50 = {
-							promote_character = ARG_fanny_edelman
+							promote_character = ARG_fanny_edelman_official
 							set_cosmetic_tag = FARC
 						}
 						50 = {
@@ -4487,7 +4460,10 @@ ARG_the_great_revolution = {
 								every_character = {
 									limit = {
 										NOT = {
-											has_character_flag = ARG_anarchist
+											OR = {
+												has_character_flag = ARG_anarchist
+												has_character_flag = ARG_communist
+											}
 										}
 									}
 									random_list = {
@@ -4524,7 +4500,10 @@ ARG_the_great_revolution = {
 								every_character = {
 									limit = {
 										NOT = {
-											has_character_flag = ARG_anarchist
+											OR = {
+												has_character_flag = ARG_anarchist
+												has_character_flag = ARG_communist
+											}
 										}
 									}
 									random_list = {
@@ -4556,7 +4535,7 @@ ARG_the_great_revolution = {
 						promote_character = ARG_virginia_bolten
 					}
 					else = {
-						promote_character = ARG_simon_radowitzky
+						promote_character = ARG_simon_radowitzky_official
 					}
 					set_party_name = {
 						ideology = neutrality
@@ -4763,7 +4742,7 @@ ARG_the_great_revolution = {
 						promote_character = ARG_virginia_bolten
 					}
 					else = {
-						promote_character = ARG_simon_radowitzky
+						promote_character = ARG_simon_radowitzky_official
 					}
 					
 					if = {
@@ -4912,7 +4891,10 @@ ARG_the_great_revolution = {
 									every_character = {
 										limit = {
 											NOT = {
-												has_character_flag = ARG_communist
+												OR = {
+													has_character_flag = ARG_anarchist
+													has_character_flag = ARG_communist
+												}
 											}
 										}
 										random_list = {
@@ -4949,7 +4931,10 @@ ARG_the_great_revolution = {
 									every_character = {
 										limit = {
 											NOT = {
-												has_character_flag = ARG_communist
+												OR = {
+													has_character_flag = ARG_anarchist
+													has_character_flag = ARG_communist
+												}
 											}
 										}
 										random_list = {
@@ -5088,6 +5073,7 @@ ARG_the_great_revolution = {
 							limit = {
 								check_variable = { ARG_posadist_strength > ARG_marxist_strength }
 								has_country_flag = ARG_chose_posadist
+								has_character = ARG_juan_posadas
 							}
 							promote_character = ARG_juan_posadas
 							set_cosmetic_tag = PARGC
@@ -5100,9 +5086,10 @@ ARG_the_great_revolution = {
 						else = { ##Dominant Marxists
 							if = {
 								limit = {
+									has_character = ARG_fanny_edelman_official
 									has_global_flag = ARG_fanny_was_chosen_to_lead
 								}
-								promote_character = ARG_fanny_edelman
+								promote_character = ARG_fanny_edelman_official
 								set_cosmetic_tag = FARC
 							}
 							else = {
@@ -5156,7 +5143,10 @@ ARG_the_great_revolution = {
 									every_character = {
 										limit = {
 											NOT = {
-												has_character_flag = ARG_communist
+												OR = {
+													has_character_flag = ARG_anarchist
+													has_character_flag = ARG_communist
+												}
 											}
 										}
 										random_list = {
@@ -5193,7 +5183,10 @@ ARG_the_great_revolution = {
 									every_character = {
 										limit = {
 											NOT = {
-												has_character_flag = ARG_communist
+												OR = {
+													has_character_flag = ARG_anarchist
+													has_character_flag = ARG_communist
+												}
 											}
 										}
 										random_list = {
@@ -5319,6 +5312,7 @@ ARG_the_great_revolution = {
 							limit = {
 								check_variable = { ARG_posadist_strength > ARG_marxist_strength }
 								has_country_flag = ARG_chose_posadist
+								has_character = ARG_juan_posadas
 							}
 							promote_character = ARG_juan_posadas
 							set_cosmetic_tag = PARGC
@@ -5331,9 +5325,10 @@ ARG_the_great_revolution = {
 						else = { ##Dominant Marxists
 							if = {
 								limit = {
+									has_character = ARG_fanny_edelman_official
 									has_global_flag = ARG_fanny_was_chosen_to_lead
 								}
-								promote_character = ARG_fanny_edelman
+								promote_character = ARG_fanny_edelman_official
 								set_cosmetic_tag = FARC
 							}
 							else = {
@@ -5995,6 +5990,9 @@ ARG_the_great_revolution = {
 			add_to_variable = { ARG_anarchist_subversive_influence = 5 }
 			hidden_effect = {
 				ARG_simon_radowitzky = {
+					clr_character_flag = BRA_imprisoned
+				}
+				ARG_simon_radowitzky_official = {
 					clr_character_flag = BRA_imprisoned
 				}
 			}

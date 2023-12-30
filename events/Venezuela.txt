@@ -371,7 +371,6 @@ country_event = {
         give_resource_rights = {
             receiver = FROM 
             state = event_target:VEN_RESOURCE_TARGET_STATE
-            resources = { oil }
         }
         FROM = { country_event = peru.16 }
     }
@@ -539,9 +538,81 @@ country_event = {
 
     is_triggered_only = yes 
 
-    option = {
+    option = { ## oh well, better luck next time
         name = venezuela.14.a 
+        ai_chance = {
+            base = 25
+            modifier = {
+                factor = 2
+                has_opinion = {
+                    target = FROM 
+                    value > 59
+                }
+            }
+        }
         add_political_power = 5
+    }
+
+    option = { ## you're no longer allowed in our faction!
+        name = venezuela.14.b 
+        ai_chance = {
+            base = 10
+            modifier = {
+                add = 10
+                strength_ratio = {
+                    target = FROM 
+                    value > 1
+                }
+            }
+        }
+        trigger = {
+            FROM = {
+                is_in_faction_with = ROOT
+            }
+            is_faction_leader = yes 
+        }
+        remove_from_faction = FROM
+        FROM = { 
+            country_event = {
+                id = venezuela.16
+                hours = 3
+                random_hours = 5
+            }
+        }
+    }
+
+    option = { #intervene militarily
+        name = venezuela.9.a
+        trigger = {
+            VEN = {
+                NOT = {
+                    OR = {
+                        has_war_with = ROOT 
+                        is_in_faction_with = ROOT
+                    }
+                }
+            }
+        } 
+        ai_chance = {
+            base = 1
+            modifier = {
+                factor = 20
+                VEN = {
+                    has_war = yes 
+                }
+            }
+            modifier = {
+                factor = 5
+                NOT = { has_government = ROOT 
+            }
+        }
+        create_wargoal = {
+            type = puppet_wargoal_focus
+            target = FROM
+        }
+        add_stability = -0.1
+        add_war_support = -0.05
+        add_political_power = -25
     }
 }
 
@@ -560,10 +631,64 @@ country_event = {
             give_resource_rights = {
                 receiver = ROOT 
                 state = event_target:VEN_RESOURCE_SELLING_TARGET_STATE
-                resources = { oil }
             }
             clr_country_flag = VEN_active_resource_right_decisions_flag
+            clr_country_flag = VEN_discussing_resource_selling_flag
         }
         custom_effect_tooltip = VEN_will_demand_repayment_every_so_often_tt
+    }
+}
+
+## FROM has kicked us out from their faction
+country_event = {
+    id = venezuela.16
+    title = venezuela.16.t 
+    desc = venezuela.16.d 
+
+    is_triggered_only = yes 
+
+    option = {
+        name = "Bastardos"
+        hidden_effect = {
+            add_opinion_modifier = {
+                target = FROM 
+                modifier = hostile_status
+            }
+            FROM = {
+                add_opinion_modifier = {
+                    target = ROOT 
+                    modifier = hostile_status
+                }
+            }
+        }
+    }
+}
+
+## FROM has demanded repayment for the use of their resources
+country_event = {
+    id = venezuela.17
+    title = venezuela.17.t 
+    desc = venezuela.17.d 
+    picture = GFX_report_event_generic_read_write
+
+    is_triggered_only = yes 
+
+    option = {
+        name = "Ok"
+        if = {
+            limit = {
+                has_idea = EUYL_generic_repayment
+            }
+            modify_timed_idea = {
+                idea = EUYL_generic_repayment
+                days = 90
+            }
+        }
+        else = {
+            add_timed_idea = {
+                idea = EUYL_generic_repayment
+                days = 120
+            }
+        }
     }
 }
