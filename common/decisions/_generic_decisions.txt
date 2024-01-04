@@ -2,6 +2,56 @@ political_actions = {
 
 	## EUYL ##
 
+	ARG_declare_provinces_eva_peron_and_presidente_peron = {
+		priority = 150
+		icon = generic_operation
+
+		allowed = {
+			original_tag = ARG 
+		}
+
+		visible = {
+			has_full_control_of_state = 971
+			has_full_control_of_state = 509
+		}
+		
+		available = {
+			has_civil_war = no 
+			971 = { is_core_of = ROOT } 
+			509 = { is_core_of = ROOT } 
+			OR = {
+				has_country_leader = {
+					character = ARG_juan_domingo_peron
+					ruling_only = yes 
+				}
+				has_country_leader = {
+					character = ARG_juan_domingo_peron_fascist
+					ruling_only = yes 
+				}
+			}
+		}
+
+		fire_only_once = yes 
+
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 100
+				is_historical_focus_on = yes
+			}
+		}
+
+		complete_effect = {
+			add_political_power = 10
+			971 = {
+				set_state_name = "Provincia Eva Perón"
+			}
+			509 = {
+				set_state_name = "Provincia Presidente Perón"
+			}
+		}
+	}
+
 	BOL_form_the_anti_paraguay_pact = {
 		priority = 100
 		icon = generic_nationalism
