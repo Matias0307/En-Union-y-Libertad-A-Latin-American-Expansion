@@ -2395,14 +2395,25 @@ country_event = { #event that gets triggered once civil war has concluded
 					has_state_flag = brazilian_starting_state
 					NOT = { #this will be for events of countries occupying brazilian states during the civil war 
 						OR = {
-							is_core_of = ARG 
-							is_core_of = BOL 
-							is_core_of = PRU 
-							is_core_of = COL
+							is_fully_controlled_by = ARG 
+							is_fully_controlled_by = BOL 
+							is_fully_controlled_by = PRU 
+							is_fully_controlled_by = COL
+							is_fully_controlled_by = PAR 
+							is_fully_controlled_by = URG 
+							is_fully_controlled_by = VEN 
 						}
 					} 
 				}
 				ROOT = { transfer_state = PREV }
+			}
+			every_other_country = {
+				limit = {
+					any_controlled_state = {
+						has_state_flag = brazilian_starting_state
+					}
+				}
+				set_country_flag = BRA_vengeful_flag
 			}
 			#will later add the other militias from the other civil wars to disband 
 			delete_unit_template_and_units = {

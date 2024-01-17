@@ -476,6 +476,10 @@ BRA_political_crisis = {
 
         timeout_effect = {
             promote_character = BRA_pedro_gastao_orleans
+            if = {
+                limit = { has_idea = BRA_problems_royal_family } 
+                remove_ideas = BRA_problems_royal_family
+            }
         }
     }
 
@@ -499,6 +503,10 @@ BRA_political_crisis = {
         remove_effect = {
             add_stability = -0.02
             promote_character = BRA_pedro_gastao_orleans
+            if = {
+                limit = { has_idea = BRA_problems_royal_family } 
+                remove_ideas = BRA_problems_royal_family
+            }
             hidden_effect = {
                 set_country_flag = BRA_promoted_gastao
             }
@@ -4293,6 +4301,17 @@ BRA_the_brazilian_civil_war = {
         is_good = no 
         fire_only_once = yes 
         days_mission_timeout = 190
+
+        cancel_trigger = {
+            OR = {
+                any_enemy_country = {
+                    original_tag = BRA 
+                    has_government = democratic
+                    has_civil_war = yes 
+                }
+                has_global_flag = BRA_civil_war_concluded
+            }
+        }
 
         cancel_effect = {
             hidden_effect = {
