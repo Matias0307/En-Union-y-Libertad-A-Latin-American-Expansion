@@ -748,13 +748,13 @@ BRA_get_chances_of_spies_countering_communists = {
 
 BRA_get_chance_of_vargas_interfering = {
 	set_temp_variable = { BRA_chance_succeed = 0 }
-	set_temp_variable = { BRA_chance_fail = 70 }
+	set_temp_variable = { BRA_chance_fail = 20 }
 	if = {
 		limit = {
 			has_stability < 0.3
 		}
 		add_to_temp_variable = { BRA_chance_succeed = 15 }
-		add_to_temp_variable = { BRA_chance_fail = 15 }
+		subtract_from_temp_variable = { BRA_chance_fail = 15 }
 	}
 	if = {
 		limit = {
@@ -2497,8 +2497,14 @@ BRA_improve_civil_war_recession = {
 		remove_ideas = BRA_post_civil_war_economic_recession_1
 	}
 	else = {
-		EUYL_add_1_civilian = yes 
-		EUYL_add_1_military = yes 
+		random = {
+			chance = 50
+			EUYL_add_1_military = yes 
+		} 
+		random = {
+			chance = 50
+			EUYL_add_1_civilian = yes
+		}
 	}
 }
 

@@ -247,3 +247,46 @@ VEN_move_100_right = { ##debug
 VEN_BoP_remove_effect = {
     remove_power_balance = { id = VEN_foreign_influence_BoP }
 }
+
+VEN_modernize_army = {
+    if = {
+        limit = {
+            has_idea = VEN_outdated_army
+        }
+        swap_ideas = {
+            remove_idea = VEN_outdated_army
+            add_idea = VEN_modernized_army_1
+        }
+    }
+    else_if = {
+        limit = { has_idea = VEN_modernized_army_1 }
+        swap_ideas = {
+            remove_idea = VEN_modernized_army_1
+            add_idea = VEN_modernized_army_2
+        }
+    }
+    else_if = {
+        limit = { has_idea = VEN_modernized_army_2 }
+        swap_ideas = {
+            remove_idea = VEN_modernized_army_2
+            add_idea = VEN_modernized_army_3
+        }
+    }
+    else = {
+        army_experience = 25
+        add_command_power = 50
+        random = {
+            chance = 50
+            EUYL_add_1_military = yes
+        }
+    }
+}
+
+VEN_modernize_army_effect = {
+    add_timed_idea = {
+        idea = VEN_army_in_process_of_modernization
+        days = 240
+    }
+    custom_effect_tooltip = EUYL_effects_when_removed_tt
+	effect_tooltip = { VEN_modernize_army = yes }
+}

@@ -306,43 +306,70 @@ VEN_looming_oil_strike_cat = {
                             create_unit = {
                                 division = "name = \"Milicias Comunistas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
                                 owner = ROOT
-                                count = 2
+                                count = 3
                             }
                             if = {
                                 limit = {
-                                    check_variable = { VEN_communist_strength = 3 }
+                                    ROOT = { has_country_flag = VEN_army_cw_flag }
                                 }
                                 create_unit = {
-                                    division = "name = \"División de Infanteria Comunista\" division_template = \"División de Infanteria\" start_experience_factor = 0.1 start_equipment_factor = 0.85" 
-                                    owner = ROOT
-                                    count = 3
-                                }
-                            }
-                            else_if = {
-                                limit = {
-                                    check_variable = { VEN_communist_strength = 2 }
-                                }
-                                create_unit = {
-                                    division = "name = \"División de Infanteria Comunista\" division_template = \"División de Infanteria\" start_experience_factor = 0.1 start_equipment_factor = 0.85" 
-                                    owner = ROOT
-                                    count = 2
-                                }
-                            }
-                            else_if = {
-                                limit = {
-                                    check_variable = { VEN_communist_strength = 1 }
-                                }
-                                create_unit = {
-                                    division = "name = \"División de Infanteria Comunista\" division_template = \"División de Infanteria\" start_experience_factor = 0.1 start_equipment_factor = 0.85" 
+                                    division = "name = \"División de Infanteria Comunista\" division_template = \"División de Infanteria\" start_experience_factor = 0.1 start_equipment_factor = 0.97" 
                                     owner = ROOT
                                 }
                             }
                         }
+                        random_owned_controlled_state = {
+                            create_unit = {
+                                division = "name = \"División de Infanteria Comunista\" division_template = \"División de Infanteria\" start_experience_factor = 0.1 start_equipment_factor = 0.85" 
+                                owner = ROOT
+                                count = 2
+                            }
+                            create_unit = {
+                                division = "name = \"Milicias Comunistas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+                                owner = ROOT
+                            }
+                        }
+                        if = {
+                            limit = {
+                                has_country_flag = VEN_peasants_cw_flag
+                            }
+                            every_controlled_state = {
+                                create_unit = {
+                                    division = "name = \"Campesinos\" division_template = \"Campesinos\" start_experience_factor = 0.02 start_equipment_factor = 0.85" 
+                                    owner = ROOT
+                                    count = 2
+                                }
+                            }
+                            random_owned_controlled_state = {
+                                create_unit = {
+                                    division = "name = \"Campesinos\" division_template = \"Campesinos\" start_experience_factor = 0.02 start_equipment_factor = 0.85" 
+                                    owner = ROOT
+                                    count = 2
+                                }
+                            }
+                        }
+                        if = {
+                            limit = {
+                                has_country_flag = VEN_army_bonus_cw_flag
+                            }
+                            add_political_power = 25
+				            add_ideas = VEN_bourgeoisie_crackdown_idea
+                        }
+                        promote_character = VEN_revolutionary_army
                         random_other_country = { ##also make sure to load the focus tree
                             limit = {
                                 original_tag = VEN 
                                 NOT = { has_government = communism }
                             }
+                            load_focus_tree = {
+                                tree = venezuela_focus
+                                keep_completed = no 
+                            }
+                            unlock_national_focus = VEN_temporarily_imprison_galavis
+                            unlock_national_focus = VEN_enact_the_february_plan
+                            unlock_national_focus = VEN_create_the_ministry_of_health_and_social_assistance
+                            unlock_national_focus = VEN_promote_nationwide_hygiene
+                            complete_national_focus = VEN_ley_lara
                             VEN_eleazar_lopez_contreras = {
                                 add_corps_commander_role = {
                                     skill = 3
@@ -355,16 +382,47 @@ VEN_looming_oil_strike_cat = {
                             add_ideas = VEN_venezuelan_civil_war
                             every_controlled_state = {
                                 create_unit = {
-                                    division = "name = \"Milicias Leales\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+                                    division = "name = \"Milicias Leales\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.6" 
                                     owner = PREV
                                     count = 2
                                 }
+                                if = {
+                                    limit = {
+                                        is_capital = yes 
+                                    }
+                                    create_unit = {
+                                        division = "name = \"Milicias Leales\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.6" 
+                                        owner = PREV
+                                        count = 2
+                                    }
+                                }
+                            }
+                            every_controlled_state = { ### Sabotaged Factories
+                                limit = {
+                                    has_state_flag =  VEN_sabotaged_factories_flag
+                                }
+                                if = {
+                                    limit = {
+                                        arms_factory > 0
+                                    }
+                                    damage_building = {
+                                        type = arms_factory
+                                        damage = 1
+                                    }
+                                }
+                                else = {
+                                    damage_building = {
+                                        type = industrial_complex
+                                        damage = 1
+                                    }
+                                }
+                                clr_state_flag = VEN_sabotaged_factories_flag
                             }
                             random_owned_controlled_state = {
                                 create_unit = {
                                     division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.1 start_equipment_factor = 0.85" 
                                     owner = PREV
-                                    count = 2
+                                    count = 3
                                 }
                             }
                         }
@@ -400,14 +458,9 @@ VEN_looming_oil_strike_cat = {
                             create_unit = {
                                 division = "name = \"Milicias Leales\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
                                 owner = ROOT
-                                count = 2
                             }
                         }
                         random_owned_controlled_state = {
-                            create_unit = {
-                                division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.1 start_equipment_factor = 0.85" 
-                                owner = ROOT
-                            }
                             create_unit = {
                                 division = "name = \"Milicias Leales\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
                                 owner = ROOT
@@ -431,13 +484,16 @@ VEN_looming_oil_strike_cat = {
                             }
                             every_controlled_state = {
                                 create_unit = {
-                                    division = "name = \"Milicias Comunistas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+                                    division = "name = \"Milicias Comunistas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.65" 
                                     owner = PREV
                                     count = 3
                                 }
+                            }
+                            random_owned_controlled_state = {
                                 create_unit = {
                                     division = "name = \"División de Infanteria Comunista\" division_template = \"División de Infanteria\" start_experience_factor = 0.1 start_equipment_factor = 0.85" 
                                     owner = PREV
+                                    count = 2
                                 }
                             }
                         }
@@ -446,11 +502,78 @@ VEN_looming_oil_strike_cat = {
             }
         }
     }
+
+    VEN_sabotage_the_factories_in_FROM = {
+        icon = generic_scorched_earth
+
+        visible = {
+            NOT = {
+                has_government = communism
+            }
+            has_active_mission = VEN_looming_oil_strike
+            has_completed_focus = VEN_support_the_workers_cause
+            FROM = {
+                NOT = {
+                    has_country_flag = VEN_sabotaged_factories_flag
+                }
+            }
+        }
+
+        state_target = yes 
+
+        target_array = controlled_states
+
+        target_trigger = {
+            FROM = {
+                is_core_of = VEN 
+                NOT = { is_core_of = CVE }
+                OR = {
+                    arms_factory > 0
+                    industrial_complex > 0
+                }
+            }
+        }
+
+        fire_only_once = yes
+
+        custom_cost_trigger = {
+			command_power > 24
+			has_political_power > 24
+		}
+		custom_cost_text = decision_cost_CP_25_pp_25
+
+        days_remove = 20
+
+        modifier = {
+            political_power_factor = -0.15
+            weekly_manpower = -200
+        }
+
+        complete_effect = {
+            hidden_effect = {
+                add_political_power = -25
+                add_command_power = -25
+            }
+        }
+
+        remove_effect = {
+            custom_effect_tooltip = VEN_FROM_factories_damaged_at_start_of_civil_war_tt
+            hidden_effect = {
+                FROM = {
+                    set_state_flag = VEN_sabotaged_factories_flag
+                }
+            }
+        }
+    }
+
     VEN_improve_worker_salary = {
         icon = generic_welfare
 
         visible = {
             has_completed_focus = VEN_promise_worker_condition_improvements
+            NOT = {
+                has_completed_focus = VEN_support_the_workers_cause
+            }
             has_active_mission = VEN_looming_oil_strike
         }
 
@@ -481,6 +604,9 @@ VEN_looming_oil_strike_cat = {
 
         visible = {
             has_completed_focus = VEN_promise_worker_condition_improvements
+            NOT = {
+                has_completed_focus = VEN_support_the_workers_cause
+            }
             has_active_mission = VEN_looming_oil_strike
         }
 
@@ -508,6 +634,9 @@ VEN_looming_oil_strike_cat = {
 
         visible = {
             has_completed_focus = VEN_promise_worker_condition_improvements
+            NOT = {
+                has_completed_focus = VEN_support_the_workers_cause
+            }
             has_active_mission = VEN_looming_oil_strike
         }
 

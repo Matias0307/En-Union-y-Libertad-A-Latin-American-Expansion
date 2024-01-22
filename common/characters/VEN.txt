@@ -58,6 +58,82 @@ characters={
 			id=-1
 		}
 	}
+	VEN_gustavo_machado = {
+		name = "Gustavo Machado Morales"
+		portraits = {
+			army = {
+				small = ""
+			}
+			civilian = {
+				large = "gfx/leaders/VEN/_.png"
+			}
+		}
+		country_leader={
+			ideology=anti_imperialism
+			expire="1965.1.1.1"
+			id=-1
+		}
+	}
+	VEN_rafael_simon_urbina = {
+		name = "Rafael Simón Urbina"
+		portraits = {
+			army = {
+				small = ""
+			}
+			civilian = {
+				large = "gfx/leaders/VEN/_.png"
+			}
+		}
+		advisor={
+			slot = political_advisor
+			idea_token = VEN_rafael_simon_urbina_idea
+			visible = {
+				NOT = { has_government = communism } 
+			}
+			available = {
+				date < 1938.1.1
+				OR = {
+					has_completed_focus = VEN_ley_lara
+					has_completed_focus = VEN_anti_communist_crackdown
+				}
+				custom_trigger_tooltip = {
+					tooltip = VEN_has_not_been_exiled_tt
+					NOT = { has_character_flag = VEN_exiled_flag }
+				}
+				custom_trigger_tooltip = {
+					tooltip = VEN_not_struggling_with_health_issues_tt
+					NOT = { has_character_flag = VEN_health_issues_flag }
+				}
+			}
+			cost = 100
+			allowed  = {
+				original_tag  = VEN
+			}
+			can_be_fired = no
+			traits  = {
+				VEN_communist_hunter 
+			}
+			on_add = {
+				if = {
+					limit = {
+						has_idea = VEN_underground_communist_movement
+					}
+					remove_ideas = VEN_underground_communist_movement
+				}
+				else = {
+					add_stability = 0.03
+				}
+				hidden_effect = {
+					country_event = {
+						id = venezuela.19 ## Steps down from power due to health issues
+						days = 95
+						random_days = 15
+						random_hours = 18
+					}
+				}
+			}
+		}
+	}
 	VEN_junta={
 		name="Junta Militar Venezolana"
 		portraits={
