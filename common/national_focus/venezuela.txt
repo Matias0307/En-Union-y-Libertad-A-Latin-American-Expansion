@@ -102,6 +102,55 @@ focus_tree = {
 		}
 
 		cost = 7.2
+
+		## Basically limit # of states that can be sold to just two, with Orinoco belt being off limits
+		## also add limited exports and prevent player from going to free trade
+
+		available = {
+			has_civil_war = no 
+			num_of_controlled_states > 0
+			NOT = { has_idea = free_trade }
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = VEN_able_to_sell_resource_rights_to_foreign_powers_tt
+			custom_effect_tooltip = VEN_limited_to_just_2_states_sell_resource_rights_tt
+			if = {
+				limit = { 
+					NOT = {
+						OR = {
+							has_idea = closed_economy
+							has_idea = limited_exports
+						}
+					}
+				}
+				add_ideas = limited_exports
+			}
+			else = {
+				add_political_power = 75
+			}
+			add_stability = 0.03
+			custom_effect_tooltip = VEN_foreign_powers_will_not_like_this_tt
+			custom_effect_tooltip = VEN_wont_be_able_to_go_to_free_trade_nor_export_focus_tt
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						NOT = { has_government = ROOT } 
+						is_major = yes 
+						is_faction_leader = yes 
+					}
+					country_event = {
+						id = venezuela.9
+						hours = 2
+						random_hours = 7
+					}
+				}
+			}
+		}
 	}
 
 	## Nationalize the Oil fields || will also remove the balance of power 
@@ -187,7 +236,7 @@ focus_tree = {
 		}
 
 		search_filters = {
-			FOCUS_FILTER_INDUSTRY
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL FOCUS_FILTER_ECONOMIC_GROWTH
 		}
 
 		completion_reward = {
@@ -269,6 +318,87 @@ focus_tree = {
 		}
 	}
 
+	### Invest in the Mining Industry ###
+	focus = {
+		id = VEN_invest_in_the_mining_industry
+		icon = GFX_goal_generic_construction
+		x = 2
+		y = 1
+		relative_position_id = VEN_industrialize_the_nation
+		prerequisite = {
+			focus = VEN_industrialize_the_nation
+		}
+		prerequisite = {
+			focus = VEN_autarky
+		}
+
+		cost = 10
+
+		available = {
+			num_of_controlled_states > 5
+			num_of_factories > 29
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ECONOMIC_GROWTH
+		}
+
+		completion_reward = {
+			EUYL_add_1_military = yes 
+			VEN_improve_oil_extraction_idea = yes
+			custom_effect_tooltip = ARG_unlock_unique_prospect
+		}
+	}
+
+	### The Modern Venezuelan Economy ###
+	focus = {
+		id = VEN_the_modern_venezuelan_economy
+		icon = GFX_VEN_modern_economy 
+		x = -2
+		y  =1
+		relative_position_id = VEN_invest_in_the_mining_industry
+		prerequisite = {
+			focus = VEN_invest_in_the_mining_industry
+			focus = VEN_industrial_investments
+		}
+
+		cost = 10
+
+		available = {
+			num_of_factories > 49
+			custom_trigger_tooltip = {
+				tooltip = VEN_not_dependent_on_oil_extraction_tt
+				NOT = {
+					OR = {
+						has_idea = VEN_dependent_on_oil_extraction_1
+						has_idea = VEN_dependent_on_oil_extraction_2
+						has_idea = VEN_dependent_on_oil_extraction_3
+						has_idea = VEN_dependent_on_oil_extraction_4
+						has_idea = VEN_dependent_on_oil_extraction_5
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+		
+		completion_reward = {
+			EUYL_add_2_civilian = yes 
+			EUYL_add_1_civilian = yes 
+			EUYL_add_2_military = yes 
+			if = {
+				limit = {
+					any_controlled_state = {
+						is_coastal = yes 
+					}
+				}
+				EUYL_add_1_dockyard = yes 
+			}
+		}
+	}
+
 	### Prioritize Oil to the Army ###
 	focus = {
 		id = VEN_prioritize_oil_to_the_army
@@ -278,6 +408,7 @@ focus_tree = {
 		relative_position_id = VEN_nationalize_the_oil_fields
 		prerequisite = {
 			focus = VEN_nationalize_the_oil_fields
+			focus = VEN_adopt_a_protectionist_policy
 		}
 
 		cost = 7.2
@@ -351,10 +482,287 @@ focus_tree = {
 
 		available = { has_civil_war = no }
 
-		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL FOCUS_FILTER_ECONOMIC_GROWTH }
 		completion_reward = {
 			VEN_improve_oil_extraction_idea = yes 
 			EUYL_add_1_civilian = yes 
+		}
+	}
+
+	### Study foreign Central Banks ###
+	focus = {
+		id = VEN_study_foreign_central_banks
+		icon = GFX_VEN_foreign_banks
+		cost = 7.2
+		x = 1
+		y = 1
+		relative_position_id = VEN_invest_in_the_consumer_market
+		prerequisite = {
+			focus = VEN_invest_in_the_consumer_market
+		}
+
+		available = {
+			has_civil_war = no 
+			any_neighbor_country = {
+				has_war = no
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL FOCUS_FILTER_RESEARCH FOCUS_FILTER_HISTORICAL
+		}
+		completion_reward = { 
+			add_political_power = 50
+			add_timed_idea = {
+				idea = VEN_foreign_central_bank_analysis
+				days = 365
+			}
+		}
+	}
+
+	### Banco Central de Venezuela ###
+	focus = {
+		id = VEN_banco_central_de_venezuela
+		icon = GFX_VEN_banco_central
+		x = 0
+		y = 2
+		relative_position_id = VEN_study_foreign_central_banks
+		prerequisite = {
+			focus = VEN_study_foreign_central_banks
+		}
+
+		cost = 5
+
+		available = {
+			NOT = {
+				has_idea = VEN_foreign_central_bank_analysis
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_1_civilian = yes
+
+			custom_effect_tooltip = EUYL_available_as_industrial_concern_tt
+			show_ideas_tooltip = VEN_central_bank_company
+		}
+	}
+
+	### Nationwide Education Reforms ###
+	focus = {
+		id = VEN_nationwide_education_reforms
+		icon = GFX_ARG_demand_notes
+		cost = 10
+		x = -1
+		y = 1
+		relative_position_id = VEN_banco_central_de_venezuela
+		prerequisite = {
+			focus = VEN_banco_central_de_venezuela
+		}
+
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+
+		completion_reward = { 
+			add_research_slot = 1
+		}
+	}
+
+	### Industrial Investments ###
+	focus = {
+		id = VEN_industrial_investments
+		icon = GFX_goal_generic_construct_civ_factory
+		x = -2
+		y = 1
+		relative_position_id = VEN_industrialize_the_nation
+		prerequisite = {
+			focus = VEN_industrialize_the_nation
+		}
+		prerequisite = {
+			focus = VEN_banco_central_de_venezuela
+		}
+
+		cost = 10
+
+		available = {
+			has_civil_war = no 
+			OR = {
+				has_stability > 0.6
+				num_of_factories > 34
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ECONOMIC_GROWTH
+		}
+
+		completion_reward = {
+			EUYL_add_2_civilian = yes 
+			VEN_improve_oil_extraction_idea = yes
+			unlock_decision_tooltip = VEN_push_forth_an_industrial_initiative_in_FROM
+			custom_effect_tooltip = EUYL_decisions_will_be_available_in_economic_policy_tt
+		}
+	}
+
+	### Agricultural Investments ###
+	focus = {
+		id = VEN_agricultural_investments
+		icon = GFX_focus_generic_agricultural_subsidies
+		x = -1
+		y = 1
+		relative_position_id = VEN_study_foreign_central_banks
+		prerequisite = {
+			focus = VEN_study_foreign_central_banks
+		}
+
+		cost = 8
+
+		available = {
+			num_of_controlled_states > 0
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ECONOMIC_GROWTH
+		}
+
+		completion_reward = {
+			VEN_improve_oil_extraction_idea = yes
+			random_owned_controlled_state = {
+				limit = {
+					is_capital = no
+				}
+				add_extra_state_shared_building_slots = 2
+			}
+		}
+	}
+
+	### El Pais de los Trabajadores ###
+	focus = {
+		id = VEN_el_pais_de_los_trabajadores
+		icon = GFX_VEN_country_of_worker
+		x = 1
+		y = 2
+		relative_position_id = VEN_promise_worker_condition_improvements
+		prerequisite = {
+			focus = VEN_promise_worker_condition_improvements
+		}
+		prerequisite = {
+			focus = VEN_agricultural_investments
+		}
+
+		cost = 10
+
+		available = {
+			has_civil_war = no
+			AND = {
+				has_country_flag = VEN_improved_worker_salaries_flag
+                has_country_flag = VEN_reduced_work_hours_flag
+                has_country_flag = VEN_improved_worker_conditions_flag
+			}
+			custom_trigger_tooltip = {
+				tooltip = VEN_strikes_arent_active_tt
+				NOT = {
+					OR = {
+						has_idea = strikes_1
+						has_idea = strikes_2 
+						has_idea = strikes_3
+					}
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = VEN_there_are_no_protestors_tt
+				NOT = {
+					any_controlled_state = {
+						has_dynamic_modifier = {
+							modifier = BRA_protests
+						}
+					}
+				}
+			}
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			EUYL_add_1_civilian = yes 
+			EUYL_add_1_military = yes
+			add_ideas = VEN_el_pais_de_los_trabajadores_idea
+		}
+	}
+
+	### Demand Foreign Subsidies ###
+	focus = {
+		id = VEN_demand_foreign_subsidies
+		icon = GFX_focus_generic_annex_country_2
+		x = 1
+		y = 1
+		relative_position_id = VEN_study_foreign_central_banks
+		prerequisite = {
+			focus = VEN_study_foreign_central_banks
+		}
+		prerequisite = {
+			focus = VEN_adopt_a_protectionist_policy
+			focus = VEN_adopt_pro_market_policies
+		}
+
+		cost = 10
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = VEN_is_selling_resource_rights_to_foreing_country_tt
+				any_controlled_state = {
+                    any_other_country = {
+						NOT = { original_tag = VEN }
+                        has_resources_rights = {
+                            state = PREV
+                        }
+                    }
+                }
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = VEN_every_state_that_has_resource_rights_gain_2_civs_tt
+			every_controlled_state = {
+				limit = {
+					any_other_country = {
+						NOT = { original_tag = VEN }
+                        has_resources_rights = {
+                            state = PREV
+                        }
+                    }
+				}
+			}
+			hidden_effect = {
+				every_controlled_state = {
+					limit = {
+						any_other_country = {
+							NOT = { original_tag = VEN }
+							has_resources_rights = {
+								state = PREV
+							}
+						}
+					}
+					add_building_construction = {
+						type = industrial_complex
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
 		}
 	}
 
@@ -362,7 +770,7 @@ focus_tree = {
 	focus = {
 		id = VEN_promise_worker_condition_improvements
 		icon = GFX_ARG_worker_rights
-		x = -1
+		x = -2
 		y = 1
 		relative_position_id = VEN_invest_in_the_consumer_market
 		prerequisite = { focus = VEN_invest_in_the_consumer_market }
@@ -471,7 +879,7 @@ focus_tree = {
 		}
 
 		search_filters = {
-			FOCUS_FILTER_INDUSTRY
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ECONOMIC_GROWTH
 		}
 
 		completion_reward = {
@@ -521,7 +929,7 @@ focus_tree = {
 	### Autarky ###
 	focus = {
 		id = VEN_autarky
-		icon = GFX_goal_generic_construction
+		icon = GFX_goal_generic_production
 		x = -1
 		y = 1
 		relative_position_id = VEN_heavy_military_investments
@@ -657,7 +1065,7 @@ focus_tree = {
 		}
 
 		search_filters = {
-			FOCUS_FILTER_ARMY_XP
+			FOCUS_FILTER_ARMY_XP FOCUS_FILTER_HISTORICAL
 		}
 
 		completion_reward = {
@@ -822,7 +1230,7 @@ focus_tree = {
 		}
 
 		search_filters = {
-			FOCUS_FILTER_ARMY_XP
+			FOCUS_FILTER_ARMY_XP FOCUS_FILTER_HISTORICAL
 		}
 
 		completion_reward = {
@@ -930,10 +1338,12 @@ focus_tree = {
 		cost = 10
 
 		search_filters = {
-			FOCUS_FILTER_RESEARCH FOCUS_FILTER_ARMY_XP
+			FOCUS_FILTER_RESEARCH FOCUS_FILTER_ARMY_XP FOCUS_FILTER_AIR_XP
 		}
 
 		completion_reward = {
+			army_experience = 25
+			air_experience = 50
 			add_doctrine_cost_reduction = {
 				name = VEN_combined_arms_tactics
 				cost_reduction = 0.5
@@ -1317,6 +1727,7 @@ focus_tree = {
 				}
 				custom_effect_tooltip = available_political_advisor
 				show_ideas_tooltip = VEN_rafael_simon_urbina_idea
+				custom_effect_tooltip = VEN_hiring_this_advisor_will_remove_underground_communists_tt
 			}
 			add_stability = 0.05
 		}
@@ -1455,8 +1866,14 @@ focus_tree = {
 			custom_effect_tooltip = VEN_protests_will_become_slightly_more_common_tt
 
 			## Make rafael simon urbina available as advisor
-			custom_effect_tooltip = available_political_advisor
-			show_ideas_tooltip = VEN_rafael_simon_urbina_idea
+			if = {
+				limit = {
+					has_character = VEN_rafael_simon_urbina
+				}
+				custom_effect_tooltip = available_political_advisor
+				show_ideas_tooltip = VEN_rafael_simon_urbina_idea
+				custom_effect_tooltip = VEN_hiring_this_advisor_will_remove_underground_communists_tt
+			}
 		}
 	}
 
@@ -1520,7 +1937,7 @@ focus_tree = {
 		}
 	}
 
-	focus = {
+	focus = { ## make sure to switch bop with communist side 
 		id = VEN_support_the_workers_cause
 		icon = GFX_VEN_support_workers
 		x = 7
@@ -1683,6 +2100,10 @@ focus_tree = {
 			custom_effect_tooltip = VEN_trigger_civil_war_tt
 			hidden_effect = {
 				set_country_flag = VEN_army_bonus_cw_flag
+				add_days_mission_timeout = {
+					mission = VEN_looming_oil_strike
+					days = -175
+				}
 			}
 		}
 	} 

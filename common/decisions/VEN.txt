@@ -4,9 +4,12 @@ VEN_political_crisis = { ## need to make custom trigger tooltips for these :/
 
         available = {
             hidden_trigger = { always = no }
-            custom_trigger_tooltip = {
-                tooltip = VEN_has_worst_strikes_tt
-                has_idea = strikes_3
+            has_idea = strikes_3
+        }
+
+        visible = {
+            NOT = {
+                has_active_mission = VEN_impending_democratic_revolution
             }
         }
 
@@ -26,9 +29,8 @@ VEN_political_crisis = { ## need to make custom trigger tooltips for these :/
         is_good = no 
 
         available = { 
-            custom_trigger_tooltip = {
-                tooltip = VEN_NOT_has_worst_strikes_tt
-                NOt = { has_idea = strikes_3 }
+            NOT = {
+                has_idea = strikes_3
             }
         }
 
@@ -45,12 +47,12 @@ VEN_political_crisis = { ## need to make custom trigger tooltips for these :/
             if = {
 				limit = {
 					NOT = {
-						has_template = "Milicia"
+						has_template = "Milicias"
 					}
 				}
 				hidden_effect = {
 					division_template = { 
-						name = "Milicia" 
+						name = "Milicias" 
 						division_names_group = SPAN_INF_02 
 						is_locked = yes 
                         template_counter = 3
@@ -81,15 +83,22 @@ VEN_political_crisis = { ## need to make custom trigger tooltips for these :/
                 add_ideas = VEN_venezuelan_civil_war
 				every_controlled_state = {
 					create_unit = {
-						division = "name = \"Milicias Leales\" division_template = \"Milicia\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+						division = "name = \"Milicias Leales\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
 						owner = ROOT
 					}
 				}
+                random_owned_controlled_state = {
+                    create_unit = {
+						division = "name = \"Milicias Leales\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+						owner = ROOT
+                        count = 2
+					}
+                }
 				random_other_country = {
 					limit = {
 						has_government = democratic
 						has_civil_war = yes
-						original_tag = PAR
+						original_tag = VEN
 					}
                     add_ideas = VEN_venezuelan_civil_war
                     VEN_rodolfo_quintero = {
@@ -121,7 +130,7 @@ VEN_political_crisis = { ## need to make custom trigger tooltips for these :/
                     }
 					every_controlled_state = {
 						create_unit = {
-							division = "name = \"Milicias Anti-Gobierno\" division_template = \"Milicia\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+							division = "name = \"Milicias Anti-Gobierno\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
 							owner = PREV
 							count = 2
 						}
@@ -909,10 +918,21 @@ VEN_oil_management = {
                     }
                 }
             }
+            if = {
+                limit = {
+                    has_completed_focus = VEN_adopt_a_protectionist_policy
+                }
+                check_variable = {
+                    VEN_times_sold_resource_rights < 2
+                }
+            }
         }
 
         available = {
-            has_completed_focus = VEN_adopt_pro_market_policies
+            OR = {
+                has_completed_focus = VEN_adopt_pro_market_policies
+                has_completed_focus = VEN_adopt_a_protectionist_policy
+            }
             NOT = {
                 has_global_flag = VEN_discussed_selling_resources_flag
             }
@@ -1016,6 +1036,19 @@ VEN_oil_management = {
             has_resources_rights = {
                 state = FROM
             }
+            if = {
+                limit = {
+                    has_completed_focus = VEN_adopt_a_protectionist_policy
+                }
+                FROM = {
+                    NOT = {
+                        has_resources_amount = { ## Orinoco belt aint gettin the skibidi chungus :3 (losing it as we speak)
+                            resource = oil
+                            amount > 99
+                        }
+                    }
+                }
+            }
         }
 
         ai_will_do = {
@@ -1052,6 +1085,9 @@ VEN_oil_management = {
                     id = venezuela.15 
                     hours = 4
                 }
+            }
+            add_to_variable = {
+                VEN_times_sold_resource_rights = 1
             }
             if = {
                 limit = {
@@ -1123,7 +1159,7 @@ VEN_oil_management = {
             }
         }
 
-        days_remove = 195
+        days_remove = 210
 
         cancel_trigger = {
             OR = {
@@ -2015,6 +2051,64 @@ VEN_influencing_venezuela = {
                     id = venezuela.10 
                     hours = 3
                     random_hours = 4
+                }
+            }
+        }
+    }
+
+    VEN_cancel_our_resource_rights = {
+        icon = generic_break_treaty
+
+        available = {
+            VEN = {
+                any_controlled_state = {
+                    ROOT = {
+                        has_resources_rights = {
+                            state = PREV
+                        }
+                    }
+                }
+            }
+        }
+
+        ai_will_do = {
+            base = 0
+            modifier = {
+                add = 5
+                has_war = yes 
+            }
+            modifier = {
+                add = 20
+                has_civil_war = yes 
+            }
+            modifier = {
+                add = 25
+                NOT = { has_government = VEN } 
+            }
+        }
+
+        cost = 20
+
+        complete_effect = {
+            custom_effect_tooltip = VEN_remove_resource_rights_all_states_tt
+            VEN = {
+                country_event = {
+                    id = venezuela.20 
+                    hours = 6
+                }
+            }
+            hidden_effect = {
+                VEN = {
+                    every_controlled_state = {
+                        limit = {
+                            ROOT = {
+                                has_resources_rights = {
+                                    state = PREV
+                                }
+                            }
+                        }
+                        ROOT = { remove_resource_rights = PREV } 
+                    }
                 }
             }
         }
