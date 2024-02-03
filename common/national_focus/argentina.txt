@@ -5067,27 +5067,9 @@ focus_tree = {
 		}
 		
 		available = {
-			has_war_with = BRA
-			OR = {
-				has_idea = ARG_the_second_cisplatine_war
-				has_idea = ARG_the_second_cisplatine_war_2 
-			}
 			PAR = {
 				is_subject = no
 				NOT = {
-					has_war_with = ROOT
-				}
-			}
-		}
-		
-		bypass = {
-			has_completed_focus = ARG_win_the_second_cisplatine_war
-			OR = {
-				AND = {
-					controls_state = 301
-					controls_state = 688
-				}
-				PAR = {
 					is_in_faction_with = ROOT
 				}
 			}
@@ -5987,7 +5969,6 @@ focus_tree = {
 					is_in_faction_with = BOL
 					has_war_with = BOL
 				}
-				has_completed_focus = ARG_proclaim_the_greater_argentine_confederation
 			}
 		}
 		
@@ -6023,26 +6004,13 @@ focus_tree = {
 		}
 		
 		bypass = {
-			has_completed_focus = ARG_proclaim_the_greater_argentine_confederation
-			ROOT = {
-				OR = {
-					AND = {
-						controls_state = 502
-						controls_state = 984
-						controls_state = 503
-						controls_state = 501
-						controls_state = 504
-						controls_state = 500
-						controls_state = 496
-						controls_state = 505
-						controls_state = 280
-						controls_state = 495
-						controls_state = 497
-						controls_state = 499
-						controls_state = 498
-					}
-					is_in_faction_with = BRA
-					has_war_with = BRA
+			OR = {
+				has_war_with = BRA 
+				BRA = {
+					capital_scope = { is_fully_controlled_by = ROOT }
+				}
+				BRA = {
+					is_subject_of = ROOT 
 				}
 			}
 		}
@@ -6080,7 +6048,6 @@ focus_tree = {
 		}
 		
 		bypass = {
-			has_completed_focus = ARG_proclaim_the_greater_argentine_confederation
 			ROOT = {
 				OR = {
 					AND = {
@@ -6133,7 +6100,6 @@ focus_tree = {
 		}
 		
 		bypass = {
-			has_completed_focus = ARG_proclaim_the_greater_argentine_confederation
 			PRU = {
 				OR = {
 					is_in_faction = yes
@@ -6290,7 +6256,6 @@ focus_tree = {
 		}
 		
 		bypass = {
-			has_completed_focus = ARG_proclaim_the_greater_argentine_confederation
 			VEN = {
 				OR = {
 					is_in_faction = yes
@@ -12442,9 +12407,6 @@ focus_tree = {
 		ai_will_do = { factor = 15 }
 
 		available = {
-			hidden_trigger = {
-				has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
-			}
 			custom_trigger_tooltip = {
 				tooltip = ARG_tension_below_35_tt
 				check_variable = { ARG_political_tension < 35 }
@@ -12469,17 +12431,27 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_POLITICAL_TENSION }
 		completion_reward = {
 			add_political_power = 30
-			custom_effect_tooltip = ARG_decrease_cost_5_and_increase_chances_tt
-			unlock_decision_tooltip = ARG_countrywide_stabilization_effort
-			unlock_decision_tooltip = {
-				decision = ARG_a_new_argentine_era_dec
-				show_effect_tooltip = yes 
+			if = {
+				limit = {
+					has_dynamic_modifier = {
+						modifier = ARG_infamous_decade_idea
+					}
+				}
+				custom_effect_tooltip = ARG_decrease_cost_5_and_increase_chances_tt
+				unlock_decision_tooltip = ARG_countrywide_stabilization_effort
+				unlock_decision_tooltip = {
+					decision = ARG_a_new_argentine_era_dec
+					show_effect_tooltip = yes 
+				}
+				hidden_effect = {
+					subtract_from_variable = { ARG_cost_to_decrease_tension = 5 }
+					subtract_from_variable = { ARG_chance_lower_5 = 17 }
+					subtract_from_variable = { ARG_chance_lower_10 = 1 }
+					add_to_variable = { ARG_chance_lower_15 = 18 }
+				}
 			}
-			hidden_effect = {
-				subtract_from_variable = { ARG_cost_to_decrease_tension = 5 }
-				subtract_from_variable = { ARG_chance_lower_5 = 17 }
-				subtract_from_variable = { ARG_chance_lower_10 = 1 }
-				add_to_variable = { ARG_chance_lower_15 = 18 }
+			else = {
+				add_stability = 0.05
 			}
 		}
 	}
@@ -21201,7 +21173,7 @@ focus_tree = {
 
 	focus = {
 		id = ARG_axis_equipment_shipping
-		icon = GFX_goal_generic_small_arms
+		icon = GFX_EUYL_axis_shipment
 		x = 0
 		y = 1
 		relative_position_id = ARG_side_with_the_axis

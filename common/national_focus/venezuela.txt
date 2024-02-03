@@ -399,6 +399,70 @@ focus_tree = {
 		}
 	}
 
+	### The Unthinkable ###
+	focus = {
+		id = VEN_the_unthinkable
+		icon = GFX_focus_wonderweapons
+		x = 0
+		y = 1
+		relative_position_id = VEN_the_modern_venezuelan_economy
+		prerequisite = {
+			focus = VEN_the_modern_venezuelan_economy
+		}
+
+		cost = 10
+
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+
+		completion_reward = {
+			if = {
+                limit = {
+					NOT = {
+						has_tech = atomic_research
+					}
+                }
+				add_tech_bonus = {
+					name = VEN_the_unthinkable
+					category = nuclear
+					uses = 2
+					bonus = 1
+				}
+			}
+			else = {
+				if = {
+					limit = {
+						num_of_controlled_states > 9
+					}
+					random_owned_controlled_state = {
+						add_building_construction = {
+							type = nuclear_reactor 
+							level = 1
+							instant_build = yes 
+						}
+					}
+					random_owned_controlled_state = {
+						add_building_construction = {
+							type = nuclear_reactor 
+							level = 1
+							instant_build = yes 
+						}
+					}
+				}
+				else = {
+					random_owned_controlled_state = {
+						add_building_construction = {
+							type = nuclear_reactor 
+							level = 1
+							instant_build = yes 
+						}
+					}
+				}
+            }
+		}
+	}
+
 	### Prioritize Oil to the Army ###
 	focus = {
 		id = VEN_prioritize_oil_to_the_army
@@ -1617,7 +1681,7 @@ focus_tree = {
 	focus = {
 		id = VEN_temporarily_imprison_galavis
 		icon = GFX_VEN_imprison_galavis
-		x = 50
+		x = 64
 		y = 0
 		mutually_exclusive = { focus = VEN_support_galavis_actions }
 
@@ -1653,10 +1717,10 @@ focus_tree = {
 		}
 	}
 
-	focus = { ## This focus will lock out the communists and anarchists 
+	focus = { ## This focus will lock out the communists and anarchists || Properly Establish the 1936 Constitution
 		id = VEN_establish_the_GetYear_constitution
 		icon = GFX_focus_generic_treaty
-		x = -10
+		x = -15
 		y = 1
 		relative_position_id = VEN_temporarily_imprison_galavis
 		prerequisite = {
@@ -1692,6 +1756,10 @@ focus_tree = {
 				idea = VEN_recently_written_consitution
 				days = 180
 			}
+			add_popularity = {
+				ideology = communism
+				popularity = -0.03
+			}
 			custom_effect_tooltip = EUYL_effects_when_removed_tt
 			effect_tooltip = { add_stability = 0.05 }
 
@@ -1699,11 +1767,647 @@ focus_tree = {
 		}
 	}
 
+	focus = {
+		id = VEN_our_stance_in_the_world
+		icon = GFX_VEN_generic_militarism
+		x = 0
+		y = 3
+		relative_position_id = VEN_establish_the_GetYear_constitution
+		prerequisite = {
+			focus = VEN_establish_the_GetYear_constitution
+		}
+
+		cost = 5
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = VEN_not_has_abrupt_government_transition_tt
+				NOT = {
+					OR = {
+						has_idea = VEN_abrupt_government_transition_1
+						has_idea = VEN_abrupt_government_transition_2
+						has_idea = VEN_abrupt_government_transition_3 
+						has_idea = VEN_abrupt_government_transition_4
+					}
+				}
+			}
+			has_civil_war = no
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			add_political_power = 35
+			add_ideas = VEN_opened_foreign_policy
+		}
+	}
+
+	focus = {
+		id = VEN_venezuela_stands_with_no_one
+		icon = GFX_VEN_proper_neutrality
+		x = 0
+		y = 1
+		relative_position_id = VEN_our_stance_in_the_world
+		prerequisite = {
+			focus = VEN_our_stance_in_the_world
+		}
+		mutually_exclusive = {
+			focus = VEN_allied_allignment
+			focus = VEN_axis_allignment
+		}
+
+		cost = 7.2
+
+		available = {
+			is_in_faction = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			add_ideas = VEN_venezuelan_non_allignment
+			set_rule = {
+				can_create_factions = yes
+			}
+			if = {
+				limit = { has_any_power_balance = yes }
+				set_power_balance = {
+					id = VEN_foreign_influence_BoP
+					left_side = VEN_allied_side # will keep the last set side if not specified
+					right_side = VEN_axis_side # will keep the last set side if not specified
+					set_value = 0 # if specified will set the value of the power balance, this option will override the effect of set_default so the two options should not be used together. if neither set_default or set_value is specified the current value of the power balance will not change
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = VEN_demand_guyana_esequiba
+		icon = GFX_VEN_claim_esquibel
+		x = 1
+		y = 1
+		relative_position_id = VEN_venezuela_stands_with_no_one
+		prerequisite = {
+			focus = VEN_venezuela_stands_with_no_one
+			focus = VEN_axis_allignment
+		}
+
+		cost = 10
+
+		available = {
+			NOT = {
+				controls_state = 937
+			}
+			937 = {
+				controller = {
+					OR = {
+						has_war = yes 
+						has_capitulated = yes 
+						num_of_factories < 24 ## if guyana is free for some reason
+					}
+				}
+			}
+		}
+
+		bypass = {
+			has_full_control_of_state = 937
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			random_other_country = {
+				limit = {
+					has_full_control_of_state = 937
+				}
+				country_event = {
+					id = venezuela.21
+					hours = 3
+					random_hours = 6
+				}
+			}
+			custom_effect_tooltip = ARG_iftheyaccept
+			effect_tooltip = {
+				transfer_state = 937
+				add_stability = 0.03
+			}
+		}
+	}
+
+	### Mine out Guyana's Gold ###
+	focus = {
+		id = VEN_mine_out_guyana_gold
+		icon = GFX_goal_generic_construction2
+		x = 0
+		y = 2
+		relative_position_id = VEN_demand_guyana_esequiba
+		prerequisite = {
+			focus = VEN_demand_guyana_esequiba
+		}
+
+		cost = 10
+		available = {
+			has_full_control_of_state = 937
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			937 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+				add_resource = {
+					type = steel
+					amount = 8
+				}
+				add_dynamic_modifier = {
+					modifier = VEN_gold_extraction
+				}
+			}
+		}
+	}
+
+	### Offer "Protection" Over the ABC Islands ###
+	focus = {
+		id = VEN_offer_protection_over_the_ABC_islands
+		icon = GFX_focus_generic_annex_country
+		x = -1
+		y = 1
+		relative_position_id = VEN_venezuela_stands_with_no_one
+		prerequisite = {
+			focus = VEN_venezuela_stands_with_no_one
+			focus = VEN_allied_allignment
+		}
+
+		cost = 7.2
+
+		available = {
+			NOT = { has_war_with = USA }
+			NOT = { has_war_with = ENG }
+			NOT = { has_war_with = HOL }
+			695 = { is_owned_and_controlled_by = HOL }
+			HOL = {
+				OR = {
+					has_capitulated = yes 
+					has_war_with = GER
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					has_dlc = "Man the Guns"
+				}
+				HOL = { country_event = { id = mtg_netherlands.1 hours = 6 } }
+			}
+			else = {
+				transfer_state = 695
+				HOL = {
+					add_opinion_modifier = {
+						target = THIS
+						modifier = hostile_status
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = VEN_allied_allignment
+		icon = GFX_focus_chi_british_cooperation
+		x = -3
+		y = 1
+		relative_position_id = VEN_our_stance_in_the_world
+		prerequisite = {
+			focus = VEN_our_stance_in_the_world
+		}
+		mutually_exclusive = {
+			focus = VEN_venezuela_stands_with_no_one
+			focus = VEN_axis_allignment
+		}
+
+		cost = 5
+
+		available = {
+			ENG = {
+				NOT = { has_war_with = ROOT } 
+				exists = yes 
+				num_of_controlled_states > 0
+				OR = {
+					has_government = democratic
+					has_government = ROOT
+				}
+			}
+			has_civil_war = no 
+			is_subject = no 
+		}
+
+		bypass = {
+			any_other_country = {
+				is_major = yes 
+				has_government = democratic
+				is_in_faction_with = ROOT
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			ENG = {
+				country_event = {
+					id = generic.2
+					hours = 2
+					random_hours = 4
+				}
+			}
+			if = {
+				limit = {
+					has_any_power_balance = yes 
+				}
+				VEN_move_25_left = yes
+			}
+			if = {
+				limit = {
+					GER = {
+						has_government = fascism
+						has_war_with = ENG
+						has_civil_war = no
+					}
+				}
+				GER = {
+					country_event = {
+						id = venezuela.5 
+						hours = 4
+						random_hours = 6
+					}
+				}
+			}
+		}
+	}
+
+	### British Naval Funding ###
+	focus = {
+		id = VEN_british_naval_funding
+		icon = GFX_british_navy
+		x = -1
+		y = 1
+		relative_position_id = VEN_allied_allignment
+		prerequisite = {
+			focus = VEN_allied_allignment
+		}
+
+		cost = 10
+
+		available = {
+			is_in_faction_with = ENG 
+			ENG = {
+				exists = yes 
+				has_capitulated = no 
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_NAVY_XP FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_2_dockyard = yes 
+			navy_experience = 50
+		}
+	}
+
+	### American Protection ###
+	focus = {
+		id = VEN_american_protection
+		icon = GFX_focus_chi_mission_to_the_us
+		x = 0
+		y = 2
+		relative_position_id = VEN_allied_allignment
+		prerequisite = {
+			focus = VEN_allied_allignment
+		}
+
+		cost = 10
+
+		available = {
+			is_in_faction_with = ENG 
+			NOT = {
+				has_war_with = USA 
+			}
+			USA = {
+				OR = {
+					has_government = democratic
+					has_war_with = GER
+					is_in_faction_with = ENG
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_AIR_XP FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_manpower = 7500
+			if = {
+				limit = {
+					has_dlc = "By Blood Alone"
+				}
+				add_equipment_to_stockpile = {
+					type = small_plane_airframe
+					amount = 50
+					producer = USA
+				}
+			}
+			else = {
+				add_equipment_to_stockpile = {
+					type = fighter_equipment_0
+					amount = 50
+					producer = USA
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						is_in_faction_with = USA 
+					}
+				}
+				give_military_access = USA
+			}
+			add_opinion_modifier = {
+				target = USA
+				modifier = VEN_military_cooperation
+			}
+			USA = {
+				add_opinion_modifier = {
+					target = THIS
+					modifier = VEN_military_cooperation
+				}
+			}
+		}
+	}
+
+	### Exploit Properly the ABC Island Oil ###
+	focus = {
+		id = VEN_exploit_ABC_oil
+		icon = GFX_focus_nationalize_oil
+		x = 1
+		y = 1
+		relative_position_id = VEN_american_protection
+		prerequisite = {
+			focus = VEN_american_protection
+		}
+		prerequisite = {
+			focus = VEN_offer_protection_over_the_ABC_islands
+		}
+
+		cost = 10
+
+		available = {
+			has_full_control_of_state = 695
+			USA = {
+				OR = {
+					is_in_faction_with = ROOT 
+					has_military_access_to = ROOT
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			695 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure 
+					level = 1
+					instant_build = yes 
+				}
+				add_resource = {
+					type = oil
+					amount = 22
+				}
+				add_dynamic_modifier = {
+					modifier = VEN_advanced_oil_extraction
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = VEN_axis_allignment
+		icon = GFX_focus_chi_mission_to_germany
+		x = 3
+		y = 1
+		relative_position_id = VEN_our_stance_in_the_world
+		prerequisite = {
+			focus = VEN_our_stance_in_the_world
+		}
+		mutually_exclusive = {
+			focus = VEN_venezuela_stands_with_no_one
+			focus = VEN_allied_allignment
+		}
+
+		cost = 5
+
+		available = {
+			GER = {
+				NOT = { has_war_with = ROOT } 
+				exists = yes 
+				num_of_controlled_states > 0
+				OR = {
+					has_government = fascism
+					has_government = ROOT
+				}
+			}
+			has_civil_war = no 
+			is_subject = no 
+		}
+
+		bypass = {
+			any_other_country = {
+				is_major = yes 
+				has_government = fascism
+				is_in_faction_with = ROOT
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = { ### people with protest due to anti-german sentiment
+			GER = {
+				country_event = {
+					id = generic.2
+					hours = 2
+					random_hours = 4
+				}
+			}
+			if = {
+				limit = {
+					has_any_power_balance = yes 
+				}
+				VEN_move_25_right = yes
+			}
+			if = {
+				limit = {
+					ENG = {
+						has_government = democratic
+						has_war_with = GER
+						has_civil_war = no
+					}
+				}
+				ENG = {
+					country_event = {
+						id = venezuela.5 
+						hours = 4
+						random_hours = 6
+					}
+				}
+			}
+			if = {
+				limit = {
+					USA = {
+						exists = yes 
+						has_government = democratic
+					}
+					any_other_country = {
+						is_major = yes 
+						has_government = democratic
+						has_war_with = GER
+					}
+				}
+				USA = {
+					country_event = {
+						id = venezuela.5 
+						hours = 9
+						random_hours = 15
+					}
+				}
+			}
+		}
+	}
+
+	### Import German Weaponry ###
+	focus = {
+		id = VEN_import_german_weaponry
+		icon = GFX_EUYL_axis_shipment
+		x = 0
+		y = 1
+		relative_position_id = VEN_axis_allignment
+		prerequisite = {
+			focus = VEN_axis_allignment
+		}
+
+		cost = 10
+
+		available = {
+			is_in_faction_with = GER 
+			GER = {
+				exists = yes
+				has_capitulated = no 
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_ARMY_XP
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					has_dlc = "By Blood Alone"
+				}
+				add_equipment_to_stockpile = {
+					type = small_plane_airframe
+					amount = 30
+					producer = GER
+				}
+			}
+			else = {
+				add_equipment_to_stockpile = {
+					type = fighter_equipment_0
+					amount = 30
+					producer = GER
+				}
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 1000
+				producer = USA
+			}
+			add_equipment_to_stockpile = {
+				type = artillery_equipment
+				amount = 350
+				producer = USA 
+			}
+            add_equipment_to_stockpile = {
+				type = support_equipment
+				amount = 100
+				producer = USA 
+			}
+			add_opinion_modifier = {
+				target = GER
+				modifier = VEN_military_cooperation
+			}
+			GER = {
+				add_opinion_modifier = {
+					target = THIS
+					modifier = VEN_military_cooperation
+				}
+			}
+		}
+	}
+
+	### Demand the Remainder of the Guyanas ###
+	focus = {
+		id = VEN_demand_the_remiander_of_the_guyanas
+		icon = GFX_VEN_demand_guyanas
+		x = -1
+		y = 1
+		relative_position_id = VEN_import_german_weaponry
+		prerequisite = {
+			focus = VEN_import_german_weaponry
+		}
+		prerequisite = {
+			focus = VEN_demand_guyana_esequiba
+		}
+
+		cost = 10
+	}
+
 	## Anti-Communist Crackdown ##
 	focus = {
 		id = VEN_anti_communist_crackdown
 		icon = GFX_focus_generic_conspiracy
-		x = 2
+		x = 4
 		y = 1
 		relative_position_id = VEN_establish_the_GetYear_constitution
 		prerequisite = {
@@ -1729,6 +2433,47 @@ focus_tree = {
 				show_ideas_tooltip = VEN_rafael_simon_urbina_idea
 				custom_effect_tooltip = VEN_hiring_this_advisor_will_remove_underground_communists_tt
 			}
+			add_political_power = 50
+			add_popularity = {
+				ideology = communism
+				popularity = -0.05
+			}
+		}
+	}
+
+	## Pass Social Reforms ## || will improve abrupt government transition straight up
+	focus = {
+		id = VEN_pass_social_reforms
+		icon = GFX_focus_generic_treaty
+		x = 0
+		y = 1
+		relative_position_id = VEN_anti_communist_crackdown
+		prerequisite = {
+			focus = VEN_anti_communist_crackdown
+		}
+
+		cost = 10
+
+		available = {
+			has_civil_war = no 
+			custom_trigger_tooltip = {
+				tooltip = VEN_strikes_arent_active_tt
+				NOT = {
+					OR = {
+						has_idea = strikes_1
+						has_idea = strikes_2 
+						has_idea = strikes_3
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_STABILITY FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			VEN_improve_abrupt_government_transition_idea = yes 
 			add_stability = 0.05
 		}
 	}
@@ -1736,7 +2481,7 @@ focus_tree = {
 	focus = { ## For the historical Ley de Trabajo
 		id = VEN_pass_worker_right_reforms
 		icon = GFX_focus_ICE_embrace_the_workers_revolution
-		x = -2
+		x = -4
 		y = 1
 		relative_position_id = VEN_establish_the_GetYear_constitution
 		prerequisite = {
@@ -1843,7 +2588,7 @@ focus_tree = {
 	focus = {
 		id = VEN_ley_lara
 		icon = GFX_VEN_ley_para_icon
-		x = -3
+		x = -4
 		y = 1
 		relative_position_id = VEN_create_the_ministry_of_health_and_social_assistance
 		prerequisite = {
@@ -1880,7 +2625,7 @@ focus_tree = {
 	focus = {
 		id = VEN_support_galavis_actions
 		icon = GFX_VEN_support_galavis
-		x = 31
+		x = 34
 		y = 0
 		mutually_exclusive = { focus = VEN_temporarily_imprison_galavis }
 
@@ -1940,7 +2685,7 @@ focus_tree = {
 	focus = { ## make sure to switch bop with communist side 
 		id = VEN_support_the_workers_cause
 		icon = GFX_VEN_support_workers
-		x = 7
+		x = 9
 		y = 1
 		relative_position_id = VEN_promote_nationwide_hygiene
 		prerequisite = { 
@@ -1966,6 +2711,7 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
+			custom_effect_tooltip = VEN_constitution_subtree_blocked_taking_this_focus_tt
 			custom_effect_tooltip = VEN_when_selected_delay_mission_by_35_days_tt
 			custom_effect_tooltip = CHL_pathcivilwar
 			custom_effect_tooltip = VEN_take_control_of_communists_tt
@@ -2131,6 +2877,1705 @@ focus_tree = {
 
 		completion_reward = {
 			country_event = venezuela.18
+		}
+	}
+
+	### Everyone to Arms ###
+	focus = {
+		id = VEN_everyone_to_arms
+		icon = GFX_focus_generic_workers_and_farmers_rise
+		x = -1
+		y = 1
+		relative_position_id = VEN_spearhead_of_the_revolution
+		prerequisite = {
+			focus = VEN_spearhead_of_the_revolution
+		}
+
+		cost = 5
+
+		available = {
+			has_civil_war = yes 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_MANPOWER
+		}
+
+		completion_reward = {
+			hidden_effect = {
+				if = {
+					limit = {
+						NOT = {
+							has_template = "División de Infanteria"
+						}
+					}
+					division_template = {
+						name = "División de Infanteria"	
+						division_names_group = SPAN_INF_01
+					
+						regiments = {
+							infantry = { x = 0 y = 0 }
+							infantry = { x = 0 y = 1 }
+							infantry = { x = 1 y = 0 }
+							infantry = { x = 1 y = 1 }
+							infantry = { x = 2 y = 0 }
+							infantry = { x = 2 y = 1 }
+						}
+					}
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					any_neighbor_state = {
+						controller = {
+							has_war_with = ROOT 
+						}
+					}
+				}
+				create_unit = {
+					division = "name = \"Divisiones Rojas\" division_template = \"División de Infanteria\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+					owner = ROOT
+					count = 2
+				}
+			}
+			custom_effect_tooltip = VEN_unlock_call_to_arms_decisions_tt
+			add_command_power = 20
+		}
+	}
+
+	### Mobilize the Economy (gives 2 mills, war economy, but worsens post civil war economic crisis) ###
+	focus = {
+		id = VEN_mobilize_the_economy
+		icon = GFX_focus_SOV_organize_wreckers
+		cost = 5
+		x = 1
+		y = 1
+		relative_position_id = VEN_spearhead_of_the_revolution
+		prerequisite = {
+			focus = VEN_spearhead_of_the_revolution
+		}
+		available = {
+			has_civil_war = yes 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_2_military = yes 
+			if = {
+				limit = {
+					NOT = {
+						OR = {
+							has_idea = war_economy
+							has_idea = tot_economic_mobilisation
+						}
+					}
+				}
+				add_ideas = war_economy
+			}
+			else = {
+				add_political_power = 75
+			}
+			custom_effect_tooltip = VEN_post_civil_war_economy_will_be_worsened_tt
+			hidden_effect = {
+				add_to_variable = {
+					VEN_time_to_recover_economically = 155
+				}
+			}
+		}
+	}
+
+	### Partido Republicano Progresista ###
+	focus = {
+		id = VEN_PRP
+		icon = GFX_VEN_prp_focus_icon
+		x = -5
+		y = 2
+		relative_position_id = VEN_spearhead_of_the_revolution
+		prerequisite = {
+			focus = VEN_spearhead_of_the_revolution
+		}
+		mutually_exclusive = {
+			focus = VEN_PCV
+		}
+
+		cost = 5
+
+		available = {
+			has_country_leader = {
+				character = VEN_rodolfo_quintero
+				ruling_only = yes 
+			}
+		}
+
+		bypass = {
+			has_civil_war = no 
+			has_country_leader = {
+				character = VEN_rodolfo_quintero
+				ruling_only = yes 
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT
+		}
+
+		completion_reward = {
+			set_party_name = {
+				ideology = communism
+				long_name = VEN_PRP_party_long
+				name = VEN_PRP_party
+			}
+			add_war_support = 0.05
+			add_popularity = {
+				ideology = communism
+				popularity = 0.05
+			}
+		}
+	}
+
+	### Partido Comunista de Venezuela ###
+	focus = {
+		id = VEN_PCV 
+		icon = GFX_VEN_pcv_focus_icon
+		x = 5
+		y = 2
+		relative_position_id = VEN_spearhead_of_the_revolution
+		prerequisite = {
+			focus = VEN_spearhead_of_the_revolution
+		}
+		mutually_exclusive = {
+			focus = VEN_PRP
+		}
+
+		cost = 5
+
+		available = {
+			OR = {
+				has_country_leader = {
+					character = VEN_juan_bautista_fuenmayor
+					ruling_only = yes 
+				}
+				has_country_leader = {
+					character = VEN_gustavo_machado
+					ruling_only = yes 
+				}
+			}
+		}
+
+		bypass = {
+			has_civil_war = no 
+			OR = {
+				has_country_leader = {
+					character = VEN_juan_bautista_fuenmayor
+					ruling_only = yes 
+				}
+				has_country_leader = {
+					character = VEN_gustavo_machado
+					ruling_only = yes 
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			add_stability = 0.03
+			add_popularity = {
+				ideology = communism
+				popularity = 0.05
+			}
+		}
+	}
+
+	### Seize the Military Industry ###
+	focus = {
+		id = VEN_seize_the_military_industry
+		icon = GFX_goal_generic_construct_mil_factory
+		x = -1
+		y = 1
+		relative_position_id = VEN_PCV 
+		prerequisite = {
+			focus = VEN_PCV 
+		}
+
+		cost = 7.2
+
+		available = {
+			has_civil_war = no
+			custom_trigger_tooltip = {
+                tooltip = VEN_NOT_has_economic_crisis_tt
+                NOT = {
+                    OR = {
+                        has_idea = VEN_post_civil_war_economic_crisis_1
+                        has_idea = VEN_post_civil_war_economic_crisis_2
+                    }
+                }
+            }
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ECONOMIC_GROWTH
+		}
+
+		completion_reward = {
+			VEN_improve_oil_extraction_idea = yes
+			EUYL_add_2_military = yes 
+		}
+	}
+
+	### Invest in the Development of Zulia ###
+	focus = {
+		id = VEN_invest_development_zulia
+		icon = GFX_VEN_develop_zulia_2
+		x = 0
+		y = 2
+		relative_position_id = VEN_seize_the_military_industry
+		prerequisite = {
+			focus = VEN_seize_the_military_industry
+		}
+
+		cost = 10
+
+		available = {
+			has_full_control_of_state = 489
+			has_country_leader = {
+				character = VEN_juan_bautista_fuenmayor
+				ruling_only = yes 
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			489 = {
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes 
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes 
+				}
+				if = {
+					limit = {
+						infrastructure < 4
+					}
+					add_building_construction = {
+						type = infrastructure
+						level = 2
+						instant_build = yes 
+					}
+				}
+				else = {
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes 
+					}
+				}
+				add_resource = {
+					type = steel
+					amount = 4
+				}
+			}
+		}
+	}
+
+	### Organizing the new Cabinet ###
+	focus = {
+		id = VEN_organizing_the_new_cabinet
+		icon = GFX_focus_generic_soviet_politics
+		x = 1
+		y = 1
+		relative_position_id = VEN_PCV 
+		prerequisite = {
+			focus = VEN_PCV 
+		}
+
+		cost = 7.2
+
+		available = {
+			has_civil_war = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			add_political_power = 50
+			add_stability = 0.05
+			if = {
+				limit = { has_active_mission = VEN_economic_revocery_in_progress }
+				add_days_mission_timeout = {
+					mission = VEN_economic_revocery_in_progress
+					days = -20
+				}
+			}
+			if = {
+				limit = { has_active_mission = VEN_military_recovery_in_progress }
+				add_days_mission_timeout = {
+					mission = VEN_military_recovery_in_progress
+					days = -20
+				}
+			}
+		}
+	}
+
+	### Equality for All ###
+	focus = {
+		id = VEN_equality_for_all
+		icon = GFX_ARG_gain_back_trust
+		x = 1
+		y = 1
+		relative_position_id = VEN_organizing_the_new_cabinet
+		prerequisite = {
+			focus = VEN_organizing_the_new_cabinet
+			focus = VEN_follow_earl_browders_theories
+		}
+
+		cost = 10
+
+		available = {
+			num_of_available_civilian_factories > 9
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			add_stability = 0.05
+			add_ideas = VEN_equality_for_all_idea
+		}
+	}
+
+	### Follow Earl Brodwer's Theories ###
+	focus = {
+		id = VEN_follow_earl_browders_theories
+		icon = GFX_VEN_follow_earl_browder_icon
+		x = 4
+		y = 1
+		relative_position_id = VEN_PCV 
+		prerequisite = {
+			focus = VEN_PCV 
+		}
+
+		cost = 7.2
+
+		available = {
+			has_country_leader = {
+				character = VEN_gustavo_machado
+				ruling_only = yes 
+			}
+			has_civil_war = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			add_ideas = VEN_the_theories_of_earl_browder
+			EUYL_add_1_civilian = yes 
+			add_opinion_modifier = {
+				target = SOV
+				modifier = CHL_strengthened_ties
+			}
+		}
+	}
+
+	### Declare the National Syndicate ###
+	focus = {
+		id = VEN_declare_the_national_syndicate
+		icon = GFX_focus_SWE_socialist_reforms
+		x = 0
+		y = 1
+		relative_position_id = VEN_PRP
+		prerequisite = {
+			focus = VEN_PRP
+		}
+
+		cost = 7.2
+
+		available = {
+			has_civil_war = no 
+			has_government = communism
+		}
+
+		### Unlocks Syndicate decisions, which will allow for industrial decisions but have to pay the syndicate
+		### every so often
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			VEN_improve_oil_extraction_idea = yes
+			unlock_decision_category_tooltip = VEN_national_syndicate
+			custom_effect_tooltip = VEN_allows_for_improvements_of_Various_sectors_of_both_economy_and_politics_tt
+			activate_mission = VEN_syndicate_demands_funding
+		}
+	}
+
+	### Farmer Subsidies ###
+	focus = {
+		id = VEN_farmer_subsidies
+		icon = GFX_URG_agricultural_economy
+		x = -1
+		y = 1
+		relative_position_id = VEN_declare_the_national_syndicate
+		prerequisite = {
+			focus = VEN_declare_the_national_syndicate
+		}
+
+		cost = 10
+
+		available = {
+			custom_trigger_tooltip = {
+                tooltip = VEN_NOT_has_economic_crisis_tt
+                NOT = {
+                    OR = {
+                        has_idea = VEN_post_civil_war_economic_crisis_1
+                        has_idea = VEN_post_civil_war_economic_crisis_2
+                    }
+                }
+            }
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			EUYL_add_2_civilian = yes 
+			add_stability = 0.03
+			add_political_power = 25
+		}
+	}
+
+	### Venezuelan Worker Movement ###
+	focus = {
+		id = VEN_venezuelan_worker_movement
+		icon = GFX_col_focus_revolucion_en_marcha
+		x = 0
+		y = 1
+		relative_position_id = VEN_farmer_subsidies
+		prerequisite = {
+			focus = VEN_farmer_subsidies
+		}
+
+		cost = 10
+
+		available = {
+			has_stability > 0.49
+			num_of_factories > 34
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_1_civilian = yes 
+			EUYL_add_1_military = yes 
+			add_ideas = VEN_venezuelan_worker_movement_idea
+		}
+	}
+
+	### Greater Unviersity Investments ###
+	focus = {
+		id = VEN_greater_university_investments
+		icon = GFX_focus_generic_university_3 
+		x = 1
+		y = 1
+		relative_position_id = VEN_declare_the_national_syndicate
+		prerequisite = {
+			focus = VEN_declare_the_national_syndicate
+		}
+
+		cost = 8
+
+		available = {
+			num_of_factories > 21 #wu 9 plu ten
+		}
+
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+
+		completion_reward = {
+			add_ideas = ARG_university_investments
+		}
+	}
+
+	### Enact Major Economic Reforms ###
+	focus = {
+		id = VEN_enact_major_economic_reforms
+		icon = GFX_focus_DEN_heavy_regulations
+		x = 3
+		y = 1
+		relative_position_id = VEN_PRP
+		prerequisite = {
+			focus = VEN_PRP 
+			focus = VEN_PCV
+		}
+
+		cost = 10
+
+		available = {
+			has_government = communism
+			has_civil_war = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ECONOMIC_GROWTH
+		}
+
+		completion_reward = {
+			if = {
+				limit = { has_active_mission = VEN_economic_revocery_in_progress }
+				add_days_mission_timeout = {
+					mission = VEN_economic_revocery_in_progress
+					days = -100
+				}
+			}
+			else = {
+				EUYL_add_1_civilian = yes
+			}
+		}
+	}
+
+	### Education is First ###
+	focus = {
+		id = VEN_education_is_first
+		icon = GFX_focus_generic_socialist_science
+		x = -1
+		y =2
+		relative_position_id = VEN_enact_major_economic_reforms
+		prerequisite = {
+			focus = VEN_enact_major_economic_reforms
+			focus = VEN_greater_university_investments
+		}
+
+		cost = 10
+
+		available = {
+			custom_trigger_tooltip = {
+                tooltip = VEN_NOT_has_economic_crisis_tt
+                NOT = {
+                    OR = {
+                        has_idea = VEN_post_civil_war_economic_crisis_1
+                        has_idea = VEN_post_civil_war_economic_crisis_2
+                    }
+                }
+            }
+		}
+
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+
+	### Ensure Proper Military Training ###
+	focus = {
+		id = VEN_ensure_proper_military_training
+		icon = GFX_focus_SOV_builder_of_the_red_army
+		x = -3
+		y = 1
+		relative_position_id = VEN_PCV 
+		prerequisite = {
+			focus = VEN_PRP 
+			focus = VEN_PCV
+		}
+
+		cost = 10 
+
+		available = {
+			has_government = communism
+			has_civil_war = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ARMY_XP
+		}
+
+		completion_reward = {
+			if = {
+				limit = { has_active_mission = VEN_military_recovery_in_progress }
+				add_days_mission_timeout = {
+					mission = VEN_military_recovery_in_progress
+					days = -100
+				}
+			}
+			else = {
+				EUYL_add_1_military = yes
+			}
+			army_experience = 15
+		}
+	}
+
+	### National Mobilization program ###
+	focus = {
+		id = VEN_national_mobilization_program
+		icon = GFX_VEN_mobilization_program_commie
+		x = 1
+		y = 1
+		relative_position_id = VEN_ensure_proper_military_training
+		prerequisite = {
+			focus = VEN_ensure_proper_military_training
+			focus = VEN_seize_the_military_industry
+		}
+
+		cost = 10
+
+		available = {
+			NOT = {
+				has_idea = VEN_crippled_army
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_MANPOWER
+		}
+
+		completion_reward = {
+			add_ideas = BOL_expanded_army_2
+			unlock_decision_tooltip = VEN_enact_local_conscription_laws_in_FROM
+		}
+	}
+
+	### Gloria al Pueblo ###
+	focus = {
+		id = VEN_gloria_al_pueblo
+		icon = GFX_VEN_gloria_al_pueblo_commie
+		x = -2
+		y = 4
+		relative_position_id = VEN_ensure_proper_military_training
+		prerequisite = {
+			focus = VEN_ensure_proper_military_training
+		}
+		prerequisite = {
+			focus = VEN_enact_major_economic_reforms
+		}
+
+		cost = 5
+
+		available = {
+			NOT = {
+				OR = {
+					has_idea = VEN_post_civil_war_economic_crisis_1
+					has_idea = VEN_post_civil_war_economic_crisis_2
+					has_idea = VEN_crippled_army
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT
+		}
+
+		completion_reward = {
+			add_stability = 0.03
+			add_war_support = 0.05
+		}
+	}
+
+	### The Great South American Liberation ###
+	focus = {
+		id = VEN_the_great_south_american_revolution
+		icon = GFX_focus_por_latin_american_communism
+		x = -4
+		y = 1
+		relative_position_id = VEN_gloria_al_pueblo
+		prerequisite = {
+			focus = VEN_gloria_al_pueblo
+		}
+		mutually_exclusive = {
+			focus = VEN_la_tierra_de_bolivar
+		}
+
+		available = {
+			has_army_manpower = {
+				size > 149999
+			}
+			num_of_factories > 34
+		}
+
+		cost = 5
+	}
+
+	### La Tierra de Bolivar ###
+	focus = {
+		id = VEN_la_tierra_de_bolivar
+		icon = GFX_VEN_la_tierra_de_bolivar
+		x = -18
+		y = 0
+		relative_position_id = VEN_the_great_south_american_revolution
+		prerequisite = {
+			focus = VEN_gloria_al_pueblo
+		}
+		mutually_exclusive = {
+			focus = VEN_the_great_south_american_revolution
+		}
+
+		cost = 5
+
+		available = {
+			has_army_manpower = {
+				size > 149999
+			}
+			num_of_factories > 34
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ARMY_XP FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER
+		}
+
+		completion_reward = {
+			add_country_leader_trait = VEN_el_espiritu_de_bolivar
+
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = ECU
+						original_tag = COL
+						original_tag = PAN
+					}
+				}
+				add_opinion_modifier = { target = ROOT modifier = COL_same_origin }
+			}
+		}
+	}
+
+	### Unification Mandate ###
+	focus = {
+		id = VEN_unification_mandate
+		icon = GFX_col_focus_gran_colombia
+		x = 0
+		y = 1
+		relative_position_id = VEN_la_tierra_de_bolivar
+		prerequisite = {
+			focus = VEN_la_tierra_de_bolivar
+		}
+		will_lead_to_war_with = COL 
+		will_lead_to_war_with = PAN 
+		will_lead_to_war_with = ECU
+
+		cost = 7.2
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+			FOCUS_FILTER_POLITICAL
+		}
+
+		ai_will_do = {
+			base = 10
+			modifier = {
+				factor = 0
+				date < 1939.1.1
+			}
+		}
+
+		prerequisite = { focus = VEN_la_tierra_de_bolivar }
+
+		completion_reward = {
+			add_political_power = 50
+			unlock_decision_category_tooltip = col_mandato_unificacion
+
+			hidden_effect = {
+				add_ai_strategy = {
+					type = befriend
+					id = PRU
+					value = 100
+				}
+
+				add_ai_strategy = {
+					type = befriend
+					id = BRA
+					value = 100
+				}
+			}
+		}
+	}
+
+	### Ensure Total Victory ###
+	focus = {
+		id = VEN_ensure_total_victory
+		icon = GFX_goal_generic_major_war
+		x = 0
+		y = 1
+		relative_position_id = VEN_unification_mandate
+		prerequisite = {
+			focus = VEN_unification_mandate
+		}
+
+		cost = 5
+
+		available = {
+			any_other_country = {
+				OR = {
+					original_tag = COL
+					original_tag = ECU 
+					original_tag = PAN 
+				}
+				exists = yes 
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION FOCUS_FILTER_MANPOWER
+		}
+
+		completion_reward = {
+			add_manpower = 25000
+			custom_effect_tooltip = VEN_unlock_attack_bonus_decisions_tt
+		}
+	}
+
+	### A new Republic is Born ### (Democratic Gran Colombia)
+	focus = {
+		id = VEN_a_new_republic_is_born
+		icon = GFX_VEN_new_republic_born
+		x = 4
+		y = 2
+		relative_position_id = VEN_unification_mandate
+		prerequisite = {
+			focus = VEN_unification_mandate
+		}
+		mutually_exclusive = {
+			focus = VEN_no_second_chances
+		}
+
+		cost = 5
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = VEN_formed_gran_colombia_tt
+				has_cosmetic_tag = GRC_UNIFIED
+			}
+			has_government = democratic
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+			FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.1
+			}
+			add_stability = 0.05
+		}
+	}
+
+	### No Second Chances ###
+	focus = {
+		id = VEN_no_second_chances
+		icon = GFX_goal_generic_attack_allies
+		x = -4
+		y = 2
+		relative_position_id = VEN_unification_mandate
+		prerequisite = {
+			focus = VEN_unification_mandate
+		}
+		mutually_exclusive = {
+			focus = VEN_a_new_republic_is_born
+		}
+
+		cost = 5
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = VEN_formed_gran_colombia_tt
+				has_cosmetic_tag = GRC_UNIFIED
+			}
+			OR = {
+				has_government = communism
+				has_government = fascism
+				has_government = neutrality ## neutrality in both cases is a military dictatorship
+			}
+		}
+
+		select_effect = {
+			add_ideas = EUYL_expansionist_path
+			every_other_country = {
+				limit = { 
+					any_controlled_state = {
+						is_claimed_by = ROOT
+					}
+				}
+				ROOT = {
+					add_ai_strategy = {
+						type = prepare_for_war
+						id = PREV
+						value = 70
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			add_ideas = ARG_expansionist_policy
+		}
+	}
+
+	### Development near the Amazonas ###
+	focus = {
+		id = VEN_development_near_the_amazonas
+		icon = GFX_goal_generic_construction
+		x = 1
+		y = 1
+		relative_position_id = VEN_no_second_chances
+		prerequisite = {
+			focus = VEN_no_second_chances
+		}
+
+		cost = 7.2
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					any_controlled_state = {
+						any_neighbor_state = {
+							is_controlled_by = PRU
+						}
+					}
+				}
+				random_owned_controlled_state = {
+					limit = {
+						any_neighbor_state = {
+							is_controlled_by = PRU
+						}
+					}
+					ROOT = {
+						build_railway = {
+							level = 2
+							start_state = ROOT.capital
+							target_state = PREV
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					any_controlled_state = {
+						any_neighbor_state = {
+							is_controlled_by = BRA
+						}
+					}
+				}
+				random_owned_controlled_state = {
+					limit = {
+						any_neighbor_state = {
+							is_controlled_by = BRA
+						}
+					}
+					ROOT = {
+						build_railway = {
+							level = 2
+							start_state = ROOT.capital
+							target_state = PREV
+						}
+					}
+				}
+			}
+			every_controlled_state = {
+				limit = {
+					OR = {
+						is_neighbor_of = PRU 
+						is_neighbor_of = BRA 
+						infrastructure < 3
+					}
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes 
+				}
+				add_dynamic_modifier = {
+					modifier = PAR_railway_infrastructure_initiative
+					days = 720
+				}
+			}
+		}
+	}
+
+	### Take Down the Giant ###
+	focus = {
+		id = VEN_take_down_the_giant
+		icon = GFX_ARG_attack_brazil
+		x = 1
+		y = 1
+		relative_position_id = VEN_development_near_the_amazonas
+		prerequisite = {
+			focus = VEN_development_near_the_amazonas
+		}
+		will_lead_to_war_with = BRA 
+
+		cost = 10
+
+		available = {
+			has_army_manpower = {
+				size > 199999
+			}
+			NOT = { is_in_faction_with = BRA } 
+		}
+
+		bypass = {
+			BRA = {
+				OR = {
+					is_subject_of = ROOT 
+					has_war_with = ROOT 
+					capital_scope = {
+						is_fully_controlled_by = ROOT 
+					}
+					AND = {
+						is_in_faction_with = ROOT 
+						has_government = ROOT
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					BRA = {
+						exists = yes 
+						num_of_controlled_states > 3
+					}
+				}
+				create_wargoal = {
+					target = BRA
+					type = annex_everything
+				}
+			}
+			else = {
+				random_other_country = {
+					limit = {
+						controls_state = 500
+					}
+					ROOT = {
+						create_wargoal = {
+							target = PREV 
+							type = annex_everything
+						}
+					}
+				}
+			}
+		}
+	}
+
+	### Extact the Amazonian Rubber ### || will add rubber to brazilian rubber states 
+	focus = {
+		id = VEN_extract_the_amazonian_rubber
+		icon = GFX_focus_generic_rubber
+		x = 1
+		y = 1
+		relative_position_id = VEN_take_down_the_giant
+		prerequisite = {
+			focus = VEN_take_down_the_giant
+		}
+		prerequisite = {
+			focus = VEN_the_gran_colombian_economy
+		}
+
+		cost = 10
+	}
+
+	### The March South ###
+	focus = {
+		id = VEN_the_march_south
+		icon = GFX_focus_PRU_attack
+		x = -1
+		y = 1
+		relative_position_id = VEN_development_near_the_amazonas
+		prerequisite = {
+			focus = VEN_development_near_the_amazonas
+		}
+		will_lead_to_war_with = PRU
+
+		cost = 8 
+
+		available = {
+			has_army_manpower = {
+				size > 169999
+			}
+			NOT = { is_in_faction_with = PRU } 
+		}
+
+		bypass = {
+			PRU = {
+				OR = {
+					is_subject_of = ROOT 
+					has_war_with = ROOT 
+					capital_scope = {
+						is_fully_controlled_by = ROOT 
+					}
+					AND = {
+						is_in_faction_with = ROOT 
+						has_government = ROOT
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			add_state_core = 965
+			if = {
+				limit = {
+					PRU = {
+						exists = yes 
+						num_of_controlled_states > 3
+					}
+				}
+				create_wargoal = {
+					target = PRU
+					type = annex_everything
+				}
+			}
+			else = {
+				random_other_country = {
+					limit = {
+						has_full_control_of_state = 303
+					}
+					ROOT = {
+						create_wargoal = {
+							target = PREV
+							type = annex_everything
+						}
+					}
+				}
+			}
+		}
+	}
+
+	### The Southern Cone ###
+	focus = {
+		id = VEN_the_southern_cone
+		icon = GFX_col_focus_attack_south
+		x = 0
+		y = 3
+		relative_position_id = VEN_the_march_south
+		prerequisite = {
+			focus = VEN_the_march_south
+		}
+		will_lead_to_war_with = ARG
+		will_lead_to_war_with = CHL
+		will_lead_to_war_with = URG
+
+		cost = 10
+
+		available = {
+			NOT = {
+				OR = {
+					is_in_faction_with = ARG 
+					is_in_faction_with = CHL 
+					is_in_faction_with = URG 
+				}
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = ARG 
+						original_tag = CHL 
+						original_tag = URG
+					}
+					NOT = { has_war_with = ROOT }
+					NOT = { is_in_faction_with = ROOT }
+				}
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						OR = {
+							original_tag = ARG 
+							original_tag = CHL 
+							original_tag = URG
+						}
+						NOT = { has_war_with = ROOT }
+						NOT = { is_in_faction_with = ROOT }
+					}
+					ROOT = {
+						create_wargoal = {
+							type = annex_everything
+							target = PREV 
+						}
+					}
+				}
+			}
+		}
+	}
+
+	### La Armada Gran-Colombiana ###
+	focus = {
+		id = VEN_la_armada_gran_colombiana
+		icon = GFX_VEN_gran_colombia_navy
+		x = -2
+		y = 1
+		relative_position_id = VEN_the_march_south
+		prerequisite = {
+			focus = VEN_the_march_south
+			focus = VEN_la_marcha_al_norte
+		}
+
+		cost = 10
+
+		available = {
+			any_controlled_state = {
+				is_coastal = yes 
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_RESEARCH FOCUS_FILTER_NAVY_XP FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_2_dockyard = yes 
+			navy_experience = 50
+			add_tech_bonus = {
+				name = VEN_la_armada_gran_colombiana
+				bonus = 1.0
+				uses = 1
+				category = bb_tech
+			}
+			add_tech_bonus = {
+				name = VEN_la_armada_gran_colombiana
+				bonus = 0.5
+				uses = 2
+				category = cl_tech	
+				category = ca_tech	
+			}
+		}
+	}
+
+	### Our Ambition in the Caribbean ###
+	focus = {
+		id = VEN_our_ambition_in_the_caribbean
+		icon = GFX_VEN_attack_cuba
+		x = 0
+		y = 1
+		relative_position_id = VEN_la_armada_gran_colombiana
+		prerequisite = {
+			focus = VEN_la_armada_gran_colombiana
+		}
+		will_lead_to_war_with = CUB
+
+		cost = 7.2
+
+		available = {
+			has_navy_size = {
+				size > 19
+			}
+		}
+
+		bypass = {
+			CUB = {
+				OR = {
+					is_subject_of = ROOT 
+					has_war_with = ROOT 
+					capital_scope = {
+						is_fully_controlled_by = ROOT 
+					}
+					AND = {
+						is_in_faction_with = ROOT 
+						has_government = ROOT
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			add_state_claim = 315
+			add_state_claim = 318
+			add_state_claim = 689
+			add_state_claim = 319
+			create_wargoal = {
+				target = CUB
+				type = annex_everything
+			}
+		}
+	}
+
+	### Nuestra por Derecho ###
+	focus = {
+		id = VEN_nuestra_por_derecho
+		icon = GFX_col_focus_canal
+		x = -3
+		y = 1
+		relative_position_id = VEN_no_second_chances
+		prerequisite = {
+			focus = VEN_no_second_chances
+		}
+		will_lead_to_war_with = USA
+
+		cost = 7.2
+
+		available = {
+			is_subject = no
+			controls_state = 304
+			USA = {
+				controls_state = 685
+				NOT = {
+					has_war_with = ROOT
+					is_in_faction_with = ROOT
+				}	
+			}
+		}
+
+		bypass = {
+			has_full_control_of_state = 685
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			unlock_decision_tooltip = { decision = COL_incidente_en_el_canal show_effect_tooltip = yes }
+		}
+	}
+
+	### La marcha al Norte ###
+	focus = {
+		id = VEN_la_marcha_al_norte
+		icon = GFX_ARG_conquer_america_central
+		x = 0
+		y = 1
+		relative_position_id = VEN_nuestra_por_derecho
+		prerequisite = {
+			focus = VEN_nuestra_por_derecho
+		}
+		will_lead_to_war_with = HON
+		will_lead_to_war_with = NIC
+		will_lead_to_war_with = GUA
+		will_lead_to_war_with = ELS
+		will_lead_to_war_with = COS
+
+
+		cost = 10
+
+		available = {
+			has_full_control_of_state = 685
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = HON 
+						original_tag = NIC 
+						original_tag = GUA
+						original_tag = ELS 
+						original_tag = COS
+					}
+					NOT = { has_war_with = ROOT }
+					NOT = { is_in_faction_with = ROOT }
+				}
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						OR = {
+							original_tag = HON 
+							original_tag = NIC 
+							original_tag = GUA
+							original_tag = ELS 
+							original_tag = COS
+						}
+						NOT = { has_war_with = ROOT }
+						NOT = { is_in_faction_with = ROOT }
+					}
+					ROOT = {
+						create_wargoal = {
+							type = annex_everything
+							target = PREV 
+						}
+					}
+				}
+			}
+		}
+	}
+
+	### The Mexican Question ###
+	focus = {
+		id = VEN_the_mexican_question
+		icon = GFX_focus_attack_mexico
+		x = -1
+		y = 1
+		relative_position_id = VEN_la_marcha_al_norte
+		prerequisite = {
+			focus = VEN_la_marcha_al_norte
+		}
+		will_lead_to_war_with = MEX
+
+		cost = 8
+
+		available = {
+			has_army_manpower = {
+				size > 249999
+			}
+		}
+
+		bypass = {
+			MEX = {
+				OR = {
+					is_subject_of = ROOT 
+					has_war_with = ROOT 
+					capital_scope = {
+						is_fully_controlled_by = ROOT 
+					}
+					AND = {
+						is_in_faction_with = ROOT 
+						has_government = ROOT
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					MEX = {
+						exists = yes 
+						num_of_controlled_states > 3
+					}
+				}
+				create_wargoal = {
+					target = MEX
+					type = annex_everything
+				}
+			}
+			else = {
+				random_other_country = {
+					limit = {
+						has_full_control_of_state = 277
+					}
+					ROOT = {
+						create_wargoal = {
+							target = PREV
+							type = annex_everything
+						}
+					}
+				}
+			}
+		}
+	}
+
+	### The True Dominant Power in America ###
+	focus = {
+		id = VEN_the_true_dominant_power_in_america
+		icon = GFX_VEN_true_power
+		x = -1
+		y = 1
+		relative_position_id = VEN_our_ambition_in_the_caribbean
+		prerequisite = {
+			focus = VEN_our_ambition_in_the_caribbean
+		}
+		prerequisite = {
+			focus = VEN_the_mexican_question
+		}
+		will_lead_to_war_with = USA
+
+		cost = 10
+
+		available = {
+			has_army_manpower = {
+				size > 399999
+			}
+			has_full_control_of_state = 315
+			is_neighbor_of = USA
+			has_navy_size = {
+				size > 39
+			}
+			NOT = {
+				is_in_faction_with = USA
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			create_wargoal = {
+				target = USA
+				type = annex_everything
+			}
+		}
+	}
+
+	### The Gran Colombian Economy ###
+	focus = {
+		id = VEN_the_gran_colombian_economy
+		icon = GFX_VEN_gran_colombian_economy
+		x = 0
+		y = 2
+		relative_position_id = VEN_ensure_total_victory
+		prerequisite = {
+			focus = VEN_a_new_republic_is_born
+			focus = VEN_no_second_chances
+		}
+
+		cost = 10
+
+		available = {
+			NOT = {
+				has_idea = COL_unificacion_reciente
+			}
+			num_of_factories > 79
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ECONOMIC_GROWTH
+		}
+
+		completion_reward = {
+			VEN_improve_oil_extraction_idea = yes 
+			EUYL_add_2_military = yes 
+			EUYL_add_2_civilian = yes 
+		}
+	}
+
+	### Secure the Tungsten Mines ###
+	focus = {
+		id = VEN_secure_the_tungsten_mines
+		icon = GFX_focus_BOL_attack
+		x = -1
+		y = 1
+		relative_position_id = VEN_take_down_the_giant
+		prerequisite = {
+			focus = VEN_take_down_the_giant
+			focus = VEN_the_march_south
+		}
+		will_lead_to_war_with = BOL
+
+		cost = 7.2
+
+		available = {
+			is_neighbor_of = BOL
+			NOT = {
+				is_in_faction_with = BOL
+			}
+		}
+
+		bypass = {
+			BOL = {
+				OR = {
+					exists = no 
+					is_subject_of = ROOT 
+					has_war_with = ROOT
+					capital_scope = {
+						is_fully_controlled_by = ROOT 
+					}
+					AND = {
+						is_in_faction_with = ROOT 
+						has_government = ROOT
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					BOL = {
+						exists = yes 
+						num_of_controlled_states > 2
+					}
+				}
+				create_wargoal = {
+					target = BOL
+					type = annex_everything
+				}
+			}
+			else = {
+				random_other_country = {
+					limit = {
+						has_full_control_of_state = 302
+					}
+					ROOT = {
+						create_wargoal = {
+							target = PREV
+							type = annex_everything
+						}
+					}
+				}
+			}
+		}
+	}
+
+	## Establish the Confederation as a Dominion ##
+	focus = {
+		id = VEN_establish_the_confederation_as_a_dominion
+		icon = GFX_PRU_peru_bolivia_commonwealth
+		x = 0
+		y = 1
+		relative_position_id = VEN_secure_the_tungsten_mines
+		prerequisite = {
+			focus = VEN_secure_the_tungsten_mines
+		}
+
+		cost = 10
+
+		available = {
+			
 		}
 	}
 	

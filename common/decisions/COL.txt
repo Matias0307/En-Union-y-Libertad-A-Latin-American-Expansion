@@ -3261,14 +3261,20 @@ col_mandato_unificacion = {
 				add = 50
 				ECU = {
 					has_opinion = {
-						target = COL
+						target = ROOT
 						value > 50
 					}
 				}
 			}
 		}
 
-		cost = 25
+		visible = {
+			NOT = {
+				original_tag = ECU
+			}
+		}
+
+		cost = 35
 
 		target_trigger = {
 			FROM = { 
@@ -3282,6 +3288,10 @@ col_mandato_unificacion = {
 			}
 			NOT = {
 				has_war_with = ECU
+			}
+			strength_ratio = {
+				tag = FROM
+				ratio > 1
 			}
 		}
 
@@ -3306,14 +3316,20 @@ col_mandato_unificacion = {
 				add = 50
 				VEN = {
 					has_opinion = {
-						target = COL
+						target = ROOT
 						value > 50
 					}
 				}
 			}
 		}
 
-		cost = 25
+		visible = {
+			NOT = {
+				original_tag = VEN
+			}
+		}
+
+		cost = 75
 
 		target_trigger = {
 			FROM = { 
@@ -3327,6 +3343,64 @@ col_mandato_unificacion = {
 			}
 			NOT = {
 				has_war_with = VEN
+			}
+			strength_ratio = {
+				tag = FROM
+				ratio > 1
+			}
+		}
+
+		complete_effect = {
+			FROM = {
+				country_event = { id = colombia.50 days = 10 random_days = 5 }
+			}
+		}
+	}
+
+	COL_demand_colombia = {
+		fire_only_once = yes
+
+		icon = GFX_decision_generic_civil_support
+
+		priority = 9
+
+		ai_will_do = {
+			factor = 50
+			modifier = {
+				add = 50
+				COL = {
+					has_opinion = {
+						target = ROOT
+						value > 50
+					}
+				}
+			}
+		}
+
+		visible = {
+			NOT = {
+				original_tag = COL
+			}
+		}
+
+		cost = 75
+
+		target_trigger = {
+			FROM = { 
+				tag = COL
+			}
+		}
+
+		available = {
+			COL = {
+				exists = yes
+			}
+			NOT = {
+				has_war_with = COL
+			}
+			strength_ratio = {
+				tag = FROM
+				ratio > 1
 			}
 		}
 
@@ -3351,7 +3425,7 @@ col_mandato_unificacion = {
 				add = 50
 				PAN = {
 					has_opinion = {
-						target = COL
+						target = ROOT
 						value > 50
 					}
 				}
@@ -3359,6 +3433,12 @@ col_mandato_unificacion = {
 		}
 
 		cost = 25
+
+		visible = {
+			NOT = {
+				original_tag = PAN
+			}
+		}
 
 		target_trigger = {
 			FROM = { 
@@ -3372,6 +3452,10 @@ col_mandato_unificacion = {
 			}
 			NOT = {
 				has_war_with = PAN
+			}
+			strength_ratio = {
+				tag = FROM
+				ratio > 1
 			}
 		}
 
@@ -3397,6 +3481,7 @@ col_mandato_unificacion = {
 		cost = 25
 
 		visible = {
+			NOT = { original_tag = VEN } 
 			NOT = {
 				AND = {
 					has_full_control_of_state = 965
@@ -3535,15 +3620,29 @@ col_mandato_unificacion = {
 
 			#Panamá
 			controls_state = 304
+
+			# Colombia
+			custom_trigger_tooltip = {
+				tooltip = form_country_colombia_required_states_tt
+				controls_state = 486
+				controls_state = 306
+				controls_state = 493
+				controls_state = 1012
+				controls_state = 1013
+				controls_state = 1015
+				controls_state = 1016
+				controls_state = 1014
+				controls_state = 1018
+				controls_state = 1017
+				controls_state = 1019
+			}
 		}
 
 		complete_effect = {
 			set_cosmetic_tag = GRC_UNIFIED
-			unlock_decision_tooltip = COL_integrar_venezuela
-			unlock_decision_tooltip = COL_integrar_ecuador
-			unlock_decision_tooltip = COL_integrar_los_otros_territorios
+			custom_effect_tooltip = GCO_passively_core_states_tt
 			hidden_effect = {
-				add_timed_idea = { idea = COL_unificacion_reciente  days = 183 }
+				add_timed_idea = { idea = COL_unificacion_reciente  days = 365 }
 				news_event = { id = colombia.91 hours = 12 }
 			}
 		}
@@ -3553,172 +3652,97 @@ col_mandato_unificacion = {
 		}
 	}
 
-	COL_integrar_venezuela = {
+	VEN_integrate_FROM = {
 
-		icon = generic_nationalism
+		icon = generic_nationalism 
 
-		fire_only_once = yes 
+		state_target = yes 
 
-		visible = {
-			has_cosmetic_tag = GRC_UNIFIED
+		target_array = controlled_states
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+				NOT = { is_core_of = ROOT } 
+				OR = {
+					is_core_of = COL 
+					is_core_of = VEN 
+					is_core_of = ECU 
+					is_core_of = PAN 
+				}
+			}
 		}
+
+		on_map_mode = map_only
 
 		available = {
-			custom_trigger_tooltip = {
-				tooltip = form_grc_venezuela_required_states_tt
-				controls_state = 489
-				controls_state = 942
-				controls_state = 307
-				controls_state = 488
-				controls_state = 938
-				controls_state = 943
-				controls_state = 945
-				controls_state = 947
-				controls_state = 946
-				controls_state = 941
-				controls_state = 944
-			}
-			hidden_trigger = {
-				NOT = { has_country_flag = COL_integrando_pais }
+			FROM = {
+				compliance > 50
 			}
 		}
 
-		cost = 75
-
-		days_remove = 190
-
-		modifier = {
-			weekly_manpower = -1250
+		custom_cost_trigger = {
+			command_power > 15
 		}
+
+		custom_cost_text = CHL_cost_15_cp
 
 		complete_effect = {
-			set_country_flag = COL_integrando_pais
-		}
-
-		remove_effect = {
-			clr_country_flag = COL_integrando_pais
-			custom_effect_tooltip = form_grc_venezuela_coring_states_tt
 			hidden_effect = {
-				489 = { add_core_of = ROOT }
-				942 = { add_core_of = ROOT }
-				307 = { add_core_of = ROOT }
-				488 = { add_core_of = ROOT }
-				938 = { add_core_of = ROOT }
-				943 = { add_core_of = ROOT }
-				945 = { add_core_of = ROOT }
-				947 = { add_core_of = ROOT }
-				946 = { add_core_of = ROOT }
-				941 = { add_core_of = ROOT }
-				944 = { add_core_of = ROOT }
+				add_command_power = -15 
 			}
+			FROM = { add_core_of = ROOT } 
 		}
 	}
 
-	COL_integrar_ecuador = {
+	VEN_ensure_total_victory_against_FROM = {
+		icon = generic_operation 
 
-		icon = generic_nationalism
-
-		fire_only_once = yes 
-
-		visible = {
-			has_cosmetic_tag = GRC_UNIFIED
+		target_trigger = {
+			FROM = {
+				exists = yes
+				OR = {
+					original_tag = COL 
+					original_tag = ECU 
+					original_tag = PAN 
+				}
+			}
 		}
+
+		custom_cost_trigger = {
+			command_power > 24
+		}
+
+		custom_cost_text = decision_cost_CP_25
 
 		available = {
-			custom_trigger_tooltip = {
-				tooltip = form_grc_ecuador_required_states_tt
-				controls_state = 305
-				controls_state = 935
-				controls_state = 1020
-				controls_state = 1010
-				controls_state = 649
-			}
-			hidden_trigger = {
-				NOT = { has_country_flag = COL_integrando_pais }
+			FROM = {
+				has_war_with = ROOT 
 			}
 		}
 
-		cost = 75
-
-		days_remove = 115
-
-		modifier = {
-			weekly_manpower = -1000
+		visible = {
+			has_completed_focus = VEN_ensure_total_victory
 		}
 
 		complete_effect = {
-			set_country_flag = COL_integrando_pais
-		}
-
-		remove_effect = {
-			clr_country_flag = COL_integrando_pais
-			custom_effect_tooltip = form_grc_ecuador_coring_states_tt
 			hidden_effect = {
-				305 = { add_core_of = ROOT }
-				935 = { add_core_of = ROOT }
-				1020 = { add_core_of = ROOT }
-				1010 = { add_core_of = ROOT }
-				490 = { add_core_of = ROOT }
-				649 = { add_core_of = ROOT }
-			}	
-		}
-	}
-
-	COL_integrar_los_otros_territorios = {
-		icon = generic_nationalism
-
-		fire_only_once = yes 
-
-		visible = {
-			has_cosmetic_tag = GRC_UNIFIED
-		}
-
-		available = {
-			controls_state = 304
-			controls_state = 685
-			controls_state = 936
-			controls_state = 964
-			controls_state = 965
-			controls_state = 937
-			controls_state = 695
-			hidden_trigger = {
-				NOT = { has_country_flag = COL_integrando_pais }
+				add_command_power = -25
 			}
 		}
 
-		cost = 75
+		days_remove = 60
 
-		days_remove = 140
+		targeted_modifier = {
+			tag = FROM 
+			attack_bonus_against = 0.1
+            defense_bonus_against = 0.1
+		}
 
 		modifier = {
-			weekly_manpower = -1014
-		}
-
-		complete_effect = {
-			set_country_flag = COL_integrando_pais
-		}
-
-		remove_effect = {
-			clr_country_flag = COL_integrando_pais
-			# Panamá y C. de Panamá
-			304 = { add_core_of = ROOT }
-			685 = { add_core_of = ROOT }
-
-			# Japurá y Mapari
-			936 = { add_core_of = ROOT }
-			964 = { add_core_of = ROOT }
-
-			# Yaguas
-			965 = { add_core_of = ROOT }
-
-			# Guyana Esequiba
-			937 = { add_core_of = ROOT }
-
-			# Curazao
-			695 = { add_core_of = ROOT }
+			experience_gain_army_factor = -0.25
 		}
 	}
-
 }
 
 col_gestion_estatal_laureanista_category = {
@@ -3840,13 +3864,17 @@ conflictos_fronterizos_col = {
 		icon = border_war
 
 		allowed = {
-			original_tag = COL
+			OR = {
+				original_tag = COL 
+				original_tag = VEN
+			}
 		}
 
 		visible = {
 			OR = {
 				has_completed_focus = COL_nuestro_por_derecho
 				has_completed_focus = COL_cumplir_el_sueno
+				has_completed_focus = VEN_nuestra_por_derecho
 			}
 			NOT = {
 				has_war_with = USA

@@ -11,6 +11,9 @@ VEN_political_crisis = { ## need to make custom trigger tooltips for these :/
             NOT = {
                 has_active_mission = VEN_impending_democratic_revolution
             }
+            NOT = {
+                has_global_flag = VEN_second_revolucion_libertadora_triggered_flag
+            }
         }
 
         days_remove = 140
@@ -22,7 +25,12 @@ VEN_political_crisis = { ## need to make custom trigger tooltips for these :/
     VEN_impending_democratic_revolution = {
         icon = generic_ignite_civil_war
 
-        activation = { has_idea = strikes_3 }
+        activation = { 
+            has_idea = strikes_3 
+            NOT = {
+                has_global_flag = VEN_second_revolucion_libertadora_triggered_flag
+            }
+        }
 
         days_mission_timeout = 140
 
@@ -41,9 +49,12 @@ VEN_political_crisis = { ## need to make custom trigger tooltips for these :/
             }
         }
 
+        fire_only_once = yes 
+
         complete_effect = { add_stability = 0.02 }
 
         timeout_effect = {
+            set_global_flag = VEN_second_revolucion_libertadora_triggered_flag
             if = {
 				limit = {
 					NOT = {
@@ -137,6 +148,54 @@ VEN_political_crisis = { ## need to make custom trigger tooltips for these :/
 					}
 				}
 			}
+        }
+
+        VEN_workers_demand_nationalized_oil_fields = {
+            icon = revolt
+
+            activation = {
+                always = no 
+            }
+
+            fire_only_once = yes 
+
+            is_good = no 
+
+            days_mission_timeout = 670
+
+            available = {
+                has_completed_focus = VEN_nationalize_the_oil_fields
+            }
+
+            cancel_trigger = {
+                OR = {
+                    exists = no 
+                    is_subject = yes 
+                    NOT = { has_government = communism }
+                }
+            }
+
+            complete_effect = {
+                add_stability = 0.01
+                add_political_power = 10
+            }
+
+            timeout_effect = {
+                if = {
+                    limit = {
+                        OR = {
+                            has_idea = strikes_2
+                            has_idea = strikes_3
+                        }
+                    }
+                    VEN_worsen_strikes = yes 
+                    add_stability = -0.05
+                    add_political_power = -35
+                }
+                else = {
+                    add_ideas = strikes_2
+                }
+            }
         }
     }
 
@@ -297,6 +356,18 @@ VEN_looming_oil_strike_cat = {
                         limit = {
                             has_completed_focus = VEN_support_the_workers_cause
                         }
+                        hidden_effect = {
+                            every_controlled_state = {
+                                limit = {
+                                    has_dynamic_modifier = {
+                                        modifier = BRA_protests
+                                    }
+                                }
+                                remove_dynamic_modifier = {
+                                    modifier = BRA_protests
+                                }
+                            }
+                        }
                         start_civil_war = {
                             ruling_party = communism
                             ideology = ROOT 
@@ -363,6 +434,34 @@ VEN_looming_oil_strike_cat = {
                             }
                             add_political_power = 25
 				            add_ideas = VEN_bourgeoisie_crackdown_idea
+                        }
+                        hidden_effect = {
+                            if = {
+                                limit = {
+                                    VEN_abrupt_government_transition_active = yes 
+                                }
+                                remove_ideas = {
+                                    VEN_abrupt_government_transition_1
+                                    VEN_abrupt_government_transition_2
+                                    VEN_abrupt_government_transition_3
+                                    VEN_abrupt_government_transition_4
+                                }
+                            }
+                            if = {
+                                limit = {
+                                    OR = {
+                                        has_idea = strikes_1
+                                        has_idea = strikes_2
+                                        has_idea = strikes_3
+                                    }
+                                }
+                                remove_ideas = {
+                                    strikes_1 
+                                    strikes_2
+                                    strikes_3
+                                }
+                            }
+                            VEN_BoP_remove_effect = yes ## just to make it easy on myself ngl
                         }
                         promote_character = VEN_revolutionary_army
                         random_other_country = { ##also make sure to load the focus tree
@@ -1578,6 +1677,42 @@ VEN_gloria_al_bravo_pueblo_cat = {
             VEN_improve_abrupt_government_transition_idea = yes 
         }
     }
+
+    VEN_enact_local_conscription_laws_in_FROM = {
+        icon = generic_military 
+
+        custom_cost_trigger = {
+			command_power > 49
+		}
+
+		custom_cost_text = decision_cost_CP_50
+
+        fire_only_once = yes 
+
+        state_target = yes 
+
+        target_array = controlled_states
+
+        on_map_mode = map_only
+
+        target_trigger = {
+            FROM = {
+                is_fully_controlled_by = ROOT 
+            }
+        }
+
+        complete_effect = {
+            hidden_effect = {
+                add_command_power = -50 
+            }
+            FROM = {
+                add_dynamic_modifier = {
+                    modifier = VEN_local_mobilization_active
+                    days = 720
+                }
+            }
+        }
+    }
 }
 
 VEN_bop_cat = {
@@ -1839,7 +1974,7 @@ VEN_bop_cat = {
     }
 
     VEN_debug_move_right = {
-        visible = { is_debug = yes }
+        visible = { always = no }
 
         complete_effect = {
             VEN_move_100_right = yes 
@@ -1847,10 +1982,315 @@ VEN_bop_cat = {
     }
 
     VEN_debug_move_left = {
-        visible = { is_debug = yes }
+        visible = { always = no }
 
         complete_effect = {
             VEN_move_100_left = yes 
+        }
+    }
+}
+
+VEN_post_crisis_recovery = {
+    VEN_economic_revocery_in_progress = {
+        icon = gre_paying_ifc_debt
+
+        activation = {
+            always = no 
+        }
+
+        available = {
+            always = no 
+        }
+
+        cancel_trigger = {
+            NOT = {
+                OR = {
+                    has_idea = VEN_post_civil_war_economic_crisis_1
+                    has_idea = VEN_post_civil_war_economic_crisis_2
+                }
+            }
+        }
+
+        is_good = no 
+
+        days_mission_timeout = VEN_time_to_recover_economically
+
+        timeout_effect = {
+            if = {
+                limit = {
+                    has_idea = VEN_post_civil_war_economic_crisis_2
+                }
+                remove_ideas = VEN_post_civil_war_economic_crisis_2
+            }
+            else = {
+                remove_ideas = VEN_post_civil_war_economic_crisis_1
+            }
+        }
+    }
+
+    VEN_military_recovery_in_progress = {
+        icon = generic_military
+
+        activation = {
+            always = no 
+        }
+
+        available = {
+            always = no 
+        }
+
+        cancel_trigger = {
+            NOT = {
+                has_idea = VEN_crippled_army
+            }
+        }
+
+        is_good = no 
+
+        days_mission_timeout = VEN_time_to_recover_militarily
+
+        timeout_effect = {
+            remove_ideas = VEN_crippled_army
+        }
+    }
+}
+
+VEN_national_syndicate = {
+    VEN_syndicate_demands_funding = {
+        priority = 10
+        icon = generic_fundraising
+
+        activation = {
+            always = no
+        }
+
+        available = {
+            always = no
+        }
+
+        cancel_trigger = {
+            NOT = {
+                has_government = communism
+            }
+        }
+
+        days_mission_timeout = 365
+
+        is_good = no 
+
+        timeout_effect = {
+            add_timed_idea = {
+                idea = VEN_syndicate_funding
+                days = 100
+            }
+            custom_effect_tooltip = EUYL_effects_when_removed_tt
+			effect_tooltip = { activate_mission = VEN_syndicate_demands_funding }
+        }
+    }
+
+    VEN_use_syndicate_as_political_sway = {
+        icon = generic_political_address
+
+        available = {
+            has_civil_war = no 
+        }
+
+        days_remove = 90
+
+        modifier = {
+            political_power_factor = 0.15
+            consumer_goods_factor = 0.2
+        }
+
+        days_re_enable = 90
+
+        remove_effect = {
+            custom_effect_tooltip = EUYL_decision_will_reappear_in_90_days_tt
+        }
+    }
+
+    VEN_syndicate_aid_in_economic_recovery = {
+        icon = ger_mefo_bills
+
+        visible = {
+            has_active_mission = VEN_economic_revocery_in_progress
+        }
+
+        days_remove = 90
+
+        modifier = {
+            political_power_factor = -0.2
+        }
+
+        complete_effect = {
+            add_days_mission_timeout = {
+                mission = VEN_economic_revocery_in_progress
+                days = 60
+            }
+        }
+    }
+
+    VEN_target_the_civilian_industry = {
+        icon = generic_factory 
+
+        cost = 35
+
+        available = {
+            custom_trigger_tooltip = {
+                tooltip = VEN_NOT_has_economic_crisis_tt
+                NOT = {
+                    OR = {
+                        has_idea = VEN_post_civil_war_economic_crisis_1
+                        has_idea = VEN_post_civil_war_economic_crisis_2
+                    }
+                }
+            }
+            NOT = {
+                OR = {
+                    has_decision = VEN_target_our_supply_networks
+                    has_decision = VEN_raised_worker_salaries
+                    has_decision = VEN_improved_dockyard_funding
+                    has_decision = VEN_target_the_military_industry
+                }
+            }
+        }
+
+        days_remove = 120
+
+        modifier = {
+            production_speed_industrial_complex_factor = 0.15
+        }
+    }
+
+    VEN_target_the_military_industry = {
+        icon = generic_tank
+
+        cost = 25
+
+        available = {
+            custom_trigger_tooltip = {
+                tooltip = VEN_NOT_has_economic_crisis_tt
+                NOT = {
+                    OR = {
+                        has_idea = VEN_post_civil_war_economic_crisis_1
+                        has_idea = VEN_post_civil_war_economic_crisis_2
+                    }
+                }
+            }
+            NOT = {
+                OR = {
+                    has_decision = VEN_target_our_supply_networks
+                    has_decision = VEN_raised_worker_salaries
+                    has_decision = VEN_improved_dockyard_funding
+                    has_decision = VEN_target_the_civilian_industry
+                }
+            }
+        }
+
+        days_remove = 120
+
+        modifier = {
+            production_speed_arms_factory_factor = 0.15
+        }
+    }
+
+    VEN_improved_dockyard_funding = {
+        icon = generic_merge_plant_ship
+
+        cost = 40
+
+        available = {
+            custom_trigger_tooltip = {
+                tooltip = VEN_NOT_has_economic_crisis_tt
+                NOT = {
+                    OR = {
+                        has_idea = VEN_post_civil_war_economic_crisis_1
+                        has_idea = VEN_post_civil_war_economic_crisis_2
+                    }
+                }
+            }
+            NOT = {
+                OR = {
+                    has_decision = VEN_target_our_supply_networks
+                    has_decision = VEN_raised_worker_salaries
+                    has_decision = VEN_target_the_military_industry
+                    has_decision = VEN_target_the_civilian_industry
+                }
+            }
+        }
+
+        days_remove = 120
+
+        modifier = {
+            production_speed_dockyard_factor = 0.15
+            industrial_capacity_dockyard = 0.1
+        }
+    }
+
+    VEN_target_our_supply_networks = {
+        icon = GFX_decision_railroad_construction
+
+        cost = 25
+
+        available = {
+            custom_trigger_tooltip = {
+                tooltip = VEN_NOT_has_economic_crisis_tt
+                NOT = {
+                    OR = {
+                        has_idea = VEN_post_civil_war_economic_crisis_1
+                        has_idea = VEN_post_civil_war_economic_crisis_2
+                    }
+                }
+            }
+            NOT = {
+                OR = {
+                    has_decision = VEN_target_the_civilian_industry
+                    has_decision = VEN_improved_dockyard_funding
+                    has_decision = VEN_target_the_military_industry
+                    has_decision = VEN_raised_worker_salaries
+                }
+            }
+        }
+
+        days_remove = 120
+
+        modifier = {
+            production_speed_rail_way_factor = 0.2
+            production_speed_supply_node_factor = 0.3
+        }
+    }
+
+    VEN_raised_worker_salaries = {
+        icon = generic_welfare 
+
+        cost = 50
+
+        available = {
+            custom_trigger_tooltip = {
+                tooltip = VEN_NOT_has_economic_crisis_tt
+                NOT = {
+                    OR = {
+                        has_idea = VEN_post_civil_war_economic_crisis_1
+                        has_idea = VEN_post_civil_war_economic_crisis_2
+                    }
+                }
+            }
+            NOT = {
+                OR = {
+                    has_decision = VEN_target_our_supply_networks
+                    has_decision = VEN_improved_dockyard_funding
+                    has_decision = VEN_target_the_military_industry
+                    has_decision = VEN_target_the_civilian_industry
+                }
+            }
+        }
+
+        days_remove = 90
+
+        modifier = {
+            industrial_capacity_factory = 0.1
+            production_speed_buildings_factor = 0.1
+            consumer_goods_factor = -0.05
         }
     }
 }
@@ -2154,7 +2594,6 @@ VEN_abc_islands = {
 		complete_effect = {
 			HOL = { country_event = { id = mtg_netherlands.1 hours = 6 } }
 		}
-
 	}
 
 }

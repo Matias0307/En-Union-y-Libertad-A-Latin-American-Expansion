@@ -83,11 +83,12 @@ on_actions = {
                     NOT = { has_government = communism } #main strike will be triggered manually
                 }
                 random_list = {
-                    25 = {
+                    20 = {
                         modifier = {
                             factor = 0
                             OR = {
-                                date < 1936.5.1
+                                date < 1936.5.16
+                                has_completed_focus = VEN_support_the_workers_cause
                                 has_government = communism
                                 has_civil_war = yes 
                                 has_idea = strikes_1
@@ -98,7 +99,7 @@ on_actions = {
                         modifier = {
                             factor = 1.75
                             OR = {
-                                has_stability > 0.4
+                                has_stability < 0.4
                                 communism > 0.24
                             }
                         }
@@ -128,7 +129,7 @@ on_actions = {
                     has_civil_war = no 
                 }
                 random_list = {
-                    35 = {
+                    30 = {
                         modifier = {
                             factor = 0
                             date < 1936.3.1
@@ -164,7 +165,7 @@ on_actions = {
                             random_hours = 20
                         }
                     }
-                    60 = {
+                    65 = {
                         
                     }
                 }
@@ -1232,6 +1233,27 @@ on_actions = {
                         division_template = "Milicias"
                         disband = no # lol
                     }
+                }
+            }
+            if = {
+                limit = {
+                    FROM = { original_tag = VEN }
+                    ROOT = {
+                        original_tag = VEN 
+                        OR = {
+                            has_government = fascism
+                            has_government = communism
+                        }
+                        NOT = { has_country_flag = civil_war_end_triggered_flag }
+                    }
+                }
+                ROOT = {
+                    country_event = { ## Civil War victory
+                        id = venezuela.22 
+                        hours = 4
+                        random_hours = 4
+                    }
+                    set_country_flag = civil_war_end_triggered_flag ## to prevent it from happening a second time
                 }
             }
         }
