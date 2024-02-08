@@ -3297,7 +3297,7 @@ col_mandato_unificacion = {
 
 		complete_effect = {
 			FROM = {
-				country_event = { id = colombia.44 days = 5 random_days = 10 }
+				country_event = { id = colombia.44 days = 2 random_days = 6 }
 			}
 		}
 	}
@@ -3352,7 +3352,7 @@ col_mandato_unificacion = {
 
 		complete_effect = {
 			FROM = {
-				country_event = { id = colombia.50 days = 10 random_days = 5 }
+				country_event = { id = colombia.50 days = 4 random_days = 4 }
 			}
 		}
 	}
@@ -3406,7 +3406,7 @@ col_mandato_unificacion = {
 
 		complete_effect = {
 			FROM = {
-				country_event = { id = colombia.50 days = 10 random_days = 5 }
+				country_event = { id = colombia.50 days = 3 random_days = 4 }
 			}
 		}
 	}
@@ -3461,7 +3461,7 @@ col_mandato_unificacion = {
 
 		complete_effect = {
 			FROM = {
-				country_event = { id = colombia.47 days = 5 random_days = 10 }
+				country_event = { id = colombia.47 days = 2 random_days = 5 }
 			}
 		}
 	}
@@ -3481,14 +3481,17 @@ col_mandato_unificacion = {
 		cost = 25
 
 		visible = {
-			NOT = { original_tag = VEN } 
-			NOT = {
-				AND = {
-					has_full_control_of_state = 965
-					has_full_control_of_state = 964
-					has_full_control_of_state = 936
-					has_full_control_of_state = 937
+			if = {
+				limit = {
+					original_tag = VEN 
 				}
+				has_completed_focus = VEN_purchase_our_remaining_territories
+			}
+			if = {
+				limit = {
+					original_tag = COL 
+				}
+				has_completed_focus = COL_mandato_de_unificacion
 			}
 		}
 
@@ -3523,62 +3526,77 @@ col_mandato_unificacion = {
 
 		complete_effect = {
 			# Yaguas
-			random_other_country = {
-                limit = {
-                    controls_state = 965
-                    NOT = {
-                    	has_war_with = ROOT
-                    }
-                }
-				country_event = { id = colombia.53 hours = 8 random_hours = 36 }
-			}
-
-			# Mapari y Japurá
-			random_other_country = {
-               limit = {
-                   controls_state = 964
-                   controls_state = 936
-                   NOT = {
-                   		has_war_with = ROOT
-                   }
-               }
-				country_event = { id = colombia.56 hours = 8 random_hours = 26 }
-				country_event = { id = colombia.59 hours = 8 random_hours = 26 }
+			if = {
+				limit = {
+					NOT = {
+						controls_state = 965
+					}
+				}
+				random_other_country = {
+					limit = {
+						controls_state = 965
+						NOT = {
+							has_war_with = ROOT
+						}
+					}
+					country_event = { id = colombia.53 hours = 8 random_hours = 36 }
+				}
 			}
 
 			#Mapari
-			random_other_country = {
-    			limit = {
-     				controls_state = 964
-       				NOT = {
-						controls_state = 936
-						has_war_with = ROOT
-    				}
-    			}
-				country_event = { id = colombia.56 hours = 8 random_hours = 26 }
+			if = {
+				limit = {
+					NOT = {
+						controls_state = 964
+					}
+				}
+				random_other_country = {
+					limit = {
+						controls_state = 964
+						NOT = {
+							controls_state = 936
+							has_war_with = ROOT
+						}
+					}
+					country_event = { id = colombia.56 hours = 8 random_hours = 26 }
+				}
 			}
-
+			
 			#Japurá
-			random_other_country = {
-                limit = {
-                    controls_state = 936
-                    NOT = {
-                    	controls_state = 964
-                    	has_war_with = ROOT
-                    }
-                }
-				country_event = { id = colombia.59 hours = 8 random_hours = 30 }
+			if = {
+				limit = {
+					NOT = {
+						controls_state = 936
+					}
+				}
+				random_other_country = {
+					limit = {
+						controls_state = 936
+						NOT = {
+							controls_state = 964
+							has_war_with = ROOT
+						}
+					}
+					country_event = { id = colombia.59 hours = 8 random_hours = 30 }
+				}
 			}
-
+			
 			#Guyana Esequiba
-			random_other_country = {
-                limit = {
-                    controls_state = 937
-                    NOT = {
-                    	has_war_with = ROOT
-                    }
-                }
-				country_event = { id = colombia.62 hours = 8 random_hours = 12 }
+			if = {
+				limit = {
+					NOT = {
+						controls_state = 937
+					}
+				}
+				random_other_country = {
+					limit = {
+						controls_state = 937
+						NOT = {
+							has_war_with = ROOT
+						}
+					}
+					country_event = { id = colombia.62 hours = 8 random_hours = 12 }
+				}
 			}
 		}
 	}

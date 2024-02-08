@@ -171,6 +171,44 @@ on_actions = {
                 }
             }
         }
+        effect = {
+            if = {
+                limit = {
+                    has_completed_focus = VEN_the_right_to_strike
+                    has_civil_war = no 
+                }
+                random_list = {
+                    15 = {
+                        modifier = {
+                            factor = 1.4
+                            OR = {
+                                has_stability < 0.4
+                                communism > 0.24
+                            }
+                        }
+                        modifier = {
+                            factor = 0
+                            OR = {
+                                has_civil_war = yes 
+                                any_other_country = { ## strikers wont strike while the country is in a life/death scenario... unless they're literally braindead
+                                    is_major = yes 
+                                    has_war_with = ROOT
+                                }
+                            }
+                        }
+                        country_event = { 
+                            id = venezuela.4
+                            days = 4
+                            random_days = 2
+                            random_hours = 17
+                        }
+                    }
+                    90 = {
+
+                    }
+                }
+            }
+        }
     }
     on_monthly_PRU = {
         effect = {

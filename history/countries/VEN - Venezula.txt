@@ -1,24 +1,31 @@
 ﻿capital = 941
 add_ideas = {
-	VEN_abrupt_government_transition_3
+	#VEN_abrupt_government_transition_3
 	VEN_transition_to_democracy
-	VEN_dependent_on_oil_extraction_1
-	VEN_underground_communist_movement
-	VEN_outdated_army
+	#VEN_dependent_on_oil_extraction_1
+	#VEN_underground_communist_movement
+	#VEN_outdated_army
 	limited_exports
 	monroe_doctrine_idea
 }
 oob = "VEN_1936"
+if = {
+	limit = { has_dlc = "Man the Guns" }
+		set_naval_oob = "VEN_1936_naval_mtg"
+	else = {
+		set_naval_oob = "VEN_1936_naval_legacy"
+	}
+}
 
-set_variable = { VEN_civil_war_communists_counter_val = 15 }
-set_variable = { VEN_civil_war_government_counter_val = 20 }
-
-set_variable = { VEN_time_to_recover_economically = 365 }
-set_variable = { VEN_time_to_recover_militarily = 365 }
-
-set_variable = { VEN_times_sold_resource_rights = 0 }
-
-activate_mission = VEN_looming_oil_strike
+#set_variable = { VEN_civil_war_communists_counter_val = 15 }
+#set_variable = { VEN_civil_war_government_counter_val = 20 }
+#
+#set_variable = { VEN_time_to_recover_economically = 365 }
+#set_variable = { VEN_time_to_recover_militarily = 365 }
+#
+#set_variable = { VEN_times_sold_resource_rights = 0 }
+#
+#activate_mission = VEN_looming_oil_strike
 #activate_mission = VEN_looming_american_intervention
 
 VEN_initiate_balance_of_power = yes 
@@ -31,11 +38,11 @@ country_event = { ## Oil Discovery in Miocene Tar Sands
 	random_hours = 13
 }
 
-country_event = { ## February Massacre
-	id = venezuela.2
-	days = 44
-	random_hours = 8
-}
+#country_event = { ## February Massacre
+#	id = venezuela.2
+#	days = 44
+#	random_hours = 8
+#}
 
 # Starting tech
 set_technology = {
@@ -92,6 +99,9 @@ recruit_character = VEN_santos_dominici
 recruit_character = VEN_marcos_perez_jimenez
 recruit_character = VEN_gustavo_machado
 recruit_character = VEN_rafael_simon_urbina
+recruit_character = VEN_marcos_perez_jimenez_old
+recruit_character = VEN_diogenes_escalante
+recruit_character = VEN_german_suarez_flamerich
 
 add_ideas = VEN_felix_galavis_figueroa_idea ### Governor of Distrito Capital
 
@@ -147,6 +157,13 @@ set_country_flag = monroe_doctrine
 	complete_national_focus = production_effort
 	
 	oob = "VEN_1939"
+	if = {
+		limit = { has_dlc = "Man the Guns" }
+			set_naval_oob = "VEN_1939_naval_mtg"
+		else = {
+			set_naval_oob = "VEN_1939_naval_legacy"
+		}
+	}
 	set_technology = {
 		interwar_artillery = 1
 		infantry_weapons1 = 1
@@ -193,4 +210,104 @@ set_popularities = {
 	fascism = 1
 	communism = 16
 	neutrality = 68
+}
+
+if = {
+	limit = { not = { has_dlc = "Man the Guns" } }
+	set_technology = {
+		early_submarine = 1
+		early_destroyer = 1
+		early_light_cruiser = 1
+		transport = 1
+	}
+}
+if = {
+	limit = { has_dlc = "Man the Guns" }
+	set_technology = {
+		early_ship_hull_light = 1
+		basic_ship_hull_light = 1
+		early_ship_hull_submarine = 1
+		early_ship_hull_cruiser = 1
+		early_ship_hull_heavy = 1
+		basic_battery = 1
+		coastal_defense_ships = 1
+		mtg_transport = 1
+	}
+}
+
+### VARIANTS ###
+# 1936 Start #
+if = {
+	limit = { not = { has_dlc = "Man the Guns" } }
+	### Ship Variants ###
+}
+if = {
+	limit = { has_dlc = "Man the Guns" }
+	# Destroyers #
+	create_equipment_variant = {
+		name = "Bolivar Class"				
+		type = ship_hull_light_1
+		name_group = VEN_DD_HISTORICAL
+		parent_version = 0
+		modules = {
+			fixed_ship_battery_slot = ship_light_battery_1
+			fixed_ship_anti_air_slot = ship_anti_air_1
+			fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+			fixed_ship_radar_slot = empty
+			fixed_ship_engine_slot = light_ship_engine_1
+			fixed_ship_torpedo_slot = ship_torpedo_1
+			mid_1_custom_slot = empty
+			rear_1_custom_slot = empty
+		}
+	}
+	# Submarines #
+	create_equipment_variant = {
+		name = "Bolivar Class"				
+		type = ship_hull_submarine_1
+		name_group = VEN_SS_HISTORICAL
+		parent_version = 0
+		modules = {
+			fixed_ship_torpedo_slot = ship_torpedo_sub_1
+			fixed_ship_engine_slot = sub_ship_engine_1
+			rear_1_custom_slot = empty
+		}
+	}
+}
+1939.1.1 = {
+	if = {
+		limit = { not = { has_dlc = "Man the Guns" } }
+		### Ship Variants ###
+	}
+	if = {
+		limit = { has_dlc = "Man the Guns" }
+		# Destroyers #
+		create_equipment_variant = {
+			name = "Bolivar Class"				
+			type = ship_hull_light_1
+			name_group = VEN_DD_HISTORICAL
+			parent_version = 0
+			modules = {
+				fixed_ship_battery_slot = ship_light_battery_1
+				fixed_ship_anti_air_slot = ship_anti_air_1
+				fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+				fixed_ship_radar_slot = empty
+				fixed_ship_engine_slot = light_ship_engine_1
+				fixed_ship_torpedo_slot = ship_torpedo_1
+				mid_1_custom_slot = empty
+				rear_1_custom_slot = empty
+			}
+		}
+		# Submarines #
+		create_equipment_variant = {
+			name = "Bolivar Class"				
+			type = ship_hull_submarine_1
+			name_group = VEN_SS_HISTORICAL
+			parent_version = 0
+			modules = {
+				fixed_ship_torpedo_slot = ship_torpedo_sub_1
+				fixed_ship_engine_slot = sub_ship_engine_1
+				rear_1_custom_slot = empty
+			}
+		}
+	}
 }

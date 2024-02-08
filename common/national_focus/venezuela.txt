@@ -61,6 +61,373 @@ focus_tree = {
 		}
 	}
 
+	# Fuel the Armada Bolivariana
+	focus = {
+		id = VEN_fuel_armada_bolivariana
+		icon = GFX_VEN_armada_bolivariana
+		x = 20
+		y = 1
+		relative_position_id = VEN_drill_the_miocene_tar_sands_oil
+		prerequisite = {
+			focus = VEN_drill_the_miocene_tar_sands_oil
+		}
+		cost = 5
+
+		available = {
+			any_controlled_state = {
+				is_coastal = yes
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_NAVY_XP
+			FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			navy_experience = 50
+		}
+	}
+
+	# Create the Compañía de Defensa de Costas
+	focus = {
+		id = VEN_create_compania_de_defensa_de_costas
+		icon = GFX_goal_generic_amphibious_assault
+		x = 0
+		y = 1
+		relative_position_id = VEN_fuel_armada_bolivariana
+		prerequisite = {
+			focus = VEN_fuel_armada_bolivariana
+		}
+		cost = 7.2
+
+		available = {
+			any_controlled_state = {
+				is_coastal = yes
+			}
+		}
+
+		select_effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_tech = marines
+					}
+				}
+				set_technology = {
+    				marines = 1
+				}
+			}
+			division_template = {
+				name = "Compañía de Defensa de Costas"
+				regiments = {
+					marine = { x = 0 y = 0 }
+					marine = { x = 0 y = 1 }
+					marine = { x = 0 y = 2 }
+					marine = { x = 0 y = 3 }
+				}
+			}
+		}
+
+		cancel_if_invalid = no
+
+		search_filters = {
+			FOCUS_FILTER_MANPOWER
+			FOCUS_FILTER_HISTORICAL
+		}
+		completion_reward = {
+			add_tech_bonus = {
+                name = special_forces_bonus
+				bonus = 1
+				uses = 1
+				category = marine_tech
+			}
+			custom_effect_tooltip = VEN_create_two_marine_divisions_tt
+			hidden_effect = {
+				random_owned_controlled_state = {
+					limit = {
+						is_coastal = yes
+					}
+					create_unit = { 
+						division = "name = \"Compañía de Defensa de Costas\" division_template = \"Compañía de Defensa de Costas\" start_experience_factor = 0.1" 
+						owner = VEN
+						count = 2
+					}
+				}
+			}
+		}
+	}
+
+	# Focus on Submarines
+	focus = {
+		id = VEN_focus_on_submarines
+		icon = GFX_goal_generic_navy_submarine
+		cost = 7.2
+		x = -1
+		y = 1
+
+		relative_position_id = VEN_create_compania_de_defensa_de_costas
+		prerequisite = {
+			focus = VEN_create_compania_de_defensa_de_costas
+		}
+		mutually_exclusive = {
+			focus = VEN_modernize_destroyers
+		}
+
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+		completion_reward = {
+			add_tech_bonus = {
+                bonus = 0.75
+                uses = 2
+                category = ss_tech
+        	}
+		}
+	}
+
+	# Modernize Destroyers
+	focus = {
+		id = VEN_modernize_destroyers
+		icon = GFX_focus_generic_destroyer
+		cost = 7.2
+		x = 1
+		y = 1
+
+		relative_position_id = VEN_create_compania_de_defensa_de_costas
+		prerequisite = {
+			focus = VEN_create_compania_de_defensa_de_costas
+		}
+		mutually_exclusive = {
+			focus = VEN_focus_on_submarines
+		}
+		
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+		completion_reward = {
+			add_tech_bonus = {
+                bonus = 0.75
+                uses = 2
+                category = dd_tech
+        	}
+		}
+	}
+
+	# The Heavier, the Better
+	focus = {
+		id = VEN_the_heavier_the_better
+		icon = GFX_goal_generic_navy_battleship
+		cost = 10
+		x = 0
+		y = 1
+
+		relative_position_id = VEN_modernize_destroyers
+		prerequisite = {
+			focus = VEN_focus_on_submarines
+			focus = VEN_modernize_destroyers
+		}
+		mutually_exclusive = {
+			focus = VEN_conservative_production
+		}
+
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+		completion_reward = {
+			add_tech_bonus = {
+                bonus = 1
+                uses = 1
+                category = bb_tech
+        	}
+			add_tech_bonus = {
+                bonus = 1
+                uses = 2
+                category = ca_tech
+        	}
+		}
+	}
+
+	# Conservative Production
+	focus = {
+		id = VEN_conservative_production
+		icon = GFX_goal_generic_navy_cruiser
+		cost = 10
+		x = 0
+		y = 1
+
+		relative_position_id = VEN_focus_on_submarines
+		prerequisite = {
+			focus = VEN_focus_on_submarines
+			focus = VEN_modernize_destroyers
+		}
+		mutually_exclusive = {
+			focus = VEN_the_heavier_the_better
+		}
+		
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+		completion_reward = {
+			add_ideas = VEN_conservative_production_idea
+		}
+	}
+
+	# Ambitions of a large Navy
+	focus = {
+		id = VEN_ambitions_of_large_navy
+		icon = GFX_VEN_ambition_large_navy
+		cost = 10
+		x = -1
+		y = 1
+
+		relative_position_id = VEN_the_heavier_the_better
+		prerequisite = {
+			focus = VEN_the_heavier_the_better
+			focus = VEN_conservative_production
+		}
+
+		available = {
+			has_navy_size = {
+				size > 24
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+			FOCUS_FILTER_RESEARCH
+			FOCUS_FILTER_NAVY_XP
+		}
+		completion_reward = {
+			navy_experience = 50
+			EUYL_add_2_dockyard = yes
+			add_doctrine_cost_reduction = {
+				name = naval_doc_bonus
+				cost_reduction = 0.5
+				uses = 2
+				category = naval_doctrine
+			}
+		}
+	}
+
+	#Purchase Italian Destroyers
+	focus = {
+		id = VEN_purchase_italian_destroyers
+		icon = GFX_VEN_purchase_destroyer
+		cost = 8
+		x = 3
+		y = 1
+		relative_position_id = VEN_fuel_armada_bolivariana
+		prerequisite = {
+			focus = VEN_fuel_armada_bolivariana
+		}
+
+		available = {
+			has_civil_war = no
+			ITA = {
+				exists = yes
+				NOT = {
+					is_embargoed_by = ROOT
+				}
+				has_civil_war = no
+				num_of_controlled_states > 0
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+			FOCUS_FILTER_HISTORICAL
+		}
+		completion_reward = {
+			custom_effect_tooltip = VEN_gain_destroyers_from_italy_tt
+			add_tech_bonus = {
+				name = VEN_purchase_italian_destroyers
+				bonus = 1
+				uses = 1
+				category = dd_tech
+			}
+			add_tech_bonus = {
+                bonus = 0.5
+                uses = 1
+                category = naval_mines
+        	} 
+			add_tech_bonus = {
+                bonus = 0.5
+                uses = 1
+                category = naval_minelaying
+        	}
+			ITA = {
+				country_event = {
+					id = venezuela.31
+					hours = 4
+				}
+			}
+			hidden_effect = {
+				if = {
+					limit = {
+						has_dlc = "Man the Guns"
+					}
+					create_ship = {
+						type = ship_hull_light_1
+						equipment_variant = "Bolivar Class"
+						creator = ITA
+						name = "FNV General Soublette"
+					}
+					create_ship = {
+						type = ship_hull_light_1
+						equipment_variant = "Bolivar Class"
+						creator = ITA
+						name = "FNV General Urdaneta"
+					}
+				}
+				else = {
+					create_ship = {
+						type = destroyer_1
+						equipment_variant = "Bolivar Class"
+						creator = ITA
+						name = "FNV General Soublette"
+					}
+					create_ship = {
+						type = destroyer_1
+						equipment_variant = "Bolivar Class"
+						creator = ITA
+						name = "FNV General Urdaneta"
+					}
+				}
+			}
+		}
+	}
+
+	# Naval Investments
+	focus = {
+		id = VEN_naval_investments
+		icon = GFX_goal_generic_construct_naval_dockyard
+		cost = 10
+		x = -3
+		y = 1
+
+		relative_position_id = VEN_fuel_armada_bolivariana
+		prerequisite = {
+			focus = VEN_fuel_armada_bolivariana
+		}
+
+		available = {
+			any_controlled_state = {
+				is_coastal = yes
+			}
+
+			num_of_civilian_factories > 14
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+		completion_reward = {
+			EUYL_add_2_dockyard = yes
+			EUYL_add_1_dockyard = yes
+		}
+	}
+
 	#Nationwide Oil Extraction Improvements 
 	focus = {
 		id = VEN_nationwide_oil_extraction_improvements
@@ -1302,6 +1669,33 @@ focus_tree = {
 		}
 	}
 
+	### Raise Military Salaries ###
+	focus = {
+		id = VEN_raise_military_salaries
+		icon = GFX_CHL_military_economy
+		x = 3
+		y = 1
+		relative_position_id = VEN_ejercito_venezolano_f
+		prerequisite = {
+			focus = VEN_ejercito_venezolano_f
+		}
+
+		cost = 8
+
+		available = {
+			has_civil_war = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			add_ideas = VEN_raised_military_salaries
+			EUYL_add_1_military = yes 
+		}
+	}
+
 	### Study Venezuelan Topography ###
 	focus = {
 		id = VEN_study_venezuelan_topography
@@ -1557,6 +1951,10 @@ focus_tree = {
 			}
 		}
 
+		search_filters = {
+			FOCUS_FILTER_HISTORICAL
+		}
+
 		completion_reward = {
 			add_equipment_to_stockpile = {
 				type = infantry_equipment
@@ -1749,9 +2147,6 @@ focus_tree = {
 					election_frequency = 60
 				}
 			}
-			else = {
-				set_rule = { can_create_factions = yes }
-			}
 			add_timed_idea = {
 				idea = VEN_recently_written_consitution
 				days = 180
@@ -1763,7 +2158,12 @@ focus_tree = {
 			custom_effect_tooltip = EUYL_effects_when_removed_tt
 			effect_tooltip = { add_stability = 0.05 }
 
-			custom_effect_tooltip = VEN_unlocks_decisions_to_improve_abrupt_government_transition_tt
+			if = {
+				limit = {
+					VEN_abrupt_government_transition_active = yes 
+				}
+				custom_effect_tooltip = VEN_unlocks_decisions_to_improve_abrupt_government_transition_tt
+			}
 		}
 	}
 
@@ -1795,12 +2195,13 @@ focus_tree = {
 		}
 
 		search_filters = {
-			FOCUS_FILTER_POLITICAL
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER
 		}
 
 		completion_reward = {
 			add_political_power = 35
 			add_ideas = VEN_opened_foreign_policy
+			add_ideas = VEN_our_stance_in_the_world_idea
 		}
 	}
 
@@ -1830,8 +2231,15 @@ focus_tree = {
 
 		completion_reward = {
 			add_ideas = VEN_venezuelan_non_allignment
-			set_rule = {
-				can_create_factions = yes
+			if = {
+				limit = {
+					NOT = {
+						has_rule = can_create_factions
+					}
+				}
+				set_rule = {
+					can_create_factions = yes 
+				}
 			}
 			if = {
 				limit = { has_any_power_balance = yes }
@@ -1856,7 +2264,7 @@ focus_tree = {
 			focus = VEN_axis_allignment
 		}
 
-		cost = 10
+		cost = 8
 
 		available = {
 			NOT = {
@@ -1903,7 +2311,7 @@ focus_tree = {
 	### Mine out Guyana's Gold ###
 	focus = {
 		id = VEN_mine_out_guyana_gold
-		icon = GFX_goal_generic_construction2
+		icon = GFX_focus_generic_mining_industry
 		x = 0
 		y = 2
 		relative_position_id = VEN_demand_guyana_esequiba
@@ -1917,10 +2325,11 @@ focus_tree = {
 		}
 
 		search_filters = {
-			FOCUS_FILTER_INDUSTRY
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ECONOMIC_GROWTH
 		}
 
 		completion_reward = {
+			VEN_improve_oil_extraction_idea = yes
 			937 = {
 				add_extra_state_shared_building_slots = 2
 				add_building_construction = {
@@ -2037,6 +2446,7 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			remove_ideas = monroe_doctrine_idea
 			ENG = {
 				country_event = {
 					id = generic.2
@@ -2073,7 +2483,7 @@ focus_tree = {
 	focus = {
 		id = VEN_british_naval_funding
 		icon = GFX_british_navy
-		x = -1
+		x = -2
 		y = 1
 		relative_position_id = VEN_allied_allignment
 		prerequisite = {
@@ -2097,6 +2507,44 @@ focus_tree = {
 		completion_reward = {
 			EUYL_add_2_dockyard = yes 
 			navy_experience = 50
+		}
+	}
+
+	### Purchase Guyana Esequiba ###
+	focus = {
+		id = VEN_purchase_guyana_esequiba
+		icon = GFX_VEN_claim_esquibel
+		x = 0
+		y = 1
+		relative_position_id = VEN_british_naval_funding
+		prerequisite = {
+			focus = VEN_british_naval_funding
+		}
+
+		cost = 7.2
+
+		available = {
+			is_in_faction_with = ENG 
+			ENG = {
+				937 = { controls_or_subject_of = yes }
+			}
+			num_of_available_civilian_factories > 4
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			random_other_country = {
+				limit = {
+					controls_state = 937
+					NOT = {
+						has_war_with = ROOT
+					}
+				}
+				country_event = { id = colombia.62 hours = 8 random_hours = 12 }
+			}
 		}
 	}
 
@@ -2202,6 +2650,7 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			add_state_core = 695
 			695 = {
 				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
@@ -2237,6 +2686,13 @@ focus_tree = {
 		cost = 5
 
 		available = {
+			NOT = {
+				OR = {
+					has_completed_focus = VEN_break_all_ties_with_the_axis
+					has_completed_focus = VEN_the_escalante_administration
+					has_completed_focus = VEN_the_father_of_venezuelan_democracy
+				}
+			}
 			GER = {
 				NOT = { has_war_with = ROOT } 
 				exists = yes 
@@ -2263,6 +2719,7 @@ focus_tree = {
 		}
 
 		completion_reward = { ### people with protest due to anti-german sentiment
+			remove_ideas = monroe_doctrine_idea
 			GER = {
 				country_event = {
 					id = generic.2
@@ -2404,6 +2861,7 @@ focus_tree = {
 	}
 
 	## Anti-Communist Crackdown ##
+	# will exile characters like Gustavo Machado 
 	focus = {
 		id = VEN_anti_communist_crackdown
 		icon = GFX_focus_generic_conspiracy
@@ -2421,7 +2879,7 @@ focus_tree = {
 		}
 
 		search_filters = {
-			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL
 		}
 
 		completion_reward = {
@@ -2433,10 +2891,16 @@ focus_tree = {
 				show_ideas_tooltip = VEN_rafael_simon_urbina_idea
 				custom_effect_tooltip = VEN_hiring_this_advisor_will_remove_underground_communists_tt
 			}
+			custom_effect_tooltip = VEN_exile_gustavo_machado_to_mexico_tt ## future potential path :000
 			add_political_power = 50
 			add_popularity = {
 				ideology = communism
 				popularity = -0.05
+			}
+			hidden_effect = {
+				VEN_gustavo_machado = {
+					set_character_flag = VEN_exiled_flag
+				}
 			}
 		}
 	}
@@ -2474,7 +2938,6 @@ focus_tree = {
 
 		completion_reward = {
 			VEN_improve_abrupt_government_transition_idea = yes 
-			add_stability = 0.05
 		}
 	}
 
@@ -2501,12 +2964,75 @@ focus_tree = {
 		}
 
 		search_filters = {
-			FOCUS_FILTER_STABILITY FOCUS_FILTER_POLITICAL
+			FOCUS_FILTER_STABILITY FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL
 		}
 
 		completion_reward = {
+			add_political_power = 20
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.03
+			}
 			VEN_improve_strikes = yes 
 			add_ideas = VEN_worker_right_reforms ## Ley del Trabajo
+
+			if = {
+				limit = {
+					VEN_abrupt_government_transition_active = yes 
+				}
+				custom_effect_tooltip = VEN_unlocks_decisions_to_improve_abrupt_government_transition_tt
+			}
+		}
+	}
+
+	## Fixate Salaries ##
+	focus = {
+		id = VEN_fixate_salaries
+		icon = GFX_focus_SOV_merge_plants
+		x = 1
+		y = 1
+		relative_position_id = VEN_pass_worker_right_reforms
+		prerequisite = {
+			focus = VEN_pass_worker_right_reforms
+		}
+
+		cost = 10
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			EUYL_add_1_civilian = yes
+			EUYL_add_1_military = yes 
+			add_ideas = VEN_fixed_salaries
+		}
+	}
+
+	## Fiscal Reforms ##
+	focus = {
+		id = VEN_fiscal_reforms
+		icon = GFX_focus_generic_self_management
+		x = -1
+		y = 1
+		relative_position_id = VEN_pass_worker_right_reforms
+		prerequisite = {
+			focus = VEN_pass_worker_right_reforms
+		}
+
+		cost = 10
+
+		available = {
+			has_civil_war = no 
+			has_stability > 0.5
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			add_ideas = VEN_fiscal_reforms_idea
 		}
 	}
 
@@ -2533,7 +3059,12 @@ focus_tree = {
 			add_political_power = 25
 			add_stability = 0.03
 
-			custom_effect_tooltip = VEN_unlocks_decisions_to_improve_abrupt_government_transition_tt
+			if = {
+				limit = {
+					VEN_abrupt_government_transition_active = yes 
+				}
+				custom_effect_tooltip = VEN_unlocks_decisions_to_improve_abrupt_government_transition_tt
+			}
 		}
 	}
 
@@ -2606,9 +3137,30 @@ focus_tree = {
 			unlock_decision_tooltip = VEN_repress_the_protestors_in_FROM
 			unlock_decision_tooltip = VEN_force_the_strikers_back_to_work
 
-			custom_effect_tooltip = VEN_unlocks_decisions_to_improve_abrupt_government_transition_tt
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.05
+			}
+
+			if = {
+				limit = {
+					VEN_abrupt_government_transition_active = yes 
+				}
+				custom_effect_tooltip = VEN_unlocks_decisions_to_improve_abrupt_government_transition_tt
+			}
 
 			custom_effect_tooltip = VEN_protests_will_become_slightly_more_common_tt
+
+			custom_effect_tooltip = VEN_bentancourt_exiled_to_chile_for_2_years_tt
+			hidden_effect = {
+				VEN_romelo_bentancourt = {
+					set_character_flag = {
+						flag = VEN_exiled_flag
+						days = 500
+						value = 1
+					}
+				}
+			}
 
 			## Make rafael simon urbina available as advisor
 			if = {
@@ -2622,10 +3174,1235 @@ focus_tree = {
 		}
 	}
 
+	### Sign the Frontline Treaty ###
+	focus = {
+		id = VEN_sign_the_frontline_treaty
+		icon = GFX_ARG_inv_colombia
+		x = 2
+		y = 1
+		relative_position_id = VEN_ley_lara
+		prerequisite = {
+			focus = VEN_ley_lara
+		}
+
+		cost = 7.2
+
+		available = {
+			NOT = { has_war_with = COL } 
+			COL = {
+				exists = yes 
+				is_subject = no 
+			}
+			has_civil_war = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			COL = {
+				country_event = {
+					id = venezuela.26 
+					hours = 6
+				}
+			}
+			custom_effect_tooltip = ARG_iftheyaccept
+			effect_tooltip = {
+				add_political_power = 50 
+				add_opinion_modifier = {
+					target = COL 
+					modifier = VEN_frontline_treaty_signed
+				}
+				COL = {
+					add_opinion_modifier = {
+						target = ROOT
+						modifier = VEN_frontline_treaty_signed
+					}
+				}
+				set_truce = {
+					target = COL 
+					days = 210
+				}
+			}
+		}
+	}
+
+	### The Museum of Arts of Caracas ###
+	focus = {
+		id = VEN_museum_of_fine_arts_of_caracas
+		icon = GFX_goal_generic_construction
+		x = -3
+		y = 1
+		relative_position_id = VEN_ley_lara
+		prerequisite = {
+			focus = VEN_ley_lara
+		}
+
+		cost = 7.2
+
+		available = {
+			has_full_control_of_state = 941
+			custom_trigger_tooltip = {
+				tooltip = VEN_strikes_arent_active_tt
+				NOT = {
+					OR = {
+						has_idea = strikes_1
+						has_idea = strikes_2 
+						has_idea = strikes_3
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			add_stability = 0.05
+			941 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes 
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes 
+				}
+			}
+		}
+	}
+
+	### Education Reforms ###
+	focus = {
+		id = VEN_education_reforms 
+		icon = GFX_focus_research
+		x = 0
+		y = 1
+		relative_position_id = VEN_museum_of_fine_arts_of_caracas
+		prerequisite = {
+			focus = VEN_museum_of_fine_arts_of_caracas
+		}
+
+		cost = 10
+
+		available = {
+			has_civil_war = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+			FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+
+	### The Medina Administration ###
+	focus = {
+		id = VEN_the_medina_administration_focus
+		icon = GFX_VEN_the_medina_administration
+		x = 0
+		y = 2
+		relative_position_id = VEN_ley_lara
+		prerequisite = {
+			focus = VEN_ley_lara
+		}
+
+		cost = 10
+
+		available = {
+			has_civil_war = no 
+			NOT = { has_active_mission = VEN_looming_oil_strike }
+			democratic > 0.2
+			custom_trigger_tooltip = {
+				tooltip = VEN_abrupt_government_transition_not_active_tt
+				NOT = { VEN_abrupt_government_transition_active = yes }
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_political_power = 25
+			set_party_name = {
+				ideology = democratic
+				long_name = VEN_PDV_party_long
+				name = VEN_PDV_party
+			}
+			set_politics = {
+				ruling_party = democratic
+				elections_allowed = no 
+			}
+			promote_character = VEN_isaias_medina_angarita
+		}
+	}
+
+	### Allow Full Freedom of Speech ###
+	focus = {
+		id = VEN_allow_full_freedom_of_speech
+		icon = GFX_goal_support_democracy
+		x = -1
+		y =1
+		relative_position_id = VEN_the_medina_administration_focus
+		prerequisite = {
+			focus = VEN_the_medina_administration_focus
+		}
+
+		cost = 7.2
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = VEN_there_are_no_protestors_tt
+				NOT = {
+					any_controlled_state = {
+						has_dynamic_modifier = {
+							modifier = BRA_protests
+						}
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_stability = 0.03
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.15
+			}
+			add_popularity = {
+				ideology = communism
+				popularity = 0.05
+			}
+			add_popularity = {
+				ideology = neutrality
+				popularity = 0.05
+			}
+			if = {
+				limit = {
+					has_idea = VEN_underground_communist_movement
+				}
+				remove_ideas = VEN_underground_communist_movement
+				add_political_power = -25
+			}
+		}
+	}
+
+	### The Right to Strike ###
+	focus = {
+		id = VEN_the_right_to_strike
+		icon = GFX_BOL_side_with_the_people
+		x = 0
+		y =1
+		relative_position_id = VEN_allow_full_freedom_of_speech
+		prerequisite = {
+			focus = VEN_allow_full_freedom_of_speech
+		}
+
+		cost = 8
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			add_stability = 0.1
+			add_political_power = 100
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.05
+			}
+			custom_effect_tooltip = VEN_strikes_can_now_occur_at_random_tt
+		}
+	}
+
+	### Break all ties with the Axis ###
+	focus = {
+		id = VEN_break_all_ties_with_the_axis
+		icon = GFX_VEN_cut_ties_with_axis
+		x = 1
+		y =1
+		relative_position_id = VEN_the_medina_administration_focus
+		prerequisite = {
+			focus = VEN_the_medina_administration_focus
+		}
+		
+		cost = 5
+
+		available = {
+			NOT = { has_completed_focus = VEN_axis_allignment }
+			OR = {
+				has_war_with = JAP 
+				has_war_with = ITA 
+				has_war_with = GER 
+				is_in_faction_with = ENG 
+				is_in_faction_with = USA 
+				has_country_flag = VEN_monagas_sunken_flag
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			send_embargo = JAP 
+			send_embargo = GER 
+			send_embargo = ITA
+			add_opinion_modifier = {
+				target = GER
+				modifier = VEN_broken_ties
+			}
+			add_opinion_modifier = {
+				target = JAP 
+				modifier = VEN_broken_ties
+			}
+			add_opinion_modifier = {
+				target = ITA
+				modifier = VEN_broken_ties
+			}
+			custom_effect_tooltip = VEN_wont_be_able_to_sell_resource_rights_to_axis_powers_tt
+			every_other_country = {
+				limit = {
+					is_major = yes 
+					OR = {
+						has_government = democratic
+						has_war_with = GER 
+						has_war_with = ITA 
+						has_war_with = JAP
+					}
+				}
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = VEN_broke_ties_with_axis
+				}
+			}
+		}
+	}
+
+	### Favor the Allied Cause ###
+	focus = {
+		id = VEN_favor_the_allied_cause
+		icon = GFX_ARG_placate_west
+		x = 0
+		y = 1
+		relative_position_id = VEN_break_all_ties_with_the_axis 
+		prerequisite = {
+			focus = VEN_break_all_ties_with_the_axis
+		}
+
+		cost = 7.2
+
+		available = {
+			NOT = {
+				OR = {
+					has_war_with = ENG 
+					has_war_with = FRA 
+					has_war_with = USA
+				}
+			}
+			NOT = {
+				OR = {
+					is_in_faction_with = ITA 
+					is_in_faction_with = JAP 
+					is_in_faction_with = GER
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_1_civilian = yes
+			add_political_power = 25 
+			USA = {
+				add_opinion_modifier = { target = ROOT modifier = placated_west }
+			}
+			FRA = {
+				add_opinion_modifier = { target = ROOT modifier = placated_west }
+			}
+			ENG = {
+				add_opinion_modifier = { target = ROOT modifier = placated_west }
+			}
+		}
+	}
+
+	### Internal Anti-German Measures ###
+	focus = {
+		id = VEN_internal_anti_german_measures
+		icon = GFX_focus_attack_germany
+		x = 2
+		y = 1
+		relative_position_id = VEN_break_all_ties_with_the_axis
+		prerequisite = {
+			focus = VEN_break_all_ties_with_the_axis
+		}
+
+		cost = 5
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			add_manpower = -800
+			add_political_power = 50
+
+		}
+	}
+
+	### Tour Throughout the Bolivarian Countries ###
+	focus = {
+		id = VEN_tour_through_the_bolivarian_countries
+		icon = GFX_VEN_tour_bolivariana
+		x = 0
+		y = 3
+		relative_position_id = VEN_the_medina_administration_focus
+		prerequisite = {
+			focus = VEN_the_medina_administration_focus
+		}
+
+		cost = 5
+
+		select_effect = {
+			hidden_effect = {
+				country_event = {
+					id = venezuela.34 ## Suspicious Activity from Generals and Accion democratica
+					days = 14
+					random_days = 14
+					random_hours = 18
+				}
+			}
+		}
+
+		available = {
+			count_triggers = {
+				amount = 3
+				NOT = { has_war_with = COL } 
+				NOT = { has_war_with = PRU }
+				NOT = { has_war_with = PAN }
+				NOT = { has_war_with = ECU }
+				NOT = { has_war_with = BOL }
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		cancel_if_invalid = no 
+		continue_if_invalid = yes
+
+		completion_reward = {
+			custom_effect_tooltip = VEN_medina_will_be_on_tour_270_days_tt
+			VEN_isaias_medina_angarita = {
+				add_country_leader_trait = VEN_not_currently_present
+			}
+			custom_effect_tooltip = VEN_once_medina_returns_tt
+			effect_tooltip = {
+				VEN_isaias_medina_angarita = {
+					remove_country_leader_trait = VEN_not_currently_present
+				}
+				add_political_power = 50
+			}
+			hidden_effect = {
+				activate_mission = VEN_medina_on_tour
+			}
+		}
+	}
+
+	### Allow Free and Public Elections ###
+	focus = {
+		id = VEN_allow_free_and_public_elections
+		icon = GFX_EUYL_free_elections
+		x = 1
+		y = 1
+		relative_position_id = VEN_tour_through_the_bolivarian_countries
+		prerequisite = {
+			focus = VEN_tour_through_the_bolivarian_countries
+		}
+		mutually_exclusive = {
+			focus = VEN_support_the_accion_democratica
+		}
+
+		cost = 7.2
+
+		select_effect = {
+			hidden_effect = {
+				country_event = {
+					id = venezuela.38 ## Escalante takes office
+					days = 1
+					random_days = 2
+					hours = 6
+					random_hours = 8
+				}
+			}
+		}
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = VEN_medina_is_not_on_tour_tt
+				NOT = {
+					has_active_mission = VEN_medina_on_tour
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			add_political_power = 40
+			set_politics = {
+				ruling_party = democratic
+				elections_allowed = yes 
+			}
+			custom_effect_tooltip = VEN_if_accion_democratica_still_planning_coup_and_not_raise_salaries_civil_war_occur_tt
+		}
+	}
+
+	### The Escalante Administration ###
+	focus = {
+		id = VEN_the_escalante_administration
+		icon = GFX_VEN_escalante_icon
+		x = 0
+		y = 1
+		relative_position_id = VEN_allow_free_and_public_elections
+		prerequisite = {
+			focus = VEN_allow_free_and_public_elections
+		}
+
+		cost = 5 ### Make an event of him getting diagnosed with Onset Dementia, similar mechanic to Roberto
+
+		available = {
+			has_government = democratic
+			has_civil_war = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_RESEARCH
+		}
+
+		completion_reward = {
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.05
+			}
+			VEN_diogenes_escalante = {
+				add_country_leader_trait = VEN_de_paris_a_venezuela
+			}
+		}
+	}
+
+	### Fully Implement the Agrarian Reform ###
+	focus = {
+		id = VEN_fully_implement_the_agrarian_reform
+		icon = GFX_focus_generic_land_reclamation
+		x = 3
+		y = 1
+		relative_position_id = VEN_the_escalante_administration
+		prerequisite = {
+			focus = VEN_the_escalante_administration
+		}
+
+		cost = 10
+
+		available = {
+			has_country_leader = {
+				character = VEN_diogenes_escalante
+				ruling_only = yes 
+			}
+			has_government = democratic
+			has_civil_war = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			add_stability = 0.05
+			random_owned_controlled_state = {
+				limit = {
+					is_capital = no 
+					is_coastal = no 
+				}
+				add_extra_state_shared_building_slots = 2
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_capital = no 
+					is_coastal = no 
+				}
+				add_extra_state_shared_building_slots = 2
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_capital = no 
+					is_coastal = no 
+				}
+				add_extra_state_shared_building_slots = 1
+			}
+			add_timed_idea = {
+				idea = VEN_agrarian_reforms_in_progress
+				days = 365
+			}
+		}
+	}
+
+	## Promote Venezuelan Industrialization ##
+	focus = {
+		id = VEN_promote_venezuelan_industrialization
+		icon = GFX_goal_generic_construct_civ_factory
+		x = 0
+		y = 2
+		relative_position_id = VEN_the_escalante_administration
+		prerequisite = {
+			focus = VEN_the_escalante_administration
+		}
+
+		cost = 10
+
+		available = {
+			has_civil_war = no 
+			has_stability > 0.7
+			is_subject = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ECONOMIC_GROWTH
+		}
+
+		completion_reward = {
+			EUYL_add_4_military = yes
+			VEN_improve_oil_extraction_idea = yes
+		}
+	}
+
+	## cooperation with the United States ##
+	focus = {
+		id = VEN_cooperation_with_the_US
+		icon = GFX_focus_chi_mission_to_the_us
+		x = 1
+		y = 1
+		relative_position_id = VEN_the_escalante_administration
+		prerequisite = {
+			focus = VEN_the_escalante_administration
+		}
+
+		cost = 7.2
+
+		available = {
+			has_civil_war = no 
+			NOT = { 
+				has_war_with = USA
+			}
+			USA = {
+				NOT = {
+					OR = {
+						has_government = communism
+						has_government = fascism 
+					}
+				}
+				has_civil_war = no
+				if = {
+					limit = {
+						is_in_faction = yes 
+					}
+					any_allied_country = {
+						NOT = {
+							has_war_with = ROOT
+						}
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			EUYL_add_1_civilian = yes 
+			USA = { EUYL_add_1_civilian = yes } 
+			add_opinion_modifier = {
+				target = USA
+				modifier = VEN_full_allignment_with_us
+			}
+			USA = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = VEN_full_allignment_with_us
+				}
+			}
+		}
+	}
+
+	### A Free Venezuela ###
+	focus = {
+		id = VEN_a_free_venezuela
+		icon = GFX_VEN_free_veenzuela
+		x = -3
+		y = 1
+		relative_position_id = VEN_the_escalante_administration
+		prerequisite = {
+			focus = VEN_the_escalante_administration
+			focus = VEN_the_father_of_venezuelan_democracy
+		}
+
+		cost = 10
+
+		available = {
+			has_civil_war = no 
+			has_government = democratic
+		}
+
+		search_filters = {
+			FOCUS_FILTER_STABILITY
+		}
+		
+		completion_reward = {
+			add_stability = 0.1
+		}
+	}
+
+	## Wave of Democracy ##
+	focus = {
+		id = VEN_wave_of_democracy
+		icon = GFX_focus_SA_demo
+		x = 0
+		y = 2
+		relative_position_id = VEN_a_free_venezuela
+		prerequisite = {
+			focus = VEN_a_free_venezuela
+		}
+
+		cost = 5
+
+		available = {
+			has_government = democratic
+		}
+
+		search_filters = {
+			FOCUS_FILTER_MANPOWER FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT
+		}
+
+		completion_reward = {
+			add_war_support = 0.05
+			add_ideas = VEN_democracy_for_all
+			every_other_country = {
+				limit = {
+					NOT = { has_government = democratic }
+					capital_scope = {
+						is_on_continent = south_america
+					}
+				}
+				add_timed_idea = {
+					idea = democratic_influence
+					days = 365
+				}
+			}
+		}
+	}
+
+	## Support the National Industry ##
+	focus = {
+		id = VEN_support_the_national_industry
+		icon = GFX_focus_generic_the_giant_wakes
+		x = 1
+		y = 1
+		relative_position_id = VEN_a_free_venezuela
+		prerequisite = {
+			focus = VEN_a_free_venezuela
+		}
+
+		cost = 10
+		
+		available = {
+			has_civil_war = no 
+			has_government = democratic
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_1_civilian = yes 
+			EUYL_add_1_military = yes 
+			if = {
+				limit = {
+					any_controlled_state = {
+						is_coastal = yes 
+					}
+				}
+				EUYL_add_1_dockyard = yes 
+			}
+			add_ideas = ARG_invest_in_infrastructure
+		}
+	}
+
+	## Promote Immigration ##
+	focus = {
+		id = VEN_promote_immigration
+		icon = GFX_goal_generic_propaganda
+		x = -1
+		y = 1
+		relative_position_id = VEN_a_free_venezuela
+		prerequisite = {
+			focus = VEN_a_free_venezuela
+		}
+
+		cost = 7.2
+
+		available = {
+			is_subject = no 
+			has_civil_war = no 
+		}
+
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			custom_effect_tooltip = ARG_cost_to_attract_immigrants_reduced_tt
+			hidden_effect = {
+				subtract_from_variable = { EUYL_cost_many_immigrants = 35 }
+				subtract_from_variable = { EUYL_cost_some_immigrants = 20 }
+				subtract_from_variable = { EUYL_cost_few_immigrants = 10 }
+			}
+		}
+	}
+
+	## Support the Accion Democratica ## (supports the coup and cuts the effects short)
+	focus = {
+		id = VEN_support_the_accion_democratica
+		icon = GFX_VEN_support_accion
+		x = -6
+		y = 1
+		relative_position_id = VEN_tour_through_the_bolivarian_countries
+		prerequisite = {
+			focus = VEN_tour_through_the_bolivarian_countries
+		}
+		mutually_exclusive = {
+			focus = VEN_allow_free_and_public_elections
+		}
+
+		cost = 8
+
+		select_effect = {
+			hidden_effect = {
+				country_event = {
+					id = venezuela.37 ## Escalante forced to resign due to mental issues
+					days = 2
+					random_days = 3
+					hours = 4
+					random_hours = 19
+				}
+			}
+		}
+
+		available = {
+			has_active_mission = VEN_lurking_coup_detat
+			VEN_romelo_bentancourt = {
+				custom_trigger_tooltip = {
+					tooltip = VEN_has_not_been_exiled_tt
+					NOT = { has_character_flag = VEN_exiled_flag }
+				}
+			}
+		}
+
+		bypass = {
+			NOT = {
+				has_completed_focus = VEN_allow_free_and_public_elections
+			}
+			has_country_leader = {
+				character = VEN_romelo_bentancourt ##Romulo Bentancourt
+				ruling_only = yes 
+			}
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = VEN_launches_coup_tt
+			if = {
+				limit = {
+					has_active_mission = VEN_medina_on_tour
+				}
+				custom_effect_tooltip = VEN_because_medina_on_tour_tt
+				add_stability = -0.05
+			}
+			hidden_effect = {
+				country_event = venezuela.35
+				remove_mission = VEN_lurking_coup_detat
+			}
+		}
+	}
+
+	### The Father of Venezuelan Democracy ###
+	focus = {
+		id = VEN_the_father_of_venezuelan_democracy
+		icon = GFX_VEN_bentancurt_dem
+		x = 1
+		y = 1
+		relative_position_id = VEN_support_the_accion_democratica
+		prerequisite = {
+			focus = VEN_support_the_accion_democratica
+		}
+		mutually_exclusive = {
+			focus = VEN_appoint_romulo_gallegos
+		}
+
+		cost = 6
+
+		available = {
+			has_country_leader = {
+				character = VEN_romelo_bentancourt
+				ruling_only = yes 
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.03
+			}
+			VEN_romelo_bentancourt = {
+				swap_country_leader_traits = {
+					remove = VEN_father_of_venezuelan_democracy
+					add = VEN_father_of_venezuelan_democracy_2
+				}
+			}
+			country_event = venezuela.40
+		}
+	}
+
+	## Use what we Learned from Pedro ##
+	focus = {
+		id = VEN_use_what_we_learned_from_pedro
+		icon = GFX_VEN_pedro_venezuela
+		x = 0
+		y = 1
+		relative_position_id = VEN_the_father_of_venezuelan_democracy
+		prerequisite = {
+			focus = VEN_the_father_of_venezuelan_democracy
+		}
+
+		cost = 10
+
+		available = {
+			has_civil_war = no 
+			has_stability > 0.7
+			is_subject = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH FOCUS_FILTER_ECONOMIC_GROWTH
+		}
+
+		completion_reward = {
+			EUYL_add_2_civilian = yes
+			add_tech_bonus = {
+				name = VEN_use_what_we_learned_from_pedro
+				bonus = 0.5
+				uses = 3
+				category = industry
+			}
+			add_ideas = VEN_the_guidance_of_pedro
+			VEN_improve_oil_extraction_idea = yes 
+		}
+	}
+
+	## Strengthen the Military ##
+	focus = {
+		id = VEN_strengthen_the_military
+		icon = GFX_goal_generic_axis_build_infantry
+		x = -2
+		y = 2
+		relative_position_id = VEN_the_father_of_venezuelan_democracy
+		prerequisite = {
+			focus = VEN_the_father_of_venezuelan_democracy
+			focus = VEN_military_takeover
+		}
+
+		cost = 8
+
+		search_filters = {
+			FOCUS_FILTER_MANPOWER
+		}
+
+		completion_reward = {
+			EUYL_add_1_military = yes
+			add_ideas = BOL_expanded_army_2
+			unlock_decision_tooltip = VEN_enact_local_conscription_laws_in_FROM
+		}
+	}
+
+	### Elect Romulo Gallegos ###
+	focus = {
+		id = VEN_appoint_romulo_gallegos
+		icon = GFX_VEN_romulo_gallegos_icon
+		x = -4
+		y = 1
+		relative_position_id = VEN_support_the_accion_democratica
+		prerequisite = {
+			focus = VEN_support_the_accion_democratica
+		}
+		mutually_exclusive = {
+			focus = VEN_the_father_of_venezuelan_democracy
+		}
+
+		cost = 5
+
+		available = {
+			has_government = democratic
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			promote_character = VEN_romulo_gallegos_freire
+			country_event = venezuela.39
+		}
+	}
+
+	#### MILITARY DICTATORSHIP PATH ####
+	focus = {
+		id = VEN_military_takeover
+		icon = GFX_VEN_military_takeover
+		x = 0
+		y = 1
+		relative_position_id = VEN_appoint_romulo_gallegos
+		prerequisite = {
+			focus = VEN_appoint_romulo_gallegos
+		}
+
+		cost = 10
+
+		available = {
+			has_country_leader = {
+				character = VEN_romulo_gallegos_freire
+				ruling_only = yes
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = VEN_military_overthrows_leader_and_places_delgado_in_charge_tt
+			add_stability = -0.03
+			add_war_support = 0.05
+			add_political_power = 25
+			hidden_effect = {
+				set_politics = {
+					ruling_party = neutrality
+					elections_allowed = no 
+				}
+				set_party_name = {
+					ideology = neutrality
+					long_name = "Junta Militar"
+					name = "Junta Militar"
+				}
+				set_cosmetic_tag = VEN_JUNTA
+				promote_character = VEN_carlos_delgado_chalbaud
+				country_event = {
+					id = venezuela.42 
+					days = 6
+					random_days = 5
+					hours = 2
+					random_hours = 12
+				}
+				country_event = {
+					id = venezuela.44 ## [GetYear] Oil Strike
+					days = 180
+					random_days = 90
+					hours = 6
+					random_hours = 6
+				}
+			}
+		}
+	}
+
+	## Military-Oriented Industry ##
+	focus = {
+		id = VEN_military_oriented_industry
+		icon = GFX_goal_generic_construct_mil_factory
+		x = -3
+		y = 1
+		relative_position_id = VEN_military_takeover
+		prerequisite = {
+			focus = VEN_military_takeover
+		}
+
+		cost = 10
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ECONOMIC_GROWTH
+		}
+
+		completion_reward = {
+			EUYL_add_2_military = yes 
+			EUYL_add_1_civilian = yes 
+			VEN_improve_oil_extraction_idea = yes
+		}
+	}
+
+	## Re-adjust the Parties ##
+	focus = {
+		id = VEN_readjust_the_parties
+		icon = GFX_focus_generic_annex_country_2
+		x = -1
+		y = 1
+		relative_position_id = VEN_military_takeover
+		prerequisite = {
+			focus = VEN_military_takeover
+		}
+
+		cost = 7.2
+
+		available = {
+			has_civil_war = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_stability = 0.03
+			add_political_power = 50
+			add_popularity = {
+				ideology = neutrality
+				popularity = 0.2
+			}
+			add_popularity = {
+				ideology = democratic
+				popularity = -0.1
+			}
+			add_popularity = {
+				ideology = fascism
+				popularity = -0.1
+			}
+			add_popularity = {
+				ideology = communism
+				popularity = -0.1
+			}
+		}
+	}
+
+	## Caracas-La Guaira Highway ##
+	focus = {
+		id = VEN_caracas_la_guaira_highway
+		icon = GFX_goal_generic_construction
+		x = 1
+		y = 1
+		relative_position_id = VEN_military_takeover
+		prerequisite = {
+			focus = VEN_military_takeover
+		}
+
+		cost = 6
+
+		available = {
+			has_civil_war = no 
+			capital_scope = {
+				is_fully_controlled_by = ROOT
+			}
+			custom_trigger_tooltip = {
+				tooltip = VEN_strikes_arent_active_tt
+				NOT = {
+					OR = {
+						has_idea = strikes_1
+						has_idea = strikes_2 
+						has_idea = strikes_3
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			capital_scope = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes 
+				}
+				if = {
+					limit = {
+						infrastructure < 5
+					}
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+				else = {
+					add_building_construction = {
+						type = supply_node
+						province = {
+							all_provinces = yes
+							limit_to_victory_point = yes
+						}
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	## Towards a new Venezuela ##
+	focus = {
+		id = VEN_towards_a_new_venezuela
+		icon = GFX_VEN_new_venezuela
+		x = 0
+		y = 2
+		relative_position_id = VEN_military_takeover
+		prerequisite = {
+			focus = VEN_military_takeover
+		}
+
+		cost = 5
+	}
+
+	########## FASCIST PATH ############
+
 	focus = {
 		id = VEN_support_galavis_actions
 		icon = GFX_VEN_support_galavis
-		x = 34
+		x = 35
 		y = 0
 		mutually_exclusive = { focus = VEN_temporarily_imprison_galavis }
 
@@ -3595,6 +5372,223 @@ focus_tree = {
 		}
 	}
 
+	## Our Comrades in South America ## (locked out if machado is leader)
+	focus = {
+		id = VEN_our_comrades_in_south_america
+		icon = GFX_PRU_ally_with_south_america
+		x = 1
+		y = 1
+		relative_position_id = VEN_gloria_al_pueblo
+		prerequisite = {
+			focus = VEN_gloria_al_pueblo
+		}
+		mutually_exclusive = {
+			focus = VEN_potential_comintern_membership
+		}
+
+		cost = 5
+
+		available = {
+			NOT = {
+				has_country_leader = {
+					character = VEN_gustavo_machado
+					ruling_only = yes 
+				}
+			}
+			has_government = communism
+			has_civil_war = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			remove_ideas = monroe_doctrine_idea
+			if = {
+				limit = {
+					NOT = {
+						has_rule = can_create_factions
+					}
+				}
+				set_rule = {
+					can_create_factions = yes 
+				}
+			}
+			if = {
+				limit = {
+					any_other_country = {
+						capital_Scope = { 
+							is_on_continent = south_america 
+						}
+						has_government = communism
+						is_faction_leader = yes 
+					}
+				}
+				random_other_country = {
+					limit = {
+						capital_Scope = { 
+							is_on_continent = south_america 
+						}
+						has_government = communism
+						is_faction_leader = yes 
+					}
+					country_event = {
+						id = generic.2 
+						hours = 4 
+						random_hours = 6
+					}
+				}
+			}
+		}
+	}
+
+	## Potential Comintern Membership ##
+	focus = {
+		id = VEN_potential_comintern_membership
+		icon = GFX_focus_chi_mission_to_the_soviet_union
+		x = 3
+		y = 1
+		relative_position_id = VEN_gloria_al_pueblo
+		prerequisite = {
+			focus = VEN_gloria_al_pueblo
+		}
+		mutually_exclusive = {
+			focus = VEN_our_comrades_in_south_america
+		}
+
+		cost = 5 
+
+		available = {
+			has_government = communism
+			NOT = {
+				has_war_with = SOV
+			}
+			SOV = {
+				has_government = communism
+				has_civil_war = no 
+			}
+		}
+
+		bypass = {
+			is_in_faction_with = SOV
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			remove_ideas = monroe_doctrine_idea
+			SOV = {
+				country_event = {
+					id = generic.2 
+					hours = 6
+					random_hours = 6
+				}
+			}
+		}
+	}
+
+	### Demand Guyana Esequiba ###
+	focus = {
+		id = VEN_demand_guyana_esequiba_commie
+		icon = GFX_VEN_claim_esquibel
+		x = -1
+		y = 1
+		relative_position_id = VEN_potential_comintern_membership
+		prerequisite = {
+			focus = VEN_potential_comintern_membership
+			focus = VEN_our_comrades_in_south_america
+		}
+
+		cost = 7.2
+
+		available = {
+			NOT = {
+				controls_state = 937
+			}
+			937 = {
+				controller = {
+					OR = {
+						has_war = yes 
+						has_capitulated = yes 
+						num_of_factories < 24 ## if guyana is free for some reason
+					}
+				}
+			}
+		}
+
+		bypass = {
+			has_full_control_of_state = 937
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			random_other_country = {
+				limit = {
+					has_full_control_of_state = 937
+				}
+				country_event = {
+					id = venezuela.21
+					hours = 3
+					random_hours = 6
+				}
+			}
+			custom_effect_tooltip = ARG_iftheyaccept
+			effect_tooltip = {
+				transfer_state = 937
+				add_stability = 0.03
+			}
+		}
+	}
+
+	### Soviet Industrial Investments ###
+	focus = {
+		id = VEN_soviet_industrial_investments
+		icon = GFX_focus_generic_communist_industry
+		x = 0
+		y = 2
+		relative_position_id = VEN_potential_comintern_membership
+		prerequisite = {
+			focus = VEN_potential_comintern_membership
+		}
+
+		cost = 10
+
+		available = {
+			is_in_faction_with = SOV 
+			has_war = yes 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_2_military = yes 
+			EUYL_add_2_civilian = yes 
+		}
+	}
+
+	## An Unthinkable Union ##
+	focus = {
+		id = VEN_an_unthinkable_union
+		icon = GFX_
+		x = 5
+		y = 1
+		relative_position_id = VEN_potential_comintern_membership
+		prerequisite = {
+			focus = VEN_potential_comintern_membership
+		}
+		prerequisite = {
+			focus = VEN_follow_earl_browders_theories
+		}
+	}
+
 	### The Great South American Liberation ###
 	focus = {
 		id = VEN_the_great_south_american_revolution
@@ -3628,6 +5622,8 @@ focus_tree = {
 		relative_position_id = VEN_the_great_south_american_revolution
 		prerequisite = {
 			focus = VEN_gloria_al_pueblo
+			focus = VEN_wave_of_democracy
+			focus = VEN_towards_a_new_venezuela
 		}
 		mutually_exclusive = {
 			focus = VEN_the_great_south_american_revolution
@@ -3785,6 +5781,524 @@ focus_tree = {
 		}
 	}
 
+	### Purchase our Remaining Territories ###
+	focus = {
+		id = VEN_purchase_our_remaining_territories
+		icon = GFX_goal_generic_military_deal
+		x = 0
+		y = 1
+		relative_position_id = VEN_a_new_republic_is_born
+		prerequisite = {
+			focus = VEN_a_new_republic_is_born
+		}
+
+		cost = 7.2
+
+		available = {
+			is_subject = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			unlock_decision_tooltip = {
+				decision = col_demandar_estados
+				show_effect_tooltip = yes
+			}
+		}
+	}
+
+	### Close American Cooperation ###
+	focus = {
+		id = VEN_close_american_cooperation
+		icon = GFX_VEN_close_american_cooperation
+		x = -1
+		y = 1
+		relative_position_id = VEN_purchase_our_remaining_territories
+		prerequisite = {
+			focus = VEN_purchase_our_remaining_territories
+		}
+
+		cost = 5
+
+		available = {
+			NOT = { has_war_with = USA }
+			USA = {
+				NOT = {
+					OR = {
+						has_government = communism
+						has_government = fascism
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			add_opinion_modifier = {
+				target = USA
+				modifier = VEN_full_allignment_with_us
+			}
+			USA = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = VEN_full_allignment_with_us
+				}
+			}
+		}
+	}
+
+	### Purchase the Panama Canal ###
+	focus = {
+		id = VEN_purchase_the_panama_canal 
+		icon = GFX_col_focus_intervenir_panama
+		x = -1
+		y = 1
+		relative_position_id = VEN_close_american_cooperation
+		prerequisite = {
+			focus = VEN_close_american_cooperation
+		}
+
+		cost = 7.2
+
+		available = {
+			NOT = { has_war_with = USA } 
+			num_of_factories > 74
+			USA = {
+				has_full_control_of_state = 685
+				OR = {
+					is_in_faction_with = ROOT 
+					is_in_faction_with = ENG 
+					has_opinion = {
+						target = ROOT
+						value > 69 # fuini jneurm :DDDDDDDDDDDDDD
+					}
+				}
+			}
+		}
+
+		bypass = {
+			has_full_control_of_state = 685
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION 
+		}
+
+		completion_reward = {
+			USA = {
+				country_event = {
+					id = venezuela.24
+					hours = 7
+					random_hours = 7
+				}
+			}
+			custom_effect_tooltip = ARG_iftheyaccept
+			effect_tooltip = {
+				transfer_state = 685
+				random_owned_controlled_state = {
+					limit = {
+						industrial_complex > 0
+					}
+					remove_building = {
+						type = industrial_complex
+						level = 1
+					}
+				}
+				USA = {
+					add_offsite_building = {
+						type = industrial_complex
+						level = 1
+					}
+				}
+			}
+			custom_effect_tooltip = USA_may_ask_for_more_compensation_tt
+		}
+	}
+
+	### Protection Over the Caribbean and CA ###
+	focus = {
+		id = VEN_protection_over_the_caribbean_and_CA
+		icon = GFX_VEN_caribbean_protection_icon
+		x = 0
+		y = 3
+		relative_position_id = VEN_close_american_cooperation
+		prerequisite = {
+			focus = VEN_close_american_cooperation
+		}
+
+		cost = 10
+
+		available = {
+			any_other_country = {
+				capital_scope = {
+					is_on_continent = south_america 
+				}
+				NOT = { has_war_with = ROOT }
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			add_ideas = VEN_protecting_the_caribbean
+			every_other_country = {
+				limit = {
+					OR = {
+						capital_scope = {
+							is_on_continent = south_america
+						}
+						original_tag = MEX
+					}
+					NOT = {
+						OR = {
+							original_tag = ARG 
+							original_tag = PRU 
+							original_tag = BRA 
+							original_tag = URG 
+							original_tag = CHL 
+							original_tag = PAR 
+							original_tag = BOL
+						}
+					}
+					is_subject = no 
+					exists = yes 
+					NOT = { has_war_with = ROOT }
+					NOT = {
+						OR = {
+							has_government = communism
+							has_government = fascism
+						}
+					}
+				}
+				ROOT = {
+					give_guarantee = PREV
+				}
+			}
+		}
+	}
+
+	### Panama Canal Profits ###
+	focus = {
+		id = VEN_panama_canal_profits
+		icon = GFX_ARG_subsidize_industry
+		x = -1
+		y = 1
+		relative_position_id = VEN_purchase_the_panama_canal
+		prerequisite = {
+			focus = VEN_purchase_the_panama_canal
+		}
+		prerequisite = {
+			focus = VEN_the_gran_colombian_economy
+		}
+
+		cost = 7.2
+
+		available = {
+			has_full_control_of_state = 685
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_2_civilian = yes 
+		}
+	}
+
+	### Assess the Situation in Europe ###
+	focus = {
+		id = VEN_assess_the_situation_in_europe
+		icon = GFX_focus_usa_focus_on_europe
+		x = 3
+		y = 1
+		relative_position_id = VEN_purchase_our_remaining_territories
+		prerequisite = {
+			focus = VEN_purchase_our_remaining_territories
+		}
+
+		cost = 5
+
+		available = {
+			has_army_manpower = {
+				size > 149999
+			}
+			num_of_factories > 64
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_ARMY_XP FOCUS_FILTER_AIR_XP FOCUS_FILTER_NAVY_XP
+		}
+
+		completion_reward = {
+			add_political_power = 25
+			every_other_country = {
+				limit = {
+					capital_scope = {
+						is_on_continent = europe 
+					}
+					OR = {
+						has_government = fascism
+						has_government = communism
+					}
+				}
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = ARG_against_us
+				}
+			}
+			every_other_country = {
+				limit = {
+					capital_scope = {
+						is_on_continent = europe 
+					}
+					has_government = democratic
+				} 
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = placated_west
+				}
+			}
+			army_experience = 15
+			navy_experience = 20
+			air_experience = 25
+		}
+	}
+
+	### No to Nazism ###
+	focus = {
+		id = VEN_no_to_nazism
+		icon = GFX_focus_attack_germany
+		x = 1
+		y = 1
+		relative_position_id = VEN_assess_the_situation_in_europe
+		prerequisite = {
+			focus = VEN_assess_the_situation_in_europe
+		}
+
+		cost = 10
+
+		available = {
+			NOT = { is_in_faction_with = GER } 
+		}
+
+		bypass = {
+			has_war_with = GER
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION FOCUS_FILTER_WAR_SUPPORT
+		}
+
+		completion_reward = {
+			add_war_support = 0.05
+			create_wargoal = {
+				target = GER
+				type = puppet_wargoal_focus
+			}
+		}
+	}
+
+	### Gran Colombians in Operation Avalanche ###
+	focus = {
+		id = VEN_gran_colombians_in_operation_avalanche
+		icon = GFX_focus_attack_italy
+		x = 0
+		y = 1
+		relative_position_id = VEN_no_to_nazism
+		prerequisite = {
+			focus = VEN_no_to_nazism
+		}
+
+		cost = 7.2
+
+		available = {
+			has_war_with = ITA 
+			any_other_country = {
+				is_major = yes 
+				has_government = democratic
+				has_war_with = ITA
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_MANPOWER FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = ARG_help_out_in_operation_avalanche
+				bonus = 1.0
+				uses = 1
+				category = mountaineers_tech
+			}
+			custom_effect_tooltip = ARG_createmountaineers
+			hidden_effect = {
+				division_template = { 
+					name = "Destacamento de Montaña" 
+					division_names_group = SPAN_INF_02 
+					is_locked = no 
+					regiments = { 
+						mountaineers = { x = 0 y = 0 } 
+						mountaineers = { x = 1 y = 0 } 
+						mountaineers = { x = 0 y = 1 } 
+						mountaineers = { x = 0 y = 2 } 
+						mountaineers = { x = 0 y = 3 } 
+						mountaineers = { x = 1 y = 1 } 
+						mountaineers = { x = 1 y = 2 } 
+					}
+				}
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"Destacamento de Montaña\" division_template = \"Destacamento de Montaña del Sur\" start_equipment_factor = 1.0" 
+						owner = ROOT
+						count = 3
+					}
+				}
+			}
+		}
+	}
+
+	### Ensure Peace in our Homeland ###
+	focus = {
+		id = VEN_ensure_peace_in_our_homeland
+		icon = GFX_ARG_south_america
+		x = -2
+		y = 1
+		relative_position_id = VEN_assess_the_situation_in_europe
+		prerequisite = {
+			focus = VEN_assess_the_situation_in_europe
+			focus = VEN_close_american_cooperation
+		}
+
+		cost = 5
+
+		available = {
+			has_army_manpower = {
+				size > 199999
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			every_other_country = {
+				limit = {
+					capital_scope = {
+						is_on_continent = south_america
+					}
+					NOT = {
+						OR = {
+							has_war_with = ROOT 
+							is_in_faction_with = ROOT 
+						}
+					}
+					has_government = communism
+				}
+				add_opinion_modifier = { target = ARG modifier = ARG_against_us }
+			}
+			every_other_country = {
+				limit = {
+					capital_scope = {
+						is_on_continent = south_america
+					}
+					NOT = {
+						OR = {
+							has_war_with = ROOT 
+							is_in_faction_with = ROOT 
+						}
+					}
+					has_government = fascism
+				}
+				add_opinion_modifier = { target = ARG modifier = ARG_against_us }
+			}
+		}
+	}
+
+	### There shall be no revolution ###
+	focus = {
+		id = VEN_there_shall_be_no_revolution
+		icon = GFX_ARG_rid_communism
+		x = 1
+		y = 1
+		relative_position_id = VEN_ensure_peace_in_our_homeland
+		prerequisite = {
+			focus = VEN_ensure_peace_in_our_homeland
+		}
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			custom_effect_tooltip = ARG_removecommunismfromcontinent
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						capital_scope = { is_on_continent = south_america }
+						has_government = communism
+						NOT = {
+							is_in_faction_with = ROOT 
+							has_war_with = ROOT
+						}
+					}
+					ROOT = {
+						create_wargoal = {
+							type = puppet_wargoal_focus
+							target = PREV
+						}
+					}
+				}
+			}
+		}
+	}
+
+	### The People are Always Respected ###
+	focus = {
+		id = VEN_the_people_are_always_respected
+		icon = GFX_ARG_rid_fascism
+		x = -1
+		y = 1
+		relative_position_id = VEN_ensure_peace_in_our_homeland
+		prerequisite = {
+			focus = VEN_ensure_peace_in_our_homeland
+		}
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			custom_effect_tooltip = ARG_removefascismfromcontinent
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						capital_scope = { is_on_continent = south_america }
+						has_government = fascism
+						NOT = {
+							is_in_faction_with = ROOT 
+							has_war_with = ROOT
+						}
+					}
+					ROOT = {
+						create_wargoal = {
+							type = puppet_wargoal_focus
+							target = PREV
+						}
+					}
+				}
+			}
+		}
+	}
+
 	### No Second Chances ###
 	focus = {
 		id = VEN_no_second_chances
@@ -3906,11 +6420,13 @@ focus_tree = {
 			}
 			every_controlled_state = {
 				limit = {
-					OR = {
-						is_neighbor_of = PRU 
-						is_neighbor_of = BRA 
-						infrastructure < 3
+					any_neighbor_state = {
+						OR = {
+							is_controlled_by = PRU 
+							is_controlled_by = BRA
+						}
 					}
+					infrastructure < 3
 				}
 				add_building_construction = {
 					type = infrastructure
@@ -4010,6 +6526,36 @@ focus_tree = {
 		}
 
 		cost = 10
+
+		available = {
+			any_controlled_state = {
+				is_core_of = BRA 
+				has_resources_amount = {
+					resource = rubber
+					amount > 0
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			every_controlled_state = {
+				limit = {
+					is_core_of = BRA 
+					has_resources_amount = {
+						resource = rubber
+						amount > 0
+					}
+				}
+				add_resource = {
+					type = rubber
+					amount = 8
+				}
+			}
+		}
 	}
 
 	### The March South ###
@@ -4417,7 +6963,7 @@ focus_tree = {
 	### The True Dominant Power in America ###
 	focus = {
 		id = VEN_the_true_dominant_power_in_america
-		icon = GFX_VEN_true_power
+		icon = GFX_focus_spa_the_war_of_vengeance
 		x = -1
 		y = 1
 		relative_position_id = VEN_our_ambition_in_the_caribbean
@@ -4564,7 +7110,7 @@ focus_tree = {
 	## Establish the Confederation as a Dominion ##
 	focus = {
 		id = VEN_establish_the_confederation_as_a_dominion
-		icon = GFX_PRU_peru_bolivia_commonwealth
+		icon = GFX_col_focus_dominio
 		x = 0
 		y = 1
 		relative_position_id = VEN_secure_the_tungsten_mines
@@ -4575,7 +7121,170 @@ focus_tree = {
 		cost = 10
 
 		available = {
-			
+			## Peru ##
+			965 = { controls_or_subject_of = yes }
+			491 = { controls_or_subject_of = yes }
+			1000 = { controls_or_subject_of = yes }
+			1005 = { controls_or_subject_of = yes }
+			494 = { controls_or_subject_of = yes }
+			303 = { controls_or_subject_of = yes }
+			988 = { controls_or_subject_of = yes }
+			989 = { controls_or_subject_of = yes }
+			492 = { controls_or_subject_of = yes }
+			987 = { controls_or_subject_of = yes }
+			1001 = { controls_or_subject_of = yes }
+			## Bolivia ##
+			302 = { controls_or_subject_of = yes }
+			1008 = { controls_or_subject_of = yes }
+			1004 = { controls_or_subject_of = yes }
+			1003 = { controls_or_subject_of = yes }
+			1006 = { controls_or_subject_of = yes }
+			1007 = { controls_or_subject_of = yes }
+			985 = { controls_or_subject_of = yes }
+			994 = { controls_or_subject_of = yes }
+			487 = { controls_or_subject_of = yes }
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = VEN_release_pbc_as_subject_tt
+			hidden_effect = {
+				PRU = {
+					set_cosmetic_tag = PBC_UNIFIED
+				}
+				every_state = {
+					limit = {
+						controls_or_subject_of = yes
+						OR = {
+							is_core_of = PRU 
+							is_core_of = BOL 
+						}
+					}
+					PRU = { transfer_state = PREV }
+				}
+				PRU = {
+					set_politics = {
+						ruling_party = ROOT
+					}
+				}
+				if = {
+					limit = {
+						has_government = communism
+					}
+					PRU = {
+						create_country_leader = {
+							name = "Congreso de Tacna"
+							desc = "POLITICS_CONGRESS_TACNA_DESC"
+							picture = "gfx/leaders/PRU/PBC_portrait_congreso_de_tacna.dds"
+							expire = "1965.1.1"
+							ideology = leninism
+							traits = {
+								PRU_not_a_real_person
+							}
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						has_government = neutrality
+					}
+					PRU = {
+						create_country_leader = {
+							name = "Congreso de Tacna"
+							desc = "POLITICS_CONGRESS_TACNA_DESC"
+							picture = "gfx/leaders/PRU/PBC_portrait_congreso_de_tacna.dds"
+							expire = "1965.1.1"
+							ideology = despotism
+							traits = {
+								PRU_not_a_real_person
+							}
+						}
+					}
+				}
+				else = {
+					PRU = {
+						create_country_leader = {
+							name = "Congreso de Tacna"
+							desc = "POLITICS_CONGRESS_TACNA_DESC"
+							picture = "gfx/leaders/PRU/PBC_portrait_congreso_de_tacna.dds"
+							expire = "1965.1.1"
+							ideology = gen_nazism
+							traits = {
+								PRU_not_a_real_person
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						PRU = {
+							NOT = {
+								is_subject_of = ROOT
+							}
+						}
+					}
+					puppet = PRU
+				}
+				PRU = {
+					load_focus_tree = PBC_focus_tree
+					unlock_national_focus = PBC_choose_our_leader
+					unlock_national_focus = PBC_our_war_of_independence
+					unlock_national_focus = PBC_focus_on_our_armed_forces
+					unlock_national_focus = PBC_maneging_the_new_nation
+					unlock_national_focus = PBC_invite_foreign_advisors
+					unlock_national_focus = PBC_deal_with_the_economy
+					unlock_national_focus = PBC_unite_the_parties
+					unlock_national_focus = PBC_mobilize_the_economy
+					unlock_national_focus = PBC_unite_the_industries
+					unlock_national_focus = PBC_stabilizing_the_nation
+					unlock_national_focus = PBC_mutual_military_training
+					unlock_national_focus = PBC_fully_reform_the_army
+					unlock_national_focus = PBC_independent_at_last
+				}
+			}
+		}
+	}
+
+	### Mas que un Sueño ###
+	focus = {
+		id = VEN_mas_que_un_sueno
+		icon = GFX_VEN_more_than_a_dream
+		x = -4
+		y = 1
+		relative_position_id = VEN_protection_over_the_caribbean_and_CA
+		prerequisite = {
+			focus = VEN_protection_over_the_caribbean_and_CA
+			focus = VEN_the_southern_cone
+			focus = VEN_the_true_dominant_power_in_america
+		}
+
+		cost = 10
+
+		available = {
+			is_subject = no 
+			num_of_factories > 199
+			all_core_state = {
+				is_fully_controlled_by = ROOT 
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					is_major = no 
+				}
+				set_major = yes 
+			}
+			add_political_power = 100
+			add_stability = 0.1
+			add_war_support = 0.1
 		}
 	}
 	
