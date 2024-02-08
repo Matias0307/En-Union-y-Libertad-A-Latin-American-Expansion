@@ -3489,6 +3489,12 @@ focus_tree = {
 					modifier = VEN_broke_ties_with_axis
 				}
 			}
+			if = {
+				limit = {
+					has_any_power_balance = yes 
+				}
+				VEN_move_25_left = yes 
+			}
 		}
 	}
 
@@ -3538,6 +3544,12 @@ focus_tree = {
 			ENG = {
 				add_opinion_modifier = { target = ROOT modifier = placated_west }
 			}
+			if = {
+				limit = {
+					has_any_power_balance = yes 
+				}
+				VEN_move_10_left = yes 
+			}
 		}
 	}
 
@@ -3561,7 +3573,12 @@ focus_tree = {
 		completion_reward = {
 			add_manpower = -800
 			add_political_power = 50
-
+			if = {
+				limit = {
+					has_any_power_balance = yes 
+				}
+				VEN_move_10_left = yes 
+			}
 		}
 	}
 
@@ -5586,6 +5603,34 @@ focus_tree = {
 		}
 		prerequisite = {
 			focus = VEN_follow_earl_browders_theories
+		}
+
+		cost = 10
+
+		available = {
+			has_civil_war = no 
+			has_government = communism
+			num_of_factories > 99
+			is_in_faction_with = SOV
+			SOV = {
+				has_government = communism
+				has_war = yes 
+				surrender_progress > 0.19
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = { ## create event to unite with USSR
+			SOV = {
+				country_event = {
+					id = venezuela.45 
+					hours = 4
+					random_hours = 4
+				}
+			}
 		}
 	}
 

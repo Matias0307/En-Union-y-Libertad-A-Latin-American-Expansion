@@ -1812,3 +1812,59 @@ country_event = {
         }
     }
 }
+
+## Venezuela Offers Salvation in Unification
+country_event = {
+    id = venezuela.45
+    title = venezuela.45.t 
+    desc = veenzuela.45.d 
+    picture = GFX_report_event_generic_read_write
+
+    is_triggered_only = yes 
+
+    option = { ## It's our last chance
+        name = venezuela.45.a
+        ai_chance = {
+            base = 10
+            modifier = {
+                factor = 5
+                surrender_progress > 0.34
+            }
+            modifier = {
+                factor = 3
+                FROM = {
+                    has_army_manpower = {
+                        size > 299999
+                    }
+                }
+            }
+            modifier = {
+                factor = 0 
+                FROM = {
+                    surrender_progress > 0.1
+                }
+            }
+        }
+        custom_effect_tooltip = GAME_OVER_TT
+        FROM = {
+            annex_country = {
+                target = THIS
+                transfer_troops = yes
+            }
+            country_event = peru.16
+        }
+    }
+
+    option = { ## No, we're more than fine
+        name = venezuela.45.b
+        ai_chance = {
+            base = 2
+            modifier = {
+                factor = 5
+                FROM = {
+                    surrender_progress > 0.01
+                }
+            }
+        }
+    }
+}
