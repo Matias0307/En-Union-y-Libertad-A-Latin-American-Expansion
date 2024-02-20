@@ -1425,7 +1425,7 @@ focus_tree = {
 		cost = 3
 
 		ai_will_do = {
-			factor = 10
+			base = 10
 			modifier = {
 				has_civil_war = yes 
 				any_other_country = {
@@ -1531,9 +1531,17 @@ focus_tree = {
 
 		available = {
 			has_country_flag = CHL_election_preperations
-			custom_trigger_tooltip = {
-				tooltip = CHL_gave_welfare_to_lower_class_tt
-				has_country_flag = CHL_gave_welfare_to_lower
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = CHL_gave_welfare_to_lower_class_tt
+					has_country_flag = CHL_gave_welfare_to_lower
+				}
+				custom_trigger_tooltip = {
+					tooltip = CHL_friendly_lower_class
+					check_variable = {
+						CHL_lower_class_opinion = 1
+					}
+				}
 			}
 		}
 
@@ -1559,9 +1567,17 @@ focus_tree = {
 
 		available = {
 			has_country_flag = CHL_election_preperations
-			custom_trigger_tooltip = {
-				tooltip = CHL_gave_welfare_to_middle_class_tt
-				has_country_flag = CHL_gave_welfare_to_middle
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = CHL_gave_welfare_to_middle_class_tt
+					has_country_flag = CHL_gave_welfare_to_middle
+				}
+				custom_trigger_tooltip = {
+					tooltip = CHL_friendly_middle_class
+					check_variable = {
+						CHL_middle_class_opinion = 1
+					}
+				}
 			}
 		}
 
@@ -1587,9 +1603,17 @@ focus_tree = {
 
 		available = {
 			has_country_flag = CHL_election_preperations
-			custom_trigger_tooltip = {
-				tooltip = CHL_offered_tax_cuts_to_upper_class_tt
-				has_country_flag = CHL_gave_tax_cuts_to_upper
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = CHL_offered_tax_cuts_to_upper_class_tt
+					has_country_flag = CHL_gave_tax_cuts_to_upper
+				}
+				custom_trigger_tooltip = {
+					tooltip = CHL_friendly_upper_class
+					check_variable = {
+						CHL_upper_class_opinion = 1
+					}
+				}
 			}
 		}
 
@@ -1641,7 +1665,7 @@ focus_tree = {
 		cost = 3
 
 		ai_will_do = {
-			factor = 10
+			base = 10
 			modifier = {
 				factor = 0
 				is_historical_focus_on = yes 
@@ -1704,10 +1728,17 @@ focus_tree = {
 		cost = 3 
 
 		ai_will_do = {
-			factor = 10
+			base = 10
 			modifier = {
 				factor = 0
 				is_historical_focus_on = yes 
+			}
+			modifier = {
+				factor = 100
+				has_game_rule = {
+					rule = EUYL_chaos_mode
+					option = YES
+				}
 			}
 		}
 
@@ -2554,7 +2585,6 @@ focus_tree = {
 				limit = { NOT = { has_government = communism } }
 				set_politics = { ruling_party = communism }
 			}
-			create_faction = "The World Revolution"
 		}		
 		relative_position_id = CHL_create_the_pan_american_highway
 		cost = 5	
@@ -2765,6 +2795,15 @@ focus_tree = {
 							count = 3
 						}
 					}
+				}
+				if = {
+					limit = {
+						has_game_rule = {
+							rule = EUYL_chaos_mode
+							option = YES
+						}
+					}
+					add_ideas = EUYL_chaos_civil_war_help
 				}
 				279 = {
 					create_unit = {
@@ -4228,7 +4267,7 @@ focus_tree = {
 		cost = 3
 
 		ai_will_do = {
-			factor = 250
+			base = 250
 			modifier = {
 				is_historical_focus_on = yes
 				factor = 0
@@ -4241,6 +4280,13 @@ focus_tree = {
 					has_civil_war = yes 
 				}
 				factor = 0
+			}
+			modifier = {
+				factor = 100
+				has_game_rule = {
+					rule = EUYL_chaos_mode
+					option = YES
+				}
 			}
 		}
 
@@ -6749,7 +6795,7 @@ focus_tree = {
 		cost = 3
 
 		ai_will_do = {
-			factor = 250
+			base = 250
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }

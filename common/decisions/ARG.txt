@@ -1409,6 +1409,13 @@ ARG_bop = {
 				factor = 0
 				has_completed_focus = ARG_establish_the_TNM
 			}
+			modifier = {
+				factor = 100
+				has_game_rule = {
+					rule = EUYL_chaos_mode
+					option = YES
+				}
+			}
 		}
 
 		available = {
@@ -1487,6 +1494,13 @@ ARG_bop = {
 			modifier = {
 				add = 90
 				has_civil_war = yes 
+			}
+			modifier = {
+				factor = 100
+				has_game_rule = {
+					rule = EUYL_chaos_mode
+					option = YES
+				}
 			}
 		}
 
@@ -4475,6 +4489,15 @@ ARG_the_great_revolution = {
 								}
 							}
 							promote_character = ARG_agustín_pedro_justo
+						}
+						if = {
+							limit = {
+								has_game_rule = {
+									rule = EUYL_chaos_mode
+									option = YES
+								}
+							}
+							add_ideas = EUYL_chaos_civil_war_help
 						}
 					}
 					else = {
@@ -8143,6 +8166,9 @@ ARG_the_spread_of_anarchism = {
 		target_trigger = {
 			FROM = {
 				has_country_flag = ARG_anarchist_sentiment_fomented_here
+				NOT = {
+					is_subject_of = ROOT
+				}
 			}
 		}
 
@@ -8297,7 +8323,7 @@ ARG_the_spread_of_anarchism = {
 			FROM = {
 				is_subject_of = ROOT 
 				has_civil_war = no 
-				has_cosmetic_tag = TAS 
+				#has_cosmetic_tag = TAS 
 			}
 		}
 
@@ -8910,7 +8936,10 @@ ARG_the_liberation_army = {
         }
 
         visible = {
-            has_completed_focus = ARG_prepare_the_liberating_army
+            OR = {
+				has_completed_focus = ARG_prepare_the_liberating_army
+				has_completed_focus = VEN_the_great_south_american_revolution
+			}
         }
 
         custom_cost_trigger = {
@@ -8956,7 +8985,10 @@ ARG_the_liberation_army = {
 
         visible = {
             exists = yes 
-            has_completed_focus = ARG_a_red_world
+            OR = {
+				has_completed_focus = ARG_a_red_world
+				has_completed_focus = VEN_the_global_revolution
+			}
             has_government = communism
         }
 
@@ -9070,6 +9102,138 @@ ARG_the_liberation_army = {
             }
         }
     }
+
+	VEN_integrate_our_brothers_in_FROM = {
+		icon = GFX_decision_generic_nationalism
+		allowed = {
+			original_tag = VEN
+		}
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				add = 100
+				OR = {
+					has_government = fascism
+					has_government = neutrality
+					has_government = communism
+				}
+			}
+			modifier = {
+				factor = 1
+				is_historical_focus_on = yes
+			}
+		}
+
+		on_map_mode = map_and_decisions_view
+
+		state_target = yes
+
+		target_array = controlled_states
+
+		target_trigger = {
+			FROM = {
+				is_on_continent = south_america
+				is_fully_controlled_by = ROOT
+				NOT = { is_core_of = ROOT }
+				any_neighbor_state = {
+					is_core_of = ROOT
+				}
+			}
+		}
+
+		available = {
+			FROM = {
+				compliance > 50
+				resistance < 15
+			}
+			has_equipment = {
+			    infantry_equipment > 299
+			}
+			has_manpower > 999
+			has_army_experience > 4
+		}
+
+		visible = {
+			has_completed_focus = VEN_proclaim_the_south_american_union
+			FROM = {
+				is_fully_controlled_by = ROOT
+				NOT = { is_core_of = ROOT }
+				any_neighbor_state = {
+					is_core_of = ROOT
+				}
+			}
+		}
+  
+		cost = 50
+
+		days_remove = 70
+		
+		complete_effect = {
+			add_manpower = -1000
+			add_equipment_to_stockpile = {
+			    type = infantry_equipment
+			    amount = -300
+			}
+			army_experience = -5
+		}
+
+		remove_effect = {
+			FROM = {
+				add_core_of = ROOT
+			}
+		}
+	}
+
+	VEN_invite_FROM_to_our_faction = {
+		icon = hol_exchange_intelligence_data
+		allowed = {
+			original_tag = VEN
+		}
+
+		target_trigger = {
+			FROM = {
+				is_in_faction = no
+				NOT = {
+					OR = {
+						has_war_with = ROOT 
+						is_subject_of = ROOT 
+					}
+				}
+				capital_scope = {
+					OR = {
+						is_on_continent = south_america
+						is_on_continent = north_america
+					}
+				}
+			}
+		}
+
+		ai_will_do = {
+			factor = 110
+		}
+
+		visible = {
+			has_completed_focus = VEN_invite_our_communist_brothers
+		}
+
+		available = {
+			FROM = { communism > 0.4 }
+		}
+
+		cost = 75
+
+		fire_only_once = yes 
+
+		complete_effect = {
+			FROM = {
+				country_event = {
+					id = generic.5 
+					hours = 6
+				}
+			}
+		}
+	}
 }
 
 ARG_spread_of_peronism = {
@@ -10946,7 +11110,6 @@ ARG_inflation = {
 ARG_robertos_deteriorating_health_condition = {
 	
 	ARG_robertos_renounce = {
-		priority = 20
 		icon = generic_political_discourse
 		priority = 100
 		

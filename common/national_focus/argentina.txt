@@ -2088,6 +2088,13 @@ focus_tree = {
 
 		ai_will_do = {
 			factor = 270
+			modifier = {
+				factor = 0
+				has_game_rule = {
+					rule = EUYL_chaos_mode
+					option = YES
+				}
+			}
 		}
 
 		offset = {
@@ -2424,6 +2431,13 @@ focus_tree = {
 				has_game_rule = {
 					rule = ARG_ai_behavior
 					option = ARG_CATHOLIC
+				}
+			}
+			modifier = {
+				factor = 100
+				has_game_rule = {
+					rule = EUYL_chaos_mode
+					option = YES
 				}
 			}
 		}
@@ -3028,7 +3042,16 @@ focus_tree = {
 
 		cost = 5
 
-		ai_will_do = { factor = 6 }
+		ai_will_do = { 
+			factor = 6 
+			modifier = {
+				factor = 100
+				has_game_rule = {
+					rule = EUYL_chaos_mode
+					option = YES
+				}
+			}
+		}
 
 		available = {
 			NOT = { has_completed_focus = ARG_empower_the_independents }
@@ -3161,6 +3184,12 @@ focus_tree = {
 						}
 					}
 					clr_country_flag = ARG_armed_catholics
+				}
+				if = {
+					limit = {
+						is_ai = yes
+					}
+					add_ideas = EUYL_chaos_civil_war_help
 				}
 				if = {
 					limit = {
@@ -3742,7 +3771,16 @@ focus_tree = {
 
 		cost = 10
 
-		ai_will_do = { factor = 5 }
+		ai_will_do = { 
+			factor = 5 
+			modifier = {
+				factor = 0
+				has_game_rule = {
+					rule = EUYL_chaos_mode
+					option = YES
+				}
+			}
+		}
 
 		available = {
 			has_civil_war = no 
@@ -7267,6 +7305,14 @@ focus_tree = {
 			}
 			custom_effect_tooltip = available_designer
 			show_ideas_tooltip = aresnal_naval_belgrano
+			if = {
+				limit = {
+					has_dlc = "Arms Against Tyranny"
+				}
+				mio:ARG_arsenal_naval_belgrano_organization = {
+					add_mio_funds = 1500
+				}
+			}
 		}
 	}
 	
@@ -7659,6 +7705,14 @@ focus_tree = {
 			}
 			custom_effect_tooltip = available_designer
 			show_ideas_tooltip = ARG_porsche
+			if = {
+				limit = {
+					has_dlc = "Arms Against Tyranny"
+				}
+				mio:ARG_porsche_organization = {
+					add_mio_size = 1
+				}
+			}
 		}
 	}
 	
@@ -11719,7 +11773,7 @@ focus_tree = {
 				limit = {
 					is_subject_of = ROOT 
 					has_civil_war = no 
-					has_cosmetic_tag = TAS
+					#has_cosmetic_tag = TAS
 				}
 				ROOT = {
 					annex_country = {
@@ -12069,6 +12123,10 @@ focus_tree = {
 			}
 			custom_effect_tooltip = ARG_effect_when_completed_tt
 			add_ideas = ARG_succesful_purge
+			add_popularity = {
+				ideology = communism
+				popularity = 0.1
+			}
 			hidden_effect = {
 				remove_ideas = ARG_active_purge
 			}
@@ -13736,7 +13794,7 @@ focus_tree = {
 			any_controlled_state = { is_on_continent = europe }	
 			any_controlled_state = { is_on_continent = north_america }
 			num_of_controlled_states > 80
-			num_of_factories > 150
+			num_of_factories > 199
 			any_subject_country = {
 				capital_scope = { is_on_continent = europe }
 			}

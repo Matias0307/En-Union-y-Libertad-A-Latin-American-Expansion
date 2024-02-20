@@ -127,6 +127,13 @@ country_event = {
                 factor = 2
                 threat > 0.5
             }
+            modifier = {
+				factor = 100
+				has_game_rule = {
+					rule = EUYL_chaos_mode
+					option = YES
+				}
+			}
         }
         create_wargoal = {
             type = puppet_wargoal_focus
@@ -142,6 +149,36 @@ country_event = {
             limit = { original_tag = USA }
             USA_house_small_opposition = yes
             USA_senate_small_opposition = yes
+        }
+    }
+
+    option = { ## Give them 2 years to repent before we declare war
+        name = venezuela.5.e
+        trigger = {
+            original_tag = USA
+            any_other_country = {
+                is_major = yes 
+                has_government = fascism
+                is_in_faction_with = VEN
+            }
+        }
+        ai_chance = {
+            base = 5
+            modifier = {
+                factor = 20
+                AND = {
+                    original_tag = USA 
+                    date > 1940.1.1
+                }
+            }
+        }
+        FROM = {
+            country_event = {
+                id = venezuela.47 
+                hours = 4
+                random_hours = 4
+            }
+            activate_mission = VEN_looming_american_intervention
         }
     }
 
@@ -319,6 +356,25 @@ country_event = {
                 factor = 5
                 NOT = { has_government = ROOT }
             }
+            modifier = {
+                factor = 0
+                VEN = {
+                    has_civil_war = yes
+                }
+                NOT = {
+                    has_game_rule = {
+                        rule = EUYL_chaos_mode
+                        option = YES
+                    }
+                }
+            }
+            modifier = {
+				factor = 100
+				has_game_rule = {
+					rule = EUYL_chaos_mode
+					option = YES
+				}
+			}
         }
         create_wargoal = {
             type = puppet_wargoal_focus
@@ -332,7 +388,7 @@ country_event = {
     option = { ##issue a stern warning
         name = venezuela.5.b
         ai_chance = {
-            base = 50
+            base = 65
             modifier = {
                 factor = 0
                 has_war_with_major = yes 
@@ -350,12 +406,22 @@ country_event = {
 
     option = { # let them go
         name = venezuela.5.c
+        ai_chance = {
+            base = 50
+            modifier = {
+                factor = 2
+                FROM = {
+                    is_guaranteed_by = USA 
+                }
+                num_of_factories < 99
+            }
+        }
         add_stability = 0.05
         add_war_support = -0.05
     }
 }
 
-## FROM is demanding resource rights to [VEN_RESOURCE_TARGET_STATE.GetName]
+## FROM is demanding resource rights to [VEN_RESOURCE_TARGET_STATE.GetName] || thanks for this old me, u a real g (schizophreniamaxxing)
 country_event = {
     id = venezuela.10
     title = venezuela.10.t 
@@ -577,67 +643,69 @@ country_event = {
         add_political_power = 5
     }
 
-    option = { ## you're no longer allowed in our faction!
-        name = venezuela.14.b 
-        ai_chance = {
-            base = 10
-            modifier = {
-                add = 10
-                strength_ratio = {
-                    tag = FROM 
-                    ratio > 1
-                }
-            }
-        }
-        trigger = {
-            FROM = {
-                is_in_faction_with = ROOT
-            }
-            is_faction_leader = yes 
-        }
-        remove_from_faction = FROM
-        FROM = { 
-            country_event = {
-                id = venezuela.16
-                hours = 3
-                random_hours = 5
-            }
-        }
-    }
+    ## tf was i cooking here? this is literally only for Venezuela :skull:
 
-    option = { #intervene militarily
-        name = venezuela.9.a
-        trigger = {
-            VEN = {
-                NOT = {
-                    OR = {
-                        has_war_with = ROOT 
-                        is_in_faction_with = ROOT
-                    }
-                }
-            }
-        } 
-        ai_chance = {
-            base = 1
-            modifier = {
-                factor = 20
-                VEN = {
-                    has_war = yes 
-                }
-            }
-            modifier = {
-                factor = 5
-                NOT = { has_government = ROOT }
-            }
-        }
-        create_wargoal = {
-            type = puppet_wargoal_focus
-            target = FROM
-        }
-        add_stability = -0.1
-        add_war_support = -0.05
-        add_political_power = -25
-    }
+   #option = { ## you're no longer allowed in our faction!
+   #    name = venezuela.14.b 
+   #    ai_chance = {
+   #        base = 10
+   #        modifier = {
+   #            add = 10
+   #            strength_ratio = {
+   #                tag = FROM 
+   #                ratio > 1
+   #            }
+   #        }
+   #    }
+   #    trigger = {
+   #        FROM = {
+   #            is_in_faction_with = ROOT
+   #        }
+   #        is_faction_leader = yes 
+   #    }
+   #    remove_from_faction = FROM
+   #    FROM = { 
+   #        country_event = {
+   #            id = venezuela.16
+   #            hours = 3
+   #            random_hours = 5
+   #        }
+   #    }
+   #}
+
+   #option = { #intervene militarily
+   #    name = venezuela.9.a
+   #    trigger = {
+   #        VEN = {
+   #            NOT = {
+   #                OR = {
+   #                    has_war_with = ROOT 
+   #                    is_in_faction_with = ROOT
+   #                }
+   #            }
+   #        }
+   #    } 
+   #    ai_chance = {
+   #        base = 1
+   #        modifier = {
+   #            factor = 20
+   #            VEN = {
+   #                has_war = yes 
+   #            }
+   #        }
+   #        modifier = {
+   #            factor = 5
+   #            NOT = { has_government = ROOT }
+   #        }
+   #    }
+   #    create_wargoal = {
+   #        type = puppet_wargoal_focus
+   #        target = FROM
+   #    }
+   #    add_stability = -0.1
+   #    add_war_support = -0.05
+   #    add_political_power = -25
+   #}
 }
 
 ## FROM (Venezuela) has given us resource rights to [VEN_RESOURCE_SELLING_TARGET_STATE.GetName]
@@ -887,7 +955,10 @@ country_event = {
         name = venezuela.22.a 
         if = {
             limit = {
-                has_completed_focus = VEN_mobilize_the_economy
+                OR = {
+                    has_completed_focus = VEN_mobilize_the_economy
+                    has_completed_focus = VEN_mobilize_the_economy_fash
+                }
             }
             add_ideas = VEN_post_civil_war_economic_crisis_2
         }
@@ -1184,6 +1255,13 @@ country_event = {
         name = venezuela.27.b 
         ai_chance = {
             base = 2
+            modifier = {
+				factor = 100
+				has_game_rule = {
+					rule = EUYL_chaos_mode
+					option = YES
+				}
+			}
         }
         add_stability = -0.1 
         add_war_support = -0.15 
@@ -1310,7 +1388,7 @@ country_event = {
     is_triggered_only = yes 
 
     option = { # Just Ignore them
-        name = venezuela.28.a
+        name = venezuela.280.a
         ai_chance = {
             base = 20
         }
@@ -1325,7 +1403,7 @@ country_event = {
     }
 
     option = { ## Who the HELL do they think they are???
-        name = venezuela.28.b 
+        name = venezuela.280.b 
         ai_chance = {
             base = 1
             modifier = {
@@ -1346,7 +1424,7 @@ country_event = {
     }
 
     option = { ## We're sorry, we'll pay for our mistakes
-        name = venezuela.28.c 
+        name = venezuela.280.c 
         ai_chance = {
             base = 1
             modifier = {
@@ -1626,7 +1704,7 @@ country_event = {
     }
 }
 
-## Escalante Resigns from Politics ## || Historical
+## Escalante Diagnosed with Onset Dementia ## || Historical
 country_event = {
     id = venezuela.37
     title = venezuela.37.t 
@@ -1635,13 +1713,43 @@ country_event = {
 
     is_triggered_only = yes 
 
-    option = {
+    option = { ## That seals it, this government needs to go
         name = venezuela.37.a 
+        trigger = {
+            NOT = {
+                has_country_leader = {
+                    character = VEN_diogenes_escalante
+                    ruling_only = yes 
+                }
+            }
+        }
         add_stability = -0.01
         retire_character = VEN_diogenes_escalante
         add_days_mission_timeout = {
             mission = VEN_lurking_coup_detat
             days = -10
+        }
+    }
+
+    option = { ## We'll do whatever it take to heal him
+        name = venezuela.37.b 
+        trigger = {
+            has_country_leader = {
+                character = VEN_diogenes_escalante
+                ruling_only = yes 
+            }
+        }
+        if = {
+            limit = {
+                NOT = {
+                    has_country_flag = VEN_escalantes_diagnosed_with_dementia_flag
+                }
+            }
+            set_country_flag = VEN_escalantes_diagnosed_with_dementia_flag
+        }
+        activate_mission = VEN_escalantes_inevitable_resignation
+        VEN_diogenes_escalante = {
+            add_country_leader_trait = VEN_suffering_from_dementia
         }
     }
 }
@@ -1851,6 +1959,16 @@ country_event = {
                 target = THIS
                 transfer_troops = yes
             }
+            if = {
+                limit = {
+                    has_cosmetic_tag = SAU_UNIFIED
+                }
+                drop_cosmetic_tag = yes 
+                set_cosmetic_tag = GUOSR_UNIFIED
+            }
+            else = {
+                set_cosmetic_tag = GUOSR_UNIFIED
+            }
             country_event = peru.16
         }
     }
@@ -1865,6 +1983,842 @@ country_event = {
                     surrender_progress > 0.01
                 }
             }
+        }
+        FROM = {
+            country_event = {
+                id = venezuela.46 
+                hours = 6
+                random_hours = 6
+            }
+        }
+    }
+}
+
+## [FROM] Has Refused to Unite with us 
+country_event = {
+    id = venezuela.46
+    title = venezuela.46.t 
+    desc = venezuela.46.d 
+
+    is_triggered_only = yes 
+
+    option = {
+        name = venezuela.46.a 
+    }
+}
+
+## USA is giving us 2 years to fully leave the Axis before they Invade
+country_event = {
+    id = venezuela.47
+    title = venezuela.47.t 
+    desc = venezuela.47.d 
+
+    is_triggered_only = yes 
+
+    option = {
+        name = venezuela.47.a 
+        effect_tooltip = {
+            activate_mission = VEN_looming_american_intervention
+        }
+    }
+}
+
+## Venezuela has Refused to Cooperate to our Orders 
+country_event = {
+    id = venezuela.48
+    title = venezuela.48.t 
+    desc = venezuela.48.d 
+
+    is_triggered_only = yes 
+
+    option = { ## We warned you
+        name = venezuela.48.a 
+        ai_chance = {
+            base = 20
+            modifier = {
+                factor = 10 
+                any_allied_country = {
+                    has_war_with = VEN
+                }
+            }
+        }
+        add_ai_strategy = {
+            type = prepare_for_war
+            id = VEN
+            value = 100
+        }
+        create_wargoal = {
+            target = VEN
+            type = puppet_wargoal_focus
+        }
+    }
+
+    option = {
+        name = venezuela.48.b
+        ai_chance = {
+            base = 1
+            modifier = {
+                factor = 20
+                has_civil_war = yes
+            }
+        }
+        add_stability = -0.05
+        add_war_support = -0.1
+        add_political_power = -50
+        USA_house_medium_opposition = yes 
+        USA_senate_medium_opposition = yes
+    }
+}
+
+## [FROM.GetName] has sent us an Ultimatum
+country_event = {
+    id = venezuela.49
+    title = venezuela.49.t 
+    desc = venezuela.49.d 
+    picture = GFX_report_event_generic_army
+
+    is_triggered_only = yes 
+
+    option = { ## do we even have a choice?
+        name = venezuela.49.a 
+        ai_chance = {
+            base = 20
+            modifier = {
+                factor = 4
+                strength_ratio = {
+                    tag = FROM 
+                    ratio < 1
+                }
+            }
+            modifier = {
+                factor = 0
+                strength_ratio = {
+                    tag = FROM 
+                    ratio > 1
+                }
+            }
+            modifier = {
+                factor = 3
+                FROM = {
+                    num_of_factories > 49
+                }
+            }
+            modifier = {
+                factor = 2
+                num_of_factories < 19
+            }
+            modifier = {
+                factor = 2
+                has_army_manpower = {
+                    size < 99999
+                }
+            }
+            modifier = {
+                factor = 3
+                OR = {
+                    is_in_faction_with = FROM 
+                    has_government = FROM
+                }
+            }
+        }
+        custom_effect_tooltip = GAME_OVER_TT
+        FROM = {
+            annex_country = {
+                target = ROOT
+                transfer_troops = yes 
+            }
+            country_event = peru.16
+        }
+    }
+
+    option = { ## we'll fight till the very end
+        name = venezuela.49.b 
+        ai_chance = {
+            base = 10
+            modifier = {
+                factor = 3
+                FROM = {
+                    has_war = yes 
+                }
+            }
+            modifier = {
+                factor = 2
+                NOT = {
+                    has_government = FROM
+                }
+            }
+            modifier = {
+                factor = 2
+                has_army_manpower = {
+                    size > 199999
+                }
+            }
+            modifier = {
+                factor = 2
+                num_of_factories > 49
+            }
+            modifier = {
+				factor = 100
+				has_game_rule = {
+					rule = EUYL_chaos_mode
+					option = YES
+				}
+			}
+        }
+        FROM = {
+            country_event = {
+                id = peru.17 
+                hours = 4 
+                random_hours = 4
+            }
+        }
+    }
+}
+
+## ROOT gets event of Venezuela (FROM) Demanding their South American Possessions
+country_event = {
+    id = venezuela.50
+    title = venezuela.50.t 
+    desc = venezuela.50.d 
+    picture = GFX_report_event_generic_army
+
+    is_triggered_only = yes 
+
+    option = { ## Give them the land, we can't afford war with them
+        name = venezuela.50.a 
+        ai_chance = {
+			base = 10
+			modifier = {
+				add = 40 
+				has_opinion = {
+					target = FROM 
+					value > 49
+				}
+			}
+			modifier = {
+				add = 25
+				has_opinion = {
+					target = FROM 
+					value > 79
+				}
+			}
+            modifier = {
+                factor = 3
+                FROM = {
+                    is_in_faction_with = GER
+                }
+            }
+            modifier = {
+                factor = 5
+                has_capitulated = yes 
+            }
+			modifier = {
+				add = 10
+				num_of_factories > 24
+			}
+			modifier = {
+				add = 15
+				FROM = {
+					has_army_manpower = { size > 399999 }
+				}
+			}
+		}
+        every_state = {
+            limit = {
+                controls_or_subject_of = yes 
+                is_on_continent = south_america 
+                NOT = { is_controlled_by = FROM } 
+                OR = {
+                    state = 687
+                    state = 309
+                    state = 310
+                }
+            }
+            FROM = {
+                transfer_state = PREV
+            }
+        }
+        FROM = {
+            country_event = {
+                id = peru.16 
+                hours = 4
+                random_hours = 4
+            }
+        }
+    }
+
+    option = { ## Fight for the land if you want it
+        name = venezuela.50.b 
+        ai_chance = {
+			base = 15
+			modifier = {
+				add = 20
+				has_war = yes 
+			}
+			modifier = {
+				add = 20
+				has_opinion = {
+					target = FROM 
+					value < 0
+				}
+			}
+			modifier = {
+				add = 40
+				has_civil_war = yes 
+			}
+            modifier = {
+                factor = 20
+                FROM = {
+                    has_civil_war = yes 
+                }
+            }
+		}
+        FROM = { country_event = { id = peru.17 hours = 24 } }
+    }
+}
+
+## Escalantes resigns from Politics || A-Historical Resignation
+country_event = {
+    id = venezuela.51
+    title = venezuela.51.t 
+    desc = venezuela.51.d 
+    picture = GFX_VEN_escalante_pic_event2
+
+    is_triggered_only = yes 
+
+    option = {
+        name = venezuela.51.a 
+        retire_character = VEN_diogenes_escalante
+        add_country_leader_role = {
+            character = VEN_asamblea_nacional
+            promote_leader = yes
+            country_leader = {
+                ideology = conservatism
+                expire = "1965.1.1.1"
+            }
+        }
+    }
+}
+
+## Escalantes has been cured from his dementia
+country_event = {
+    id = venezuela.52
+    title = venezuela.52.t 
+    desc = venezuela.52.d 
+
+    is_triggered_only = yes 
+
+    option = {
+        name = venezuela.52.a 
+        effect_tooltip = {
+            add_stability = 0.02
+            add_political_power = 20
+            remove_country_leader_trait = VEN_suffering_from_dementia
+        }
+    }
+}
+
+## Revolutionaries take up arms across the country ##
+country_event = {
+    id = venezuela.53
+    title = venezuela.53.t 
+    desc = venezuela.53.d 
+    picture = GFX_VEN_start_of_civil_war
+
+    is_triggered_only = yes 
+
+    immediate = {
+        if = {
+            limit = {
+                NOT = {
+                    has_global_flag = VEN_second_revolucion_libertadora_triggered_flag
+                }
+            }
+            set_global_flag = VEN_second_revolucion_libertadora_triggered_flag
+        }
+    }
+
+    option = {
+        name = venezuela.53.a 
+        effect_tooltip = {
+            start_civil_war = {
+                ideology = democratic 
+            }
+        }
+        hidden_effect = {
+            remove_ideas = {
+                strikes_1
+                strikes_2
+                strikes_3
+            }
+            if = {
+                limit = {
+                    has_country_flag = VEN_handling_the_strikes_crisis_flag
+                }
+                clr_country_flag = VEN_handling_the_strikes_crisis_flag
+            }
+            VEN_remove_abrupt_government_transition = yes
+            if = {
+				limit = {
+					NOT = {
+						has_template = "Milicias"
+					}
+				}
+				division_template = { 
+					name = "Milicias" 
+					division_names_group = SPAN_INF_02 
+					is_locked = yes 
+                    template_counter = 3
+					regiments = { 
+						infantry = { x = 0 y = 0 }  
+						infantry = { x = 0 y = 1 } 
+						infantry = { x = 0 y = 2 } 
+					}
+				}
+			}
+			news_event = {
+				id = venezuela.58 ## Segunda Revolución Libertadora
+				days = 2
+			}
+			start_civil_war = {
+				ideology = democratic
+				size = 0.4
+				keep_all_characters = yes 
+                PREV = {
+                    VEN_armed_civilians = { set_nationality = PREV.PREV }
+                    VEN_juan_bautista_fuenmayor = { set_nationality = PREV.PREV }
+                    VEN_rodolfo_quintero = { set_nationality = PREV.PREV }
+                    VEN_revolutionary_army = { set_nationality = PREV.PREV }
+                }
+                promote_character = VEN_armed_civilians
+			}
+            add_ideas = VEN_venezuelan_civil_war
+			every_controlled_state = {
+				create_unit = {
+					division = "name = \"Milicias Leales\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+					owner = ROOT
+				}
+                create_unit = {
+					division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+					owner = ROOT
+				}
+			}
+            random_owned_controlled_state = {
+                create_unit = {
+					division = "name = \"Milicias Leales\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+					owner = ROOT
+                    count = 2
+				}
+            }
+			random_other_country = {
+				limit = {
+					has_government = democratic
+					has_civil_war = yes
+					original_tag = VEN
+				}
+                add_ideas = VEN_venezuelan_civil_war
+                VEN_rodolfo_quintero = {
+                    add_corps_commander_role = {
+                        skill = 2
+                        attack_skill = 2
+                        defense_skill = 3
+                        planning_skill = 2
+                        logistics_skill = 2
+                    }
+                }
+                VEN_juan_bautista_fuenmayor = {
+                    add_corps_commander_role = {
+                        skill = 2
+                        attack_skill = 1
+                        defense_skill = 2
+                        planning_skill = 2
+                        logistics_skill = 1
+                    }
+                }
+                VEN_revolutionary_army = {
+                    add_corps_commander_role = {
+                        skill = 1
+                        attack_skill = 2
+                        defense_skill = 1
+                        planning_skill = 1
+                        logistics_skill = 1
+                    }
+                }
+				every_controlled_state = {
+					create_unit = {
+						division = "name = \"Milicias Anti-Gobierno\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+						owner = PREV
+						count = 3
+					}
+				}
+			}
+        }
+    }
+}
+
+## Violent Protests Erupt Nationwide
+country_event = {
+    id = venezuela.54
+    title = venezuela.54.t 
+    desc = venezuela.54.d 
+    picture = GFX_report_event_generic_riot 
+
+    is_triggered_only = yes
+
+    immediate = {
+        hidden_effect = {
+            subtract_from_variable = {
+                VEN_days_until_political_escalation = 7
+            }
+            add_ideas = VEN_violent_protests
+            activate_mission = VEN_political_escalation
+        }
+    }
+
+    option = {
+        name = venezuela.54.a 
+        add_stability = -0.08
+        effect_tooltip = {
+            add_ideas = VEN_violent_protests
+        }
+        every_controlled_state = {
+            limit = {
+                is_fully_controlled_by = ROOT 
+                OR = {
+                    infrastructure > 4
+                    infrastructure < 3
+                }
+                NOT = { has_dynamic_modifier = { modifier = BRA_protests } }
+            }
+            add_dynamic_modifier = {
+                modifier = BRA_protests
+                days = 120
+            }
+        }
+        custom_effect_tooltip = VEN_the_revolution_looms_closer_tt
+    }
+}
+
+## Countrywide Strikes 
+country_event = {
+    id = venezuela.55
+    title = venezuela.55.t 
+    desc = venezuela.55.d 
+    picture = GFX_report_event_generic_strike
+
+    is_triggered_only = yes 
+
+    immediate = {
+        hidden_effect = {
+            subtract_from_variable = {
+                VEN_days_until_political_escalation = 7
+            }
+            activate_mission = VEN_political_escalation
+        }
+    }
+
+    option = {
+        name = venezuela.55.a 
+        add_stability = -0.05
+        if = {
+            limit = {
+                has_idea = strikes_3 ## how did you mess things up so badly already?
+            }
+            add_stability = -0.05
+            add_political_power = -25
+        }
+        else_if = {
+            limit = {
+                has_idea = strikes_2 
+            }
+            VEN_worsen_strikes = yes 
+        }
+        else = {
+            hidden_effect = {
+                remove_ideas = {
+                    strikes_1 ## just in case
+                }
+            }
+            add_ideas = strikes_2
+        }
+        custom_effect_tooltip = VEN_the_revolution_looms_closer_tt
+    }
+}
+
+## Revolutionaries Caught Smuggling Weapons ##
+country_event = {
+    id = venezuela.56
+    title = venezuela.56.t 
+    desc = venezuela.56.d 
+    picture = GFX_VEN_revolutionaries_arming_up
+
+    is_triggered_only = yes 
+
+    immediate = {
+        hidden_effect = {
+            subtract_from_variable = {
+                VEN_days_until_political_escalation = 10
+            }
+            activate_mission = VEN_political_escalation
+        }
+    }
+
+    option = {
+        name = venezuela.56.a 
+        add_equipment_to_stockpile = {
+            type = infantry_equipment
+            amount = -750
+        }
+        add_stability = -0.05
+        custom_effect_tooltip = VEN_the_revolution_looms_closer_tt
+    }
+}
+
+## Lopez Contreras Forced to Step Down from Power ##
+country_event = {
+    id = venezuela.57
+    title = venezuela.57.t 
+    desc = venezuela.57.d 
+    picture = GFX_VEN_lopez_contreras_resigns
+
+    fire_only_once = yes 
+
+    trigger = {
+        has_completed_focus = VEN_support_galavis_actions
+        has_stability < 0.2
+        has_idea = VEN_violent_protests
+        has_country_leader = {
+            character = VEN_eleazar_lopez_contreras
+            ruling_only = yes 
+        }
+        has_character = VEN_asamblea_nacional ## replacement char
+    }
+
+    option = {
+        name = venezuela.57.a 
+        add_stability = -0.05
+        retire_character = VEN_eleazar_lopez_contreras
+        add_country_leader_role = {
+            character = VEN_asamblea_nacional
+            promote_leader = yes
+            country_leader = {
+                ideology = despotism
+                expire = "1965.1.1.1"
+            }
+        }
+        if = {
+            limit = {
+                has_active_mission = VEN_political_escalation
+            }
+            add_days_mission_timeout = {
+                mission = VEN_political_escalation
+                days = -25
+            }
+        }
+    }
+}
+
+## The Second Liberating Revolution ##
+news_event = {
+    id = venezuela.58
+    title = venezuela.58.t 
+    desc = venezuela.58.d 
+    picture = GFX_VEN_segunda_revolucion_libertadora
+
+    major = yes 
+
+    is_triggered_only = yes 
+
+    option = { ## We'll do whatever it takes to win!
+        name = venezuela.58.a 
+        trigger = {
+            original_tag = VEN
+        }
+    }
+
+    option = { ## We gotta keep an eye out for Venezuela
+        name = venezuela.58.b 
+        trigger = {
+            NOT = {
+                original_tag = VEN 
+            }
+            capital_scope = {
+                OR = {
+                    is_on_continent = south_america 
+                    is_on_continent = north_america
+                }
+            }
+        }
+    }
+
+    option = { ## Interesting
+        name = venezuela.58.c 
+        trigger = {
+            NOT = {
+                OR = {
+                    capital_scope = {
+                        is_on_continent = south_america  
+                    }
+                    capital_scope = {
+                        is_on_continent = north_america
+                    }
+                }
+            }
+        }
+    }
+}
+
+## Laureano Contracted a Serious Lung Disease 
+country_event = {
+    id = venezuela.59
+    title = venezuela.59.t 
+    desc = venezuela.59.d 
+    picture = GFX_VEN_laureano_disease_pic
+
+    is_triggered_only = yes 
+
+    option = {
+        name = venezuela.59.a 
+        activate_mission = VEN_laureanos_lung_disease
+    }
+}
+
+## Laureano Has Passed Away
+country_event = {
+    id = venezuela.60
+    title = venezuela.60.t 
+    desc = venezuela.60.d 
+
+    is_triggered_only = yes 
+
+    option = {
+        name = venezuela.60.a 
+        retire_character = VEN_laureano_vallenilla_lanz
+        add_country_leader_role = {
+            character = VEN_asamblea_nacional
+            promote_leader = yes
+            country_leader = {
+                ideology = fascism_ideology
+                expire = "1965.1.1.1"
+            }
+        }
+    }
+}
+
+### FROM has Militarily Occupied [VEN_STATE_OCCUPIED.GetName]
+country_event = {
+    id = venezuela.61
+    title = venezuela.61.t 
+    desc = venezuela.61.d 
+    picture = GFX_report_event_generic_army
+
+    is_triggered_only = yes
+
+    option = { ## we cant fight them right now 
+        name = venezuela.61.a 
+        ai_chance = {
+            base = 20
+            modifier = {
+                factor = 2
+                has_war = yes 
+            }
+            modifier = {
+                factor = 2
+                FROM = {
+                    num_of_factories > 49
+                }
+            }
+            modifier = {
+                factor = 3
+                any_other_country = {
+                    is_major = yes 
+                    has_war_with = ROOT
+                }
+            }
+            modifier = {
+                factor = 5
+                surrender_progress > 0.2
+            }
+            modifier = {
+                factor = 8
+                has_capitulated = yes
+            }
+            modifier = {
+                factor = 5
+                strength_ratio = {
+                    tag = FROM
+                    ratio < 1
+                }
+            }
+        }
+        add_war_support = -0.03
+    }
+
+    option = { ## They're not getting away with this!
+        name = venezuela.61.b 
+        ai_chance = {
+            base = 15
+            modifier = {
+                factor = 2
+                FROM = {
+                    num_of_factories < 29
+                }
+            }
+            modifier = {
+                factor = 3
+                strength_ratio = {
+                    tag = FROM
+                    ratio > 1
+                }
+            }
+            modifier = { ## i can understand how nightmarish it can be to be at war with the allies
+                factor = 0.7
+                original_tag = ENG 
+            }
+            modifier = {
+				factor = 100
+				has_game_rule = {
+					rule = EUYL_chaos_mode
+					option = YES
+				}
+			}
+        }
+        create_wargoal = {
+            target = FROM 
+            type = puppet_wargoal_focus
+        }
+    }
+}
+
+## Revolutionaries Succesfully Repressed ##
+country_event = {
+    id = venezuela.62
+    title = venezuela.62.t 
+    desc = venezuela.62.d 
+    picture = GFX_report_event_generic_army 
+
+    is_triggered_only = yes 
+
+    option = {
+        name = venezuela.62.a 
+        add_equipment_to_stockpile = {
+            type = infantry_equipment
+            amount = 500
+            producer = ROOT
+        }
+        add_popularity = {
+            ideology = fascism
+            popularity = 0.1 
+        }
+        add_timed_idea = {
+            idea = VEN_process_of_government_transition
+            days = 365
+        }
+        if = {
+            limit = {
+                has_idea = VEN_violent_protests
+            }
+            remove_ideas = VEN_violent_protests
         }
     }
 }

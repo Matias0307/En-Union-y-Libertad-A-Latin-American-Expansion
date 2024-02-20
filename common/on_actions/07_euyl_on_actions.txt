@@ -1273,13 +1273,13 @@ on_actions = {
                     }
                 }
             }
-            if = {
+            if = { ## Resolution of Venezuelan Civil War
                 limit = {
                     FROM = { original_tag = VEN }
                     ROOT = {
                         original_tag = VEN 
                         OR = {
-                            has_government = fascism
+                            has_completed_focus = VEN_support_galavis_actions ## fascist
                             has_government = communism
                         }
                         NOT = { has_country_flag = civil_war_end_triggered_flag }
@@ -2028,7 +2028,82 @@ on_actions = {
                 }
             }
         }
+        effect = {
+            if = {
+                limit = {
+                    has_game_rule = {
+                        rule = EUYL_chaos_mode
+                        option = YES
+                    }
+                }
+                every_country = {
+                    add_ideas = EUYL_chaos
+                }
+                every_country = {
+                    limit = {
+                        NOT = {
+                            original_tag = FRA 
+                        }
+                    }
+                    add_opinion_modifier = {
+                        target = FRA
+                        modifier = ARG_poses_global_threat
+                    }
+                }
+            }
+        }
 	}
+
+    on_monthly = {
+        effect = {
+            if = {
+                limit = {
+                    has_game_rule = {
+                        rule = EUYL_chaos_mode
+                        option = YES
+                    }
+                }
+                if = {
+                    limit = {
+                        date > 1937.1.1
+                        NOT = {
+                            has_global_flag = EUYL_countries_startedhating_eachother
+                        }
+                    }
+                    set_global_flag = EUYL_countries_startedhating_eachother
+                    every_other_country = {
+                        add_ai_strategy = {
+                            type = conquer
+                            id = ROOT
+                            value = 100
+                        }
+                        ROOT = {
+                            add_ai_strategy = {
+                                type = conquer
+                                id = PREV
+                                value = 100
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    on_monthly_ECU = {
+        effect = {
+            if = {
+                limit = {
+                    has_game_rule = {
+                        rule = EUYL_chaos_mode
+                        option = YES
+                    }
+                    threat < 1
+                }
+                add_threat = 3
+            }
+        }
+    }
 
     on_monthly_COL = {
         effect = { #Check if Rojas Pinilla is going to rebel if the president is Laureano Gómez

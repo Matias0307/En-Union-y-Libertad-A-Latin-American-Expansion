@@ -86,7 +86,7 @@ focus_tree = {
 		}
 		
 		ai_will_do = {
-			factor = 30
+			base = 30
 			modifier = {
 				is_historical_focus_on = yes
 				factor = 20
@@ -142,7 +142,7 @@ focus_tree = {
 		}
 		
 		ai_will_do = {
-			factor = 30
+			base = 30
 			modifier = {
 				is_historical_focus_on = yes
 				factor = 10
@@ -151,6 +151,13 @@ focus_tree = {
 				factor = 50
 				BOL = {
 					has_completed_focus = BOL_empower_the_young_officers
+				}
+			}
+			modifier = {
+				factor = 100
+				has_game_rule = {
+					rule = EUYL_chaos_mode
+					option = YES
 				}
 			}
 		}
@@ -242,6 +249,13 @@ focus_tree = {
 				factor = 80
 				BOL = {
 					has_completed_focus = BOL_placate_to_the_experienced_officers
+				}
+			}
+			modifier = {
+				factor = 0
+				has_game_rule = {
+					rule = EUYL_chaos_mode
+					option = YES
 				}
 			}
 		}
@@ -1001,6 +1015,13 @@ focus_tree = {
 				factor = 80
 				BOL = {
 					has_completed_focus = BOL_empower_the_young_officers
+				}
+			}
+			modifier = {
+				factor = 100
+				has_game_rule = {
+					rule = EUYL_chaos_mode
+					option = YES
 				}
 			}
 		}
@@ -3433,6 +3454,13 @@ focus_tree = {
 				is_historical_focus_on = yes
 				factor = 0
 			}
+			modifier = {
+				factor = 100
+				has_game_rule = {
+					rule = EUYL_chaos_mode
+					option = YES
+				}
+			}
 		}
 		completion_reward = {		
 			add_popularity = {
@@ -3464,7 +3492,7 @@ focus_tree = {
 		cost = 3
 
 		ai_will_do = {
-			base = 5
+			base = 50
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
@@ -3495,7 +3523,7 @@ focus_tree = {
 		cost = 5
 
 		ai_will_do = {
-			base = 5
+			base = 50
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
@@ -3520,7 +3548,7 @@ focus_tree = {
 		cost = 5
 
 		ai_will_do = {
-			base = 5
+			base = 50
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
@@ -3546,7 +3574,7 @@ focus_tree = {
 		cost = 8
 
 		ai_will_do = {
-			base = 5
+			base = 50
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER }
@@ -3572,7 +3600,7 @@ focus_tree = {
 		cost = 8
 
 		ai_will_do = {
-			base = 5
+			base = 50
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
@@ -3603,7 +3631,7 @@ focus_tree = {
 		}
 
 		ai_will_do = {
-			base = 5
+			base = 50
 		}
 
 		select_effect = {
@@ -3722,6 +3750,24 @@ focus_tree = {
 						count = 5
 					}
 				}
+				if = {
+					limit = {
+						is_ai = yes 
+					}
+					every_controlled_state = {
+						create_unit = {
+							division = "name = \"División de Infanteria Inca\" division_template = \"División de Infanteria Inca\" start_experience_factor = 0.2 start_equipment_factor = 1" 
+							owner = ROOT
+							count = 3
+						}
+					}
+				}
+				if = {
+					limit = {
+						is_ai = yes
+					}
+					add_ideas = EUYL_chaos_civil_war_help
+				}
 
 				random_other_country = {
 					limit = {
@@ -3806,7 +3852,7 @@ focus_tree = {
 		cost = 5
 
 		ai_will_do = {
-			base = 5
+			base = 50
 		}
 
 		search_filters = { FOCUS_FILTER_WAR_SUPPORT }
@@ -3835,7 +3881,7 @@ focus_tree = {
 		cost = 5
 
 		ai_will_do = {
-			base = 5
+			base = 50
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
@@ -3872,7 +3918,7 @@ focus_tree = {
 		cost = 10
 
 		ai_will_do = {
-			base = 5
+			base = 50
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER }
@@ -3899,6 +3945,10 @@ focus_tree = {
 
 		cost = 5
 
+		ai_will_do = {
+			base = 30
+		}
+
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
 			add_ideas = PRU_populating_the_industrial_mills
@@ -3914,6 +3964,10 @@ focus_tree = {
 		prerequisite = { focus = PRU_our_war_of_independence }
 
 		cost = 5
+
+		ai_will_do = {
+			base = 30
+		}
 
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
@@ -3931,6 +3985,10 @@ focus_tree = {
 		prerequisite = { focus = PRU_populate_the_industrial_mills }
 
 		cost = 10
+
+		ai_will_do = {
+			base = 30
+		}
 
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
@@ -9859,6 +9917,14 @@ focus_tree = {
 			show_ideas_tooltip = PRU_mas
 			if = {
 				limit = {
+					has_dlc = "Arms Against Tyranny"
+				}
+				mio:PRU_mas_organization = {
+					add_mio_funds = 750
+				}
+			}
+			if = {
+				limit = {
 					has_any_power_balance = yes 
 				}
 				PRU_increase_navy_10_percent = yes 
@@ -9920,6 +9986,14 @@ focus_tree = {
 			}	
 			custom_effect_tooltip = available_designer
 			show_ideas_tooltip = PRU_rheinmetall
+			if = {
+				limit = {
+					has_dlc = "Arms Against Tyranny"
+				}
+				mio:PRU_rheinmetall_organization = {
+					add_mio_funds = 750
+				}
+			}
 			if = {
 				limit = {
 					has_any_power_balance = yes 
@@ -10283,6 +10357,14 @@ focus_tree = {
 			show_ideas_tooltip = PRU_newport_news_shipbuilding
 			if = {
 				limit = {
+					has_dlc = "Arms Against Tyranny"
+				}
+				mio:PRU_newport_news_shipbuilding_organization = {
+					add_mio_funds = 750
+				}
+			}
+			if = {
+				limit = {
 					has_any_power_balance = yes
 				}
 				PRU_increase_navy_15_percent = yes 
@@ -10354,6 +10436,14 @@ focus_tree = {
 			}	
 			custom_effect_tooltip = available_designer
 			show_ideas_tooltip = PRU_sasebo_naval_arsenal
+			if = {
+				limit = {
+					has_dlc = "Arms Against Tyranny"
+				}
+				mio:PRU_sasebo_naval_arsenal_organization = {
+					add_mio_funds = 750
+				}
+			}
 			if = {
 				limit = {
 					has_any_power_balance = yes

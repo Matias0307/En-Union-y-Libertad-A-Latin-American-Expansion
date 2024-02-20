@@ -14,6 +14,12 @@ VEN_political_crisis = { ## need to make custom trigger tooltips for these :/
             NOT = {
                 has_global_flag = VEN_second_revolucion_libertadora_triggered_flag
             }
+            NOT = {
+                OR = {
+                    has_completed_focus = VEN_support_galavis_actions ## will get triggered manually
+                    has_active_mission = VEN_political_escalation
+                }
+            }
         }
 
         days_remove = 140
@@ -27,12 +33,16 @@ VEN_political_crisis = { ## need to make custom trigger tooltips for these :/
 
         activation = { 
             has_idea = strikes_3 
+            has_civil_war = no
             NOT = {
                 has_global_flag = VEN_second_revolucion_libertadora_triggered_flag
             }
             hidden_trigger = {
                 NOT = { 
                     has_active_mission = VEN_lurking_coup_detat
+                }
+                NOT = {
+                    has_completed_focus = VEN_support_galavis_actions
                 }
             }
         }
@@ -205,6 +215,42 @@ VEN_political_crisis = { ## need to make custom trigger tooltips for these :/
         }
     }
 
+    VEN_laureanos_lung_disease = {
+        icon = generic_political_discourse
+
+        activation = {
+            always = no 
+        }
+
+        fire_only_once = yes 
+
+        is_good = no 
+
+        days_mission_timeout = 654
+
+        available = {
+            has_idea = VEN_francisco_antonio_riquez_idea
+        }
+
+        cancel_trigger = {
+            NOT = {
+                has_country_leader = {
+                    character = VEN_laureano_vallenilla_lanz
+                    ruling_only = yes
+                }
+            }
+        }
+
+        complete_effect = {
+            add_stability = 0.01 
+            add_political_power = 10 
+        }
+
+        timeout_effect = {
+            country_event = venezuela.60
+        }
+    }
+
     VEN_lurking_coup_detat = {
         icon = SWI_consolidate_council_power
 
@@ -240,55 +286,371 @@ VEN_political_crisis = { ## need to make custom trigger tooltips for these :/
         }
     }
 
-    VEN_looming_american_intervention = {
-        icon = generic_prepare_civil_war
+    VEN_political_escalation = {
+        icon = generic_ignite_civil_war
 
-        activation = { always = no }
-
-        #target_trigger = { FROM = { original_tag = USA } }
-
-        fire_only_once = yes 
+        activation = {
+            always = no 
+        }
 
         is_good = no 
 
-        days_mission_timeout = 1720
-
         available = {
-            NOT = { has_idea = VEN_german_infleunce_in_venezuela }
+            if = {
+                limit = {
+                    AND = {
+                        has_country_flag = VEN_violent_protests_flag
+                        has_country_flag = VEN_revolutionaries_taking_arms_flag
+                        has_country_flag = VEN_mass_strike_organization_flag
+                    }
+                }
+                custom_trigger_tooltip = {
+                    tooltip = VEN_strikes_arent_active_tt
+                    NOT = {
+                        OR = {
+                            has_idea = strikes_1
+                            has_idea = strikes_2 
+                            has_idea = strikes_3
+                        }
+                    }
+                }
+                custom_trigger_tooltip = {
+                    tooltip = VEN_there_are_no_protestors_tt
+                    NOT = {
+                        any_controlled_state = {
+                            has_dynamic_modifier = {
+                                modifier = BRA_protests
+                            }
+                        }
+                    }
+                }
+            }
+            else = {
+                has_global_flag = VEN_second_revolucion_libertadora_triggered_flag
+            }
         }
 
+        days_mission_timeout = VEN_days_until_political_escalation
+
         cancel_trigger = {
-            OR = {
-                is_in_faction_with = USA 
-                is_in_faction_with = ENG 
-                has_war_with = USA 
-                USA = { exists = no }
-            }
+            has_civil_war = yes 
         }
 
         complete_effect = {
-            add_popularity = {
-                ideology = democratic
-                popularity = 0.01 
-            }
+            country_event = venezuela.62
         }
 
         timeout_effect = {
-            USA = { 
-                country_event = {
-                    id = venezuela.5 
-                    hours = 3
+            if = {
+                limit = {
+                    AND = {
+                        has_country_flag = VEN_violent_protests_flag
+                        has_country_flag = VEN_revolutionaries_taking_arms_flag
+                        has_country_flag = VEN_mass_strike_organization_flag
+                    }
+                }
+                country_event = venezuela.53
+                hidden_effect = {
+                    every_controlled_state = {
+                        limit = {
+                            has_dynamic_modifier = {
+                                modifier = BRA_protests
+                            }
+                        }
+                        remove_dynamic_modifier = {
+                            modifier = BRA_protests
+                        }
+                    }
                 }
             }
-            effect_tooltip = {
-                USA = {
-                    create_wargoal = {
-                        target = ROOT 
-                        type = puppet_wargoal_focus
+            else = {
+                custom_effect_tooltip = VEN_political_situation_will_severely_worsen_tt
+                hidden_effect = {
+                    random_list = {
+                        33 = {
+                            modifier = {
+                                factor = 0
+                                has_country_flag = VEN_violent_protests_flag
+                            }
+                            country_event = venezuela.54 ## violent protests erupt nationwide
+                            set_country_flag = VEN_violent_protests_flag
+                        }
+                        33 = {
+                            modifier = {
+                                factor = 0
+                                has_country_flag = VEN_mass_strike_organization_flag
+                            }
+                            country_event = venezuela.55 ## countrywide strikes
+                            set_country_flag = VEN_mass_strike_organization_flag
+                        }
+                        33 = {
+                            modifier = {
+                                factor = 0
+                                has_country_flag = VEN_revolutionaries_taking_arms_flag
+                            }
+                            country_event = venezuela.56 ## revolutionaries start smuggling guns
+                            set_country_flag = VEN_revolutionaries_taking_arms_flag
+                        }
                     }
                 }
             }
         }
+    }
+}
+
+VEN_escalantes_advancing_dementia = {
+    VEN_escalantes_inevitable_resignation = {
+        icon = generic_political_discourse
+		priority = 100
+		
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ARG_cure_at_100_tt
+				check_variable = { VEN_progress_to_cure = 100 }
+			} 
+		}
+
+        cancel_trigger = {
+            NOT = {
+                has_country_leader = {
+                    character = VEN_diogenes_escalante
+                    ruling_only = yes 
+                }
+            }
+        }
+
+        days_mission_timeout = 880
+
+        fire_only_once = yes 
+
+        activation = {
+            always = no 
+        }
+
+        is_good = no 
+
+        visible = {
+            has_country_flag = VEN_escalantes_diagnosed_with_dementia_flag
+        }
+
+        complete_effect = {
+            add_stability = 0.02
+            add_political_power = 20
+            remove_country_leader_trait = VEN_suffering_from_dementia
+            country_event = venezuela.52
+        }
+
+        timeout_effect = {
+            country_event = venezuela.51
+        }
+    }
+
+    VEN_purchase_medical_equipment = {
+        icon = hol_attract_foreign_investors
+
+		cost = 30
+
+		visible = { 
+			has_active_mission = VEN_escalantes_inevitable_resignation 
+            check_variable = {
+                VEN_medical_equipment < 100
+            }
+		}
+
+		ai_will_do = {
+			base = 185
+			modifier = {
+				has_political_power < 20
+				factor = 0
+			}
+		}
+
+		available = {
+			has_country_leader = {
+				character = VEN_diogenes_escalante
+				ruling_only = yes 
+			}
+		}
+
+		complete_effect = {
+			custom_effect_tooltip = ARG_gain_50_medical_equipment_tt
+			custom_effect_tooltip = EUYL_decision_will_reappear_in_90_days_tt
+			hidden_effect = {
+				add_to_variable = { VEN_medical_equipment = 50 }
+				clamp_variable = {
+					var = VEN_medical_equipment
+					min = 0
+					max = VEN_medical_equipment_limit
+				}
+			}
+		}
+
+		days_re_enable = 90
+    }
+
+    VEN_give_slight_treatment = {
+        available = {
+			custom_trigger_tooltip = {
+				tooltip = ARG_has_treatment
+				NOT = {
+					has_country_flag = ARG_treatment_in_progress
+				}
+			}
+			has_country_leader = {
+				character = VEN_diogenes_escalante
+				ruling_only = yes 
+			}
+		}
+		
+		custom_cost_text = ARG_25_med_equip
+		custom_cost_trigger = {
+			check_variable = { VEN_medical_equipment > 24 }
+		}
+		
+		days_remove = 30
+
+		ai_will_do = {
+			factor = 105
+		}
+		
+		visible = {
+			has_active_mission = VEN_escalantes_inevitable_resignation
+		}
+		
+		complete_effect = {
+			set_country_flag = ARG_treatment_in_progress
+			subtract_from_variable = { VEN_medical_equipment = 25 }
+			clamp_variable = {
+                var = VEN_medical_equipment
+                min = 0
+                max = VEN_medical_equipment_limit
+            }
+		}
+		
+		remove_effect = {
+			add_days_mission_timeout = {
+				mission = VEN_escalantes_inevitable_resignation
+				days = 10
+			}
+			custom_effect_tooltip = ARG_10_percent_to_cure_tt
+			add_to_variable = { VEN_progress_to_cure = 10 }
+			clamp_variable = {
+				var = VEN_progress_to_cure 
+				min = 0
+				max = 100
+			}
+			clr_country_flag = ARG_treatment_in_progress
+		}
+    }
+
+    VEN_proper_medical_treatment = {
+        available = {
+			custom_trigger_tooltip = {
+				tooltip = ARG_has_treatment
+				NOT = {
+					has_country_flag = ARG_treatment_in_progress
+				}
+			}
+			has_country_leader = {
+				character = VEN_diogenes_escalante
+				ruling_only = yes 
+			}
+		}
+		
+		custom_cost_text = ARG_50_med_equip
+		custom_cost_trigger = {
+			check_variable = { VEN_medical_equipment > 49 }
+		}
+		
+		days_remove = 65
+
+		ai_will_do = {
+			factor = 105
+		}
+		
+		visible = {
+			has_active_mission = VEN_escalantes_inevitable_resignation
+		}
+		
+		complete_effect = {
+			set_country_flag = ARG_treatment_in_progress
+			subtract_from_variable = { VEN_medical_equipment = 50 }
+			clamp_variable = {
+                var = VEN_medical_equipment
+                min = 0
+                max = VEN_medical_equipment_limit
+            }
+		}
+		
+		remove_effect = {
+			add_days_mission_timeout = {
+				mission = VEN_escalantes_inevitable_resignation
+				days = 25
+			}
+			custom_effect_tooltip = ARG_20_percent_to_cure_tt
+			add_to_variable = { VEN_progress_to_cure = 20 }
+			clamp_variable = {
+				var = VEN_progress_to_cure 
+				min = 0
+				max = 100
+			}
+			clr_country_flag = ARG_treatment_in_progress
+		}
+    }
+
+    VEN_major_medical_investments = {
+        available = {
+			custom_trigger_tooltip = {
+				tooltip = ARG_has_treatment
+				NOT = {
+					has_country_flag = ARG_treatment_in_progress
+				}
+			}
+			has_country_leader = {
+				character = VEN_diogenes_escalante
+				ruling_only = yes 
+			}
+		}
+		
+		custom_cost_text = ARG_100_med_equip
+		custom_cost_trigger = {
+			check_variable = { VEN_medical_equipment > 99 }
+		}
+		
+		days_remove = 110
+
+		ai_will_do = {
+			factor = 105
+		}
+		
+		visible = {
+			has_active_mission = VEN_escalantes_inevitable_resignation
+		}
+		
+		complete_effect = {
+			set_country_flag = ARG_treatment_in_progress
+			subtract_from_variable = { VEN_medical_equipment = 100 }
+			clamp_variable = {
+                var = VEN_medical_equipment
+                min = 0
+                max = VEN_medical_equipment_limit
+            }
+		}
+		
+		remove_effect = {
+			add_days_mission_timeout = {
+				mission = VEN_escalantes_inevitable_resignation
+				days = 45
+			}
+			custom_effect_tooltip = ARG_35_percent_to_cure_tt
+			add_to_variable = { VEN_progress_to_cure = 35 }
+			clamp_variable = {
+				var = VEN_progress_to_cure 
+				min = 0
+				max = 100
+			}
+			clr_country_flag = ARG_treatment_in_progress
+		}
     }
 }
 
@@ -321,6 +683,7 @@ VEN_looming_oil_strike_cat = {
                 }
                 has_government = communism
                 exists = no 
+                has_completed_focus = VEN_support_galavis_actions
             }
         }
 
@@ -334,11 +697,6 @@ VEN_looming_oil_strike_cat = {
             add_timed_idea = {
                 idea = VEN_communists_appeased
                 days = 120
-            }
-            hidden_effect = {
-                clr_country_flag = VEN_improved_worker_salaries_flag
-                clr_country_flag = VEN_reduced_work_hours_flag
-                clr_country_flag = VEN_improved_worker_conditions_flag
             }
         }
 
@@ -501,6 +859,12 @@ VEN_looming_oil_strike_cat = {
                                     strikes_2
                                     strikes_3
                                 }
+                            }
+                            if = {
+                                limit = {
+                                    has_country_flag = VEN_handling_the_strikes_crisis_flag
+                                }
+                                clr_country_flag = VEN_handling_the_strikes_crisis_flag
                             }
                             VEN_BoP_remove_effect = yes ## just to make it easy on myself ngl
                         }
@@ -683,6 +1047,10 @@ VEN_looming_oil_strike_cat = {
             }
         }
 
+        ai_will_do = {
+            base = 195
+        }
+
         fire_only_once = yes
 
         custom_cost_trigger = {
@@ -726,6 +1094,14 @@ VEN_looming_oil_strike_cat = {
             has_active_mission = VEN_looming_oil_strike
         }
 
+        ai_will_do = {
+            base = 350
+            modifier = {
+                factor = 0
+                has_completed_focus = VEN_support_the_workers_cause
+            }
+        }
+
         available = {
             num_of_civilian_factories_available_for_projects > 2
         }
@@ -740,7 +1116,12 @@ VEN_looming_oil_strike_cat = {
             civilian_factory_use = 3
         }
 
-        cancel_trigger = { NOT = { has_active_mission = VEN_looming_oil_strike } }
+        cancel_trigger = { 
+            OR = {
+                NOT = { has_active_mission = VEN_looming_oil_strike } 
+                has_completed_focus = VEN_support_the_workers_cause
+            }
+        }
 
         days_remove = 90
         remove_effect = {
@@ -759,6 +1140,14 @@ VEN_looming_oil_strike_cat = {
             has_active_mission = VEN_looming_oil_strike
         }
 
+        ai_will_do = {
+            base = 350
+            modifier = {
+                factor = 0
+                has_completed_focus = VEN_support_the_workers_cause
+            }
+        }
+
         available = {
             num_of_civilian_factories_available_for_projects > 2
         }
@@ -770,7 +1159,13 @@ VEN_looming_oil_strike_cat = {
             consumer_goods_factor = 0.1
         }
 
-        cancel_trigger = { NOT = { has_active_mission = VEN_looming_oil_strike } }
+        
+        cancel_trigger = { 
+            OR = {
+                NOT = { has_active_mission = VEN_looming_oil_strike } 
+                has_completed_focus = VEN_support_the_workers_cause
+            }
+        }
 
         days_remove = 90
         remove_effect = {
@@ -793,19 +1188,148 @@ VEN_looming_oil_strike_cat = {
             num_of_civilian_factories_available_for_projects > 2
         }
 
+        ai_will_do = {
+            base = 350
+            modifier = {
+                factor = 0
+                has_completed_focus = VEN_support_the_workers_cause
+            }
+        }
+
         cost = 10
 
         modifier = {
             political_power_cost = 0.2
         }
 
-        cancel_trigger = { NOT = { has_active_mission = VEN_looming_oil_strike } }
+        
+        cancel_trigger = { 
+            OR = {
+                NOT = { has_active_mission = VEN_looming_oil_strike } 
+                has_completed_focus = VEN_support_the_workers_cause
+            }
+        }
 
         days_remove = 90
         remove_effect = {
             set_country_flag = VEN_improved_worker_conditions_flag
             custom_effect_tooltip = VEN_improved_worker_conditions_tt
         }
+    }
+}
+
+VEN_national_industrial_management = {
+    VEN_order_the_construction_of_a_civilian_factory = {
+        icon = generic_factory
+
+        available = {
+            has_civil_war = no 
+        }
+
+        ai_will_do = {
+            base = 75
+        }
+
+        cost = 200
+
+        days_remove = 195
+
+        remove_effect = {
+            EUYL_add_1_civilian = yes
+        }
+    }
+
+    VEN_order_the_construction_of_a_military_factory = {
+        icon = generic_industry
+
+        available = {
+            has_civil_war = no 
+        }
+
+        ai_will_do = {
+            base = 75
+        }
+
+        cost = VEN_cost_to_construct_mil_factory
+
+        days_remove = 160
+
+        remove_effect = {
+            EUYL_add_1_military = yes
+        }
+    }
+
+    VEN_order_the_construction_of_a_dockyard = {
+        icon = generic_naval 
+
+        available = {
+            has_civil_war = no 
+            any_controlled_state = {
+                is_coastal = yes
+            }
+        }
+
+        ai_will_do = {
+            base = 75
+        }
+
+        cost = 140
+
+        days_remove = 175
+
+        remove_effect = {
+            EUYL_add_1_dockyard = yes
+        }
+    }
+
+    VEN_order_the_construction_of_a_railroad_from_FROM_to_capital = {
+        icon = railroad_construction
+
+		cost = 90
+
+		days_remove = 70
+
+		state_target = yes 
+
+		target_array = core_states
+
+		target_trigger ={ 
+			FROM = {
+				is_fully_controlled_by = ROOT 
+				is_capital = no 
+			}
+		}
+
+        ai_will_do = {
+            base = 75
+        }
+
+		fire_only_once = yes 
+
+		visible = {
+			can_build_railway = {
+				start_state = FROM
+				target_state = ROOT.capital
+				build_only_on_allied = yes 
+			}
+		}
+
+		on_map_mode = map_and_decisions_view
+
+		cancel_trigger = {
+			OR = {
+				exists = no 
+				NOT = { controls_state = FROM }
+			}
+		}
+
+		remove_effect = {
+			build_railway = {
+				level = 1
+				start_state = FROM
+				target_state = ROOT.capital
+			} 
+		}
     }
 }
 
@@ -844,6 +1368,10 @@ VEN_oil_management = {
 			}
 		}
         cost = 25
+
+        ai_will_do = {
+            base = 200
+        }
 
         state_target = yes 
 
@@ -948,6 +1476,10 @@ VEN_oil_management = {
 		}
         cost = 50
 
+        ai_will_do = {
+            base = 205
+        }
+
         state_target = yes 
 
         target_array = controlled_states
@@ -1027,6 +1559,20 @@ VEN_oil_management = {
             }
         }
 
+        ai_will_do = {
+            base = 25
+            modifier = {
+                factor = 4
+                FROM = {
+                    has_government = ROOT 
+                }
+            }
+            modifier = {
+                factor = 0.5 
+                has_completed_focus = VEN_adopt_a_protectionist_policy
+            }
+        }
+
         visible = {
             if = {
                 limit = {
@@ -1070,6 +1616,7 @@ VEN_oil_management = {
         }
 
         available = {
+            has_civil_war = no
             OR = {
                 has_completed_focus = VEN_adopt_pro_market_policies
                 has_completed_focus = VEN_adopt_a_protectionist_policy
@@ -1288,6 +1835,10 @@ VEN_oil_management = {
 
         cost = 25
 
+        ai_will_do = {
+            base = 400
+        }
+
         modifier = {
             political_power_factor = -0.05
             production_speed_buildings_factor = -0.05
@@ -1405,6 +1956,20 @@ VEN_gloria_al_bravo_pueblo_cat = {
             }
         }
 
+        ai_will_do = {
+            base = 10
+            modifier = {
+                factor = 0
+                is_historical_focus_on = yes 
+                date < 1952.1.1
+            }
+            modifier = {
+                factor = 100
+                is_historical_focus_on = yes
+                date > 1952.10.1
+            }
+        }
+
         cost = 10
 
         fire_only_once = yes 
@@ -1466,6 +2031,19 @@ VEN_gloria_al_bravo_pueblo_cat = {
 
         days_remove = 15
 
+        ai_will_do = {
+            base = 200
+            modifier = {
+                factor = 2
+                FROM = {
+                    OR = {
+                        industrial_complex > 0
+                        arms_factory > 0
+                    }
+                }
+            }
+        }
+
         modifier = { political_power_cost = 0.2 }
 
         cancel_trigger = {
@@ -1502,6 +2080,19 @@ VEN_gloria_al_bravo_pueblo_cat = {
         target_trigger = {
             FROM = {
                 has_dynamic_modifier = { modifier = BRA_protests }
+            }
+        }
+
+        ai_will_do = {
+            base = 200
+            modifier = {
+                factor = 2
+                FROM = {
+                    OR = {
+                        industrial_complex > 0
+                        arms_factory > 0
+                    }
+                }
             }
         }
 
@@ -1591,6 +2182,17 @@ VEN_gloria_al_bravo_pueblo_cat = {
 
         days_remove = 35
 
+        ai_will_do = {
+            base = 175
+            modifier = {
+                factor = 2
+                OR = {
+                    has_idea = strikes_2 
+                    has_idea = strikes_3
+                }
+            }
+        }
+
         modifier = {
             political_power_cost = 0.05
             production_speed_buildings_factor = -0.1
@@ -1607,7 +2209,15 @@ VEN_gloria_al_bravo_pueblo_cat = {
             }
         }
 
-        cancel_effect = { add_political_power = 25 }
+        cancel_effect = { 
+            add_political_power = 25 
+            if = {
+                limit = {
+                    has_country_flag = VEN_handling_the_strikes_crisis_flag
+                }
+                clr_country_flag = VEN_handling_the_strikes_crisis_flag
+            }
+        }
 
         complete_effect = {
             set_country_flag = VEN_handling_the_strikes_crisis_flag
@@ -1646,6 +2256,17 @@ VEN_gloria_al_bravo_pueblo_cat = {
             has_civil_war = no 
         }
 
+        ai_will_do = {
+            base = 175
+            modifier = {
+                factor = 2
+                OR = {
+                    has_idea = strikes_2 
+                    has_idea = strikes_3
+                }
+            }
+        }
+
         custom_cost_text = BRA_pol_10_and_man_2500
 
         custom_cost_trigger = {
@@ -1668,6 +2289,16 @@ VEN_gloria_al_bravo_pueblo_cat = {
                     has_idea = strikes_2
                     has_idea = strikes_3
                 }
+            }
+        }
+
+        cancel_effect = { 
+            add_political_power = 25 
+            if = {
+                limit = {
+                    has_country_flag = VEN_handling_the_strikes_crisis_flag
+                }
+                clr_country_flag = VEN_handling_the_strikes_crisis_flag
             }
         }
 
@@ -1703,6 +2334,17 @@ VEN_gloria_al_bravo_pueblo_cat = {
 
         days_remove = 70
 
+        ai_will_do = {
+            base = 175
+            modifier = {
+                factor = 2
+                OR = {
+                    has_idea = strikes_2 
+                    has_idea = strikes_3
+                }
+            }
+        }
+
         modifier = {
             consumer_goods_factor = 0.25
         }
@@ -1714,6 +2356,16 @@ VEN_gloria_al_bravo_pueblo_cat = {
                     has_idea = strikes_2
                     has_idea = strikes_3
                 }
+            }
+        }
+
+        cancel_effect = { 
+            add_political_power = 25 
+            if = {
+                limit = {
+                    has_country_flag = VEN_handling_the_strikes_crisis_flag
+                }
+                clr_country_flag = VEN_handling_the_strikes_crisis_flag
             }
         }
 
@@ -1729,6 +2381,10 @@ VEN_gloria_al_bravo_pueblo_cat = {
         cost = 50
 
         days_remove = 40
+
+        ai_will_do = {
+            base = 355
+        }
 
         fire_only_once = yes 
 
@@ -1774,6 +2430,10 @@ VEN_gloria_al_bravo_pueblo_cat = {
 
         days_remove = 60
 
+        ai_will_do = {
+            base = 355
+        }
+
         fire_only_once = yes 
 
         visible = { 
@@ -1818,6 +2478,10 @@ VEN_gloria_al_bravo_pueblo_cat = {
 
         days_remove = 70
 
+        ai_will_do = {
+            base = 355
+        }
+
         fire_only_once = yes 
 
         visible = { 
@@ -1861,6 +2525,10 @@ VEN_gloria_al_bravo_pueblo_cat = {
         cost = 50
 
         days_remove = 50
+
+        ai_will_do = {
+            base = 355
+        }
 
         fire_only_once = yes 
 
@@ -1913,6 +2581,10 @@ VEN_gloria_al_bravo_pueblo_cat = {
 		}
 
 		custom_cost_text = decision_cost_CP_50
+
+        ai_will_do = {
+            base = 95
+        }
 
         fire_only_once = yes 
 
@@ -1984,6 +2656,18 @@ VEN_bop_cat = {
             NOT = { has_government = communism }
         }
 
+        ai_will_do = {
+            base = 10
+            modifier = {
+                factor = 5
+                has_completed_focus = VEN_support_galavis_actions
+            }
+            modifier = {
+                factor = 2
+                has_completed_focus = VEN_closer_italian_cooperation
+            }
+        }
+
         cost = 20
 
         days_re_enable = 90
@@ -2034,6 +2718,18 @@ VEN_bop_cat = {
             NOT = { has_government = fascism }
         }
 
+        ai_will_do = {
+            base = 10
+            modifier = {
+                factor = 5
+                has_completed_focus = VEN_ley_lara
+            }
+            modifier = {
+                factor = 2
+                has_completed_focus = VEN_favor_the_allied_cause
+            }
+        }
+
         cost = 20
 
         days_re_enable = 90
@@ -2063,6 +2759,14 @@ VEN_bop_cat = {
 				id = VEN_foreign_influence_BoP
 				range = VEN_total_axis_influence
 			}
+        }
+
+        ai_will_do = {
+            base = 5
+            modifier = {
+                factor = 50
+                has_completed_focus = VEN_axis_allignment
+            }
         }
 
         available = {
@@ -2102,6 +2806,14 @@ VEN_bop_cat = {
 			}
         }
 
+        ai_will_do = {
+            base = 5
+            modifier = {
+                factor = 50
+                has_completed_focus = VEN_allied_allignment
+            }
+        }
+
         available = {
             FROM = {
                 NOT = { has_war_with = ROOT }
@@ -2113,6 +2825,205 @@ VEN_bop_cat = {
                 country_event = {
                     id = generic.2
                     hours = 4
+                }
+            }
+        }
+    }
+
+    VEN_counter_the_german_influence = {
+        icon = oppression
+
+        visible = {
+            has_idea = VEN_german_infleunce_in_venezuela
+        }
+
+        target_trigger = {
+            FROM = {
+                original_tag = GER
+            }
+        }
+
+        available = {
+            has_civil_war = no 
+            NOT = {
+                is_in_faction_with = GER
+            }
+        }
+
+        cost = 25
+
+        ai_will_do = {
+            base = 50
+            modifier = {
+                factor = 0 
+                has_completed_focus = VEN_axis_allignment
+            }
+            modifier = {
+                factor = 5
+                OR = {
+                    has_completed_focus = VEN_allied_allignment
+                    has_completed_focus = VEN_ley_lara
+                }
+            }
+        }
+
+        complete_effect = {
+            remove_ideas = VEN_german_infleunce_in_venezuela
+            FROM = {
+                country_event = {
+                    id = venezuela.7 
+                    hours = 8
+                    random_hours = 12
+                }
+            }
+            if = {
+                limit = {
+                    has_any_power_balance = yes 
+                }
+                VEN_move_10_left = yes
+            }
+        }
+    }
+
+    VEN_counter_the_american_influence = {
+        icon = oppression
+
+        visible = {
+            has_idea = VEN_american_infleunce_in_venezuela
+        }
+
+        ai_will_do = {
+            base = 50
+            modifier = {
+                factor = 0 
+                has_completed_focus = VEN_allied_allignment
+            }
+            modifier = {
+                factor = 5
+                OR = {
+                    has_completed_focus = VEN_axis_allignment
+                    has_completed_focus = VEN_support_galavis_actions
+                }
+            }
+        }
+
+        target_trigger = {
+            FROM = {
+                original_tag = USA
+            }
+        }
+
+        available = {
+            has_civil_war = no 
+            NOT = {
+                is_in_faction_with = USA
+            }
+        }
+
+        cost = 25
+
+        complete_effect = {
+            remove_ideas = VEN_american_infleunce_in_venezuela
+            FROM = {
+                country_event = {
+                    id = venezuela.7 
+                    hours = 8
+                    random_hours = 12
+                }
+            }
+            if = {
+                limit = {
+                    has_any_power_balance = yes 
+                }
+                VEN_move_10_right = yes 
+            }
+        }
+    }
+
+    VEN_counter_the_british_influence = {
+        icon = oppression
+
+        visible = {
+            has_idea = VEN_british_infleunce_in_venezuela
+        }
+
+        target_trigger = {
+            FROM = {
+                original_tag = ENG
+            }
+        }
+
+        available = {
+            has_civil_war = no 
+            NOT = {
+                is_in_faction_with = ENG
+            }
+        }
+
+        ai_will_do = {
+            base = 50
+            modifier = {
+                factor = 0 
+                has_completed_focus = VEN_allied_allignment
+            }
+            modifier = {
+                factor = 5
+                OR = {
+                    has_completed_focus = VEN_axis_allignment
+                    has_completed_focus = VEN_support_galavis_actions
+                }
+            }
+        }
+
+        cost = 25
+
+        complete_effect = {
+            remove_ideas = VEN_british_infleunce_in_venezuela
+            FROM = {
+                country_event = {
+                    id = venezuela.7 
+                    hours = 8
+                    random_hours = 12
+                }
+            }
+            if = {
+                limit = {
+                    has_any_power_balance = yes 
+                }
+                VEN_move_10_right = yes 
+            }
+        }
+    }
+
+    VEN_counter_the_soviet_influence = { ## blud just kinda existing 
+        icon = oppression
+
+        visible = {
+            has_idea = VEN_soviet_infleunce_in_venezuela
+        }
+
+        target_trigger = {
+            FROM = {
+                original_tag = SOV
+            }
+        }
+
+        available = {
+            has_civil_war = no 
+            NOT = {
+                is_in_faction_with = SOV
+            }
+        }
+
+        cost = 25
+
+        complete_effect = {
+            remove_ideas = VEN_soviet_infleunce_in_venezuela
+            FROM = {
+                country_event = {
+                    id = venezuela.7 
+                    hours = 8
+                    random_hours = 12
                 }
             }
         }
@@ -2200,6 +3111,512 @@ VEN_post_crisis_recovery = {
     }
 }
 
+VEN_forming_greater_venezuela = {
+    VEN_form_greater_venezuela = {
+        priority = 100 
+        icon = generic_form_nation 
+
+        visible = {
+            has_completed_focus = VEN_the_ambition_of_a_greater_venezuela
+        }
+
+        available = {
+            has_full_control_of_state = 691 ## Trinidad and Tobago
+            has_full_control_of_state = 695 ## Curacao
+            has_full_control_of_state = 1012 ## Guajira (Colombia)
+            has_full_control_of_state = 493 ## Magdalena (Colombia)
+            has_full_control_of_state = 1015 ## Arauca (Colombia)
+            has_full_control_of_state = 939 ## Roraima (Brazil)
+            has_full_control_of_state = 937 ## Guayan Esequiba
+            has_full_control_of_state = 687 ## British Guyana
+            has_full_control_of_state = 309 ## Suriname
+            has_full_control_of_state = 310 ## French Guiana
+
+            custom_trigger_tooltip = {
+				tooltip = form_grc_venezuela_required_states_tt
+				controls_state = 489
+				controls_state = 942
+				controls_state = 307
+				controls_state = 488
+				controls_state = 938
+				controls_state = 943
+				controls_state = 945
+				controls_state = 947
+				controls_state = 946
+				controls_state = 941
+				controls_state = 944
+			}
+        }
+
+        fire_only_once = yes 
+
+        ai_will_do = {
+            factor = 750
+        }
+
+        complete_effect = {
+            set_cosmetic_tag = VEN_GREATER
+            add_state_core = 489
+            add_state_core = 942
+            add_state_core = 307
+            add_state_core = 488
+            add_state_core = 938
+            add_state_core = 943
+            add_state_core = 945
+            add_state_core = 947
+            add_state_core = 946
+            add_state_core = 941
+            add_state_core = 944
+        }
+    }
+
+    VEN_occupy_militarily_FROM = {
+        icon = generic_military 
+
+        state_target = yes 
+
+        target_trigger = {
+            FROM = {
+                OR = {
+                    state = 691
+                    state = 695
+                    state = 939
+                }
+            }
+        }
+
+        visible = {
+            NOT = {
+                has_full_control_of_state = FROM
+            }
+        }
+
+        on_map_mode = map_and_decisions_view
+
+        available = {
+            has_army_manpower = {
+                size > 119999
+            }
+            FROM = {
+                controller = {
+                    is_neighbor_of = ROOT
+                }
+            }
+        }
+
+        ai_will_do = {
+            base = 150
+            modifier = {
+                factor = 3
+                FROM = {
+                    controller = {
+                        has_capitulated = yes 
+                    }
+                }
+            }
+            modifier = {
+                factor = 2
+                FROM = {
+                    controller = {
+                        has_war = yes
+                    }
+                }
+            }
+            modifier = {
+                factor = 2
+                FROM = {
+                    controller = {
+                        num_of_factories < 24
+                    }
+                }
+            }
+        }
+
+        cost = 25
+
+        fire_only_once = yes 
+
+        complete_effect = {
+            transfer_state = FROM 
+            custom_effect_tooltip = VEN_controller_may_retaliate_depending_on_conditions_tt
+            hidden_effect = {
+                FROM = {
+                    save_event_target_as = VEN_STATE_OCCUPIED
+                    controller = {
+                        country_event = {
+                            id = venezuela.61 
+                            hours = 6
+                            random_hours = 8
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    VEN_push_claim_guyana_esequiba = {
+        icon = generic_operation 
+
+        state_target = yes 
+
+        target_trigger = {
+            FROM = {
+                state = 937
+            }
+        }
+
+        visible = {
+            NOT = {
+                has_full_control_of_state = 937
+            }
+        }
+
+        cost = 10
+
+        ai_will_do = {
+            base = 200
+            modifier = {
+                factor = 3
+                FROM = {
+                    controller = {
+                        has_capitulated = yes 
+                    }
+                }
+            }
+            modifier = {
+                factor = 2
+                FROM = {
+                    controller = {
+                        has_war = yes
+                    }
+                }
+            }
+            modifier = {
+                factor = 2
+                FROM = {
+                    controller = {
+                        num_of_factories < 24
+                    }
+                }
+            }
+        }
+
+        fire_only_once = yes
+
+        complete_effect = {
+            FROM = {
+                controller = {
+                    country_event = {
+                        id = venezuela.21
+                        hours = 3
+                        random_hours = 6
+                    }
+                }
+            }
+            custom_effect_tooltip = ARG_iftheyaccept
+            effect_tooltip = {
+                transfer_state = 937
+                add_stability = 0.03
+            }
+        }
+    }
+
+    VEN_push_our_claim_in_FROM = {
+        icon = eng_trade_unions_demand
+
+        state_target = yes 
+
+        target_trigger = {
+            FROM = {
+                OR = {
+                    state = 687
+                    state = 309
+                    state = 310
+                }
+            }
+        }
+
+        available = {
+            has_completed_focus = VEN_push_our_claims_in_the_guyanas
+        }
+
+        ai_will_do = {
+            base = 150
+            modifier = {
+                factor = 3
+                FROM = {
+                    controller = {
+                        has_capitulated = yes 
+                    }
+                }
+            }
+            modifier = {
+                factor = 2
+                FROM = {
+                    controller = {
+                        has_war = yes
+                    }
+                }
+            }
+            modifier = {
+                factor = 2
+                FROM = {
+                    controller = {
+                        num_of_factories < 24
+                    }
+                }
+            }
+        }
+
+        visible = {
+            NOT = {
+                has_full_control_of_state = FROM
+            }
+        }
+
+        on_map_mode = map_and_decisions_view
+
+        custom_cost_text = CHL_cost_15_cp
+        custom_cost_trigger = {
+            command_power > 14
+        }
+
+        days_remove = 15
+
+        modifier = {
+            political_power_factor = -0.2
+        }
+
+        fire_only_once = yes 
+
+        complete_effect = {
+            hidden_effect = {
+                add_command_power = -15
+            }
+        }
+
+        remove_effect = {
+            FROM = {
+                controller = {
+                    country_event = {
+						id = venezuela.50 
+						hours = 6
+					}
+                }
+            }
+            custom_effect_tooltip = ARG_iftheyaccept
+            effect_tooltip = {
+                transfer_state = FROM
+            }
+        }
+    }
+
+    VEN_industrial_development_in_FROM = {
+        icon = generic_construction
+        state_target = yes 
+
+        target_trigger = {
+            FROM = {
+                OR = {
+                    state = 937
+                    state = 687
+                    state = 309
+                    state = 310
+                    state = 695
+                    state = 691
+                    state = 939
+                    state = 1012
+                    state = 493
+                    state = 1015
+                }
+            }
+        }
+
+        visible = {
+            FROM = {
+                is_fully_controlled_by = ROOT
+            }
+        }
+
+        ai_will_do = {
+            base = 120
+        }
+
+        available = {
+            has_completed_focus = VEN_industrial_development_in_our_integral_states
+        }
+
+        fire_only_once = yes 
+
+        cost = 50
+
+        modifier = {
+            political_power_factor = -0.1
+        }
+
+        days_remove = 40
+
+        remove_effect = {
+            FROM = {
+                random_list = {
+                    40 = {
+                        add_building_construction = {
+                            type = industrial_complex
+                            level = 1
+                            instant_build = yes
+                        }
+                    }
+                    40 = {
+                        add_building_construction = {
+                            type = arms_factory
+                            level = 1
+                            instant_build = yes
+                        }
+                    }
+                    20 = {
+                        modifier = {
+                            factor = 0
+                            infrastructure > 4
+                        }
+                        add_building_construction = {
+                            type = infrastructure
+                            level = 1
+                            instant_build = yes
+                        }
+                    }
+                    35 = {
+                        modifier = {
+                            factor = 0
+                            is_coastal = no 
+                        }
+                        add_building_construction = {
+                            type = dockyard
+                            level = 1
+                            instant_build = yes
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    VEN_the_FROM_initiative = {
+        icon = FIN_stop_motti_tactics
+
+        target_trigger = {
+            FROM = {
+                has_war_with = ROOT
+            }
+        }
+
+        visible = {
+            has_completed_focus = VEN_the_initiative_campaigns
+        }
+
+        ai_will_do = {
+            base = 80
+            modifier = {
+                factor = 4
+                FROM = {
+                    is_neighbor_of = ROOT
+                }
+            }
+        }
+
+        fire_only_once = yes 
+
+        custom_cost_text = decision_cost_CP_50
+        custom_cost_trigger = {
+            command_power > 49
+        }
+
+        complete_effect = {
+            hidden_effect = {
+                add_command_power = -50
+            }
+        }
+
+        days_remove = 120
+
+        targeted_modifier = {
+            tag = FROM 
+            attack_bonus_against = 0.1
+            defense_bonus_against = 0.1
+        }
+
+        modifier = {
+            experience_gain_army_factor = -0.25
+            command_power_gain_mult = -0.1
+        }
+    }
+
+    VEN_initiate_a_bolivarian_integration_campaign_in_FROM = {
+        icon = generic_nationalism 
+
+        visible = {
+            has_completed_focus = VEN_the_bolivarian_integration_campaign
+        }
+
+        state_target = yes 
+
+        target_array = controlled_states
+
+        target_trigger = {
+            FROM = {
+                NOT = {
+                    is_core_of = ROOT
+                }
+            }
+        }
+
+        fire_only_once = yes 
+
+        cost = 25
+
+        ai_will_do = {
+            base = 500
+        }
+
+        complete_effect = {
+            FROM = {
+                add_dynamic_modifier = {
+                    modifier = VEN_ongoing_bolivarian_integration_campaign
+                    days = 365
+                }
+            }
+        }
+    }
+
+    VEN_the_amazonian_march_mis = {
+        icon = generic_operation
+        priority = 200
+
+        activation = {
+            has_completed_focus = VEN_the_amazonian_march
+            has_war_with = BRA
+        }
+
+        days_mission_timeout = 600
+
+        is_good = no 
+
+        available = {
+            BRA = {
+                has_capitulated = yes 
+            }
+        }
+
+        complete_effect = {
+            add_war_support = 0.03
+            add_political_power = 25
+        }
+
+        timeout_effect = {
+            add_stability = -0.01
+        }
+    }
+}
+
 VEN_national_syndicate = {
     VEN_syndicate_demands_funding = {
         priority = 10
@@ -2249,6 +3666,10 @@ VEN_national_syndicate = {
 
         days_re_enable = 90
 
+        ai_will_do = {
+            base = 120
+        }
+
         remove_effect = {
             custom_effect_tooltip = EUYL_decision_will_reappear_in_90_days_tt
         }
@@ -2267,10 +3688,14 @@ VEN_national_syndicate = {
             political_power_factor = -0.2
         }
 
+        ai_will_do = {
+            base = 75
+        }
+
         complete_effect = {
             add_days_mission_timeout = {
                 mission = VEN_economic_revocery_in_progress
-                days = 60
+                days = -60
             }
         }
     }
@@ -2298,6 +3723,10 @@ VEN_national_syndicate = {
                     has_decision = VEN_target_the_military_industry
                 }
             }
+        }
+
+        ai_will_do = {
+            base = 75
         }
 
         days_remove = 120
@@ -2332,6 +3761,10 @@ VEN_national_syndicate = {
             }
         }
 
+        ai_will_do = {
+            base = 75
+        }
+
         days_remove = 120
 
         modifier = {
@@ -2362,6 +3795,10 @@ VEN_national_syndicate = {
                     has_decision = VEN_target_the_civilian_industry
                 }
             }
+        }
+
+        ai_will_do = {
+            base = 75
         }
 
         days_remove = 120
@@ -2397,6 +3834,10 @@ VEN_national_syndicate = {
             }
         }
 
+        ai_will_do = {
+            base = 75
+        }
+
         days_remove = 120
 
         modifier = {
@@ -2430,6 +3871,10 @@ VEN_national_syndicate = {
             }
         }
 
+        ai_will_do = {
+            base = 75
+        }
+
         days_remove = 90
 
         modifier = {
@@ -2453,6 +3898,7 @@ VEN_influencing_venezuela = {
         visible = {
             if = {
                 limit = { original_tag = GER }
+                has_government = fascism
                 FROM = { 
                     NOT = { has_idea = VEN_german_infleunce_in_venezuela }
                     is_power_balance_side_active = {
@@ -2463,6 +3909,7 @@ VEN_influencing_venezuela = {
             }
             else_if = {
                 limit = { original_tag = USA }
+                has_government = democratic
                 FROM = { 
                     NOT = { has_idea = VEN_american_infleunce_in_venezuela }
                     is_power_balance_side_active = {
@@ -2473,6 +3920,7 @@ VEN_influencing_venezuela = {
             }
             else_if = {
                 limit = { original_tag = ENG }
+                has_government = democratic
                 FROM = { 
                     NOT = { has_idea = VEN_british_infleunce_in_venezuela }
                     is_power_balance_side_active = {
@@ -2498,6 +3946,32 @@ VEN_influencing_venezuela = {
             FROM = { 
                 exists = yes 
                 NOT = { has_war_with = ROOT }
+            }
+        }
+
+        ai_will_do = {
+            base = 1
+            modifier = { ## Operation Bolivar
+                factor = 125
+                original_tag = GER 
+                is_historical_focus_on = yes 
+                date > 1938.5.1
+            }
+            modifier = {
+                factor = 25
+                has_government = democratic
+                FROM = {
+                    has_completed_focus = VEN_ley_lara
+                }
+                date > 1939.1.3
+            }
+            modifier = {
+                factor = 25
+                has_government = fascism 
+                FROM = {
+                    has_completed_focus = VEN_support_galavis_actions
+                }
+                date > 1937.4.1
             }
         }
 
@@ -2549,6 +4023,10 @@ VEN_influencing_venezuela = {
 
         days_re_enable = 60 
 
+        ai_will_do = {
+            base = 10
+        }
+
         complete_effect = {
             if = {
                 limit = { 
@@ -2594,6 +4072,16 @@ VEN_influencing_venezuela = {
             VEN = {
                 has_resources_rights = {
                     state = FROM
+                }
+            }
+        }
+
+        ai_will_do = {
+            base = 5
+            modifier = {
+                factor = 10
+                FROM = {
+                    num_of_factories > 54
                 }
             }
         }

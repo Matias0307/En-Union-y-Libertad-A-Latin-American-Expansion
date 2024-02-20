@@ -13,9 +13,12 @@ characters={
 			id=-1
 		}
 	}
-	VEN_juan_bautista_fuenmayor={ ## will get advisor role
+	VEN_juan_bautista_fuenmayor={ ## will get advisor role - done
 		name="Juan Bautista Fuenmayor"
 		portraits={
+			army = {
+				small = "GFX_idea_VEN_fuenmayor_icon"
+			}
 			civilian={
 				large="gfx/leaders/VEN/portrait_VEN_juan_bautista_fuenmayor.png"
 			}
@@ -25,10 +28,196 @@ characters={
 			expire="1965.1.1.1"
 			id=-1
 		}
+		advisor = {
+			slot = political_advisor
+			idea_token = VEN_juan_bautista_fuenmayor_idea
+			allowed = {
+				original_tag = VEN
+			}
+			visible = {
+				ROOT = {
+					NOT = {
+						has_country_leader = {
+							character = VEN_juan_bautista_fuenmayor
+							ruling_only = yes
+						}
+					}
+				}
+			}
+			available = {
+				has_government = communism
+				has_completed_focus = VEN_PRP
+			}
+			traits = {
+				NOR_permanent_revolutionary
+			}
+			cost = 100
+			ai_will_do = {
+				factor = 1.000
+			}
+		}
 	}
-	VEN_marcos_perez_jimenez = { ## will get advisor role
+	VEN_wolfgang_larrazabal = {
+		name = "Wolfgang Larrazábal"
+		portraits = {
+			army = {
+				small = "GFX_idea_VEN_wolfgang_icon"
+			}
+			civilian = {
+				large = "gfx/leaders/VEN/portrait_VEN_wolfgang_larrazabal.png"
+			}
+		}
+		navy_leader={
+			traits={ chief_engineer }
+			skill=2
+			attack_skill=2
+			defense_skill=1
+			maneuvering_skill=1
+			coordination_skill=3
+			legacy_id=-1
+		}
+		advisor={
+			slot = navy_chief
+			idea_token = VEN_wolfgang_larrazabal_idea
+			allowed = {
+				original_tag = VEN
+			}
+			available = {
+				NOT = {
+					has_government = communism
+				}
+			}
+			traits = {
+				navy_chief_decisive_battle_2
+			}
+			cost = 100
+			ai_will_do = {
+				factor = 1.000
+			}
+		}
+	}
+	VEN_asamblea_nacional = { ## generic temporary leader that can take charge for any and every ideology
+		name = "Asamblea Nacional"
+		portraits = {
+			civilian = {
+				large = "gfx/leaders/VEN/portrait_VEN_asamblea_nacional.png"
+			}
+		}
+	}
+	VEN_laureano_vallenilla_lanz = {
+		name = "Laureano Vallenilla Lanz"
+		portraits = {
+			civilian = {
+				large = "gfx/leaders/VEN/_.png"
+			}
+		}
+		country_leader={
+			ideology=fascistic_militarism
+			traits = {
+				VEN_firm_believer_in_authoritarian_rule
+			}
+			expire="1965.1.1.1"
+			id=-1
+		}
+	}
+	VEN_laureano_vallenilla_lanz_planchart = {
+		name = "Laureano Vallenilla-Lanz Planchart"
+		portraits = {
+			army = {
+				small = "GFX_idea_VEN_laureano_lanz_planchart"
+			}
+		}
+		advisor = {
+			slot = political_advisor
+			idea_token = VEN_marcos_perez_jimenez_idea
+			allowed = {
+				original_tag = VEN
+			}
+			available = {
+				has_completed_focus = VEN_support_galavis_actions
+			}
+			traits = {
+				nationalist_journalist
+			}
+			cost = 125
+			ai_will_do = {
+				factor = 1.000
+			}
+		}
+	}
+	VEN_audelino_moreno = {
+		name = "Audelino Moreno"
+		portraits = {
+			civilian = {
+				large = "gfx/leaders/South America/Portrait_South_America_Generic_land_1.dds"
+			}
+		}
+		corps_commander={
+			skill=1
+			attack_skill=1
+			defense_skill=2
+			planning_skill=1
+			logistics_skill=1
+			legacy_id=-1
+		}
+	}
+	VEN_oscar_mazzei_carta = {
+		name = "Oscar Mazzei Carta"
+		portraits = {
+			civilian = {
+				large = "gfx/leaders/South America/Portrait_South_America_Generic_land_3.dds"
+			}
+		}
+		corps_commander={
+			skill=2
+			attack_skill=1
+			defense_skill=2
+			planning_skill=3
+			logistics_skill=1
+			legacy_id=-1
+		}
+	}
+
+	VEN_felix_roman_moreno = {
+		name = "Felix Roman Moreno"
+		portraits = {
+			civilian = {
+				large = "gfx/leaders/South America/Portrait_South_America_Generic_land_2.dds"
+			}
+		}
+		corps_commander={
+			skill=1
+			attack_skill=2
+			defense_skill=1
+			planning_skill=1
+			logistics_skill=1
+			legacy_id=-1
+		}
+	}
+
+	VEN_oscar_emilio_ghersy = {
+		name = "Oscar Emilio Ghersy"
+		portraits = {
+			civilian = {
+				large = "gfx/leaders/South America/Portrait_South_America_Generic_navy_3.dds"
+			}
+		}
+		navy_leader = {
+			skill=2
+			attack_skill=1
+			defense_skill=2
+			maneuvering_skill=3
+			coordination_skill=3
+			legacy_id=-1
+		}
+	}
+
+	VEN_marcos_perez_jimenez = { ## will get advisor role - done
 		name = "Marcos Pérez Jiménez"
 		portraits = {
+			army = {
+				small = "GFX_idea_VEN_perez_jimenez_icon"
+			}
 			civilian = {
 				large = "gfx/leaders/VEN/r56_portrait_VEN_Marcos_Perez_Jimenez.dds"
 			}
@@ -49,10 +238,54 @@ characters={
 			expire="1965.1.1.1"
 			id=-1
 		}
+		advisor = {
+			slot = political_advisor
+			idea_token = VEN_marcos_perez_jimenez_idea
+			allowed = {
+				original_tag = VEN
+			}
+			visible = {
+				date < 1944.1.1
+				ROOT = {
+					NOT = {
+						has_country_leader = {
+							character = VEN_marcos_perez_jimenez
+							ruling_only = yes
+						}
+					}
+				}
+			}
+			available = {
+				NOT = {
+					has_government = communism
+				}
+				hidden_trigger = {
+					date < 1944.1.1
+				}
+			}
+			on_remove = {
+				if = {
+					limit = {
+						date > 1943.12.31
+					}
+					ROOT = { add_ideas = VEN_marcos_perez_jimenez_old_idea }
+				}
+			}
+			traits = {
+				war_industrialist
+			}
+			cost = 150
+			ai_will_do = {
+				factor = 1.000
+			}
+		}
 	}
 	VEN_marcos_perez_jimenez_old = {
 		name = "Marcos Pérez Jiménez"
 		portraits = {
+			army = {
+				small = "GFX_idea_VEN_perez_jimenez_old_icon"
+			}
 			civilian = {
 				large = "gfx/leaders/VEN/r56_portrait_VEN_Marcos_Perez_Jimenez_old.dds"
 			}
@@ -73,12 +306,42 @@ characters={
 			expire="1965.1.1.1"
 			id=-1
 		}
+		advisor = {
+			slot = political_advisor
+			idea_token = VEN_marcos_perez_jimenez_old_idea
+			allowed = {
+				original_tag = VEN
+			}
+			visible = {
+				date > 1943.12.31
+				ROOT = {
+					NOT = {
+						has_country_leader = {
+							character = VEN_marcos_perez_jimenez
+							ruling_only = yes
+						}
+					}
+				}
+			}
+			available = {
+				NOT = {
+					has_government = communism
+				}
+			}
+			traits = {
+				war_industrialist
+			}
+			cost = 150
+			ai_will_do = {
+				factor = 1.000
+			}
+		}
 	}
-	VEN_rodolfo_quintero = { 
+	VEN_rodolfo_quintero = { ## advisor - done
 		name = "Rodolfo Quintero"
 		portraits = {
 			army = {
-				small = ""
+				small = "GFX_idea_VEN_rodolfo_quintero_icon"
 			}
 			civilian = {
 				large = "gfx/leaders/VEN/portrait_VEN_rodolfo_quintero.png"
@@ -89,15 +352,43 @@ characters={
 			expire="1965.1.1.1"
 			id=-1
 		}
+		advisor = {
+			slot = political_advisor
+			idea_token = VEN_rodolfo_quintero_idea
+			allowed = {
+				original_tag = VEN
+			}
+			visible = {
+				ROOT = {
+					NOT = {
+						has_country_leader = {
+							character = VEN_rodolfo_quintero
+							ruling_only = yes
+						}
+					}
+				}
+			}
+			available = {
+				has_government = communism
+				has_completed_focus = VEN_PCV
+			}
+			traits = {
+				marxist_philosopher
+			}
+			cost = 150
+			ai_will_do = {
+				factor = 1.000
+			}
+		}
 	}
-	VEN_diogenes_escalante = { ## will get advisor role
+	VEN_diogenes_escalante = { ## will get advisor role - DONE
 		name = "Diógenes Escalante"
 		portraits = {
 			army = {
-				small = ""
+				small = "GFX_idea_VEN_diogenes_icon"
 			}
 			civilian = {
-				large = "gfx/leaders/VEN/-.png"
+				large = "gfx/leaders/VEN/portrait_VEN_diogenes_escalante.png"
 			}
 		}
 		country_leader={
@@ -105,9 +396,38 @@ characters={
 			expire="1965.1.1.1"
 			id=-1
 		}
+		advisor = {
+			slot = political_advisor
+			idea_token = VEN_diogenes_escalante_idea
+			allowed = {
+				original_tag = VEN
+			}
+			visible = {
+				ROOT = {
+					NOT = {
+						has_country_leader = {
+							character = VEN_diogenes_escalante
+							ruling_only = yes
+						}
+					}
+				}
+			}
+			available = {
+				NOT = {
+					has_government = fascism
+				}
+			}
+			traits = {
+				education_reformer
+			}
+			cost = 100
+			ai_will_do = {
+				factor = 1.000
+			}
+		}
 	}
 
-	VEN_german_suarez_flamerich = { ##will have advisor role
+	VEN_german_suarez_flamerich = { ##will have advisor role - DONE
 		name = "Germán Suárez Flamerich"
 		portraits = {
 			army = {
@@ -124,6 +444,30 @@ characters={
 			}
 			expire="1965.1.1.1"
 			id=-1
+		}
+		advisor = {
+			slot = political_advisor
+			idea_token = VEN_german_suarez_flamerich_idea
+			allowed = {
+				original_tag = VEN
+			}
+			visible = {
+				ROOT = {
+					NOT = {
+						has_country_leader = {
+							character = VEN_german_suarez_flamerich
+							ruling_only = yes
+						}
+					}
+				}
+			}
+			traits = {
+				sharp_tongued_lawyer
+			}
+			cost = 150
+			ai_will_do = {
+				factor = 1.000
+			}
 		}
 	}
 
@@ -201,7 +545,7 @@ characters={
 				NOT = { has_government = communism } 
 			}
 			available = {
-				date < 1938.1.1
+				date < 1939.6.1
 				OR = {
 					has_completed_focus = VEN_ley_lara
 					has_completed_focus = VEN_anti_communist_crackdown
@@ -215,7 +559,22 @@ characters={
 					NOT = { has_character_flag = VEN_health_issues_flag }
 				}
 			}
-			cost = 100
+			cost = 75
+			ai_will_do = {
+				base = 2
+				modifier = {
+					factor = 10
+					has_idea = VEN_underground_communist_movement
+				}
+				modifier = {
+					factor = 50
+					is_historical_focus_on = yes 
+				}
+				modifier = {
+					factor = 5
+					has_completed_focus = VEN_anti_communist_crackdown
+				}
+			}
 			allowed  = {
 				original_tag  = VEN
 			}
@@ -341,6 +700,18 @@ characters={
 				ARG_governor_of_the_people 
 			}
 		}
+		corps_commander={
+			visible = {
+				has_completed_focus = VEN_the_hegemonia_andina_reigns_supreme
+			}
+			traits={ old_guard }
+			skill=3
+			attack_skill=2
+			defense_skill=3
+			planning_skill=2
+			logistics_skill=3
+			legacy_id=-1
+		}
 	}
 	VEN_santos_dominici = {
 		name = "Santos Aníbal Dominici Otero"
@@ -370,8 +741,11 @@ characters={
 		}
 	}
 	VEN_romelo_bentancourt = { ## will get advisor role
-		name = "Rómulo Betancourt"
+		name = "Rómulo Bentancourt"
 		portraits = {
+			army = {
+				small="GFX_idea_VEN_romulo_bentancourt_icon"
+			}
 			civilian = {
 				large = "gfx/leaders/VEN/portrait_VEN_romelo_bentancurt.png"
 			}
@@ -383,6 +757,39 @@ characters={
 			}
 			expire="1953.1.1.12"
 			id=-1
+		}
+		advisor={
+			slot = political_advisor
+			idea_token = VEN_romelo_bentancourt_idea
+			allowed = {
+				original_tag = VEN
+			}
+			visible = {
+				ROOT = {
+					NOT = {
+						has_country_leader = {
+							character = VEN_romelo_bentancourt
+							ruling_only = yes
+						}
+					}
+				}
+			}
+			available = {
+				NOT = {
+					has_government = fascism
+				}
+				custom_trigger_tooltip = {
+					tooltip = VEN_has_not_been_exiled_tt
+					NOT = { has_character_flag = VEN_exiled_flag }
+				}
+			}
+			traits = {
+				resolute_social_democrat
+			}
+			cost = 150
+			ai_will_do = {
+				factor = 1.000
+			}
 		}
 	}
 	VEN_luis_figueroa={ ## advisor under Romelo Bentancurt
@@ -396,6 +803,32 @@ characters={
 			ideology=liberalism
 			expire="1953.1.1.12"
 			id=-1
+		}
+		advisor={
+			slot = political_advisor
+			idea_token = VEN_luis_figueroa_idea
+			allowed = {
+				original_tag = VEN
+			}
+			available = {
+				OR = {
+					has_country_leader = {
+						character = VEN_romelo_bentancourt
+						ruling_only = yes 
+					}
+					has_country_leader = {
+						character = VEN_diogenes_escalante
+						ruling_only = yes 
+					}
+				}
+			}
+			traits = {
+				minister_of_education
+			}
+			cost = 150
+			ai_will_do = {
+				factor = 1.000
+			}
 		}
 	}
 	VEN_patricio_franco={
@@ -414,8 +847,6 @@ characters={
 	}
 	VEN_isaias_medina_angarita={
 		advisor={
-			
-			
 			slot = army_chief
 			idea_token = VEN_isaias_medina_angarita
 			allowed = {
@@ -438,6 +869,15 @@ characters={
 			ai_will_do = {
 				factor = 1.000
 			}
+		}
+		corps_commander={
+			skill=2
+			traits={ cavalry_officer }
+			attack_skill=2
+			defense_skill=2
+			planning_skill=1
+			logistics_skill=1
+			legacy_id=-1
 		}
 		country_leader={
 			ideology=conservatism
@@ -488,7 +928,7 @@ characters={
 					original_tag = VEN
 				}
 				traits = {
-					navy_chief_decisive_battle_2
+					navy_chief_commerce_raiding_2
 				}
 				cost = 100
 				ai_will_do = {
@@ -748,7 +1188,7 @@ characters={
 			expire="1953.1.1.12"
 			id=-1
 		}
-		corps_commander={
+		field_marshal = {
 			skill=2
 			traits = {
 				defensive_doctrine
@@ -768,7 +1208,7 @@ characters={
 					original_tag  = VEN
 				}
 				traits  = {
-					war_industrialist 
+					collectivization_specialist 
 				}
 		}
 		name="Manuel Diaz Rodriguez"
