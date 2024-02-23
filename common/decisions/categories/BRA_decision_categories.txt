@@ -96,6 +96,41 @@ BRA_BoP_decision_category = {
     }
 }
 
+BRA_patrianovism_on_the_rise = {
+    priority = 450
+    icon = GFX_BRA_patrianovissm_icon
+
+    picture = GFX_BRA_patrianovism_pic
+
+    scripted_gui = BRA_patrianovism_ui
+
+    on_map_area = {
+		target_array = core_states
+		target_trigger = {
+			FROM = {
+                has_dynamic_modifier = { modifier = BRA_monarchist_influence }
+			}
+		}
+		name = BRA_states_monarchists_control_tt
+		zoom = 150
+	}
+
+    visible = {
+        has_completed_focus = BRA_empower_the_patrianovistas
+        NOT = {
+            OR = {
+                has_civil_war = yes 
+                has_global_flag = BRA_civil_war_in_progress
+                has_global_flag = BRA_civil_war_concluded
+                has_cosmetic_tag = BRA_TEMPORARY_MONARCHIST_STATE
+                has_cosmetic_tag = BRA_SECOND_EMPIRE
+            }
+        }
+    }
+
+    visible_when_empty = yes
+}
+
 BRA_political_manegement = {
     priority = 200
     icon = GFX_brazilian_government_management
@@ -143,6 +178,9 @@ BRA_political_manegement = {
         has_civil_war = no 
         NOT = { has_country_flag = BRA_state_of_anarchy } #State of Anarchy will be for the Integralist path / Civil war path
         NOT = { has_country_flag = BRA_all_parties_shutdown }
+        NOT = {
+            has_completed_focus = BRA_empower_the_patrianovistas
+        }
         has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
         NOT = {
             OR = {

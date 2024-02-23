@@ -8,6 +8,7 @@
 ### search_filters = {FOCUS_FILTER_ARMY_XP}
 ### search_filters = {FOCUS_FILTER_NAVY_XP}
 ### search_filters = {FOCUS_FILTER_AIR_XP}
+### search_filters = {FOCUS_FITLER_MONARCHISM}
 
 focus_tree = {
 	id = brazil_focus
@@ -28,6 +29,528 @@ focus_tree = {
 	continuous_focus_position = { x = 100 y = 2050 }
 	
 	default = no
+
+	####### MONARCHIST PATH ########
+	## Empower the Patrianovistas ##
+	focus = {
+		id = BRA_empower_the_patrianovistas
+		icon = GFX_BRA_empower_patrianovistas
+		x = 85
+		y = 0
+
+		cost = 2
+
+		allow_branch = {
+			always = no
+		}
+
+		ai_will_do = {
+			factor = 70
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+
+		mutually_exclusive = {
+			focus = BRA_reject_the_estado_navo
+			focus = BRA_the_path_to_estado_novo
+			focus = BRA_manipulate_behind_the_scenes
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FITLER_MONARCHISM
+		}
+
+		completion_reward = {
+			unlock_decision_category_tooltip = BRA_patrianovism_on_the_rise
+			set_party_name = {
+				ideology = fascism
+				long_name = "Ação Imperial Patrianovista Brasileira"
+				name = "Pátria-Nova"
+			}
+			promote_character = BRA_arlindo_veiga_dos_santos
+			BRA_add_2_monarchist_support = yes
+			add_political_power = 50
+			## later on Vargas will establish the Anti-Monarchist Coalition, removing the BoP ##
+			hidden_effect = {
+				set_variable = {
+					BRA_playing_as_vargas = 0
+				}
+				set_variable = {
+					BRA_integralist_influence = 0
+					BRA_vargas_influence = 0
+					BRA_congress_influence = 0
+				}
+				set_country_flag = BRA_preparing_monarchist_takeover_flag
+			}
+		}
+	}
+
+	## Gone but not Forgotten ##
+	focus = {
+		id = BRA_gone_but_not_forgotten
+		icon = GFX_BRA_visit_to_the_past
+		x = 0
+		y = 1
+		relative_position_id = BRA_empower_the_patrianovistas
+		prerequisite = {
+			focus = BRA_empower_the_patrianovistas
+		}
+
+		cost = 3
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		available = {
+			has_civil_war = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FITLER_MONARCHISM
+		}
+
+		completion_reward = {
+			unlock_decision_tooltip = BRA_instigate_monarchist_support_in_FROM
+		}
+	}
+
+	## By Blood Alone ## (omg funi dlc refernce!!!) || Civil War path
+	focus = {
+		id = BRA_by_blood_alone
+		icon = GFX_BRA_by_blood_alone_icon
+		x = -3
+		y = 1
+		relative_position_id = BRA_gone_but_not_forgotten
+		prerequisite = {
+			focus = BRA_gone_but_not_forgotten
+		}
+		mutually_exclusive = {
+			focus = BRA_an_imperial_coup
+		}
+
+		cost = 5
+
+		select_effect = {
+			set_country_flag = BRA_chose_imperial_civil_war_flag
+		}
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_at_least_one_state_with_monarchist_support_tt
+				any_controlled_state = {
+					has_dynamic_modifier = {
+						modifier = BRA_monarchist_influence
+					}
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = BRA_less_than_9_monarchist_states_with_support_tt
+				check_variable = {
+					BRA_monarchist_states < 9
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = BRA_less_than_50_monarchist_support_tt
+				check_variable = {
+					BRA_monarchist_support < 50
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_POLITICAL FOCUS_FITLER_MONARCHISM
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = CHL_pathcivilwar
+			custom_effect_tooltip = BRA_limit_to_50_support_and_8_states_tt
+			unlock_decision_tooltip = {
+				decision = BRA_sway_officer_loyalty
+				show_effect_tooltip = yes
+			}
+			BRA_add_3_monarchist_support = yes
+			add_political_power = 50
+			add_command_power = 25
+			BRA_limit_monarchist_support = yes
+		}
+	}
+
+	## Contact the Italians ##
+	focus = {
+		id = BRA_contact_the_italians
+		icon = GFX_focus_befriend_italy
+		x = -4
+		y = 1
+		relative_position_id = BRA_by_blood_alone
+		prerequisite = {
+			focus = BRA_by_blood_alone
+		}
+
+		cost = 3
+
+		available = {
+			NOT = {
+				has_war_with = ITA 
+			}
+			ITA = {
+				exists = yes 
+				has_government = fascism 
+				has_civil_war = no 
+			}
+			hidden_trigger = {
+				has_country_flag = BRA_preparing_monarchist_takeover_flag
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_political_power = 25
+			ITA = { country_event = { id = brazil.67 hours = 6 } }
+		}
+	}
+
+	## An Imperial Coup ## || Peaceful Coup Path
+	focus = {
+		id = BRA_an_imperial_coup
+		icon = GFX_BRA_imperial_coup
+		x = 3
+		y = 1
+		relative_position_id = BRA_gone_but_not_forgotten
+		prerequisite = {
+			focus = BRA_gone_but_not_forgotten
+		}
+		mutually_exclusive = {
+			focus = BRA_by_blood_alone
+		}
+
+		cost = 7.2
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = BRA_monarchist_support_over_20_tt
+				check_variable = {
+					BRA_monarchist_support > 19
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_MONARCHISM
+		}
+
+		completion_reward = {
+			BRA_add_5_monarchist_support = yes
+			unlock_decision_tooltip = BRA_the_imperial_coup
+			add_political_power = 75
+		}
+	}
+
+	### Absorb the Integralists ###
+	focus = {
+		id = BRA_absorb_the_integralists
+		icon = GFX_BRA_ally_integralists
+		x = 2
+		y = 1
+		relative_position_id = BRA_by_blood_alone
+		prerequisite = {
+			focus = BRA_by_blood_alone
+			focus = BRA_an_imperial_coup
+		}
+
+		cost = 7.2
+
+		available = {
+			has_civil_war = no 
+			NOT = {
+				has_government = fascism 
+			}
+			hidden_trigger = {
+				has_country_flag = BRA_preparing_monarchist_takeover_flag
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_MONARCHISM
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = BRA_if_completed_blood_alone_focus_tt
+			effect_tooltip = {
+				custom_effect_tooltip = BRA_integralists_wont_rise_up_civil_war_tt
+			}
+			custom_effect_tooltip = BRA_if_completed_imperial_coup_tt
+			effect_tooltip = {
+				add_political_power = 75
+				custom_effect_tooltip = BRA_spacer_tt
+			}
+			BRA_add_15_monarchist_support = yes
+			custom_effect_tooltip = BRA_failure_to_maintain_authoritarianism_result_in_integralist_uprising_tt
+			set_global_flag = BRA_absorbed_integralists_flag
+			hidden_effect = {
+				if = {
+					limit = {
+						has_completed_focus = BRA_an_imperial_coup
+					}
+					add_political_power = 75
+				}
+			}
+		}
+	}
+
+	### The Integralist Squadrons ###
+	focus = {
+		id = BRA_the_integralist_squadrons
+		icon = GFX_BRA_integralist_army
+		x = -1
+		y = 1
+		relative_position_id = BRA_absorb_the_integralists
+		prerequisite = {
+			focus = BRA_absorb_the_integralists
+		}
+
+		cost = 6
+
+		available = {
+			has_civil_war = no 
+			NOT = {
+				has_government = fascism 
+			}
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = BRA_at_least_four_states_with_monarchist_support_tt
+					check_variable = {
+						BRA_monarchist_states > 3
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = BRA_monarchist_support_over_35_tt
+					check_variable = {
+						BRA_monarchist_support > 35
+					}
+				}
+			}
+			hidden_trigger = {
+				has_country_flag = BRA_preparing_monarchist_takeover_flag
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_MANPOWER FOCUS_FILTER_MONARCHISM FOCUS_FILTER_BRAZILIAN_CIVIL_WAR
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = BRA_create_the_integralist_squadron_template_tt
+			hidden_effect = {
+				division_template = { 
+					name = "Esquadrão Integralista" 
+					division_names_group = BRA_INF_01 
+					is_locked = no 
+					template_counter = 3
+					regiments = { 
+						infantry = { x = 0 y = 0 }
+						infantry = { x = 0 y = 1 }
+						infantry = { x = 1 y = 0 }
+						infantry = { x = 1 y = 1 }
+						infantry = { x = 2 y = 0 }
+						infantry = { x = 2 y = 1 }
+						artillery_brigade = { x = 3 y = 0 }
+						artillery_brigade = { x = 3 y = 1 }
+					}
+					support = { 
+						engineer = { x = 0 y = 0 }
+						artillery = { x = 0 y = 1 }
+					}
+				}
+			}
+			custom_effect_tooltip = BRA_if_completed_blood_alone_focus_tt
+			effect_tooltip = {
+				custom_effect_tooltip = EUYL_start_of_civil_war_gain_following_tt
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"Esquadrão Integralista\" division_template = \"Esquadrão Integralista\" start_experience_factor = 0.02 start_equipment_factor = 0.95" 
+						owner = ROOT
+						count = 3
+					}
+				}
+			}
+			custom_effect_tooltip = BRA_if_completed_imperial_coup_tt
+			effect_tooltip = {
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"Esquadrão Integralista\" division_template = \"Esquadrão Integralista\" start_experience_factor = 0.02 start_equipment_factor = 0.95" 
+						owner = ROOT
+						count = 3
+					}
+				}
+				custom_effect_tooltip = BRA_spacer_tt
+			}
+			hidden_effect = {
+				if = {
+					limit = {
+						has_completed_focus = BRA_an_imperial_coup
+					}
+					random_owned_controlled_state = {
+						create_unit = {
+							division = "name = \"Esquadrão Integralista\" division_template = \"Esquadrão Integralista\" start_experience_factor = 0.02 start_equipment_factor = 0.95" 
+							owner = ROOT
+							count = 3
+						}
+					}
+				}
+			}
+		}
+	}
+
+	## Challange Vargas ##
+	focus = {
+		id = BRA_challenge_vargas 
+		icon = GFX_BRA_imprison_vargas
+		x = -2
+		y = 1
+		relative_position_id = BRA_an_imperial_coup
+		prerequisite = {
+			focus = BRA_an_imperial_coup
+			focus = BRA_by_blood_alone
+		}
+
+		cost = 5
+
+		available = {
+			has_country_flag = BRA_anti_monarchism_active_flag
+			hidden_trigger = {
+				has_country_flag = BRA_preparing_monarchist_takeover_flag
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_MONARCHISM
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = BRA_significantly_harder_for_vargas_to_interfere_tt
+			BRA_add_3_monarchist_support = yes
+		}
+	}
+
+	## Total War Against the Anti-Monarchists ##
+	focus = {
+		id = BRA_total_war_against_the_anti_monarchists
+		icon = GFX_ARG_attack_brazil
+		x = 1
+		y = 1
+		relative_position_id = BRA_challenge_vargas
+		prerequisite = {
+			focus = BRA_challenge_vargas
+		}
+
+		cost = 7.2
+
+		available = {
+			has_country_flag = BRA_anti_monarchism_active_flag
+			custom_trigger_tooltip = {
+				tooltip = BRA_monarchist_support_over_50_tt
+				check_variable = {
+					BRA_monarchist_support > 50
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_MONARCHISM FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = BRA_anti_monarchists_will_halt_all_attacks_againsts_us_tt
+			add_manpower = -10000
+			add_stability = 0.03
+			BRA_add_5_monarchist_support = yes
+			BRA_add_political_power_monarchist = yes
+		}
+	}
+
+	## In Memory of the Ribeirãozinho Revolt
+	focus = {
+		id = BRA_in_memory_of_the_ribeirazinho_revolt
+		icon = GFX_BRA_cooperate_with_sao_paulo
+		x = -1
+		y = 1
+		relative_position_id = BRA_challenge_vargas
+		prerequisite = {
+			focus = BRA_absorb_the_integralists
+			focus = BRA_challenge_vargas
+		}
+
+		cost = 5
+
+		available = {
+			has_full_control_of_state = 501
+			has_civil_war = no 
+			hidden_trigger = {
+				has_country_flag = BRA_preparing_monarchist_takeover_flag
+			}
+		}
+
+		bypass = {
+			501 = {
+				has_dynamic_modifier = {
+					modifier = BRA_monarchist_influence
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_MONARCHISM FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			501 = {
+				add_dynamic_modifier = {
+					modifier = BRA_monarchist_influence
+				}
+			}
+			add_to_variable = {
+                BRA_monarchist_states = 1
+            }
+			BRA_state_decision_monarchist_increment = yes 
+			BRA_add_political_power_monarchist = yes
+			custom_effect_tooltip = BRA_paulistas_stop_revolt_at_expense_of_becoming_autonomous_state_tt
+		}
+	}
+
+	### The Monarchists in the North East 
+	focus = {
+		id = BRA_the_monarchists_in_the_north_east
+		icon = GFX_BRA_monarchists_in_northeast_icon
+		x = 0
+		y = 1
+		relative_position_id = BRA_in_memory_of_the_ribeirazinho_revolt
+		prerequisite = {
+			focus = BRA_in_memory_of_the_ribeirazinho_revolt
+		}
+
+		cost = 7.2
+
+		available = {
+			has_full_control_of_state = 952
+			has_full_control_of_state = 953
+			has_full_control_of_state = 498
+			has_civil_war = no 
+			hidden_trigger = {
+				has_country_flag = BRA_preparing_monarchist_takeover_flag
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_MONARCHISM
+		}
+
+		completion_reward = {
+			
+		}
+	}
 	
 	focus = {
 		id = BRA_invest_in_our_economy
@@ -1645,7 +2168,7 @@ focus_tree = {
 	focus = {
 		id = BRA_forcas_armadas_brasileiras
 		icon = GFX_BRA_forcas_armadas
-		x = 85
+		x = 85 ## 104
 		y = 0
 
 		cost = 1
@@ -2890,7 +3413,7 @@ focus_tree = {
 		y = 0
 		mutually_exclusive = { focus = BRA_reject_the_estado_navo }
 		mutually_exclusive = { focus = BRA_manipulate_behind_the_scenes }
-		#mutually_exclusive = { focus = BRA_empower_the_patrianovistas }
+		mutually_exclusive = { focus = BRA_empower_the_patrianovistas }
 		available = {
 			has_civil_war = no 
 			custom_trigger_tooltip = {
@@ -6935,7 +7458,7 @@ focus_tree = {
 		y = 0
 		mutually_exclusive = { focus = BRA_the_path_to_estado_novo }
 		mutually_exclusive = { focus = BRA_manipulate_behind_the_scenes }
-		#mutually_exclusive = { focus = BRA_empower_the_patrianovistas}
+		mutually_exclusive = { focus = BRA_empower_the_patrianovistas}
 
 		cost = 1
 
@@ -13184,7 +13707,7 @@ focus_tree = {
 			focus = BRA_the_path_to_estado_novo 
 		}
 		mutually_exclusive = { focus = BRA_reject_the_estado_navo }
-		#mutually_exclusive = { focus = BRA_empower_the_patrianovistas }
+		mutually_exclusive = { focus = BRA_empower_the_patrianovistas }
 
 		allow_branch = {
 			if = {

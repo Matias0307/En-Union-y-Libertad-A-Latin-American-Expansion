@@ -4678,3 +4678,129 @@ country_event = {
         }
 	}
 }
+
+## The Creation of the Anti-Monarchist Coalition 
+country_event = {
+	id = brazil.96
+	title = brazil.96.t 
+	desc = brazil.96.d 
+	picture = GFX_BRA_vargas_interfere_civil_war
+
+	fire_only_once = yes 
+	trigger = {
+		original_tag = BRA 
+		has_completed_focus = BRA_empower_the_patrianovistas
+		OR = {
+			check_variable = {
+				BRA_monarchist_support > 10
+			}
+			has_country_flag = BRA_chose_imperial_civil_war_flag
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			BRA_bop_remove_bop_effect = yes 
+		}
+	}
+
+	option = {
+		name = brazil.96.a 
+		set_country_flag = BRA_anti_monarchism_active_flag
+		set_party_name = {
+			ideology = neutrality
+			long_name = BRA_antimonarchist_coalition_long
+			name = BRA_antimonarchist_coalition
+		}
+		custom_effect_tooltip = BRA_vargas_will_actively_hunt_down_monarchists_tt
+		hidden_effect = {
+			set_temp_variable = {
+				BRA_dem = party_popularity@democratic
+			}
+			set_temp_variable = {
+				BRA_com = party_popularity@communism
+			}
+			add_to_temp_variable = {
+				BRA_dem = BRA_com 
+			}
+			add_popularity = {
+				ideology = neutrality
+				popularity = BRA_dem
+			}
+			if = {
+				limit = {
+					has_country_flag = BRA_chose_imperial_civil_war_flag
+				}
+				country_event = {
+					id = brazil.97 
+					days = 12
+					random_days = 6
+					hours = 4
+					random_hours = 12
+				}
+			}
+		}
+	}
+}
+
+### The Coalition Initiates Plans To Stop our Movement
+country_event = {
+	id = brazil.97
+	title = brazil.97.t 
+	desc = brazil.97.d 
+	picture = GFX_report_event_generic_strike
+
+	is_triggered_only = yes 
+
+	immediate = {
+		hidden_effect = {
+			activate_mission = BRA_anti_monarchist_crackdown
+		}
+	}
+
+	option = { ## Brats
+		name = brazil.97.a 
+		BRA_add_1_monarchist_support = yes 
+		activate_mission_tooltip = BRA_anti_monarchist_crackdown
+	}
+}
+
+## The Coalition have Cracked Down on our Movement ##
+country_event = {
+	id = brazil.98
+	title = brazil.98.t 
+	desc = brazil.98.d 
+	picture = GFX_BRA_brazil_15
+
+	is_triggered_only = yes 
+
+	option = { ## Everyone to Arms!
+		name = brazil.98.a
+		BRA_start_new_imperialist_civil_war = yes
+	}
+}
+
+## Anti-Monarchist Coalition Hunts down some of our Supporters 
+country_event = {
+	id = brazil.99
+	title = brazil.99.t 
+	desc = brazil.99.d 
+	picture = GFX_report_event_generic_army
+
+	is_triggered_only = yes 
+
+	option = {
+		name = brazil.99.a 
+		add_political_power = -5
+		BRA_remove_3_monarchist_support = yes 
+		if = {
+			limit = {
+				has_active_mission = BRA_anti_monarchist_crackdown
+			}
+			add_days_mission_timeout = {
+				mission = BRA_anti_monarchist_crackdown
+				days = -10
+			}
+		}
+	}
+}

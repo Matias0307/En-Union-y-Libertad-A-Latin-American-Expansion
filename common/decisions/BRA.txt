@@ -3057,9 +3057,10 @@ BRA_imminent_civil_war = {
             NOT = { has_country_flag = BRA_improving_army }
         }
 
-        cost = 30
-
-        days_remove = 40
+        custom_cost_text = decision_cost_CP_25
+        custom_cost_trigger = {
+            command_power > 24
+        }
 
         ai_will_do = {
 			factor = 130
@@ -3076,6 +3077,7 @@ BRA_imminent_civil_war = {
         complete_effect = {
             hidden_effect = {
                 set_country_flag = BRA_improving_army
+                add_command_power = -25
             }
         }
 
@@ -3258,6 +3260,161 @@ BRA_imminent_civil_war = {
                     random_hours = 6
                 }
             }
+        }
+    }
+}
+
+BRA_patrianovism_on_the_rise = {
+
+    BRA_anti_monarchist_crackdown = {
+        icon = generic_ignite_civil_war
+
+        activation = {
+            always = no 
+        }
+
+        available = {
+            has_completed_focus = BRA_long_live_the_monarchy
+        }
+
+        cancel_trigger = {
+            OR = {
+                has_civil_war = yes 
+                has_cosmetic_tag = BRA_TEMPORARY_MONARCHIST_STATE
+            }
+        }
+
+        is_good = no 
+
+        days_mission_timeout = 190
+
+        complete_effect = {
+            add_war_support = 0.01 
+        }
+
+        timeout_effect = {
+            
+        }
+    }
+
+    BRA_instigate_monarchist_support_in_FROM = {
+        icon = eng_support_imperialist_coup
+
+        visible = {
+            has_completed_focus = BRA_gone_but_not_forgotten
+            NOT = {
+                OR = {
+                    has_cosmetic_tag = BRA_TEMPORARY_MONARCHIST_STATE
+                    has_cosmetic_tag = BRA_SECOND_EMPIRE
+                }
+            }
+            FROM = {
+                NOT = {
+                    has_dynamic_modifier = {
+                        modifier = BRA_monarchist_influence
+                    }
+                }
+            }
+            if = {
+                limit = {
+                    has_completed_focus = BRA_by_blood_alone
+                }
+                check_variable = {
+                    BRA_monarchist_states < 8
+                }
+            }
+        }
+
+        fire_only_once = yes 
+
+        state_target = yes 
+
+        target_array = controlled_states
+
+        target_trigger = {
+            FROM = {
+                is_fully_controlled_by = ROOT 
+                is_core_of = ROOT
+            }
+        }
+
+        on_map_mode = map_only
+
+        cost = 25
+
+        days_remove = 25
+
+        modifier = {
+            political_power_factor = -0.05
+        }
+
+        cancel_trigger = {
+            OR = {
+                has_global_flag = BRA_civil_war_in_progress
+                has_cosmetic_tag = BRA_TEMPORARY_MONARCHIST_STATE
+                has_cosmetic_tag = BRA_SECOND_EMPIRE
+                if = {
+                    limit = {
+                        has_completed_focus = BRA_by_blood_alone
+                    }
+                    check_variable = {
+                        BRA_monarchist_states > 7
+                    }
+                }
+            }
+        }
+
+        remove_effect = {
+            FROM = {
+                add_dynamic_modifier = {
+                    modifier = BRA_monarchist_influence
+                }
+            }
+            add_to_variable = {
+                BRA_monarchist_states = 1
+            }
+            BRA_state_decision_monarchist_increment = yes 
+            BRA_add_political_power_monarchist = yes
+        }
+    }
+
+    BRA_sway_officer_loyalty = {
+        icon = generic_army_support 
+
+        visible = {
+            has_completed_focus = BRA_by_blood_alone
+            has_civil_war = no 
+        }
+
+        custom_cost_text = CHL_cost_15_cp
+        custom_cost_trigger = {
+            command_power > 14
+        }
+
+        days_remove = 20
+
+        modifier = {
+            political_power_factor = -0.05
+        }
+
+        complete_effect = {
+            hidden_effect = {
+                add_command_power = -15
+            }
+            random_army_leader = {
+				limit = {
+					NOT = {
+						OR = {
+							has_trait = trait_BRA_communist_loyalty
+							has_trait = trait_BRA_democratic_loyalty
+							has_trait = trait_BRA_imperial_loyalty
+                            has_trait = trait_BRA_integralist_loyalty
+                            has_trait = trait_BRA_vargas_loyalty
+						}
+					}
+				}
+				add_unit_leader_trait = trait_BRA_imperial_loyalty
+			}
         }
     }
 }

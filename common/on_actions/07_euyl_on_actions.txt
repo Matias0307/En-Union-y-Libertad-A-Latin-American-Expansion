@@ -2311,6 +2311,7 @@ on_actions = {
                             has_civil_war = yes 
                             has_global_flag = BRA_civil_war_in_progress
                             has_global_flag = BRA_civil_war_concluded
+                            has_completed_focus = BRA_empower_the_patrianovistas
                         }
                     }
                     NOT = { has_country_flag = BRA_congress_shutdown }
@@ -2410,6 +2411,7 @@ on_actions = {
                             has_civil_war = yes 
                             has_global_flag = BRA_civil_war_in_progress
                             has_global_flag = BRA_civil_war_concluded
+                            has_completed_focus = BRA_empower_the_patrianovistas
                         }
                     }
                     NOT = { has_country_flag = BRA_communists_shutdown }
@@ -2493,6 +2495,7 @@ on_actions = {
                             has_active_mission = BRA_communist_peasant_revolt
                             has_global_flag = BRA_civil_war_in_progress
                             has_global_flag = BRA_civil_war_concluded
+                            has_completed_focus = BRA_empower_the_patrianovistas
                         }
                     }
                     NOT = { has_country_flag = BRA_integralists_shutdown }
@@ -2570,6 +2573,54 @@ on_actions = {
                         }
                     }
                     50 = { }
+                }
+            }
+            if = {
+                limit = {
+                    has_completed_focus = BRA_empower_the_patrianovistas
+                    has_country_flag = BRA_preparing_monarchist_takeover_flag
+                    NOT = {
+                        OR = {
+                            has_civil_war = yes 
+                            has_global_flag = BRA_civil_war_in_progress
+                            has_global_flag = BRA_civil_war_concluded
+                            has_cosmetic_tag = BRA_TEMPORARY_MONARCHIST_STATE
+                            has_cosmetic_tag = BRA_SECOND_EMPIRE
+                        }
+                    }
+                }
+                random_list = {
+                    20 = {
+                        modifier = {
+                            factor = 1.35
+                            check_variable = { 
+                                BRA_monarchist_support < 29
+                            }
+                        }
+                        modifier = {
+                            factor = 0.9
+                            check_variable = {
+                                BRA_monarchist_support > 59
+                            }
+                        }
+                        modifier = {
+                            factor = 0.75
+                            has_completed_focus = BRA_challenge_vargas
+                        }
+                        modifier = {
+                            factor = 0
+                            has_completed_focus = BRA_total_war_against_the_anti_monarchists
+                        }
+                        country_event = {
+                            id = brazil.99 
+                            days = 3
+                            random_days = 4
+                            random_hours = 36
+                        }
+                    }
+                    70 = {
+
+                    }
                 }
             }
         }
