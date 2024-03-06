@@ -3246,6 +3246,7 @@ focus_tree = {
 				has_country_flag = VEN_improved_worker_salaries_flag
                 has_country_flag = VEN_reduced_work_hours_flag
                 has_country_flag = VEN_improved_worker_conditions_flag
+				has_government = fascism
 			}
 		}
 
@@ -3255,9 +3256,19 @@ focus_tree = {
 
 		completion_reward = {
 			add_political_power = 20
-			add_popularity = {
-				ideology = democratic
-				popularity = 0.03
+			if = {
+				limit = {
+					NOT = {
+						has_government = fascism
+					}
+				}
+				add_popularity = {
+					ideology = democratic
+					popularity = 0.03
+				}
+			}
+			else = {
+				add_war_support = -0.01
 			}
 			VEN_improve_strikes = yes 
 			add_ideas = VEN_worker_right_reforms ## Ley del Trabajo
@@ -5415,8 +5426,19 @@ focus_tree = {
 		completion_reward = {
 			add_stability = 0.1
 			add_war_support = 0.1
+			if = {
+				limit = {
+					VEN_abrupt_government_transition_active = yes 
+				}
+				VEN_improve_abrupt_government_transition_idea = yes 
+			}
 			hidden_effect = {
-				
+				if = {
+					limit = {
+						is_ai = yes 
+					}
+					add_stability = 0.25
+				}
 			}
 		}
 	}
@@ -5433,8 +5455,8 @@ focus_tree = {
 		}
 
 		available = {
-			has_stability > 0.5
-			has_war_support > 0.5
+			has_stability > 0.45
+			has_war_support > 0.6
 			custom_trigger_tooltip = {
                 tooltip = VEN_NOT_has_economic_crisis_tt
                 NOT = {
