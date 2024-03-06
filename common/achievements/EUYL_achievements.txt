@@ -116,7 +116,6 @@ EUYL_one_true_confederation = {
 			is_ai = no 
 			exists = yes 
 			has_civil_war = no 
-			has_government = fascism
 		}
     } 
 }
@@ -180,9 +179,15 @@ EUYL_red_feminism_in_la_plata = {
 		original_tag = ARG
 		has_government = communism
 		has_cosmetic_tag = ARG_la_plata
-		has_country_leader = {
-			character = ARG_fanny_edelman
-			ruling_only = yes
+		OR = {
+			has_country_leader = {
+				character = ARG_fanny_edelman
+				ruling_only = yes
+			}
+			has_country_leader = {
+				character = ARG_fanny_edelman_official
+				ruling_only = yes
+			}
 		}
 		CHL = {
 			OR = {
@@ -674,18 +679,9 @@ EUYL_i_dont_want_to_conquer_i_want_to_exploit_resources = {
 		has_government = democratic
 		has_idea = laissez_faire
 		CHL = {
-			has_resources_in_country = {
-				resource = steel
-				amount > 140
-			}
-			has_resources_in_country = {
-				resource = tungsten
-				amount > 140
-			}
-			has_resources_in_country = {
-				resource = oil
-				amount > 65
-			}
+			steel > 139
+			tungsten > 139
+			oil > 64
 		}
     }
 }
@@ -1042,5 +1038,144 @@ EUYL_the_army_of_bolivar = {
 		original_tag = COL
 		has_government = fascism
 		has_army_manpower = { size > 999999 }
+    }
+}
+
+### VENEZUELA ###
+EUYL_looks_like_we_need_some_freedom = {
+	possible = {
+        # classic triggers used in all vanilla achievements
+        difficulty > 1
+        has_start_date < 1936.01.02
+        has_any_custom_difficulty_setting = no
+        game_rules_allow_achievements = yes
+		is_ironman = yes
+		is_debug = no
+    }
+
+    happened = {
+		hidden_trigger = { 
+			is_ai = no 
+			exists = yes    
+			is_subject = no 
+			has_civil_war = no
+		}
+		original_tag = VEN
+		oil > 499
+    }
+}
+
+EUYL_gran_colombia_is_back_on_the_menu = {
+	possible = {
+        # classic triggers used in all vanilla achievements
+        difficulty > 1
+        has_start_date < 1936.01.02
+        has_any_custom_difficulty_setting = no
+        game_rules_allow_achievements = yes
+		is_ironman = yes
+		is_debug = no
+    }
+
+    happened = {
+		hidden_trigger = { 
+			is_ai = no 
+			exists = yes    
+			is_subject = no 
+			has_civil_war = no
+		}
+		OR = {
+			original_tag = VEN 
+			original_tag = COL 
+			original_tag = PAN 
+			original_tag = ECU
+		}
+		custom_trigger_tooltip = {
+			tooltip = VEN_formed_gran_colombia_tt
+			has_cosmetic_tag = GRC_UNIFIED
+		}
+    }
+}
+
+EUYL_the_modern_bolivar = {
+	possible = {
+        # classic triggers used in all vanilla achievements
+        difficulty > 1
+        has_start_date < 1936.01.02
+        has_any_custom_difficulty_setting = no
+        game_rules_allow_achievements = yes
+		is_ironman = yes
+		is_debug = no
+    }
+
+    happened = {
+		hidden_trigger = { 
+			is_ai = no 
+			exists = yes    
+			is_subject = no 
+			has_civil_war = no
+		}
+		original_tag = VEN
+		OR = {
+			has_government = fascism 
+			has_government = neutrality
+		}
+		num_of_controlled_states > 34
+		ARG = {
+			capital_Scope = { 
+				controls_or_subject_of = yes 
+			}
+		}
+		BRA = {
+			capital_Scope = { 
+				controls_or_subject_of = yes 
+			}
+		}
+		CHL = {
+			capital_Scope = { 
+				controls_or_subject_of = yes 
+			}
+		}
+		PRU = {
+			capital_Scope = { 
+				controls_or_subject_of = yes 
+			}
+		}
+		BOL = {
+			capital_Scope = { 
+				controls_or_subject_of = yes 
+			}
+		}
+		COL = {
+			capital_Scope = { 
+				controls_or_subject_of = yes 
+			}
+		}
+		date < 1944.1.1
+    }
+}
+
+EUYL_not_so_strong_anymore_mr_stalin = {
+	possible = {
+        # classic triggers used in all vanilla achievements
+        difficulty > 1
+        has_start_date < 1936.01.02
+        has_any_custom_difficulty_setting = no
+        game_rules_allow_achievements = yes
+		is_ironman = yes
+		is_debug = no
+    }
+
+    happened = {
+		hidden_trigger = { 
+			is_ai = no 
+			exists = yes    
+			is_subject = no 
+			has_civil_war = no
+		}
+		original_tag = VEN
+		custom_trigger_tooltip = {
+			tooltip = VEN_formed_union_with_ussr_tt
+			has_cosmetic_tag = GUOSR_UNIFIED
+		}
     }
 }
