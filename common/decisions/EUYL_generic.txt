@@ -85,6 +85,10 @@ EUYL_latin_american_political_actions = {
 					character = ARG_juan_domingo_peron_fascist
 					ruling_only = yes 
 				}
+				has_country_leader = {
+					character = ARG_juan_peron
+					ruling_only = yes
+				}
 			}
 		}
 
@@ -123,7 +127,7 @@ EUYL_latin_american_political_actions = {
 				factor = 0
 				any_controlled_state = {
 					NOT = {
-						state = 967
+						state = 953
 					}
 				}
 			}
@@ -131,14 +135,14 @@ EUYL_latin_american_political_actions = {
 				factor = 1000
 				NOT = {
 					OR = {
-						controls_state = 968
-						controls_state = 969
+						controls_state = 954
+						controls_state = 955
 						controls_state = 970
 						controls_state = 978
 						controls_state = 979
 					}
 				}
-				has_full_control_of_state = 967
+				has_full_control_of_state = 953
 			}
 		}
 
@@ -148,11 +152,11 @@ EUYL_latin_american_political_actions = {
 		}
 
 		available = {
-			has_full_control_of_state = 967
+			has_full_control_of_state = 953
 			NOT = {
 				OR = {
-					controls_state = 968
-					controls_state = 969
+					controls_state = 954
+					controls_state = 955
 				}
 			}
 		}
@@ -802,17 +806,17 @@ EUYL_latin_american_economic_policy = {
 				industrial_complex > 1
 				arms_factory > 0
 			}
-			969 = {
+			955 = {
 				infrastructure > 3
 				industrial_complex > 1
 				arms_factory > 0
 			}
-			968 = {
+			954 = {
 				infrastructure > 3
 				industrial_complex > 1
 				arms_factory > 0
 			}
-			967 = {
+			953 = {
 				infrastructure > 3
 				industrial_complex > 1
 				arms_factory > 0
@@ -843,9 +847,9 @@ EUYL_latin_american_economic_policy = {
 			}
 			if = {
 				limit = {
-					has_full_control_of_state = 998
+					has_full_control_of_state = 949
 				}
-				998 = {
+				949 = {
 					infrastructure > 2
 					OR = {
 						industrial_complex > 0
@@ -855,9 +859,9 @@ EUYL_latin_american_economic_policy = {
 			}
 			if = {
 				limit = {
-					has_full_control_of_state = 963
+					has_full_control_of_state = 950
 				}
-				963 = {
+				950 = {
 					infrastructure > 2
 					OR = {
 						industrial_complex > 0
@@ -883,9 +887,9 @@ EUYL_latin_american_economic_policy = {
 			OR = {
 				NOT = { controls_state = 512 }
 				NOT = { controls_state = 970 }
-				NOT = { controls_state = 969 }
-				NOT = { controls_state = 968 }
-				NOT = { controls_state = 967 }
+				NOT = { controls_state = 955 }
+				NOT = { controls_state = 954 }
+				NOT = { controls_state = 953 }
 			}
 		}
 
@@ -963,7 +967,7 @@ EUYL_latin_american_economic_policy = {
 
 		state_target = yes 
 
-		targets = { 278 972 982 510 509 } ## states that border the Rio de la Plata
+		targets = { 278 956 982 510 509 } ## states that border the Rio de la Plata
 
 		visible = {
 			FROM = { is_fully_controlled_by = ROOT }
@@ -1423,7 +1427,7 @@ EUYL_latin_american_operations = {
 		remove_effect = {
 			custom_effect_tooltip = CHL_peter_hansen_available_as_general_and_advisor_tt
 			hidden_effect = {
-				CHL_peter_hansen = {
+				EUYL_CHL_peter_hansen = {
 					clr_character_flag = CHL_living_in_germany
 				}
 			}
@@ -1764,13 +1768,13 @@ south_american_armament = {
 		complete_effect = {
 			custom_effect_tooltip = CHL_pinochet_carlos_rene_available_generals_tt
 			hidden_effect = {
-				CHL_rene_schneider = {
+				EUYL_CHL_rene_schneider = {
 					set_character_flag = CHL_promoted
 				}
 				CHL_augusto_pinochet = {
 					set_character_flag = CHL_promoted
 				}
-				CHL_carlos_prats = {
+				EUYL_CHL_carlos_prats = {
 					set_character_flag = CHL_promoted
 				}
 			}
@@ -2049,7 +2053,7 @@ conference_cat = {
 		days_mission_timeout = 20
 		
 		activation = {
-			date > 1936.11.30
+			date > 1974.11.30
 			NOT = { has_country_flag = conference_denied }
 			NOT = { has_global_flag = conference_ends }
 			has_country_flag = conference
@@ -2408,189 +2412,8 @@ foreing_immigration = {
 }
 
 EUYL_american_political_intervention = {
-	USA_politically_coerce_FROM_to_our_side = {
-		icon = eng_trade_unions_demand
-
-		allowed = {
-			original_tag = USA
-		}
-
-		available = {
-			has_civil_war = no 
-			OR = {
-				date > 1940.6.1 ## cant be enforcing this stuff till later in the game mr.freedom spreader
-				threat > 0.7
-			}
-		}
-
-		visible = {
-			has_government = democratic 
-			has_war_with = GER
-			FROM = {
-				NOT = {
-					is_in_faction_with = GER ## at this point the other decision (intervene) will make most sense
-				}
-			}
-		}
-
-		ai_will_do = {
-			base = 1
-			modifier = {
-				factor = 0
-				FROM = {
-					has_active_mission = VEN_looming_american_intervention
-				}
-			}
-			modifier = {
-				factor = 0.5
-				FROM = {
-					has_government = democratic ## USA wont be too worried about democracies
-				}
-			}
-			modifier = {
-				factor = 5
-				FROM = {
-					OR = {
-						has_government = neutrality
-						has_government = communism
-					}
-				}
-			}
-			modifier = {
-				factor = 10
-				FROM = {
-					has_government = fascism
-				}
-			}
-			modifier = {
-				factor = 100
-				has_game_rule = {
-					rule = EUYL_chaos_mode
-					option = YES
-				}
-			}
-		}
-
-		fire_only_once = yes
-
-		target_trigger = {
-			FROM = {
-				capital_scope = {
-					is_on_continent = south_america
-				}
-				NOT = {
-					OR = {
-						has_war_with = ROOT ## lol imagine the US asking a country at war with it to become their ally 0_0
-						has_war_with = GER ## makes no sense to coerce a country to join the US's side if they already ARE on their side
-						is_in_faction_with = ROOT ## same story as other condition
-					}
-				}
-			}
-		}
-
-		custom_cost_trigger = {
-			command_power > 24
-			has_political_power > 24
-		}
-		custom_cost_text = decision_cost_CP_25_pp_25
-
-		complete_effect = {
-			USA_house_small_opposition = yes 
-			USA_senate_small_opposition = yes
-			hidden_effect = {
-				add_political_power = -25
-				add_command_power = -25
-			}
-			FROM = {
-				country_event = {
-					id = EUYL.1 
-					hours = 6
-					random_hours = 6
-				}
-			}
-		}
-	}
-
-	USA_demand_FROM_to_cut_all_ties_with_axis = {
-		icon = generic_break_treaty
-
-		allowed = {
-			original_tag = USA 
-		}
-
-		target_trigger = {
-			FROM = {
-				capital_scope = {
-					is_on_continent = south_america
-				}
-				is_in_faction_with = GER
-				NOT = {
-					OR = {
-						has_war_with = ROOT ## lol imagine the US asking a country at war with it to become their ally 0_0
-						has_war_with = GER 
-						is_in_faction_with = ROOT
-					}
-				}
-			}
-		}
-
-		ai_will_do = {
-			base = 10
-			modifier = {
-				factor = 10
-				FROM = {
-					num_of_factories > 54
-				}
-			}
-			modifier = {
-				factor = 100
-				has_game_rule = {
-					rule = EUYL_chaos_mode
-					option = YES
-				}
-			}
-		}
-
-		visible = {
-			has_government = democratic 
-			GER = {
-				has_government = fascism
-			}
-			FROM = {
-				NOT = {
-					OR = {
-						has_active_mission = VEN_looming_american_intervention
-						has_active_mission = EUYL_USA_expects_us_to_declare_war_on_axis
-					}
-				}
-			}
-		}
-
-		fire_only_once = yes 
-
-		available = {
-			has_civil_war = no 
-			OR = {
-				date > 1940.1.1 ## cant be enforcing this stuff till later in the game mr.freedom spreader
-				threat > 0.54
-			}
-		}
-
-		cost = 75
-
-		complete_effect = {
-			USA_house_medium_opposition = yes 
-			USA_senate_medium_opposition = yes
-			FROM = {
-				country_event = {
-					id = venezuela.47 
-					hours = 4
-					random_hours = 4
-				}
-				activate_mission = VEN_looming_american_intervention
-			}
-		}
-	}
+	
+	## Paradox already implemented a similar system, so no use keeping this one
 
 	VEN_looming_american_intervention = {
         icon = generic_prepare_civil_war
@@ -2656,59 +2479,4 @@ EUYL_american_political_intervention = {
         }
     }
 
-	EUYL_USA_expects_us_to_declare_war_on_axis = {
-		icon = generic_industry 
-
-		activation = {
-			always = no 
-		}
-
-		fire_only_once = yes 
-
-		days_mission_timeout = 1085
-
-		available = {
-			has_war_with = GER
-		}
-
-		cancel_trigger = {
-            OR = {
-                is_in_faction_with = USA 
-                is_in_faction_with = ENG 
-                has_war_with = USA 
-                USA = { exists = no }
-            }
-        }
-
-		complete_effect = {
-			add_political_power = 5
-			add_popularity = {
-                ideology = democratic
-                popularity = 0.01 
-            }
-			USA = {
-				add_opinion_modifier = {
-					target = ROOT
-					modifier = BOL_chose_path_of_diplomacy
-				}
-			}
-		}
-
-		timeout_effect = {
-			USA = { 
-                country_event = {
-                    id = venezuela.48 
-                    hours = 3
-                }
-            }
-            effect_tooltip = {
-                USA = {
-                    create_wargoal = {
-                        target = ROOT 
-                        type = puppet_wargoal_focus
-                    }
-                }
-            }
-		}
-	}
 }
