@@ -126,7 +126,7 @@ ARG_cultural_development = {
 				tooltip = ARG_every_province_has_at_least_lev_4_infra_tt
 				1021 = { infrastructure > 3 }
 				278 = { infrastructure > 3 } 
-				943 = { infrastructure > 3 }
+				956 = { infrastructure > 3 }
 				973 = { infrastructure > 3 }
 			}
 		}
@@ -136,7 +136,7 @@ ARG_cultural_development = {
 				has_civil_war = yes 
 				NOT = { controls_state = 1021 }
 				NOT = { controls_state = 278 }
-				NOT = { controls_state = 943 }
+				NOT = { controls_state = 956 }
 				NOT = { controls_state = 973 }
 			}
 		}
@@ -4079,8 +4079,8 @@ ARG_the_great_revolution = {
 						check_variable = { ARG_ps_subversive_influence > 99 }
 					}
 					custom_trigger_tooltip = {
-						tooltip = ARG_political_tension_less_than_20_tt
-						check_variable = { ARG_political_tension < 20 }
+						tooltip = ARG_political_tension_less_than_55_tt
+						check_variable = { ARG_political_tension < 55 }
 					}
 				}
 				else = {
@@ -4359,28 +4359,21 @@ ARG_the_great_revolution = {
 			if = {
 				limit = { has_country_flag = ARG_chose_ps }
 				start_civil_war = {
-					ideology = communism 
-					size = 0.5
-					states = all
-					states_filter = {
-						has_dynamic_modifier = { modifier = ARG_communist_tendencies }
-					}
+					ideology = neutrality 
+					size = 0.33
 					keep_all_characters = yes 
 					PREV = {
-						every_character = {
-							limit = { has_character_flag = ARG_communist }
-							set_nationality = PREV.PREV
+						ARG_agustín_pedro_justo = {
+							set_nationality = prev.PREV
+						}
+						EUYL_ARG_arturo_rawson = {
+							set_nationality = prev.PREV
+						}
+						EUYL_ARG_juan_pistarini = {
+							set_nationality = prev.PREV
 						}
 					}
-					random_list = {
-						50 = {
-							promote_character = ARG_fanny_edelman_official
-							set_cosmetic_tag = FARC
-						}
-						50 = {
-							promote_character = ARG_liborio_justo
-						}
-					}
+					promote_character = ARG_agustín_pedro_justo
 				}
 				set_politics = {
 					ruling_party = communism 
@@ -5513,12 +5506,7 @@ ARG_the_great_revolution = {
 					custom_effect_tooltip = ARG_increase_ps_influence_10_tt
 					add_to_variable = { ARG_ps_subversive_influence = 10 }
 				}
-				15 = {
-					custom_effect_tooltip = ARG_increase_ps_influence_15_tt
-					add_to_variable = { ARG_ps_subversive_influence = 15 }
-				}
 			}
-			ARG_decrease_3_political_tension = yes 
 			clamp_variable = {
 				var = ARG_ps_subversive_influence
 				min = 0

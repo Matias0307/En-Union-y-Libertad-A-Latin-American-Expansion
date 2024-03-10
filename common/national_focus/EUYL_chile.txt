@@ -24,6 +24,8 @@ focus_tree = {
 	initial_show_position = {
 		x = 0
 	}
+
+	continuous_focus_position = { x = 100 y = 2050 }
 	
 	default = no
 
@@ -1240,6 +1242,22 @@ focus_tree = {
 		x = 22
 		y = 0
 
+		offset = {
+			x = -3
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				OR = {
+					has_completed_focus = CHL_support_the_radicals
+					has_completed_focus = CHL_return_to_the_pcch
+					has_completed_focus = CHL_continue_with_the_fp
+				}
+			}
+		}
+
 		allow_branch = {
 			if = {
 				limit = {
@@ -1432,6 +1450,36 @@ focus_tree = {
 		mutually_exclusive = { focus = CHL_return_to_the_pcch }
 		mutually_exclusive = { focus = CHL_support_the_radicals }
 
+		allow_branch = {
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					OR = {
+						has_completed_focus = CHL_return_to_the_pcch
+						has_completed_focus = CHL_support_the_radicals
+						has_completed_focus = CHL_democracy_path
+					}
+				}
+			}
+		}
+
+		offset = {
+			x = -6
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CHL_continue_with_the_fp
+			}
+		}
+
 		cost = 3
 
 		ai_will_do = {
@@ -1464,6 +1512,17 @@ focus_tree = {
 				add_timed_idea = {
 					idea = communist_influence
 					days = 365
+				}
+			}
+			hidden_effect = {
+				if = {
+					limit = {
+						has_game_rule = {
+							rule = obsolete_focus_branches_visibility
+							option = HIDE
+						}
+					}
+					mark_focus_tree_layout_dirty = yes
 				}
 			}
 		}
@@ -1672,6 +1731,24 @@ focus_tree = {
 		mutually_exclusive = { focus = CHL_continue_with_the_fp }
 		mutually_exclusive = { focus = CHL_support_the_radicals }
 
+		allow_branch = {
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					OR = {
+						has_completed_focus = CHL_support_the_radicals
+						has_completed_focus = CHL_continue_with_the_fp
+						has_completed_focus = CHL_democracy_path
+					}
+				}
+			}
+		}
+
 		cost = 3
 
 		ai_will_do = {
@@ -1718,6 +1795,15 @@ focus_tree = {
 			}
 			hidden_effect = {
 				clr_country_flag = CHL_FP_player
+				if = {
+					limit = {
+						has_game_rule = {
+							rule = obsolete_focus_branches_visibility
+							option = HIDE
+						}
+					}
+					mark_focus_tree_layout_dirty = yes
+				}
 			}
 		}
 
@@ -1734,6 +1820,36 @@ focus_tree = {
 		prerequisite = { focus = CHL_strengthen_the_workers }
 		mutually_exclusive = { focus = CHL_return_to_the_pcch }
 		mutually_exclusive = { focus = CHL_continue_with_the_fp }
+
+		allow_branch = {
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					OR = {
+						has_completed_focus = CHL_return_to_the_pcch
+						has_completed_focus = CHL_continue_with_the_fp
+						has_completed_focus = CHL_democracy_path
+					}
+				}
+			}
+		}
+
+		offset = {
+			x = 5
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CHL_support_the_radicals
+			}
+		}
 
 		cost = 3 
 
@@ -1765,6 +1881,15 @@ focus_tree = {
 			add_stability = -0.03
 			hidden_effect = {
 				clr_country_flag = CHL_FP_player
+				if = {
+					limit = {
+						has_game_rule = {
+							rule = obsolete_focus_branches_visibility
+							option = HIDE
+						}
+					}
+					mark_focus_tree_layout_dirty = yes
+				}
 			}
 		}
 	}
@@ -1779,6 +1904,17 @@ focus_tree = {
 		}
 		available = {
 			has_war = no
+		}
+		offset = {
+			x = -6
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CHL_continue_with_the_fp
+			}
 		}
 		relative_position_id = CHL_return_to_the_pcch
 		prerequisite = {
@@ -2608,6 +2744,18 @@ focus_tree = {
 		y = 2
 		relative_position_id = CHL_legalize_labor_unions
 		prerequisite = { focus = CHL_support_the_radicals }
+
+		offset = {
+			x = 5
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CHL_support_the_radicals
+			}
+		}
 		
 		ai_will_do = {
 			factor = 45
@@ -2699,6 +2847,18 @@ focus_tree = {
 		relative_position_id = CHL_seize_the_means_of_production
 		prerequisite = { focus = CHL_seize_the_means_of_production }
 		prerequisite = { focus = CHL_arm_the_people }
+
+		offset = {
+			x = 2
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CHL_support_the_radicals
+			}
+		}
 		
 		cost = 8
 		
@@ -3976,6 +4136,36 @@ focus_tree = {
 			}
 		}
 
+		offset = {
+			x = -6
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				OR = {
+					has_completed_focus = CHL_crush_the_nacistas
+					has_completed_focus = CHL_side_with_the_nacistas
+				}
+			}
+		}
+
+		offset = {
+			x = -4
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				OR = {
+					has_completed_focus = CHL_crush_the_communists
+					has_completed_focus = CHL_cooperate_with_el_frente
+				}
+			}
+		}
+
 		allow_branch = {
 			if = {
 				limit = {
@@ -4021,6 +4211,44 @@ focus_tree = {
 		y = 2
 		relative_position_id = CHL_establish_a_comrpomise_with_the_democrats
 		prerequisite = { focus = CHL_liberalism_focus }
+
+		offset = {
+			x = -1
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CHL_crush_the_nacistas
+			}
+		}
+
+		offset = {
+			x = 3
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CHL_democracy_path
+				has_completed_focus = CHL_crush_the_nacistas
+				has_completed_focus = CHL_cooperate_with_el_frente
+			}
+		}
+
+		offset = {
+			x = -4
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CHL_cooperate_with_el_frente
+			}
+		}
 
 		cost = 7.2
 
@@ -4274,6 +4502,35 @@ focus_tree = {
 		prerequisite = { focus = CHL_revenue_tax }
 		mutually_exclusive = { focus = CHL_crush_the_nacistas }
 
+		allow_branch = {
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					OR = {
+						has_completed_focus = CHL_crush_the_nacistas
+						has_completed_focus = CHL_communist_path
+					}
+				}
+			}
+		}
+
+		offset = {
+			x = -7
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CHL_side_with_the_nacistas
+			}
+		}
+
 		cost = 3
 
 		ai_will_do = {
@@ -4316,6 +4573,15 @@ focus_tree = {
 				set_variable = { CHL_communist_drift = CHL_communists_power }
 				divide_variable = { CHL_fascist_drift = 450 }
 				divide_variable = { CHL_communist_drift = 450 }
+			}
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				mark_focus_tree_layout_dirty = yes
 			}
 		}
 	}
@@ -4382,6 +4648,30 @@ focus_tree = {
 		prerequisite = {
 			focus = CHL_take_over_various_government_positions
 			focus = CHL_crush_the_communists
+		}
+
+		offset = {
+			x = -2
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CHL_side_with_the_nacistas
+			}
+		}
+
+		offset = {
+			x = 5
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CHL_crush_the_nacistas
+			}
 		}
 
 		cost = 5
@@ -4948,6 +5238,18 @@ focus_tree = {
 		prerequisite = { focus = CHL_take_over_various_government_positions }
 		mutually_exclusive = { focus = CHL_take_over_via_diplomacy }
 
+		offset = {
+			x = -2
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CHL_side_with_the_nacistas
+			}
+		}
+
 		cost = 5
 		ai_will_do = {
 			factor = 5
@@ -5362,6 +5664,18 @@ focus_tree = {
 			focus = CHL_march_on_the_seguro_obrero
 			focus = CHL_mobilize_militias
 			focus = CHL_use_nationalism_to_win_votes
+		}
+
+		offset = {
+			x = -2
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CHL_side_with_the_nacistas
+			}
 		}
 
 		cost = 5
@@ -6795,6 +7109,35 @@ focus_tree = {
 		prerequisite = { focus = CHL_revenue_tax }
 		mutually_exclusive = { focus = CHL_side_with_the_nacistas }
 
+		allow_branch = {
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					OR = {
+						has_completed_focus = CHL_side_with_the_nacistas
+						has_completed_focus = CHL_communist_path
+					}
+				}
+			}
+		}
+
+		offset = {
+			x = 5
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CHL_crush_the_nacistas
+			}
+		}
+
 		cost = 3
 
 		ai_will_do = {
@@ -6811,6 +7154,15 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			custom_effect_tooltip = CHL_nacista_hostile_tt
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				mark_focus_tree_layout_dirty = yes
+			}
 		}
 	}
 
@@ -6843,6 +7195,36 @@ focus_tree = {
 		prerequisite = { focus = CHL_make_an_effort_to_stabilize_the_nation }
 		mutually_exclusive = { focus = CHL_crush_the_communists }
 
+		allow_branch = {
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					OR = {
+						has_completed_focus = CHL_side_with_the_nacistas
+						has_completed_focus = CHL_crush_the_communists
+						has_completed_focus = CHL_communist_path
+					}
+				}
+			}
+		}
+
+		offset = {
+			x = 3
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CHL_cooperate_with_el_frente
+			}
+		}
+
 		cost = 2
 
 		ai_will_do = {
@@ -6874,6 +7256,15 @@ focus_tree = {
 					idea = communist_influence
 					days = 365
 				}
+			}
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				mark_focus_tree_layout_dirty = yes
 			}
 		}
 	}
@@ -6943,6 +7334,23 @@ focus_tree = {
 			focus = CHL_march_over_the_national_congress
 		}
 
+		allow_branch = {
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					OR = {
+						has_completed_focus = CHL_support_the_radicals
+						has_completed_focus = CHL_side_with_the_nacistas
+					}
+				}
+			}
+		}
+
 		cost = 5
 
 		available = {
@@ -6966,6 +7374,15 @@ focus_tree = {
 				add_opinion_modifier = { modifier = strengthened_ties target = ROOT }
 			}
 			add_opinion_modifier = { modifier = strengthened_ties target = SOV }
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				mark_focus_tree_layout_dirty = yes
+			}
 		}
 	}
 
@@ -6988,7 +7405,10 @@ focus_tree = {
 					}
 				}
 				NOT = {
-					has_completed_focus = CHL_democracy_path
+					OR = {
+						has_completed_focus = CHL_democracy_path
+						has_completed_focus = CHL_support_the_radicals
+					}
 				}
 			}
 		}
@@ -6997,9 +7417,9 @@ focus_tree = {
 			279 = {
 				is_fully_controlled_by = ROOT 
 			}
-			NOT = {
-				has_completed_focus = CHL_march_over_the_national_congress
-			}
+			#NOT = {
+			#	has_completed_focus = CHL_march_over_the_national_congress
+			#}
 		}
 
 		cancel_if_invalid = yes 
@@ -9320,6 +9740,36 @@ focus_tree = {
 		prerequisite = { focus = CHL_make_an_effort_to_stabilize_the_nation }
 		mutually_exclusive = { focus = CHL_cooperate_with_el_frente }
 
+		allow_branch = {
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					OR = {
+						has_completed_focus = CHL_side_with_the_nacistas
+						has_completed_focus = CHL_cooperate_with_el_frente
+						has_completed_focus = CHL_communist_path
+					}
+				}
+			}
+		}
+
+		offset = {
+			x = -3
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CHL_crush_the_communists
+			}
+		}
+
 		cost = 2
 
 		ai_will_do = {
@@ -9334,6 +9784,15 @@ focus_tree = {
 		completion_reward = {
 			add_political_power = 25
 			custom_effect_tooltip = CHL_communists_hostile_tt
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				mark_focus_tree_layout_dirty = yes
+			}
 		}
 	}
 
@@ -9361,6 +9820,18 @@ focus_tree = {
 		id = CHL_liberalism_focus
 		prerequisite = {
 			focus = CHL_cooperate_with_el_frente
+		}
+
+		offset = {
+			x = 3
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CHL_cooperate_with_el_frente
+			}
 		}
 
 		icon = GFX_focus_bebelin
@@ -9709,6 +10180,20 @@ focus_tree = {
 			focus = CHL_spread_the_word_of_communism
 		}
 
+		offset = {
+			x = 3
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CHL_democracy_path
+				has_completed_focus = CHL_crush_the_nacistas
+				has_completed_focus = CHL_cooperate_with_el_frente
+			}
+		}
+
 		cost = 2
 
 		ai_will_do = {
@@ -9791,6 +10276,33 @@ focus_tree = {
 		icon = GFX_focus_eng_the_sun_never_sets
 		x = -8
 		y = 3
+
+		offset = {
+			x = -7
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CHL_communist_path
+				has_completed_focus = CHL_continue_with_the_fp
+			}
+		}
+
+		offset = {
+			x = 5
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CHL_democracy_path
+				has_completed_focus = CHL_crush_the_nacistas
+				has_completed_focus = CHL_cooperate_with_el_frente
+			}
+		}
 
 		ai_will_do = {
 			factor = 30
@@ -10643,6 +11155,33 @@ focus_tree = {
 			focus = CHL_join_allies
 		}
 
+		offset = {
+			x = 5
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CHL_democracy_path
+				has_completed_focus = CHL_crush_the_nacistas
+				has_completed_focus = CHL_cooperate_with_el_frente
+			}
+		}
+
+		offset = {
+			x = -7
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CHL_communist_path
+				has_completed_focus = CHL_continue_with_the_fp
+			}
+		}
+
 		cost = 10
 
 		available = {
@@ -10809,6 +11348,33 @@ focus_tree = {
 			focus = CHL_establish_the_partido_democratico
 		}
 
+		offset = {
+			x = 5
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CHL_democracy_path
+				has_completed_focus = CHL_crush_the_nacistas
+				has_completed_focus = CHL_cooperate_with_el_frente
+			}
+		}
+
+		offset = {
+			x = -7
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CHL_communist_path
+				has_completed_focus = CHL_continue_with_the_fp
+			}
+		}
+
 		cost = 8
 
 		available = {
@@ -10848,6 +11414,19 @@ focus_tree = {
 				}
 			}
 			has_country_flag = CHL_communist_defeated
+		}
+
+		offset = {
+			x = -7
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CHL_communist_path
+				has_completed_focus = CHL_continue_with_the_fp
+			}
 		}
 
 		cost = 10
@@ -11580,6 +12159,64 @@ focus_tree = {
 					option = HIDE
 				}
 				has_completed_focus = CHL_democracy_path
+			}
+		}
+
+		offset = {
+			x = -9
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				OR = {
+					has_completed_focus = CHL_continue_with_the_fp
+					has_completed_focus = CHL_return_to_the_pcch
+					has_completed_focus = CHL_support_the_radicals
+				}
+			}
+		}
+
+		offset = {
+			x = -10
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				OR = {
+					has_completed_focus = CHL_crush_the_nacistas
+					has_completed_focus = CHL_side_with_the_nacistas
+				}
+			}
+		}
+
+		offset = {
+			x = -8
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				OR = {
+					has_completed_focus = CHL_crush_the_communists
+					has_completed_focus = CHL_cooperate_with_el_frente
+				}
+			}
+		}
+
+		offset = {
+			x = -4
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CHL_support_the_radicals
 			}
 		}
 

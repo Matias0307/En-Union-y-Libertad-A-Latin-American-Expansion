@@ -6793,6 +6793,36 @@ focus_tree = {
 		cost = 2
 
 		offset = {
+			x = -6
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				OR = {
+					has_global_flag = ARG_chose_revolution
+					has_global_flag = ARG_chose_diplomacy
+				}
+			}
+		}
+
+		offset = {
+			x = -4
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				OR = {
+					has_country_flag = ARG_very_hostile_anarchists
+					has_country_flag = ARG_chose_anarchist_route
+				}
+			}
+		}
+
+		offset = {
 			x = -60
 			y = 0
 			trigger = {
@@ -8627,6 +8657,36 @@ focus_tree = {
 		mutually_exclusive = { focus = ARG_infamous_decade }
 		mutually_exclusive = { focus = ARG_create_the_CNU }
 
+		offset = {
+			x = -6
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				OR = {
+					has_global_flag = ARG_chose_revolution
+					has_global_flag = ARG_chose_diplomacy
+				}
+			}
+		}
+
+		offset = {
+			x = -2
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				OR = {
+					has_country_flag = ARG_very_hostile_anarchists
+					has_country_flag = ARG_chose_anarchist_route
+				}
+			}
+		}
+
 		cost = 2
 
 		allow_branch = {
@@ -8746,6 +8806,36 @@ focus_tree = {
 		prerequisite = { focus = ARG_spread_the_word }
 		mutually_exclusive = { focus = ARG_a_bloody_revolution }
 
+		allow_branch = {
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					OR = {
+						has_global_flag = ARG_chose_revolution
+						has_completed_focus = ARG_infamous_decade
+						has_completed_focus = ARG_create_the_CNU
+					}
+				}
+			}
+		}
+
+		offset = {
+			x = -1
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_global_flag = ARG_chose_diplomacy
+			}
+		}
+
 		available = { 
 			always = no 
 		}
@@ -8757,6 +8847,15 @@ focus_tree = {
 
 		completion_reward = {
 			custom_effect_tooltip = ARG_will_be_bypassed_by_going_against_revolution_tt
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				mark_focus_tree_layout_dirty = yes
+			}
 		}
 	}
 
@@ -8769,6 +8868,18 @@ focus_tree = {
 		prerequisite = { focus = ARG_a_diplomatic_revolution }
 
 		mutually_exclusive = { focus = ARG_support_the_PS_comm }
+
+		offset = {
+			x = -3
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_global_flag = ARG_chose_diplomacy
+			}
+		}
 
 		cost = 5
 
@@ -8823,6 +8934,18 @@ focus_tree = {
 
 		cost = 5
 
+		offset = {
+			x = -3
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_global_flag = ARG_chose_diplomacy
+			}
+		}
+
 		ai_will_do = { factor = 345 }
 
 		available = {
@@ -8846,16 +8969,8 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-			random_list = {
-				75 = {
-					custom_effect_tooltip = ARG_increase_ps_influence_5_tt
-					add_to_variable = { ARG_ps_subversive_influence = 5 }
-				}
-				25 = {
-					custom_effect_tooltip = ARG_increase_ps_influence_10_tt
-					add_to_variable = { ARG_ps_subversive_influence = 10 }
-				}
-			}
+			custom_effect_tooltip = ARG_increase_ps_influence_5_tt
+			add_to_variable = { ARG_ps_subversive_influence = 5 }
 			clamp_variable = {
 				var = ARG_ps_subversive_influence
 				min = 0
@@ -9324,6 +9439,36 @@ focus_tree = {
 		prerequisite = { focus = ARG_spread_the_word }
 		mutually_exclusive = { focus = ARG_a_diplomatic_revolution }
 
+		allow_branch = {
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					OR = {
+						has_global_flag = ARG_chose_diplomacy
+						has_completed_focus = ARG_infamous_decade
+						has_completed_focus = ARG_create_the_CNU
+					}
+				}
+			}
+		}
+
+		offset = {
+			x = 1
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_global_flag = ARG_chose_revolution
+			}
+		}
+
 		available = { 
 			always = no 
 		}
@@ -9336,6 +9481,15 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = ARG_will_be_bypassed_by_supporting_revolution_tt
 			unlock_decision_tooltip = ARG_intensify_our_resistance_in_FROM
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				mark_focus_tree_layout_dirty = yes
+			}
 		}
 	}
 
@@ -9348,6 +9502,30 @@ focus_tree = {
 		prerequisite = {
 			focus = ARG_a_diplomatic_revolution
 			focus = ARG_a_bloody_revolution 
+		}
+
+		offset = {
+			x = -5
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_global_flag = ARG_chose_diplomacy
+			}
+		}
+
+		offset = {
+			x = 9
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_global_flag = ARG_chose_revolution
+			}
 		}
 
 		available = {
@@ -9450,6 +9628,49 @@ focus_tree = {
 		prerequisite = { focus = ARG_a_bloody_revolution }
 		mutually_exclusive = { focus = ARG_founded_the_ERP }
 
+		allow_branch = {
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					OR = {
+						has_global_flag = ARG_chose_diplomacy
+						has_country_flag = ARG_very_hostile_anarchists
+						has_completed_focus = ARG_infamous_decade
+						has_completed_focus = ARG_create_the_CNU
+					}
+				}
+			}
+		}
+
+		offset = {
+			x = 4
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_country_flag = ARG_chose_anarchist_route
+			}
+		}
+
+		offset = {
+			x = 7
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_global_flag = ARG_chose_revolution
+			}
+		}
+
 		available = {
 			always = no 
 		}
@@ -9461,6 +9682,15 @@ focus_tree = {
 
 		completion_reward = {
 			custom_effect_tooltip = ARG_bypassed_by_going_with_anarchists_tt
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				mark_focus_tree_layout_dirty = yes
+			}
 		}
 	}
 
@@ -9537,6 +9767,49 @@ focus_tree = {
 		prerequisite = { focus = ARG_a_bloody_revolution }
 		mutually_exclusive = { focus = ARG_treaty_with_the_anarchists }
 
+		allow_branch = {
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					OR = {
+						has_global_flag = ARG_chose_diplomacy
+						has_country_flag = ARG_chose_anarchist_route
+						has_completed_focus = ARG_infamous_decade
+						has_completed_focus = ARG_create_the_CNU
+					}
+				}
+			}
+		}
+
+		offset = {
+			x = -6
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_country_flag = ARG_very_hostile_anarchists
+			}
+		}
+
+		offset = {
+			x = 7
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_global_flag = ARG_chose_revolution
+			}
+		}
+
 		available = {
 			always = no 
 		}
@@ -9549,6 +9822,15 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = ARG_bypassed_by_going_against_anarchists_tt
 			unlock_decision_tooltip = ARG_cleanse_the_anarchists_in_FROM
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				mark_focus_tree_layout_dirty = yes
+			}
 		}
 	}
 
@@ -9559,6 +9841,18 @@ focus_tree = {
 		y = 2
 		relative_position_id = ARG_a_bloody_revolution
 		prerequisite = { focus = ARG_founded_the_ERP }
+
+		offset = {
+			x = 3
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_country_flag = ARG_very_hostile_anarchists
+			}
+		}
 
 		cost = 4
 
@@ -9703,6 +9997,25 @@ focus_tree = {
 			focus = ARG_steal_national_stockpiles
 		}
 
+		allow_branch = {
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					OR = {
+						has_global_flag = ARG_chose_diplomacy
+						has_country_flag = ARG_chose_anarchist_route
+						has_completed_focus = ARG_infamous_decade
+						has_completed_focus = ARG_create_the_CNU
+					}
+				}
+			}
+		}
+
 		cost = 7.2
 
 		ai_will_do = { 
@@ -9761,6 +10074,30 @@ focus_tree = {
 		prerequisite = { 
 			focus = ARG_treaty_with_the_anarchists 
 			focus = ARG_founded_the_ERP
+		}
+
+		offset = {
+			x = 4
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_country_flag = ARG_chose_anarchist_route
+			}
+		}
+
+		offset = {
+			x = -1
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_global_flag = ARG_chose_revolution
+			}
 		}
 
 		ai_will_do = { 
@@ -9867,6 +10204,30 @@ focus_tree = {
 		relative_position_id = ARG_secure_the_patagonia
 		prerequisite = { focus = ARG_secure_the_patagonia }
 		prerequisite = { focus = ARG_radicalize_the_masses }
+
+		offset = {
+			x = 4
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_country_flag = ARG_chose_anarchist_route
+			}
+		}
+
+		offset = {
+			x = 1
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_global_flag = ARG_chose_revolution
+			}
+		}
 
 		ai_will_do = { factor = 350 }
 
@@ -10137,6 +10498,30 @@ focus_tree = {
 		}
 		mutually_exclusive = { focus = ARG_a_new_type_of_communism }
 
+		offset = {
+			x = -7
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_country_flag = ARG_very_hostile_anarchists
+			}
+		}
+
+		offset = {
+			x = 7
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_global_flag = ARG_chose_revolution
+			}
+		}
+
 		available = {
 			hidden_trigger = {
 				has_global_flag = ARG_communist_mechanic_concluded
@@ -10178,6 +10563,30 @@ focus_tree = {
 			focus = ARG_secure_the_northa
 		}
 		mutually_exclusive = { focus = ARG_the_revolution }
+
+		offset = {
+			x = -8
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_country_flag = ARG_very_hostile_anarchists
+			}
+		}
+
+		offset = {
+			x = 7
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_global_flag = ARG_chose_revolution
+			}
+		}
 
 		available = {
 			hidden_trigger = {
@@ -10959,6 +11368,18 @@ focus_tree = {
 			focus = ARG_simon_radowitzky_will_lead_us
 			focus = ARG_virginia_bolten_shall_lead
 			focus = ARG_the_council_shall_lead
+		}
+
+		offset = {
+			x = 5
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_country_flag = ARG_chose_anarchist_route
+			}
 		}
 
 		ai_will_do = { factor = 200 }
@@ -15330,6 +15751,19 @@ focus_tree = {
 			focus = ARG_expand_worker_rights
 			focus = ARG_reworking_the_internals
 		}
+
+		offset = {
+			x = -5
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_an_imminent_revolution
+				has_global_flag = ARG_chose_diplomacy
+			}
+		}
 		
 		cost = 10
 
@@ -15514,6 +15948,19 @@ focus_tree = {
 		mutually_exclusive = { focus = ARG_officialize_the_defense_council }
 		
 		cost = 5
+
+		offset = {
+			x = -5
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_an_imminent_revolution
+				has_global_flag = ARG_chose_diplomacy
+			}
+		}
 
 		offset = {
 			x = 8
@@ -18288,7 +18735,7 @@ focus_tree = {
 			base = 6
 			modifier = {
 				factor = 55
-				has_completed_focus = ARG_a_diplomatic_revolution
+				has_global_flag = ARG_chose_diplomacy
 			}
 		}
 		
@@ -20603,6 +21050,19 @@ focus_tree = {
 			focus = ARG_resource_exploitation
 			focus = ARG_a_new_south_american_era
 			focus = ARG_ask_for_control_over_the_southern_atlantic
+		}
+
+		offset = {
+			x = -5
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_an_imminent_revolution
+				has_global_flag = ARG_chose_diplomacy
+			}
 		}
 
 		offset = {
