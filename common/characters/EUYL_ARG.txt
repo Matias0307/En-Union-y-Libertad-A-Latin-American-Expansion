@@ -30,6 +30,48 @@ characters={
 			id=-1
 		}
 	}
+	ARG_manuel_antonio_fresco = {
+		advisor={
+			slot = political_advisor
+			idea_token = ARG_manuel_antonio_fresco_idea
+			available = {
+				OR = {
+					has_completed_focus = ARG_concordancia
+					has_government = fascism
+				}
+				NOT = {
+					has_country_leader = {
+						character = ARG_manuel_antonio_fresco
+						ruling_only = yes
+					}
+				}
+			}
+			allowed  = {
+				original_tag  = ARG
+			}
+			traits  = {
+				captain_of_industry 
+			}
+		}
+		name="Manuel Antonio Fresco"
+		portraits={
+			civilian = {
+				large = "gfx/leaders/ARG/portrait_ARG_manuel_fresco.png"
+			}
+			army={
+				small="GFX_idea_ARG_manuel_fresco_idea_icon"
+			}
+		}
+		country_leader={ ## becomes fascist later on
+			desc="POLITICS_MANUEL_FRESCO_DESC"
+			ideology=despotism
+			traits = {
+				anti_communist ARG_admiror_of_fascism 
+			}
+			expire="1965.1.1.1"
+			id=-1
+		}
+	}
 	ARG_the_military_junta = {
 		name = "Junta Militar Argentina"
 		portraits = {
@@ -1125,9 +1167,20 @@ characters={
 			}
 			cost = 75
 			available = {
-				OR = {
-					has_government = fascism
-					has_government = neutrality
+				if = {
+					limit = {
+						has_game_rule = {
+							rule = EUYL_ARG_choose_national_focus
+							option = DLC_ARG_TREE
+						}
+					}
+					has_completed_focus = ARG_manuel_antonio_fresco
+				}
+				else = {
+					OR = {
+						has_government = fascism
+						has_government = neutrality
+					}
 				}
 				NOT = {
 					OR = {
@@ -1861,24 +1914,6 @@ characters={
 			}
 			civilian = {
 				large = "gfx/leaders/ARG/Portrait_Ramon_Castillo.dds"
-			}
-		}
-	}
-	ARG_manuel_antonio_fresco = {
-		advisor={
-			slot = political_advisor
-			idea_token = ARG_manuel_antonio_fresco
-			allowed  = {
-					original_tag  = ARG
-				}
-				traits  = {
-					captain_of_industry 
-				}
-		}
-		name="ARG_manuel_antonio_fresco"
-		portraits={
-			army={
-				small="GFX_idea_ARG_minister_manuel_antonio"
 			}
 		}
 	}

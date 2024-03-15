@@ -76,7 +76,7 @@ characters={
 		name="Agustín Pedro Justo"
 		portraits={
 			civilian={
-				large=GFX_portrait_Agustin_Pedro_Justo
+				large="gfx/leaders/ARG/Portrait_Agustin_Pedro_Justo.dds"
 			}
 			army={
 				small="GFX_idea_generic_army_south_america_5"
@@ -766,9 +766,14 @@ characters={
 				legacy_id = -1 
 				visible = {
 					NOT = {
-						has_government = democratic
-						has_government = fascism
-						has_government = neutrality
+						OR = {
+							AND = {
+								has_government = democratic
+								has_civil_war = no 
+							}
+							has_government = fascism
+							has_government = neutrality
+						}
 					}
 				}
 			}
@@ -2100,21 +2105,30 @@ characters={
 			slot = political_advisor
 			idea_token = ARG_eva_peron
 			allowed  = {
-					original_tag  = ARG
-				}
-			
-			visible = {
-				has_completed_focus = ARG_peronism
+				original_tag  = ARG
 			}
 			
 			available = {
-				has_completed_focus = ARG_peronism
-			}
-				
-				traits  = {
-					ARG_womans_peronist
+				OR = {
+					has_country_leader = {
+						character = ARG_juan_domingo_peron
+						ruling_only = yes 
+					}
+					has_country_leader = {
+						character = ARG_juan_domingo_peron_fascist
+						ruling_only = yes 
+					}
+					has_country_leader = {
+						character = ARG_juan_peron
+						ruling_only = yes
+					}
 				}
 			}
+				
+			traits  = {
+				ARG_womans_peronist
+			}
+		}
 
 		name ="Eva Perón"
 		portraits = {

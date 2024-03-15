@@ -1628,59 +1628,59 @@ country_event = {
 		}	
 	}
 
-##Worker Strike in state - bad
-#country_event = {
-#	id = ARG_political_events.50
-#	title = ARG_political_events.50.t
-#	desc = ARG_political_events.50.desc
-#	picture = GFX_report_event_gathering_protest
-#	is_triggered_only = yes
-#	option = {
-#		name = ARG_political_events.50.a
-#		ai_chance = {
-#			base = 10
-#		}
-#		add_popularity = { ideology = communism popularity = 0.01 }
-#		clr_country_flag = ARG_uniting_workers_in_progress
-#		add_manpower = 1000
-#	}	
-#}
-#
-##Worker Strike in state - average
-#country_event = {
-#	id = ARG_political_events.51
-#	title = ARG_political_events.51.t
-#	desc = ARG_political_events.51.desc
-#	picture = GFX_report_event_gathering_protest
-#	is_triggered_only = yes
-#	option = {
-#		name =  ARG_political_events.51.a
-#		ai_chance = {
-#			base = 10
-#		}
-#		add_popularity = { ideology = communism popularity = 0.03 }
-#		clr_country_flag = ARG_uniting_workers_in_progress
-#		add_manpower = 2000
-#	}	
-#}
-#
-##Worker Strike in state - good
-#country_event = {
-#	id = ARG_political_events.52
-#	title = ARG_political_events.52.t
-#	desc = ARG_political_events.52.desc
-#	picture = GFX_report_event_gathering_protest
-#	is_triggered_only = yes
-#	option = {
-#		name =  ARG_political_events.52.a
-#		ai_chance = {
-#			base = 10
-#		}
-#		add_popularity = { ideology = communism popularity = 0.05 }
-#		clr_country_flag = ARG_uniting_workers_in_progress
-#		add_manpower = 3000
-#	}	
-#}
+#Worker Strike in state - bad
+country_event = {
+	id = ARG_political_events.50
+	title = ARG_political_events.50.t
+	desc = ARG_political_events.50.desc
+	picture = GFX_report_event_gathering_protest
+	is_triggered_only = yes
+	option = {
+		name = ARG_political_events.50.a
+		ai_chance = {
+			base = 10
+		}
+		add_popularity = { ideology = communism popularity = 0.01 }
+		clr_country_flag = ARG_uniting_workers_in_progress
+		add_manpower = 1000
+	}	
+}
+
+#Worker Strike in state - average
+country_event = {
+	id = ARG_political_events.51
+	title = ARG_political_events.51.t
+	desc = ARG_political_events.51.desc
+	picture = GFX_report_event_gathering_protest
+	is_triggered_only = yes
+	option = {
+		name =  ARG_political_events.51.a
+		ai_chance = {
+			base = 10
+		}
+		add_popularity = { ideology = communism popularity = 0.03 }
+		clr_country_flag = ARG_uniting_workers_in_progress
+		add_manpower = 2000
+	}	
+}
+
+#Worker Strike in state - good
+country_event = {
+	id = ARG_political_events.52
+	title = ARG_political_events.52.t
+	desc = ARG_political_events.52.desc
+	picture = GFX_report_event_gathering_protest
+	is_triggered_only = yes
+	option = {
+		name =  ARG_political_events.52.a
+		ai_chance = {
+			base = 10
+		}
+		add_popularity = { ideology = communism popularity = 0.05 }
+		clr_country_flag = ARG_uniting_workers_in_progress
+		add_manpower = 3000
+	}	
+}
 
 # Argentina invites us to Communist Alliance
 country_event = {
@@ -2321,7 +2321,7 @@ country_event = {
 			base = 80
 		} 
 
-		FROM = {
+		ROOT = {
 			add_stability = -0.2
 			add_war_support = -0.3	
 		}      
@@ -2396,8 +2396,21 @@ country_event = {
 	option = {
 		name = ARG_political_events.120.a 
 		ai_chance = {  
-			base = 100
+			base = 0
 		} 
+
+		set_party_name = {
+				ideology = fascism
+				long_name = ARG_gen_nazism_party_long
+				name = ARG_gen_nazism_party
+			}
+
+		set_politics = {
+				ruling_party = fascism
+				last_election = "1934.3.26" 
+				election_frequency = 48
+				elections_allowed = no
+			}
 
 		add_country_leader_role = {
 			character = ARG_senor_hitler
@@ -2412,14 +2425,24 @@ country_event = {
 			promote_leader = yes
 		} 
 
-		set_country_flag = ARG_worst_timeline_flag     
+		set_country_flag = ARG_worst_timeline_flag  
+
+		mark_focus_tree_layout_dirty = yes
+
+		hidden_effect = {
+				GER = {
+				GER_adolf_hitler = {
+				retire = yes
+				}  
+			}
+		} 
 	}
 
 	# Begone dictator
 	option = {
 		name = ARG_political_events.120.b
 		ai_chance = {  
-			base = 0
+			base = 100
 		} 
 		
 		add_stability = 0.2

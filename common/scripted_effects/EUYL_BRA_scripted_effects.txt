@@ -1947,6 +1947,11 @@ BRA_start_communist_civil_war = {
 				}
 			}
 		}
+		country_event = { ## Integralist Uprising
+			id = brazil.46
+			days = 40
+			random_days = 40
+		}
 		if = {
 			limit = { 
 				controls_state = 500
@@ -2731,6 +2736,11 @@ BRA_start_imperialist_civil_war = {
 			}
 		}
 		every_controlled_state = {
+			create_unit = {
+				division = "name = \"Milícias Imperialistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
+				owner = PREV
+				count = 2
+			}
 			if = {
 				limit = {
 					has_state_flag = POR_strengthened_state
@@ -3080,7 +3090,7 @@ BRA_add_political_power_monarchist = {
 				BRA_monarchist_support > 84
 			}
 		}
-		add_political_power = 35
+		add_political_power = 15
 	}
 	else_if = {
 		limit = {
@@ -3088,7 +3098,7 @@ BRA_add_political_power_monarchist = {
 				BRA_monarchist_support > 69
 			}
 		}
-		add_political_power = 20
+		add_political_power = 10
 	}
 	else_if = {
 		limit = {
@@ -3096,7 +3106,7 @@ BRA_add_political_power_monarchist = {
 				BRA_monarchist_support > 54
 			}
 		}
-		add_political_power = 15
+		add_political_power = 5
 	}
 	else_if = {
 		limit = {
@@ -3104,10 +3114,10 @@ BRA_add_political_power_monarchist = {
 				BRA_monarchist_support > 24
 			}
 		}
-		add_political_power = 5
+		add_political_power = -5
 	}
 	else = {
-		add_political_power = -5
+		add_political_power = -10
 	}
 }
 
@@ -3166,9 +3176,11 @@ BRA_start_new_imperialist_civil_war = {
 		}
 		add_ideas = BRA_poorly_trained_militias_5
 		add_ideas = BRA_civil_war_imperialist
+		add_ideas = BRA_the_temporary_monarchist_state_idea
 		set_cosmetic_tag = BRA_TEMPORARY_MONARCHIST_STATE
 		every_state = {
 			limit = { has_dynamic_modifier = { modifier = BRA_monarchist_influence } }
+			set_state_flag = BRA_imperial_state
 			remove_dynamic_modifier = {
 				modifier = BRA_monarchist_influence
 			}
@@ -3178,22 +3190,13 @@ BRA_start_new_imperialist_civil_war = {
 			create_unit = {
 				division = "name = \"Milícias Imperialistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
 				owner = ROOT
-				count = 3
-			}
-			if = {
-				limit = {
-					has_state_flag = BRA_conscripted_here
-				}
-				create_unit = {
-					division = "name = \"Milícias Imperialistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
-					owner = ROOT
-					count = 2
-				}
+				count = 2
 			}
 			if = {
 				limit = {
 					has_state_flag = BRA_extra_militia_in_state
 				}
+				clr_state_flag = BRA_extra_militia_in_state
 				create_unit = {
 					division = "name = \"Milícias Imperialistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
 					owner = ROOT
@@ -3239,17 +3242,6 @@ BRA_start_new_imperialist_civil_war = {
 				}
 			}
 		}
-		if = {
-			limit = { 
-				check_variable = { BRA_monarchist_support_temp > 24 }
-			}
-			every_controlled_state = {
-				create_unit = {
-					division = "name = \"Milícias Imperialistas\" division_template = \"Milícia\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
-					owner = ROOT
-				}
-			}
-		}
 		random_owned_controlled_state = {
 			create_unit = {
 				division = "name = \"Divisão de Infantaria\" division_template = \"Divisão de Infantaria\" start_experience_factor = 0.05 start_equipment_factor = 0.95" 
@@ -3264,10 +3256,15 @@ BRA_start_new_imperialist_civil_war = {
 				}
 			}
 			country_event = { 
-				id = brazil.70 
+				id = brazil.46
 				days = 20
 				random_days = 25
 			}
+		}
+		country_event = {
+			id = brazil.70 
+			days = 50
+			random_days = 45
 		}
 		if = {
 			limit = { has_completed_focus = BRA_the_integralist_squadrons }
@@ -3340,7 +3337,7 @@ BRA_start_new_imperialist_civil_war = {
 				}
 				if = {
 					limit = {
-						AND = {
+						OR = {
 							industrial_complex > 0
 							arms_factory > 0
 						}
@@ -3374,15 +3371,45 @@ BRA_start_new_imperialist_civil_war = {
 			unlock_national_focus = BRA_officialy_establish_the_estado_novo
 			unlock_national_focus = BRA_invest_in_our_economy
 		}
-		every_state = {
-			limit = { has_state_flag = BRA_democratic_influence_state }
-			add_dynamic_modifier = { modifier = BRA_democratic_influence_in_state }
-		}
-		activate_mission = BRA_impending_democratic_insurrection
 		every_country = {
 			limit = { original_tag = BRA }
 			BRA_mark_focus_tree_layout_dirty = yes
 		}
 		news_event = { id = news.365 days = 2 }
+	}
+}
+
+BRA_set_constitutional_monarchy = {
+	hidden_effect = {
+		set_politics = {
+			ruling_party = democratic 
+			elections_allowed = no 
+		}
+		set_party_name = {
+			ideology = fascism 
+			long_name = "Ação Integralista Brasileira"
+			name = "AIB"
+		}
+		set_party_name = {
+			ideology = democratic
+			long_name = "Casa de Orléans-Braganza"
+			name = "Casa de Orléans-Braganza"
+		}
+		set_rule = {
+			can_declare_war_on_same_ideology = yes 
+			can_only_justify_war_on_threat_country = no 
+		}
+		set_temp_variable = { BRA_pop_f = party_popularity@fascism } 
+		add_popularity = {
+			ideology = democratic 
+			popularity = BRA_pop_f 
+		}
+		multiply_temp_variable = {
+			BRA_pop_f = -1
+		}
+		add_popularity = {
+			ideology = fascism
+			popularity = BRA_pop_f
+		}
 	}
 }

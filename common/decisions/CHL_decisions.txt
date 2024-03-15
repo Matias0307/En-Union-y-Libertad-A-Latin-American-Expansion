@@ -870,7 +870,26 @@ CHL_nacista_insurgency_decisions = {
 		fire_only_once = yes
 
 		activation = {
-			always = no 
+			original_tag = CHL
+			NOT = {
+				has_government = fascism
+			}
+			NOT = { 
+				OR = {
+					has_country_flag = CHL_fascist_and_communist_joint_civil_war_started
+					has_global_flag = nacista_coup_attempt_happened
+				} 
+			}
+			NOT = {
+				OR = {
+					has_completed_focus = CHL_denounce_the_anarchy
+					has_completed_focus = CHL_avenge_the_pacification_of_araucania
+				}
+			}
+			has_game_rule = {
+				rule = EUYL_CHL_choose_national_focus
+				option = DLC_CHL_TREE
+			}
 		}
 
 		visible = {
@@ -2972,6 +2991,58 @@ CHL_nacista_decisions = {
 			hidden_effect = {
 				set_country_flag = CHL_introduced_authotitarianism_flag 
 			}
+		}
+
+	}
+
+	# Adopt the Patria Vieja Flag
+	CHL_adopt_the_patria_vieja_flag_decision  = {
+
+		priority = 25
+
+		icon = GFX_decision_eng_trade_unions_support
+
+		ai_will_do = {
+			base = 0
+		}
+
+		allowed = {  
+			original_tag = CHL
+		}
+
+		available = {
+			has_government = fascism
+		}
+
+		visible = { 
+			original_tag = CHL
+			has_completed_focus = CHL_enforce_the_chilean_identity
+			NOT = { has_country_flag = CHL_adopted_patria_vieja_flag }
+			NOT = {
+				OR = {
+					has_completed_focus = CHL_restore_the_old_kingdom
+					has_completed_focus = CHL_unite_hispanic_america
+				}
+			}
+		} 
+
+		#days_remove = 140 
+
+		cost = 25
+
+		complete_effect = {
+
+			set_cosmetic_tag = CHL_patria_vieja_fasc_flag
+
+			hidden_effect = {
+				set_country_flag = CHL_adopted_patria_vieja_flag 
+			}
+		}
+
+		modifier = {
+		}
+
+		remove_effect = {	
 		}
 
 	}
@@ -9484,6 +9555,7 @@ CHL_monarchist_decisions = {
 			controls_state = 30
 			controls_state = 14
 			controls_state = 23
+			controls_state = 15
 		}
 
 		visible = { 
@@ -9527,6 +9599,7 @@ CHL_monarchist_decisions = {
 						state = 30
 						state = 14
 						state = 23
+						state = 15
 					}
 				}
 				remove_claim_by = ROOT

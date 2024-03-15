@@ -2057,6 +2057,9 @@ focus_tree = {
 					capital_scope = {
 						is_on_continent = south_america
 					}
+					NOT = {
+						has_war_with = ROOT
+					}
 				}
 				country_event = {
 					id = JUNO_brazil_events.14
@@ -3091,6 +3094,9 @@ focus_tree = {
 					has_government = fascism
 					has_government = neutrality
 				}
+				NOT = {
+					has_war_with = ROOT
+				}
 			}
 		}
 
@@ -3952,6 +3958,9 @@ focus_tree = {
 					has_government = fascism
 					has_government = neutrality
 				}
+				NOT = {
+					has_war_with = ROOT
+				}
 			}
 		}
 
@@ -4499,6 +4508,7 @@ focus_tree = {
 		will_lead_to_war_with = VEN
 		will_lead_to_war_with = PRU
 		will_lead_to_war_with = PAN
+		will_lead_to_war_with = COL
 		cost = 10
 		ai_will_do = {
 			factor = 10
@@ -4569,6 +4579,21 @@ focus_tree = {
 				}
 				create_wargoal = {
 					target = PAN
+					type = annex_everything
+					expire = 0
+				}
+			}
+			IF = {
+				limit = {
+					COL = {
+						exists = yes
+						NOT = {
+							is_in_faction_with = ROOT
+						}
+					}
+				}
+				create_wargoal = {
+					target = COL
 					type = annex_everything
 					expire = 0
 				}
@@ -5845,14 +5870,25 @@ focus_tree = {
 
 		completion_reward = {
 			add_political_power = 50
-			#add_country_leader_trait = JUNO_aligned_with_stalin	
-			BRA_luis_carlos_prestes = {
-				promote_leader = yes
-				#add_trait = {
-				#	trait = JUNO_aligned_with_stalin
-				#}
+			#BRA_luis_carlos_prestes = {
+			#	promote_leader = yes
+			#}
+			effect_tooltip = {
+				retire_country_leader = yes
 			}
-			retire_country_leader = yes
+			add_country_leader_role = {
+				character = BRA_luis_carlos_prestes
+				promote_leader = yes
+				country_leader = {
+					ideology=marxism
+					expire="1965.1.1.1"
+					id=-1
+					traits = {
+						JUNO_aligned_with_stalin
+					}
+				}
+			}
+			#retire_country_leader = yes
 			add_country_leader_trait = JUNO_aligned_with_stalin
 			remove_dynamic_modifier = {
 				modifier = BRA_weak_government
@@ -6784,7 +6820,7 @@ focus_tree = {
 				limit = {
 					is_on_continent = south_america
 				}
-				add_claim_by = ROOT
+				add_core_of = ROOT
 			}
 		}
 	}

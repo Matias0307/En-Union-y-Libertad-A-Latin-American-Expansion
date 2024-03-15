@@ -246,15 +246,26 @@ BRA_the_brazilian_civil_war = {
     priority = 255
     icon = GFX_BRA_civil_war_icon
 
+    #on_map_area = {
+	#	target_array = core_states
+	#	target_trigger = {
+	#		FROM = {
+    #            has_state_flag = BRA_democratic_influence_state
+    #            NOT = { has_state_flag = democratic_state_rebelled }
+	#		}
+	#	}
+	#	name = BRA_states_democrats_control_tt
+	#	zoom = 150
+	#}
+
     on_map_area = {
 		target_array = core_states
 		target_trigger = {
 			FROM = {
-                has_state_flag = BRA_democratic_influence_state
-                NOT = { has_state_flag = democratic_state_rebelled }
+                has_dynamic_modifier = { modifier = BRA_subversive_communist_activity_in_state }
 			}
 		}
-		name = BRA_states_democrats_control_tt
+		name = BRA_states_with_communist_activity_tt
 		zoom = 150
 	}
 
@@ -336,9 +347,33 @@ BRA_integralist_management = {
     visible = { has_completed_focus = BRA_a_new_brazilian_era }
 }
 
+BRA_the_administration_of_brazilian_west_africa = {
+    priority = 150
+    icon = GFX_BRA_managing_west_africa
+
+    picture = GFX_BRA_west_africa_administration_pic
+
+    allowed = {
+        original_tag = BRA 
+    }
+
+    available = {
+        LIB = {
+            exists = yes 
+            is_subject_of = ROOT
+        }
+    }
+
+    visible = {
+        has_completed_focus = BRA_establish_brazilian_west_africa
+    }
+}
+
 BRA_imperial_management = {
     priority = 310
     icon = GFX_BRA_imperial_management_icon
+
+    picture = GFX_BRA_imperial_management_pic
 
     allowed = {
         original_tag = BRA 

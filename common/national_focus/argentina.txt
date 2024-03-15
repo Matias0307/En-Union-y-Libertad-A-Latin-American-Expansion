@@ -29,6 +29,1024 @@ focus_tree = {
 		y = 0
 	}
 
+
+	### EUYL NEW FASCIST TREE ###
+	focus = {
+		id = ARG_manuel_antonio_fresco
+		icon = GFX_ARG_manuel_fresco_icon
+		x = 21
+		y = 0
+		cost = 5
+		mutually_exclusive = {
+			focus = ARG_roberto_maria_ortiz
+			focus = ARG_the_clean_election
+			focus = ARG_a_call_to_reform
+		}
+
+		offset = {
+			x = -8
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_manuel_antonio_fresco 
+			}
+		}
+
+		allow_branch = {
+			IF = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = { has_completed_focus = ARG_roberto_maria_ortiz }
+				NOT = { has_completed_focus = ARG_the_clean_election }
+				NOT = { has_completed_focus = ARG_a_call_to_reform }
+			}
+		}
+
+		ai_will_do = {
+			factor = 15
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL_CHARACTER FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			add_political_power = 75
+			swap_ideas = {
+				remove_idea = ARG_infamous_decade_idea
+				add_idea = ARG_infamous_decade_fascist_idea
+			}
+			custom_effect_tooltip = ARG_manuel_fresco_promoted_tt
+
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = ARG_leopoldo_lugones_idea
+
+			hidden_effect = {
+				promote_character = ARG_manuel_antonio_fresco
+				IF = {
+					limit = {
+						has_idea = ARG_manuel_antonio_fresco_idea
+					}
+					remove_ideas = ARG_manuel_antonio_fresco_idea
+				}
+				if = {
+					limit = {
+						has_game_rule = {
+							rule = obsolete_focus_branches_visibility
+							option = HIDE
+						}
+					}
+					mark_focus_tree_layout_dirty = yes
+				}
+			}
+		}
+	}
+
+	focus = { #FASCIST
+		id = ARG_work_with_the_nationalists
+		icon = GFX_goal_support_fascism
+		prerequisite = {
+			focus = ARG_manuel_antonio_fresco
+		}
+		x = 0
+		y = 1
+		relative_position_id = ARG_manuel_antonio_fresco
+		cost = 10
+		available = {
+		}
+
+		ai_will_do = {
+			factor = 15 #don't do unless fascist, also please don't do if historical.
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
+
+		completion_reward = { 
+
+			add_dynamic_modifier = { modifier = ARG_growing_nationalism_modifier }
+			custom_effect_tooltip = BRA_spacer_tt
+			unlock_decision_category_tooltip = ARG_growing_fascist_sentiment
+			
+			hidden_effect = {
+				every_owned_state = {
+					limit = {
+						has_dynamic_modifier = {
+							modifier = ARG_military_owned_state
+						}
+					}
+					remove_dynamic_modifier = {
+						modifier = ARG_military_owned_state
+					}
+				}
+			}
+		}
+	}
+
+	### Coerce the Army
+	focus = {
+		id = ARG_coerce_the_army
+		icon = GFX_focus_generic_fascist_troops
+		x = 1
+		y = 1
+		relative_position_id = ARG_work_with_the_nationalists
+		prerequisite = {
+			focus = ARG_work_with_the_nationalists
+		}
+
+		cost = 8
+
+		available = {
+			fascism > 0.35
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ARMY_XP FOCUS_FILTER_MANPOWER
+		}
+
+		completion_reward = {
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.05
+			}
+			army_experience = 20
+			add_manpower = 35000
+		}
+	}
+
+	focus = { #FASCIST
+		id = ARG_support_radical_nationalism
+		icon = GFX_focus_ARG_support_radical_nationalism
+		prerequisite = {
+			focus = ARG_work_with_the_nationalists
+		}
+		x = -1
+		y = 1
+		relative_position_id = ARG_work_with_the_nationalists
+		cost = 6
+		available = {
+			fascism > 0.25
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
+
+		completion_reward = { 
+			custom_effect_tooltip = ARG_modify_growing_nationalism_ns_intro
+			add_to_variable = { ARG_growing_nationalism_fascism_drift = 0.1 tooltip = fascism_drift_factor_tt }
+			add_to_variable = { ARG_growing_nationalism_recruitable_population_factor = 0.1 tooltip = recruitable_population_factor_tt}
+			add_to_variable = { ARG_growing_nationalism_war_support_factor = 0.05 tooltip = war_support_factor_tt}
+			add_to_variable = { ARG_growing_nationalism_democratic_drift = -0.05 tooltip = democratic_drift_factor_tt }
+		}
+	}
+
+	### Take Full Control ###
+	focus = {
+		id = ARG_take_full_control_f
+		icon = GFX_ARG_consolidate
+		x = -1
+		y = 1
+		relative_position_id = ARG_coerce_the_army
+		prerequisite = {
+			focus = ARG_coerce_the_army
+		}
+		prerequisite = {
+			focus = ARG_support_radical_nationalism
+		}
+
+		cost = 10
+
+		available = {
+			fascism > 0.64
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			set_politics = {
+				ruling_party = fascism
+			}
+			set_party_name = {
+				ideology = fascism
+				long_name = "UNA Patria"
+				name = "UNA Patria"
+			}
+			remove_ideas = ARG_infamous_decade_fascist_idea
+
+			custom_effect_tooltip = BRA_spacer_tt
+
+			custom_effect_tooltip = ARG_fresco_becomes_leader_of_fascist_party_tt
+
+			custom_effect_tooltip = BRA_spacer_tt
+
+			custom_effect_tooltip = ARG_opposition_will_heavily_dislike_fascist_government_tt
+
+			custom_effect_tooltip = BRA_spacer_tt
+
+			remove_dynamic_modifier = {
+				modifier = ARG_growing_nationalism_modifier
+			}
+
+			hidden_effect = {
+				set_country_flag = {
+					flag = ARG_buffer_flag
+					days = 75
+					value = 1
+				}
+				add_country_leader_role = {
+					character = ARG_manuel_antonio_fresco
+					promote_leader = yes
+					country_leader = {
+						ideology = totalitarianism
+						traits = { anti_communist ARG_defensor_de_la_patria }
+						expire = "1965.3.1.1"
+					}
+				}
+				country_event = { ## Opposition Begins their Plans
+					id = argentina.dlc.5 
+					days = 7
+					random_days = 7
+				}
+			}
+		}
+	}
+
+	focus = { #FASCIST
+		id = ARG_rapid_militirization
+		icon = GFX_focus_SOV_mobilization_plan
+		prerequisite = { focus = ARG_take_full_control_f }
+		x = 3
+		y = 1
+		relative_position_id = ARG_take_full_control_f
+		cost = 10
+		available = {
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+		
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		completion_reward = { 
+			random_core_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+
+			add_timed_idea = {
+				idea = ARG_rapid_militarization_idea
+				days = 365
+			}
+		}
+	}
+
+	focus = { #FASCIST
+		id = ARG_reestablish_ligas_patrioticas
+		icon = GFX_focus_ARG_reestablish_ligas_patrioticas
+		prerequisite = {
+			focus = ARG_rapid_militirization
+		}
+		x = 3
+		y = 1
+		relative_position_id = ARG_rapid_militirization
+		cost = 10
+		available = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		search_filters = { FOCUS_FILTER_STABILITY }
+
+		completion_reward = { 
+			add_stability = 0.05
+
+			custom_effect_tooltip = ARG_ligas_patrioticas_tt
+
+			hidden_effect = {
+
+				delete_unit_template_and_units = {
+					division_template = "Ligas Patrioticas"
+					disband = yes #if yes, will refund equipment/manpower.
+				}
+
+				division_template = {
+					name = "Ligas Patrióticas"		
+					#division_names_group = SWE_BS_01
+					is_locked = no
+					#force_allow_recruiting = yes
+					template_counter = 20
+					# Note: Represents brownshirts
+					regiments = {
+						motorized = { x = 0 y = 0 }
+						motorized = { x = 0 y = 1 }
+						motorized = { x = 1 y = 0 }
+						motorized = { x = 1 y = 1 }
+					}
+					division_cap = 10
+					override_model = ARG_motorized_alt_0_entity
+				}
+
+				278 = { 
+					create_unit = {
+						division = "name = \"Primera Liga Patriótica\" division_template = \"Ligas Patrióticas\" start_experience_factor = 0.8 start_equipment_factor = 1"
+						owner = ROOT
+					}
+					create_unit = {
+						division = "name = \"Segunda Liga Patriótica\" division_template = \"Ligas Patrióticas\" start_experience_factor = 0.8 start_equipment_factor = 1"
+						owner = ROOT
+					}
+					create_unit = {
+						division = "name = \"Tercera Liga Patriótica\" division_template = \"Ligas Patrióticas\" start_experience_factor = 0.8 start_equipment_factor = 1"
+						owner = ROOT
+					}
+					create_unit = {
+						division = "name = \"Cuarta Liga Patriótica\" division_template = \"Ligas Patrióticas\" start_experience_factor = 0.8 start_equipment_factor = 1"
+						owner = ROOT
+					}
+					create_unit = {
+						division = "name = \"Quinta Liga Patriótica\" division_template = \"Ligas Patrióticas\" start_experience_factor = 0.8 start_equipment_factor = 1"
+						owner = ROOT
+					}
+				}
+			}
+		}
+	}
+
+	focus = { #FASCIST
+		id = ARG_guardia_nacional
+		icon = GFX_ARG_foreign_soldiers
+		x = 0
+		y = 2
+		relative_position_id = ARG_rapid_militirization
+		prerequisite = {
+			focus = ARG_rapid_militirization
+		}
+		cost = 10
+		available = {
+			has_civil_war = no
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		search_filters = {  FOCUS_FILTER_MANPOWER  FOCUS_FILTER_STABILITY  FOCUS_FILTER_POLITICAL FOCUS_FILTER_POLITICAL_CHARACTER }
+
+		completion_reward = { 
+  			add_ideas = ARG_military_government_idea
+		}
+	}
+
+	focus = {  #FASCIST
+		id = ARG_argentine_nationalism
+		icon = GFX_ARG_viva_la_patria
+		prerequisite = {
+			focus = ARG_take_full_control_f
+		}
+		x = -3	
+		y = 1
+		relative_position_id = ARG_guardia_nacional
+		cost = 5
+		available = {
+			has_civil_war = no
+		}
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
+
+		completion_reward = { 
+			random_core_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			unlock_decision_tooltip = ARG_form_united_provinces_of_rio_de_la_plata
+			add_ideas = ARG_argentine_nationalism_idea
+		}
+	}
+
+	focus = { #FASCIST
+		id = ARG_support_the_spanish_coup
+		icon = GFX_focus_intervention_spain_nationalists
+		prerequisite = {
+			focus = ARG_argentine_nationalism
+		}
+		x = 5
+		y = 1
+		relative_position_id = ARG_argentine_nationalism
+		cost = 5
+		available = {
+			SPR_scw_in_progress = yes
+		}
+		ai_will_do = {
+			factor = 10
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		completion_reward = { 
+			add_political_power = 50
+			add_stability = -0.05
+			add_relation_modifier = {
+				target = SPA
+				modifier  = ETH_support_spain_static_modifier
+			}
+			add_relation_rule_override = {
+				target = SPA
+				can_send_volunteers = yes 
+			}
+			set_rule = {
+				can_send_volunteers = yes 
+			}
+		}
+	}
+
+	focus = { #FASCIST
+		id = ARG_demand_spanish_compensation
+		icon = GFX_focus_ARG_demand_spanish_compensation
+		prerequisite = { focus = ARG_support_the_spanish_coup }
+		x = -1
+		y = 1
+		relative_position_id = ARG_support_the_spanish_coup
+		cost = 10
+		available = {
+			has_global_flag = scw_over
+			SPA = {
+				has_capitulated = no
+			}
+			
+			custom_trigger_tooltip = {
+					tooltip = ARG_argentinian_volunteers_in_spain_flag
+					has_country_flag = ARG_argentinian_volunteers_in_spain 
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+
+		completion_reward = {
+			hidden_effect = {
+				SPA = {
+					country_event = {
+						id = ARG_political_events.38
+						days = 1
+					}
+				}
+			}
+			custom_effect_tooltip = ARG_demand_spanish_compensation_tt
+		}
+	}
+
+	focus = { #FASCIST
+		id = ARG_invite_spanish_nationalists
+		icon = GFX_focus_ARG_invite_spanish_nationalists
+		prerequisite = { focus = ARG_support_the_spanish_coup }
+		x = 1
+		y = 1
+		relative_position_id = ARG_support_the_spanish_coup
+		cost = 5
+		available = {
+			has_global_flag = scw_over
+			if = {
+				limit = {
+					has_dlc = "La Resistance"
+				}
+				any_other_country = {
+					NOT = {
+						OR = {
+						tag = SPA
+						tag = SPB
+						}
+					}
+					has_civil_war = no
+				}
+			}
+			else = {
+				any_country = {
+					original_tag = SPR
+				NOT = {
+					OR = {
+						has_government = fascism
+						has_government = neutrality
+					}
+				}
+					has_civil_war = no
+				}
+			}
+		}
+
+		ai_will_do = {
+			factor = 15
+		}
+
+		search_filters = { FOCUS_FILTER_ARMY_XP  FOCUS_FILTER_MANPOWER }
+
+		completion_reward = { 
+			add_manpower = 25000
+
+			army_experience = 75
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+		}
+	}
+
+	focus = { #FASCIST
+		id = ARG_war_division
+		icon = GFX_goal_generic_major_war
+		prerequisite = { focus = ARG_rapid_militirization }
+		x = 1
+		y = 1
+		relative_position_id = ARG_rapid_militirization
+		cost = 5
+		available = {
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_POLITICAL }
+
+		completion_reward = { 
+			add_timed_idea = {
+				idea = ARG_war_division_idea
+				days = 365
+			}	 
+		}
+	}
+
+	focus = { #FASCIST
+		id = ARG_argentina_first
+		icon = GFX_focus_ARG_argentina_first
+		x = -1
+		y = 1
+		relative_position_id = ARG_argentine_nationalism
+		prerequisite = {
+			focus = ARG_argentine_nationalism
+		}
+		mutually_exclusive = {
+			focus = ARG_maintain_the_state
+		}
+		cost = 7
+		available = {
+			has_civil_war = no
+			has_country_leader = {
+				character = ARG_leopoldo_lugones
+				ruling_only = yes 
+			}
+			NOT = {
+				has_active_mission = ARG_rapidly_deterioriating_political_situation
+			}
+		}
+
+		bypass = {
+			is_in_faction = yes
+		}
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT}
+
+		completion_reward = { 
+			hidden_effect = {
+				drop_cosmetic_tag = yes
+			}
+			add_political_power = 50
+
+			add_ideas = ARG_argentina_first_idea
+
+			set_party_name = {
+				ideology = fascism
+				long_name = ARG_federalism_party_long
+				name = ARG_federalism_party
+			}
+
+			set_cosmetic_tag = ARCC
+
+			custom_effect_tooltip = BRA_spacer_tt
+
+			country_event = argentina.dlc.7
+
+			set_rule = {
+				can_create_factions = yes 
+			}
+		}
+	}
+
+	### The Legacy of Rosas ###
+	focus = {
+		id = ARG_the_legacy_of_rosas
+		icon = GFX_ARG_legacy_of_rosas
+		x = -3
+		y = 1
+		relative_position_id = ARG_argentina_first
+		prerequisite = {
+			focus = ARG_argentina_first
+		}
+
+		cost = 10
+
+		available = {
+			has_civil_war = no 
+			has_war_support > 0.6
+		}
+
+		search_filters = {
+			FOCUS_FILTER_STABILITY FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			add_stability = 0.05 
+			add_war_support = 0.05
+			add_dynamic_modifier = { modifier = ARG_rosas_immortalized_idea }
+		}
+	}
+
+	### Maintain the State ###
+	focus = {
+		id = ARG_maintain_the_state
+		icon = GFX_ARG_maintain_state_icon
+		x = 1
+		y = 1
+		relative_position_id = ARG_argentine_nationalism
+		prerequisite = {
+			focus = ARG_argentine_nationalism
+		}
+		mutually_exclusive = {
+			focus = ARG_argentina_first
+		}
+
+		available = {
+			has_civil_war = no 
+			OR = {
+				has_country_leader = {
+					character = ARG_manuel_antonio_fresco
+					ruling_only = yes 
+				}
+				has_country_leader = {
+					character = ARG_leopoldo_lugones
+					ruling_only = yes 
+				}
+			}
+			NOT = {
+				has_active_mission = ARG_rapidly_deterioriating_political_situation
+			}
+		}
+
+		cost = 7
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			add_stability = 0.05
+			add_political_power = 25
+			set_rule = {
+				can_create_factions = yes
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_guerilla_tactics_DLC
+		icon = GFX_focus_ETH_scavenging_tactics
+		x = 1
+		y = 1
+		relative_position_id = ARG_maintain_the_state
+		prerequisite = { focus = ARG_maintain_the_state }
+
+		cost = 10
+
+		available = { has_civil_war = no }
+
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_ideas = ARG_guerrila_tactics_idea
+		}
+	}
+
+	focus = { #FASCIST
+		id = ARG_cut_ties_with_britain
+		icon = GFX_focus_ARG_cut_ties_with_britain
+		prerequisite = {
+			focus = ARG_take_full_control_f
+		}
+		x = -3
+		y = 1
+		relative_position_id = ARG_take_full_control_f
+		cost = 5
+		available = {
+		}
+
+		ai_will_do = {
+			factor = 15 #5 less than the historical. You're not supposed to be here D:
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_INDUSTRY }
+
+		completion_reward = { 
+			ENG = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = ARG_cut_ties_with_britain_idea
+				}
+			}
+
+			swap_ideas = {
+  				remove_idea = ARG_roca_runciman_treaty_idea
+  				add_idea = ARG_anti_british_sentiment_idea 				
+  			}
+		}
+	}
+
+	focus = { #FASCIST
+		id = ARG_encourage_german_investments
+		icon = GFX_focus_chi_mission_to_germany
+		prerequisite = {
+			focus = ARG_cut_ties_with_britain
+		}
+		x = -1
+		y = 1
+		relative_position_id = ARG_cut_ties_with_britain
+		cost = 10
+		available = {
+			GER = {
+				has_government = fascism
+				exists = yes
+			}
+		}
+
+		bypass = {
+			GER = {
+				OR = {
+					exists = no
+					has_government = communism
+					has_government = democratic
+					has_government = neutrality
+				}
+			}
+		}
+
+		ai_will_do = {
+			factor = 15
+		}
+
+		search_filters = {  FOCUS_FILTER_INDUSTRY }
+
+		completion_reward = { 
+
+			278 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			add_tech_bonus = {
+				name = ARG_german_investments_bonus
+				bonus = 0.5
+				uses = 2
+				category = industry
+			}
+			add_opinion_modifier = {
+				target = GER
+				modifier  = huge_increase
+			}
+			GER = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier  = huge_increase
+				}
+			}
+		}
+	}
+
+	focus = { #FASCIST
+		id = ARG_join_the_axis
+		icon = GFX_focus_ger_reichskommisariats
+		x = -1
+		y = 3
+		relative_position_id = ARG_encourage_german_investments
+		prerequisite = {
+			focus = ARG_encourage_german_investments
+		}
+		cost = 10
+		available = {
+			GER = {
+				exists = yes
+				has_government = fascism
+			}
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		bypass = {
+			OR = {
+				GER = {
+				exists = no
+				NOT = {
+					has_government = fascism
+					}
+				}
+			is_in_faction = yes
+		}
+		}
+
+		search_filters = { }
+
+		completion_reward = {
+
+			GER = {
+				country_event = {
+					id = ARG_political_events.12
+					hours = 1
+				}
+			}
+		}
+	}
+
+
+	focus = { #FASCIST
+		id = ARG_encourage_italian_argentine_diplomacy
+		icon = GFX_focus_befriend_italy
+		prerequisite = {
+			focus = ARG_cut_ties_with_britain
+		}
+		x = 1
+		y = 1
+		relative_position_id = ARG_cut_ties_with_britain
+		cost = 10
+		available = {
+			ITA = {
+				has_government = fascism
+				exists = yes
+			}
+		}
+
+		bypass = {
+			ITA = {
+				OR = {
+					exists = no
+					has_government = communism
+					has_government = democratic
+					has_government = neutrality
+				}
+			}
+		}
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		search_filters = {  FOCUS_FILTER_RESEARCH }
+
+		completion_reward = {
+
+			add_to_tech_sharing_group = ARG_italian_argentine_tech_sharing_group
+
+			add_opinion_modifier = {
+				target = ITA
+				modifier  = huge_increase
+			}
+			ITA = {
+				add_to_tech_sharing_group = ARG_italian_argentine_tech_sharing_group
+
+				add_opinion_modifier = {
+					target = ROOT
+					modifier  = huge_increase
+				}
+			}
+		}
+	}
+
+	focus = { #FASCIST
+		id = ARG_corporatism
+		icon = GFX_focus_ICE_state_corporatism
+		prerequisite = { focus = ARG_encourage_italian_argentine_diplomacy focus = ARG_encourage_german_investments }
+		x = -1
+		y = 1
+		relative_position_id = ARG_encourage_italian_argentine_diplomacy
+		cost = 10
+		available = {
+			has_civil_war = no 
+			num_of_factories > 29
+			NOT = {
+				has_idea = ARG_scars_of_the_great_depression
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = { 
+			add_political_power = 25
+			add_popularity = {
+				ideology = fascism 
+				popularity = 0.1
+			}
+			278 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+			add_ideas = VEN_corporatist_economic_model
+		}
+	}
+
+	focus = { #FASCIST
+		id = ARG_fascist_researchers
+		icon = GFX_focus_ARG_fascist_researchers
+		prerequisite = { focus = ARG_corporatism }
+		x = 0
+		y = 1
+		relative_position_id = ARG_corporatism
+		cost = 10
+
+		ai_will_do = {
+			factor = 15
+		}
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+
+		completion_reward = { 
+			add_research_slot = 1
+		}
+	}
+
+	## Nadie se Escapa (DLC Edition)
+	focus = {
+		id = ARG_nadie_se_escapa_DLC
+		icon = GFX_ARG_nadie_escapa
+		x = 1
+		y = 2
+		relative_position_id = ARG_take_full_control_f
+		prerequisite = { focus = ARG_take_full_control_f }
+
+		## Will require at least 9 persecuted states from previous focus
+
+		cost = 10
+
+		ai_will_do = { factor = 5 }
+
+		available = {
+			has_country_flag = ARG_forced_opposition_to_surrender_flag
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.05
+			}
+			add_ideas = ARG_nadie_se_escapa_idea
+		}
+	}
+
 	################################
 	#### SHARED MILITARY BRANCH ####
 	################################
@@ -45,11 +1063,11 @@ focus_tree = {
 		id = ARG_roberto_maria_ortiz
 		icon = GFX_focus_ARG_roberto_maria_ortiz
 		#prerequisite = { focus = ARG_preparation_for_the_elections }
-		x = 13
+		x = 11
 		y = 0
 		#relative_position_id = ARG_preparation_for_the_elections
 		cost = 5
-		mutually_exclusive = { focus = ARG_a_call_to_reform focus = ARG_the_clean_election }
+		mutually_exclusive = { focus = ARG_a_call_to_reform focus = ARG_the_clean_election focus = ARG_manuel_antonio_fresco }
 		available = {
 		}
 
@@ -63,6 +1081,7 @@ focus_tree = {
 				}
 				NOT = { has_completed_focus = ARG_the_clean_election }
 				NOT = { has_completed_focus = ARG_a_call_to_reform }
+				NOT = { has_completed_focus = ARG_manuel_antonio_fresco }
 			}
 		}
 
@@ -89,7 +1108,7 @@ focus_tree = {
 					remove_ideas = ARG_roberto_maria_ortiz_idea
 				}
 			}
-				if = {
+			if = {
 				limit = {
 					has_game_rule = {
 						rule = obsolete_focus_branches_visibility
@@ -105,10 +1124,9 @@ focus_tree = {
 		id = ARG_defense_and_democracy
 		icon = GFX_focus_ARG_defense_and_democracy
 		prerequisite = { focus = ARG_roberto_maria_ortiz }
-		x = -2
+		x = 0
 		y = 1
 		relative_position_id = ARG_roberto_maria_ortiz
-		mutually_exclusive = { focus = ARG_work_with_the_nationalists }
 		cost = 10
 		available = {
 			any_state = {
@@ -171,58 +1189,39 @@ focus_tree = {
 		}
 	}
 
-	focus = { #FASCIST
-		id = ARG_work_with_the_nationalists
-		icon = GFX_goal_support_fascism
-		prerequisite = { focus = ARG_roberto_maria_ortiz }
-		x = 2
-		y = 1
-		relative_position_id = ARG_roberto_maria_ortiz
-		cost = 10
-		mutually_exclusive = { focus = ARG_defense_and_democracy }
-		available = {
-		}
-
-		ai_will_do = {
-			modifier = {
-				NOT = {
-					has_government = fascism
-				}
-				factor = 0 
-			}
-			factor = 15 #don't do unless fascist, also please don't do if historical.
-		}
-
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
-
-		completion_reward = { 
-
-			add_dynamic_modifier = { modifier = ARG_growing_nationalism_modifier }
-			
-			hidden_effect = {
-				every_owned_state = {
-					limit = {
-						has_dynamic_modifier = {
-							modifier = ARG_military_owned_state
-						}
-					}
-					remove_dynamic_modifier = {
-							modifier = ARG_military_owned_state
-						}
-					}
-				}
-			}
-		}
-
 	focus = { #HISTORICAL
 		id = ARG_crack_down_on_corruption
 		icon = GFX_focus_ARG_crackdown_on_corruption
 		prerequisite = { focus = ARG_defense_and_democracy focus = ARG_work_with_the_nationalists }
-		x = 2
+		x = 5
 		y = 1
 		relative_position_id = ARG_defense_and_democracy
-		cost = 5
+		cost = 8
 		available = {
+		}
+
+		offset = {
+			x = -3
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_roberto_maria_ortiz 
+			}
+		}
+
+		offset = {
+			x = 2
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_manuel_antonio_fresco 
+			}
 		}
 
 		ai_will_do = {
@@ -235,7 +1234,7 @@ focus_tree = {
 			remove_dynamic_modifier = {
 				modifier = ARG_political_corruption_modifier
 			}
-			add_dynamic_modifier = { modifier = ARG_corruption_crackdown_modifier }
+			#add_dynamic_modifier = { modifier = ARG_corruption_crackdown_modifier }
 		}
 	}
 
@@ -246,7 +1245,7 @@ focus_tree = {
 		x = 0
 		y = 2
 		relative_position_id = ARG_defense_and_democracy
-		cost = 10
+		cost = 5
 		available = {
 		}
 
@@ -272,38 +1271,6 @@ focus_tree = {
 					modifier = ARG_improved_cooperation_idea
 				}
 			}
-		}
-	}
-
-	focus = { #FASCIST
-		id = ARG_cut_ties_with_britain
-		icon = GFX_focus_ARG_cut_ties_with_britain
-		prerequisite = { focus = ARG_work_with_the_nationalists }
-		x = 0
-		y = 2
-		relative_position_id = ARG_work_with_the_nationalists 
-		cost = 10
-		available = {
-		}
-
-		ai_will_do = {
-			factor = 15 #5 less than the historical. You're not supposed to be here D:
-		}
-
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_INDUSTRY }
-
-		completion_reward = { 
-			ENG = {
-				add_opinion_modifier = {
-					target = ROOT
-					modifier = ARG_cut_ties_with_britain_idea
-				}
-			}
-
-			swap_ideas = {
-  				remove_idea = ARG_roca_runciman_treaty_idea
-  				add_idea = ARG_anti_british_sentiment_idea 				
-  			}
 		}
 	}
 
@@ -351,6 +1318,9 @@ focus_tree = {
 		relative_position_id = ARG_british_cooperation
 		cost = 5
 		available = {
+			NOT = {
+				has_idea = ARG_scars_of_the_great_depression
+			}
 		}
 
 		ai_will_do = {
@@ -455,7 +1425,7 @@ focus_tree = {
 		id = ARG_consolidating_power
 		icon = GFX_focus_ARG_consolidating_power
 		prerequisite = { focus = ARG_the_castillo_cabinet }
-		x = 0
+		x = 2
 		y = 1
 		relative_position_id = ARG_the_castillo_cabinet
 		mutually_exclusive = { focus = ARG_maintain_the_status_quo }
@@ -684,7 +1654,7 @@ focus_tree = {
 		id = ARG_the_american_push
 		icon = GFX_focus_ARG_the_american_push
 		prerequisite = { focus = ARG_balancing_act focus = ARG_subdue_dissension }
-		x = -1
+		x = -3
 		y = 2
 		relative_position_id = ARG_balancing_act
 		cost = 5
@@ -709,7 +1679,7 @@ focus_tree = {
 		id = ARG_juan_peron_elected
 		icon = GFX_focus_ARG_juan_peron_elected
 		prerequisite = { focus = ARG_balancing_act }
-		x = 1
+		x = 0
 		y = 1
 		relative_position_id = ARG_balancing_act
 		cost = 10
@@ -752,6 +1722,27 @@ focus_tree = {
 		}
 	}
 
+	focus = { ## will add a trait to Peron and weaken inexperienced leader trait
+		id = ARG_al_amigo_todo_al_enemigo_nada_DLC
+		icon = GFX_ARG_peron_argentina
+		x = 2
+		y = 2
+		relative_position_id = ARG_juan_peron_elected
+		prerequisite = { focus = ARG_juan_peron_elected }
+
+		## Allows the capability to declare war on countries with enough negative opinion towards the player 
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			ARG_improve_inexperienced_leader = yes 
+			add_stability = 0.05
+			add_war_support = 0.05
+			custom_effect_tooltip = ARG_unlock_declare_as_enemy_tt
+			custom_effect_tooltip = EUYL_decisions_will_be_available_in_political_actions_tt
+		}
+	}
+
 	focus = { #HISTORICAL
 		id = ARG_peronism
 		icon = GFX_focus_ARG_peronism
@@ -770,10 +1761,8 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
 
 		completion_reward = { 
-			custom_effect_tooltip = available_political_advisor
-			show_ideas_tooltip = ARG_eva_peron
-
-			custom_effect_tooltip = CHL_skip_one_line_tt
+			#custom_effect_tooltip = available_political_advisor
+			#show_ideas_tooltip = ARG_eva_peron
 
 			add_political_power = 50
 
@@ -834,166 +1823,12 @@ focus_tree = {
 		}
 	}
 
-	focus = { #FASCIST
-		id = ARG_support_radical_nationalism
-		icon = GFX_focus_ARG_support_radical_nationalism
-		prerequisite = { focus = ARG_cut_ties_with_britain }
-		x = 0
-		y = 1
-		relative_position_id = ARG_cut_ties_with_britain
-		cost = 5
-		available = {
-		}
-
-		ai_will_do = {
-			factor = 10
-		}
-
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
-
-		completion_reward = { 
-			custom_effect_tooltip = ARG_modify_growing_nationalism_ns_intro
-			add_to_variable = { ARG_growing_nationalism_fascism_drift = 0.1 tooltip = fascism_drift_factor_tt }
-			add_to_variable = { ARG_growing_nationalism_recruitable_population_factor = 0.1 tooltip = recruitable_population_factor_tt}
-			add_to_variable = { ARG_growing_nationalism_war_support_factor = 0.05 tooltip = war_support_factor_tt}
-			add_to_variable = { ARG_growing_nationalism_democratic_drift = -0.05 tooltip = democratic_drift_factor_tt }
-		}
-	}
-
-	focus = { #FASCIST
-		id = ARG_corporatism
-		icon = GFX_focus_ICE_state_corporatism
-		prerequisite = { focus = ARG_cut_ties_with_britain }
-		x = 8
-		y = 1
-		relative_position_id = ARG_cut_ties_with_britain
-		cost = 5
-		available = {
-		}
-
-		ai_will_do = {
-			factor = 10
-		}
-
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY}
-
-		completion_reward = { 
-			add_political_power = 50
-			add_popularity = {
-				ideology = fascism 
-				popularity = 0.1
-			}
-			278 = {
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = arms_factory
-					level = 2
-					instant_build = yes
-				}
-			}
-		}
-	}
-
-	focus = { #FASCIST
-		id = ARG_reestablish_ligas_patrioticas
-		icon = GFX_focus_ARG_reestablish_ligas_patrioticas
-		prerequisite = { focus = ARG_corporatism }
-		x = 0
-		y = 1
-		relative_position_id = ARG_corporatism
-		cost = 10
-		available = {
-		}
-
-		ai_will_do = {
-			factor = 10
-		}
-
-		search_filters = { FOCUS_FILTER_STABILITY }
-
-		completion_reward = { 
-			add_stability = 0.05
-
-			custom_effect_tooltip = ARG_ligas_patrioticas_tt
-
-			hidden_effect = {
-
-			delete_unit_template_and_units = {
-					division_template = "Ligas Patrioticas"
-					disband = yes #if yes, will refund equipment/manpower.
-				}
-
-			division_template = {
-					name = "Ligas Patrióticas"		
-					#division_names_group = SWE_BS_01
-					is_locked = no
-					#force_allow_recruiting = yes
-					template_counter = 20
-					# Note: Represents brownshirts
-					regiments = {
-						motorized = { x = 0 y = 0 }
-						motorized = { x = 0 y = 1 }
-						motorized = { x = 1 y = 0 }
-						motorized = { x = 1 y = 1 }
-					}
-					division_cap = 10
-					override_model = ARG_motorized_alt_0_entity
-				}
-
-				278 = { 
-				create_unit = {
-				    division = "name = \"Primera Liga Patriótica\" division_template = \"Ligas Patrióticas\" start_experience_factor = 0.8 start_equipment_factor = 1"
-				    owner = ROOT
-				}
-				create_unit = {
-				    division = "name = \"Segunda Liga Patriótica\" division_template = \"Ligas Patrióticas\" start_experience_factor = 0.8 start_equipment_factor = 1"
-				    owner = ROOT
-				}
-				create_unit = {
-				    division = "name = \"Tercera Liga Patriótica\" division_template = \"Ligas Patrióticas\" start_experience_factor = 0.8 start_equipment_factor = 1"
-				    owner = ROOT
-				}
-				create_unit = {
-				    division = "name = \"Cuarta Liga Patriótica\" division_template = \"Ligas Patrióticas\" start_experience_factor = 0.8 start_equipment_factor = 1"
-				    owner = ROOT
-				}
-				create_unit = {
-				    division = "name = \"Quinta Liga Patriótica\" division_template = \"Ligas Patrióticas\" start_experience_factor = 0.8 start_equipment_factor = 1"
-				    owner = ROOT
-				}
-			}
-		}
-	}
-}
-
-	focus = { #FASCIST
-		id = ARG_fascist_researchers
-		icon = GFX_focus_ARG_fascist_researchers
-		prerequisite = { focus = ARG_reestablish_ligas_patrioticas }
-		x = 0
-		y = 1
-		relative_position_id = ARG_reestablish_ligas_patrioticas
-		cost = 10
-		available = {
-		}
-
-		ai_will_do = {
-			factor = 15
-		}
-
-		search_filters = { FOCUS_FILTER_RESEARCH }
-
-		completion_reward = { 
-			add_research_slot = 1
-		}
-	}
-
 	focus = { #WORST TIMELINE
 		id = ARG_hitler_1
 		icon = GFX_focus_ARG_accept_german_advisors
 		#prerequisite = { focus = ARG_reestablish_ligas_patrioticas }
-		x = 0
-		y = 2
+		x = 6
+		y = 4
 		relative_position_id = ARG_fascist_researchers
 		cost = 5
 		available = {
@@ -1194,546 +2029,51 @@ focus_tree = {
 		}
 	}
 
-	focus = { #FASCIST
-		id = ARG_support_the_spanish_coup
-		icon = GFX_focus_intervention_spain_nationalists
-		prerequisite = { focus = ARG_cut_ties_with_britain }
-		x = 10
-		y = 1
-		relative_position_id = ARG_cut_ties_with_britain
-		cost = 5
-		available = {
-			SPR_scw_in_progress = yes
-		}
-		ai_will_do = {
-			factor = 10
-		}
-
-		search_filters = { FOCUS_FILTER_POLITICAL }
-
-		completion_reward = { 
-			add_political_power = 50
-			add_stability = -0.05
-			add_relation_modifier = {
-				target = SPA
-				modifier  = ETH_support_spain_static_modifier
-			}
-			add_relation_rule_override = {
-				target = SPA
-				can_send_volunteers = yes 
-			}
-		}
-	}
-
-	focus = { #FASCIST
-		id = ARG_demand_spanish_compensation
-		icon = GFX_focus_ARG_demand_spanish_compensation
-		prerequisite = { focus = ARG_support_the_spanish_coup }
-		x = 0
-		y = 1
-		relative_position_id = ARG_support_the_spanish_coup
-		cost = 10
-		available = {
-			has_global_flag = scw_over
-			SPA = {
-				has_capitulated = no
-			}
-			
-			custom_trigger_tooltip = {
-					tooltip = ARG_argentinian_volunteers_in_spain_flag
-					has_country_flag = ARG_argentinian_volunteers_in_spain 
-			}
-		}
-
-		ai_will_do = {
-			factor = 10
-		}
-
-		search_filters = { FOCUS_FILTER_ANNEXATION }
-
-		completion_reward = {
-			hidden_effect = {
-				SPA = {
-					country_event = {
-						id = ARG_political_events.38
-						days = 1
-					}
-				}
-			}
-			custom_effect_tooltip = ARG_demand_spanish_compensation_tt
-		}
-	}
-
-	focus = { #FASCIST
-		id = ARG_invite_spanish_nationalists
-		icon = GFX_focus_ARG_invite_spanish_nationalists
-		prerequisite = { focus = ARG_support_the_spanish_coup }
-		x = 2
-		y = 1
-		relative_position_id = ARG_support_the_spanish_coup
-		cost = 5
-		available = {
-			has_global_flag = scw_over
-			if = {
-				limit = {
-					has_dlc = "La Resistance"
-				}
-				any_other_country = {
-					NOT = {
-						OR = {
-						tag = SPA
-						tag = SPB
-						}
-					}
-					has_civil_war = no
-				}
-			}
-			else = {
-				any_country = {
-					original_tag = SPR
-				NOT = {
-					OR = {
-						has_government = fascism
-						has_government = neutrality
-					}
-				}
-					has_civil_war = no
-				}
-			}
-		}
-
-		ai_will_do = {
-			factor = 15
-		}
-
-		search_filters = { FOCUS_FILTER_ARMY_XP  FOCUS_FILTER_MANPOWER }
-
-		completion_reward = { 
-			add_manpower = 25000
-
-			army_experience = 75
-
-			custom_effect_tooltip = CHL_skip_one_line_tt
-		}
-	}
-
-	focus = { #FASCIST
-		id = ARG_encourage_german_investments
-		icon = GFX_focus_chi_mission_to_germany
-		prerequisite = { focus = ARG_support_radical_nationalism }
-		x = 0
-		y = 1
-		relative_position_id = ARG_support_radical_nationalism
-		cost = 10
-		available = {
-			GER = {
-				has_government = fascism
-				exists = yes
-			}
-		}
-
-		bypass = {
-			GER = {
-				OR = {
-					exists = no
-					has_government = communism
-					has_government = democratic
-					has_government = neutrality
-				}
-			}
-		}
-
-		ai_will_do = {
-			factor = 15
-		}
-
-		search_filters = {  FOCUS_FILTER_INDUSTRY }
-
-		completion_reward = { 
-
-		278 = {
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = arms_factory
-					level = 1
-					instant_build = yes
-				}
-			}
-
-			add_tech_bonus = {
-				name = ARG_german_investments_bonus
-				bonus = 0.5
-				uses = 2
-				category = industry
-			}
-			add_opinion_modifier = {
-				target = GER
-				modifier  = huge_increase
-			}
-		GER = {
-			add_opinion_modifier = {
-				target = ROOT
-				modifier  = huge_increase
-			}
-		}
-	}
-}
-
-	focus = { #FASCIST
-		id = ARG_encourage_italian_argentine_diplomacy
-		icon = GFX_focus_befriend_italy
-		prerequisite = { focus = ARG_support_radical_nationalism }
-		x = 2
-		y = 1
-		relative_position_id = ARG_support_radical_nationalism
-		cost = 10
-		available = {
-			ITA = {
-				has_government = fascism
-				exists = yes
-			}
-		}
-
-		bypass = {
-			ITA = {
-				OR = {
-					exists = no
-					has_government = communism
-					has_government = democratic
-					has_government = neutrality
-				}
-			}
-		}
-
-		ai_will_do = {
-			factor = 5
-		}
-
-		search_filters = {  FOCUS_FILTER_RESEARCH }
-
-		completion_reward = {
-
-			add_to_tech_sharing_group = ARG_italian_argentine_tech_sharing_group
-
-			add_opinion_modifier = {
-				target = ITA
-				modifier  = huge_increase
-			}
-		ITA = {
-			add_to_tech_sharing_group = ARG_italian_argentine_tech_sharing_group
-
-			add_opinion_modifier = {
-				target = ROOT
-				modifier  = huge_increase
-			}
-		}
-	}
-}
-
-	focus = { #FASCIST
-		id = ARG_guardia_nacional
-		icon = GFX_focus_ARG_guardia_nacional
-		prerequisite = { focus = ARG_encourage_german_investments }
-		x = 0
-		y = 2
-		relative_position_id = ARG_encourage_german_investments
-		mutually_exclusive = { focus = ARG_union_nacional_fascista }
-		cost = 10
-		available = {
-			fascism > 0.6
-		}
-
-		ai_will_do = {
-			factor = 20
-		}
-
-		search_filters = {  FOCUS_FILTER_MANPOWER  FOCUS_FILTER_STABILITY  FOCUS_FILTER_POLITICAL FOCUS_FILTER_POLITICAL_CHARACTER }
-
-		completion_reward = { 
-
-  			add_ideas = ARG_military_government_idea
-  			remove_dynamic_modifier = {
-  				modifier = ARG_growing_nationalism_modifier
-  			}
-
-			set_party_name = {
-				ideology = fascism
-				long_name = ARG_gen_nazism_party_long
-				name = ARG_gen_nazism_party
-			}
-
-			custom_effect_tooltip = CHL_skip_one_line_tt
-
-			custom_effect_tooltip = ARG_guardia_nacional_tt
-
-			hidden_effect = {
-
-			set_politics = {
-				ruling_party = fascism
-				last_election = "1934.3.26" 
-				election_frequency = 48
-				elections_allowed = no
-			}
-				
-				ARG_pedro_pablo_ramirez = { 
-					add_country_leader_role = {
-						country_leader = {
-							ideology = gen_nazism
-							expire = "1965.1.1.1"
-							traits = {
-								ARG_moderate_dictator
-							}
-						}
-					}
-					promote_leader = yes 
-						set_portraits = {
-						army = { large ="GFX_portrait_ARG_pedro_pablo_ramirez_fascist"}
-						civilian = { large ="GFX_portrait_ARG_pedro_pablo_ramirez_fascist" 	}
-					}
-				}
-				retire_country_leader = yes
-				set_cosmetic_tag = ARG_military_state_fascism
-					IF = {
-					limit = {
-						has_idea = ARG_pedro_pablo_ramirez
-					}
-					remove_ideas = ARG_pedro_pablo_ramirez
-				}
-			}
-		}
-	}
-
-	focus = { #FASCIST
-		id = ARG_union_nacional_fascista
-		icon = GFX_focus_ARG_union_nacional_fascista
-		prerequisite = { focus = ARG_encourage_italian_argentine_diplomacy }
-		x = 0
-		y = 2
-		relative_position_id = ARG_encourage_italian_argentine_diplomacy
-		mutually_exclusive = { focus = ARG_guardia_nacional }
-		cost = 10
-		available = {
-			fascism > 0.6
-		}
-
-		ai_will_do = {
-			factor = 5
-		}
-
-		search_filters = { FOCUS_FILTER_STABILITY  FOCUS_FILTER_POLITICAL }
-
-		completion_reward = { 
-			add_ideas = ARG_spirit_of_the_conquistadors_idea
-			remove_dynamic_modifier = {
-  				modifier = ARG_growing_nationalism_modifier
-  			}
-
-			custom_effect_tooltip = CHL_skip_one_line_tt
-
-			custom_effect_tooltip = ARG_union_nacional_fascista_tt
-
-			hidden_effect = {
-
-			set_politics = {
-				ruling_party = fascism
-				last_election = "1934.3.26"
-				election_frequency = 48
-				elections_allowed = no
-			}
-
-			set_cosmetic_tag = ARG_nationalist_state_fascism
-
-			}
-		}
-	}
-
-	focus = { #FASCIST
-		id = ARG_rapid_militirization
-		icon = GFX_focus_SOV_mobilization_plan
-		prerequisite = { focus = ARG_guardia_nacional }
-		x = 0
-		y = 1
-		relative_position_id = ARG_guardia_nacional
-		cost = 10
-		available = {
-		}
-
-		ai_will_do = {
-			factor = 20
-		}
-		
-
-		search_filters = { FOCUS_FILTER_INDUSTRY }
-
-		completion_reward = { 
-			random_core_state = {
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = arms_factory
-					level = 2
-					instant_build = yes
-				}
-			}
-
-			add_timed_idea = {
-				idea = ARG_rapid_militarization_idea
-				days = 365
-			}
-		}
-	}
-
-	focus = {  #FASCIST
-		id = ARG_argentine_nationalism
-		icon = GFX_ARG_viva_la_patria
-		prerequisite = { focus = ARG_union_nacional_fascista }
-		x = 0
-		y = 1
-		relative_position_id = ARG_union_nacional_fascista
-		cost = 10
-		available = {
-		}
-
-		ai_will_do = {
-			factor = 5
-		}
-
-		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER }
-
-		completion_reward = { 
-			random_core_state = {
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = arms_factory
-					level = 2
-					instant_build = yes
-				}
-			}
-
-			add_ideas = ARG_argentine_nationalism_idea
-		}
-	}
-
-	focus = { #FASCIST
-		id = ARG_war_division
-		icon = GFX_goal_generic_major_war
-		prerequisite = { focus = ARG_rapid_militirization focus = ARG_argentine_nationalism }
-		x = 1
-		y = 1
-		relative_position_id = ARG_rapid_militirization
-		cost = 5
-		available = {
-		}
-
-		ai_will_do = {
-			factor = 20
-		}
-
-		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_POLITICAL }
-
-		completion_reward = { 
-			add_timed_idea = {
-				idea = ARG_war_division_idea
-				days = 365
-			}	 
-		}
-	}
-
-	focus = { #FASCIST
-		id = ARG_argentina_first
-		icon = GFX_focus_ARG_argentina_first
-		prerequisite = { focus = ARG_war_division }
-		x = -2
-		y = 2
-		relative_position_id = ARG_war_division
-		mutually_exclusive = { focus = ARG_join_the_axis }
-		cost = 10
-		available = {
-			is_in_faction = no
-		}
-
-		bypass = {
-			is_in_faction = yes
-		}
-
-		ai_will_do = {
-			factor = 5
-		}
-
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT}
-
-		completion_reward = { 
-
-			IF = {
-				limit = {
-					is_in_faction = yes
-				}
-				leave_faction = yes 
-			}
-
-			add_political_power = 50
-			add_war_support = 0.05
-
-			add_ideas = ARG_argentina_first_idea
-
-			create_faction = ARG_nationalist_faction	
-
-			hidden_effect = {
-				set_rule = { can_send_volunteers = yes }
-				set_rule = { can_create_factions = yes }
-				set_rule = { can_join_factions = no }
-			}
-		}
-	}
-
-	focus = { #FASCIST
-		id = ARG_join_the_axis
-		icon = GFX_focus_ger_reichskommisariats
-		prerequisite = { focus = ARG_war_division }
-		x = 2
-		y = 2
-		relative_position_id = ARG_war_division
-		mutually_exclusive = { focus = ARG_argentina_first }
-		cost = 10
-		available = {
-			GER = {
-				exists = yes
-				has_government = fascism
-			}
-		}
-
-		ai_will_do = {
-			factor = 20
-		}
-
-		bypass = {
-			OR = {
-				GER = {
-				exists = no
-				NOT = {
-					has_government = fascism
-					}
-				}
-			is_in_faction = yes
-		}
-	}
-
-		search_filters = { }
-
-		completion_reward = {
-
-			GER = {
-				country_event = {
-					id = ARG_political_events.12
-					hours = 1
-				}
-			}
-		}
-	}
+	#focus = { #FASCIST
+	#	id = ARG_union_nacional_fascista
+	#	icon = GFX_focus_ARG_union_nacional_fascista
+#
+	#	x = 0
+	#	y = 2
+	#	relative_position_id = ARG_encourage_italian_argentine_diplomacy
+#
+	#	cost = 10
+	#	available = {
+	#		fascism > 0.6
+	#	}
+#
+	#	ai_will_do = {
+	#		factor = 5
+	#	}
+#
+	#	search_filters = { FOCUS_FILTER_STABILITY  FOCUS_FILTER_POLITICAL }
+#
+	#	completion_reward = { 
+	#		add_ideas = ARG_spirit_of_the_conquistadors_idea
+#
+	#		custom_effect_tooltip = CHL_skip_one_line_tt
+#
+	#		custom_effect_tooltip = ARG_union_nacional_fascista_tt
+#
+	#		hidden_effect = {
+#
+	#		set_politics = {
+	#			ruling_party = fascism
+	#			last_election = "1934.3.26"
+	#			election_frequency = 48
+	#			elections_allowed = no
+	#		}
+#
+	#		set_cosmetic_tag = ARG_nationalist_state_fascism
+#
+	#		}
+	#	}
+	#}
 
 	focus = { #ALT HISTORICAL
 		id = ARG_our_own_path
 		icon = GFX_focus_ARG_our_own_path
-		prerequisite = { focus = ARG_maintain_neutrality focus = ARG_argentina_first }
+		prerequisite = { focus = ARG_maintain_neutrality }
 		x = 1
 		y = 1
 		relative_position_id = ARG_maintain_neutrality
@@ -1759,14 +2099,42 @@ focus_tree = {
 
 	focus = { #DOMINATION
 		id = ARG_dominate_the_south
-		icon = GFX_focus_por_recover_latin_america
-		prerequisite = { focus = ARG_argentina_first focus = ARG_join_the_axis focus = ARG_maintain_neutrality }
-		x = 2
-		y = 2
-		relative_position_id = ARG_argentina_first
+		icon = GFX_PRU_relive_san_martins_dream
+		prerequisite = {
+			focus = ARG_our_own_path
+			focus = ARG_argentina_first
+			focus = ARG_maintain_the_state
+		}
+		x = 6
+		y = 1
+		relative_position_id = ARG_our_own_path
 		#mutually_exclusive = { focus = ARG_align_with_the_monroe_doctrine }
 		cost = 10
 		available = {
+		}
+
+		offset = {
+			x = -6
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_roberto_maria_ortiz 
+			}
+		}
+
+		offset = {
+			x = -8
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_manuel_antonio_fresco 
+			}
 		}
 
 		ai_will_do = {
@@ -1808,14 +2176,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = ARG_dominate_the_south
 		cost = 5
-		available = {
-			
-		}
-
-		bypass = {
-			
-		}
-
+		
 		ai_will_do = {
 			factor = 20
 		}
@@ -1824,14 +2185,36 @@ focus_tree = {
 
 		completion_reward = {
 
-			build_railway = { #Formosa to Tucumán 
-				path = { 12943 10986 10965 8216 }
+			if = {
+				limit = {
+					can_build_railway = {
+						start_state = 508
+						target_state = 957
+						build_only_on_allied = yes 
+					}
+				}
+				build_railway = {
+					level = 2
+					start_state = 508
+					target_state = 957
+				}
 			}
-			build_railway = { # Santa Cruz to Rawson
-				path = { 12946 12952 13305 10953 }
-			} 
+			if = {
+				limit = {
+					can_build_railway = {
+						start_state = 1021
+						target_state = 954
+						build_only_on_allied = yes 
+					}
+				}
+				build_railway = {
+					level = 2
+					start_state = 1021
+					target_state = 954
+				}
+			}
 
-			 954 = {
+			954 = {
 				add_building_construction = {
 					type = supply_node
 					level = 1
@@ -1852,6 +2235,36 @@ focus_tree = {
 		}
 	}
 
+	### Major Naval Investments ###
+	focus = {
+		id = ARG_major_naval_investments_DLC
+		icon = GFX_goal_generic_construct_naval_dockyard
+		x = 0
+		y = 1
+		relative_position_id = ARG_preparations_for_war
+		prerequisite = {
+			focus = ARG_preparations_for_war
+		}
+
+		cost = 7.2 
+
+		available = {
+			any_controlled_state = {
+				is_coastal = yes 
+			}
+			num_of_factories > 34
+		}
+
+		search_filters = {
+			FOCUS_FILTER_NAVY_XP FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			navy_experience = 50
+			EUYL_add_2_dockyard = yes 
+		}
+	}
+
 	focus = { #DOMINATION
 		id = ARG_conquer_paraguay
 		icon = GFX_focus_generic_attack_paraguay
@@ -1860,14 +2273,12 @@ focus_tree = {
 		y = 1
 		relative_position_id = ARG_dominate_the_south
 		mutually_exclusive = { focus = ARG_paraguayan_ultimatum }
-		cost = 10
+		cost = 6
 		available = {
 			PAR = {
 				exists = yes
 			}
 		}
-
-
 
 		bypass = {
 			PAR = {
@@ -1902,7 +2313,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = ARG_dominate_the_south
 		mutually_exclusive = { focus = ARG_conquer_paraguay }
-		cost = 10
+		cost = 6
 		available = {
 			PAR = {
 				exists = yes
@@ -1940,70 +2351,74 @@ focus_tree = {
 		}
 	}
 
-	focus = { #DOMINATION
-		id = ARG_revive_the_colonial_plan
-		icon = GFX_focus_ARG_revive_the_colonial_plan
-		prerequisite = { focus = ARG_cut_ties_with_britain }
-		x = 4
-		y = 1
-		relative_position_id = ARG_cut_ties_with_britain
-		mutually_exclusive = { focus = ARG_conquer_uruguay }
-		cost = 10
-		available = {
-			GER = {
-				is_in_faction_with = ROOT
-			}
-
-			URG = {
-				exists = yes
-				NOT = {
-					has_war_with = ROOT
-					is_subject_of = ROOT
-					is_in_faction_with = ROOT
-				} 
-			}
-		}
-
-		ai_will_do = {
-			factor = 10
-		}
-
-		bypass = {
-			URG = {
-				OR = {
-					exists = no
-					has_war_with = ROOT
-					is_subject_of = ROOT
-					is_in_faction_with = ROOT
-				}
-			}
-		}
-
-		search_filters = { }
-
-		completion_reward = { 
-
-		hidden_effect = {
-			URG = {
-				country_event = {
-					id = ARG_political_events.19
-					hours = 1
-				}
-			}
-		}
-			custom_effect_tooltip = ARG_uraguayan_ultimatum.tt
-		}
-	}
+	#focus = { #DOMINATION
+	#	id = ARG_revive_the_colonial_plan
+	#	icon = GFX_focus_ARG_revive_the_colonial_plan
+	#	prerequisite = {
+	#		focus = ARG_dominate_the_south
+	#	}
+	#	x = 8
+	#	y = 1
+	#	relative_position_id = ARG_dominate_the_south
+	#	cost = 10
+	#	available = {
+	#		GER = {
+	#			is_in_faction_with = ROOT
+	#		}
+#
+	#		URG = {
+	#			exists = yes
+	#			NOT = {
+	#				has_war_with = ROOT
+	#				is_subject_of = ROOT
+	#				is_in_faction_with = ROOT
+	#			} 
+	#		}
+	#	}
+#
+	#	ai_will_do = {
+	#		factor = 10
+	#	}
+#
+	#	bypass = {
+	#		URG = {
+	#			OR = {
+	#				exists = no
+	#				has_war_with = ROOT
+	#				is_subject_of = ROOT
+	#				is_in_faction_with = ROOT
+	#			}
+	#		}
+	#	}
+#
+	#	search_filters = { }
+#
+	#	completion_reward = { 
+#
+	#	hidden_effect = {
+	#		URG = {
+	#			country_event = {
+	#				id = ARG_political_events.19
+	#				hours = 1
+	#			}
+	#		}
+	#	}
+	#		custom_effect_tooltip = ARG_uraguayan_ultimatum.tt
+	#	}
+	#}
 
 	focus = { #DOMINATION
 		id = ARG_conquer_uruguay
 		icon = GFX_focus_generic_attack_uruguay
-		prerequisite = { focus = ARG_cut_ties_with_britain }
-		x = 6
+		prerequisite = {
+			focus = ARG_maintain_the_state
+			focus = ARG_argentina_first
+		}
+		x = -1
 		y = 1
-		relative_position_id = ARG_cut_ties_with_britain
-		mutually_exclusive = { focus = ARG_revive_the_colonial_plan }
-		cost = 10
+		relative_position_id = ARG_maintain_the_state
+
+		cost = 5
 		available = {
 			URG = {
 				exists = yes
@@ -2029,18 +2444,67 @@ focus_tree = {
 
 		completion_reward = { 
 			create_wargoal = {
-					type = annex_everything
-					target = URG
+				type = annex_everything
+				target = URG
+			}
+			
+			BRA = {
+				country_event = {
+					id = ARG_political_events.110
+					hours = 5
 				}
-				
-				BRA = {
-					country_event = {
-						id = ARG_political_events.110
-						hours = 5
+			}
+		}
+	}
+
+	### Uruguayan Integration ###
+	focus = {
+		id = ARG_uruguayan_integration
+		icon = GFX_ARG_annex_uruguay
+		x = 0
+		y = 1
+		relative_position_id = ARG_conquer_uruguay
+		prerequisite = {
+			focus = ARG_conquer_uruguay
+		}
+
+		cost = 10
+
+		available = {
+			URG = {
+				OR = {
+					is_subject_of = ROOT 
+					all_core_state = {
+						is_fully_controlled_by = ROOT
 					}
 				}
 			}
 		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					URG = {
+						is_subject_of = ROOT 
+					}
+				}
+				annex_country = {
+					target = URG 
+					transfer_troops = yes 
+				}
+			}
+			every_state = {
+				limit = {
+					is_core_of = URG 
+				}
+				add_core_of = ROOT
+			}
+		}
+	}
 
 	focus = { #DOMINATION
 		id = ARG_reach_out_to_chile
@@ -2050,7 +2514,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = ARG_paraguayan_ultimatum
 		mutually_exclusive = { focus = ARG_chilean_ultimatum }
-		cost = 10
+		cost = 8
 		available = {
 			ARG = {
 				is_faction_leader = yes
@@ -2101,6 +2565,38 @@ focus_tree = {
 		}
 	}
 
+	### The Push through Peru ###
+	focus = {
+		id = ARG_the_push_through_peru
+		icon = GFX_focus_PRU_attack
+		x = -2
+		y = 1
+		relative_position_id = ARG_reach_out_to_chile
+		prerequisite = {
+			focus = ARG_reach_out_to_chile
+			focus = ARG_chilean_ultimatum
+		}
+
+		cost = 10
+
+		available = {
+			NOT = {
+				is_in_faction_with = PRU 
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			create_wargoal = {
+				target = PRU
+				type = annex_everything
+			}
+		}
+	}
+
 	focus = { #DOMINATION
 		id = ARG_chilean_ultimatum
 		icon = GFX_focus_ARG_chilean_ultimatum
@@ -2109,7 +2605,7 @@ focus_tree = {
 		y = 2
 		relative_position_id = ARG_dominate_the_south
 		mutually_exclusive = { focus = ARG_reach_out_to_chile }
-		cost = 10
+		cost = 8
 		available = {
 			CHL = {
 				NOT = {
@@ -2153,6 +2649,56 @@ focus_tree = {
 		}
 	}
 
+	### The Push Across the Pacific ###
+	focus = {
+		id = ARG_the_push_across_the_pacific
+		icon = GFX_ARG_attack_new_zealand
+		x = -1
+		y = 1
+		relative_position_id = ARG_major_naval_investments_DLC
+		prerequisite = {
+			focus = ARG_chilean_ultimatum
+		}
+		prerequisite = {
+			focus = ARG_major_naval_investments_DLC
+		}
+
+		available = {
+			has_navy_size = { size > 34 }
+			CHL = {
+				capital_scope = {
+					controls_or_subject_of = yes 
+				}
+			}
+		}
+
+		cost = 10
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = AST
+						original_tag = NZL
+					}
+					NOT = {
+						has_war_with = ROOT 
+					}
+				}
+				ROOT = {
+					create_wargoal = {
+						target = PREV
+						type = annex_everything
+					}
+				}
+			}
+		}
+	}
+
 	focus = { #DOMINATION
 		id = ARG_the_old_enemy
 		icon = GFX_focus_ARG_the_old_enemy
@@ -2163,6 +2709,16 @@ focus_tree = {
 		will_lead_to_war_with = BRA
 		cost = 10
 		available = {
+			PAR = {
+				capital_scope = {
+					controls_or_subject_of = yes 
+				}
+			}
+			URG = {
+				capital_scope = {
+					controls_or_subject_of = yes
+				}
+			}
 			BRA = {
 				exists = yes
 				NOT = {
@@ -2224,18 +2780,56 @@ focus_tree = {
 		
 			IF = {
 				limit = {
-					has_completed_focus = ARG_union_nacional_fascista
-				}
-				set_cosmetic_tag = ARG_nationalist_union_south_america_fascism
-			}
-			ELSE_IF = {
-				limit = {
 					OR = {
 						has_completed_focus = ARG_guardia_nacional
 						has_government = neutrality
 					}
+					NOT = {
+						has_cosmetic_tag = ARG_PROVINCIAS
+					}
 				}
 				set_cosmetic_tag = ARG_military_union_south_america
+			}
+		}
+	}
+
+	### The Nail in the Coffin ###
+	focus = {
+		id = ARG_the_nail_in_the_coffin
+		icon = GFX_focus_spa_the_war_of_vengeance
+		x = 0
+		y = 1
+		relative_position_id = ARG_south_american_unity
+		prerequisite = {
+			focus = ARG_south_american_unity
+		}
+
+		cost = 10
+
+		available = {
+			num_of_factories > 120
+			has_navy_size = { size > 49 }
+			USA = {
+				NOT = { is_in_faction_with = ROOT }
+			}
+		}
+		
+		bypass = {
+			ROOT = {
+				has_war_with = USA 
+			}
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			add_ideas = ARG_the_american_initiative
+			create_wargoal = {
+				target = USA
+				type = annex_everything
 			}
 		}
 	}
@@ -2370,33 +2964,33 @@ focus_tree = {
 
 		completion_reward = { 
 			512 = {
-					add_extra_state_shared_building_slots = 1
-					add_building_construction = {
-						type = arms_factory
-						level = 1
-						instant_build = yes
-					}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
 				}
+			}
 
 			956 = {
-					add_extra_state_shared_building_slots = 1
-					add_building_construction = {
-						type = arms_factory
-						level = 1
-						instant_build = yes
-					}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
 				}
+			}
 
 			958 = {
-					add_extra_state_shared_building_slots = 1
-					add_building_construction = {
-						type = arms_factory
-						level = 1
-						instant_build = yes
-					}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
 				}
 			}
 		}
+	}
 
 	focus = { #DOMINATION
 		id = ARG_secure_the_borders
@@ -2579,7 +3173,7 @@ focus_tree = {
 
 		completion_reward = { 
 
-		custom_effect_tooltip = ARG_island_negotiations_decisions_tt
+			custom_effect_tooltip = ARG_island_negotiations_decisions_tt
 		
 			299 = {
 				add_core_of = ROOT
@@ -2605,26 +3199,63 @@ focus_tree = {
 					}
 	
 					ROOT = {
-					create_wargoal = {
-						type = take_state_focus
-						target = ENG
-						expire = 0
-						generator = { 299 }
+						create_wargoal = {
+							type = take_state_focus
+							target = ENG
+							expire = 0
+							generator = { 299 }
+						}
 					}
-				}
 	
 					ROOT = {
-					create_wargoal = {
-						type = take_state_focus
-						target = ENG
-						expire = 0
-						generator = { 720 }
+						create_wargoal = {
+							type = take_state_focus
+							target = ENG
+							expire = 0
+							generator = { 720 }
+						}
 					}
 				}
-			}
-		}		
+			}		
+		}
 	}
-}
+
+	### Attack the mainland ###
+	focus = {
+		id = ARG_attack_the_mainland_DLC
+		icon = GFX_focus_attack_britain
+		x = -1
+		y = 1
+		relative_position_id = ARG_argentine_island_sovereignty
+		prerequisite = {
+			focus = ARG_argentine_island_sovereignty
+		}
+		prerequisite = {
+			focus = ARG_major_naval_investments_DLC
+		}
+
+		cost = 10
+
+		available = {
+			has_navy_size = { size > 60 }
+			has_army_manpower = { size > 449999 }
+			NOT = {
+				is_in_faction_with = ENG
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			add_ideas = ARG_the_english_initiative
+			create_wargoal = {
+				target = ENG
+				type = annex_everything
+			}
+		}
+	}
 
 	#########################
 	#### DEMOCRATIC PATH ####
@@ -2638,7 +3269,7 @@ focus_tree = {
 		y = 0
 		#relative_position_id = ARG_preparation_for_the_elections
 		cost = 5
-		mutually_exclusive = { focus = ARG_a_call_to_reform focus = ARG_roberto_maria_ortiz }
+		mutually_exclusive = { focus = ARG_a_call_to_reform focus = ARG_roberto_maria_ortiz focus = ARG_manuel_antonio_fresco }
 		available = {
 		}
 
@@ -2652,6 +3283,7 @@ focus_tree = {
 				}
 				NOT = { has_completed_focus = ARG_roberto_maria_ortiz }
 				NOT = { has_completed_focus = ARG_a_call_to_reform }
+				NOT = { has_completed_focus = ARG_manuel_antonio_fresco }
 			}
 		}
 
@@ -3052,6 +3684,36 @@ focus_tree = {
 			remove_country_leader_trait = {
 				trait = ARG_harsh_democrat
 			}
+		}
+	}
+
+	### Argentine Industrial Heaven ###
+	focus = {
+		id = ARG_argentine_industrial_heaven
+		icon = GFX_ARG_end_of_depression
+		x = 0
+		y = 1
+		relative_position_id = ARG_alvears_democracy
+		prerequisite = {
+			focus = ARG_alvears_democracy
+			focus = ARG_joint_military_exercises
+			focus = ARG_reinforced_alliance
+		}
+		cost = 10
+
+		available = {
+			NOT = {
+				has_idea = ARG_scars_of_the_great_depression
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_2_civilian = yes 
+			EUYL_add_1_civilian = yes 
 		}
 	}
 
@@ -4180,7 +4842,7 @@ focus_tree = {
 		y = 0
 		#relative_position_id = ARG_preparation_for_the_elections
 		cost = 5
-		mutually_exclusive = { focus = ARG_roberto_maria_ortiz focus = ARG_the_clean_election }
+		mutually_exclusive = { focus = ARG_roberto_maria_ortiz focus = ARG_the_clean_election focus = ARG_manuel_antonio_fresco }
 		available = {
 		}
 
@@ -4194,6 +4856,7 @@ focus_tree = {
 				}
 				NOT = { has_completed_focus = ARG_roberto_maria_ortiz }
 				NOT = { has_completed_focus = ARG_the_clean_election }
+				NOT = { has_completed_focus = ARG_manuel_antonio_fresco }
 			}
 		}
 
@@ -4304,7 +4967,7 @@ focus_tree = {
 		x = 0
 		y = 1
 		relative_position_id = ARG_invite_ghioldi_back_to_argentina
-		cost = 10
+		cost = 5
 		available = {
 		}
 
@@ -4317,7 +4980,7 @@ focus_tree = {
 		completion_reward = { 
 			add_popularity = {
 				ideology = communism 
-				popularity = 0.1
+				popularity = 0.05
 			}
 
 			add_popularity = {
@@ -4377,12 +5040,13 @@ focus_tree = {
 				idea = ARG_united_workers_idea
 				days = 365
 			}
+			unlock_decision_category_tooltip = ARG_unite_the_workers_decisions
 		}
 	}
 
 	focus = { #COMMUNIST
 		id = ARG_viva_la_revolucion
-		icon = GFX_focus_SWE_refuge_for_revolutionaries
+		icon = GFX_ARG_argentina_communist
 		prerequisite = { focus = ARG_reach_out_to_the_soviet_union focus = ARG_unite_the_workers_of_argentina }
 		x = 1
 		y = 1
@@ -4400,93 +5064,157 @@ focus_tree = {
 
 		completion_reward = { 
 
-			custom_effect_tooltip = ARG_communist_civil_war_tt
-
-				start_civil_war = {
-					ruling_party = communism
-					ideology = neutrality
-					size = 0.1
-					army_ratio = 0.4
-		    		navy_ratio = 0.4
-		    		air_ratio = 0.4
-		    		states = all
-		    		states_filter = {
-		    			is_controlled_by = ARG
-		    			NOT = {
-		    				state = 960
-		    				state = 956
-		    				state = 958
-		    				state = 511
-		    				state = 512
-		    				state = 955
-		    				state = 954
-		    				state = 953
-		    			}
-		    		}
-		
-		    		keep_all_characters = yes
-		    		PREV = {  # Original country
-	            		ARG_agustin_pedro_justo = { # Character
-	            		    set_nationality = PREV.PREV
-							promote_leader = yes
-	            		    # Transfers to breakaway
-	            		}
-		
-	            		PREV = {
-	            			retire_country_leader = yes
-	            		}
-	            	}
-		    	}
-	
-				ARG_rodolfo_ghioldi = { 
-					promote_character = yes 
+			if = {
+				limit = {
+					NOT = {
+						has_template = "Milicias"
+					}
 				}
-
-				set_cosmetic_tag = ARG_marxism
-
-				if = {
-					limit = {
-						has_completed_focus = ARG_reach_out_to_the_soviet_union
-					}
-
-					division_template = {
-						name = "Vanguardia Socialista"		
-						#division_names_group = SWE_BS_01
-						is_locked = no
-						template_counter = 69
-						regiments = {
-							militia = { x = 0 y = 0 }
-							militia = { x = 0 y = 1 }
-							militia = { x = 1 y = 0 }
-							militia = { x = 1 y = 1 }
-						}
-						#division_cap = 0
-					}
 				hidden_effect = {
-					955 = { 
-				create_unit = {
-				    division = "name = \"Primera Vanguardia Socialista\" division_template = \"Vanguardia Socialista\" start_experience_factor = 0.8 start_equipment_factor = 1"
-				    owner = ROOT
-				}
-				create_unit = {
-				    division = "name = \"Segunda Vanguardia Socialista\" division_template = \"Vanguardia Socialista\" start_experience_factor = 0.8 start_equipment_factor = 1"
-				    owner = ROOT
-				}
-				create_unit = {
-				    division = "name = \"Tercera Vanguardia Socialista\" division_template = \"Vanguardia Socialista\" start_experience_factor = 0.8 start_equipment_factor = 1"
-				    owner = ROOT
-				}
-				create_unit = {
-				    division = "name = \"Cuarta Vanguardia Socialista\" division_template = \"Vanguardia Socialista\" start_experience_factor = 0.8 start_equipment_factor = 1"
-				    owner = ROOT
-				}
-				create_unit = {
-				    division = "name = \"Quinta Vanguardia Socialista\" division_template = \"Vanguardia Socialista\" start_experience_factor = 0.8 start_equipment_factor = 1"
-				    owner = ROOT
+					division_template = { 
+						name = "Milicias" 
+						division_names_group = SPAN_INF_02 
+						is_locked = yes 
+                        template_counter = 3
+						regiments = { 
+							infantry = { x = 0 y = 0 }  
+							infantry = { x = 0 y = 1 } 
+							infantry = { x = 0 y = 2 } 
+						}
+					}
 				}
 			}
-		}
-	}
+
+			custom_effect_tooltip = ARG_communist_civil_war_tt
+
+			start_civil_war = {
+				ruling_party = communism
+				ideology = neutrality
+				size = 0.15
+				army_ratio = 0.4
+		    	navy_ratio = 0.4
+		    	air_ratio = 0.4
+		    	capital = 1021
+            	states = { 278 1021 971 958 511 970 512 955 954 953 982 }
+		
+		    	keep_all_characters = yes
+		    	PREV = {  # Original country
+	        		ARG_agustin_pedro_justo = { # Character
+	        		    set_nationality = PREV.PREV
+						promote_leader = yes
+	        		    # Transfers to breakaway
+	        		}
+					ARG_arturo_rawson = { set_nationality = PREV.PREV } ## extra general cuz im a very kind person
+	        		PREV = {
+	        			retire_country_leader = yes
+	        		}
+	        	}
+		    }
+	
+			ARG_rodolfo_ghioldi = { 
+				promote_character = yes 
+			}
+
+			set_cosmetic_tag = ARG_marxism
+
+			hidden_effect = { ## THIS IS EUYL BABY, THERE AINT NO EASY CIVIL WARS HERE
+				if = {
+					limit = {
+						NOT = {
+							has_template = "Milicias"
+						}
+					}
+					hidden_effect = {
+						division_template = { 
+							name = "Milicias" 
+							division_names_group = SPAN_INF_02 
+							is_locked = yes 
+							template_counter = 3
+							regiments = { 
+								infantry = { x = 0 y = 0 }  
+								infantry = { x = 0 y = 1 } 
+								infantry = { x = 0 y = 2 } 
+							}
+						}
+					}
+				}
+				add_ideas = ARG_the_argentine_civil_war_idea_communist
+				every_controlled_state = {
+					create_unit = {
+						division = "name = \"Milicias Leales\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+						owner = ROOT
+					}
+				}
+				random_other_country = {
+					limit = {
+						has_government = neutrality
+						has_civil_war = yes
+						original_tag = ARG
+					}
+					add_ideas = ARG_the_argentine_civil_war_idea_government
+					every_controlled_state = {
+						create_unit = {
+							division = "name = \"Milicias Anti-Comunistas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+							owner = PREV
+							count = 2
+						}
+					}
+				}
+			}
+
+			if = {
+				limit = {
+					has_completed_focus = ARG_reach_out_to_the_soviet_union
+				}
+
+				division_template = {
+					name = "Vanguardia Socialista"		
+					#division_names_group = SWE_BS_01
+					is_locked = no
+					template_counter = 69
+					regiments = {
+						militia = { x = 0 y = 0 }
+						militia = { x = 0 y = 1 }
+						militia = { x = 1 y = 0 }
+						militia = { x = 1 y = 1 }
+					}
+					#division_cap = 0
+				}
+				hidden_effect = {
+					955 = { 
+						create_unit = {
+							division = "name = \"Primera Vanguardia Socialista\" division_template = \"Vanguardia Socialista\" start_experience_factor = 0.8 start_equipment_factor = 1"
+							owner = ROOT
+						}
+						create_unit = {
+							division = "name = \"Segunda Vanguardia Socialista\" division_template = \"Vanguardia Socialista\" start_experience_factor = 0.8 start_equipment_factor = 1"
+							owner = ROOT
+						}
+						create_unit = {
+							division = "name = \"Tercera Vanguardia Socialista\" division_template = \"Vanguardia Socialista\" start_experience_factor = 0.8 start_equipment_factor = 1"
+							owner = ROOT
+						}
+						create_unit = {
+							division = "name = \"Cuarta Vanguardia Socialista\" division_template = \"Vanguardia Socialista\" start_experience_factor = 0.8 start_equipment_factor = 1"
+							owner = ROOT
+						}
+						create_unit = {
+							division = "name = \"Quinta Vanguardia Socialista\" division_template = \"Vanguardia Socialista\" start_experience_factor = 0.8 start_equipment_factor = 1"
+							owner = ROOT
+						}
+					}
+					if = {
+						limit = {
+							has_dynamic_modifier = {
+								modifier = ARG_political_corruption_modifier
+							}
+						}
+						remove_dynamic_modifier = {
+							modifier = ARG_political_corruption_modifier
+						}
+					}
+				}
+			}
 				
 		news_event = { id = ARG_news_events.3 hours = 1 }
 	}
@@ -4512,23 +5240,22 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL_CHARACTER }
 
 		completion_reward = { 
-
 			ARG_fanny_edelman = { 
-					promote_character = yes 
-				}
-
-				create_faction = ARG_communist_faction
-
-				hidden_effect = {
-					IF = {
-						limit = {
-							has_idea = ARG_fanny_edelman
-						}
-						remove_ideas = ARG_fanny_edelman
+				promote_character = yes 
+			}
+			set_rule = {
+				can_create_factions = yes 
+			}
+			hidden_effect = {
+				IF = {
+					limit = {
+						has_idea = ARG_fanny_edelman
 					}
+					remove_ideas = ARG_fanny_edelman
 				}
 			}
 		}
+	}
 
 	focus = { #COMMUNIST
 		id = ARG_women_in_industry
@@ -4571,6 +5298,7 @@ focus_tree = {
 
 		completion_reward = { 
 			add_ideas = ARG_agrarian_reforms_idea
+			unlock_decision_category_tooltip = ARG_support_the_farmers_decisions
 		}
 	}
 
@@ -4617,15 +5345,15 @@ focus_tree = {
 
 		completion_reward = { 
 
-		custom_effect_tooltip = ARG_the_buenos_aires_conference_1_tt
-		custom_effect_tooltip = CHL_skip_one_line_tt
-		custom_effect_tooltip = ARG_the_buenos_aires_conference_2_tt
+			custom_effect_tooltip = ARG_the_buenos_aires_conference_1_tt
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			custom_effect_tooltip = ARG_the_buenos_aires_conference_2_tt
 
-		hidden_effect = {
-			ARG = {
-				country_event = {
-					id = ARG_political_events.70
-					days = 1
+			hidden_effect = {
+				ARG = {
+					country_event = {
+						id = ARG_political_events.70
+						days = 1
 					}
 				}
 			}
@@ -4850,8 +5578,8 @@ focus_tree = {
 
 			hidden_effect = {
 				
-				ARG_rodolfo_ghioldi = {  
-						set_portraits = {
+				ARG_rodolfo_ghioldi = {  ## Wish I knew this earlier, this is such a good thing to have
+					set_portraits = {
 						army = { large ="GFX_portrait_ARG_rodolfo_ghioldi_soviet"}
 						civilian = { large ="GFX_portrait_ARG_rodolfo_ghioldi_soviet" 	}
 					}
@@ -5204,9 +5932,161 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_POLITICAL }
 
 		completion_reward = { 
-
+			if = {
+				limit = {
+					has_cosmetic_tag = ARG_la_plata
+				}
+				drop_cosmetic_tag = yes
+			}
 			set_cosmetic_tag = ARG_independent_socialist_communism
 			add_ideas = ARG_eliminate_american_imperialism_idea
+		}
+	}
+
+	focus = { #will require at least 6 posadist ambitions completed succesfully
+		id = ARG_european_theatre_DLC
+		icon = GFX_focus_usa_focus_on_europe  
+		x = 0
+		y = 1
+		relative_position_id = ARG_a_red_south_america
+		prerequisite = {
+			focus = ARG_a_red_south_america
+		}
+	
+		available = {
+			if = {
+				limit = {
+					has_country_leader = {
+						character = ARG_juan_posadas
+						ruling_only = yes 
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = ARG_at_least_6_succesful_ambitions_tt
+					check_variable = { ARG_succesful_posadist_ambition_missions > 5 }
+				}
+			}
+			controls_state = 270
+			OR = {
+				num_subjects > 3
+				num_of_controlled_states > 49
+			}
+			has_army_manpower = { size > 499999 }
+		}
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			custom_effect_tooltip = ARG_gain_claims_on_every_coastal_atlantic_european_state_tt
+			every_state = {
+				limit = {
+					NOT = {
+						OR = {
+							is_controlled_by = ROOT 
+							is_claimed_by = ROOT 
+						}
+					}
+					is_on_continent = europe
+					is_coastal = yes 
+					OR = {
+						is_core_of = POR 
+						is_core_of = SPR
+						is_core_of = FRA 
+						is_core_of = HOL 
+						is_core_of = BEL 
+						is_core_of = IRE 
+						is_core_of = ENG
+					}
+				}
+				add_claim_by = ROOT 
+			}
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
+				limit = {
+					capital_scope = { is_on_continent = europe }
+					NOT = {
+						OR = {
+							has_war_with = ROOT 
+							is_in_faction_with = ROOT 
+							is_subject_of = ROOT 
+						}
+					}
+					OR = {
+						controls_state = 41
+						controls_state = 16
+						controls_state = 126
+						controls_state = 112
+					}
+				}
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						capital_scope = { is_on_continent = europe }
+						NOT = {
+							OR = {
+								has_war_with = ROOT 
+								is_in_faction_with = ROOT 
+								is_subject_of = ROOT 
+							}
+						}
+						OR = {
+							controls_state = 41
+							controls_state = 16
+							controls_state = 126
+							controls_state = 112
+						}
+					}
+					ROOT = { 
+						create_wargoal = {
+							type = puppet_wargoal_focus
+							target = PREV
+						}
+					}
+				}
+			}
+		}
+
+	}
+
+	focus = { #will require a bit of everything, and will also be an achievement
+		id = ARG_a_red_world_DLC
+		icon = GFX_focus_SOV_proclaim_soviet_hegemony
+		x = 0
+		y = 1
+		relative_position_id = ARG_european_theatre_DLC
+		prerequisite = {
+			focus = ARG_european_theatre_DLC
+		}
+
+		cost = 10
+
+		ai_will_do = { factor = 5 }
+
+		available = {
+			any_controlled_state = { is_on_continent = asia }
+			any_controlled_state = { is_on_continent = europe }	
+			any_controlled_state = { is_on_continent = north_america }
+			num_of_controlled_states > 80
+			num_of_factories > 199
+			any_subject_country = {
+				capital_scope = { is_on_continent = europe }
+			}
+			any_subject_country = {
+				capital_scope = { is_on_continent = asia }
+			}
+		}
+
+		## will allow the player to cause civil wars in any country with enough communism support
+
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			#custom_effect_tooltip = BRA_unlock_instigate_civil_wars_tt
+			set_major = yes 
+			add_stability = 0.1
+			add_war_support = 0.1
+			set_rule = { can_send_volunteers = yes }
 		}
 	}
 
@@ -5414,6 +6294,18 @@ focus_tree = {
 		}
 
 		offset = {
+			x = -10
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_roberto_maria_ortiz 
+			}
+		}
+
+		offset = {
 			x = -34
 			y = 0
 			trigger = {
@@ -5422,6 +6314,18 @@ focus_tree = {
 					option = HIDE
 				}
 				has_completed_focus = ARG_a_call_to_reform 
+			}
+		}
+
+		offset = {
+			x = -5
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ARG_manuel_antonio_fresco 
 			}
 		}
 
@@ -5629,6 +6533,8 @@ focus_tree = {
     			idea = ARG_economic_reactivation_idea
     			days = 365
 			}
+			custom_effect_tooltip = EUYL_effects_when_removed_tt
+			effect_tooltip = { remove_ideas = ARG_scars_of_the_great_depression } 
 		}
 	}
 
@@ -5913,6 +6819,9 @@ focus_tree = {
 			956 = {
 				is_controlled_by = ROOT
 			}
+			NOT = {
+				has_idea = ARG_scars_of_the_great_depression
+			}
 		}
 
 		ai_will_do = {
@@ -5962,6 +6871,9 @@ focus_tree = {
 		relative_position_id = ARG_industrial_expansion
 		cost = 10
 		available = {
+			NOT = {
+				has_idea = ARG_scars_of_the_great_depression
+			}
 		}
 
 		ai_will_do = {

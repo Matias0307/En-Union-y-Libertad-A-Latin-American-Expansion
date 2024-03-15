@@ -6029,22 +6029,9 @@ focus_tree = {
 	focus = { #Begin preperations for the monarchist uprising
 		id = POR_monarchist_uprising_in_brazil
 		available = {
-			has_global_flag = BRA_civil_war_in_progress
-		}
-
-		bypass = {
-			BZE = {
-				OR = {
-					AND = {
-						exists = yes 
-						has_global_flag = BRA_civil_war_concluded
-						has_war = no 
-					}
-					AND = {
-						exists = yes
-						has_global_flag = BRA_civil_war_in_progress
-					}
-				}
+			BRA = {
+				has_civil_war = no 
+				is_ai = yes
 			}
 		}
 		prerequisite = { focus = POR_the_return_of_duarte }
@@ -6057,67 +6044,33 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR }
 		completion_reward = {
 			hidden_effect = {
-				if = {
-					limit = {
-						has_global_flag = player_chose_imperialist
-					}
-					random_other_country = {
-						limit = {
-							original_tag = BRA 
-							has_completed_focus = BRA_a_visit_to_the_past
-						}
-						country_event = brazil.88
-						set_country_flag = BRA_imperialist_country
-					}
-					every_other_country = {
-						limit = {
-							original_tag = BRA 
-							NOT = { has_country_flag = BRA_imperialist_country }
-						}
-						country_event = brazil.87
-					}
+				936 = {
+					add_dynamic_modifier = { modifier = BRA_monarchist_influence }
 				}
-				else = {
-					BRA = {
-						country_event = brazil.87
-						activate_mission = BRA_impending_imperial_uprising
-						set_country_flag = BRA_has_actual_mission
-						set_party_name = {
-							ideology = neutrality
-							long_name = BRA_monarchy_party_long
-							name = BRA_monarchy_party
-						}
-					}
-					every_other_country = {
-						limit = {
-							original_tag = BRA 
-							NOT = { has_country_flag = BRA_has_actual_mission }
-						}
-						country_event = brazil.87
-						activate_mission = BRA_impending_imperial_uprising_effect
-					}
-					936 = {
-						add_dynamic_modifier = { modifier = BRA_monarchist_influence }
-					}
-					986 = {
-						add_dynamic_modifier = { modifier = BRA_monarchist_influence }
-					}
-					498 = {
-						add_dynamic_modifier = { modifier = BRA_monarchist_influence }
-					}
+				986 = {
+					add_dynamic_modifier = { modifier = BRA_monarchist_influence }
+				}
+				499 = {
+					add_dynamic_modifier = { modifier = BRA_monarchist_influence }
+				}
+				498 = {
+					add_dynamic_modifier = { modifier = BRA_monarchist_influence }
+				}
+				500 = {
+					add_dynamic_modifier = { modifier = BRA_monarchist_influence }
+				}
+				501 = {
+					add_dynamic_modifier = { modifier = BRA_monarchist_influence }
+				}
+				502 = {
+					add_dynamic_modifier = { modifier = BRA_monarchist_influence }
+				}
+				503 = {
+					add_dynamic_modifier = { modifier = BRA_monarchist_influence }
 				}
 			}
-			if = {
-				limit = {
-					has_global_flag = player_chose_imperialist
-				}
-				BRA = { set_temp_variable = { fortnite_battle_pass = days_mission_timeout@BRA_impending_imperial_uprising } }
-				set_variable = { POR_days_timeout_brazil = fortnite_battle_pass }
-				activate_mission = POR_impending_imperialist_uprising_in_brazil
-			}
-			else = {
-				set_variable = { POR_days_timeout_brazil = 135 }
-				activate_mission = POR_impending_imperialist_uprising_in_brazil
+			BRA = {
+				BRA_start_new_imperialist_civil_war = yes
 			}
 		}
 	}
@@ -6134,19 +6087,12 @@ focus_tree = {
 
 		available = {
 			has_global_flag = BRA_civil_war_in_progress
-			BZE = {
-				exists = yes 
-			}
 		}
 
 		bypass = {
-			OR = {
-				has_global_flag = BRA_POR_intervened
-				AND = {
-					BZE = { exists = yes }
-					BZE = { is_subject = no }
-					has_global_flag = BRA_civil_war_concluded
-				}
+			BRA = {
+				has_civil_war = no
+				has_cosmetic_tag = BRA_SECOND_EMPIRE
 			}
 		}
 
@@ -6156,14 +6102,14 @@ focus_tree = {
 				limit = {
 					original_tag = BRA 
 					NOT = {
-						tag = BZE 
+						has_cosmetic_tag = BRA_TEMPORARY_MONARCHIST_STATE
 					}
 				}
 				POR = { 
-					add_to_war = { targeted_alliance = BZE enemy = PREV hostility_reason = asked_to_join }
+					add_to_war = { targeted_alliance = BRA enemy = PREV hostility_reason = asked_to_join }
 					hidden_effect = {
 						diplomatic_relation = {
-							country = BZE
+							country = BRA
 							relation = military_access
 							active = yes
 						}

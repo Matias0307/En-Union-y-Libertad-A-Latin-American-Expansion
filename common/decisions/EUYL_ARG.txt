@@ -7210,7 +7210,6 @@ ARG_dealing_with_the_corruption = {
 			hidden_trigger = {
 				has_political_power > 24
 				has_equipment = { infantry_equipment > 999 }
-				NOT = { has_country_flag = ARG_dealing_with_oligarchs }
 			}
 		}
 
@@ -7246,6 +7245,10 @@ ARG_dealing_with_the_corruption = {
 		}
 
 		days_remove = 40
+
+		modifier = {
+			political_power_factor = -0.1
+		}
 
 		complete_effect = {
 			set_country_flag = ARG_dealing_with_oligarchs
@@ -7307,6 +7310,12 @@ ARG_1937_elections = {
 			has_country_leader = {
 				character = ARG_the_military_junta
 				ruling_only = yes 
+			}
+			NOT = {
+				OR = {
+					has_government = communism
+					has_government = fascism
+				}
 			}
 		}
 
@@ -12539,7 +12548,10 @@ ARG_integrate_our_territories = {
 
 		target_trigger = {
 			FROM = {
-				is_on_continent = south_america
+				OR = {
+					is_on_continent = south_america
+					is_on_continent = north_america
+				}
 				is_fully_controlled_by = ROOT
 				NOT = { is_core_of = ROOT }
 				any_neighbor_state = {
@@ -12587,6 +12599,336 @@ ARG_integrate_our_territories = {
 			FROM = {
 				add_core_of = ROOT
 			}
+		}
+	}
+}
+
+## NEW DLC CONTENT ##
+ARG_growing_fascist_sentiment = {
+	ARG_stir_fascist_sentiment_in_FROM = {
+		icon = GFX_decision_ger_reichskommissariats
+
+		ai_will_do = {
+			base = 120
+		}
+
+		state_target = yes 
+
+		target_array = controlled_states
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+				is_core_of = ROOT 
+				OR = {
+					industrial_complex > 0
+					arms_factory > 0
+				}
+			}
+		}
+
+		cost = 25
+
+		days_remove = 30
+
+		modifier = {
+			political_power_factor = -0.05
+		}
+
+		available = {
+			NOT = {
+				has_country_flag = ARG_stirring_fascist_sentiment_flag 
+			}
+		}
+
+		cancel_trigger = {
+			has_government = fascism
+		}
+
+		fire_only_once = yes 
+
+		cancel_effect = {
+			clr_country_flag = ARG_stirring_fascist_sentiment_flag
+		}
+
+		complete_effect = {
+			set_country_flag = ARG_stirring_fascist_sentiment_flag
+		}
+
+		remove_effect = {
+			clr_country_flag = ARG_stirring_fascist_sentiment_flag
+			random_list = {
+				50 = { ## Bad March 
+					country_event = {
+						id = argentina.dlc.1 
+						hours = 4
+						random_hours = 4
+					}
+					effect_tooltip = {
+						add_popularity = {
+							ideology = fascism
+							popularity = 0.02
+						}
+					}
+				}
+				35 = { ## Decent March
+					country_event = {
+						id = argentina.dlc.2 
+						hours = 4
+						random_hours = 4
+					}
+					effect_tooltip = {
+						add_popularity = {
+							ideology = fascism
+							popularity = 0.04
+						}
+					}
+				}
+				15 = { ## Massive March
+					country_event = {
+						id = argentina.dlc.3
+						hours = 4
+						random_hours = 4
+					}
+					effect_tooltip = {
+						add_popularity = {
+							ideology = fascism
+							popularity = 0.07
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+ARG_internal_tensions = {
+	ARG_rapidly_deterioriating_political_situation = {
+		icon = GFX_ARG_opposition_civil_war_icon
+
+		activation = {
+			always = no 
+		}
+
+		available = {
+			has_country_flag = ARG_defiant_generals_repressed_flag 
+			has_country_flag = ARG_opposition_supporters_quelled_flag
+			has_country_flag = ARG_politican_oponents_incarcerated_flag
+		}
+
+		cancel_trigger = {
+			has_civil_war = yes 
+		}
+
+		fire_only_once = yes
+
+		days_mission_timeout = 290
+
+		is_good = no 
+
+		complete_effect = {
+			country_event = argentina.dlc.4
+			clr_country_flag = ARG_defiant_generals_repressed_flag
+			clr_country_flag = ARG_opposition_supporters_quelled_flag
+			clr_country_flag = ARG_politican_oponents_incarcerated_flag
+		}
+
+		timeout_effect = {
+			custom_effect_tooltip = ARG_opposition_led_by_t_de_alvear_launch_civil_war_tt
+			if = {
+				limit = {
+					NOT = {
+						has_template = "Milicias"
+					}
+				}
+				hidden_effect = {
+					division_template = { 
+						name = "Milicias" 
+						division_names_group = SPAN_INF_02 
+						is_locked = yes 
+                        template_counter = 3
+						regiments = { 
+							infantry = { x = 0 y = 0 }  
+							infantry = { x = 0 y = 1 } 
+							infantry = { x = 0 y = 2 } 
+						}
+					}
+				}
+			}
+			hidden_effect = {
+				start_civil_war = {
+					ideology = democratic 
+					size = 0.35
+					keep_all_characters = yes 
+					capital = 1021
+            		states = { 278 1021 971 958 511 970 512 955 954 953 982 }
+                    PREV = {
+                        ARG_agustin_pedro_justo = { set_nationality = PREV.PREV }
+                        ARG_marcelo_t_de_alvear = { set_nationality = PREV.PREV }
+                        ARG_fanny_edelman = { set_nationality = PREV.PREV }
+                        ARG_arturo_rawson = { set_nationality = PREV.PREV }
+                    }
+                    promote_character = ARG_marcelo_t_de_alvear
+				}
+				add_ideas = ARG_the_argentine_civil_war_idea_player
+				every_controlled_state = {
+					create_unit = {
+						division = "name = \"Milicias Leales\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+						owner = ROOT
+					}
+				}
+				random_other_country = {
+					limit = {
+						has_government = democratic
+						has_civil_war = yes
+						original_tag = ARG
+					}
+                    add_ideas = ARG_the_argentine_civil_war_idea_government
+					every_controlled_state = {
+						create_unit = {
+							division = "name = \"Milicias Anti-Gobierno\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+							owner = PREV
+							count = 2
+						}
+					}
+				}
+			}
+		}
+	}
+
+	ARG_repress_defiant_generals = {
+		icon = GFX_decision_generic_army_support
+
+		visible = {
+			has_active_mission = ARG_rapidly_deterioriating_political_situation
+		}
+
+		available = {
+			NOT = {
+				has_country_flag = ARG_dealing_with_the_opposition_flag
+			}
+		}
+
+		fire_only_once = yes 
+
+		ai_hint_pp_cost = 25
+
+		custom_cost_text = decision_cost_CP_25_pp_25
+
+		custom_cost_trigger = {
+			has_political_power > 24
+			command_power > 24
+		}
+
+		days_remove = 40
+
+		modifier = {
+			political_power_factor = -0.05
+		}
+
+		complete_effect = {
+			set_country_flag = ARG_dealing_with_the_opposition_flag
+		}
+
+		cancel_trigger = {
+			NOT = {
+				has_active_mission = ARG_rapidly_deterioriating_political_situation
+			}
+		}
+
+		cancel_effect = {
+			clr_country_flag = ARG_dealing_with_the_opposition_flag
+		}
+
+		remove_effect = {
+			clr_country_flag = ARG_dealing_with_the_opposition_flag
+			custom_effect_tooltip = ARG_defiant_generals_repressed_tt
+			set_country_flag = ARG_defiant_generals_repressed_flag
+			retire_character = ARG_arturo_rawson
+		}
+	}
+
+	ARG_quell_opposition_supporters = {
+		icon = GFX_decision_generic_civil_support
+
+		visible = {
+			has_active_mission = ARG_rapidly_deterioriating_political_situation
+		}
+
+		available = {
+			NOT = {
+				has_country_flag = ARG_dealing_with_the_opposition_flag
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 40
+
+		days_remove = 40
+
+		modifier = {
+			stability_weekly = -0.005
+		}
+
+		complete_effect = {
+			set_country_flag = ARG_dealing_with_the_opposition_flag
+		}
+
+		cancel_trigger = {
+			NOT = {
+				has_active_mission = ARG_rapidly_deterioriating_political_situation
+			}
+		}
+
+		cancel_effect = {
+			clr_country_flag = ARG_dealing_with_the_opposition_flag
+		}
+
+		remove_effect = {
+			clr_country_flag = ARG_dealing_with_the_opposition_flag
+			custom_effect_tooltip = ARG_opposition_supporters_quelled_tt
+			set_country_flag = ARG_opposition_supporters_quelled_flag
+		}
+	}
+
+	ARG_imprison_political_opponents = {
+		icon = GFX_decision_generic_arrest
+
+		visible = {
+			has_active_mission = ARG_rapidly_deterioriating_political_situation
+		}
+
+		available = {
+			NOT = {
+				has_country_flag = ARG_dealing_with_the_opposition_flag
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+
+		days_remove = 50
+
+		complete_effect = {
+			set_country_flag = ARG_dealing_with_the_opposition_flag
+		}
+
+		cancel_trigger = {
+			NOT = {
+				has_active_mission = ARG_rapidly_deterioriating_political_situation
+			}
+		}
+
+		cancel_effect = {
+			clr_country_flag = ARG_dealing_with_the_opposition_flag
+		}
+
+		remove_effect = {
+			clr_country_flag = ARG_dealing_with_the_opposition_flag
+			custom_effect_tooltip = ARG_political_opponents_put_in_jail_tt
+			set_country_flag = ARG_politican_oponents_incarcerated_flag
 		}
 	}
 }

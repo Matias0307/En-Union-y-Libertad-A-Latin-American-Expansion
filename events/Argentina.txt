@@ -8,6 +8,7 @@ add_namespace = argentina.rework.communist
 add_namespace = argentina.culturaldevelopment
 add_namespace = argentina.posadistambitions
 add_namespace = argentina.fascist
+add_namespace = argentina.dlc
 
 # Fascist event 1 | Who will represent the Legion Civica Argentina? (Queralto and Bautista)
 country_event = {
@@ -4898,6 +4899,8 @@ country_event = {
 		ARG = {
 			add_ideas = ARG_the_second_cisplatine_war
 		}
+		set_country_flag = is_in_second_cisplatine_war
+		mark_focus_tree_layout_dirty = yes
 	}
 }
 
@@ -6979,5 +6982,206 @@ country_event = {
 				}
 			}
 		}
+	}
+}
+
+### Small Fascist March in [FROM.FROM.GetName] || cant believe this works lmaoo
+country_event = {
+	id = argentina.dlc.1 
+	title = argentina.dlc.1.t 
+	desc = argentina.dlc.1.d 
+	picture = GFX_report_event_gathering_protest
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.dlc.1.a 
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.02
+		}
+	}
+}
+
+### Fascist March in [FROM.FROM.GetName] || cant believe this works lmaoo
+country_event = {
+	id = argentina.dlc.2
+	title = argentina.dlc.2.t 
+	desc = argentina.dlc.2.d 
+	picture = GFX_report_event_gathering_protest
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.dlc.2.a 
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.04
+		}
+	}
+}
+
+### Large Fascist March in [FROM.FROM.GetName] || cant believe this works lmaoo
+country_event = {
+	id = argentina.dlc.3
+	title = argentina.dlc.3.t 
+	desc = argentina.dlc.3.d 
+	picture = GFX_report_event_gathering_protest
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.dlc.3.a 
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.07
+		}
+	}
+}
+
+### Opposition Forced to Surrender
+country_event = {
+	id = argentina.dlc.4 
+	title = argentina.dlc.4.t 
+	desc = argentina.dlc.4.d 
+
+	is_triggered_only = yes
+
+	option = {
+		name = argentina.dlc.4.t 
+		add_stability = 0.03
+		add_political_power = 25
+		set_country_flag = ARG_forced_opposition_to_surrender_flag
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.1
+		}
+	}
+}
+
+## Various Opposition Sectors Unite Against us
+country_event = {
+	id = argentina.dlc.5
+	title = argentina.dlc.5.t 
+	desc = argentina.dlc.5.d 
+	picture = GFX_ARG_election_fraud_image
+
+	is_triggered_only = yes 
+
+	option = {
+		name = argentina.dlc.5.a 
+		custom_effect_tooltip = ARG_opposition_sectors_will_unite_against_us_tt
+		
+		set_temp_variable = {
+			ARG_pop_c = party_popularity@communism
+		}
+		set_temp_variable = {
+			ARG_pop_n = party_popularity@neutrality
+		}
+		add_to_temp_variable = {
+			ARG_pop_n = ARG_pop_c 
+		}
+
+		add_popularity = {
+			ideology = democratic
+			popularity = ARG_pop_n
+		}
+
+		multiply_temp_variable = {
+			ARG_pop_n = -1
+		}
+
+		hidden_effect = {
+			add_popularity = {
+				ideology = neutrality
+				popularity = ARG_pop_n
+			}
+			add_popularity = {
+				ideology = communism
+				popularity = -0.02
+			}
+		}
+
+		set_party_name = {
+			ideology = democratic
+			long_name = "Coalición Anti-Gobierno"
+			name = "CAG"
+		}
+
+		promote_character = ARG_marcelo_t_de_alvear
+
+		activate_mission = ARG_rapidly_deterioriating_political_situation
+	}
+}
+
+### Leopoldo Lugones Offers to Take Power
+country_event = {
+	id = argentina.dlc.6
+	title = argentina.dlc.6.t 
+	desc = argentina.dlc.6.d 
+	picture = GFX_ARG_leopoldo_lugones_event_pic
+
+	fire_only_once = yes 
+	trigger = {
+		original_tag = ARG 
+		has_game_rule = {
+			rule = EUYL_ARG_choose_national_focus
+			option = DLC_ARG_TREE
+		}
+		has_idea = ARG_leopoldo_lugones_idea
+		has_government = fascism
+		has_civil_war = no 
+		date > 1937.4.1
+		NOT = {
+			has_country_flag = ARG_buffer_flag
+		}
+	}
+
+	option = { ## Yeah sure
+		name = argentina.dlc.6.a 
+		ai_chance = {
+			base = 20
+		}
+		promote_character = ARG_leopoldo_lugones
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = ARG_leopoldo_lugones_idea
+				}
+				remove_ideas = ARG_leopoldo_lugones_idea
+			}
+		}
+	}
+
+	option = { ## ...are you insane? Hell no!
+		name = argentina.dlc.6.b 
+		add_political_power = 5
+		ai_chance = {
+			base = 15
+		}
+	}
+}
+
+#choose capital || DLC
+country_event = {
+	id = argentina.dlc.7
+	title = argentina.1.t
+	desc = argentina.1.d
+	picture = GFX_ARG_argentina1
+	
+	is_triggered_only = yes
+
+	option = { #Make Buenos Aires capital
+		name = argentina.1.a
+		ai_chance = { base = 80 }
+		set_capital = { state = 1021 }
+		add_stability = 0.01
+	}
+	
+	option = { #Make Paraná capital
+		name = argentina.1.b
+		ai_chance = { base = 20 }
+		set_capital = { state = 982 }
+		add_war_support = 0.01 
 	}
 }

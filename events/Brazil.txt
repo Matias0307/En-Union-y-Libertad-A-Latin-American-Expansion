@@ -1579,6 +1579,9 @@ country_event = {
 		NOT = { check_variable = { BRA_playing_as_vargas = 1 } }
 		NOT = { has_completed_focus = BRA_political_cooperation_with_plinio }
 		NOT = { has_completed_focus = BRA_interfere_with_vargas_plans }
+		NOT = {
+			has_completed_focus = BRA_empower_the_patrianovistas
+		}
 		has_civil_war = no 
 		has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
 		is_power_balance_in_range = {
@@ -1898,29 +1901,30 @@ country_event = {
 	title = brazil.46.t 
 	desc = brazil.46.d 
 	picture = GFX_BRA_integralist_election_dub
-	fire_only_once = yes 
 
-	trigger = {
-		original_tag = BRA 
-		OR = {
-			has_civil_war = yes 
-			has_war_with = BRA 
-		}
-		has_government = communism
-		has_global_flag = BRA_civil_war_in_progress
-		OR = {
-			has_global_flag = BRA_paulista_revolt
-			has_global_flag = paulistas_revolted
-		}
-		NOT = {
-			has_global_flag = BRA_integralist_civil_war_already_triggered
-		}
-		NOT = { ## just in case
-			has_completed_focus = BRA_the_path_to_estado_novo
-		}
-	}
+	is_triggered_only = yes
 
-	mean_time_to_happen = { days = 45 }
+	#trigger = {
+	#	original_tag = BRA 
+	#	OR = {
+	#		has_civil_war = yes 
+	#		has_war_with = BRA 
+	#	}
+	#	has_government = communism
+	#	has_global_flag = BRA_civil_war_in_progress
+	#	OR = {
+	#		has_global_flag = BRA_paulista_revolt
+	#		has_global_flag = paulistas_revolted
+	#	}
+	#	NOT = {
+	#		has_global_flag = BRA_integralist_civil_war_already_triggered
+	#	}
+	#	NOT = { ## just in case
+	#		has_completed_focus = BRA_the_path_to_estado_novo
+	#	}
+	#}
+
+	#mean_time_to_happen = { days = 45 }
 
 	immediate = {
 		hidden_effect = {
@@ -2344,6 +2348,9 @@ country_event = { #event that gets triggered once civil war has concluded
 						is_core_of = BRA 
 						has_state_flag = brazilian_starting_state
 						NOT = { has_state_flag = BRA_communist_state }
+						NOT = {
+							has_state_category = wasteland
+						}
 					}
 					add_dynamic_modifier = { modifier = BRA_post_civil_war_resistance }
 				}
@@ -2359,6 +2366,9 @@ country_event = { #event that gets triggered once civil war has concluded
 						is_core_of = BRA 
 						has_state_flag = brazilian_starting_state
 						NOT = { has_state_flag = BRA_fascist_state }
+						NOT = {
+							has_state_category = wasteland
+						}
 					}
 					add_dynamic_modifier = { modifier = BRA_post_civil_war_resistance }
 				}
@@ -2370,6 +2380,9 @@ country_event = { #event that gets triggered once civil war has concluded
 						is_core_of = BRA 
 						has_state_flag = brazilian_starting_state
 						NOT = { has_state_flag = BRA_democratic_influence_state }
+						NOT = {
+							has_state_category = wasteland
+						}
 					}
 					add_dynamic_modifier = { modifier = BRA_post_civil_war_resistance }
 				}
@@ -2377,8 +2390,8 @@ country_event = { #event that gets triggered once civil war has concluded
 			if = {
 				limit = {
 					AND = {
-						has_government = neutrality
-						has_completed_focus = BRA_a_visit_to_the_past
+						has_government = fascism
+						has_completed_focus = BRA_empower_the_patrianovistas
 					}
 				}
 				every_state = {
@@ -2386,6 +2399,9 @@ country_event = { #event that gets triggered once civil war has concluded
 						is_core_of = BRA 
 						has_state_flag = brazilian_starting_state
 						NOT = { has_state_flag = BRA_imperial_state }
+						NOT = {
+							has_state_category = wasteland
+						}
 					}
 					add_dynamic_modifier = { modifier = BRA_post_civil_war_resistance }
 				}
@@ -2728,40 +2744,15 @@ country_event = {
 		}
 		if = {
 			limit = {
-				AND = {
-					BRA = {
-						has_completed_focus = BRA_begin_preperations_for_the_uruguayan_occupation
-					}
-					URG = {
-						has_civil_war = yes 
-					}
+				PAR = {
+					exists = yes 
+					is_in_faction = no 
+					has_war = no 
 				}
 			}
-			random_other_country = {
-				limit = {
-					original_tag = URG 
-					has_civil_war = yes 
-					has_cosmetic_tag = BRA_URG
-				}
-				ARG = {
-					declare_war_on = {
-						target = PREV
-						type = annex_everything
-					}
-				}
-			}
-			if = {
-				limit = {
-					PAR = {
-						exists = yes 
-						is_in_faction = no 
-						has_war = no 
-					}
-				}
-				hidden_effect = {
-					PAR = {
-						country_event = { id = brazil.76 hours = 6 }
-					}
+			hidden_effect = {
+				PAR = {
+					country_event = { id = brazil.76 hours = 6 }
 				}
 			}
 		}
@@ -2804,6 +2795,8 @@ country_event = {
 	option = {
 		name = brazil.64.a 
 		add_ideas = BRA_the_second_cisplatine_war_1
+		set_country_flag = is_in_second_cisplatine_war
+		mark_focus_tree_layout_dirty = yes
 	}
 }
 
@@ -3524,17 +3517,6 @@ country_event = {
 					BRA_portuguese_nationalists_unif
 				}
 				set_cosmetic_tag = KPB_kingdom_portugal_and_brazil
-				retire_country_leader = yes 
-				create_country_leader = {
-					name = "Administrative Council of Brazil and Portugal"
-					desc = "POLITICS_COUNCIL_BRAZIL_PORTUGAL_DESC"
-					picture = "gfx/leaders/BRA/BRA_administrative_council_brazil_portugal.png"
-					expire = "1965.1.1"
-					ideology = monarchism
-					traits = {
-						#
-					}
-				}
 				news_event = { id = lar_news.26 days = 1 random_days = 5 }
 			}
 		}
@@ -4692,15 +4674,21 @@ country_event = {
 		has_completed_focus = BRA_empower_the_patrianovistas
 		OR = {
 			check_variable = {
-				BRA_monarchist_support > 10
+				BRA_monarchist_support > 9
 			}
 			has_country_flag = BRA_chose_imperial_civil_war_flag
+			NOT = {
+				has_country_flag = BRA_buffer_flag
+			}
 		}
 	}
 
 	immediate = {
 		hidden_effect = {
 			BRA_bop_remove_bop_effect = yes 
+			remove_dynamic_modifier = {
+				modifier = BRA_brazilian_political_crisis
+			}
 		}
 	}
 
@@ -4712,6 +4700,7 @@ country_event = {
 			long_name = BRA_antimonarchist_coalition_long
 			name = BRA_antimonarchist_coalition
 		}
+		add_political_power = -10
 		custom_effect_tooltip = BRA_vargas_will_actively_hunt_down_monarchists_tt
 		hidden_effect = {
 			set_temp_variable = {
@@ -4726,18 +4715,6 @@ country_event = {
 			add_popularity = {
 				ideology = neutrality
 				popularity = BRA_dem
-			}
-			if = {
-				limit = {
-					has_country_flag = BRA_chose_imperial_civil_war_flag
-				}
-				country_event = {
-					id = brazil.97 
-					days = 12
-					random_days = 6
-					hours = 4
-					random_hours = 12
-				}
 			}
 		}
 	}
@@ -4760,7 +4737,7 @@ country_event = {
 
 	option = { ## Brats
 		name = brazil.97.a 
-		BRA_add_1_monarchist_support = yes 
+		BRA_remove_3_monarchist_support = yes 
 		activate_mission_tooltip = BRA_anti_monarchist_crackdown
 	}
 }
@@ -4801,6 +4778,198 @@ country_event = {
 				mission = BRA_anti_monarchist_crackdown
 				days = -10
 			}
+		}
+	}
+}
+
+## Bavaria has declared Independence ##
+country_event = {
+	id = brazil.100 
+	title = brazil.100.t 
+	desc = brazil.100.d 
+	picture = GFX_report_event_generic_riot
+
+	is_triggered_only = yes 
+
+	option = { ## They will NOT last
+		name = brazil.100.a 
+		ai_chance = {
+			base = 50
+			modifier = {
+				factor = 0.5 
+				NOT = {
+					has_government = fascism
+				}
+			}
+			modifier = {
+				factor = 0.5 
+				has_war = yes 
+			}
+		}
+		declare_war_on = {
+			target = BAY
+			type = annex_everything
+		}
+		declare_war_on = {
+			target = BRA
+			type = annex_everything
+		}
+	}
+
+	option = {
+		name = brazil.100.b 
+		ai_chance = {
+			base = 10
+			modifier = {
+				factor = 2
+				has_war_with_major = yes
+			}
+		}
+		add_war_support = -0.03
+	}
+}
+
+## The Imperial Coup ##
+country_event = {
+	id = brazil.101
+	title = brazil.101.t 
+	desc = brazil.101.d 
+	picture = GFX_BRA_imperial_coup_event_pic
+
+	is_triggered_only = yes 
+
+	option = {
+		name = brazil.101.a 
+	}
+}
+
+## hidden event to change Bavaria's ideology n stuff 
+country_event = {
+	id = brazil.102
+
+	is_triggered_only = yes 
+
+	hidden = yes 
+
+	immediate = {
+		hidden_effect = {
+			set_politics = {
+				ruling_party = democratic
+			}
+			set_party_name = {
+				ideology = democratic
+				long_name = BRA_URG_dominion_party_long
+				name = BRA_URG_dominion_party
+			}
+			retire_country_leader = yes 
+			create_country_leader = {
+				name = "Administração Imperial da Bavária"
+				desc = "POLITICS_BRAZILIAN_MILITARY_JUNTA_DESC"
+				picture = "gfx/leaders/BRA/BZE_junta.png"
+				expire = "1965.1.1"
+				ideology = conservatism
+				traits = {
+					BRA_disorganized_leadership
+				}
+			}
+		}
+	}
+}
+
+### Bavarian Independence! ### | News Event
+news_event = {
+	id = brazil.103 
+	title = brazil.103.t 
+	desc = brazil.103.d 
+	picture = GFX_BRA_bavarian_independence_image
+
+	is_triggered_only = yes 
+
+	major = yes 
+
+	option = {
+		name = brazil.103.a 
+		trigger = {
+			NOT = {
+				OR = {
+					original_tag = BAY 
+					original_tag = BRA 
+					original_tag = GER
+				}
+			}
+		}
+	}
+
+	option = {
+		name = brazil.103.b 
+		trigger = {
+			OR = {
+				original_tag = BRA 
+				original_tag = BAY 
+			}
+		}
+	}
+
+	option = {
+		name = brazil.103.c 
+		trigger = {
+			original_tag = GER
+		}
+	}
+}
+
+### The Restoration of the Empire of Brazil ###
+news_event = {
+	id = brazil.104
+	title = brazil.104.t 
+	desc = brazil.104.d 
+	picture = GFX_BRA_second_empire_declared_image
+
+	is_triggered_only = yes 
+
+	major = yes 
+
+	option = {
+		name = brazil.104.a 
+		trigger = {
+			NOT = {
+				original_tag = BRA 
+			}
+		}
+	}
+
+	option = {
+		name = brazil.104.b
+		trigger = {
+			original_tag = BRA
+		}
+	}
+}
+
+## The Union of Brazil and Bavaria ##
+news_event = {
+	id = brazil.105
+	title = brazil.105.t 
+	desc = brazil.105.d 
+	picture = GFX_news_event_050
+
+	is_triggered_only = yes 
+
+	major = yes 
+
+	option = {
+		name = brazil.105.a 
+		trigger = {
+			NOT = {
+				original_tag = BRA 
+			}
+		}
+	}
+
+	option = {
+		name = brazil.104.b
+		trigger = {
+			original_tag = BRA
 		}
 	}
 }
