@@ -1933,7 +1933,7 @@ country_event = {
     option = { ## It's our last chance
         name = venezuela.45.a
         ai_chance = {
-            base = 10
+            base = 15
             modifier = {
                 factor = 5
                 surrender_progress > 0.34
@@ -1954,9 +1954,25 @@ country_event = {
             }
         }
         custom_effect_tooltip = GAME_OVER_TT
+        hidden_effect = {
+            every_other_country = { ## nanana you aint coming off easy from this one
+                limit = {
+                    has_war_with = ROOT 
+                    NOT = {
+                        has_war_with = FROM 
+                    }
+                }
+                declare_war_on = {
+                    target = FROM
+                }
+            }
+            every_character = {
+                set_nationality = FROM ## VEN
+            }
+        }
         FROM = {
             annex_country = {
-                target = THIS
+                target = ROOT
                 transfer_troops = yes
             }
             if = {
@@ -1970,6 +1986,17 @@ country_event = {
                 set_cosmetic_tag = GUOSR_UNIFIED
             }
             country_event = peru.16
+        }
+        hidden_effect = {
+            every_state = {
+                limit = {
+                    is_core_of = SOV 
+                    NOT = {
+                        is_core_of = FROM
+                    }
+                }
+                add_core_of = FROM
+            }
         }
     }
 

@@ -4674,10 +4674,22 @@ country_event = {
 
 	option = { 
 		name = argentina.rework.53.a 
-		add_stability = -0.05
-		add_timed_idea = {
-			idea = ARG_fradulant_election_charges
-			days = 365
+		add_stability = -0.02
+		if = {
+			limit = {
+				has_country_flag = ARG_forced_to_manipulate_elections_flag
+			}
+			add_timed_idea = {
+				idea = ARG_severe_electoral_fraud
+				days = 365
+			}
+			clr_country_flag = ARG_forced_to_manipulate_elections_flag
+		}
+		else = {
+			add_timed_idea = {
+				idea = ARG_fradulant_election_charges
+				days = 365
+			}
 		}
 	}
 }
@@ -5542,6 +5554,114 @@ country_event = {
 			clr_global_flag = ARG_elections_active
 		}
 	}
+
+	option = { ## Screw what the people voted, we're taking power!
+		name = argentina.22.e
+		trigger = {
+			if = {
+				limit = {
+					has_completed_focus = ARG_partido_socialista
+				}
+				OR = {
+					check_variable = { ARG_predicted_PS_electoral_votes < ARG_predicted_UCR_electoral_votes }
+					check_variable = { ARG_predicted_PS_electoral_votes < ARG_predicted_UCRA_electoral_votes }
+				}
+			}
+			if = {
+				limit = {
+					has_completed_focus = ARG_concordancia
+				}
+				OR = {
+					check_variable = { ARG_predicted_UCRA_electoral_votes < ARG_predicted_UCR_electoral_votes }
+					check_variable = { ARG_predicted_UCRA_electoral_votes < ARG_predicted_PS_electoral_votes }
+				}
+			}
+			if = {
+				limit = {
+					has_completed_focus = ARG_union_civica_radical
+				}
+				OR = {
+					check_variable = { ARG_predicted_UCR_electoral_votes < ARG_predicted_UCRA_electoral_votes }
+					check_variable = { ARG_predicted_UCR_electoral_votes < ARG_predicted_PS_electoral_votes }
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_completed_focus = ARG_partido_socialista
+			}
+			add_popularity = { ideology = communism popularity = 0.03 }
+			set_country_flag = ARG_elected_partido_socialista
+			set_politics = { 
+				ruling_party = communism 
+				elections_allowed = yes
+				election_frequency = 48
+			}
+			set_cosmetic_tag = CARC
+		}
+		else_if = {
+			limit = { 
+				has_completed_focus = ARG_union_civica_radical
+			}
+			add_timed_idea = { idea = ARG_union_civica_radical_elected days = 90 }
+			set_country_flag = ARG_elected_union_civica
+			set_politics = { 
+				ruling_party = democratic 
+				elections_allowed = yes
+				election_frequency = 48
+			}
+		}
+		else = { ## Concordancia
+			add_timed_idea = { idea = ARG_concordancia_elected days = 90 }
+			if = {
+				limit = {
+					has_country_flag = ARG_chose_robustiano
+				}
+				promote_character = ARG_robustiano_patron_costas
+			}
+			else_if = {
+				limit = {
+					has_country_flag = ARG_chose_leopoldo
+				}
+				promote_character = ARG_leopoldo_melo
+			}
+			else = {
+				promote_character = EUYL_ARG_roberto_maria_ortiz
+			}
+			set_country_flag = ARG_elected_concordancia
+		}
+		custom_effect_tooltip = ARG_due_to_current_political_tension_following_effects_occur_tt
+		if = {
+			limit = {
+				check_variable = {
+					ARG_political_tension > 49
+				}
+			}
+			add_stability = -0.1
+		}
+		else_if = {
+			limit = { 
+				check_variable = {
+					ARG_political_tension > 24
+				}
+			}
+			add_stability = -0.05
+		}
+		else = {
+			add_stability = -0.03
+		}
+		set_country_flag = ARG_forced_to_manipulate_elections_flag
+		hidden_effect = {
+			country_event = { ##Election fraud 
+				id = argentina.rework.53
+				days = 25
+				random_days = 15 
+			}
+			every_controlled_state = {
+				ARG_state_cleaner_elections = yes 
+			}
+		}
+	}
 	
 	option = { #concordancia
 		name = brazil.88.a
@@ -5552,6 +5672,7 @@ country_event = {
 				}
 				check_variable = { ARG_concordancia_opinion = 2 } #Playing as UCRA
 			}
+			has_completed_focus = ARG_concordancia
 			OR = {
 				AND = {
 					check_variable = { ARG_predicted_UCRA_electoral_votes > ARG_predicted_UCR_electoral_votes }
@@ -5661,6 +5782,7 @@ country_event = {
 				}
 				check_variable = { ARG_UCR_opinion = 2 } #Playing as UCR
 			}
+			has_completed_focus = ARG_union_civica_radical
 			OR = {
 				AND = {
 					check_variable = { ARG_predicted_UCR_electoral_votes > ARG_predicted_UCRA_electoral_votes }
@@ -5710,6 +5832,7 @@ country_event = {
 				}
 				check_variable = { ARG_partido_socialista_opinion = 2 } #Playing as PS
 			}
+			has_completed_focus = ARG_partido_socialista
 			OR = {
 				AND = {
 					check_variable = { ARG_predicted_PS_electoral_votes > ARG_predicted_UCR_electoral_votes }

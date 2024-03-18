@@ -3731,6 +3731,7 @@ PRU_the_peruvian_empire = { #imperial management
 			controls_state = 489
 			controls_state = 307
 			controls_state = 488
+			controls_state = 1036
 		}
 
 		complete_effect = {
@@ -3742,6 +3743,7 @@ PRU_the_peruvian_empire = { #imperial management
 			489 = { add_core_of = ROOT }
 			307 = { add_core_of = ROOT }
 			488 = { add_core_of = ROOT }
+			1036 = { add_core_of = ROOT } 
 			set_country_flag = PRE_gran_colombia_district_formed
 		}
 	}
@@ -3974,7 +3976,7 @@ PRU_the_peruvian_empire = { #imperial management
 
 		is_good = yes 
 
-		days_mission_timeout = 1050
+		days_mission_timeout = 1650
 
 		fire_only_once = yes 
 
@@ -4051,6 +4053,233 @@ PRU_the_peruvian_empire = { #imperial management
 				type = annex_everything
 				target = FROM 
 			}
+		}
+	}
+
+	PRU_reunite_the_kingdom = {
+		icon = generic_form_nation
+
+		priority = 250
+
+		ai_will_do = {
+			base = 750 
+		}
+
+		visible = {
+			has_completed_focus = PRU_the_kingdom_of_peru
+		}
+
+		available = {
+			controls_state = 1036 
+			controls_state = 1010
+			controls_state = 1020
+			controls_state = 1019
+			controls_state = 1023
+			controls_state = 1004
+			controls_state = 1009
+			controls_state = 996
+			controls_state = 951
+			controls_state = 1035
+		}
+
+		fire_only_once = yes 
+
+		complete_effect = {
+			hidden_effect = {
+				drop_cosmetic_tag = yes
+			}
+			1036 = { add_core_of = ROOT }
+			1010 = { add_core_of = ROOT }
+			1020 = { add_core_of = ROOT }
+			1019 = { add_core_of = ROOT }
+			1023 = { add_core_of = ROOT }
+			1004 = { add_core_of = ROOT }
+			1009 = { add_core_of = ROOT }
+			996 = { add_core_of = ROOT }
+			951 = { add_core_of = ROOT }
+			1035 = { add_core_of = ROOT }
+			add_stability = 0.1
+			add_war_support = 0.1 
+			set_cosmetic_tag = PRU_GREATER_KINGDOM 
+			every_state = {
+				limit = {
+					NOT = {
+						OR = {
+							is_claimed_by = ROOT 
+							is_core_of = ROOT 
+						}
+					}
+					any_neighbor_state = {
+						is_core_of = ROOT
+					}
+				}
+				add_core_of = ROOT
+			}
+		}
+	}
+
+	PRU_demand_the_subjegation_of_FROM = {
+		priority = 50 
+		icon = eng_trade_unions_demand
+
+		visible = {
+			has_completed_focus = PRU_the_eternal_empire
+		}
+
+		target_trigger = {
+			FROM = {
+				exists = yes 
+				capital_scope = {
+					OR = {
+						is_on_continent = south_america
+						is_fully_controlled_by = MEX 
+						is_fully_controlled_by = HAI 
+						is_fully_controlled_by = CUB 
+						is_fully_controlled_by = DOM
+					}
+				}
+			}
+		}
+
+		available = {
+			strength_ratio = {
+				tag = FROM
+				ratio > 1
+			}
+			hidden_trigger = {
+				NOT = {
+					has_country_flag = PRU_annexing_country
+				}
+			}
+		}
+
+		cost = 75
+
+		days_remove = 25
+
+		complete_effect = {
+			set_country_flag = PRU_annexing_country
+		}
+
+		cancel_trigger = {
+			FROM = {
+				OR = {
+					exists = no 
+					has_war_with = ROOT 
+					is_subject_of = ROOT
+				}
+			}
+		}
+
+		cancel_effect = {
+			clr_country_flag = PRU_annexing_country
+		}
+
+		remove_effect = {
+			clr_country_flag = PRU_annexing_country
+			FROM = {
+				country_event = {
+					id = venezuela.49
+					hours = 6
+					random_hours = 6
+				}
+			}
+			custom_effect_tooltip = ARG_iftheyaccept
+			effect_tooltip = {
+				annex_country = {
+					target = FROM
+					transfer_troops = yes
+				}
+			}
+		}
+	}
+
+	PRU_integrate_FROM_to_the_spanish_empire = {
+		icon = generic_nationalism
+
+		state_target = yes 
+
+		target_array = controlled_states
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+				NOT = {
+					is_core_of = ROOT 
+				}
+				is_claimed_by = ROOT 
+			}
+		}
+
+		visible = {
+			has_completed_focus = PRU_the_eternal_empire
+		}
+
+		fire_only_once = yes 
+
+		on_map_mode = map_only
+
+		cost = 40
+
+		days_remove = 25
+
+		available = {
+			FROM = {
+				compliance > 24
+				resistance < 24
+			}
+		}
+
+		remove_effect = {
+			FROM = {
+				add_core_of = ROOT
+			}
+		}
+	}
+
+	PRU_crush_FROM = {
+		icon = generic_tank 
+
+		target_trigger = {
+			FROM = {
+				capital_scope = {
+					is_on_continent = europe
+				}
+				has_war_with = ROOT 
+			}
+		}
+
+		fire_only_once = yes 
+
+		visible = {
+			has_completed_focus = PRU_revenge_against_the_europeans
+		}
+
+		custom_cost_trigger = {
+			command_power > 24
+			has_political_power > 24
+		}
+		custom_cost_text = decision_cost_CP_25_pp_25
+
+		complete_effect = {
+			hidden_effect = {
+				add_political_power = -25 
+				add_command_power = -25 
+			}
+		}
+
+		days_remove = 220
+
+		targeted_modifier = {
+			tag = FROM 
+			attack_bonus_against = 0.1 
+			defense_bonus_against = 0.1 
+		}
+
+		modifier = {
+			political_power_gain = -0.05
+			army_morale_factor = 0.05 
+			army_speed_factor = 0.05
 		}
 	}
 }

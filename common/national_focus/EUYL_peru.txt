@@ -32,7 +32,7 @@ focus_tree = {
 		id = PRU_repairing_the_nation
 		icon = GFX_PRU_perunationalism
 		
-		x = 7
+		x = 17
 		y = 0
 
 		available = {
@@ -60,7 +60,7 @@ focus_tree = {
 		icon = "GFX_focus_what_are_we"
 		prerequisite = { focus = PRU_repairing_the_nation }
 		relative_position_id = PRU_repairing_the_nation
-		x = -6
+		x = -5
 		y = 1
 		
 		ai_will_do = {
@@ -327,7 +327,7 @@ focus_tree = {
 	focus = {
 		id = PRU_strengthen_the_army
 		icon = GFX_ARG_quantity
-		x = 32
+		x = 37
 		y = 0
 
 		offset = {
@@ -1514,6 +1514,10 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			add_political_power = 50
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.1
+			}
 			add_timed_idea = {
 				idea = PRU_recover_from_coup
 				days = 365
@@ -1886,6 +1890,19 @@ focus_tree = {
 			}
 		}
 
+		bypass = {
+			BOL = {
+				OR = {
+					exists = no 
+					has_war_with = ROOT 
+					is_subject_of = ROOT 
+					capital_scope = {
+						controls_or_subject_of = yes
+					}
+				}
+			}
+		}
+
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			add_political_power = 25
@@ -1904,9 +1921,9 @@ focus_tree = {
 		y = 1
 		relative_position_id = PRU_contact_the_bolivians
 		prerequisite = { focus = PRU_contact_the_bolivians }
-		mutually_exclusive = { focus = PRU_propose_a_plan_to_bolivia }
+		mutually_exclusive = { focus = PRU_propose_a_plan_to_bolivia focus = PRU_internal_management }
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
 			factor = 30
@@ -1936,11 +1953,11 @@ focus_tree = {
 	focus = {
 		id = PRU_propose_a_plan_to_bolivia
 		icon = GFX_coop_between_peru_and_bolivia
-		x = -5
+		x = -3
 		y = 1
 		relative_position_id = PRU_contact_the_bolivians
 		prerequisite = { focus = PRU_contact_the_bolivians }
-		mutually_exclusive = { focus = PRU_secure_an_allience_with_bolivia }
+		mutually_exclusive = { focus = PRU_secure_an_allience_with_bolivia focus = PRU_internal_management }
 
 		cost = 5 
 
@@ -1970,6 +1987,33 @@ focus_tree = {
 			BOL = { country_event = { id = peru.138 hours = 6}}
 			custom_effect_tooltip = PRU_higher_opinion_of_us_tt
 			custom_effect_tooltip = PRU_if_they_accept_then_war
+		}
+	}
+
+	focus = {
+		id = PRU_internal_management
+		icon = GFX_PRU_internal_management_fash
+		x = -7
+		y = 1
+		relative_position_id = PRU_contact_the_bolivians
+		prerequisite = {
+			focus = PRU_contact_the_bolivians
+		}
+		mutually_exclusive = {
+			focus = PRU_propose_a_plan_to_bolivia
+			focus = PRU_secure_an_allience_with_bolivia
+		}
+
+		cost = 10 
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			add_political_power = 50 
+			EUYL_add_1_civilian = yes 
+			EUYL_add_1_military = yes
 		}
 	}
 
@@ -2039,7 +2083,7 @@ focus_tree = {
 	focus = {
 		id = PRU_the_second_war_of_the_pacific
 		icon = GFX_second_war_of_pacific_peru_side
-		x = -4
+		x = -9
 		y = 1
 		relative_position_id = PRU_retake_our_rightful_land
 		prerequisite = { focus = PRU_retake_our_rightful_land }
@@ -2411,10 +2455,10 @@ focus_tree = {
 	focus = {
 		id = PRU_backstab_bolivia
 		icon = GFX_focus_BOL_attack 
-		x = -2
+		x = -4
 		y = 1
 		relative_position_id = PRU_retake_our_rightful_land
-		prerequisite = { focus = PRU_retake_our_rightful_land }
+		prerequisite = { focus = PRU_retake_our_rightful_land focus = PRU_internal_management }
 		mutually_exclusive = { focus = PRU_make_our_allience_official }
 		will_lead_to_war_with = BOL 
 
@@ -2425,6 +2469,14 @@ focus_tree = {
 		}
 
 		available = {
+			if = {
+				limit = {
+					has_completed_focus = PRU_internal_management
+				}
+				has_army_manpower = {
+					size > 99999
+				}
+			}
 			NOT = {
 				is_in_faction_with = BOL 
 			}
@@ -2457,7 +2509,7 @@ focus_tree = {
 	focus = {
 		id = PRU_make_our_allience_official
 		icon = GFX_peru-bolivia_alliance
-		x = 5
+		x = 3
 		y = 1
 		relative_position_id = PRU_retake_our_rightful_land
 		prerequisite = { 
@@ -2890,11 +2942,12 @@ focus_tree = {
 		id = PRU_the_final_struggle
 		icon = GFX_focus_spa_the_war_of_vengeance
 		x = 0
-		y = 1
+		y = 2
 		relative_position_id = PRU_deal_with_brazil
 		prerequisite = {
 			focus = PRU_deal_with_brazil
 			focus = PRU_invite_the_brazilians
+			focus = PRU_a_powerful_empire
 		}
 
 		cost = 10
@@ -2969,16 +3022,18 @@ focus_tree = {
 		y = 1
 		relative_position_id = PRU_backstab_bolivia
 		prerequisite = { focus = PRU_backstab_bolivia }
+		mutually_exclusive = {
+			focus = PRU_the_kingdom_of_peru
+		}
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
 			factor = 5
 		}
 
 		available = {
-			has_full_control_of_state = 951
-			has_army_manpower = { size > 189999 }
+			has_army_manpower = { size > 109999 }
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION }
@@ -2994,12 +3049,300 @@ focus_tree = {
 	}
 
 	focus = {
+		id = PRU_the_kingdom_of_peru
+		icon = GFX_PRU_kingdom_focus
+		x = -2
+		y = 1
+		relative_position_id = PRU_backstab_bolivia
+		prerequisite = {
+			focus = PRU_backstab_bolivia
+		}
+		mutually_exclusive = {
+			focus = PRU_proclaim_peruvian_empire
+		}
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 6
+		}
+
+		available = {
+			has_army_manpower = { size > 109999 }
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			set_cosmetic_tag = PRU_KINGDOM	
+			unlock_decision_category_tooltip = PRU_the_peruvian_empire
+			unlock_decision_tooltip = PRU_reunite_the_kingdom
+			add_ideas = PRU_the_imperial_army_1
+			every_state = {
+				limit = {
+					OR = {
+						state = 1036
+						state = 1010
+						state = 1020
+						state = 1019
+						state = 1023
+						state = 1004
+						state = 1009
+						state = 996
+						state = 951
+						state = 1035
+					}
+				}
+				add_claim_by = ROOT
+			}
+		}
+	}	
+
+	focus = {
+		id = PRU_the_kingdom_strikes_back
+		icon = GFX_PRU_take_out_spain
+		x = -1
+		y = 1
+		relative_position_id = PRU_the_kingdom_of_peru
+		prerequisite = {
+			focus = PRU_the_kingdom_of_peru
+		}
+
+		cost = 10
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = PRU_restored_kingdom_borders_tt
+				has_cosmetic_tag = PRU_GREATER_KINGDOM
+			}
+			has_navy_size = {
+				size > 29
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = { ## might add some buff, maybe state integration, or maybe even declare yourself spanish empire
+			create_wargoal = {
+				type = annex_everything
+				target = POR 
+			}
+			random_other_country = {
+				limit = {
+					controls_state = 41
+				}
+				ROOT = {
+					create_wargoal = {
+						target = PREV 
+						type = annex_everything
+					}
+				}
+			}
+		} ## actually yeah, new focus under this one called "The Eternal Empire" which renames you to the
+		  ## Spanish Empire, and unlocks those subjegate decisions (ultimatum event) on every latin american country
+	}
+
+	## The Eternal Empire ##
+	focus = {
+		id = PRU_the_eternal_empire
+		icon = GFX_PRU_eternal_empire_icon
+		x = -1
+		y = 3
+		relative_position_id = PRU_the_kingdom_strikes_back
+		prerequisite = {
+			focus = PRU_the_kingdom_strikes_back
+		}
+		mutually_exclusive = {
+			focus = PRU_revenge_against_the_europeans
+		}
+
+		cost = 10
+
+		available = {
+			has_full_control_of_state = 41
+			num_of_controlled_states > 49
+			has_army_manpower = { size > 499999 }
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			hidden_effect = {
+				drop_cosmetic_tag = yes
+			}
+			set_cosmetic_tag = PRU_SPANISH_EMPIRE
+			custom_effect_tooltip = BRA_spacer_tt
+			add_ideas = PRU_the_eternal_empire_idea
+			custom_effect_tooltip = BRA_spacer_tt
+			custom_effect_tooltip = PRU_gain_claims_on_every_original_spanish_possesion_tt
+			every_state = {
+				limit = {
+					NOT = {
+						OR = {
+							is_core_of = ROOT 
+							is_claimed_by = ROOT 
+						}
+					}
+					OR = {
+						is_on_continent = south_america
+						is_core_of = MEX 
+						is_core_of = CUB 
+						is_core_of = HAI 
+						is_core_of = DOM 
+						is_core_of = PHI 
+						state = 366 
+						state = 686
+					}
+				}
+				add_claim_by = ROOT 
+			}
+			custom_effect_tooltip = PRU_unlocks_demand_subjegation_decisions_tt
+			hidden_effect = {
+				every_state = {
+					limit = {
+						is_core_of = SPR 
+						NOT = {
+							is_core_of = ROOT 
+						}
+					}
+					add_core_of = ROOT
+				}
+				news_event = { days = 1 id = peru.41 }
+				if = {
+					limit = {
+						has_character = PRU_carlos_pio_habsburgo_borbon
+					}
+					country_event = { ## Shall we promote a King?
+						id = peru.42 
+						days = 3
+						random_days = 3
+					}
+				}
+			}
+		}
+	}
+
+	## Revenge Against the Europeans ##
+	focus = {
+		id = PRU_revenge_against_the_europeans 
+		icon = GFX_focus_usa_focus_on_europe
+		x = 1
+		y = 3
+
+		relative_position_id = PRU_the_kingdom_strikes_back
+		prerequisite = {
+			focus = PRU_the_kingdom_strikes_back
+		}
+		mutually_exclusive = {
+			focus = PRU_the_eternal_empire
+		}
+
+		available = {
+			has_full_control_of_state = 41
+			OR = {
+				num_subjects > 3
+				num_of_controlled_states > 49
+			}
+			has_army_manpower = { size > 499999 }
+		}
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			custom_effect_tooltip = ARG_gain_claims_on_every_coastal_atlantic_european_state_tt
+			every_state = {
+				limit = {
+					NOT = {
+						OR = {
+							is_controlled_by = ROOT 
+							is_claimed_by = ROOT 
+						}
+					}
+					is_on_continent = europe
+					is_coastal = yes 
+					OR = {
+						is_core_of = POR 
+						is_core_of = SPR
+						is_core_of = FRA 
+						is_core_of = HOL 
+						is_core_of = BEL 
+						is_core_of = IRE 
+						is_core_of = ENG
+					}
+				}
+				add_claim_by = ROOT 
+			}
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
+				limit = {
+					capital_scope = { is_on_continent = europe }
+					NOT = {
+						OR = {
+							has_war_with = ROOT 
+							is_in_faction_with = ROOT 
+							is_subject_of = ROOT 
+						}
+					}
+					OR = {
+						controls_state = 41
+						controls_state = 16
+						controls_state = 126
+						controls_state = 112
+					}
+				}
+			}
+			custom_effect_tooltip = PRU_unlock_military_decisions_tt
+			custom_effect_tooltip = BRA_spacer_tt
+			custom_effect_tooltip = ARG_unlock_integrate_territory
+			if = {
+				limit = {
+					NOT = { has_country_flag = EUYL_can_integrate }
+				}
+				set_country_flag = EUYL_can_integrate
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						capital_scope = { is_on_continent = europe }
+						NOT = {
+							OR = {
+								has_war_with = ROOT 
+								is_in_faction_with = ROOT 
+								is_subject_of = ROOT 
+							}
+						}
+						OR = {
+							controls_state = 41
+							controls_state = 16
+							controls_state = 126
+							controls_state = 112
+						}
+					}
+					ROOT = { 
+						create_wargoal = {
+							type = puppet_wargoal_focus
+							target = PREV
+						}
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
 		id = PRU_secure_colombia
 		icon = GFX_PRU_attack_colombia
 		x = 1
 		y = 1
 		relative_position_id = PRU_proclaim_peruvian_empire
-		prerequisite = { focus = PRU_proclaim_peruvian_empire }
+		prerequisite = { focus = PRU_proclaim_peruvian_empire focus = PRU_the_kingdom_of_peru }
 		prerequisite = { focus = PRU_retake_our_land }
 		will_lead_to_war_with = COL 
 
@@ -3041,7 +3384,7 @@ focus_tree = {
 		x = -1
 		y = 1
 		relative_position_id = PRU_retake_our_land
-		prerequisite = { focus = PRU_proclaim_peruvian_empire }
+		prerequisite = { focus = PRU_proclaim_peruvian_empire focus = PRU_the_kingdom_of_peru }
 		prerequisite = { focus = PRU_retake_our_land }
 		will_lead_to_war_with = VEN 
 
@@ -3319,6 +3662,7 @@ focus_tree = {
 		}
 
 		available = {
+			has_completed_focus = PRU_proclaim_peruvian_empire
 			has_country_flag = PRE_succesfully_conquered_SA
 		}
 
@@ -3334,10 +3678,10 @@ focus_tree = {
 	focus = {
 		id = PRU_the_final_straw
 		icon = GFX_focus_SWI_establish_pro_helvetia
-		x = -1
+		x = 1
 		y = 1
-		relative_position_id = PRU_the_final_struggle
-		prerequisite = { focus = PRU_the_final_struggle focus = PRU_a_powerful_empire }
+		relative_position_id = PRU_a_powerful_empire
+		prerequisite = { focus = PRU_a_powerful_empire }
 		cost = 10
 
 		available = {
@@ -3373,12 +3717,76 @@ focus_tree = {
 	}
 
 	focus = {
+		id = PRU_the_attack_on_the_west
+		icon = GFX_focus_generic_strike_at_democracy2
+		x = -1
+		y = 1
+		relative_position_id = PRU_the_final_struggle
+		prerequisite = {
+			focus = PRU_the_final_straw
+			focus = PRU_the_final_struggle
+		}
+
+		cost = 10 
+
+		available = {
+			num_of_factories > 119
+			num_of_controlled_states > 44
+			any_controlled_state = {
+				is_on_continent = north_america
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			add_ideas = VEN_strike_at_capitalism_idea
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
+				limit = {
+					is_major = yes 
+					has_government = democratic
+					NOT = {
+						OR = {
+							is_in_faction_with = ROOT 
+							has_war_with = ROOT 
+						}
+					}
+				}
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						is_major = yes 
+						has_government = democratic
+						capital_scope = { is_on_continent = europe }
+						NOT = {
+							OR = {
+								is_in_faction_with = ROOT 
+								has_war_with = ROOT 
+							}
+						}
+					}
+					ROOT = {
+						create_wargoal = {
+							type = annex_everything
+							target = PREV 
+						}
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
 		id = PRU_improve_the_imperial_transport
 		icon = GFX_goal_generic_construct_infrastructure
 		x = -1
 		y = 2
 		relative_position_id = PRU_proclaim_peruvian_empire
-		prerequisite = { focus = PRU_proclaim_peruvian_empire }
+		prerequisite = { focus = PRU_proclaim_peruvian_empire focus = PRU_the_kingdom_of_peru }
 
 		cost = 8
 
@@ -3414,11 +3822,11 @@ focus_tree = {
 		prerequisite = { focus = PRU_oppress_the_communists focus = PRU_the_will_of_the_people }
 		mutually_exclusive = { focus = PRU_the_people_serve_the_state focus = PRU_the_state_serves_the_people focus = PRU_communist_peru }		
 		relative_position_id = PRU_oppress_the_communists
-		x = -14
+		x = -17
 		y = 1
 
 		offset = {
-			x = 14
+			x = 17
 			y = 0
 			trigger = {
 				has_game_rule = {
@@ -3728,7 +4136,7 @@ focus_tree = {
 					character = PRU_ricardo_perez_godoy_general
 					promote_leader = yes
 					country_leader = {
-						ideology = theocracy
+						ideology = despotism
 						traits = { war_industrialist }
 						expire = "1965.3.1.1"
 					}
@@ -4034,7 +4442,7 @@ focus_tree = {
 	focus = {
 		id = PRU_build_up_the_research_labs
 		icon = GFX_focus_research
-		x = 7
+		x = 8
 		y = 1
 		relative_position_id = PRU_solidify_our_state
 		prerequisite = {
@@ -4214,6 +4622,7 @@ focus_tree = {
 			controls_state = 506
 			controls_state = 952
 			controls_state = 279
+			controls_state = 1036
 		}
 
 		search_filters = { FOCUS_FILTER_ANNEXATION FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
@@ -4239,6 +4648,7 @@ focus_tree = {
 			add_state_core = 977
 			add_state_core = 976
 			add_state_core = 960
+			add_state_core = 1036
 		}
 	}
 
@@ -7350,46 +7760,15 @@ focus_tree = {
 				type = annex_everything
 				target = POR 
 			}
-			if = { 	
+			random_other_country = {
 				limit = {
-					SPR = { controls_state = 41 }
+					controls_state = 41
 				}
-				create_wargoal = {
-					type = annex_everything 
-					target = SPR 
-				}
-			}
-			else_if = {
-				limit = {
-					SPA = { controls_state = 41 }
-				}
-				create_wargoal = {
-					type = annex_everything 
-					target = SPA 
-				}
-			}
-			else_if = {
-				limit = {
-					SPB = { controls_state = 41 }
-				}
-				create_wargoal = {
-					type = annex_everything 
-					target = SPB 
-				}
-			}
-			else_if = {
-				limit = {
-					SPC = { controls_state = 41 }
-				}
-				create_wargoal = {
-					type = annex_everything 
-					target = SPC 
-				}
-			}
-			else = {
-				create_wargoal = {
-					type = annex_everything 
-					target = SPD 
+				ROOT = {
+					create_wargoal = {
+						target = PREV 
+						type = puppet_wargoal_focus
+					}
 				}
 			}
 		}
@@ -9169,7 +9548,7 @@ focus_tree = {
 	focus = {
 		id = PRU_fuerzas_armadas
 		icon = GFX_PRU_fuerzas_armadas_peruanas
-		x = 45
+		x = 55
 		y = 0
 
 		cost = 1
@@ -9850,7 +10229,7 @@ focus_tree = {
 			army_experience = 50	
 		}		
 		cost = 5
-	search_filters = {FOCUS_FILTER_RESEARCH}		
+		search_filters = {FOCUS_FILTER_RESEARCH}		
 	}	
 	
 	focus = {
@@ -9874,7 +10253,7 @@ focus_tree = {
 			army_experience = 45	
 		}		
 		cost = 5
-	search_filters = {FOCUS_FILTER_RESEARCH FOCUS_FILTER_HISTORICAL}
+		search_filters = {FOCUS_FILTER_RESEARCH FOCUS_FILTER_HISTORICAL}
 	}		
 	
 	focus = {
@@ -10114,7 +10493,7 @@ focus_tree = {
 		bypass = {
 			OR = {
 				has_war_with = ECU 
-				has_full_control_of_state = 490
+				has_full_control_of_state = 1036
 			}
 		}
 		
@@ -10145,7 +10524,7 @@ focus_tree = {
 		completion_reward = {
 			create_wargoal = {
 				type = take_state_focus
-				generator = { 490 }
+				generator = { 1036 }
 				target = ECU
 			}
 		}		
