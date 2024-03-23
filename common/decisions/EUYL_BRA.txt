@@ -3256,14 +3256,24 @@ BRA_patrianovism_on_the_rise = {
             }
         }
 
-        on_map_mode = map_only
+        on_map_mode = map_and_decisions_view
 
         cost = 30
 
         days_remove = 25
 
         ai_will_do = {
-			factor = 165
+			base = 265
+            modifier = {
+                factor = 2
+                FROM = {
+                    any_neighbor_state = {
+                        has_dynamic_modifier = {
+                            modifier = BRA_monarchist_influence
+                        }
+                    }
+                }
+            }
 		}
 
         modifier = {
@@ -4293,6 +4303,7 @@ BRA_the_brazilian_civil_war = {
         available = {
             OR = {
                 has_completed_focus = BRA_strike_a_deal_with_the_seperatists
+                has_completed_focus = BRA_in_memory_of_the_ribeirazinho_revolt
                 has_global_flag = BRA_paulistas_pacified
             }
         }
@@ -5744,15 +5755,6 @@ BRA_the_brazilian_civil_war = {
 
         cancel_trigger = {
             OR = {
-                if = {
-                    limit = {
-                        is_ai = no 
-                    }
-                    divisions_in_state = {
-                        size < 2
-                        state = FROM 
-                    }
-                }
                 any_other_country = {
                     original_tag = BRA 
                     has_government = communism
