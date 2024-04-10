@@ -695,11 +695,16 @@ on_actions = {
         effect = {
             if = {
                 limit = {
-                    original_tag = PRU 
-                    has_completed_focus = PRU_communist_peru
+                    ROOT = {
+                        original_tag = PRU 
+                        has_completed_focus = PRU_communist_peru
+                    }
                     FROM = { 
                         original_tag = CHL 
                         controls_state = 995
+                        NOT = {
+                            original_tag = ECU
+                        }
                         NOT = { 
                             OR = {
                                 is_in_faction_with = BOL
@@ -709,16 +714,24 @@ on_actions = {
                     }
                 }
                 hidden_effect = {
-                    BOL = {
-                        country_event = {
-                            id = peru.39
-                            hours = 4
-                            random_hours = 4
+                    if = {
+                        limit = {
+                            BOL = {
+                                exists = yes 
+                                is_subject = no
+                            }
                         }
-                        add_ai_strategy = {
-                            type = declare_war
-                            id = CHL
-                            value = 100
+                        BOL = {
+                            country_event = {
+                                id = peru.39
+                                hours = 4
+                                random_hours = 4
+                            }
+                            add_ai_strategy = {
+                                type = declare_war
+                                id = CHL
+                                value = 100
+                            }
                         }
                     }
                 }
@@ -727,15 +740,17 @@ on_actions = {
         effect = {
             if = {
                 limit = {
-                    OR = {
-                        original_tag = PRU 
-                        original_tag = BOL 
-                    }
-                    NOT = { has_country_flag = is_in_second_war_of_the_pacific }
-                    OR = {
-                        is_in_faction_with = BOL 
-                        is_in_faction_with = PRU 
-                        BOL = { has_country_flag = BOL_influenced_by_peru_flag }
+                    ROOT = {
+                        OR = {
+                            original_tag = PRU 
+                            original_tag = BOL 
+                        }
+                        NOT = { has_country_flag = is_in_second_war_of_the_pacific }
+                        OR = {
+                            is_in_faction_with = BOL 
+                            is_in_faction_with = PRU 
+                            BOL = { has_country_flag = BOL_influenced_by_peru_flag }
+                        }
                     }
                     FROM = {
                         original_tag = CHL 
@@ -2932,6 +2947,7 @@ on_actions = {
                     retire_character = BRA_pedro_gastao_orleans
                     retire_character = BRA_empress_maria_elisabeth
                     retire_character = EUYL_BRA_pedro_alcantrara
+                    retire_character = EUYL_BRA_candido_rondon
 
                     load_focus_tree = brazil_tree
                 }
@@ -3552,7 +3568,7 @@ on_actions = {
                     retire_character = CHL_alfredo_portales
                     retire_character = CHL_Óscar_novoa_fuentes
                     retire_character = CHL_ramon_cañas_montalva
-                    retire_character = CHL_daniel_herrera
+                    #retire_character = CHL_daniel_herrera
                     retire_character = CHL_tomás_montt
                     retire_character = CHL_bartolomé_orbegoso
                     retire_character = CHL_ministerio_de_trabajadores
@@ -3884,7 +3900,7 @@ on_actions = {
                     set_variable = { PAR_percent_subsidize = 0 }
                     
                     ### BoP Mechanic
-                    set_variable = { PAR_slight_support_cost = 25 }
+                    set_variable = { PAR_slight_support_cost = 20 }
                     set_variable = { PAR_major_support_cost = 50 }
                     
                     ### Heavy Military Investments Mechanic

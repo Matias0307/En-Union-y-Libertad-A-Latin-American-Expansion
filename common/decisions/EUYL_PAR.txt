@@ -498,10 +498,13 @@ PAR_bop = { # BALANCE OF POWER
 			}
 		}
 
-		days_re_enable = 60
+		days_remove = 40
+
+		modifier = {
+			political_power_factor = -0.03
+		}
 
 		complete_effect = {
-			custom_effect_tooltip = EUYL_will_be_available_60_tt
 			PAR_move_10_leader = yes
 		}
 	}
@@ -549,15 +552,22 @@ PAR_bop = { # BALANCE OF POWER
 			}
 		}
 
-		days_re_enable = 120
+		days_re_enable = 90
 
 		complete_effect = {
-			custom_effect_tooltip = URG_decision_will_be_avail_again_120_days_tt
+			custom_effect_tooltip = EUYL_decision_will_reappear_in_90_days_tt
 			random_list = {
 				50 = {
 					PAR_move_15_leader = yes
 				}
 				50 = {
+					modifier = {
+						factor = 1.5
+						OR = {
+							has_completed_focus = PAR_focus_on_national_matters
+							has_completed_focus = PAR_la_patria_ante_todo
+						}
+					}
 					PAR_move_25_leader = yes
 					add_political_power = -25
 				}
@@ -676,7 +686,7 @@ PAR_subsidizing_paraguayan_industry = { #SUBSIDIZATION
 	# minor subsidizations to small companies uwu
 	PAR_subsidizing_paraguayan_industry_small = {
 		icon = hol_exchange_intelligence_data
-		cost = 40
+		cost = 25
 
 		available = {
 			has_civil_war = no
@@ -688,7 +698,7 @@ PAR_subsidizing_paraguayan_industry = { #SUBSIDIZATION
 			}
 		}
 
-		days_remove = 80
+		days_remove = 55
 
 		ai_will_do = {
 			factor = 195
@@ -726,7 +736,7 @@ PAR_subsidizing_paraguayan_industry = { #SUBSIDIZATION
 	# subsidizations for local industries owo
 	PAR_subsidizing_paraguayan_industry_medium = {
 		icon = hol_attract_foreign_investors
-		cost = 70
+		cost = 50
 
 		available = {
 			has_civil_war = no
@@ -738,7 +748,7 @@ PAR_subsidizing_paraguayan_industry = { #SUBSIDIZATION
 			}
 		}
 
-		days_remove = 150
+		days_remove = 70
 
 		ai_will_do = {
 			factor = 250
@@ -776,7 +786,7 @@ PAR_subsidizing_paraguayan_industry = { #SUBSIDIZATION
 	# large scale subsidizations for the industry OWO
 	PAR_subsidizing_paraguayan_industry_large = {
 		icon = generic_factory
-		cost = 100
+		cost = 75
 
 		available = {
 			has_civil_war = no
@@ -788,7 +798,7 @@ PAR_subsidizing_paraguayan_industry = { #SUBSIDIZATION
 			}
 		}
 
-		days_remove = 200
+		days_remove = 100
 
 		ai_will_do = {
 			factor = 375
@@ -913,7 +923,7 @@ PAR_poltical_actions = {
 
 		remove_effect = {
 			random_list = {
-				33 = {
+				40 = {
 					modifier = {
 						factor = 0
 						NOT = { has_idea = PAR_agitated_right_wing_revs }
@@ -921,7 +931,7 @@ PAR_poltical_actions = {
 					remove_ideas = PAR_agitated_right_wing_revs
 					hidden_effect = { country_event = paraguay.22 }
 				}
-				33 = {
+				40 = {
 					modifier = {
 						factor = 0
 						NOT = { has_idea = PAR_liberal_remnants_idea }
@@ -929,7 +939,7 @@ PAR_poltical_actions = {
 					remove_ideas = PAR_liberal_remnants_idea
 					hidden_effect = { country_event = paraguay.21 }
 				}
-				33 = {
+				15 = {
 					custom_effect_tooltip = PAR_failed_search_tt
 					add_political_power = 15
 					hidden_effect = { country_event = parauay.23 }
@@ -1012,7 +1022,7 @@ PAR_poltical_actions = {
 		icon = GFX_EUYL_attract_refugees
 		cost = 75
 
-		days_remove = 200
+		days_remove = 140
 
 		visible = {
 			has_idea = PAR_dissatisfied_population
@@ -1466,8 +1476,6 @@ PAR_legacy_of_solano_lopez_cat = {
 					custom_effect_tooltip = EUYL_state_will_get_transferred_to_ROOT_tt
 				}
 			}
-			custom_effect_tooltip = PAR_public_concern_will_worsen_tt
-			PAR_worsen_public_concern = yes
 			if = {
 				limit = {
 					NOT = { has_global_flag = triple_alliance_formed_flag }

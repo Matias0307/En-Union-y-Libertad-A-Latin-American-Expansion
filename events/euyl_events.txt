@@ -577,3 +577,131 @@ country_event = {
 		}
 	}
 }
+
+## Country that Declared War Failed to Reach their goal 
+country_event = {
+	id = EUYL.2
+	title = EUYL.2.t 
+	desc = EUYL.2.d 
+	picture = GFX_report_event_generic_riot
+
+	is_triggered_only = yes 
+
+	option = { ## We surrender || Can't make this fully dynamic as that could cause unwanted bugs
+		name = EUYL.2.a 
+		ai_chance = {
+			base = 50
+			modifier = {
+				factor = 10
+				any_enemy_country = {
+					strength_ratio = {
+						tag = ROOT
+						ratio > 1
+					}
+				}
+			}
+		}
+		if = { ## Bolivia
+			limit = {
+				original_tag = BOL 
+				has_war_with = PAR
+			}
+			every_core_state = {
+				limit = {
+					is_controlled_by = PAR
+				}
+				PAR = {
+					transfer_state = PREV
+				}
+			}
+			white_peace = PAR 
+			PAR = {
+				country_event = {
+					id = EUYL.3 
+					hours = 4
+				}
+			}
+		}
+		if = {
+			limit = { ## Peru
+				original_tag = PRU 
+				has_war_with = ECU
+			}
+			every_core_state = {
+				limit = {
+					is_controlled_by = ECU
+				}
+				ECU = {
+					transfer_state = PREV
+				}
+			}
+			white_peace = ECU 
+			ECU = {
+				country_event = {
+					id = EUYL.3 
+					hours = 4
+				}
+			}
+			hidden_effect = {
+				ECU = {
+					set_country_flag = ECU_winner_of_peru_ecuador_war_flag
+				}
+			}
+		}
+		if = {
+			limit = { ## Argentina | Brazil
+				OR = {
+					original_tag = ARG 
+					original_tag = BRA 
+					has_offensive_war_with = URG
+				}
+			}
+			every_core_state = {
+				limit = {
+					is_controlled_by = URG
+				}
+				URG = {
+					transfer_state = PREV
+				}
+			}
+			white_peace = URG 
+			URG = {
+				country_event = {
+					id = EUYL.3 
+					hours = 4
+				}
+			}
+		}
+	}
+
+	option = { # We must keep going
+		name = EUYL.2.b
+		ai_chance = {
+			base = 5
+			modifier = {
+				factor = 0
+				any_enemy_country = {
+					is_ai = no ## player
+				}
+			}
+		}
+		add_war_support = -0.05
+		add_political_power = -25
+	}
+}
+
+## FROM has put down their arms
+country_event = {
+	id = EUYL.3 
+	title = EUYL.3.t 
+	desc = EUYL.3.d 
+	picture = GFX_report_event_generic_read_write
+
+	is_triggered_only = yes 
+
+	option = {
+		name = EUYL.3.a 
+		add_war_support = 0.05
+		add_political_power = 25
+	}
+}
