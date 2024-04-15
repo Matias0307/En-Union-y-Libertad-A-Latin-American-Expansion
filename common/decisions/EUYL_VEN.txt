@@ -775,10 +775,10 @@ VEN_looming_oil_strike_cat = {
                             states = { 1027 1033 1030 1031 1029 488 1024 }
                             keep_all_characters = yes 
                             PREV = {
-                                VEN_eleazar_lopez_contreras = { set_nationality = PREV.PREV }
+                                EUYL_VEN_eleazar_lopez_contreras = { set_nationality = PREV.PREV }
                                 VEN_romelo_bentancourt = { set_nationality = PREV.PREV }
                             }
-                            promote_character = VEN_eleazar_lopez_contreras
+                            promote_character = EUYL_VEN_eleazar_lopez_contreras
                         }
                         add_ideas = VEN_venezuelan_civil_war
                         every_controlled_state = {
@@ -889,7 +889,7 @@ VEN_looming_oil_strike_cat = {
                             unlock_national_focus = VEN_create_the_ministry_of_health_and_social_assistance
                             unlock_national_focus = VEN_promote_nationwide_hygiene
                             complete_national_focus = VEN_ley_lara
-                            VEN_eleazar_lopez_contreras = {
+                            EUYL_VEN_eleazar_lopez_contreras = {
                                 add_corps_commander_role = {
                                     skill = 3
                                     attack_skill = 4
@@ -2637,7 +2637,7 @@ VEN_gloria_al_bravo_pueblo_cat = {
             FROM = {
                 add_dynamic_modifier = {
                     modifier = VEN_local_mobilization_active
-                    days = 720
+                    days = 1095
                 }
             }
         }
@@ -3996,15 +3996,22 @@ VEN_influencing_venezuela = {
 
         ai_will_do = {
             base = 1
+            modifier = {
+                factor = 0
+                date < 1938.2.1
+            }
             modifier = { ## Operation Bolivar
                 factor = 125
                 original_tag = GER 
                 is_historical_focus_on = yes 
-                date > 1938.5.1
+                date > 1938.4.1
             }
             modifier = {
                 factor = 25
                 has_government = democratic
+                NOT = {
+                    original_tag = ENG
+                }
                 FROM = {
                     has_completed_focus = VEN_ley_lara
                 }
@@ -4012,11 +4019,17 @@ VEN_influencing_venezuela = {
             }
             modifier = {
                 factor = 25
+                original_tag = ENG 
+                has_government = democratic
+                date > 1939.10.4
+            }
+            modifier = {
+                factor = 25
                 has_government = fascism 
                 FROM = {
                     has_completed_focus = VEN_support_galavis_actions
                 }
-                date > 1937.4.1
+                date > 1938.4.1
             }
         }
 
