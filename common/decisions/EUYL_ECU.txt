@@ -45,3 +45,53 @@ ECU_liberal_conservative_conflict = {
 		}
 	}
 }
+
+ECU_economic_reignition = {
+	ECU_promote_development_in_FROM = {
+		icon = generic_construction
+
+		state_target = yes 
+
+		target_array = controlled_states
+
+		target_trigger = {
+			FROM = {
+				has_dynamic_modifier = {
+					modifier = ECU_rural_state
+				}
+			}
+		}
+
+		on_map_mode = map_and_decisions_view
+
+		visible = {
+			has_completed_focus = ECU_nationwide_development
+			FROM = {
+				is_controlled_by = ROOT 
+			}
+		}
+
+		available = {
+			NOT = {
+				has_country_flag = ECU_recently_promoted_development_flag
+			}
+		}
+
+		cost = 25
+
+		fire_only_once = yes 
+
+		complete_effect = {
+			set_country_flag = {
+				flag = ECU_recently_promoted_development_flag
+				days = 90
+				value = 1
+			}
+			FROM = {
+				remove_dynamic_modifier = {
+					modifier = ECU_rural_state
+				}
+			}
+		}
+	}
+}
