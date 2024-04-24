@@ -15,10 +15,10 @@ focus_tree = {
 	country = {
 		factor = 0
 		
-		modifier = {
-			add = 10
-			tag = ECU
-		}
+		#modifier = {
+		#	add = 10
+		#	tag = ECU
+		#}
 	}
 	
 	initial_show_position = {
@@ -60,6 +60,136 @@ focus_tree = {
 		}
 	}
 
+	## Devalue the Sucre ## - HISTORICAL
+	focus = {
+		id = ECU_devalue_the_sucre
+		icon = GFX_ECU_devalue_sucre_icon
+		x = 0
+		y = 1
+		relative_position_id = ECU_fully_abandon_the_gold_standard
+		prerequisite = {
+			focus = ECU_fully_abandon_the_gold_standard
+		}
+
+		cost = 5
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			add_timed_idea = {
+				idea = ECU_devalue_the_sucre_idea
+				days = 365
+			}
+			custom_effect_tooltip = EUYL_effects_when_removed_tt
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = ECU_full_gold_standard_abandonment_1
+					add_idea = ECU_full_gold_standard_abandonment_2
+				}
+			}
+		}
+	}
+
+	### Economic Investments ###
+	focus = {
+		id = ECU_economic_investments
+		icon = GFX_focus_generic_modernize_industry
+		x = 1
+		y = 1
+		relative_position_id = ECU_devalue_the_sucre
+		prerequisite = {
+			focus = ECU_devalue_the_sucre
+		}
+
+		cost = 7.2
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ECONOMIC_GROWTH FOCUS_FILTER_RESEARCH
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = ECU_modify_economic_reignition_intro_tt
+			add_to_variable = {
+				ECU_economy_production_speeds_buildings_factor = 0.075
+				tooltip = production_speed_buildings_factor_tt
+			}
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			EUYL_add_1_civilian = yes
+		}
+	}
+
+	## Reform the Organic Law of the Bank
+	focus = {
+		id = ECU_reform_the_organic_law_of_the_bank
+		icon = GFX_ECU_reform_laws_bank_icon
+		x = -1
+		y = 1
+		relative_position_id = ECU_economic_investments
+		prerequisite = {
+			focus = ECU_economic_investments
+			focus = ECU_major_industrial_advancements
+		}
+
+		available = {
+			has_idea = ECU_active_inflationary_crisis
+		}
+
+		cost = 10
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			remove_ideas = ECU_active_inflationary_crisis
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = ECU_manuel_gomez_morin_idea
+		}
+	}
+
+	## Major Industrial Advancements ###
+	focus = {
+		id = ECU_major_industrial_advancements
+		icon = GFX_ECU_major_industry_icon
+		x = -1
+		y = 1
+		relative_position_id = ECU_devalue_the_sucre
+		prerequisite = {
+			focus = ECU_devalue_the_sucre
+		}
+
+		cost = 10
+
+		available = {
+			NOT = {
+				has_idea = ECU_devalue_the_sucre_idea
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ECONOMIC_GROWTH
+		}
+
+		completion_reward = {
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 3
+				category = industry
+			}
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			custom_effect_tooltip = ECU_modify_economic_reignition_intro_tt
+			add_to_variable = {
+				ECU_economy_production_speed_civilian_factory_factor = 0.1
+				tooltip = production_speed_industrial_complex_factor_tt
+			}
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			EUYL_add_2_civilian = yes
+		}
+	}
+
 	## Return to the Gold Standard ## - AHISTORICAL
 	focus = {
 		id = ECU_returned_to_the_gold_standard_focus
@@ -87,6 +217,96 @@ focus_tree = {
 		}
 	}
 
+	## Finance local Industries ##
+	focus = {
+		id = ECU_finance_local_industries
+		icon = GFX_focus_SOV_merge_plants
+		x = 1
+		y = 1
+		relative_position_id = ECU_returned_to_the_gold_standard_focus
+		prerequisite = {
+			focus = ECU_returned_to_the_gold_standard_focus
+		}
+
+		cost = 7.2
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ECONOMIC_GROWTH
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = ECU_modify_economic_reignition_intro_tt
+			add_to_variable = {
+				ECU_economy_production_speeds_buildings_factor = 0.05
+				tooltip = production_speed_buildings_factor_tt
+			}
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			EUYL_add_1_civilian = yes
+		}
+	}
+
+	## Financial Stability ##
+	focus = {
+		id = ECU_financial_stability
+		icon = GFX_focus_mex_privatisation
+		x = -1
+		y = 1
+		
+		prerequisite = {
+			focus = ECU_returned_to_the_gold_standard_focus
+		}
+
+		cost = 10
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ECONOMIC_GROWTH
+		}
+
+		completion_reward = {
+			add_political_power = 75
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			custom_effect_tooltip = ECU_modify_economic_reignition_intro_tt
+			add_to_variable = {
+				ECU_economy_consumer_goods = -0.1
+				tooltip = consumer_goods_factor_tt
+			}
+			add_to_variable = {
+				ECU_economy_production_factory_efficiency_gain_factor = 0.05
+				tooltip = production_factory_efficiency_gain_factor_tt
+			}
+		}
+	}
+
+	## Reform Monetary Laws ##
+	focus = {
+		id = ECU_reform_monetary_laws
+		icon = GFX_focus_DEN_heavy_regulations
+		x = -1
+		y = 1
+		relative_position_id = ECU_finance_local_industries
+		prerequisite = {
+			focus = ECU_finance_local_industries
+		}
+		prerequisite = {
+			focus = ECU_financial_stability
+		}
+
+		cost = 10
+
+		available = {
+			has_idea = ECU_active_inflationary_crisis
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			remove_ideas = ECU_active_inflationary_crisis
+			EUYL_add_2_civilian = yes
+		}
+	}
+
 	## Nationwide Development ##
 	focus = {
 		id = ECU_nationwide_development
@@ -107,7 +327,7 @@ focus_tree = {
 				}
 			}
 			has_civil_war = no 
-			num_of_factories > 6
+			num_of_factories > 5
 		}
 
 		search_filters = {
@@ -149,7 +369,7 @@ focus_tree = {
 		}
 	}
 
-	## Local Banana Production ##
+	## Local Banana Production ## - HISTORICAL
 	focus = {
 		id = ECU_local_banana_production_focus
 		icon = GFX_EUYL_bananer
@@ -395,6 +615,53 @@ focus_tree = {
 		}
 	}
 
+	## Galapagos Development ##
+	focus = {
+		id = ECU_galapagos_development
+		icon = GFX_ECU_develop_galapagos_islands_icon
+		x = 0
+		y = 1
+		relative_position_id = ECU_consumer_relief
+		prerequisite = {
+			focus = ECU_consumer_relief
+		}
+
+		cost = 7.2
+
+		available = {
+			has_full_control_of_state = 649
+			NOT = {
+				has_idea = ECU_active_inflationary_crisis
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			649 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes 
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes 
+				}
+				add_building_construction = {
+					type = naval_base
+					level = 1
+					instant_build = yes
+					province = 5023
+				}
+			}
+		}
+	}
+
 	## The Ecuadorian Military Industry ## - make it so that it requires world tension or conflict level higher than 1
 	focus = {
 		id = ECU_the_ecuadorian_military_industry
@@ -512,6 +779,47 @@ focus_tree = {
 			}
 			custom_effect_tooltip = CHL_skip_one_line_tt
 			EUYL_add_1_military = yes
+		}
+	}
+
+	## Oil Extraction Improvements ##
+	focus = {
+		id = ECU_oil_extraction_improvements
+		icon = GFX_goal_generic_oil_refinery
+		x = 0
+		y = 1
+		relative_position_id = ECU_national_arms_production
+		prerequisite = {
+			focus = ECU_national_arms_production
+		}
+
+		cost = 7.2
+
+		available = {
+			has_full_control_of_state = 1010
+			has_tech = excavation2
+			NOT = {
+				has_idea = ECU_active_inflationary_crisis
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY 
+		}
+
+		completion_reward = {
+			EUYL_add_1_military = yes 
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			1010 = {
+				add_resource = {
+					type = oil 
+					amount = 9
+				}
+			}
+			unlock_decision_tooltip = {
+				decision = oil_extraction_in_orellana
+				show_effect_tooltip = yes
+			}
 		}
 	}
 
@@ -872,22 +1180,48 @@ focus_tree = {
 	## The Elections that Should Have Been ##
 	focus = {
 		id = ECU_the_elections_that_shouldve_been
-		icon = GFX_radio_SA_music_select
-		x = 35
+		icon = GFX_ECU_elections_shouldve_been_icon
+		mutually_exclusive = {
+			focus = ECU_the_paez_dictatorship
+			focus = ECU_support_gallo
+		}
+		x = 30
 		y = 0
 
-		cost = 5
+		cost = 2.9
 
 		available = {
-			
+			has_country_flag = ECU_cooperated_with_conservatives_flag
 		}
 
 		search_filters = {
 			FOCUS_FILTER_POLITICAL
 		}
 		completion_reward = {
-		
+			custom_effect_tooltip = ECU_conservative_cooperation_decrease_cost_tt
+			custom_effect_tooltip = ECU_warn_player_to_complete_gallos_coup_tt
+			ECU_calculate_conservative_cost = yes
 		}
+	}
+
+
+	####### PAEZ DICTATORSHIP ######
+	focus = {
+		id = ECU_the_paez_dictatorship
+		icon = GFX_ECU_the_paez_dictatorship_icon
+		mutually_exclusive = {
+			focus = ECU_the_elections_that_shouldve_been
+			focus = ECU_support_gallo
+		}
+		x = 40
+		y = 0
+
+		cost = 5
+
+		available = {
+			has_active_mission = ECU_gallos_looming_coup
+		}
+
 	}
 
 }
