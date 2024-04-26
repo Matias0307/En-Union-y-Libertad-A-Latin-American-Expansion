@@ -1,0 +1,82 @@
+### ECUADOR ###
+
+add_namespace = ecu
+
+### Gallo Promoted to Supremem Leadership
+country_event = {
+	id = ecu.1
+	title = ecu.1.t 
+	desc = ecu.1.d 
+	picture = GFX_ECU_gallos_coup
+
+	is_triggered_only = yes 
+
+	option = {
+		name = ecu.1.a 
+		add_stability = -0.02
+		promote_character = ECU_alberto_enriquez_gallo
+		ECU_dissolve_the_constituent_assembly = yes
+		set_politics = {
+			ruling_party = ROOT 
+			elections_allowed = no 
+		}
+		hidden_effect = {
+			remove_ideas = ECU_alberto_enriquez_gallo_idea
+		}
+		if = {
+			limit = {
+				has_completed_focus = ECU_convince_our_liberal_supporters
+			}
+			ECU_improve_liberal_opinion = yes
+		}
+		if = {
+			limit = {
+				has_country_flag = ECU_recently_improved_liberal_opinion_flag
+			}
+			ECU_worsen_conservative_opinion = yes
+		}
+	}
+}
+
+## Inflation Hits the Ecuadorian Economy ##
+country_event = {
+	id = ecu.2
+	title = ecu.2.t 
+	desc = ecu.2.d 
+	picture = GFX_ARG_argentinarework10
+
+	is_triggered_only = yes
+
+	option = {
+		name = ecu.2.a 
+		add_ideas = ECU_active_inflationary_crisis
+	}
+}
+
+## Constituent Assembly Deposes [ROOT.GetLeader] || ## will have more if statements later on
+country_event = {
+	id = ecu.3
+	title = ecu.3.t 
+	desc = ecu.3.d 
+	picture = GFX_report_event_hungary_parliament
+
+	is_triggered_only = yes 
+
+	option = {
+		name = ecu.3.a 
+		add_political_power = -15
+		add_country_leader_role = {
+			character = ECU_asamblea_constituyente
+			promote_leader = yes
+			country_leader = {
+				ideology = liberalism
+				traits = { }
+				expire = "1965.3.1.1"
+			}
+		}
+		unlock_decision_tooltip = {
+			decision = ECU_stabilize_the_nation
+			show_effect_tooltip = yes
+		}
+	}
+}
