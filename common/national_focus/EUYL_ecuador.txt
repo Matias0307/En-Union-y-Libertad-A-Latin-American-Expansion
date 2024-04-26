@@ -15,10 +15,10 @@ focus_tree = {
 	country = {
 		factor = 0
 		
-		#modifier = {
-		#	add = 10
-		#	tag = ECU
-		#}
+		modifier = {
+			add = 10
+			tag = ECU
+		}
 	}
 	
 	initial_show_position = {
@@ -26,6 +26,17 @@ focus_tree = {
 	}
 	
 	default = no
+
+	#### PERU-ECUADOR CONFLICT TREE ####
+	## Address the Border Tensions ##
+	focus = {
+		id = ECU_address_the_border_tensions
+		icon = GFX_EUYL_address_conflict_pru_ecu_icon
+		x = 14
+		y = 0
+	}
+
+	#### ECONOMY TREE ####
 
 	## Fully Abandon the Gold Standard ## - HISTORICAL
 	focus = { 
@@ -327,11 +338,11 @@ focus_tree = {
 				}
 			}
 			has_civil_war = no 
-			num_of_factories > 5
+			num_of_factories > 6
 		}
 
 		search_filters = {
-			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ECONOMIC_GROWTH
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ECONOMIC_GROWTH FOCUS_FILTER_HISTORICAL
 		}
 
 		completion_reward = {
@@ -366,6 +377,11 @@ focus_tree = {
 				decision = ECU_promote_development_in_FROM
 				show_effect_tooltip = yes
 			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = EUYL_available_as_industrial_concern_tt
+			show_ideas_tooltip = ECU_IESS
 		}
 	}
 
@@ -839,6 +855,7 @@ focus_tree = {
 		available = {
 			has_full_control_of_state = 972
 			has_full_control_of_state = 1020
+			has_full_control_of_state = 1037
 		}
 
 		search_filters = {
@@ -886,6 +903,7 @@ focus_tree = {
 					OR = {
 						state = 972 
 						state = 1020
+						state = 1037
 					}
 				}
 				add_extra_state_shared_building_slots = 1
@@ -943,6 +961,7 @@ focus_tree = {
 		available = {
 			has_full_control_of_state = 1010
 			has_full_control_of_state = 305
+			has_full_control_of_state = 1036
 		}
 
 		search_filters = {
@@ -990,6 +1009,7 @@ focus_tree = {
 					OR = {
 						state = 305 
 						state = 1010
+						state = 1036
 					}
 				}
 				add_extra_state_shared_building_slots = 1
@@ -1185,13 +1205,14 @@ focus_tree = {
 			focus = ECU_the_paez_dictatorship
 			focus = ECU_support_gallo
 		}
-		x = 30
+		x = 35
 		y = 0
 
 		cost = 2.9
 
 		available = {
 			has_country_flag = ECU_cooperated_with_conservatives_flag
+			has_character = ECU_neptali_bonifaz
 		}
 
 		search_filters = {
@@ -1200,12 +1221,13 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = ECU_conservative_cooperation_decrease_cost_tt
 			custom_effect_tooltip = ECU_warn_player_to_complete_gallos_coup_tt
+			add_political_power = 25
 			ECU_calculate_conservative_cost = yes
 		}
 	}
 
 
-	####### PAEZ DICTATORSHIP ######
+	####### PAEZ DICTATORSHIP ###### || AFNE / PAEZ FASCIST DICTATOR
 	focus = {
 		id = ECU_the_paez_dictatorship
 		icon = GFX_ECU_the_paez_dictatorship_icon
@@ -1213,7 +1235,7 @@ focus_tree = {
 			focus = ECU_the_elections_that_shouldve_been
 			focus = ECU_support_gallo
 		}
-		x = 40
+		x = 50
 		y = 0
 
 		cost = 5
@@ -1224,4 +1246,274 @@ focus_tree = {
 
 	}
 
+	#### SUPPORT GALLO | HISTORICAL #### | ALSO DEVIATES TO COMMUNIST PATH
+	# Support Gallo #
+	focus = {
+		id = ECU_support_gallo 
+		icon = GFX_ECU_support_gallo_icon
+		mutually_exclusive = {
+			focus = ECU_the_elections_that_shouldve_been
+			focus = ECU_the_paez_dictatorship
+		}
+		x = 20
+		y = 0
+		cost = 5
+
+		available = {
+			has_character = ECU_alberto_enriquez_gallo
+			has_active_mission = ECU_gallos_looming_coup
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_political_power = 25
+			add_days_mission_timeout = {
+				mission = ECU_gallos_looming_coup
+				days = -20
+			}
+		}
+	}
+
+	## Convince our Liberal Supporters ##
+	focus = {
+		id = ECU_convince_our_liberal_supporters
+		icon = GFX_ECU_convince_liberal_supporters_icon
+		x = 0
+		y = 1
+		relative_position_id = ECU_support_gallo
+		prerequisite = {
+			focus = ECU_support_gallo
+		}
+
+		cost = 5
+
+		available = {
+			has_active_mission = ECU_gallos_looming_coup
+		}
+
+		bypass = {
+			has_country_leader = {
+				character = ECU_alberto_enriquez_gallo
+				ruling_only = yes
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			unlock_decision_tooltip = {
+				decision = ECU_summon_up_liberal_support_in_FROM
+				show_effect_tooltip = yes 
+			}
+			custom_effect_tooltip = ECU_once_gallo_takes_power_following_will_occur_tt
+			custom_effect_tooltip = ECU_liberal_opinion_increase_tt
+		}
+	}
+
+	## Appease the Conservatives ##
+	focus = {
+		id = ECU_appease_the_conservatives
+		icon = GFX_ECU_appease_conservatives_icon
+		x = -1
+		y = 1
+		relative_position_id = ECU_convince_our_liberal_supporters
+		prerequisite = {
+			focus = ECU_convince_our_liberal_supporters
+		}
+
+		cost = 5
+
+		available = {
+			has_active_mission = ECU_gallos_looming_coup
+		}
+
+		bypass = {
+			has_country_leader = {
+				character = ECU_alberto_enriquez_gallo
+				ruling_only = yes
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_political_power = 20
+			custom_effect_tooltip = ECU_conservative_opinion_increase_tt
+			add_to_variable = {
+				ECU_conservative_opinion = 1
+			}
+			clamp_variable = {
+				var = ECU_conservative_opinion
+				min = -3
+				max = 3
+			}
+			set_country_flag = {
+				flag = ECU_recently_improved_conservative_opinion_flag
+				days = 90
+				value = 1
+			}
+		}
+	}
+
+	## Denounce the Leftist Persecutions ##
+	focus = {
+		id = ECU_denounce_the_leftist_persecutions
+		icon = GFX_GENERIC_people_uprising
+		x = 2
+		y = 1
+		relative_position_id = ECU_convince_our_liberal_supporters
+		prerequisite = {
+			focus = ECU_convince_our_liberal_supporters
+		}
+
+		available = {
+			has_active_mission = ECU_gallos_looming_coup
+			communism > 0.1
+		}
+
+		cost = 5
+
+		search_filters = {
+			FOCUS_FILTER_STABILITY FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_days_mission_timeout = {
+				mission = ECU_gallos_looming_coup
+				days = -30
+			}
+			add_ideas = ECU_socialist_support_idea
+		}
+	}
+
+	## Re-establish the Constituent Assembly ##
+	focus = {
+		id = ECU_re_establish_constituent_assembly
+		icon = GFX_ECU_asamblea_constituyente
+		x = 1
+		y = 1
+		relative_position_id = ECU_appease_the_conservatives
+		prerequisite = {
+			focus = ECU_appease_the_conservatives
+			focus = ECU_denounce_the_leftist_persecutions
+		}
+
+		cost = 7.2
+
+		available = {
+			has_country_leader = {
+				character = ECU_alberto_enriquez_gallo
+				ruling_only = yes 
+			}
+			NOT = {
+				has_idea = ECU_the_constituent_assembly
+			}
+		}
+
+		bypass = {
+			has_country_leader = {
+				character = ECU_alberto_enriquez_gallo
+				ruling_only = yes 
+			}
+			has_idea = ECU_the_constituent_assembly
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_stability = 0.05
+			add_ideas = ECU_the_constituent_assembly
+		}
+	}
+
+	## Return Power to the Assemblists ##
+	focus = {
+		id = ECU_return_power_to_the_assemblists
+		icon = GFX_focus_generic_self_management
+		x = 0
+		y = 1
+		relative_position_id = ECU_re_establish_constituent_assembly
+		prerequisite = {
+			focus = ECU_re_establish_constituent_assembly
+		}
+		mutually_exclusive = {
+			focus = ECU_push_for_national_elections
+		}
+
+		cost = 10
+	}
+
+	## Leftist Agitation ##
+	focus = {
+		id = ECU_leftist_agitation
+		icon = GFX_focus_generic_workers_and_farmers_rise
+		x = 4
+		y = 1
+		relative_position_id = ECU_denounce_the_leftist_persecutions
+		prerequisite = {
+			focus = ECU_denounce_the_leftist_persecutions
+		}
+
+		cost = 7.2
+
+		available = {
+			NOT = {
+				has_active_mission = ECU_gallos_looming_coup
+			}
+			communism > 0.2
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ECU_socialist_support_idea
+				add_idea = ECU_leftist_agitation_idea
+			}
+			unlock_decision_tooltip = {
+				decision = ECU_radicalize_the_moderates
+				show_effect_tooltip = yes
+			}
+		}
+	}
+
+	## Push for National Elections ##
+	focus = {
+		id = ECU_push_for_national_elections
+		icon = GFX_ECU_elections_commie
+		x = 0
+		y = 1
+		relative_position_id = ECU_leftist_agitation
+		prerequisite = {
+			focus = ECU_leftist_agitation
+		}
+		mutually_exclusive = {
+			focus = ECU_return_power_to_the_assemblists
+		}
+
+		cost = 5
+
+		available = {
+			communism > 0.49 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			country_event = ecu.4 ## Resounding Communist Victory at Elections
+		}
+	}
 }

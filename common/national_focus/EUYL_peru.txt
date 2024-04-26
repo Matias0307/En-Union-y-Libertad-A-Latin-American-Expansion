@@ -96,7 +96,7 @@ focus_tree = {
 			remove_ideas = PRU_what_is_our_nation		
 			add_ideas = PRU_presidential_republic	
 		}		
-		cost = 8
+		cost = 5
 		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 	}		
 
@@ -124,7 +124,7 @@ focus_tree = {
 			add_ideas = PRU_parliamentary_republic	
 			custom_effect_tooltip = PRU_facism_warning
 		}		
-		cost = 8
+		cost = 5
 		search_filters = {FOCUS_FILTER_POLITICAL}
 		search_filters = {FOCUS_FILTER_STABILITY}
 	}	
@@ -165,7 +165,7 @@ focus_tree = {
 			remove_ideas = PRU_what_is_our_nation		
 			add_ideas = PRU_mixed_republic	
 		}		
-		cost = 5
+		cost = 3
 		search_filters = {FOCUS_FILTER_POLITICAL}
 		search_filters = {FOCUS_FILTER_STABILITY}		
 	}		
@@ -323,12 +323,23 @@ focus_tree = {
 	
 	## Will be the Ecuador War Mechanic
 
+	## Address the Border Tensions ##
+	focus = {
+		id = PRU_address_the_border_tensions
+		icon = GFX_EUYL_address_conflict_pru_ecu_icon
+		x = 38
+		y = 0
+	}
+
 	# Merely Temporary
 	focus = {
 		id = PRU_strengthen_the_army
 		icon = GFX_ARG_quantity
 		x = 37
 		y = 0
+		allow_branch = {
+			always = no 
+		}
 
 		offset = {
 			x = -4
@@ -1501,7 +1512,7 @@ focus_tree = {
 		relative_position_id = PRU_launch_the_coup
 		prerequisite = { focus = PRU_launch_the_coup }
 
-		cost = 6
+		cost = 5
 
 		ai_will_do = {
 			factor = 50
@@ -3093,6 +3104,7 @@ focus_tree = {
 						state = 996
 						state = 951
 						state = 1035
+						state = 1037
 					}
 				}
 				add_claim_by = ROOT
@@ -4466,7 +4478,7 @@ focus_tree = {
 		relative_position_id = PRU_solidify_our_state
 		prerequisite = { focus = PRU_solidify_our_state }
 
-		cost = 8
+		cost = 5
 
 		select_effect = {
 			hidden_effect = {
@@ -6321,7 +6333,7 @@ focus_tree = {
 
 		ai_will_do = { factor = 6 }
 
-		cost = 10
+		cost = 5
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
@@ -6352,7 +6364,7 @@ focus_tree = {
 
 		ai_will_do = { factor = 6 }
 
-		cost = 10
+		cost = 5
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
@@ -6376,7 +6388,7 @@ focus_tree = {
 			focus = PRU_adelante_jorge_del_prado
 		}
 
-		cost = 6
+		cost = 5
 
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ECONOMIC_GROWTH FOCUS_FILTER_POLITICAL }
 		completion_reward = {
@@ -6721,7 +6733,7 @@ focus_tree = {
 		relative_position_id = PRU_adelante_jorge_del_prado
 		prerequisite = { focus = PRU_adelante_jorge_del_prado focus = PRU_with_the_guidance_of_eudocino }
 
-		cost = 7.2
+		cost = 6
 
 		ai_will_do = { factor = 2 }
 
@@ -6755,7 +6767,7 @@ focus_tree = {
 		relative_position_id = PRU_adelante_jorge_del_prado
 		prerequisite = { focus = PRU_adelante_jorge_del_prado focus = PRU_with_the_guidance_of_eudocino }
 
-		cost = 8
+		cost = 6
 
 		ai_will_do = { factor = 2 }
 
@@ -8905,8 +8917,11 @@ focus_tree = {
 		}
 
 		bypass = {
-			has_completed_focus = PRU_south_america_united
-			has_war_with = ECU
+			OR = {
+				has_war_with = ECU 
+				has_full_control_of_state = 1036
+				ECU = { is_subject_of = ROOT }
+			}
 		}
 		
 		completion_reward = {		
@@ -8929,9 +8944,10 @@ focus_tree = {
 		y = 1
 		
 		available = {
-			ECU = {
+			any_other_country = {
 				is_in_faction = no
 				exists = yes 
+				controls_state = 1036 
 				NOT = {
 					OR = {
 						has_government = fascism
@@ -8944,13 +8960,14 @@ focus_tree = {
 			}
 		}
 
-		bypass = {
-			has_completed_focus = PRU_south_america_united
-			is_in_faction_with = ECU
-		}
-		
 		completion_reward = {		
-			ECU = {
+			random_other_country = {
+				limit = {
+					NOT = {
+						is_in_faction_with = ROOT 
+					}
+					controls_state = 1036
+				}
 				country_event = { id = peru.15 hours = 8 }
 			}
 		}		
