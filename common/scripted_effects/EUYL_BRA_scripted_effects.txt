@@ -1002,31 +1002,8 @@ BRA_set_up_generic_civil_war_divisions_fascist_ai = {
 		every_state = {
 			limit = { has_dynamic_modifier = { modifier = BRA_integralists_occupation } }
 			set_state_flag = BRA_fascist_state
-		}
-		random_other_country = {
-			limit = { 
-				original_tag = BRA 
-				has_civil_war = yes
-				any_controlled_state = {
-					has_dynamic_modifier = { modifier = BRA_integralists_occupation }
-				}
-			}
-			every_controlled_state = {
-				limit = {
-					is_core_of = BRA  
-					has_dynamic_modifier = { modifier = BRA_integralists_occupation }
-				}
-				set_state_controller_to = ROOT
-				set_state_owner_to = ROOT
-			}
-			ROOT = {
-				every_controlled_state = {
-					limit = {
-						is_core_of = BRA 
-						NOT = { has_dynamic_modifier = { modifier = BRA_integralists_occupation } }
-					}
-					set_state_controller_to = PREV.PREV
-				}
+			remove_dynamic_modifier = {
+				modifier = BRA_integralists_occupation
 			}
 		}
 		if = {

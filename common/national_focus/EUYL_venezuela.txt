@@ -794,7 +794,7 @@ focus_tree = {
 		completion_reward = {
 			EUYL_add_2_civilian = yes 
 			EUYL_add_1_civilian = yes 
-			EUYL_add_2_military = yes 
+			EUYL_add_1_military = yes 
 			if = {
 				limit = {
 					any_controlled_state = {
@@ -1391,6 +1391,14 @@ focus_tree = {
 		completion_reward = {
 			EUYL_add_2_military = yes 
 			VEN_improve_oil_extraction_idea = yes 
+			if = {
+				limit = {
+					has_dlc = "Arms Against Tyranny"
+				}
+				mio:VEN_cavim_organization = {
+					add_mio_funds = 750
+				}
+			}
 		}
 	}
 
@@ -1632,6 +1640,14 @@ focus_tree = {
 				category = light_fighter
 			}
 			VEN_modernize_army_effect = yes 
+			if = {
+				limit = {
+					has_dlc = "Arms Against Tyranny"
+				}
+				mio:VEN_vickers_armstrong_limited_organization = {
+					add_mio_funds = 500
+				}
+			}
 		}
 	}
 
@@ -1924,6 +1940,14 @@ focus_tree = {
 				category = armor
 			}
 			VEN_modernize_army_effect = yes
+			if = {
+				limit = {
+					has_dlc = "Arms Against Tyranny"
+				}
+				mio:VEN_vickers_armstrong_limited_tank_organization = {
+					add_mio_funds = 900
+				}
+			}
 		}
 	}
 
@@ -2621,7 +2645,6 @@ focus_tree = {
 				VEN_move_50_left = yes
 			}
 			else = {
-				remove_ideas = monroe_doctrine_idea
 				ENG = {
 					country_event = {
 						id = generic.2
@@ -2908,7 +2931,6 @@ focus_tree = {
 				VEN_move_50_right = yes
 			}
 			else = {
-				remove_ideas = monroe_doctrine_idea
 				GER = {
 					country_event = {
 						id = generic.2
@@ -3351,7 +3373,7 @@ focus_tree = {
 		available = { 
 			has_civil_war = no 
 			has_country_leader = {
-				character = VEN_eleazar_lopez_contreras
+				character = EUYL_VEN_eleazar_lopez_contreras
 				ruling_only = yes 
 			}
 		}
@@ -3388,7 +3410,7 @@ focus_tree = {
 		available = {
 			has_civil_war = no 
 			has_country_leader = {
-				character = VEN_eleazar_lopez_contreras
+				character = EUYL_VEN_eleazar_lopez_contreras
 				ruling_only = yes 
 			}
 		}
@@ -3416,7 +3438,7 @@ focus_tree = {
 
 		available = {
 			has_country_leader = {
-				character = VEN_eleazar_lopez_contreras
+				character = EUYL_VEN_eleazar_lopez_contreras
 				ruling_only = yes 
 			}
 		}
@@ -3503,11 +3525,7 @@ focus_tree = {
 			custom_effect_tooltip = VEN_bentancourt_exiled_to_chile_for_2_years_tt
 			hidden_effect = {
 				VEN_romelo_bentancourt = {
-					set_character_flag = {
-						flag = VEN_exiled_flag
-						days = 500
-						value = 1
-					}
+					set_character_flag = VEN_exiled_flag
 				}
 				if = {
 					limit = {
@@ -4077,6 +4095,15 @@ focus_tree = {
 				elections_allowed = yes 
 			}
 			custom_effect_tooltip = VEN_if_accion_democratica_still_planning_coup_and_not_raise_salaries_civil_war_occur_tt
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				mark_focus_tree_layout_dirty = yes
+			}
 		}
 	}
 
@@ -4527,6 +4554,15 @@ focus_tree = {
 				}
 			}
 			country_event = venezuela.40
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				mark_focus_tree_layout_dirty = yes
+			}
 		}
 	}
 
@@ -4684,6 +4720,10 @@ focus_tree = {
 					random_days = 90
 					hours = 6
 					random_hours = 6
+				}
+				add_popularity = {
+					ideology = neutrality
+					popularity = 0.2
 				}
 			}
 		}
@@ -5066,7 +5106,7 @@ focus_tree = {
 			every_character = {
 				limit = {
 					OR = {
-						is_character = VEN_eleazar_lopez_contreras
+						is_character = EUYL_VEN_eleazar_lopez_contreras
 						is_character = VEN_marcos_perez_jimenez
 						is_character = VEN_carlos_delgado_chalbaud
 						is_character = VEN_isaias_medina_angarita
@@ -5439,6 +5479,13 @@ focus_tree = {
 					}
 					add_stability = 0.25
 				}
+				country_event = {
+					id = venezuela.59
+					days = 210
+					random_days = 180
+					hours = 16
+					random_hours = 4
+				}
 			}
 		}
 	}
@@ -5551,7 +5598,7 @@ focus_tree = {
 				limit = { has_active_mission = VEN_economic_revocery_in_progress }
 				add_days_mission_timeout = {
 					mission = VEN_economic_revocery_in_progress
-					days = -100
+					days = -125
 				}
 				EUYL_add_1_civilian = yes
 			}
@@ -5666,7 +5713,7 @@ focus_tree = {
 				limit = { has_active_mission = VEN_military_recovery_in_progress }
 				add_days_mission_timeout = {
 					mission = VEN_military_recovery_in_progress
-					days = -100
+					days = -110
 				}
 				EUYL_add_1_military = yes 
 			}
@@ -6632,7 +6679,7 @@ focus_tree = {
 				limit = { has_active_mission = VEN_economic_revocery_in_progress }
 				add_days_mission_timeout = {
 					mission = VEN_economic_revocery_in_progress
-					days = -100
+					days = -125
 				}
 				EUYL_add_1_civilian = yes
 			}
@@ -6709,7 +6756,7 @@ focus_tree = {
 				limit = { has_active_mission = VEN_military_recovery_in_progress }
 				add_days_mission_timeout = {
 					mission = VEN_military_recovery_in_progress
-					days = -100
+					days = -110
 				}
 			}
 			else = {
@@ -6822,7 +6869,6 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			remove_ideas = monroe_doctrine_idea
 			if = {
 				limit = {
 					NOT = {
@@ -6923,7 +6969,6 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			remove_ideas = monroe_doctrine_idea
 			SOV = {
 				country_event = {
 					id = generic.2 
@@ -7069,11 +7114,8 @@ focus_tree = {
 						has_cosmetic_tag = SAU_UNIFIED
 					}
 					drop_cosmetic_tag = yes 
-					set_cosmetic_tag = GUOSR_UNIFIED
 				}
-				else = {
-					set_cosmetic_tag = GUOSR_UNIFIED
-				}
+				set_cosmetic_tag = GUOSR_UNIFIED
 			}
 		}
 	}
@@ -8274,6 +8316,21 @@ focus_tree = {
 			}
 		}
 
+		offset = {
+			x = -7
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				OR = {
+					has_completed_focus = VEN_the_father_of_venezuelan_democracy
+					has_completed_focus = VEN_allow_free_and_public_elections
+				}
+			}
+		}
+
 		allow_branch = {
 			if = {
 				limit = {
@@ -8286,7 +8343,6 @@ focus_tree = {
 					OR = {
 						has_completed_focus = VEN_the_great_south_american_revolution
 						has_completed_focus = VEN_the_ambition_of_a_greater_venezuela
-						has_completed_focus = VEN_appoint_romulo_gallegos
 					}
 				}
 			}
@@ -9516,7 +9572,7 @@ focus_tree = {
 		will_lead_to_war_with = USA
 
 		offset = {
-			x = 7
+			x = 6
 			y = 0
 			trigger = {
 				has_game_rule = {
@@ -10120,6 +10176,8 @@ focus_tree = {
 					OR = {
 						has_completed_focus = VEN_la_tierra_de_bolivar
 						has_completed_focus = VEN_support_the_workers_cause
+						has_completed_focus = VEN_the_father_of_venezuelan_democracy
+						has_completed_focus = VEN_allow_free_and_public_elections
 					}
 				}
 			}
@@ -10236,7 +10294,7 @@ focus_tree = {
 			focus = VEN_industrial_development_in_our_integral_states
 		}
 
-		cost = 100
+		cost = 10
 		available = {
 			num_of_factories > 49
 		}

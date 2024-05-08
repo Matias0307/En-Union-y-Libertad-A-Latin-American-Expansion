@@ -1462,6 +1462,7 @@ focus_tree = {
             custom_effect_tooltip = ARG_iftheyaccept
 			effect_tooltip = {
                 transfer_state = 995
+                transfer_state = 1035
                 random_other_country = {
                     limit = {
                         controls_state = 995
@@ -3169,7 +3170,7 @@ focus_tree = {
 
     focus = {
         id = BOL_choose_a_path_of_democracy
-        icon = GFX_goal_support_democracy
+        icon = GFX_BOL_democracy_path
         x = 1
         y = 2
         relative_position_id = BOL_establish_ourselves_as_dictator
@@ -3194,15 +3195,18 @@ focus_tree = {
 				popularity = 0.15
             }
             add_ideas = democratic_influence
-            retire_country_leader = yes
-            create_country_leader = {
-                name = "Enrique Peñaranda"
-                desc = "POLITICS_ENRIQUE_PENARANDA_DESC"
-                picture = "gfx/leaders/BOL/BOL_portrait_Enrique_penareda.dds"
-                expire = "1965.1.1"
-                ideology = liberalism
-                traits = {
-                    
+            set_politics = {
+                ruling_party = democratic
+                elections_allowed = yes
+            }
+            add_country_leader_role = {
+                character = BOL_enrique_peñaranda
+                promote_leader = yes
+                country_leader = {
+                    ideology = liberalism
+                    traits = {  }
+                    expire = "1965.3.1.1"
+                    desc = "POLITICS_ENRIQUE_PENARANDA_DESC"
                 }
             }
             unlock_national_focus = BOL_a_path_of_diplomacy
@@ -3408,6 +3412,13 @@ focus_tree = {
 
         ai_will_do = {
             factor = 10
+            modifier = {
+                add = 25
+                has_army_manpower = {
+                    size < 99999
+                }
+                num_of_factories < 29
+            }
         }
 
         search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }

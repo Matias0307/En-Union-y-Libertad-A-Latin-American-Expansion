@@ -454,6 +454,10 @@ BRA_political_crisis = {
 			}
 		}
 
+        visible = {
+            has_completed_focus = BRA_focus_our_efforts_against_the_european_powers
+        }
+
 		available = {
 			has_completed_focus = BRA_focus_our_efforts_against_the_european_powers
 		}
@@ -1875,6 +1879,12 @@ BRA_political_manegement = {
             start_civil_war = {
                 ideology = fascism
                 size = BRA_fascist_popularity
+                states = all
+                states_filter = {
+                    has_dynamic_modifier = {
+                        modifier = BRA_integralists_occupation
+                    }
+                }
             }
             BRA_set_up_generic_civil_war_divisions_fascist_ai = yes 
             hidden_effect = {
@@ -3173,6 +3183,10 @@ BRA_patrianovism_on_the_rise = {
             }
         }
 
+        ai_will_do = {
+            factor = 320
+        }
+
         fire_only_once = yes 
 
         visible = {
@@ -3248,11 +3262,25 @@ BRA_patrianovism_on_the_rise = {
             }
         }
 
-        on_map_mode = map_only
+        on_map_mode = map_and_decisions_view
 
         cost = 30
 
         days_remove = 25
+
+        ai_will_do = {
+			base = 265
+            modifier = {
+                factor = 2
+                FROM = {
+                    any_neighbor_state = {
+                        has_dynamic_modifier = {
+                            modifier = BRA_monarchist_influence
+                        }
+                    }
+                }
+            }
+		}
 
         modifier = {
             political_power_factor = -0.1
@@ -3333,6 +3361,16 @@ BRA_patrianovism_on_the_rise = {
             }
         }
 
+        ai_will_do = {
+			base = 85
+            modifier = {
+                factor = 3
+                check_variable = {
+                    BRA_monarchist_support > 44
+                }
+            }
+		}
+
         days_remove = 10
 
         modifier = {
@@ -3390,6 +3428,21 @@ BRA_patrianovism_on_the_rise = {
             }
         }
 
+        ai_will_do = {
+            base = 80
+            modifier = {
+                factor = 3
+                AND = {
+                    check_variable = {
+                        BRA_monarchist_support > 74
+                    }
+                    check_variable = {
+                        BRA_monarchist_support < 99
+                    }
+                }
+            }
+        }
+
         cancel_trigger = {
             has_cosmetic_tag = BRA_TEMPORARY_MONARCHIST_STATE
         }
@@ -3414,6 +3467,10 @@ BRA_patrianovism_on_the_rise = {
         }
 
         days_remove = 20
+
+        ai_will_do = {
+            factor = 125
+        }
 
         modifier = {
             political_power_factor = -0.05
@@ -3495,6 +3552,10 @@ BRA_imperial_management = {
                 character = BRA_empress_maria_elisabeth
                 ruling_only = yes 
             }
+        }
+
+        ai_will_do = {
+            factor = 500
         }
 
         available = {
@@ -3651,6 +3712,10 @@ BRA_imperial_management = {
             }
         }
 
+        ai_will_do = {
+            factor = 85
+        }
+
         on_map_mode = map_and_decisions_view
 
         visible = {
@@ -3738,6 +3803,16 @@ BRA_imperial_management = {
             NOT = {
                 any_state = {
                     is_controlled_by = BAY
+                }
+            }
+        }
+
+        ai_will_do = {
+            factor = 25
+            modifier = {
+                factor = 4
+                GER = {
+                    has_war = yes
                 }
             }
         }
@@ -4013,6 +4088,10 @@ BRA_the_administration_of_brazilian_west_africa = {
             }
         }
 
+        ai_will_do = {
+            factor = 95
+        }
+
         fire_only_once = yes 
 
         on_map_mode = map_and_decisions_view
@@ -4061,6 +4140,10 @@ BRA_the_administration_of_brazilian_west_africa = {
                 has_political_power > 9
                 has_manpower > 24999
             }
+        }
+
+        ai_will_do = {
+            factor = 235
         }
 
         complete_effect = {
@@ -4158,6 +4241,10 @@ BRA_the_administration_of_brazilian_west_africa = {
             political_power_factor = -0.05
         }
 
+        ai_will_do = {
+            factor = 25
+        }
+
         complete_effect = {
             add_equipment_to_stockpile = {
                 type = infantry_equipment
@@ -4181,6 +4268,10 @@ BRA_the_administration_of_brazilian_west_africa = {
 
         available = {
             has_manpower > 14999
+        }
+
+        ai_will_do = {
+            factor = 25
         }
 
         days_remove = 50
@@ -4218,6 +4309,7 @@ BRA_the_brazilian_civil_war = {
         available = {
             OR = {
                 has_completed_focus = BRA_strike_a_deal_with_the_seperatists
+                has_completed_focus = BRA_in_memory_of_the_ribeirazinho_revolt
                 has_global_flag = BRA_paulistas_pacified
             }
         }
@@ -5669,15 +5761,6 @@ BRA_the_brazilian_civil_war = {
 
         cancel_trigger = {
             OR = {
-                if = {
-                    limit = {
-                        is_ai = no 
-                    }
-                    divisions_in_state = {
-                        size < 2
-                        state = FROM 
-                    }
-                }
                 any_other_country = {
                     original_tag = BRA 
                     has_government = communism

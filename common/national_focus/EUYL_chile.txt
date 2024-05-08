@@ -603,7 +603,7 @@ focus_tree = {
 
 	focus = {
 		id = CHL_efficient_railway_building
-		icon = GFX_ARG_efficient_tansport
+		icon = GFX_focus_CHL_expand_southern_infrastructure
 		x = -1
 		y =  1
 		relative_position_id = CHL_industrialize_the_nation
@@ -1614,6 +1614,10 @@ focus_tree = {
 			}
 		}
 
+		bypass = {
+			has_country_flag = CHL_socialists_win
+		}
+
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			add_popularity = { ideology = communism popularity = 0.035 }
@@ -1648,6 +1652,10 @@ focus_tree = {
 					}
 				}
 			}
+		}
+
+		bypass = {
+			has_country_flag = CHL_socialists_win
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
@@ -1686,6 +1694,10 @@ focus_tree = {
 			}
 		}
 
+		bypass = {
+			has_country_flag = CHL_socialists_win
+		}
+
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			add_popularity = { ideology = communism popularity = 0.035 }
@@ -1712,6 +1724,10 @@ focus_tree = {
 				tooltip = CHL_control_over_nation_below_75_tt
 				check_variable = { CHL_control_over_nation < 75 }
 			}
+		}
+
+		bypass = {
+			has_country_flag = CHL_socialists_win
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
@@ -2141,7 +2157,7 @@ focus_tree = {
 	}
 
 	focus = {
-		id = CHL_prepare_to_act_against_coup 
+		id = CHL_prepare_to_act_against_coup
 		icon = GFX_CHL_instigate_thge_seguro_obrero_massacre
 		x = -1
 		y = 1
@@ -2662,7 +2678,7 @@ focus_tree = {
 
 	focus = {
 		id = CHL_establish_the_regime
-		icon = GFX_CHL_commie_victory
+		icon = GFX_focus_CHL_the_future_of_Chile
 		x = -1
 		y = 1
 		relative_position_id = CHL_boost_soldier_morale
@@ -2968,10 +2984,7 @@ focus_tree = {
 				}
 				if = {
 					limit = {
-						has_game_rule = {
-							rule = EUYL_chaos_mode
-							option = YES
-						}
+						is_ai = yes
 					}
 					add_ideas = EUYL_chaos_civil_war_help
 				}
@@ -3539,6 +3552,11 @@ focus_tree = {
 			else = {
 				add_political_power = 150
 			}
+			953 = { add_claim_by = ROOT }
+			954 = { add_claim_by = ROOT }
+			955 = { add_claim_by = ROOT }
+			970 = { add_claim_by = ROOT }
+			512 = { add_claim_by = ROOT }
 			hidden_effect = {
 				every_other_country = {
 					limit = {
@@ -3630,9 +3648,24 @@ focus_tree = {
 		available_if_capitulated = no
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			create_wargoal = {
-				type = annex_everything
-				target = BOL
+			effect_tooltip = {
+				create_wargoal = {
+					type = puppet_wargoal_focus
+					target = BOL 
+				}
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						original_tag = BOL 
+					}
+					ROOT = {
+						create_wargoal = {
+							target = PREV
+							type = puppet_wargoal_focus
+						}
+					}
+				}
 			}
 		}
 	}
@@ -3669,9 +3702,24 @@ focus_tree = {
 		available_if_capitulated = no
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			create_wargoal = {
-				type = annex_everything
-				target = PRU
+			effect_tooltip = {
+				create_wargoal = {
+					type = puppet_wargoal_focus
+					target = PRU 
+				}
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						original_tag = PRU 
+					}
+					ROOT = {
+						create_wargoal = {
+							target = PREV
+							type = puppet_wargoal_focus
+						}
+					}
+				}
 			}
 			random_owned_controlled_state = {
 				add_extra_state_shared_building_slots = 1
@@ -3720,9 +3768,24 @@ focus_tree = {
 		available_if_capitulated = no
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			create_wargoal = {
-				type = annex_everything
-				target = ARG
+			effect_tooltip = {
+				create_wargoal = {
+					type = puppet_wargoal_focus
+					target = ARG 
+				}
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						original_tag = ARG 
+					}
+					ROOT = {
+						create_wargoal = {
+							target = PREV
+							type = puppet_wargoal_focus
+						}
+					}
+				}
 			}
 		}
 	}
@@ -4458,7 +4521,7 @@ focus_tree = {
 	focus = {
 		id = CHL_central_bank
 		prerequisite = { focus = CHL_democracy_path }
-		icon = GFX_focus_centralbank
+		icon = GFX_focus_CHL_strengthen_the_central_bank
 		x = 1
 		y = 1
 		ai_will_do = {
@@ -4477,7 +4540,7 @@ focus_tree = {
 	focus = {
 		id = CHL_revenue_tax
 		prerequisite = { focus = CHL_democracy_path }
-		icon = GFX_focus_revenuetax
+		icon = GFX_focus_CHL_endorse_the_constitution
 		x = -1
 		y = 1
 		ai_will_do = {
@@ -4674,6 +4737,20 @@ focus_tree = {
 			}
 		}
 
+		offset = {
+			x = -3
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CHL_democracy_path
+				has_completed_focus = CHL_crush_the_nacistas
+				has_completed_focus = CHL_crush_the_communists
+			}
+		}
+
 		cost = 5
 
 		ai_will_do = {
@@ -4833,7 +4910,7 @@ focus_tree = {
 
 	focus = {
 		id = CHL_form_the_apl
-		icon = GFX_CHL_form_apl
+		icon = GFX_focus_CHL_the_popular_freedom_alliance
 		x = 0
 		y = 1
 		relative_position_id = CHL_take_over_via_diplomacy
@@ -5470,7 +5547,8 @@ focus_tree = {
 			has_civil_war = yes 
 		}
 
-		cancel_if_invalid = yes 
+		cancel_if_invalid = no
+		continue_if_invalid = yes 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
 		completion_reward = {
 			add_stability = -0.05
@@ -5701,6 +5779,12 @@ focus_tree = {
 			add_political_power = 35
 			unlock_decision_category_tooltip = CHL_nacista_management
 			custom_effect_tooltip = CHL_people_will_get_mad_tt
+			953 = { add_claim_by = ROOT }
+			954 = { add_claim_by = ROOT }
+			955 = { add_claim_by = ROOT }
+			970 = { add_claim_by = ROOT }
+			512 = { add_claim_by = ROOT }
+			947 = { add_claim_by = ROOT } 
 		}
 		#this focus unlocks the nacista management decisions 
 	}
@@ -5814,7 +5898,7 @@ focus_tree = {
 	
 	focus = {
 		id = CHL_fuego_demand
-		icon = GFX_focus_FUEGO_attack
+		icon = GFX_focus_CHL_dispute_over_tierra_del_fuego
 		x = -3
 		y = 0
 		relative_position_id = CHL_maintain_the_fire
@@ -6023,9 +6107,24 @@ focus_tree = {
 		continue_if_invalid = no 
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			create_wargoal = {
-				type = annex_everything
-				target = BOL 
+			effect_tooltip = {
+				create_wargoal = {
+					type = puppet_wargoal_focus
+					target = BOL 
+				}
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						original_tag = BOL 
+					}
+					ROOT = {
+						create_wargoal = {
+							target = PREV
+							type = puppet_wargoal_focus
+						}
+					}
+				}
 			}
 		}
 	}
@@ -6560,9 +6659,24 @@ focus_tree = {
 		continue_if_invalid = no 
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			create_wargoal = {
-				type = annex_everything
-				target = BOL 
+			effect_tooltip = {
+				create_wargoal = {
+					type = annex_everything
+					target = BOL 
+				}
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						original_tag = BOL 
+					}
+					ROOT = {
+						create_wargoal = {
+							target = PREV
+							type = annex_everything
+						}
+					}
+				}
 			}
 		}
 	}
@@ -6686,9 +6800,24 @@ focus_tree = {
 		
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			create_wargoal = {
-				type = annex_everything
-				target = PRU 
+			effect_tooltip = {
+				create_wargoal = {
+					type = annex_everything
+					target = PRU 
+				}
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						original_tag = PRU 
+					}
+					ROOT = {
+						create_wargoal = {
+							target = PREV
+							type = annex_everything
+						}
+					}
+				}
 			}
 		}
 	}
@@ -6731,9 +6860,24 @@ focus_tree = {
 		available_if_capitulated = no
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			create_wargoal = {
-				type = annex_everything
-				target = VEN 
+			effect_tooltip = {
+				create_wargoal = {
+					type = annex_everything
+					target = VEN 
+				}
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						original_tag = VEN 
+					}
+					ROOT = {
+						create_wargoal = {
+							target = PREV
+							type = annex_everything
+						}
+					}
+				}
 			}
 		}
 	}
@@ -6845,9 +6989,24 @@ focus_tree = {
 		
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			create_wargoal = {
-				type = annex_everything
-				target = PAR 
+			effect_tooltip = {
+				create_wargoal = {
+					type = annex_everything
+					target = PAR 
+				}
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						original_tag = PAR 
+					}
+					ROOT = {
+						create_wargoal = {
+							target = PREV
+							type = annex_everything
+						}
+					}
+				}
 			}
 		}
 	}
@@ -6925,9 +7084,24 @@ focus_tree = {
 			else = {
 				add_political_power = 150
 			}
-			create_wargoal = {
-				type = annex_everything
-				target = BRA 
+			effect_tooltip = {
+				create_wargoal = {
+					type = annex_everything
+					target = BRA 
+				}
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						original_tag = BRA 
+					}
+					ROOT = {
+						create_wargoal = {
+							target = PREV
+							type = annex_everything
+						}
+					}
+				}
 			}
 		}
 	}
@@ -7346,6 +7520,7 @@ focus_tree = {
 					OR = {
 						has_completed_focus = CHL_support_the_radicals
 						has_completed_focus = CHL_side_with_the_nacistas
+						has_completed_focus = CHL_crush_the_communists
 					}
 				}
 			}
@@ -8071,6 +8246,25 @@ focus_tree = {
 			focus = CHL_join_allies
 		}
 
+		allow_branch = {
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					OR = {
+						has_completed_focus = CHL_side_with_the_nacistas
+						has_completed_focus = CHL_crush_the_communists
+						has_completed_focus = CHL_return_to_the_pcch
+						has_completed_focus = CHL_support_the_radicals
+					}
+				}
+			}
+		}
+
 		cost = 10
 
 		available = {
@@ -8150,14 +8344,10 @@ focus_tree = {
 
 		cost = 4 
 
-		available = {
-			has_political_power > 50
-		}
-
 		cancel_if_invalid = yes 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
-			add_political_power = -50
+			add_political_power = -25
 			add_stability = 0.04
 		}
 	}
@@ -8242,9 +8432,24 @@ focus_tree = {
 		available_if_capitulated = no
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = BOL
+			effect_tooltip = {
+				create_wargoal = {
+					type = puppet_wargoal_focus
+					target = BOL 
+				}
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						original_tag = BOL 
+					}
+					ROOT = {
+						create_wargoal = {
+							target = PREV
+							type = puppet_wargoal_focus
+						}
+					}
+				}
 			}
 		}
 	}
@@ -8307,9 +8512,24 @@ focus_tree = {
 		available_if_capitulated = no
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = ARG
+			effect_tooltip = {
+				create_wargoal = {
+					type = puppet_wargoal_focus
+					target = ARG 
+				}
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						original_tag = ARG 
+					}
+					ROOT = {
+						create_wargoal = {
+							target = PREV
+							type = puppet_wargoal_focus
+						}
+					}
+				}
 			}
 		}
 	}
@@ -8364,9 +8584,24 @@ focus_tree = {
 		available_if_capitulated = no
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = URG
+			effect_tooltip = {
+				create_wargoal = {
+					type = puppet_wargoal_focus
+					target = URG 
+				}
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						original_tag = URG 
+					}
+					ROOT = {
+						create_wargoal = {
+							target = PREV
+							type = puppet_wargoal_focus
+						}
+					}
+				}
 			}
 			random_owned_controlled_state = {
 				add_extra_state_shared_building_slots = 1
@@ -8436,9 +8671,24 @@ focus_tree = {
 		available_if_capitulated = no
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = PAR
+			effect_tooltip = {
+				create_wargoal = {
+					type = puppet_wargoal_focus
+					target = PAR 
+				}
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						original_tag = PAR 
+					}
+					ROOT = {
+						create_wargoal = {
+							target = PREV
+							type = puppet_wargoal_focus
+						}
+					}
+				}
 			}
 		}
 	}
@@ -8654,9 +8904,24 @@ focus_tree = {
 		available_if_capitulated = no
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = BRA
+			effect_tooltip = {
+				create_wargoal = {
+					type = puppet_wargoal_focus
+					target = BRA 
+				}
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						original_tag = BRA 
+					}
+					ROOT = {
+						create_wargoal = {
+							target = PREV
+							type = puppet_wargoal_focus
+						}
+					}
+				}
 			}
 		}
 	}
@@ -8690,7 +8955,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_MANPOWER }
 		completion_reward = {
 			add_manpower = 64315
-			add_ideas = ARG_workers_in_the_armed_forces
+			add_ideas = ARG_workers_in_the_armed_forces_2
 		}
 	}
 	
@@ -8726,9 +8991,24 @@ focus_tree = {
 		available_if_capitulated = no
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = PRU 
+			effect_tooltip = {
+				create_wargoal = {
+					type = puppet_wargoal_focus
+					target = PRU 
+				}
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						original_tag = PRU 
+					}
+					ROOT = {
+						create_wargoal = {
+							target = PREV
+							type = puppet_wargoal_focus
+						}
+					}
+				}
 			}
 		}
 	}
@@ -8830,18 +9110,48 @@ focus_tree = {
 				limit = {
 					NOT = { has_war_with = ECU }
 				}
-				create_wargoal = {
-					type = puppet_wargoal_focus
-					target = ECU 
+				effect_tooltip = {
+					create_wargoal = {
+						type = puppet_wargoal_focus
+						target = ECU 
+					}
+				}
+				hidden_effect = {
+					every_other_country = {
+						limit = {
+							original_tag = ECU 
+						}
+						ROOT = {
+							create_wargoal = {
+								target = PREV
+								type = puppet_wargoal_focus
+							}
+						}
+					}
 				}
 			}
 			if = {
 				limit = {
 					NOT = { has_war_with = COL }
 				}
-				create_wargoal = {
-					type = puppet_wargoal_focus
-					target = COL 
+				effect_tooltip = {
+					create_wargoal = {
+						type = puppet_wargoal_focus
+						target = COL 
+					}
+				}
+				hidden_effect = {
+					every_other_country = {
+						limit = {
+							original_tag = COL 
+						}
+						ROOT = {
+							create_wargoal = {
+								target = PREV
+								type = puppet_wargoal_focus
+							}
+						}
+					}
 				}
 			}
 		}
@@ -8876,9 +9186,24 @@ focus_tree = {
 		available_if_capitulated = no
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = VEN
+			effect_tooltip = {
+				create_wargoal = {
+					type = puppet_wargoal_focus
+					target = VEN 
+				}
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						original_tag = VEN 
+					}
+					ROOT = {
+						create_wargoal = {
+							target = PREV
+							type = puppet_wargoal_focus
+						}
+					}
+				}
 			}
 		}
 	}
@@ -9555,6 +9880,18 @@ focus_tree = {
 			focus = CHL_crush_the_communists
 		}
 
+		offset = {
+			x = -3
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CHL_crush_the_communists
+			}
+		}
+
 		cost = 2
 
 		ai_will_do = {
@@ -10191,6 +10528,20 @@ focus_tree = {
 				has_completed_focus = CHL_democracy_path
 				has_completed_focus = CHL_crush_the_nacistas
 				has_completed_focus = CHL_cooperate_with_el_frente
+			}
+		}
+
+		offset = {
+			x = -3
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CHL_democracy_path
+				has_completed_focus = CHL_crush_the_nacistas
+				has_completed_focus = CHL_crush_the_communists
 			}
 		}
 
@@ -10958,16 +11309,36 @@ focus_tree = {
 				ARG = {
 					is_subject_of = ROOT
 				}
-				has_war_with = BOL
+				has_war_with = ARG
 			}
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = ARG
+			effect_tooltip = {
+				create_wargoal = {
+					type = puppet_wargoal_focus
+					target = ARG 
+				}
 			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						original_tag = ARG 
+					}
+					ROOT = {
+						create_wargoal = {
+							target = PREV
+							type = puppet_wargoal_focus
+						}
+					}
+				}
+			}
+			953 = { add_claim_by = ROOT }
+			954 = { add_claim_by = ROOT }
+			955 = { add_claim_by = ROOT }
+			970 = { add_claim_by = ROOT }
+			512 = { add_claim_by = ROOT }
 		}
 	}
 
@@ -11011,7 +11382,7 @@ focus_tree = {
 
 	focus = {
 		id = CHL_the_march_to_buenos_aires
-		icon = GFX_ARG_casa_marcha
+		icon = GFX_focus_ARG_march_to_la_casa_rosada
 		x = 0
 		y = 1
 		relative_position_id = CHL_the_great_patagonian_march
@@ -11330,9 +11701,24 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = BOL
+			effect_tooltip = {
+				create_wargoal = {
+					type = puppet_wargoal_focus
+					target = BOL 
+				}
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						original_tag = BOL 
+					}
+					ROOT = {
+						create_wargoal = {
+							target = PREV
+							type = puppet_wargoal_focus
+						}
+					}
+				}
 			}
 		}
 	}
@@ -11954,9 +12340,24 @@ focus_tree = {
 		available_if_capitulated = no
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			create_wargoal = {
-				type = puppet_wargoal_focus
-				target = PAR 
+			effect_tooltip = {
+				create_wargoal = {
+					type = puppet_wargoal_focus
+					target = PAR 
+				}
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						original_tag = PAR 
+					}
+					ROOT = {
+						create_wargoal = {
+							target = PREV
+							type = puppet_wargoal_focus
+						}
+					}
+				}
 			}
 		}
 	}
@@ -12132,7 +12533,7 @@ focus_tree = {
 	
 	focus = {
 		id = CHL_fuerzas_armadas
-		icon = GFX_CHL_fuerzas_armadas
+		icon = GFX_focus_CHL_development_inwards
 		x = 80
 		y = 0
 		
@@ -12946,7 +13347,7 @@ focus_tree = {
 	
 	focus = {
 		id = CHL_improve_our_fighters
-		icon = GFX_CHL_improve_tech
+		icon = GFX_goal_generic_air_fighter
 		x = 2
 		y = 1
 		relative_position_id = CHL_fuerza_aerea

@@ -343,11 +343,12 @@ country_event = {
                     }
                 }
             }
-        } 
+            date > 1939.8.22 ## WW2 needs to have started already
+        }
         ai_chance = {
             base = 1
             modifier = {
-                factor = 20
+                factor = 15
                 VEN = {
                     has_war = yes 
                 }
@@ -388,9 +389,9 @@ country_event = {
     option = { ##issue a stern warning
         name = venezuela.5.b
         ai_chance = {
-            base = 65
+            base = 165
             modifier = {
-                factor = 0
+                factor = 2
                 has_war_with_major = yes 
             }
         }
@@ -409,11 +410,10 @@ country_event = {
         ai_chance = {
             base = 50
             modifier = {
-                factor = 2
+                factor = 2.5
                 FROM = {
-                    is_guaranteed_by = USA 
+                    has_idea = USA_monroe_doctrine_idea
                 }
-                num_of_factories < 99
             }
         }
         add_stability = 0.05
@@ -802,6 +802,9 @@ country_event = {
         add_war_support = 0.03
         add_political_power = 20
         ## unlock the PCV focus subpath ##
+        effect_tooltip = {
+            unlock_national_focus = VEN_PCV
+        }
     }
 
     option = {
@@ -812,6 +815,9 @@ country_event = {
         add_war_support = 0.03
         add_political_power = 20
         ## unlock the PCV focus subpath ##
+        effect_tooltip = {
+            unlock_national_focus = VEN_PCV
+        }
     }
 
     option = {
@@ -822,6 +828,9 @@ country_event = {
         add_war_support = 0.03
         add_political_power = 20
         ## unlock the PRP focus subpath ## (Partido Republicano Progresista)
+        effect_tooltip = {
+            unlock_national_focus = VEN_PRP
+        }
     }
 }
 
@@ -965,6 +974,9 @@ country_event = {
         else = {
             add_ideas = VEN_post_civil_war_economic_crisis_1
         }
+        add_stability = 0.05
+        add_war_support = 0.05
+        add_political_power = 25
         add_ideas = VEN_crippled_army
         activate_mission = VEN_economic_revocery_in_progress
         activate_mission = VEN_military_recovery_in_progress
@@ -1570,6 +1582,11 @@ country_event = {
             activate_mission = VEN_lurking_coup_detat
         }
         add_stability = -0.02
+        hidden_effect = {
+            VEN_romelo_bentancourt = {
+                clr_character_flag = VEN_exiled_flag
+            }
+        }
     }
 }
 
@@ -1933,7 +1950,7 @@ country_event = {
     option = { ## It's our last chance
         name = venezuela.45.a
         ai_chance = {
-            base = 10
+            base = 15
             modifier = {
                 factor = 5
                 surrender_progress > 0.34
@@ -1954,9 +1971,25 @@ country_event = {
             }
         }
         custom_effect_tooltip = GAME_OVER_TT
+        hidden_effect = {
+            every_other_country = { ## nanana you aint coming off easy from this one
+                limit = {
+                    has_war_with = ROOT 
+                    NOT = {
+                        has_war_with = FROM 
+                    }
+                }
+                declare_war_on = {
+                    target = FROM
+                }
+            }
+            every_character = {
+                set_nationality = FROM ## VEN
+            }
+        }
         FROM = {
             annex_country = {
-                target = THIS
+                target = ROOT
                 transfer_troops = yes
             }
             if = {
@@ -1970,6 +2003,17 @@ country_event = {
                 set_cosmetic_tag = GUOSR_UNIFIED
             }
             country_event = peru.16
+        }
+        hidden_effect = {
+            every_state = {
+                limit = {
+                    is_core_of = SOV 
+                    NOT = {
+                        is_core_of = FROM
+                    }
+                }
+                add_core_of = FROM
+            }
         }
     }
 
@@ -2588,7 +2632,7 @@ country_event = {
         has_stability < 0.2
         has_idea = VEN_violent_protests
         has_country_leader = {
-            character = VEN_eleazar_lopez_contreras
+            character = EUYL_VEN_eleazar_lopez_contreras
             ruling_only = yes 
         }
         has_character = VEN_asamblea_nacional ## replacement char
@@ -2597,7 +2641,7 @@ country_event = {
     option = {
         name = venezuela.57.a 
         add_stability = -0.05
-        retire_character = VEN_eleazar_lopez_contreras
+        retire_character = EUYL_VEN_eleazar_lopez_contreras
         add_country_leader_role = {
             character = VEN_asamblea_nacional
             promote_leader = yes
@@ -2757,11 +2801,11 @@ country_event = {
     option = { ## They're not getting away with this!
         name = venezuela.61.b 
         ai_chance = {
-            base = 15
+            base = 12
             modifier = {
                 factor = 2
                 FROM = {
-                    num_of_factories < 29
+                    num_of_factories < 19
                 }
             }
             modifier = {

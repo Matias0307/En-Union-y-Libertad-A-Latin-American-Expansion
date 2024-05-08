@@ -45,6 +45,35 @@ characters={
 			id=-1
 		}
 	}
+
+	EUYL_CHL_carlos_davila = {
+		name = "Carlos Dávila"
+		portraits = {
+			army = {
+				small = "GFX_CHL_carlos_davila_espinoza_icon"
+			}
+		}
+		advisor = {
+			slot = political_advisor
+			idea_token = CHL_carlos_davila_idea
+			allowed  = {
+				original_tag  = CHL
+			}
+			available = {
+				NOT = {
+					OR = {
+						has_completed_focus = CHL_support_the_radicals
+						has_completed_focus = CHL_crush_the_communists
+						has_completed_focus = CHL_side_with_the_nacistas
+					}
+				}
+			}
+			cost = 100
+			traits = {
+				patriotic_socialist 
+			}
+		}
+	}
 	
 	CHL_ministerio_de_trabajadores = {
 		name = "Ministerio de Trabajadores"
@@ -70,7 +99,7 @@ characters={
 				small="GFX_CHL_oscar_escudero_idea"
 			}
 			army={
-				large="gfx/leaders/CHL/Oscar_Escudero_Otarola_Ptr.png"
+				large="gfx/leaders/CHL/portrait_chl_oscar_escudero_otarola.dds"
 			}
 		}
 		advisor={
@@ -182,6 +211,52 @@ characters={
 			legacy_id=32123
 		}
 	}
+
+	EUYL_CHL_arturo_puga = {
+		name = "Arturo Puga"
+		advisor={
+			slot = political_advisor
+			idea_token = EUYL_CHL_arturo_puga_idea
+			allowed  = {
+				original_tag  = CHL
+			}
+			available = {
+				OR = {
+					has_government = fascism 
+					has_government = neutrality
+				}
+				NOT = {
+					has_completed_focus = CHL_our_own_fate
+				}
+			}
+			traits = {
+				EUYL_soldier_recruiter 
+			}
+			on_add = {
+				CHL = {
+					add_war_support = 0.05
+				}
+			}
+		}	
+		corps_commander={
+			traits={ trait_CHL_fascist_sympathies }
+			skill=2
+			attack_skill=3
+			defense_skill=2
+			planning_skill=2
+			logistics_skill=1
+			legacy_id=32123
+		}
+		portraits={
+			army={
+				small="GFX_CHL_arturo_puga_icon"
+			}
+			army={
+				large="gfx/leaders/CHL/portrait_CHL_Arturo_Puga.dds"
+			}
+		}
+	}
+
 	CHL_jorge_gonzales_von_marées={
 		name="Jorge Gonzales Von Marées"
 		portraits={
@@ -352,7 +427,6 @@ characters={
 			planning_skill=1
 			logistics_skill=2
 			legacy_id=-1
-			visible = { has_government = fascism }
 		}
 	}
 	EUYL_CHL_oscar_fuentes_pantoja={
@@ -475,6 +549,78 @@ characters={
 		}
 	}
 
+	EUYL_CHL_silvestre_urizar_branders = {
+		name = "Silvestre Urizar Banderas"
+		portraits = {
+			army = {
+				small = "GFX_CHL_silvestre_icon"
+			}
+			army = {
+				large = "gfx/leaders/CHL/portrait_CHL_Silvestre_Urizar_Banderas.dds"
+			}
+		}
+		field_marshal = {
+			traits = {
+				bearer_of_artillery skilled_staffer
+			}
+			skill = 3
+			attack_skill = 3
+			defense_skill = 2
+			planning_skill = 4
+			logistics_skill = 3
+		}
+		advisor={
+			slot = army_chief
+			idea_token = EUYL_CHL_silvestre_urizar_branders_idea
+			allowed  = {
+					original_tag  = CHL
+				}
+			visible = {
+				NOT = {
+					has_completed_focus = CHL_our_own_fate
+				}
+			}	
+			traits  = {
+				army_artillery_2 
+			}
+			ai_will_do  = {
+				factor  = 1.000
+			}
+		}
+	}
+
+	EUYL_CHL_juan_pablo_bennett = {
+		name = "Juan Pablo Bennett"
+		portraits={
+			army={
+				small="GFX_CHL_juan_pablo_bennett_icon"
+			}
+			army={
+				large="gfx/leaders/CHL/portrait_CHL_Juan_Pablo_Bennett.dds"
+			}
+		}
+		corps_commander = {
+			traits = {
+				trait_mountaineer
+			}
+			skill = 2
+			attack_skill = 1
+			defense_skill = 3
+			planning_skill = 2
+			logistics_skill = 4
+		}
+		advisor={
+			slot = political_advisor
+			idea_token = EUYL_CHL_juan_pablo_bennett_idea
+			allowed  = {
+				original_tag  = CHL
+			}
+			traits = {
+				EUYL_war_minister 
+			}
+		}
+	}
+
 	CHL_Óscar_novoa_fuentes={
 		name="Óscar Novoa Fuentes"
 		portraits={
@@ -506,13 +652,13 @@ characters={
 				factor  = 1.000
 			}
 		}
-		field_marshal={
-			traits={ old_guard brilliant_strategist trait_CHL_communist_sympathies }
-			skill=4
-			attack_skill=4
-			defense_skill=1
+		corps_commander = {
+			traits={ old_guard trait_CHL_communist_sympathies }
+			skill=2
+			attack_skill=2
+			defense_skill=2
 			planning_skill=2
-			logistics_skill=2
+			logistics_skill=1
 			legacy_id=31111
 		}
 	}
@@ -523,7 +669,7 @@ characters={
 				small="gfx/interface/ideas/idea_south_america_generic_land_3.dds"
 			}
 			army={
-				large="gfx/leaders/South America/Portrait_South_America_Generic_land_3.dds"
+				large="gfx/leaders/CHL/portrait_CHL_Ramon_Cañas_Montalva.dds"
 			}
 		}
 		corps_commander={
@@ -563,7 +709,7 @@ characters={
 			}
 		}
 		country_leader={
-			ideology=peronism
+			ideology=peronism_ideology
 			traits={ reluctant_interventionist ideological_crusader }
 			expire="1941.1.1.12"
 			id=-1
@@ -825,7 +971,7 @@ characters={
 				}
 			}	
 			traits  = {
-				army_commando_2 
+				army_logistics_2 
 			}
 			ai_will_do  = {
 				factor  = 1.000
@@ -972,17 +1118,20 @@ characters={
 					has_completed_focus = CHL_our_own_fate
 				}
 			}	
-				traits  = {
-					air_chief_old_guard 
-				}
-				ai_will_do  = {
-					factor  = 1.000
-				}
+			traits  = {
+				air_chief_old_guard 
+			}
+			ai_will_do  = {
+				factor  = 1.000
+			}
 		}
-		name="Marmaduke Grove"
+		name="Marmaduke Grove Vallejo"
 		portraits={
-			army={
-				small="GFX_idea_south_america_generic_4"
+			army = {
+				small = "GFX_CHL_marmaduke_grove_icon"
+			}
+			army = {
+				large = "gfx/leaders/CHL/portrait_CHL_Marmaduke_Grove.dds"
 			}
 		}
 	}

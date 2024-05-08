@@ -775,10 +775,10 @@ VEN_looming_oil_strike_cat = {
                             states = { 1027 1033 1030 1031 1029 488 1024 }
                             keep_all_characters = yes 
                             PREV = {
-                                VEN_eleazar_lopez_contreras = { set_nationality = PREV.PREV }
+                                EUYL_VEN_eleazar_lopez_contreras = { set_nationality = PREV.PREV }
                                 VEN_romelo_bentancourt = { set_nationality = PREV.PREV }
                             }
-                            promote_character = VEN_eleazar_lopez_contreras
+                            promote_character = EUYL_VEN_eleazar_lopez_contreras
                         }
                         add_ideas = VEN_venezuelan_civil_war
                         every_controlled_state = {
@@ -889,7 +889,7 @@ VEN_looming_oil_strike_cat = {
                             unlock_national_focus = VEN_create_the_ministry_of_health_and_social_assistance
                             unlock_national_focus = VEN_promote_nationwide_hygiene
                             complete_national_focus = VEN_ley_lara
-                            VEN_eleazar_lopez_contreras = {
+                            EUYL_VEN_eleazar_lopez_contreras = {
                                 add_corps_commander_role = {
                                     skill = 3
                                     attack_skill = 4
@@ -2637,7 +2637,7 @@ VEN_gloria_al_bravo_pueblo_cat = {
             FROM = {
                 add_dynamic_modifier = {
                     modifier = VEN_local_mobilization_active
-                    days = 720
+                    days = 1095
                 }
             }
         }
@@ -2797,10 +2797,10 @@ VEN_bop_cat = {
                 factor = 50
                 has_completed_focus = VEN_axis_allignment
             }
-            modifier = { ## dont wanna fuck over the player 
+            modifier = { ## dont wanna mess over the player 
                 factor = 0
                 is_ai = yes 
-                date < 1943.1.1
+                date < 1943.7.1
             }
         }
 
@@ -2847,10 +2847,10 @@ VEN_bop_cat = {
                 factor = 50
                 has_completed_focus = VEN_allied_allignment
             }
-            modifier = { ## dont wanna fuck over the player 
+            modifier = { ## dont wanna mess over the player 
                 factor = 0
                 is_ai = yes 
-                date < 1943.1.1
+                date < 1943.7.1
             }
         }
 
@@ -3160,6 +3160,26 @@ VEN_forming_greater_venezuela = {
             has_completed_focus = VEN_the_ambition_of_a_greater_venezuela
         }
 
+        highlight_states = {
+			highlight_states_trigger = {
+				OR = {
+					state = 691 
+                    state = 695 
+                    state = 1012
+                    state = 493 
+                    state = 1015
+                    state = 1025
+                    state = 975 
+                    state = 687 
+                    state = 309 
+                    state = 310 
+					has_state_flag = venezuelan_starting_state
+				}
+			}
+		}
+
+		on_map_mode = map_and_decisions_view
+
         available = {
             has_full_control_of_state = 691 ## Trinidad and Tobago
             has_full_control_of_state = 695 ## Curacao
@@ -3195,18 +3215,17 @@ VEN_forming_greater_venezuela = {
         }
 
         complete_effect = {
-            set_cosmetic_tag = VEN_GREATER
-            add_state_core = 489
-            add_state_core = 1028
-            add_state_core = 307
-            add_state_core = 488
-            add_state_core = 1024
-            add_state_core = 1029
-            add_state_core = 1031
-            add_state_core = 1033
-            add_state_core = 1032
-            add_state_core = 1027
-            add_state_core = 1030
+            set_cosmetic_tag = VEN_GREATER ## literally had to realize myself that this was bugged...
+            add_state_core = 691 
+            add_state_core = 695 
+            add_state_core = 1012
+            add_state_core = 493 
+            add_state_core = 1015
+            add_state_core = 1025
+            add_state_core = 975 
+            add_state_core = 687 
+            add_state_core = 309 
+            add_state_core = 310 
         }
     }
 
@@ -3277,8 +3296,6 @@ VEN_forming_greater_venezuela = {
         fire_only_once = yes 
 
         complete_effect = {
-            transfer_state = FROM 
-            custom_effect_tooltip = VEN_controller_may_retaliate_depending_on_conditions_tt
             hidden_effect = {
                 FROM = {
                     save_event_target_as = VEN_STATE_OCCUPIED
@@ -3296,6 +3313,8 @@ VEN_forming_greater_venezuela = {
                     }
                 }
             }
+            transfer_state = FROM 
+            custom_effect_tooltip = VEN_controller_may_retaliate_depending_on_conditions_tt
         }
     }
 
@@ -3996,15 +4015,22 @@ VEN_influencing_venezuela = {
 
         ai_will_do = {
             base = 1
+            modifier = {
+                factor = 0
+                date < 1938.2.1
+            }
             modifier = { ## Operation Bolivar
                 factor = 125
                 original_tag = GER 
                 is_historical_focus_on = yes 
-                date > 1938.5.1
+                date > 1938.4.1
             }
             modifier = {
                 factor = 25
                 has_government = democratic
+                NOT = {
+                    original_tag = ENG
+                }
                 FROM = {
                     has_completed_focus = VEN_ley_lara
                 }
@@ -4012,11 +4038,17 @@ VEN_influencing_venezuela = {
             }
             modifier = {
                 factor = 25
+                original_tag = ENG 
+                has_government = democratic
+                date > 1939.10.4
+            }
+            modifier = {
+                factor = 25
                 has_government = fascism 
                 FROM = {
                     has_completed_focus = VEN_support_galavis_actions
                 }
-                date > 1937.4.1
+                date > 1938.4.1
             }
         }
 

@@ -2061,7 +2061,7 @@ country_event = {
 			}
 		}
 		FROM = {
-			transfer_state = 490
+			transfer_state = 1036
 			add_to_faction = ROOT 
 			give_guarantee = ROOT
 			country_event = peru.16
@@ -2130,6 +2130,11 @@ country_event = {
 					has_government = communism
 					has_government = fascism
 				}
+			}
+			modifier = {
+				factor = 20
+				original_tag = ARG 
+				has_government = communism
 			}
 			modifier = {
 				factor = 100
@@ -2750,17 +2755,19 @@ country_event = {
 			base = 5
 		}
 		retire_country_leader = yes
-		create_country_leader = {
-			name = "Apu-punchau"
-			desc = "POLITICS_SUN_GOD_DESC"
-			picture = "gfx/leaders/PRU/INC_sun_god_portrait.dds"
-			expire = "1965.1.1"
-			ideology = theocracy
-			traits = {
-				PRU_godly_being
-				PRU_not_a_real_person
-			}
-		}
+		add_country_leader_role = {
+            character = PRU_apu_panchau
+            promote_leader = yes
+            country_leader = {
+                ideology = theocracy
+                expire = "1965.1.1.1"
+				desc = "POLITICS_SUN_GOD_DESC"
+				traits = {
+					PRU_godly_being
+					PRU_not_a_real_person
+				}
+            }
+        }
 	}
 	
 	option = { #keep current leader
@@ -2831,6 +2838,19 @@ country_event = {
 			states_filter = {
 				NOT = { has_state_flag = PRU_state_is_fascist }
 			}
+			keep_all_characters = yes 
+			PREV = {
+				PRU_Oscar_benavides = {
+					set_nationality = prev.PREV
+				}
+				PRU_miguel_monteza_tafur = {
+					set_nationality = prev.prev
+				}
+				PRU_antonio_silva_santiesteban = {
+					set_nationality = prev.prev
+				}
+			}
+			promote_character = PRU_Oscar_benavides
 		}
 
 		set_country_flag = PRU_has_civil_war_fascism
@@ -3399,5 +3419,70 @@ country_event = {
 			long_name = PRU_democratic_party_2_long
 			name = PRU_democratic_party_2
 		}
+	}
+}
+
+## The Restoration of the Spanish Empire ##
+news_event = {
+	id = peru.41
+	title = peru.41.t 
+	desc = peru.41.d 
+	picture = GFX_PRU_spanish_empire_restored
+
+	is_triggered_only = yes 
+
+	major = yes 
+
+	option = {
+		name = peru.41.a 
+		trigger = {
+			NOT = {
+				original_tag = PRU 
+			}
+		}
+	}
+
+	option = {
+		name = peru.41.b 
+		trigger = {
+			original_tag = PRU
+		}
+	}
+}
+
+## Shall we promote a king? 
+country_event = {
+	id = peru.42 
+	title = peru.42.t 
+	desc = peru.42.d 
+	picture = GFX_PRU_elect_king
+
+	is_triggered_only = yes 
+
+	option = { ## Of course, its only logical
+		name = peru.42.a 
+		ai_chance = {
+			base = 20
+		}
+		add_country_leader_role = {
+            character = PRU_carlos_pio_habsburgo_borbon
+            promote_leader = yes
+            country_leader = {
+                ideology = fascistic_militarism
+                expire = "1965.1.1.1"
+				desc = "POLITICS_CARLOS_PIO_DESC"
+				traits = {
+					BRA_heir_of_the_throne
+				}
+            }
+        }
+	}
+
+	option = { ## A peruvian shall be in charge!
+		name = peru.42.b 
+		ai_chance = {
+			base = 16
+		}
+		add_war_support = 0.01
 	}
 }

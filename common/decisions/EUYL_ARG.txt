@@ -2966,7 +2966,7 @@ ARG_dealing_with_the_crisis = {
 		icon = generic_fundraising
 
 		activation = {
-			always = no 
+			has_idea = ARG_post_civil_war_crisis
 		}
 
 		available = {
@@ -2979,9 +2979,18 @@ ARG_dealing_with_the_crisis = {
 			}
 		}
 
+		cancel_effect = {
+			if = {
+				limit = {
+					has_idea = ARG_post_civil_war_crisis
+				}
+				remove_ideas = ARG_post_civil_war_crisis
+			}
+		}
+
 		is_good = yes 
 
-		days_mission_timeout = 720
+		days_mission_timeout = 680
 
 		timeout_effect = {
 			remove_ideas = ARG_post_civil_war_crisis
@@ -3024,7 +3033,7 @@ ARG_dealing_with_the_crisis = {
 		complete_effect = {
 			add_days_mission_timeout = {
 				mission = ARG_duration_of_the_crisis
-				days = -35
+				days = -45
 			}
 		}
 	}
@@ -6473,7 +6482,7 @@ ARG_infamous_decade_cat = {
 
 		cost = ARG_cost_to_decrease_tension
 
-		days_remove = 20
+		days_remove = 15
 
 		available = {
 			has_civil_war = no 
@@ -6492,6 +6501,10 @@ ARG_infamous_decade_cat = {
 					has_completed_focus = ARG_stabilize_the_country
 					has_completed_focus = ARG_reworking_the_internals
 				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = { ARG_political_tension = 0 }
 			}
 			modifier = {
 				factor = 5
@@ -6806,6 +6819,9 @@ ARG_infamous_decade_cat = {
 				has_completed_focus = ARG_stabilize_the_country
 				has_completed_focus = ARG_reworking_the_internals
 			}
+			check_variable = {
+				ARG_tension_increment_weekly > 0
+			}
 		}
 
 		ai_will_do = { 
@@ -6848,7 +6864,7 @@ ARG_infamous_decade_cat = {
 	ARG_a_new_argentine_era_dec = {
 		icon = GFX_ARG_new_era_decision_icon
 
-		cost = 100
+		cost = 25
 
 		available = {
 			custom_trigger_tooltip = {
@@ -6864,6 +6880,8 @@ ARG_infamous_decade_cat = {
 		}
 
 		ai_will_do = { factor = 300 }
+
+		fire_only_once = yes
 
 		visible = {
 			has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
@@ -7018,17 +7036,17 @@ ARG_dealing_with_the_corruption = {
 		}
 
 		timeout_effect = { 
-			random_list = {
-				50 = {
-					custom_effect_tooltip = ARG_corruption_will_go_against_us_tt
-					hidden_effect = {
-						set_variable = { ARG_corruption_status = 0 }
-					}
-				}
-				50 = {
+			#random_list = {
+			#	50 = {
+			#		custom_effect_tooltip = ARG_corruption_will_go_against_us_tt
+			#		hidden_effect = {
+			#			set_variable = { ARG_corruption_status = 0 }
+			#		}
+			#	}
+			#	50 = {
 
-				}
-			}
+			#	}
+			#}
 			ARG_decrease_corruption_by_1 = yes
 		}
 	}
@@ -9129,8 +9147,8 @@ ARG_the_liberation_army = {
 
 		available = {
 			FROM = {
-				compliance > 50
-				resistance < 15
+				compliance > 34
+				resistance < 19
 			}
 			has_equipment = {
 			    infantry_equipment > 299
@@ -12562,8 +12580,8 @@ ARG_integrate_our_territories = {
 
 		available = {
 			FROM = {
-				compliance > 50
-				resistance < 15
+				compliance > 39
+				resistance < 19
 			}
 			has_equipment = {
 			    infantry_equipment > 299
