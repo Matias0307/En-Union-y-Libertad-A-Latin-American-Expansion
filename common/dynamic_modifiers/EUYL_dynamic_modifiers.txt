@@ -874,6 +874,10 @@ ECU_local_banana_production = {
 	state_resources_factor = 0.1
 	state_production_speed_buildings_factor = 0.1 
 	local_factories = 0.1
+
+	remove_trigger = {
+		NOT = { OWNER = { original_tag = ECU } }
+	}
 }
 
 ECU_economic_reignition = {
@@ -889,6 +893,7 @@ ECU_economic_reignition = {
 
 	## Improved Later in the Tree ##
 
+	political_power_factor = ECU_economy_political_power_gain
 	production_factory_efficiency_gain_factor = ECU_economy_production_factory_efficiency_gain_factor
 	production_factory_max_efficiency_factor = ECU_economy_production_factory_max_efficiency_factor
 	global_building_slots_factor = ECU_economy_global_buildings_factor
@@ -902,6 +907,25 @@ ECU_economic_reignition = {
 }
 
 ### GENERIC EUYL MODIFIERS ###
+
+EUYL_rising_border_tension_idea = {
+	enable = {
+		always = yes 
+	}
+	icon = GFX_ECU_peru_ecuador_tension_icon
+
+	army_attack_factor = EUYL_peru_ecuador_attack_bonus
+	army_defence_factor = EUYL_peru_ecuador_defense_bonus
+
+	remove_trigger = {
+		NOT = {
+			OR = {
+				has_war_with = ECU 
+				has_war_with = PRU
+			}
+		}
+	}
+}
 
 EUYL_bloody_resistance = {
 	enable = { always = yes }

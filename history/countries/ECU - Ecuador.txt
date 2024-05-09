@@ -56,6 +56,8 @@ recruit_character = ECU_conservative_army
 recruit_character = ECU_liberal_army
 recruit_character = ECU_manuel_gomez_morin
 recruit_character = ECU_asamblea_constituyente
+recruit_character = ECU_manuel_maria_borrero
+recruit_character = ECU_armed_civilians
 
 ECU_federico_páez = {
 	set_character_flag = ECU_liberal
@@ -72,74 +74,99 @@ ECU_conservative_army = {
 ECU_neptali_bonifaz = {
 	set_character_flag = ECU_conservative
 }
+ECU_manuel_maria_borrero = {
+	set_character_flag = ECU_liberal
+}
 
 
-#add_ideas = {
-#	ECU_the_constituent_assembly
-#	ECU_aftermath_of_4_day_civil_war_1
-#	ECU_alberto_enriquez_gallo_idea
-#	ECU_partial_gold_standard_abandonment
-#	ECU_pro_conservative_navy
-#}
-#
-#for_each_scope_loop = {
-#	array = controlled_states
-#
-#	set_state_flag = ECU_starting_state
-#	add_dynamic_modifier = {
-#		modifier = ECU_rural_state
-#	}
-#}
-#
-## KEYS #
-## -3 = Actively Antagonizing
-## -2 = Significant Resentment
-## -1 = Slight Resentment 
-## 0 = Neutral 
-## 1 = Slight Support
-## 2 = Significant Support
-## 3 = Active Cooperation
-#
-#### Conservative - Liberal Tug of War ###
-#set_variable = { ECU_conservative_opinion = -2 } ## Significant Resentment
-#set_variable = { ECU_liberal_opinion = 1 } ## Slight Support
-#set_variable = { ECU_cooperate_conservative_cost = 30 }
-#set_variable = { ECU_cooperate_liberal_cost = 30 }
-#
-#activate_mission = ECU_gallos_looming_coup
-#
-#ECU_calculate_conservative_cost = yes
-#
-#### Ecuadorian Economy ###
-#set_variable = { ECU_economy_consumer_goods = 0.4 }
-#set_variable = { ECU_economy_production_speeds_buildings_factor = -0.2 }
-#set_variable = { ECU_economy_industrial_capacity = -0.1 }
-## Later Bonuses #
-#set_variable = { ECU_economy_production_factory_efficiency_gain_factor = 0 }
-#set_variable = { ECU_economy_production_factory_max_efficiency_factor = 0 }
-#set_variable = { ECU_economy_global_buildings_factor = 0 }
-#set_variable = { ECU_economy_production_speed_arms_factory_factor = 0 }
-#set_variable = { ECU_economy_production_speed_civilian_factory_factor = 0 }
-#set_variable = { ECU_economy_resources_factor = 0 }
-#set_variable = { ECU_economy_production_speed_supply_node_factor = 0 }
-#set_variable = { ECU_economy_production_speed_rail_way_factor = 0 }
-#set_variable = { ECU_economy_production_speed_dockyard_factor = 0 }
-#set_variable = { ECU_economy_industrial_capacity_dockyard = 0 }
-#
-#country_event = { ## Inflation strikes!
-#	id = ecu.2 
-#	days = 560
-#	random_days = 80
-#	hours = 4
-#	random_hours = 8
-#}
-#
-#### Ecuador - Peru Conflict ###
-#set_variable = { EUYL_peru_ecuador_threat_level = 0 }
-#
-#add_dynamic_modifier = {
-#	modifier = ECU_economic_reignition
-#}
+add_ideas = {
+	ECU_the_constituent_assembly
+	ECU_aftermath_of_4_day_civil_war_1
+	ECU_alberto_enriquez_gallo_idea
+	ECU_partial_gold_standard_abandonment
+	ECU_pro_conservative_navy
+	ECU_1936_status_quo
+}
+
+PRU = {
+	add_ideas = {
+		PRU_1936_status_quo
+	}
+	activate_mission = EUYL_conflict_escalation
+	set_variable = { EUYL_peru_ecuador_attack_bonus = 0 }
+	set_variable = { EUYL_peru_ecuador_defense_bonus = 0 }
+}
+
+for_each_scope_loop = {
+	array = controlled_states
+
+	set_state_flag = ECU_starting_state
+	add_dynamic_modifier = {
+		modifier = ECU_rural_state
+	}
+}
+
+# KEYS #
+# -3 = Actively Antagonizing
+# -2 = Significant Resentment
+# -1 = Slight Resentment 
+# 0 = Neutral 
+# 1 = Slight Support
+# 2 = Significant Support
+# 3 = Active Cooperation
+
+### Conservative - Liberal Tug of War ###
+set_variable = { ECU_conservative_opinion = -2 } ## Significant Resentment
+set_variable = { ECU_liberal_opinion = 1 } ## Slight Support
+set_variable = { ECU_cooperate_conservative_cost = 30 }
+set_variable = { ECU_cooperate_liberal_cost = 30 }
+
+activate_mission = ECU_gallos_looming_coup
+
+ECU_calculate_conservative_cost = yes
+
+### Ecuadorian Economy ###
+set_variable = { ECU_economy_consumer_goods = 0.4 }
+set_variable = { ECU_economy_production_speeds_buildings_factor = -0.2 }
+set_variable = { ECU_economy_industrial_capacity = -0.1 }
+# Later Bonuses #
+set_variable = { ECU_economy_production_factory_efficiency_gain_factor = 0 }
+set_variable = { ECU_economy_production_factory_max_efficiency_factor = 0 }
+set_variable = { ECU_economy_global_buildings_factor = 0 }
+set_variable = { ECU_economy_production_speed_arms_factory_factor = 0 }
+set_variable = { ECU_economy_production_speed_civilian_factory_factor = 0 }
+set_variable = { ECU_economy_resources_factor = 0 }
+set_variable = { ECU_economy_production_speed_supply_node_factor = 0 }
+set_variable = { ECU_economy_production_speed_rail_way_factor = 0 }
+set_variable = { ECU_economy_production_speed_dockyard_factor = 0 }
+set_variable = { ECU_economy_industrial_capacity_dockyard = 0 }
+set_variable = { ECU_economy_political_power_gain = 0 }
+
+country_event = { ## Inflation strikes!
+	id = ecu.2 
+	days = 560
+	random_days = 80
+	hours = 4
+	random_hours = 8
+}
+
+### Ecuador - Peru Conflict ###
+set_variable = { EUYL_peru_ecuador_threat_level = 0 }
+set_variable = { EUYL_peru_ecuador_attack_bonus = 0 }
+set_variable = { EUYL_peru_ecuador_defense_bonus = 0 }
+activate_mission = EUYL_conflict_escalation
+
+add_dynamic_modifier = {
+	modifier = ECU_economic_reignition
+}
+
+## DEMILITARIZED ZONES ##
+1036 = {
+	set_demilitarized_zone = yes 
+}
+490 = {
+	set_demilitarized_zone = yes
+}
 
 set_country_flag = monroe_doctrine
 set_war_support = 0.1
