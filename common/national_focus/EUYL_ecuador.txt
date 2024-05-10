@@ -223,6 +223,240 @@ focus_tree = {
 			focus = ECU_adopt_a_defensive_strategy_plan
 			focus = ECU_adopt_an_offensive_strategy_plan
 		}
+
+		cost = 5
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = EUYL_border_tension_level_1_tt
+				check_variable = {
+					EUYL_peru_ecuador_threat_level > 0
+				}
+			}
+			NOT = {
+				has_war_with = PRU
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_PERU_ECUADOR_WAR
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = ECU_unlock_recon_decisions_and_need_planes_tt
+		}
+	}
+
+	## Commence Defensive Preperations ##
+	focus = {
+		id = ECU_commence_defensive_preperations
+		icon = GFX_goal_generic_fortify_city
+		x = -1
+		y = 2
+		relative_position_id = ECU_adopt_an_offensive_strategy_plan
+		prerequisite = {
+			focus = ECU_adopt_a_defensive_strategy_plan
+			focus = ECU_adopt_an_offensive_strategy_plan
+		}
+
+		cost = 5
+
+		available = {
+			OR = {
+				has_country_flag = ECU_can_begin_defensive_preperations_flag
+				custom_trigger_tooltip = {
+					tooltip = EUYL_border_tension_level_2_tt
+					check_variable = {
+						EUYL_peru_ecuador_threat_level > 1
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_PERU_ECUADOR_WAR
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = EUYL_modify_peru_ecuador_war_idea_by_tt
+			add_to_variable = {
+				EUYL_peru_ecuador_defense_bonus = 0.03
+				tooltip = army_defence_factor_tt
+			}
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			unlock_decision_tooltip = {
+				decision = ECU_prepare_defensive_fortifications_in_FROM
+				show_effect_tooltip = yes
+			}
+		}
+	}
+
+	## Formalize Militia Regiments ##
+	focus = {
+		id = ECU_formalize_militia_regiments
+		icon = GFX_ECU_national_mobilization_icon
+		x = 0
+		y = 1
+		relative_position_id = ECU_commence_defensive_preperations
+		prerequisite = {
+			focus = ECU_commence_defensive_preperations
+		}
+
+		cost = 6
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = EUYL_border_tension_level_3_tt
+				check_variable = {
+					EUYL_peru_ecuador_threat_level > 2
+				}
+			}
+		}
+
+		bypass = {
+			has_war_with = PRU 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_MANPOWER FOCUS_FILTER_PERU_ECUADOR_WAR
+		}
+
+		completion_reward = {
+			add_manpower = 25000
+			if = {
+				limit = {
+					NOT = {
+						has_template = "Brigada Ecuatoriana"
+					}
+				}
+				division_template = {
+					name = "Brigada Ecuatoriana"
+					division_names_group = SPAN_INF_02
+					template_counter = 3
+					
+					regiments = {
+						infantry = { x = 0 y = 0 }
+						infantry = { x = 0 y = 1 }
+						infantry = { x = 0 y = 2 }
+						infantry = { x = 0 y = 3 }
+					}
+				}
+			}
+			every_controlled_state = {
+				limit = {
+					any_neighbor_state = {
+						owner = {
+							original_tag = PRU
+						}
+					}
+				}
+				create_unit = {
+					division = "name = \"Brigada Ecuatoriana\" division_template = \"Brigada Ecuatoriana\" start_experience_factor = 0.04 start_equipment_factor = 0.9" 
+					owner = ECU
+				}
+			}
+			custom_effect_tooltip = EUYL_at_start_of_war_gain_following_tt
+			unlock_decision_tooltip = {
+				decision = EUYL_formalize_a_militia_regiment_in_FROM
+				show_effect_tooltip = yes
+			}
+		}
+	}
+
+	## Anti-Air Defense ##
+	focus = {
+		id = ECU_anti_air_defense
+		icon = GFX_ECU_anti_air_defense_icon
+		x = -2
+		y = 1
+		relative_position_id = ECU_commence_defensive_preperations
+		prerequisite = {
+			focus = ECU_commence_defensive_preperations
+		}
+
+		cost = 5
+
+		available = {
+			has_tech = antiair1
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_PERU_ECUADOR_WAR
+		}
+
+		completion_reward = {
+			add_command_power = 20
+			air_experience = 25
+			custom_effect_tooltip = ECU_if_urbanized_following_occur_tt
+			effect_tooltip = {
+				capital_scope = {
+					add_building_construction = {
+						type = anti_air_building
+						level = 2
+					}
+				}
+			}
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			custom_effect_tooltip = ECU_if_not_urbanized_following_occur_tt
+			effect_tooltip = {
+				capital_scope = {
+					add_building_construction = {
+						type = anti_air_building
+						level = 1
+					}
+				}
+			}
+			hidden_effect = {
+				capital_scope = {
+					if = {
+						limit = {
+							NOT = {
+								has_dynamic_modifier = {
+									modifier = ECU_rural_state
+								}
+							}
+						}
+						add_building_construction = {
+							type = anti_air_building
+							level = 2
+						}
+					}
+					else = {
+						add_building_construction = {
+							type = anti_air_building
+							level = 1
+						}
+					}
+				}
+			}
+		}
+	}
+
+	## A Call for International Aid ##
+	focus = {
+		id = ECU_a_call_for_international_aid
+		icon = GFX_goal_generic_propaganda 
+		x = 1
+		y = 1
+		relative_position_id = ECU_adopt_an_offensive_strategy_plan
+		prerequisite = {
+			focus = ECU_adopt_a_defensive_strategy_plan
+			focus = ECU_adopt_an_offensive_strategy_plan
+		}
+
+		cost = 7.2
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = EUYL_border_tension_level_4_tt
+				check_variable = {
+					EUYL_peru_ecuador_threat_level > 3
+				}
+			}
+			NOT = {
+				has_war_with = PRU
+			}
+		}
 	}
 
 	#### ECONOMY TREE ####
