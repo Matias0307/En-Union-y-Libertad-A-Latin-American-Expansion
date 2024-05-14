@@ -633,9 +633,14 @@ on_actions = {
                         original_tag = PRU 
                         original_tag = ECU
                     }
+                    NOT = {
+                        has_global_flag = EUYL_USA_intervened_peru_ecuador_flag
+                    }
                 }
                 clr_global_flag = EUYL_peru_ecuador_war_triggered_flag
                 set_global_flag = EUYL_peru_ecuador_war_concluded_flag
+                clear_variable = PRU.EUYL_peru_ecuador_threat_level
+                clear_variable = ECU.EUYL_peru_ecuador_threat_level
                 if = {
                     limit = { ## Ecuador lost the war
                         any_state = {
@@ -656,9 +661,11 @@ on_actions = {
                     }
                     ECU = {
                         set_country_flag = EUYL_loser_of_peru_ecuador_war_flag
+                        country_event = peruecuador.19
                     }
                     PRU = {
                         set_country_flag = EUYL_winner_of_peru_ecuador_war_flag
+                        country_event = peruecuador.18
                     }
                 }
                 else_if = {
@@ -672,11 +679,21 @@ on_actions = {
                     }
                     ECU = {
                         set_country_flag = EUYL_winner_of_peru_ecuador_war_flag
+                        country_event = peruecuador.18
                     }
                     PRU = {
                         set_country_flag = EUYL_loser_of_peru_ecuador_war_flag
+                        country_event = peruecuador.19
                     }
                 } ## If neither of these conditions are satisfied, then its a tie lol
+                else = {
+                    PRU = {
+                        country_event = peruecuador.20
+                    }
+                    ECU = {
+                        country_event = peruecuador.20
+                    }
+                }
             }
         }
         effect = {
@@ -930,6 +947,47 @@ on_actions = {
 				set_global_flag = triple_alliance_war_event_triggered
             }
         }
+        effect = { ## Commie Ecuador declares war on any country in the continent
+            if = {
+                limit = {
+                    original_tag = ECU 
+                    has_completed_focus = ECU_the_revolution_lives_on
+                    FROM = {
+                        capital_scope = {
+                            is_on_continent = south_america
+                        }
+                        num_of_controlled_states > 1
+                    }
+                }
+                if = {
+                    limit = {
+                        NOT = {
+                            has_template = "Brigada"
+                        }
+                    }
+                    division_template = {
+                        name = "Brigada"
+                        division_names_group = SPAN_INF_02
+                        template_counter = 3
+                        
+                        regiments = {
+                            infantry = { x = 0 y = 0 }
+                            infantry = { x = 0 y = 1 }
+                            infantry = { x = 0 y = 2 }
+                            infantry = { x = 0 y = 3 }
+                        }
+                    }
+                }
+                hidden_effect = {
+                    FROM = {
+                        country_event = {
+                            id = ecu.7 
+                            hours = 1
+                        }
+                    }
+                }
+            }
+        }
         effect = { #Paraguay starts war with any country, increasing global concern
             if = {
                 limit = {
@@ -1120,7 +1178,14 @@ on_actions = {
                         }
                     }
                     PRU = {
-                        activate_mission = PRU_capture_western_pastaza
+                        if = {
+                            limit = {
+                                NOT = {
+                                    has_active_mission = PRU_hold_pastaza
+                                }
+                            }
+                            activate_mission = PRU_capture_western_pastaza
+                        }
                         add_dynamic_modifier = {
                             modifier = EUYL_rising_border_tension_idea 
                         }

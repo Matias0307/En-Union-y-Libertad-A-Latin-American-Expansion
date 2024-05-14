@@ -78,6 +78,7 @@ country_event = {
 		}
 		declare_war_on = {
 			target = FROM 
+			type = annex_everything
 		}
 		activate_mission = PRU_hold_pastaza
 		custom_effect_tooltip = EUYL_border_tension_level_will_escalate_to_level_5_immediately_tt
@@ -85,6 +86,7 @@ country_event = {
 		custom_effect_tooltip = PRU_democratic_sectors_of_country_will_revolt_against_nation_tt
 		set_variable = { EUYL_peru_ecuador_threat_level = 5 }
 		hidden_effect = {
+			set_global_flag = EUYL_peru_took_insane_route_flag ## will be used for achievement
 			if = {
 				limit = {
 					has_active_mission = EUYL_conflict_escalation
@@ -114,6 +116,8 @@ country_event = {
 				ideology = democratic 
 				size = 0.3 
 				keep_all_characters = yes 
+				capital = 989
+				states = { 989 492 987 947 988 }
 				PREV = {
 					ECU_armed_civilians = {
 						set_nationality = prev.PREV
@@ -196,9 +200,23 @@ country_event = {
 		name = peruecuador.3.a 
 		ai_chance = {
 			base = 40
+			modifier = {
+				factor = 0
+				surrender_progress > 0.04 ## actively getting invaded
+			}
 		}
-		PRU = { activate_mission = EUYL_days_until_american_peace_talks_commence }
-		ECU = { activate_mission = EUYL_days_until_american_peace_talks_commence }
+		PRU = {
+			country_event = {
+				id = peruecuador.30
+				hours = 12
+			}
+		}
+		ECU = { 
+			country_event = {
+				id = peruecuador.30
+				hours = 20
+			}
+		}
 	}
 
 	option = {
@@ -206,10 +224,36 @@ country_event = {
 		ai_chance = {
 			base = 5
 			modifier = {
+				factor = 4
+				OR = {
+					has_government = communism
+					has_government = fascism
+				}
+			}
+			modifier = {
+				factor = 2
+				has_war_with_major = yes
+			}
+			modifier = {
 				factor = 0
 				is_historical_focus_on = yes
 			}
 		}
+	}
+}
+
+## USA Has Begun Peace talk Proposals
+country_event = {
+	id = peruecuador.30
+	title = peruecuador.30.t 
+	desc = peruecuador.30.d 
+	picture = GFX_report_event_generic_read_write
+
+	is_triggered_only = yes 
+
+	option = {
+		name = "Ok" 
+		activate_mission = EUYL_days_until_peace_talks_commence
 	}
 }
 
@@ -286,6 +330,7 @@ country_event = {
 		hidden_effect = {
 			clr_global_flag = EUYL_peru_ecuador_war_triggered_flag
 			set_global_flag = EUYL_peru_ecuador_war_concluded_flag
+			set_global_flag = EUYL_USA_intervened_peru_ecuador_flag
 			every_state = {
 				limit = {
 					is_controlled_by = PRU 
@@ -308,8 +353,9 @@ country_event = {
 					}
 					country_event = {
 						id = peruecuador.7 ## Shall we return Guayaquil to Ecuador
-						hours = 4
-						days = 2
+						days = 3
+						random_days = 2
+						hours = 6
 						random_hours = 8
 					}
 				}
@@ -319,6 +365,8 @@ country_event = {
 				days = 1
 				random_days = 2
 			}
+			clear_variable = PRU.EUYL_peru_ecuador_threat_level
+            clear_variable = ECU.EUYL_peru_ecuador_threat_level
 			if = {
 				limit = { ## Ecuador lost the war
 					any_state = {
@@ -339,9 +387,11 @@ country_event = {
 				}
 				ECU = {
 					set_country_flag = EUYL_loser_of_peru_ecuador_war_flag
+					country_event = peruecuador.19
 				}
 				PRU = {
 					set_country_flag = EUYL_winner_of_peru_ecuador_war_flag
+					country_event = peruecuador.18
 				}
 			}
 			else_if = {
@@ -355,11 +405,21 @@ country_event = {
 				}
 				ECU = {
 					set_country_flag = EUYL_winner_of_peru_ecuador_war_flag
+					country_event = peruecuador.18
 				}
 				PRU = {
 					set_country_flag = EUYL_loser_of_peru_ecuador_war_flag
+					country_event = peruecuador.19
 				}
 			} ## If neither of these conditions are satisfied, then its a tie lol
+			else = {
+				PRU = {
+					country_event = peruecuador.20
+				}
+				ECU = {
+					country_event = peruecuador.20
+				}
+			}
 		}
 	}
 
@@ -415,7 +475,16 @@ country_event = {
 		ai_chance = {
 			base = 10
 		}
-		1037 = { transfer_state_to = ECU }
+		add_stability = 0.03
+		1037 = { 
+			transfer_state_to = ECU 
+			if = {
+				limit = {
+					is_core_of = ROOT 
+				}
+				remove_core_of = ROOT
+			}
+		}
 		ECU = {
 			country_event = peruecuador.8
 		}
@@ -481,6 +550,16 @@ country_event = {
 
 	option = { ## they're not getting away with this
 		name = peruecuador.9.b 
+		ai_chance = {
+			base = 2
+			modifier = {
+				factor = 10
+				strength_ratio = {
+					tag = FROM 
+					ratio > 1
+				}
+			}
+		}
 		create_wargoal = {
 			target = PRU 
 			type = annex_everything
@@ -516,6 +595,21 @@ country_event = {
 			add_days_mission_timeout = {
 				mission = EUYL_days_until_peace_talks_commence
 				days = 25
+			}
+			hidden_effect = {
+				random_other_country = {
+					limit = {
+						OR = {
+							original_tag = ECU 
+							original_tag = PRU 
+						}
+						has_active_mission = EUYL_days_until_peace_talks_commence
+					}
+					add_days_mission_timeout = {
+						mission = EUYL_days_until_peace_talks_commence
+						days = 25
+					}
+				}
 			}
 		}
 	}
@@ -586,7 +680,7 @@ country_event = {
 	is_triggered_only = yes 
 
 	option = {
-		name = peruecuador.13.a 
+		name = peruecuador.10.a 
 		custom_effect_tooltip = EUYL_modify_peru_ecuador_war_idea_by_tt
 		add_to_variable = {
 			EUYL_peru_ecuador_attack_bonus = 0.03
@@ -619,7 +713,7 @@ country_event = {
 	is_triggered_only = yes 
 
 	option = {
-		name = peruecuador.14.a 
+		name = peruecuador.11.a 
 		custom_effect_tooltip = EUYL_modify_peru_ecuador_war_idea_by_tt
 		add_to_variable = {
 			EUYL_peru_ecuador_attack_bonus = -0.02
@@ -642,7 +736,318 @@ country_event = {
 	}
 }
 
+## Victory at [1036.GetName] | Border War
+country_event = {
+	id = peruecuador.140
+	title = peruecuador.140.t 
+	desc = peruecuador.140.d 
+	picture = GFX_report_event_ast_army
+
+	is_triggered_only = yes 
+
+	option = {
+		name = peruecuador.140.a 
+		add_war_support = 0.05
+		custom_effect_tooltip = EUYL_modify_peru_ecuador_war_idea_by_tt
+		add_to_variable = {
+			EUYL_peru_ecuador_attack_bonus = 0.07
+			tooltip = army_attack_factor_tt
+		}
+		add_to_variable = {
+			EUYL_peru_ecuador_defense_bonus = 0.07
+			tooltip = army_defence_factor_tt
+		}
+	}
+}
+
+### Ecuador is Asking for Aid Against a Potential Peruvian Invasion ##
+country_event = {
+	id = peruecuador.15
+	title = argentina.rework.32.t 
+	desc = peruecuador.15.d 
+	picture = GFX_report_event_generic_handshake
+
+	is_triggered_only = yes 
+
+	option = { ## Send them Guns 
+		name = argentina.rework.32.a 
+		ai_chance = {
+			base = 20
+			modifier = {
+				factor = 3
+				has_equipment = {
+					infantry_equipment > 2499
+				}
+			}
+			modifier = {
+				factor = 2
+				has_opinion = {
+					target = FROM 
+					value > 49
+				}
+			}
+		}
+		send_equipment = {
+			equipment = infantry_equipment
+			amount = 1000
+			target = FROM # Ecuador
+		}
+		FROM = {
+			country_event = { id = argentina.rework.33 hours = 6 } ## FROM sent us guns!
+		}
+	}
+
+	option = { ## Send them war bonds
+		name = argentina.rework.32.c
+		ai_chance = {
+			base = 20
+			modifier = {
+				factor = 3
+				has_opinion = {
+					target = FROM 
+					value > 49
+				}
+			}
+			modifier = {
+				factor = 3
+				num_of_factories > 39
+			}
+		}
+		FROM = {
+			country_event = { id = brazil.55 hours = 6 } ## FROM sent us war bonds 
+			add_timed_idea = {
+				idea = FROM_war_bonds
+				days = 90
+			}
+		}
+		random_owned_controlled_state = {
+			limit = {
+				arms_factory > 0
+			}
+			remove_building = {
+				type = arms_factory
+				level = 1
+			}
+		}
+	}
+
+	option = { #Why should we give them anything?
+		name = argentina.rework.32.e 
+		ai_chance = {
+			base = 10
+			modifier = {
+				factor = 5
+				has_war = yes 
+			}
+		}
+		FROM = {
+			country_event = { id = argentina.rework.34 hours = 6 } ## FROM will not aid us!
+		}
+		set_country_flag = ARG_refused_aid
+	}
+}
+
+### Ecuador has Illegally Occupied Piura! 
+country_event = {
+	id = peruecuador.16
+	title = peruecuador.16.t 
+	desc = peruecuador.16.d 
+	picture = GFX_report_event_generic_battle
+
+	is_triggered_only = yes 
+
+	option = { ## THEY'RE NOT GETTING AWAY WITH THIS! | Historically this was the reason Peru declared war
+		name = peruecuador.16.a 
+		ai_chance = {
+			base = 30
+			modifier = {
+				factor = 5
+				strength_ratio = {
+					tag = FROM
+					ratio > 1
+				}
+			}
+			modifier = {
+				factor = 0
+				has_civil_war = yes 
+			}
+		}
+		create_wargoal = {
+			target = ECU 
+			type = annex_everything
+		}
+		custom_effect_tooltip = EUYL_modify_peru_ecuador_war_idea_by_tt
+		add_to_variable = {
+			EUYL_peru_ecuador_attack_bonus = 0.02
+			tooltip = army_attack_factor_tt
+		}
+		add_ai_strategy = {
+			type = declare_war
+			id = ECU
+			value = 100
+		}
+	}
+
+	option = { # We must stand down 
+		name = peruecuador.16.b 
+		ai_chance = {
+			base = 2
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+		add_war_support = -0.15
+		custom_effect_tooltip = EUYL_modify_peru_ecuador_war_idea_by_tt
+		add_to_variable = {
+			EUYL_peru_ecuador_attack_bonus = -0.03
+			tooltip = army_attack_factor_tt
+		}
+		add_to_variable = {
+			EUYL_peru_ecuador_defense_bonus = -0.03
+			tooltip = army_defence_factor_tt
+		}
+	}
+}
+
+## Ecuador is having protests, lets prepare an offensive! | This historically happened
+country_event = {
+	id = peruecuador.17
+	title = peruecuador.17.t 
+	desc = peruecuador.17.d 
+	picture = GFX_report_event_generic_army
+
+	is_triggered_only = yes 
+
+	option = {
+		name = peruecuador.17.a 
+		add_war_support = 0.05
+		custom_effect_tooltip = EUYL_modify_peru_ecuador_war_idea_by_tt
+		add_to_variable = {
+			EUYL_peru_ecuador_attack_bonus = 0.05
+			tooltip = army_attack_factor_tt
+		}
+		if = {
+			limit = {
+				has_active_mission = EUYL_conflict_escalation
+			}
+			add_days_mission_timeout = {
+				mission = EUYL_conflict_escalation
+				days = -110
+			}
+			hidden_effect = {
+				ECU = {
+					add_days_mission_timeout = {
+						mission = EUYL_conflict_escalation
+						days = -110
+					}
+				}
+			}
+		}
+	}
+}
+
 #### TODO: Add Loser and Winner of war events, add events for the military missions, and add the border war! #####
+
+## Winner of the Peru Ecuador War ##
+country_event = {
+	id = peruecuador.18
+	title = peruecuador.18.t 
+	desc = peruecuador.18.d 
+	picture = GFX_report_event_generic_military_parade
+
+	is_triggered_only = yes 
+
+	option = {
+		name = peruecuador.18.a 
+		## TODO: Peru's side of this | DONE
+		if = {
+			limit = {
+				original_tag = PRU 
+			}
+			complete_national_focus = PRU_victor_of_the_peru_ecuador_war
+			effect_tooltip = {
+				add_stability = -0.1 
+				add_war_support = -0.15
+			}
+		}
+		if = {
+			limit = {
+				original_tag = ECU 
+			}
+			complete_national_focus = ECU_victor_of_the_peru_ecuador_war
+			effect_tooltip = {
+				add_war_support = 0.1
+				add_ideas = ECU_victor_of_peru_ecuador_war_idea
+			}
+		}
+	}
+}
+
+## Loser of the Peru Ecuador War ##
+country_event = {
+	id = peruecuador.19
+	title = peruecuador.19.t 
+	desc = peruecuador.19.d 
+	picture = GFX_report_event_generic_soldiers_surrendering
+
+	is_triggered_only = yes 
+
+	option = {
+		name = peruecuador.19.a 
+		## TODO: Peru's side of this | DONE
+		if = {
+			limit = {
+				original_tag = PRU 
+			}
+			complete_national_focus = PRU_loser_of_the_peru_ecuador_war
+			effect_tooltip = {
+				add_war_support = 0.05 
+				add_stability = 0.05
+			}
+		}
+		if = {
+			limit = {
+				original_tag = ECU 
+			}
+			complete_national_focus = ECU_loser_of_the_peru_ecuador_war
+			custom_effect_tooltip = ECU_protests_will_occur_periodically_now_tt
+			effect_tooltip = {
+				add_stability = -0.05
+				add_ideas = draft_dodging
+			}
+		}
+	}
+}
+
+## Inconclusive outcome ##
+country_event = {
+	id = peruecuador.20 
+	title = peruecuador.20.t 
+	desc = peruecuador.20.d 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = peruecuador.20 
+		add_political_power = 5
+		add_command_power = 5
+	}
+}
+
+## Peru has started a border war in [1036.GetName]
+country_event = {
+	id = peruecuador.21
+	title = peruecuador.21.t 
+	desc = peruecuador.21.d 
+	picture = GFX_report_event_generic_battle
+
+	is_triggered_only = yes 
+
+	option = {
+		name = peruecuador.21.a
+	}
+}
 
 ### Gallo Promoted to Supreme Leadership
 country_event = {
@@ -820,3 +1225,124 @@ country_event = {
 		}
 	}
 }
+
+## Protests Against Mobilization ##
+country_event = {
+	id = ecu.5
+	title = ecu.5.t 
+	desc = ecu.5.d 
+	picture = GFX_report_event_generic_riot
+
+	is_triggered_only = yes 
+
+	option = {
+		name = ecu.5.a 
+		add_war_support = -0.05
+		add_stability = -0.03
+		add_manpower = -2500
+		custom_effect_tooltip = EUYL_modify_peru_ecuador_war_idea_by_tt
+		add_to_variable = {
+			EUYL_peru_ecuador_attack_bonus = -0.02
+			tooltip = army_attack_factor_tt
+		}
+	}
+}
+
+## Constituent Assembly in Conflict with the President 
+country_event = {
+	id = ecu.6
+	title = ecu.6.t 
+	desc = ecu.6.d 
+	picture = GFX_ECU_asamblea_hostile_pic
+
+	is_triggered_only = yes 
+
+	option = {
+		name = ecu.6.a 
+		add_ideas = ECU_in_conflict_with_assembly
+	}
+}
+
+## hidden event to trigger communist troops
+country_event = {
+	id = ecu.7
+
+	hidden = yes 
+
+	is_triggered_only = yes 
+
+	immediate = {
+		if = {
+			limit = {
+				communism > 0.34
+			}
+			every_controlled_state = {
+				limit = {
+					any_neighbor_state = {
+						is_owned_and_controlled_by = FROM
+					}
+				}
+				create_unit = {
+					division = "name = \"Brigada Comunista\" division_template = \"Brigada\" start_experience_factor = 0.04 start_equipment_factor = 1" 
+					owner = FROM
+					count = 2
+					allow_spawning_on_enemy_provs = yes
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				communism > 0.24
+			}
+			every_controlled_state = {
+				limit = {
+					any_neighbor_state = {
+						is_owned_and_controlled_by = FROM
+					}
+				}
+				create_unit = {
+					division = "name = \"Brigada Comunista\" division_template = \"Brigada\" start_experience_factor = 0.04 start_equipment_factor = 1" 
+					owner = FROM
+					allow_spawning_on_enemy_provs = yes
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				communism > 0.1
+			}
+			random_owned_controlled_state = {
+				limit = {
+					any_neighbor_state = {
+						is_owned_and_controlled_by = FROM
+					}
+				}
+				create_unit = {
+					division = "name = \"Brigada Comunista\" division_template = \"Brigada\" start_experience_factor = 0.04 start_equipment_factor = 1" 
+					owner = FROM
+					count = 3
+					allow_spawning_on_enemy_provs = yes
+				}
+			}
+		}
+	}
+}
+
+## Death of Aurelio Mosquera Narváez
+country_event = {
+	id = ecu.8
+	title = ecu.8.t 
+	desc = ecu.8.d 
+	picture = GFX_ECU_aurelio_death_pic
+
+	is_triggered_only = yes 
+
+	option = {
+		name = ecu.8.a 
+		custom_effect_tooltip = ECU_aurelio_passes_away_tt
+		hidden_effect = {
+			retire_character = ECU_aurelio_mosquera_narvaez
+			
+		}
+	}
+} 
