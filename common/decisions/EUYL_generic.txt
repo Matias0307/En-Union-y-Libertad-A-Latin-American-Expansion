@@ -1,4 +1,72 @@
 EUYL_latin_american_political_actions = {
+	ECU_act_effects_taking_place_here = {
+		icon = eng_trade_unions_support
+
+		activation = {
+			always = no 
+		}
+
+		highlight_states = {
+			highlight_states_trigger = {
+				has_state_flag = ECU_act_active_here_flag
+			}
+		}
+
+		days_mission_timeout = 75
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ECU_no_states_with_active_act_tt
+				NOT = {
+					any_controlled_state = {
+						has_state_flag = ECU_act_active_here_flag
+					}
+				}
+			}
+		}
+
+		is_good = yes 
+
+		timeout_effect = {
+			add_stability = 0.03
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.02
+			}
+			hidden_effect = {
+				random_owned_controlled_state = {
+					limit = {
+						has_state_flag = ECU_act_active_here_flag
+					}
+					clr_state_flag = ECU_act_active_here_flag
+					set_state_flag = ECU_act_was_present_here_flag
+					if = {
+						limit = {
+							any_neighbor_state = {
+								has_state_flag = ECU_starting_state
+								NOT = {
+									has_state_flag = ECU_act_was_present_here_flag
+								}
+							}
+						}
+						random_neighbor_state = {
+							limit = {
+								has_state_flag = ECU_starting_state
+								NOT = {
+									has_state_flag = ECU_act_was_present_here_flag
+								}
+							}
+							set_state_flag = ECU_act_active_here_flag
+							ROOT = {
+								activate_mission = ECU_act_effects_taking_place_here
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
 	EUYL_enforce_mandatory_conscription = {
 		priority = 100
 		icon = generic_military 

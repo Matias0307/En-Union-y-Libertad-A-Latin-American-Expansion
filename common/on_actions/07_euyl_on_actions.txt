@@ -792,11 +792,10 @@ on_actions = {
             }
         }
         effect = {
-            if = {
+            if = { ## Peru Declares War on Chile
                 limit = {
                     ROOT = {
                         original_tag = PRU 
-                        has_completed_focus = PRU_communist_peru
                     }
                     FROM = { 
                         original_tag = CHL 
@@ -818,6 +817,7 @@ on_actions = {
                             BOL = {
                                 exists = yes 
                                 is_subject = no
+                                NOT = { has_country_flag = ROOT_accepted_to_declare_war }
                             }
                         }
                         BOL = {
@@ -833,95 +833,110 @@ on_actions = {
                             }
                         }
                     }
+                    else_if = {
+                        limit = { 
+                            BOL = {
+                                exists = yes 
+                                is_subject = no 
+                                has_country_flag = ROOT_accepted_to_declare_war
+                            }
+                        }
+                        BOL = {
+                            country_event = { id = peru.124 hours = 1 }
+                        }
+                    }
                 }
             }
         }
         effect = {
             if = {
-                limit = {
+                limit = { ## Bolivia Declares War on Peru
                     ROOT = {
-                        OR = {
-                            original_tag = PRU 
-                            original_tag = BOL 
-                        }
-                        NOT = { has_country_flag = is_in_second_war_of_the_pacific }
-                        OR = {
-                            is_in_faction_with = BOL 
-                            is_in_faction_with = PRU 
-                            BOL = { has_country_flag = BOL_influenced_by_peru_flag }
+                        original_tag = BOL
+                        NOT = {
+                            has_war_with = PRU
                         }
                     }
                     FROM = {
                         original_tag = CHL 
-                        OR = {
-                            has_war_with = PRU 
-                            has_war_with = BOL 
+                        NOT = {
+                            is_in_faction_with = PRU
                         }
                     }
+                    NOT = { has_global_flag = EUYL_second_war_of_the_pacific_flag }
                 }
                 hidden_effect = { ## Second war of the Pacific
-                    every_country = {
-                        limit = {
-                            OR = {
-                                original_tag = PRU 
-                                original_tag = CHL 
-                                original_tag = BOL 
-                            }
-                            NOT = { has_country_flag = is_in_second_war_of_the_pacific}
-                        }
-                        set_country_flag = is_in_second_war_of_the_pacific
-                        if = {
-                            limit = {
-                                has_country_flag = BOL_influenced_by_peru_flag
-                            }
-                            clr_country_flag = BOL_influenced_by_peru_flag
-                        }
-                    }
-                    news_event = { 
-                        id = news.343
-                        days = 2
-                    }
                     if = {
                         limit = {
-                            ECU = { 
-                                exists = yes 
-                                NOT = {
-                                    OR = {
-                                        has_war_with = CHL 
-                                        has_war_with = BOL 
-                                        has_war_with = PRU 
-                                        has_country_flag = is_in_second_war_of_the_pacific
+                            NOT = { has_global_flag = EUYL_second_war_of_the_pacific_flag }
+                            FROM = {
+                                has_war_with = PRU 
+                            }
+                        }
+                        every_country = {
+                            limit = {
+                                OR = {
+                                    original_tag = PRU 
+                                    original_tag = CHL 
+                                    original_tag = BOL 
+                                }
+                                NOT = { has_country_flag = is_in_second_war_of_the_pacific}
+                            }
+                            set_country_flag = is_in_second_war_of_the_pacific
+                            if = {
+                                limit = {
+                                    has_country_flag = BOL_influenced_by_peru_flag
+                                }
+                                clr_country_flag = BOL_influenced_by_peru_flag
+                            }
+                        }
+                        set_global_flag = EUYL_second_war_of_the_pacific_flag
+                        news_event = { 
+                            id = news.343
+                            days = 3
+                        }
+                        if = {
+                            limit = {
+                                ECU = {
+                                    exists = yes 
+                                    NOT = {
+                                        OR = {
+                                            has_war_with = CHL 
+                                            has_war_with = BOL 
+                                            has_war_with = PRU 
+                                            has_country_flag = is_in_second_war_of_the_pacific
+                                        }
                                     }
                                 }
                             }
-                        }
-                        ECU = { 
-                            country_event = {
-                                id = peru.6
-                                hours = 12
-                                random_hours = 12
+                            ECU = {
+                                country_event = {
+                                    id = peru.6
+                                    hours = 20
+                                    random_hours = 24
+                                }
                             }
                         }
-                    }
-                    else_if = {
-                        limit = {
+                        else_if = {
+                            limit = {
+                                COL = {
+                                    exists = yes 
+                                    NOT = {
+                                        OR = {
+                                            has_war_with = CHL 
+                                            has_war_with = BOL 
+                                            has_war_with = PRU 
+                                            has_country_flag = is_in_second_war_of_the_pacific
+                                        }
+                                    }
+                                }
+                            }
                             COL = {
-                                exists = yes 
-                                NOT = {
-                                    OR = {
-                                        has_war_with = CHL 
-                                        has_war_with = BOL 
-                                        has_war_with = PRU 
-                                        has_country_flag = is_in_second_war_of_the_pacific
-                                    }
+                                country_event = {
+                                    id = peru.6
+                                    hours = 20
+                                    random_hours = 24
                                 }
-                            }
-                        }
-                        COL = {
-                            country_event = {
-                                id = peru.6
-                                hours = 12
-                                random_hours = 12
                             }
                         }
                     }
@@ -1108,12 +1123,6 @@ on_actions = {
                         original_tag = PRU
                     }
                     has_civil_war = no
-                    NOT = {
-                        OR = {
-                            has_country_flag = is_in_second_war_of_the_pacific
-                            has_country_flag = is_in_second_war_of_confederation
-                        }
-                    }
 					FROM = {
 						OR = {
                             original_tag = ECU 
@@ -1144,7 +1153,15 @@ on_actions = {
                                     OR = {
                                         has_war_with = ECU  
                                         has_war_with = PRU
+                                        is_in_faction_with = PRU 
+                                        is_in_faction_with = ECU
                                     }
+                                }
+                            }
+                            NOT = { ## may eventually do US related intervention events with these wars
+                                OR = {
+                                    has_global_flag = EUYL_second_war_of_the_pacific_flag
+                                    has_global_flag = EUYL_second_war_of_the_confederation_flag
                                 }
                             }
                         }
@@ -4493,13 +4510,46 @@ on_actions = {
         effect = {
             if = {
                 limit = {
-                    has_game_rule = {
-                        rule = EUYL_chaos_mode
-                        option = YES
-                    }
-                    threat < 1
+                    has_active_mission = ECU_la_gloriosa_mission
+                    has_idea = ECU_la_gloriosa
+                    has_civil_war = no 
                 }
-                add_threat = 3
+                random_list = {
+                    50 = {
+                        modifier = {
+                            factor = 0.5 
+                            has_stability > 0.5
+                        }
+                        modifier = {
+                            factor = 0 
+                            OR = {
+                                has_country_leader = {
+                                    character = ECU_provisional_junta
+                                    ruling_only = yes 
+                                }
+                                has_country_leader = {
+                                    character = ECU_jose_velasco_ibarra
+                                    ruling_only = yes 
+                                }
+                            }
+                        }
+                        random_owned_controlled_state = {
+                            limit = {
+                                is_core_of = ROOT 
+                            }
+                            ROOT = {
+                                country_event = {
+                                    id = ecu.17 
+                                    days = 2
+                                    random_days = 2
+                                }
+                            }
+                        }
+                    }
+                    90 = {
+
+                    }
+                }
             }
         }
     }
