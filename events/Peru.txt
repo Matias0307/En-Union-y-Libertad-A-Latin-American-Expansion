@@ -3197,74 +3197,34 @@ country_event = {
 				}
 				PRU_increase_army_15_percent = yes 
 			}	
-		}
-		if = { 
-			limit = { has_dlc = "No Step Back" }
-			send_equipment = {
-				equipment = light_tank_chassis_2
-				amount = 150
-				target = FROM
-			}
-		}
-		else = {
-			send_equipment = {
-				equipment = light_tank_equipment_2
-				amount = 150
-				target = FROM
-			}
-		}
-		add_offsite_building = { 
-			type = industrial_complex 
-			level = 1
-		}
-	}
-
-	option = { #give them ok-ish light tanks 
-		name = peru.33.b
-		ai_chance = {
-			base = 20
-			modifier = {
-				add = 30
-				has_opinion = {
-					target = FROM
-					value > 49
+			add_tech_bonus = {
+                name = armor_bonus
+                bonus = 1
+                uses = 1
+                category = armor
+            }
+			if = {
+				limit = {
+					has_dlc = "No Step Back"
 				}
-			}
-			modifier = {
-				add = 50
-				has_opinion = {
-					target = FROM
-					value > 79
+				if = {
+					limit = {
+						has_tech = basic_light_tank_chassis
+					}
+					PRU_ltp_template_and_production = yes
 				}
-			}
-			modifier = {
-				add = 40
-				has_war = no 
-			}
-		}
-		FROM = {
-			random_owned_controlled_state = {
-				limit = { industrial_complex > 1 }
-				remove_building = {
-					type = industrial_complex
-					level = 1
+				else = {
+					set_technology = { basic_light_tank_chassis = 1 }
+					PRU_ltp_template_and_production = yes
 				}
+			
 			}
-			country_event = { id = peru.16 hours = 4 }
-		}
-		if = { 
-			limit = { has_dlc = "No Step Back" }
-			send_equipment = {
-				equipment = light_tank_chassis_1
-				amount = 150
-				target = FROM
-			}
-		}
-		else = {
-			send_equipment = {
-				equipment = light_tank_equipment_1
-				amount = 150
-				target = FROM
+			else = {
+				add_equipment_to_stockpile = {
+					type = light_tank_chassis
+					amount = 350
+					producer = CZE
+				}
 			}
 		}
 		add_offsite_building = { 
