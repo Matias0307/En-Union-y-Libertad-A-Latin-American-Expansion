@@ -98,6 +98,10 @@ ECU_liberal_conservative_conflict = {
 
 		days_remove = 25
 
+		ai_will_do = {
+			factor = 275
+		}
+
 		modifier = {
 			political_power_cost = 0.1
 		}
@@ -212,6 +216,10 @@ ECU_liberal_conservative_conflict = {
 			political_power_cost = 0.1
 		}
 
+		ai_will_do = {
+			factor = 275
+		}
+
 		complete_effect = {
 			add_to_variable = {
 				ECU_liberal_quelled_var = 1
@@ -279,6 +287,10 @@ ECU_liberal_conservative_conflict = {
 
 		days_remove = 70
 
+		ai_will_do = {
+			factor = 200
+		}
+
 		modifier = {
 			stability_weekly = -0.01
 		}
@@ -301,8 +313,7 @@ ECU_liberal_conservative_conflict = {
 		is_good = no 
 
 		available = {
-			#has_completed_focus = ECU_imprison_gallo
-			always = no
+			has_completed_focus = ECU_imprison_gallo
 		}
 
 		cancel_trigger = {
@@ -437,6 +448,10 @@ ECU_liberal_conservative_conflict = {
 
 		cost = 50
 
+		ai_will_do = {
+			factor = 375
+		}
+
 		visible = {
 			ECU_has_active_conservative_agitation = yes 
 			NOT = {
@@ -457,6 +472,10 @@ ECU_liberal_conservative_conflict = {
 		icon = generic_political_address
 
 		cost = 50
+
+		ai_will_do = {
+			factor = 375
+		}
 
 		visible = {
 			ECU_has_active_liberal_agitation = yes
@@ -489,6 +508,42 @@ ECU_liberal_conservative_conflict = {
 			}
 		}
 
+		ai_will_do = {
+			base = 4
+			modifier = {
+				factor = 20
+				has_completed_focus = ECU_support_gallo
+			}
+			modifier = {
+				factor = 5
+				check_variable = {
+					ECU_liberal_opinion < 3
+				}
+			}
+			modifier = {
+				factor = 20
+				has_completed_focus = ECU_stabilize_our_politics
+			}
+			modifier = {
+				factor = 3
+				has_completed_focus = ECU_depoliticize_the_navy
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					has_completed_focus = ECU_the_elections_that_shouldve_been
+					AND = {
+						check_variable = {
+							ECU_conservative_opinion < 0
+						}
+						check_variable = {
+							ECU_liberal_opinion > 1
+						}
+					}
+				}
+			}
+		}
+
 		available = {
 			custom_trigger_tooltip = {
 				tooltip = ECU_NOT_has_active_liberal_agitation_tt
@@ -502,6 +557,11 @@ ECU_liberal_conservative_conflict = {
 			}
 			NOT = {
 				has_country_flag = ECU_meddling_in_politics_flag
+			}
+			hidden_trigger = {
+				check_variable = {
+					ECU_liberal_opinion < 3
+				}
 			}
 		}
 
@@ -536,6 +596,35 @@ ECU_liberal_conservative_conflict = {
 			}
 		}
 
+		ai_will_do = {
+			base = 4
+			modifier = {
+				factor = 40
+				has_completed_focus = ECU_the_elections_that_shouldve_been
+			}
+			modifier = {
+				factor = 5
+				check_variable = {
+					ECU_conservative_opinion < 3
+				}
+			}
+			modifier = {
+				factor = 20
+				has_completed_focus = ECU_stabilize_our_politics
+			}
+			modifier = {
+				factor = 0
+				check_variable = {
+					ECU_liberal_opinion < -1
+				}
+				has_idea = ECU_pro_conservative_navy
+			}
+			modifier = {
+				factor = 0
+				has_completed_focus = ECU_support_gallo
+			}
+		}
+
 		available = {
 			custom_trigger_tooltip = {
 				tooltip = ECU_NOT_has_active_conservative_agitation_tt
@@ -549,6 +638,11 @@ ECU_liberal_conservative_conflict = {
 			}
 			NOT = {
 				has_country_flag = ECU_meddling_in_politics_flag
+			}
+			hidden_trigger = {
+				check_variable = {
+					ECU_conservative_opinion < 3
+				}
 			}
 		}
 
@@ -589,6 +683,10 @@ ECU_liberal_conservative_conflict = {
 
 		cost = 20
 
+		ai_will_do = {
+			factor = 275
+		}
+
 		days_remove = 40
 
 		remove_effect = {
@@ -614,6 +712,14 @@ ECU_liberal_conservative_conflict = {
 			FROM = {
 				is_fully_controlled_by = ROOT 
 				is_island_state = no 
+			}
+		}
+
+		ai_will_do = {
+			factor = 275
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
 			}
 		}
 
@@ -682,6 +788,10 @@ ECU_liberal_conservative_conflict = {
 
 		available = {
 			has_civil_war = no 
+		}
+
+		ai_will_do = {
+			factor = 275
 		}
 
 		cost = 25
@@ -816,6 +926,10 @@ ECU_economic_reignition_cat = {
 
 		available = {
 			has_civil_war = no 
+		}
+
+		ai_will_do = {
+			base = 90
 		}
 
 		cost = 50
@@ -1038,7 +1152,7 @@ EUYL_peru_ecuador_rising_tensions = {
 		ai_will_do = {
 			base = 130
 			modifier = {
-				factor = 2
+				factor = 3
 				strength_ratio = {
 					tag = ECU 
 					ratio > 1
@@ -1073,13 +1187,13 @@ EUYL_peru_ecuador_rising_tensions = {
 			clr_country_flag = PRU_preparing_skirmish_flag
 			add_days_mission_timeout = {
 				mission = EUYL_conflict_escalation
-				days = -90
+				days = -95
 			}
 			hidden_effect = {
-				PRU = {
+				ECU = {
 					add_days_mission_timeout = {
 						mission = EUYL_conflict_escalation
-						days = -90
+						days = -95
 					}
 				}
 			}
@@ -1204,23 +1318,7 @@ EUYL_peru_ecuador_rising_tensions = {
 				add_command_power = -25 
 				add_political_power = -25
 			}
-			if = {
-				limit = {
-					has_active_mission = EUYL_conflict_escalation
-				}
-				add_days_mission_timeout = {
-					mission = EUYL_conflict_escalation
-					days = -210
-				}
-				hidden_effect = {
-					ECU = {
-						add_days_mission_timeout = {
-							mission = EUYL_conflict_escalation
-							days = -210
-						}
-					}
-				}
-			}
+			EUYL_step_up_tension = yes
 			remove_ideas = PRU_1936_status_quo
 			ECU = {
 				remove_ideas = ECU_1936_status_quo
@@ -1530,6 +1628,10 @@ EUYL_peru_ecuador_rising_tensions = {
 
 		ai_will_do = {
 			base = 175
+			modifier = {
+				factor = 2
+				surrender_progress > 0.05
+			}
 		}
 
 		cancel_trigger = {
@@ -2159,6 +2261,14 @@ EUYL_peru_ecuador_rising_tensions = {
 			}
 		}
 
+		ai_will_do = {
+			base = 90
+			modifier = {
+				factor = 2
+				surrender_progress > 0.05
+			}
+		}
+
 		cost = 25
 
 		days_remove = 35
@@ -2201,6 +2311,10 @@ EUYL_peru_ecuador_rising_tensions = {
 
 		visible = {
 			has_war_with = PRU 
+		}
+
+		ai_will_do = {
+			base = 315
 		}
 
 		on_map_mode = map_and_decisions_view
@@ -2467,6 +2581,16 @@ ECU_the_revolution_lives_on_cat = {
 			has_completed_focus = ECU_the_revolution_lives_on
 		}
 
+		ai_will_do = {
+			base = 75
+			modifier = {
+				factor = 3
+				FROM = {
+					communism < 0.4
+				}
+			}
+		}
+
 		cost = 25
 
 		days_remove = 70
@@ -2548,6 +2672,10 @@ ECU_the_revolution_lives_on_cat = {
 		}
 
 		on_map_mode = map_and_decisions_view
+
+		ai_will_do = {
+			base = 145
+		}
 
 		cost = 25
 
@@ -2775,6 +2903,14 @@ ECU_national_mobilization_cat = {
 
 		on_map_mode = map_and_decisions_view
 
+		ai_will_do = {
+			base = 115
+			modifier = {
+				factor = 2
+				has_manpower < 99999
+			}
+		}
+
 		cost = 25
 
 		days_remove = 50
@@ -2817,6 +2953,10 @@ ECU_reforming_the_lost_unions = {
 					state = 316
 				}
 			}
+		}
+
+		ai_will_do = {
+			factor = 750
 		}
 
 		on_map_mode = map_and_decisions_view
@@ -2981,6 +3121,10 @@ ECU_reforming_the_lost_unions = {
 					state = 487 
 				}
 			}
+		}
+
+		ai_will_do = {
+			factor = 750
 		}
 
 		on_map_mode = map_and_decisions_view
@@ -3159,6 +3303,10 @@ ECU_reforming_the_lost_unions = {
 					state = 688
 				}
 			}
+		}
+
+		ai_will_do = {
+			factor = 750
 		}
 
 		on_map_mode = map_and_decisions_view
@@ -3351,6 +3499,10 @@ ECU_reforming_the_lost_unions = {
 			}
 		}
 
+		ai_will_do = {
+			factor = 750
+		}
+
 		on_map_mode = map_and_decisions_view
 
 		available = {
@@ -3515,6 +3667,10 @@ ECU_reforming_the_lost_unions = {
 			}
 		}
 
+		ai_will_do = {
+			factor = 750
+		}
+
 		on_map_mode = map_and_decisions_view
 
 		available = {
@@ -3653,6 +3809,10 @@ ECU_reforming_the_lost_unions = {
 			}
 		}
 
+		ai_will_do = {
+			factor = 750
+		}
+
 		cost = 10
 
 		fire_only_once = yes 
@@ -3693,6 +3853,10 @@ ECU_reforming_the_lost_unions = {
 				is_subject_of = ROOT 
 				has_country_flag = ECU_puppeted_flag
 			}
+		}
+
+		ai_will_do = {
+			factor = 750
 		}
 
 		cost = 10
@@ -3753,6 +3917,10 @@ ECU_reforming_the_lost_unions = {
 					state = 474
 				}
 			}
+		}
+
+		ai_will_do = {
+			factor = 750
 		}
 
 		on_map_mode = map_and_decisions_view
@@ -3927,6 +4095,10 @@ ECU_reforming_the_lost_unions = {
 			}
 		}
 
+		ai_will_do = {
+			factor = 750
+		}
+
 		on_map_mode = map_and_decisions_view
 
 		available = {
@@ -4063,6 +4235,10 @@ ECU_reforming_the_lost_unions = {
 			}
 		}
 
+		ai_will_do = {
+			factor = 750
+		}
+
 		cost = 10
 
 		fire_only_once = yes 
@@ -4108,6 +4284,10 @@ ECU_reforming_the_lost_unions = {
 					state = 507
 				}
 			}
+		}
+
+		ai_will_do = {
+			factor = 750
 		}
 
 		on_map_mode = map_and_decisions_view
@@ -4254,6 +4434,10 @@ ECU_reforming_the_lost_unions = {
 					state = 990
 				}
 			}
+		}
+
+		ai_will_do = {
+			factor = 750
 		}
 
 		on_map_mode = map_and_decisions_view
@@ -4412,6 +4596,10 @@ ECU_reforming_the_lost_unions = {
 					state = 364
 				}
 			}
+		}
+
+		ai_will_do = {
+			factor = 750
 		}
 
 		on_map_mode = map_and_decisions_view
@@ -4636,6 +4824,10 @@ ECU_reforming_the_lost_unions = {
 			}
 		}
 
+		ai_will_do = {
+			factor = 750
+		}
+
 		on_map_mode = map_and_decisions_view
 
 		available = {
@@ -4831,6 +5023,14 @@ ECU_cooperating_with_the_fascists = {
 			}
 		}
 
+		ai_will_do = {
+			base = 120
+			modifier = {
+				factor = 2
+				fascism < 0.45
+			}
+		}
+
 		cost = 25
 
 		days_remove = 50
@@ -4867,6 +5067,10 @@ ECU_cooperating_with_the_fascists = {
 			highlight_states_trigger = {
 				state = 972
 			}
+		}
+
+		ai_will_do = {
+			factor = 175
 		}
 
 		on_map_mode = map_only
@@ -4941,6 +5145,10 @@ ECU_the_united_kingdom_of_peru_ecuador_and_bolivia = {
 			}
 		}
 
+		ai_will_do = {
+			factor = 750
+		}
+
 		complete_effect = {
 			drop_cosmetic_tag = yes 
 			set_cosmetic_tag = ECU_UNITED_KINGDOM
@@ -4955,6 +5163,9 @@ ECU_the_united_kingdom_of_peru_ecuador_and_bolivia = {
 						state = 951
 						state = 1035
 						state = 995
+						state = 993
+						state = 992
+						state = 688
 					}
 					NOT = {
 						is_core_of = ROOT 
@@ -5103,6 +5314,396 @@ ECU_the_united_kingdom_of_peru_ecuador_and_bolivia = {
 		remove_effect = {
 			FROM = {
 				add_core_of = ROOT
+			}
+		}
+	}
+}
+
+ECU_fuerzas_armadas_ecuatorianas = {
+	ECU_invite_FROM_advisors = {
+		icon = generic_army_support
+
+		target_trigger = {
+			FROM = {
+				OR = {
+					original_tag = SOV 
+					original_tag = GER 
+					original_tag = ENG 
+					original_tag = JAP
+					original_tag = USA 
+					original_tag = ITA 
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 5
+			modifier = {
+				factor = 10
+				threat > 0.1
+			}
+			modifier = {
+				factor = 20
+				OR = {
+					has_war_with = PRU 
+					check_variable = {
+						EUYL_peru_ecuador_threat_level > 3
+					}
+				}
+			}
+		}
+
+		visible = {
+			has_completed_focus = ECU_seek_foreign_military_advising
+			FROM = {
+				exists = yes 
+				is_major = yes 
+				num_of_controlled_states > 5
+			}
+		}
+
+		available = {
+			NOT = {
+				has_country_flag = ECU_recently_seeked_advisors_flag
+			}
+			FROM = {
+				NOT = {
+					has_war_with = ROOT 
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_government = fascism 
+					}
+				}
+				FROM = {
+					NOT = {
+						has_government = fascism
+					}
+				}
+			}
+		}
+
+		custom_cost_text = decision_cost_CP_25_pp_25
+		custom_cost_trigger = {
+			has_political_power > 24
+			command_power > 24
+		}
+
+		fire_only_once = yes 
+
+		complete_effect = {
+			hidden_effect = {
+				add_command_power = -25 
+				add_political_power = -25
+				FROM = {
+					set_country_flag = ECU_seeked_advisors_from_here_flag
+				}
+			}
+			if = {
+				limit = {
+					FROM = {
+						original_tag = GER 
+					}
+				}
+				custom_effect_tooltip = ECU_modify_ejercito_ecuatoriano_tt
+				add_to_variable = {
+					ECU_army_modifier_army_armor_attack_factor = 0.05
+					tooltip = army_armor_attack_factor_tt
+				}
+				add_to_variable = {
+					ECU_army_production_speed_arms_factory_factor = 0.05
+					tooltip = production_speed_arms_factory_factor_tt
+				}
+			}
+			else_if = {
+				limit = { 
+					FROM = {
+						original_tag = ITA 
+					}
+				}
+				custom_effect_tooltip = ECU_modify_ejercito_ecuatoriano_tt
+				add_to_variable = {
+					ECU_army_modifier_max_command_power_mult = 0.1
+					tooltip = max_planning_factor_tt
+				}
+				add_to_variable = {
+					ECU_supply_combat_penalties_on_core_factor = -0.1
+					tooltip = supply_combat_penalties_on_core_factor_tt
+				}
+			}
+			else_if = {
+				limit = { 
+					FROM = {
+						original_tag = JAP 
+					}
+				}
+				custom_effect_tooltip = ECU_modify_ejercito_ecuatoriano_tt
+				add_to_variable = {
+					ECU_army_modifier_army_defence_factor = 0.05
+					tooltip = army_defence_factor_tt
+				}
+				add_to_variable = {
+					ECU_army_modifier_army_attack_factor = 0.03
+					tooltip = army_attack_factor_tt
+				}
+			}
+			else_if = {
+				limit = { 
+					FROM = {
+						original_tag = USA 
+					}
+				}
+				custom_effect_tooltip = ECU_modify_ejercito_ecuatoriano_tt
+				add_to_variable = {
+					ECU_army_modifier_experience_gain_army_factor = 0.1
+					tooltip = experience_gain_army_factor_tt
+				}
+				add_to_variable = {
+					ECU_modifier_production_speed_supply_node_factor = 0.1
+					tooltip = production_speed_supply_node_factor_tt
+				}
+				add_to_variable = {
+					JUNO_army_modifier_production_speed_anti_air_building_factor = 0.05
+					tooltip = production_speed_anti_air_building_factor_tt
+				}
+			}
+			else_if = {
+				limit = { 
+					FROM = {
+						original_tag = SOV 
+					}
+				}
+				custom_effect_tooltip = ECU_modify_ejercito_ecuatoriano_tt
+				add_to_variable = {
+					ECU_ejercito_conscription = 0.01
+					tooltip = conscription_tt
+				}
+				add_to_variable = {
+					ECU_army_modifier_army_artillery_attack_factor = 0.03
+					tooltip = artillery_attack_factor_tt
+				}
+				add_to_variable = {
+					army_artillery_defence_factor = 0.03
+					tooltip = army_artillery_defence_factor_tt
+				}
+			}
+			else = { ## ENG
+				custom_effect_tooltip = ECU_modify_ejercito_ecuatoriano_tt
+				add_to_variable = {
+					ECU_army_modifier_max_planning_factor = 0.05
+					tooltip = max_planning_factor_tt
+				}
+				add_to_variable = {
+					ECU_army_modifier_planning_speed_factor = 0.1
+					tooltip = planning_speed_factor_tt
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			FROM = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = ECU_invited_our_advisors
+				}
+			}
+
+			set_country_flag = {
+				flag = ECU_recently_seeked_advisors_flag
+				days = 180
+				value = 1
+			}
+		}
+	}
+
+	ECU_allocate_industrial_resources_to_plane_production_decision = {
+		icon = generic_air
+
+		cost = 50
+
+		visible = {
+			has_completed_focus = ECU_allocate_industrial_resources_to_plane_production
+			num_of_civilian_factories_available_for_projects > 1
+		}
+
+		days_remove = 180
+
+		days_re_enable = 180
+
+		modifier = {
+			civilian_factory_use = 2
+		}
+
+		complete_effect = {
+			add_ideas = ARG_expand_air_force
+		}
+
+		remove_effect = {
+			remove_ideas = ARG_expand_air_force
+			custom_effect_tooltip = EUYL_decision_will_reappear_in_180_days_tt
+		}
+	}
+
+	ECU_initiate_a_dockyard_expansion_project_in_FROM = {
+		icon = generic_merge_plant_ship
+
+		state_target = yes 
+
+		targets = { 1037 972 305 }
+
+		cost = 30
+
+		days_remove = 90
+
+		visible = {
+			has_completed_focus = ECU_dockyard_facility_expansion
+			FROM = {
+				is_fully_controlled_by = ROOT
+			}
+		}
+
+		ai_will_do = {
+			base = 90
+			modifier = {
+				factor = 1.5
+				has_navy_size = {
+					size < 9
+				}
+			}
+		}
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 0
+			hidden_trigger = {
+				NOT = {
+					has_country_flag = ECU_constructing_dockyard_flag
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+
+		complete_effect = {
+			set_country_flag = ECU_constructing_dockyard_flag
+		}
+
+		remove_effect = {
+			clr_country_flag = ECU_constructing_dockyard_flag
+			FROM = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+}
+
+ECU_bananas_for_all = {
+	ECU_establish_a_banana_plantation_in_FROM = {
+		icon = GFX_EUYL_banana_icon
+
+		state_target = yes 
+
+		target_array = controlled_states
+
+		target_trigger = {
+			FROM = {
+				NOT = {
+					has_dynamic_modifier = {
+						modifier = ECU_local_banana_production
+					}
+				}
+			}
+		}
+
+		cost = 20
+
+		days_remove = 35
+
+		modifier = {
+			political_power_factor = -0.1
+		}
+
+		on_map_mode = map_only
+
+		fire_only_once = yes
+
+		visible = {
+			has_completed_focus = ECU_bananas_for_all_f
+		}
+
+		remove_effect = {
+			FROM = {
+				add_dynamic_modifier = {
+					modifier = ECU_local_banana_production
+				}
+				if = {
+					limit = {
+						NOT = {
+							is_core_of = ROOT
+						}
+					}
+					add_compliance = 15
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			if = {
+				limit = {
+					OR = {
+						check_variable = { ECU_banana_company_industrial_capacity_dockyard < 0.15 }
+						check_variable = { ECU_banana_company_industrial_capacity_factory < 0.2 }
+						check_variable = { ECU_banana_company_production_speed_buildings_factor < 0.15 }
+						check_variable = { ECU_banana_company_local_resources_factor < 0.1 }
+					}
+				}
+				custom_effect_tooltip = ECU_modify_banana_company_administration_tt
+				if = {
+					limit = {
+						check_variable = { ECU_banana_company_industrial_capacity_factory < 0.2 }
+					}
+					add_to_variable = {
+						ECU_banana_company_industrial_capacity_factory = 0.01
+						tooltip = industrial_capacity_factory_tt
+					}
+				}
+				if = {
+					limit = {
+						check_variable = { ECU_banana_company_industrial_capacity_dockyard < 0.15 }
+					}
+					add_to_variable = {
+						ECU_banana_company_industrial_capacity_dockyard = 0.01
+						tooltip = industrial_capacity_dockyard_tt
+					}
+				}
+				if = {
+					limit = {
+						check_variable = { ECU_banana_company_production_speed_buildings_factor < 0.15 }
+					}
+					add_to_variable = {
+						ECU_banana_company_production_speed_buildings_factor = 0.01
+						tooltip = production_speed_buildings_factor_tt
+					}
+				}
+				if = {
+					limit = {
+						check_variable = { ECU_banana_company_local_resources_factor < 0.1 }
+					}
+					add_to_variable = {
+						ECU_banana_company_local_resources_factor = 0.01
+						tooltip = local_resources_factor_tt
+					}
+				}
 			}
 		}
 	}

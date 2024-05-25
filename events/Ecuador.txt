@@ -2097,3 +2097,180 @@ country_event = {
 		name = ecu.21.a 
 	}
 }
+
+## The Banana Company Offers to Take Administrative Power of the Country ## EASTER EGG
+country_event = {
+	id = ecu.22
+	title = ecu.22.t 
+	desc = ecu.22.d 
+	picture = GFX_ECU_banana_company_event
+
+	fire_only_once = yes 
+
+	trigger = {
+		original_tag = ECU 
+		has_country_leader = {
+			character = ECU_asamblea_constituyente
+			ruling_only = yes 
+		}
+		has_idea = ECU_united_fruit_company
+	}
+
+	option = { ## We don't have a choice...
+		name = ecu.22.a 
+		ai_chance = {
+			base = 15
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+
+		drop_cosmetic_tag = yes
+
+		set_cosmetic_tag = ECU_BANANA_COMPANY
+		add_country_leader_role = {
+			character = ECU_banana_company_administration
+			promote_leader = yes
+			country_leader = {
+				ideology = anarcho_capitalism
+				traits = { ECU_low_public_support }
+				expire = "1965.3.1.1"
+			}
+		}
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		custom_effect_tooltip = ECU_focus_tree_changed_tt
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		every_other_country = {
+			limit = {
+				capital_scope = {
+					is_on_continent = south_america
+				}
+			}
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = ARG_poses_global_threat
+			}
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = ECU_the_constituent_assembly
+				}
+				remove_ideas = ECU_the_constituent_assembly
+			}
+			if = {
+				limit = {
+					has_idea = ECU_aftermath_of_4_day_civil_war_1
+				}
+				remove_ideas = ECU_aftermath_of_4_day_civil_war_1
+			}
+
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.5
+			}
+
+			set_global_flag = ECU_banana_company_takeover_flag
+
+			remove_ideas = ECU_united_fruit_company
+
+			mark_focus_tree_layout_dirty = yes
+
+			news_event = {
+				id = ecu.23 
+				days = 2
+			}
+
+			set_variable = { ECU_banana_company_industrial_capacity_factory = 0 }
+			set_variable = { ECU_banana_company_industrial_capacity_dockyard = 0 }
+			set_variable = { ECU_banana_company_production_speed_buildings_factor = 0 }
+			set_variable = { ECU_banana_company_local_resources_factor = 0 }
+		}
+	}
+
+	option = { ## Nothing will happen!
+		name = ecu.22.b
+		ai_chance = {
+			base = 3
+		}
+		remove_ideas = ECU_united_fruit_company
+		add_stability = -0.03
+	}
+}
+
+## Banana Company Takes Over in Ecuador
+news_event = {
+	id = ecu.23
+	title = ecu.23.t 
+	desc = ecu.23.d 
+	picture = GFX_ECU_banana_company_take_over_pic
+
+	is_triggered_only = yes 
+
+	major = yes 
+
+	option = {
+		name = ecu.23.a 
+		trigger = {
+			original_tag = ECU
+		}
+	}
+
+	option = {
+		name = ecu.23.b 
+		trigger = {
+			NOT = {
+				original_tag = ECU
+			}
+		}
+	}
+}
+
+## The Formation of the ARNE ##
+country_event = {
+	id = ecu.24
+	title = ecu.24.t 
+	desc = ecu.24.d 
+	picture = GFX_report_event_generic_military_parade
+
+	is_triggered_only = yes 
+
+	option = {
+		name = ecu.23.a 
+		set_party_name = {
+			ideology = fascism
+			long_name = "Acción Revolucionaria Nacionalista Ecuatoriana"
+			name = "ARNE"
+		}
+		add_stability = -0.01
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.01
+		}
+	}
+}
+
+## Edmundo Chiriboga Killed in Combat ##
+country_event = {
+	id = ecu.25
+	title = ecu.25.t 
+	desc = ecu.25.d 
+	picture = GFX_ECU_edmundo_death_pic
+
+	is_triggered_only = yes 
+
+	option = {
+		name = ecu.25.a 
+		custom_effect_tooltip = ECU_edmundo_passes_away_tt
+		hidden_effect = {
+			retire_character = ECU_edmundo_chiriboga
+		}
+	}
+}

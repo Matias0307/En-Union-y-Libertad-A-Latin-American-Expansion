@@ -567,6 +567,11 @@ focus_tree = {
 					days = -50
 				}
 				hidden_effect = {
+					add_ai_strategy = {
+						type = prepare_for_war
+						id = PRU
+						value = 70
+					}
 					PRU = {
 						add_days_mission_timeout = {
 							mission = EUYL_conflict_escalation
@@ -754,6 +759,7 @@ focus_tree = {
 		prerequisite = {
 			focus = ECU_formalize_militia_regiments
 		}
+		will_lead_to_war_with = PRU
 
 		cost = 6
 
@@ -768,6 +774,11 @@ focus_tree = {
 			modifier = {
 				factor = 0
 				has_war = yes
+			}
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes 
+				date < 1941.7.5
 			}
 		}
 
@@ -953,6 +964,7 @@ focus_tree = {
 					has_completed_focus = ECU_recovering_what_was_forgotten
 					has_completed_focus = ECU_revive_a_lost_idea
 					has_completed_focus = ECU_the_colombo_ecuadorian_union
+					has_global_flag = ECU_banana_company_takeover_flag
 				}
 			}
 		}
@@ -1004,6 +1016,10 @@ focus_tree = {
 
 		cost = 5
 
+		ai_will_do = {
+			base = 4
+		}
+
 		search_filters = {
 			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL
 		}
@@ -1034,6 +1050,10 @@ focus_tree = {
 		}
 
 		cost = 5
+
+		ai_will_do = {
+			base = 4
+		}
 
 		search_filters = {
 			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL FOCUS_FILTER_POLITICAL
@@ -1067,6 +1087,14 @@ focus_tree = {
 
 		cost = 7.2
 
+		ai_will_do = {
+			base = 2
+			modifier = {
+				factor = 3
+				has_idea = ECU_active_inflationary_crisis
+			}
+		}
+
 		search_filters = {
 			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ECONOMIC_GROWTH FOCUS_FILTER_RESEARCH
 		}
@@ -1098,6 +1126,10 @@ focus_tree = {
 			has_idea = ECU_active_inflationary_crisis
 		}
 
+		ai_will_do = {
+			base = 4
+		}
+
 		cost = 10
 
 		search_filters = {
@@ -1124,6 +1156,10 @@ focus_tree = {
 		}
 
 		cost = 10
+
+		ai_will_do = {
+			base = 4
+		}
 
 		available = {
 			NOT = {
@@ -1164,6 +1200,14 @@ focus_tree = {
 			has_civil_war = no 
 		}
 
+		ai_will_do = {
+			base = 4
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+
 		cost = 5
 
 		search_filters = {
@@ -1191,6 +1235,10 @@ focus_tree = {
 		}
 
 		cost = 7.2
+
+		ai_will_do = {
+			base = 4
+		}
 
 		search_filters = {
 			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ECONOMIC_GROWTH
@@ -1255,6 +1303,10 @@ focus_tree = {
 
 		cost = 10
 
+		ai_will_do = {
+			base = 4
+		}
+
 		available = {
 			has_idea = ECU_active_inflationary_crisis
 		}
@@ -1281,6 +1333,10 @@ focus_tree = {
 			focus = ECU_returned_to_the_gold_standard_focus
 		}
 		cost = 5
+
+		ai_will_do = {
+			base = 8
+		}
 
 		available = {
 			any_controlled_state = {
@@ -1349,6 +1405,10 @@ focus_tree = {
 		}
 
 		cost = 7.2
+
+		ai_will_do = {
+			base = 4
+		}
 
 		available = {
 			1010 = {
@@ -1509,6 +1569,10 @@ focus_tree = {
 			}
 		}
 
+		ai_will_do = {
+			base = 3
+		}
+
 		search_filters = {
 			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ECONOMIC_GROWTH
 		}
@@ -1540,6 +1604,11 @@ focus_tree = {
 			}
 			custom_effect_tooltip = CHL_skip_one_line_tt
 			EUYL_add_2_civilian = yes
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = ECU_cesar_d_andrade_idea
 		}
 	}
 
@@ -1651,6 +1720,10 @@ focus_tree = {
 		}
 
 		cost = 10
+
+		ai_will_do = {
+			base = 3
+		}
 
 		search_filters = {
 			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ECONOMIC_GROWTH
@@ -2083,6 +2156,14 @@ focus_tree = {
 
 		cost = 5
 
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+
 		available = {
 			any_other_country = {
 				is_major = yes 
@@ -2159,7 +2240,47 @@ focus_tree = {
 		x = 40
 		y = 0
 
+		allow_branch = {
+			NOT = {
+				has_global_flag = ECU_banana_company_takeover_flag
+			}
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					OR = {	
+						has_completed_focus = ECU_support_gallo
+						has_completed_focus = ECU_the_paez_dictatorship
+					}
+				}
+			}
+		}
+
+		offset = {
+			x = -16
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ECU_the_elections_that_shouldve_been
+			}
+		}
+
 		cost = 2.9
+
+		ai_will_do = {
+			base = 20
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
 
 		available = {
 			has_country_flag = ECU_cooperated_with_conservatives_flag
@@ -2190,6 +2311,21 @@ focus_tree = {
 				ECU_neptali_bonifaz = {
 					clr_character_flag = ECU_not_actively_in_politics_flag
 				}
+				country_event = { ## Formation of the ARNE
+					id = ecu.24 
+					days = 1020
+					random_days = 275
+				}
+			}
+
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				mark_focus_tree_layout_dirty = yes
 			}
 		}
 	}
@@ -2203,6 +2339,10 @@ focus_tree = {
 		relative_position_id = ECU_the_elections_that_shouldve_been
 		prerequisite = {
 			focus = ECU_the_elections_that_shouldve_been
+		}
+
+		ai_will_do = {
+			base = 5
 		}
 
 		cost = 6
@@ -2240,6 +2380,10 @@ focus_tree = {
 		relative_position_id = ECU_the_elections_that_shouldve_been
 		prerequisite = {
 			focus = ECU_the_elections_that_shouldve_been
+		}
+
+		ai_will_do = {
+			base = 5
 		}
 
 		cost = 7.2 
@@ -2293,6 +2437,16 @@ focus_tree = {
 			focus = ECU_slander_the_current_government
 		}
 
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 5
+				check_variable = {
+					ECU_conservative_opinion > 2
+				}
+			}
+		}
+
 		cost = 5
 
 		available = {
@@ -2343,7 +2497,7 @@ focus_tree = {
 						ideology = democratic
 						ruling_party = neutrality
 						capital = 972 
-						states = { 972 }
+						states = { 972 305 }
 						keep_all_characters = yes 
 						PREV = {
 							ECU_alberto_enriquez_gallo = {
@@ -2366,7 +2520,7 @@ focus_tree = {
 						ideology = democratic
 						ruling_party = neutrality
 						capital = 972 
-						states = { 972 305 }
+						states = { 972 305 1037 }
 						keep_all_characters = yes 
 						PREV = {
 							ECU_alberto_enriquez_gallo = {
@@ -2384,7 +2538,7 @@ focus_tree = {
 						ideology = democratic
 						ruling_party = neutrality
 						capital = 972 
-						states = { 972 305 1037 }
+						states = { 972 305 1037 1020 }
 						keep_all_characters = yes 
 						PREV = {
 							ECU_alberto_enriquez_gallo = {
@@ -2399,6 +2553,9 @@ focus_tree = {
 				}
 				ECU_conservative_army = {
 					add_corps_commander_role = {
+						visible = {
+							has_civil_war = yes
+						}
 						skill = 3
 						attack_skill = 4
 						defense_skill = 3
@@ -2429,11 +2586,11 @@ focus_tree = {
 				if = {
 					limit = {
 						NOT = {
-							has_template = "Brigada Ecuatoriana"
+							has_template = "Milicias"
 						}
 					}
 					division_template = {
-						name = "Brigada Ecuatoriana"
+						name = "Milicias"
 						division_names_group = SPAN_INF_02
 						template_counter = 3
 						
@@ -2454,7 +2611,7 @@ focus_tree = {
 						}
 					}
 					create_unit = {
-						division = "name = \"Brigada Conservadora\" division_template = \"Brigada Ecuatoriana\" start_experience_factor = 0.04 start_equipment_factor = 0.9" 
+						division = "name = \"Brigada Conservadora\" division_template = \"Milicias\" start_experience_factor = 0.04 start_equipment_factor = 0.9" 
 						owner = ROOT
 					}
 				}
@@ -2465,6 +2622,9 @@ focus_tree = {
 					}
 					ECU_liberal_army = {
 						add_corps_commander_role = {
+							visible = {
+								has_civil_war = yes
+							}
 							skill = 2
 							attack_skill = 2
 							defense_skill = 1
@@ -2475,11 +2635,11 @@ focus_tree = {
 					if = {
 						limit = {
 							NOT = {
-								has_template = "Brigada Ecuatoriana"
+								has_template = "Milicias"
 							}
 						}
 						division_template = {
-							name = "Brigada Ecuatoriana"
+							name = "Milicias"
 							division_names_group = SPAN_INF_02
 							template_counter = 3
 							
@@ -2492,17 +2652,10 @@ focus_tree = {
 						}
 					}
 					every_controlled_state = {
-						limit = {
-							any_neighbor_state = {
-								owner = {
-									original_tag = PRU
-								}
-							}
-						}
 						create_unit = {
-							division = "name = \"Brigada Liberal\" division_template = \"Brigada Ecuatoriana\" start_experience_factor = 0.04 start_equipment_factor = 0.9" 
+							division = "name = \"Brigada Liberal\" division_template = \"Milicias\" start_experience_factor = 0.04 start_equipment_factor = 0.9" 
 							owner = PREV
-							count = 2
+							count = 3
 						}
 					}
 				}
@@ -2519,6 +2672,10 @@ focus_tree = {
 		relative_position_id = ECU_take_over_the_country
 		prerequisite = {
 			focus = ECU_take_over_the_country
+		}
+
+		ai_will_do = {
+			base = 5
 		}
 
 		cost = 10
@@ -2557,6 +2714,10 @@ focus_tree = {
 
 		cost = 5
 
+		ai_will_do = {
+			base = 5
+		}
+
 		available = {
 			has_character = ECU_neptali_bonifaz
 		}
@@ -2566,10 +2727,10 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			ECU_neptali_bonifaz = {
-				add_trait = {
-					trait = economic_reformer
-				}
+			add_trait = {
+				character = ECU_neptali_bonifaz
+				ideology = centrism
+				trait = economic_reformer
 			}
 		}
 	}
@@ -2590,6 +2751,10 @@ focus_tree = {
 
 		cost = 5
 
+		ai_will_do = {
+			base = 5
+		}
+
 		available = {
 			has_character = ECU_jacinto_jijon_y_caamano
 		}
@@ -2600,10 +2765,10 @@ focus_tree = {
 
 		completion_reward = {
 			promote_character = ECU_jacinto_jijon_y_caamano
-			ECU_jacinto_jijon_y_caamano = {
-				add_trait = {
-					trait = ARG_sharp_tongued_lawyer
-				}
+			add_trait = {
+				character = ECU_jacinto_jijon_y_caamano
+				ideology = centrism
+				trait = ARG_sharp_tongued_lawyer
 			}
 		}
 	}
@@ -2621,6 +2786,10 @@ focus_tree = {
 		}
 
 		cost = 5
+
+		ai_will_do = {
+			base = 2
+		}
 
 		available = {
 			NOT = {
@@ -2687,6 +2856,10 @@ focus_tree = {
 			focus = ECU_a_new_industrial_approach
 		}
 
+		ai_will_do = {
+			base = 2
+		}
+
 		cost = 10
 
 		available = {
@@ -2715,6 +2888,10 @@ focus_tree = {
 		}
 
 		cost = 8
+
+		ai_will_do = {
+			base = 2
+		}
 
 		available = {
 			threat > 0.05
@@ -2748,6 +2925,22 @@ focus_tree = {
 		}
 
 		cost = 7.2
+
+		ai_will_do = {
+			base = 3
+		}
+
+		offset = {
+			x = -28
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ECU_the_paez_dictatorship
+			}
+		}
 
 		available = {
 			OR = {
@@ -2822,6 +3015,10 @@ focus_tree = {
 		}
 
 		cost = 5
+
+		ai_will_do = {
+			base = 2
+		}
 
 		available = {
 			has_army_manpower = {
@@ -3230,6 +3427,10 @@ focus_tree = {
 			focus = ECU_no_room_for_savages
 		}
 
+		ai_will_do = {
+			base = 5
+		}
+
 		cost = 7.2
 
 		available = {
@@ -3346,6 +3547,28 @@ focus_tree = {
 		mutually_exclusive = {
 			focus = ECU_try_to_reconcile_with_peru
 		}
+
+		ai_will_do = {
+			base = 5
+		}
+
+		select_effect = {
+			if = {
+				limit = {
+					PRU = {
+						exists = yes 
+						is_subject = no
+					}
+				}
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = PRU
+					value = 70
+				}
+			}
+		}
+
+		cancel_if_invalid = no
 
 		cost = 10
 
@@ -3476,6 +3699,16 @@ focus_tree = {
 
 		cost = 7.2
 
+		bypass = {
+			any_other_country = {
+				capital_scope = {
+					is_on_continent = south_america
+				}
+				is_faction_leader = yes 
+				is_in_faction_with = ROOT
+			}
+		}
+
 		search_filters = {
 			FOCUS_FILTER_POLITICAL
 		}
@@ -3596,33 +3829,45 @@ focus_tree = {
 						has_government = fascism
 						is_in_faction_with = ROOT
 					}
-					save_event_target_as = ECU_producer_country
+					set_variable = {
+						ECU_producer_country = THIS
+					}
 				}
 			}
-			add_equipment_to_stockpile = {
-				type = infantry_equipment
-				amount = 1000
-				producer = event_target:ECU_producer_country 
-			}
-			add_equipment_to_stockpile = {
-				type = artillery_equipment
-				amount = 200
-				producer = event_target:ECU_producer_country  
-			}
-			add_equipment_to_stockpile = {
-				type = support_equipment
-				amount = 150
-				producer = event_target:ECU_producer_country  
-			}
-			add_equipment_to_stockpile = {
-				type = motorized_equipment
-				amount = 100
-				producer = event_target:ECU_producer_country 
-			}
-			event_target:ECU_producer_country = {
-				add_offsite_building = {
-					type = industrial_complex
-					level = 1
+			if = {
+				limit = {
+					any_other_country = {
+						is_major = yes 
+						is_faction_leader = yes 
+						has_government = fascism
+						is_in_faction_with = ROOT
+					}
+				}
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 1000
+					producer = var:ECU_producer_country 
+				}
+				add_equipment_to_stockpile = {
+					type = artillery_equipment
+					amount = 200
+					producer = var:ECU_producer_country  
+				}
+				add_equipment_to_stockpile = {
+					type = support_equipment
+					amount = 150
+					producer = var:ECU_producer_country  
+				}
+				add_equipment_to_stockpile = {
+					type = motorized_equipment
+					amount = 100
+					producer = var:ECU_producer_country 
+				}
+				var:ECU_producer_country = {
+					add_offsite_building = {
+						type = industrial_complex
+						level = 1
+					}
 				}
 			}
 		}
@@ -3642,12 +3887,20 @@ focus_tree = {
 			focus = ECU_the_colombo_ecuadorian_union
 		}
 
+		ai_will_do = {
+			base = 5
+		}
+
 		cost = 10
 
 		available = {
 			has_army_manpower = {
 				size > 79999
 			}
+		}
+
+		bypass = {
+			has_completed_focus = ECU_greater_ecuador
 		}
 
 		search_filters = {
@@ -3690,6 +3943,10 @@ focus_tree = {
 			focus = ECU_pushing_our_claims
 		}
 		will_lead_to_war_with = COL
+
+		ai_will_do = {
+			base = 5
+		}
 
 		available = {
 			NOT = {
@@ -3788,6 +4045,14 @@ focus_tree = {
 			focus = ECU_pushing_our_claims
 		}
 
+		ai_will_do = {
+			base = 5
+			modifier = {
+				factor = 0
+				has_completed_focus = ECU_greater_ecuador
+			}
+		}
+
 		cost = 10
 
 		available = {
@@ -3836,6 +4101,11 @@ focus_tree = {
 		relative_position_id = ECU_the_colombo_ecuadorian_union
 		prerequisite = {
 			focus = ECU_the_colombo_ecuadorian_union
+		}
+		will_lead_to_war_with = VEN
+
+		ai_will_do = {
+			base = 2
 		}
 
 		cost = 10
@@ -3982,6 +4252,10 @@ focus_tree = {
 		will_lead_to_war_with = COS 
 		will_lead_to_war_with = HAI 
 		will_lead_to_war_with = DOM
+
+		ai_will_do = {
+			base = 3
+		}
 
 		cost = 10
 
@@ -4226,6 +4500,10 @@ focus_tree = {
 		}
 		will_lead_to_war_with = PRU
 
+		ai_will_do = {
+			base = 5
+		}
+
 		cost = 10
 
 		available = {
@@ -4245,6 +4523,24 @@ focus_tree = {
 				}
 			}
 		}
+
+		select_effect = {
+			if = {
+				limit = {
+					PRU = {
+						exists = yes 
+						is_subject = no
+					}
+				}
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = PRU
+					value = 70
+				}
+			}
+		}
+
+		cancel_if_invalid = no
 
 		search_filters = {
 			FOCUS_FILTER_ANNEXATION FOCUS_FILTER_PERU_ECUADOR_WAR
@@ -4352,6 +4648,10 @@ focus_tree = {
 		will_lead_to_war_with = ARG 
 		will_lead_to_war_with = URG
 
+		ai_will_do = {
+			base = 2
+		}
+
 		cost = 10
 
 		available = {
@@ -4434,6 +4734,10 @@ focus_tree = {
 		prerequisite = {
 			focus = ECU_demand_oil_rights_in_venezuela
 			focus = ECU_push_our_sphere_of_influence_south
+		}
+
+		ai_will_do = {
+			base = 5
 		}
 
 		cost = 10
@@ -4530,7 +4834,23 @@ focus_tree = {
 			focus = ECU_revive_a_lost_idea
 		}
 
+		ai_will_do = {
+			base = 5
+		}
+
 		cost = 5
+
+		offset = {
+			x = 4
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ECU_the_paez_dictatorship
+			}
+		}
 
 		available = {
 			OR = {
@@ -4539,6 +4859,18 @@ focus_tree = {
 				}
 				threat > 0.1
 				has_war_support > 0.6
+			}
+		}
+
+		offset = {
+			x = -28
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ECU_the_paez_dictatorship
 			}
 		}
 
@@ -4565,6 +4897,22 @@ focus_tree = {
 		mutually_exclusive = {
 			focus = ECU_recovering_what_was_forgotten
 			focus = ECU_adopt_an_imperialist_foreign_policy
+		}
+
+		ai_will_do = {
+			base = 5
+		}
+
+		offset = {
+			x = 3
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ECU_the_paez_dictatorship
+			}
 		}
 
 		cost = 10
@@ -4614,6 +4962,9 @@ focus_tree = {
 						state = 951
 						state = 1035
 						state = 995
+						state = 993
+						state = 992
+						state = 688
 					}
 					NOT = {
 						OR = {
@@ -4644,6 +4995,10 @@ focus_tree = {
 		}
 		will_lead_to_war_with = PRU 
 		will_lead_to_war_with = BOL
+
+		ai_will_do = {
+			base = 5
+		}
 
 		cost = 5
 
@@ -4691,6 +5046,10 @@ focus_tree = {
 			focus = ECU_conquer_peru_and_bolivia
 		}
 
+		ai_will_do = {
+			base = 5
+		}
+
 		cost = 7.2
 
 		available = {
@@ -4719,6 +5078,10 @@ focus_tree = {
 		relative_position_id = ECU_a_kingdom_for_centuries
 		prerequisite = {
 			focus = ECU_a_kingdom_for_centuries
+		}
+
+		ai_will_do = {
+			base = 3
 		}
 
 		cost = 10
@@ -4782,6 +5145,10 @@ focus_tree = {
 		relative_position_id = ECU_capture_our_claimed_lands
 		prerequisite = {
 			focus = ECU_capture_our_claimed_lands
+		}
+
+		ai_will_do = {
+			base = 2
 		}
 
 		cost = 10
@@ -4986,6 +5353,10 @@ focus_tree = {
 			}
 			set_cosmetic_tag = ECU_SPANISH_EMPIRE
 			set_capital = { state = 41 }
+
+			set_variable = {
+				curr_spanish_empire = ROOT
+			}
 
 			custom_effect_tooltip = BRA_spacer_tt
 
@@ -5203,7 +5574,23 @@ focus_tree = {
 			focus = ECU_revive_a_lost_idea
 		}
 
+		ai_will_do = {
+			base = 5
+		}
+
 		cost = 10
+
+		offset = {
+			x = 4
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ECU_the_paez_dictatorship
+			}
+		}
 
 		available = {
 			OR = {
@@ -5217,6 +5604,18 @@ focus_tree = {
 
 		search_filters = {
 			FOCUS_FILTER_ANNEXATION
+		}
+
+		offset = {
+			x = -28
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ECU_the_paez_dictatorship
+			}
 		}
 
 		completion_reward = {
@@ -5250,6 +5649,10 @@ focus_tree = {
 		}
 
 		cost = 5
+
+		ai_will_do = {
+			base = 5
+		}
 
 		available = {
 			any_other_country = {
@@ -5291,6 +5694,10 @@ focus_tree = {
 		}
 
 		cost = 7.2
+
+		ai_will_do = {
+			base = 5
+		}
 
 		available = {
 			custom_trigger_tooltip = {
@@ -5339,6 +5746,10 @@ focus_tree = {
 			focus = ECU_operation_americas
 		}
 
+		ai_will_do = {
+			base = 5
+		}
+
 		cost = 6
 
 		available = {
@@ -5368,6 +5779,10 @@ focus_tree = {
 		relative_position_id = ECU_reforming_the_lost_unions
 		prerequisite = {
 			focus = ECU_reforming_the_lost_unions
+		}
+
+		ai_will_do = {
+			base = 5
 		}
 
 		cost = 10
@@ -5430,6 +5845,10 @@ focus_tree = {
 		}
 		will_lead_to_war_with = BRA 
 		will_lead_to_war_with = PRU
+
+		ai_will_do = {
+			base = 2
+		}
 
 		cost = 10
 
@@ -5580,6 +5999,10 @@ focus_tree = {
 			focus = ECU_operation_americas
 		}
 
+		ai_will_do = {
+			base = 2
+		}
+
 		cost = 10
 
 		search_filters = {
@@ -5600,6 +6023,10 @@ focus_tree = {
 		relative_position_id = ECU_operation_americas
 		prerequisite = {
 			focus = ECU_operation_americas
+		}
+
+		ai_will_do = {
+			base = 5
 		}
 
 		cost = 10
@@ -5634,6 +6061,46 @@ focus_tree = {
 		x = 55
 		y = 0
 
+		allow_branch = {
+			NOT = {
+				has_global_flag = ECU_banana_company_takeover_flag
+			}
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					OR = {	
+						has_completed_focus = ECU_support_gallo
+						has_completed_focus = ECU_the_elections_that_shouldve_been
+					}
+				}
+			}
+		}
+
+		offset = {
+			x = -28
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ECU_the_paez_dictatorship
+			}
+		}
+
+		ai_will_do = {
+			base = 20
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+
 		cost = 5
 
 		available = {
@@ -5663,6 +6130,16 @@ focus_tree = {
 			ECU_dissolve_the_constituent_assembly = yes
 			custom_effect_tooltip = CHL_skip_one_line_tt
 			ECU_worsen_liberal_opinion = yes
+
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				mark_focus_tree_layout_dirty = yes
+			}
 		}
 	}
 
@@ -5678,6 +6155,10 @@ focus_tree = {
 		}
 
 		cost = 5
+
+		ai_will_do = {
+			base = 5
+		}
 
 		available = {
 			has_active_mission = ECU_gallos_looming_coup
@@ -5712,6 +6193,10 @@ focus_tree = {
 
 		cost = 5
 
+		ai_will_do = {
+			base = 5
+		}
+
 		available = {
 			fascism > 0.1
 			has_civil_war = no
@@ -5724,6 +6209,11 @@ focus_tree = {
 		completion_reward = {
 			unlock_decision_category_tooltip = ECU_cooperating_with_the_fascists
 			set_variable = { ECU_states_cooperated = 0 }
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = ECU_vicente_haro_idea
 		}
 	}
 
@@ -5739,6 +6229,10 @@ focus_tree = {
 		}
 		mutually_exclusive = {
 			focus = ECU_take_full_control
+		}
+
+		ai_will_do = {
+			base = 5
 		}
 
 		cost = 10
@@ -5856,6 +6350,10 @@ focus_tree = {
 		}
 		mutually_exclusive = {
 			focus = ECU_the_great_betrayal
+		}
+
+		ai_will_do = {
+			base = 5
 		}
 
 		cost = 10
@@ -6138,6 +6636,10 @@ focus_tree = {
 			focus = ECU_take_full_control
 		}
 
+		ai_will_do = {
+			base = 5
+		}
+
 		cost = 5
 
 		available = {
@@ -6176,6 +6678,10 @@ focus_tree = {
 		relative_position_id = ECU_crush_the_bipartisanship_conflict
 		prerequisite = {
 			focus = ECU_crush_the_bipartisanship_conflict
+		}
+
+		ai_will_do = {
+			base = 2
 		}
 
 		cost = 5
@@ -6258,6 +6764,10 @@ focus_tree = {
 		relative_position_id = ECU_italian_allignment
 		prerequisite = {
 			focus = ECU_italian_allignment
+		}
+
+		ai_will_do = {
+			base = 2
 		}
 
 		cost = 10
@@ -6366,6 +6876,10 @@ focus_tree = {
 		relative_position_id = ECU_the_great_betrayal
 		prerequisite = {
 			focus = ECU_the_great_betrayal
+		}
+
+		ai_will_do = {
+			base = 3
 		}
 
 		cost = 6
@@ -6538,6 +7052,10 @@ focus_tree = {
 			focus = ECU_increase_statal_power
 		}
 
+		ai_will_do = {
+			base = 2
+		}
+
 		cost = 7.2
 
 		available = {
@@ -6584,6 +7102,10 @@ focus_tree = {
 			focus = ECU_take_full_control
 		}
 
+		ai_will_do = {
+			base = 3
+		}
+
 		cost = 5
 
 		search_filters = {
@@ -6605,6 +7127,10 @@ focus_tree = {
 		relative_position_id = ECU_ban_the_press
 		prerequisite = {
 			focus = ECU_ban_the_press
+		}
+
+		ai_will_do = {
+			base = 3
 		}
 
 		cost = 7.2
@@ -6677,6 +7203,10 @@ focus_tree = {
 			focus = ECU_build_up_the_army
 		}
 
+		ai_will_do = {
+			base = 3
+		}
+
 		cost = 2.9
 
 		search_filters = {
@@ -6709,6 +7239,313 @@ focus_tree = {
 		}
 	}
 
+	### EASTER EGG TREE ###
+	## Banana Company Takeover ##
+	focus = {
+		id = ECU_banana_company_takeover 
+		icon = GFX_ECU_banana_company_takeover_icon
+		x = 23
+		y = 0
+		
+		cost = 4
+
+		allow_branch = {
+			has_global_flag = ECU_banana_company_takeover_flag
+		}
+
+		available = {
+			has_country_leader = {
+				character = ECU_banana_company_administration
+				ruling_only = yes 
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			set_rule = {
+				can_declare_war_on_same_ideology = yes 
+				can_create_factions = yes 
+				can_send_volunteers = yes 
+				can_declare_war_without_wargoal_when_in_war = yes
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_political_power = 50
+			add_dynamic_modifier = {
+				modifier = ECU_the_banana_company_administration_idea
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_stability = 0.05
+			add_war_support = 0.05
+		}
+	}
+
+	## Bananas for All ## (focus)
+	focus = {
+		id = ECU_bananas_for_all_f
+		icon = GFX_EUYL_bananer
+		x = 0
+		y = 1
+		relative_position_id = ECU_banana_company_takeover
+		prerequisite = {
+			focus = ECU_banana_company_takeover
+		}
+
+		cost = 5
+
+		available = {
+			any_controlled_state = {
+				has_dynamic_modifier = {
+					modifier = ECU_local_banana_production
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = ECU_modify_banana_company_administration_tt
+			add_to_variable = {
+				ECU_banana_company_industrial_capacity_factory = 0.02
+				tooltip = industrial_capacity_factory_tt
+			}
+			add_to_variable = {
+				ECU_banana_company_production_speed_buildings_factor = 0.02
+				tooltip = production_speed_buildings_factor_tt
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = {
+				decision = ECU_establish_a_banana_plantation_in_FROM
+				show_effect_tooltip = yes
+			}
+		}
+	}
+
+	## Establish laissez_faire
+	focus = {
+		id = ECU_achieve_laissez_faire
+		icon = GFX_CHL_fully_free_market
+		x = -1
+		y = 1
+		relative_position_id = ECU_bananas_for_all_f
+		prerequisite = {
+			focus = ECU_bananas_for_all_f
+		}
+
+		cost = 5
+
+		available = {
+			NOT = {
+				has_idea = laissez_faire
+			}
+		}
+
+		bypass = {
+			has_idea = laissez_faire
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			add_ideas = laissez_faire
+		}
+	}
+
+	## Open up the Markets ##
+	focus = {
+		id = ECU_open_up_the_markets
+		icon = GFX_goal_generic_positive_trade_relations
+		x = 1
+		y = 1
+		relative_position_id = ECU_bananas_for_all_f
+		prerequisite = {
+			focus = ECU_bananas_for_all_f
+		}
+
+		cost = 5
+
+		available = {
+			NOT = {
+				has_idea = free_trade
+			}
+		}
+
+		bypass = {
+			has_idea = free_trade
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			add_ideas = free_trade
+		}
+	}
+
+	## Mobilize the Free Enterprise Army ##
+	focus = {
+		id = ECU_mobilize_the_free_enterprise_army
+		icon = GFX_ECU_mobilize_free_enterprise_army_icon
+		x = 0
+		y = 2
+		relative_position_id = ECU_bananas_for_all_f
+		prerequisite = {
+			focus = ECU_achieve_laissez_faire
+		}
+		prerequisite = {
+			focus = ECU_open_up_the_markets
+		}
+
+		cost = 10
+
+		available = {
+			has_dynamic_modifier = {
+				modifier = ECU_the_banana_company_administration_idea
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_MANPOWER FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = ECU_modify_banana_company_administration_tt
+			add_to_variable = {
+				ECU_banana_company_conscription = 0.06
+				tooltip = conscription_tt
+			}
+			add_to_variable = {
+				ECU_banana_company_army_attack_factor = 0.05
+				tooltip = army_attack_factor_tt
+			}
+			add_to_variable = {
+				ECU_banana_company_army_defence_factor = 0.05
+				tooltip = army_defence_factor_tt
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			EUYL_add_2_military = yes
+		}
+	}
+
+	## Economic Freedom to the Americas ##
+	focus = {
+		id = ECU_economic_freedom_to_the_americas
+		icon = GFX_focus_BRA_north_and_south_america
+		x = 0
+		y = 1
+		relative_position_id = ECU_mobilize_the_free_enterprise_army
+		prerequisite = {
+			focus = ECU_mobilize_the_free_enterprise_army
+		}
+
+		cost = 10
+
+		available = {
+			has_army_manpower = {
+				size > 69999
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
+				limit = {
+					capital_scope = {
+						OR = {
+							is_on_continent = south_america
+							is_on_continent = north_america
+						}
+					}
+					NOT = {
+						OR = {
+							has_war_with = ROOT 
+							is_in_faction_with = ROOT 
+							is_subject_of = ROOT
+						}
+					}
+				}
+				hidden_effect = {
+					ROOT = {
+						create_wargoal = {
+							target = PREV 
+							type = annex_everything
+						}
+					}
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = gain_claims_on_every_south_and_northamerican_state_tt
+			every_state = {
+				limit = {
+					NOT = {
+						OR = {
+							is_core_of = ROOT 
+							is_claimed_by = ROOT 
+							is_fully_controlled_by = ROOT 
+						}
+					}
+					OR = {
+						is_on_continent = south_america
+						is_on_continent = north_america
+					}
+				}
+				add_claim_by = ROOT
+			}
+		}
+	}
+
+	## The Global Enterprise Zone ## || will passively core ANY state over 55% compliance
+	focus = {
+		id = ECU_the_global_enterprise_zone
+		icon = GFX_ECU_global_enterprise_zone_icon
+		x = 0
+		y = 1
+		relative_position_id = ECU_economic_freedom_to_the_americas
+		prerequisite = {
+			focus = ECU_economic_freedom_to_the_americas
+		}
+
+		cost = 10
+
+		available = {
+			num_of_controlled_states > 49
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			set_cosmetic_tag = ECU_GLOBAL_ENTERPRISE_ZONE
+			add_ideas = ECU_the_global_enterprise_zone_idea
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = ECU_passively_core_states_over_55_compliance_tt
+		}
+	}
+
 	#### SUPPORT GALLO | HISTORICAL #### | ALSO DEVIATES TO COMMUNIST PATH
 	# Support Gallo #
 	focus = {
@@ -6721,6 +7558,26 @@ focus_tree = {
 		x = 24
 		y = 0
 		cost = 5
+
+		allow_branch = {
+			NOT = {
+				has_global_flag = ECU_banana_company_takeover_flag
+			}
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					OR = {	
+						has_completed_focus = ECU_the_elections_that_shouldve_been
+						has_completed_focus = ECU_the_paez_dictatorship
+					}
+				}
+			}
+		}
 
 		ai_will_do = {
 			base = 20
@@ -6741,6 +7598,24 @@ focus_tree = {
 				mission = ECU_gallos_looming_coup
 				days = -20
 			}
+
+			hidden_effect = {
+				country_event = { ## Formation of the ARNE
+					id = ecu.24 
+					days = 1020
+					random_days = 275
+				}
+			}
+
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				mark_focus_tree_layout_dirty = yes
+			}
 		}
 	}
 
@@ -6756,6 +7631,10 @@ focus_tree = {
 		}
 
 		cost = 5
+
+		ai_will_do = {
+			base = 5
+		}
 
 		available = {
 			has_active_mission = ECU_gallos_looming_coup
@@ -6801,6 +7680,10 @@ focus_tree = {
 		}
 
 		cost = 5
+
+		ai_will_do = {
+			base = 5
+		}
 
 		available = {
 			has_active_mission = ECU_gallos_looming_coup
@@ -6854,6 +7737,10 @@ focus_tree = {
 
 		cost = 5
 
+		ai_will_do = {
+			base = 5
+		}
+
 		search_filters = {
 			FOCUS_FILTER_STABILITY FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL
 		}
@@ -6881,6 +7768,14 @@ focus_tree = {
 
 		cost = 7.2
 
+		ai_will_do = {
+			base = 5
+			modifier = {
+				factor = 0
+				has_completed_focus = ECU_leftist_agitation
+			}
+		}
+
 		available = {
 			has_country_leader = {
 				character = ECU_alberto_enriquez_gallo
@@ -6906,6 +7801,11 @@ focus_tree = {
 		completion_reward = {
 			add_stability = 0.05
 			add_ideas = ECU_the_constituent_assembly
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = ECU_manuel_munoz_borrero_idea
 		}
 	}
 
@@ -6930,7 +7830,7 @@ focus_tree = {
 		}
 
 		search_filters = {
-			FOCUS_FILTER_POLITICAL FOCUS_FILTER_POLITICAL_CHARACTER FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_BIPARTISANSHIP FOCUS_FILTER_POLITICAL_CHARACTER FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL
 		}
 
 		completion_reward = {
@@ -6946,6 +7846,7 @@ focus_tree = {
 				election_frequency = 48
 				last_election = 1936.1.1
 			}
+			ECU_worsen_conservative_opinion = yes
 			hidden_effect = {
 				promote_character = ECU_manuel_maria_borrero
 				## event in 5 days where assembly gets angy
@@ -6976,6 +7877,14 @@ focus_tree = {
 		}
 		mutually_exclusive = {
 			focus = ECU_call_for_elections
+		}
+
+		ai_will_do = {
+			base = 5
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
 		}
 
 		cost = 5
@@ -7065,6 +7974,10 @@ focus_tree = {
 			focus = ECU_constituent_assembly_takeover
 		}
 
+		ai_will_do = {
+			base = 5
+		}
+
 		cost = 7.2
 
 		available = {
@@ -7124,6 +8037,10 @@ focus_tree = {
 
 		cost = 5
 
+		ai_will_do = {
+			base = 6
+		}
+
 		available = {
 			has_idea = ECU_aftermath_of_4_day_civil_war_1
 			has_civil_war = no 
@@ -7158,6 +8075,10 @@ focus_tree = {
 		}
 
 		cost = 7.2
+
+		ai_will_do = {
+			base = 2
+		}
 
 		available = {
 			has_civil_war = no 
@@ -7231,6 +8152,14 @@ focus_tree = {
 			focus = ECU_maintain_a_neutral_stance
 			focus = ECU_ally_ourselves_with_britain
 			focus = ECU_alliance_with_the_united_states
+		}
+
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
 		}
 
 		mutually_exclusive = {
@@ -7357,6 +8286,14 @@ focus_tree = {
 
 		cost = 10
 
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+
 		available = {
 			has_army_manpower = {
 				size > 64999
@@ -7374,6 +8311,24 @@ focus_tree = {
 				}
 			}
 		}
+
+		select_effect = {
+			if = {
+				limit = {
+					PRU = {
+						exists = yes 
+						is_subject = no
+					}
+				}
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = PRU
+					value = 70
+				}
+			}
+		}
+
+		cancel_if_invalid = no
 
 		search_filters = {
 			FOCUS_FILTER_ANNEXATION FOCUS_FILTER_PERU_ECUADOR_WAR
@@ -7719,6 +8674,14 @@ focus_tree = {
 
 		cost = 5
 
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+
 		available = {
 			has_global_flag = EUYL_peru_ecuador_war_concluded_flag
 			is_in_faction = no
@@ -7945,6 +8908,14 @@ focus_tree = {
 		}
 
 		cost = 5
+
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
 
 		available = {
 			is_in_faction = no
@@ -8236,6 +9207,17 @@ focus_tree = {
 
 		cost = 7.2
 
+		ai_will_do = {
+			base = 5
+			modifier = {
+				factor = 0
+				OR = {
+					is_historical_focus_on = yes 
+					has_completed_focus = ECU_re_establish_constituent_assembly
+				}
+			}
+		}
+
 		available = {
 			NOT = {
 				has_active_mission = ECU_gallos_looming_coup
@@ -8256,6 +9238,11 @@ focus_tree = {
 				decision = ECU_radicalize_the_moderates
 				show_effect_tooltip = yes
 			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = ECU_enrique_gil_gilbert_idea
 		}
 	}
 
@@ -8274,6 +9261,10 @@ focus_tree = {
 		}
 
 		cost = 5
+
+		ai_will_do = {
+			base = 4
+		}
 
 		available = {
 			communism > 0.49 
@@ -8307,6 +9298,10 @@ focus_tree = {
 		}
 
 		cost = 5
+
+		ai_will_do = {
+			base = 6
+		}
 
 		available = {
 			has_country_flag = ECU_liberals_and_conservatives_mad_flag
@@ -8348,6 +9343,10 @@ focus_tree = {
 
 		cost = 5
 
+		ai_will_do = {
+			base = 2
+		}
+
 		available = {
 			NOT = {
 				has_idea = ECU_aftermath_of_4_day_civil_war_1
@@ -8382,6 +9381,10 @@ focus_tree = {
 		}
 		mutually_exclusive = {
 			focus = ECU_join_the_commintern
+		}
+
+		ai_will_do = {
+			base = 2
 		}
 
 		cost = 5
@@ -8461,6 +9464,10 @@ focus_tree = {
 		}
 		mutually_exclusive = {
 			focus = ECU_brothers_in_arms
+		}
+
+		ai_will_do = {
+			base = 2
 		}
 
 		cost = 5
@@ -8563,6 +9570,10 @@ focus_tree = {
 
 		cost = 5
 
+		ai_will_do = {
+			base = 2
+		}
+
 		search_filters = {
 			FOCUS_FILTER_POLITICAL 
 		}
@@ -8622,6 +9633,10 @@ focus_tree = {
 		}
 		will_lead_to_war_with = PRU
 
+		ai_will_do = {
+			base = 2
+		}
+
 		cost = 5
 
 		available = {
@@ -8641,6 +9656,24 @@ focus_tree = {
 				}
 			}
 		}
+
+		select_effect = {
+			if = {
+				limit = {
+					PRU = {
+						exists = yes 
+						is_subject = no
+					}
+				}
+				add_ai_strategy = {
+					type = prepare_for_war
+					id = PRU
+					value = 70
+				}
+			}
+		}
+
+		cancel_if_invalid = no
 
 		search_filters = {
 			FOCUS_FILTER_ANNEXATION FOCUS_FILTER_PERU_ECUADOR_WAR
@@ -8746,6 +9779,10 @@ focus_tree = {
 		}
 
 		cost = 5
+
+		ai_will_do = {
+			base = 3
+		}
 
 		available = {
 			any_controlled_state = {
@@ -9190,6 +10227,10 @@ focus_tree = {
 			focus = ECU_return_power_to_the_assemblists
 		}
 
+		ai_will_do = {
+			base = 3
+		}
+
 		cost = 7.2
 
 		search_filters = {
@@ -9252,6 +10293,10 @@ focus_tree = {
 
 		cost = 10
 
+		ai_will_do = {
+			base = 4
+		}
+
 		search_filters = {
 			FOCUS_FILTER_MANPOWER
 		}
@@ -9291,6 +10336,10 @@ focus_tree = {
 		relative_position_id = ECU_national_mobilization_f
 		prerequisite = {
 			focus = ECU_national_mobilization_f
+		}
+
+		ai_will_do = {
+			base = 3
 		}
 
 		available = {
@@ -9363,4 +10412,1028 @@ focus_tree = {
 	##### ECUADORIAN ARMED FORCES ######
 
 	### ARMY BRANCH ###
+	focus = {
+		id = ECU_el_ejercito_ecuatoriano
+		icon = GFX_ECU_ejercito_icon
+		x = 67
+		y = 0
+
+		cost = 4
+
+		ai_will_do = {
+			base = 2
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ARMY_XP
+		}
+
+		offset = {
+			x = -32
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				OR = {
+					has_completed_focus = ECU_the_paez_dictatorship
+					has_completed_focus = ECU_the_elections_that_shouldve_been
+					has_completed_focus = ECU_support_gallo
+				}
+				NOT = {
+					has_global_flag = ECU_banana_company_takeover_flag
+				}
+			}
+		}
+
+		offset = {
+			x = -37
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_global_flag = ECU_banana_company_takeover_flag
+			}
+		}
+
+		completion_reward = {
+			army_experience = 20
+			add_dynamic_modifier = {
+				modifier = ECU_ejercito_ecuatoriano_idea
+			}
+			if = {
+				limit = {
+					NOT = {
+						OR = {
+							has_completed_focus = ECU_el_ejercito_ecuatoriano
+							has_completed_focus = ECU_la_armada_ecuatoriana
+							has_completed_focus = ECU_import_american_planes
+						}
+					}
+				}
+				unlock_decision_category_tooltip = ECU_fuerzas_armadas_ecuatorianas
+			}
+		}
+	}
+
+	focus = {
+		id = ECU_seek_foreign_military_advising
+		icon = GFX_focus_generic_military_academy
+		x = 0
+		y = 1
+		relative_position_id = ECU_el_ejercito_ecuatoriano
+		prerequisite = {
+			focus = ECU_el_ejercito_ecuatoriano
+		}
+
+		cost = 5
+
+		ai_will_do = {
+			base = 2
+		}
+
+		available = {
+			any_other_country = {
+				is_major = yes 
+				NOT = {
+					has_war_with = ROOT
+				}
+			}
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = ECU_unlock_foreign_advisors_tt
+		}
+	}
+
+	focus = {
+		id = ECU_foreign_military_aid
+		icon = GFX_goal_generic_construct_mil_factory
+		x = -2
+		y = 1
+		relative_position_id = ECU_seek_foreign_military_advising
+		prerequisite = {
+			focus = ECU_seek_foreign_military_advising
+		}
+
+		cost = 7.2
+
+		ai_will_do = {
+			base = 2
+		}
+
+		available = {
+			any_other_country = {
+				has_country_flag = ECU_seeked_advisors_from_here_flag
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_1_military = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = ECU_modify_economic_reignition_intro_tt
+			add_to_variable = {
+				ECU_economy_production_speed_arms_factory_factor = 0.03
+				tooltip = production_speed_arms_factory_factor_tt
+			}
+		}
+	}
+
+	focus = {
+		id = ECU_artillery_warfare
+		icon = GFX_goal_generic_army_artillery
+		x = 2
+		y = 1
+		relative_position_id = ECU_seek_foreign_military_advising
+		prerequisite = {
+			focus = ECU_seek_foreign_military_advising
+		}
+
+		cost = 6
+
+		completion_reward = {
+			custom_effect_tooltip = ECU_modify_ejercito_ecuatoriano_tt
+			add_to_variable = {
+				ECU_army_modifier_army_artillery_attack_factor = 0.05
+				tooltip = artillery_attack_factor_tt
+			}
+			add_to_variable = {
+				ECU_army_modifier_army_artillery_defence_factor = 0.05
+				tooltip = army_artillery_defence_factor_tt
+			}
+		}
+	}
+
+	focus = {
+		id = ECU_motorize_our_soldiers
+		icon = GFX_goal_generic_army_motorized
+		x = 4
+		y = 1
+		relative_position_id = ECU_seek_foreign_military_advising
+		prerequisite = {
+			focus = ECU_seek_foreign_military_advising
+		}
+
+		cost = 7.2
+
+		available = {
+			has_tech = motorised_infantry
+		}
+
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+
+		completion_reward = {
+			add_ideas = ARG_produce_motorized
+		}
+	}
+
+	focus = {
+		id = ECU_ecuadorian_tank_force
+		icon = GFX_focus_generic_army_tanks2
+		x = -1
+		y = 1
+		relative_position_id = ECU_motorize_our_soldiers
+		prerequisite = {
+			focus = ECU_motorize_our_soldiers
+		}
+		prerequisite = {
+			focus = ECU_artillery_warfare
+		}
+
+		cost = 10
+
+		
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = ECU_ecuadorian_tank_force
+				bonus = 0.5
+				uses = 2
+				category = armor
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = ECU_modify_ejercito_ecuatoriano_tt
+			add_to_variable = {
+				ECU_army_modifier_army_armor_attack_factor = 0.07
+				tooltip = army_armor_attack_factor_tt
+			}
+		}
+	}
+
+	focus = {
+		id = ECU_mechanized_mobilization
+		icon = GFX_goal_generic_build_tank
+		x = 0
+		y = 1
+		relative_position_id = ECU_ecuadorian_tank_force
+		prerequisite = {
+			focus = ECU_ecuadorian_tank_force
+		}
+
+		cost = 10
+
+		available = {
+			has_army_manpower = {
+				size > 49999
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_RESEARCH FOCUS_FILTER_MANPOWER
+		}
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = ECU_mechanized_mobilization
+				bonus = 1.0
+				uses = 2
+				category = cat_mechanized_equipment
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = ECU_modify_ejercito_ecuatoriano_tt
+			add_to_variable = {
+				ECU_ejercito_conscription = 0.005
+				tooltip = conscription_tt
+			}
+		}
+	}
+
+	focus = {
+		id = ECU_modern_infantry_equipment_designs
+		icon = GFX_goal_generic_small_arms
+		x = 0
+		y = 2
+		relative_position_id = ECU_seek_foreign_military_advising
+		prerequisite = {
+			focus = ECU_seek_foreign_military_advising
+		}
+
+		cost = 7.2
+
+		available = {
+			OR = {
+				has_army_manpower = {
+					size > 24999
+				}
+				num_of_military_factories > 3
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = ECU_modern_infantry_equipment_designs
+				bonus = 1.0
+				uses = 2
+				category = infantry_weapons
+			}
+		}
+	}
+
+	focus = {
+		id = ECU_new_training_regiments
+		icon = GFX_focus_generic_little_entente
+		x = 0
+		y = 2
+		relative_position_id = ECU_modern_infantry_equipment_designs
+		prerequisite = {
+			focus = ECU_modern_infantry_equipment_designs
+		}
+
+		cost = 10
+
+		search_filters = {
+			FOCUS_FILTER_MANPOWER
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = ECU_modify_ejercito_ecuatoriano_tt
+			add_to_variable = {
+				ECU_army_training_time_factor = -0.15
+				tooltip = training_time_factor_tt
+			}
+			add_to_variable = {
+				ECU_ejercito_conscription = 0.01
+				tooltip = conscription_tt
+			}
+		}
+	}
+
+	### AIR FORCE BRANCH ###
+	focus = {
+		id = ECU_import_american_planes
+		icon = GFX_PRU_purchase_america_planes
+		x = 74
+		y = 0
+
+		cost = 3
+
+		ai_will_do = {
+			base = 3
+		}
+
+		offset = {
+			x = -32
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				OR = {
+					has_completed_focus = ECU_the_paez_dictatorship
+					has_completed_focus = ECU_the_elections_that_shouldve_been
+					has_completed_focus = ECU_support_gallo
+				}
+				NOT = {
+					has_global_flag = ECU_banana_company_takeover_flag
+				}
+			}
+		}
+
+		offset = {
+			x = -37
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_global_flag = ECU_banana_company_takeover_flag
+			}
+		}
+
+		available = {
+			has_civil_war = no 
+			NOT = {
+				has_war_with = USA
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_HISTORICAL FOCUS_FILTER_AIR_XP
+		}
+
+		completion_reward = {
+			air_experience = 20
+			add_dynamic_modifier = {
+				modifier = ECU_fuerza_aerea_ecuatoriana_idea
+			}
+			if = {
+				limit = {
+					NOT = {
+						OR = {
+							has_completed_focus = ECU_el_ejercito_ecuatoriano
+							has_completed_focus = ECU_la_armada_ecuatoriana
+							has_completed_focus = ECU_import_american_planes
+						}
+					}
+				}
+				unlock_decision_category_tooltip = ECU_fuerzas_armadas_ecuatorianas
+			}
+			add_equipment_to_stockpile = {
+			    type = small_plane_airframe_1
+			    amount = 15
+			    producer = USA
+			    variant_name = "P-36A"
+			}
+		}
+	}
+
+	## Study our new Fighters ##
+	focus = {
+		id = ECU_study_our_new_fighters
+		icon = GFX_goal_generic_air_fighter
+		x = -1
+		y = 2
+		relative_position_id = ECU_import_american_planes
+		prerequisite = {
+			focus = ECU_import_american_planes
+		}
+
+		cost = 7.2
+
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = ECU_study_our_new_fighters
+				bonus = 0.5
+				uses = 2
+				category = light_fighter
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = ECU_modify_fuerza_aerea_tt
+			add_to_variable = {
+				JUNO_airforce_modifier_air_superiority_efficiency = 0.05
+				tooltip = air_superiority_efficiency_tt
+			}
+			add_to_variable = {
+				JUNO_airforce_modifier_air_intercept_efficiency = 0.05 
+				tooltip = air_intercept_efficiency_tt
+			}
+		}
+	}
+
+	## Aerial Troop Support ##
+	focus = {
+		id = ECU_aerial_troop_support
+		icon = GFX_focus_generic_tank_air_support
+		x = -1
+		y = 1
+		relative_position_id = ECU_study_our_new_fighters
+		prerequisite = {
+			focus = ECU_study_our_new_fighters
+		}
+		prerequisite = {
+			focus = ECU_motorize_our_soldiers
+		}
+
+		cost = 10
+
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = ARG_modernize_our_CAS
+				bonus = 1.0
+				uses = 2
+				category = cas_bomber
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = ECU_modify_fuerza_aerea_tt
+			add_to_variable = {
+				JUNO_airforce_modifier_air_cas_present_factor = 0.07
+				tooltip = air_cas_present_factor_tt
+			}
+		}
+	}
+
+	## The Legacy of Cosme Renella Barbatto ##
+	focus = {
+		id = ECU_the_legacy_of_cosme_renella_barbatto
+		icon = GFX_ECU_legacy_cosme_icon
+		x = 0
+		y = 1
+		relative_position_id = ECU_import_american_planes
+		prerequisite = {
+			focus = ECU_import_american_planes
+		}
+
+		cost = 8
+
+		ai_will_do = {
+			base = 2
+		}
+
+		search_filters = {
+			FOCUS_FILTER_AIR_XP FOCUS_FILTER_RESEARCH FOCUS_FILTER_HISTORICAL FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = ECU_modify_fuerza_aerea_tt
+			add_to_variable = {
+				JUNO_airforce_modifier_air_doctrine_cost_factor = -0.1 
+				tooltip = air_doctrine_cost_factor_tt
+			}
+			add_to_variable = {
+				JUNO_airforce_modifier_air_defence_factor = 0.05
+				tooltip = air_defence_factor_tt
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_ideas = ECU_the_legacy_of_cosme_renella_barbatto_idea
+		}
+	}
+
+	## Bombing Effort ##
+	focus = {
+		id = ECU_bombing_effort
+		icon = GFX_goal_generic_air_bomber
+		x = 1
+		y = 2
+		relative_position_id = ECU_import_american_planes
+		prerequisite = {
+			focus = ECU_import_american_planes
+		}
+
+		cost = 10
+		
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = ECU_bombing_effort
+				bonus = 1.0
+				uses = 2
+				category = tactical_bomber
+			}
+			add_tech_bonus = {
+				name = ARG_focus_on_startegic_bombers
+				bonus = 1.0
+				uses = 2
+				category = cat_strategic_bomber
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = ECU_modify_fuerza_aerea_tt
+			add_to_variable = {
+				JUNO_airforce_modifier_air_strategic_bomber_bombing_factor = 0.05
+				tooltip = air_strategic_bomber_bombing_factor_tt
+			}
+		}
+	}
+
+	## Airbase Expansion ##
+	focus = {
+		id = ECU_airbase_expansion
+		icon = GFX_goal_generic_build_airforce 
+		x = -1
+		y = 1
+		relative_position_id = ECU_bombing_effort
+		prerequisite = {
+			focus = ECU_bombing_effort
+			focus = ECU_study_our_new_fighters
+		}
+
+		cost = 7.2 
+
+		available = {
+			num_of_controlled_states > 0
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_3_air_base = yes 
+		}
+	}
+
+	## Allocate Industrial Resources to Plane Production ##
+	focus = {
+		id = ECU_allocate_industrial_resources_to_plane_production
+		icon = GFX_focus_generic_copy_plane_designs
+		x = 1
+		y = 1
+		relative_position_id = ECU_airbase_expansion
+		prerequisite = {
+			focus = ECU_airbase_expansion
+		}
+
+		cost = 10
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_1_military = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = {
+				decision = ECU_allocate_industrial_resources_to_plane_production_decision
+				show_effect_tooltip = yes
+			}
+		}
+	}
+
+	## Officially Seperate the Airforce Branch ##
+	focus = {
+		id = ECU_officially_seperate_the_airforce_branch
+		icon = GFX_ECU_fuerza_aerea_icon
+		x = 0
+		y = 2
+		relative_position_id = ECU_airbase_expansion
+		prerequisite = {
+			focus = ECU_airbase_expansion
+		}
+
+		cost = 10
+
+		search_filters = {
+			FOCUS_FILTER_AIR_XP FOCUS_FILTER_HISTORICAL FOCUS_FILTER_WAR_SUPPORT
+		}
+
+		completion_reward = {
+			air_experience = 75
+			add_war_support = 0.03
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = ECU_modify_fuerza_aerea_tt
+			add_to_variable = {
+				JUNO_airforce_modifier_air_doctrine_cost_factor = -0.2
+				tooltip = air_doctrine_cost_factor_tt
+			}
+		}
+	}
+
+	### NAVY BRANCH ###
+	focus = {
+		id = ECU_la_armada_ecuatoriana
+		icon = GFX_ECU_armada_ecuatoriana_icon
+		x = 80
+		y = 0
+
+		ai_will_do = {
+			base = 3
+		}
+
+		available = {
+			any_controlled_state = {
+				is_coastal = yes 
+			}
+		}
+
+		cost = 4
+
+		offset = {
+			x = -32
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				OR = {
+					has_completed_focus = ECU_the_paez_dictatorship
+					has_completed_focus = ECU_the_elections_that_shouldve_been
+					has_completed_focus = ECU_support_gallo
+				}
+				NOT = {
+					has_global_flag = ECU_banana_company_takeover_flag
+				}
+			}
+		}
+
+		offset = {
+			x = -37
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_global_flag = ECU_banana_company_takeover_flag
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_NAVY_XP
+		}
+
+		completion_reward = {
+			navy_experience = 20
+			add_dynamic_modifier = {
+				modifier = ECU_armada_ecuatoriana_idea
+			}
+			if = {
+				limit = {
+					NOT = {
+						OR = {
+							has_completed_focus = ECU_el_ejercito_ecuatoriano
+							has_completed_focus = ECU_la_armada_ecuatoriana
+							has_completed_focus = ECU_import_american_planes
+						}
+					}
+				}
+				unlock_decision_category_tooltip = ECU_fuerzas_armadas_ecuatorianas
+			}
+		}
+	}
+
+	## Depoliticize the Navy ##
+	focus = {
+		id = ECU_depoliticize_the_navy
+		icon = GFX_ECU_depoliticize_navy_icon
+		x = -1
+		y = 1
+		relative_position_id = ECU_la_armada_ecuatoriana
+		prerequisite = {
+			focus = ECU_la_armada_ecuatoriana
+		}
+		mutually_exclusive = {
+			focus = ECU_support_the_conservative_admirals
+		}
+
+		ai_will_do = {
+			base = 3
+		}
+
+		cost = 6
+
+		available = {
+			has_idea = ECU_pro_conservative_navy
+		}
+
+		search_filters = {
+			FOCUS_FILTER_BIPARTISANSHIP FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			remove_ideas = ECU_pro_conservative_navy
+			add_stability = 0.05
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			ECU_worsen_conservative_opinion = yes 
+			ECU_improve_liberal_opinion = yes
+		}
+	}
+
+	## Support the Conservative Admirals ##
+	focus = {
+		id = ECU_support_the_conservative_admirals
+		icon = GFX_ECU_support_conservative_navy_icon
+		x = 1
+		y = 1
+		relative_position_id = ECU_la_armada_ecuatoriana
+		prerequisite = {
+			focus = ECU_la_armada_ecuatoriana
+		}
+		mutually_exclusive = {
+			focus = ECU_depoliticize_the_navy
+		}
+
+		ai_will_do = {
+			base = 3
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+
+		cost = 6
+
+		available = {
+			has_idea = ECU_pro_conservative_navy
+		}
+
+		search_filters = {
+			FOCUS_FILTER_BIPARTISANSHIP FOCUS_FILTER_POLITICAL FOCUS_FILTER_NAVY_XP
+		}
+
+		completion_reward = {
+			navy_experience = 50
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			ECU_worsen_liberal_opinion = yes 
+			ECU_improve_conservative_opinion = yes
+		}
+	}
+
+	### Dockyard Facility Expansion ##
+	focus = {
+		id = ECU_dockyard_facility_expansion
+		icon = GFX_goal_generic_construct_naval_dockyard
+		x = 0
+		y = 2
+		relative_position_id = ECU_la_armada_ecuatoriana
+		prerequisite = {
+			focus = ECU_support_the_conservative_admirals
+			focus = ECU_depoliticize_the_navy
+		}
+
+		cost = 7.2
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_1_dockyard = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = ECU_modify_armada_ecuatoriana_tt
+			add_to_variable = {
+				JUNO_navy_production_speed_dockyard_factor = 0.05
+				tooltip = production_speed_dockyard_factor_tt
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = ECU_initiate_a_dockyard_expansion_project_in_FROM
+		}
+	}
+
+	## Research Carriers ##
+	focus = {
+		id = ECU_research_carriers
+		icon = GFX_goal_generic_navy_carrier
+		x = -2
+		y = 1
+		relative_position_id = ECU_dockyard_facility_expansion
+		prerequisite = {
+			focus = ECU_dockyard_facility_expansion
+		}
+		prerequisite = {
+			focus = ECU_import_american_planes
+		}
+
+		cost = 8
+
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = ECU_research_carriers
+				bonus = 1.0
+				uses = 2
+				category = cv_tech
+			}
+		}
+	}
+
+	## Centralized Repair Centers ##
+	focus = {
+		id = ECU_centralized_repair_centers
+		icon = GFX_EUYL_generic_ship_repair_icon
+		x = 0
+		y = 1
+		relative_position_id = ECU_dockyard_facility_expansion
+		prerequisite = {
+			focus = ECU_dockyard_facility_expansion
+		}
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		completion_reward = {
+			custom_effect_tooltip = ECU_modify_armada_ecuatoriana_tt
+			add_to_variable = {
+				JUNO_navy_repair_speed_factor = 0.05
+				tooltip = repair_speed_factor_tt
+			}
+			add_to_variable = {
+				JUNO_navy_refit_speed = 0.05
+				tooltip = refit_speed_tt
+			}
+		}
+	}
+
+	## Light Ship Effort ##
+	focus = {
+		id = ECU_light_ship_effort
+		icon = GFX_focus_generic_destroyer
+		x = -1
+		y = 1
+		relative_position_id = ECU_centralized_repair_centers
+		prerequisite = {
+			focus = ECU_centralized_repair_centers
+		}
+
+		cost = 10
+
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = ECU_light_ship_effort
+				bonus = 0.75
+				uses = 2
+				category = ss_tech
+			}
+			add_tech_bonus = {
+				name = ECU_light_ship_effort
+				bonus = 0.75
+				uses = 2
+				category = dd_tech
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = ECU_modify_armada_ecuatoriana_tt
+			add_to_variable = {
+				JUNO_navy_spotting_chance = 0.1
+				tooltip = spotting_chance_tt
+			}
+			add_to_variable = {
+				JUNO_navy_industrial_capacity_dockyard = 0.05
+				tooltip = industrial_capacity_dockyard_tt
+			}
+		}
+	}
+
+	## Heavy Ship Expansion ##
+	focus = {
+		id = ECU_heavy_ship_expansion
+		icon = GFX_goal_generic_navy_battleship
+		x = 1
+		y = 1
+		relative_position_id = ECU_centralized_repair_centers
+		prerequisite = {
+			focus = ECU_centralized_repair_centers
+		}
+
+		cost = 10
+
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = ECU_heavy_ship_expansion
+				bonus = 0.75
+				uses = 2
+				category = ca_tech
+			}
+			add_tech_bonus = {
+				name = ECU_heavy_ship_expansion
+				bonus = 0.75
+				uses = 2
+				category = bb_tech
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = ECU_modify_armada_ecuatoriana_tt
+			add_to_variable = {
+				JUNO_navy_capital_ship_defence_factor = 0.05
+				tooltip = navy_capital_ship_defence_factor_tt
+			}
+			add_to_variable = {
+				ECU_navy_capital_ship_attack_factor = 0.05
+				tooltip = navy_capital_ship_attack_factor_tt
+			}
+		}
+	}
+
+	## Cuerpo de Marinas del Ecuador ##
+	focus = {
+		id = ECU_cuerpo_de_marinas_del_ecuador
+		icon = GFX_goal_generic_amphibious_assault
+		x = 0
+		y = 2
+		relative_position_id = ECU_centralized_repair_centers
+		prerequisite = {
+			focus = ECU_centralized_repair_centers
+		}
+
+		cost = 10
+
+		available = {
+			has_tech = marines
+		}
+
+		search_filters = {
+			FOCUS_FILTER_NAVY_XP FOCUS_FILTER_MANPOWER
+		}
+
+		completion_reward = {
+			add_manpower = 20000
+			navy_experience = 50
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = ECU_modify_armada_ecuatoriana_tt
+			add_to_variable = { 
+				JUNO_navy_naval_invasion_capacity = 5
+				tooltip = naval_invasion_capacity_tt
+		  	}
+		}
+	}
 }
