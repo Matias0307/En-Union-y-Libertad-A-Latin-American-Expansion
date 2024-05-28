@@ -1230,13 +1230,22 @@ EUYL_peru_ecuador_rising_tensions = {
 
 		cancel_effect = {
 			clr_country_flag = PRU_preparing_skirmish_flag
+			FROM = {
+				clr_state_flag = ECU_skirmish_happening_here_flag
+			}
 		}
 
 		complete_effect = {
 			hidden_effect = {
 				add_command_power = -15
+				ECU = {
+					activate_mission = ECU_PRU_planning_small_skirmish_in_FROM
+				}
 			}
 			set_country_flag = PRU_preparing_skirmish_flag
+			FROM = {
+				set_state_flag = ECU_skirmish_happening_here_flag
+			}
 		}
 
 		days_remove = 25
@@ -1258,50 +1267,111 @@ EUYL_peru_ecuador_rising_tensions = {
 						days = -95
 					}
 				}
-			}
-			if = {
-				limit = {
-					strength_ratio = {
-						tag = ECU 
-						ratio > 1
-					}
-				}
-				random_list = {
-					70 = {
-						country_event = peruecuador.13
-						if = {
-							limit = {
-								NOT = {
-									has_country_flag = PRU_succesful_skirmish_flag
-								}
-							}
-							set_country_flag = PRU_succesful_skirmish_flag
-						}
-						ECU = { country_event = peruecuador.14 }
-					}
-					30 = {
-						country_event = peruecuador.14
-						ECU = { country_event = peruecuador.13 }
-					}
+				FROM = {
+					clr_state_flag = ECU_skirmish_happening_here_flag
 				}
 			}
-			else = {
-				random_list = {
-					50 = {
-						country_event = peruecuador.13
-						if = {
-							limit = {
-								NOT = {
-									has_country_flag = PRU_succesful_skirmish_flag
+			random_list = {
+				50 = {
+					modifier = {
+						factor = 2
+						strength_ratio = {
+							tag = ECU 
+							ratio > 1
+						}
+					}
+					modifier = {
+						factor = 0.3 
+						FROM = { ## Ecuador added more divisions to prevent it
+							owner = {
+								divisions_in_state = {
+									size > 2
+									state = PREV
 								}
 							}
-							set_country_flag = PRU_succesful_skirmish_flag
 						}
-						ECU = { country_event = peruecuador.14 }
+					}
+					country_event = peruecuador.13
+					if = {
+						limit = {
+							NOT = {
+								has_country_flag = PRU_succesful_skirmish_flag
+							}
+						}
+						set_country_flag = PRU_succesful_skirmish_flag
+					}
+					ECU = { country_event = peruecuador.14 }
+				}
+				50 = {
+					modifier = {
+						factor = 0.5
+						FROM = { ## Ecuadorian state
+							any_neighbor_state = { ## Checking a peruvian state
+								is_controlled_by = PRU
+								ROOT = {
+									divisions_in_state = {
+										size > 3
+										state = PREV
+									}
+								}
+							}
+						}
+					}
+					country_event = peruecuador.14
+					ECU = { country_event = peruecuador.13 }
+				}
+			}
+		}
+	}
+
+	ECU_PRU_planning_small_skirmish_in_FROM = {
+		priority = 550
+		icon = generic_operation
+
+		activation = {
+			always = no 
+		}
+
+		highlight_states = {
+			highlight_states_trigger = {
+				has_state_flag = ECU_skirmish_happening_here_flag
+			}
+		}
+
+		days_mission_timeout = 25
+
+		is_good = no 
+
+		available = {
+			always = no 
+		}
+
+		cancel_trigger = {
+			PRU = {
+				OR = {
+					exists = no 
+					has_war_with = ROOT
+				}
+			}
+		}
+
+		timeout_effect = {
+			effect_tooltip = {
+				random_list = {
+					50 = {
+						modifier = {
+							factor = 2
+							strength_ratio = {
+								tag = PRU 
+								ratio > 1
+							}
+						}
+						country_event = peruecuador.13
+						PRU = { country_event = peruecuador.14 }
 					}
 					50 = {
 						country_event = peruecuador.14
-						ECU = { country_event = peruecuador.13 }
+						PRU = { country_event = peruecuador.13 }
 					}
 				}
 			}
@@ -1597,7 +1667,6 @@ EUYL_peru_ecuador_rising_tensions = {
 			NOT = {
 				has_war_with = PRU 
 			}
-			num_of_available_civilian_factories > 0
 		}
 
 		cost = 15
@@ -1625,7 +1694,7 @@ EUYL_peru_ecuador_rising_tensions = {
 		days_remove = 30
 
 		modifier = {
-			civilian_factory_use = 1
+			consumer_goods_factor = 0.5
 			political_power_factor = -0.05
 		}
 
@@ -1741,7 +1810,7 @@ EUYL_peru_ecuador_rising_tensions = {
 			}
 			FROM = {
 				create_unit = {
-					division = "name = \"Brigada [FROM.owner.GetAdjective]\" division_template = \"Brigada\" start_experience_factor = 0.04 start_equipment_factor = 1" 
+					division = "name = \"Brigada\" division_template = \"Brigada\" start_experience_factor = 0.04 start_equipment_factor = 1" 
 					owner = ECU
 				}
 			}
@@ -2193,14 +2262,7 @@ EUYL_peru_ecuador_rising_tensions = {
 					days = 90
 				}
 			}
-			if = {
-				limit = {
-					NOT = {
-						has_completed_focus = PRU_launch_the_guayaquil_offensive
-					}
-				}
-				activate_mission = PRU_capture_guayaquil
-			}
+			activate_mission = PRU_capture_guayaquil
 		}
 
 		timeout_effect = {
@@ -2440,6 +2502,12 @@ ECU_greater_ecuador_cat = {
 			NOT = {
 				OR = {
 					has_cosmetic_tag = GUOSR_UNIFIED ## will add the other possible tags here
+					has_cosmetic_tag = ECU_KINGDOM_QUITO
+					has_cosmetic_tag = ECU_UNITED_KINGDOM
+					has_cosmetic_tag = ECU_BANANA_COMPANY
+					has_cosmetic_tag = ECU_COLOMBIA_ECUADOR
+					has_cosmetic_tag = ECU_GLOBAL_ENTERPRISE_ZONE
+					has_cosmetic_tag = ECU_SPANISH_EMPIRE
 				}
 			}
 		}

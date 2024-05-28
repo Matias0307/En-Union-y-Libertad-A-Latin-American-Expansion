@@ -199,7 +199,7 @@ country_event = {
 	option = { ## We must ensure peace on our continent | HISTORICAL
 		name = peruecuador.3.a 
 		ai_chance = {
-			base = 40
+			base = 90
 			modifier = {
 				factor = 0
 				surrender_progress > 0.04 ## actively getting invaded
@@ -222,9 +222,9 @@ country_event = {
 	option = {
 		name = peruecuador.3.b 
 		ai_chance = {
-			base = 5
+			base = 2
 			modifier = {
-				factor = 4
+				factor = 12
 				OR = {
 					has_government = communism
 					has_government = fascism
@@ -888,6 +888,33 @@ country_event = {
 		add_to_variable = {
 			EUYL_peru_ecuador_attack_bonus = 0.03
 			tooltip = army_attack_factor_tt
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_template = "Brigada Peruana"
+				}
+			}
+			division_template = {
+				name = "Brigada Peruana"
+				division_names_group = SPAN_INF_02
+				template_counter = 3
+				
+				regiments = {
+					infantry = { x = 0 y = 0 }
+					infantry = { x = 0 y = 1 }
+					infantry = { x = 0 y = 2 }
+					infantry = { x = 0 y = 3 }
+				}
+			}
+		}
+		1005 = {
+			create_unit = {
+				division = "name = \"Brigada Peruana\" division_template = \"Brigada Peruana\" start_experience_factor = 0.04 start_equipment_factor = 0.9" 
+				owner = ROOT
+				count = 2
+				allow_spawning_on_enemy_provs = yes
+			}
 		}
 	}
 

@@ -1283,6 +1283,14 @@ focus_tree = {
 			focus = ECU_returned_to_the_gold_standard_focus
 		}
 
+		ai_will_do = {
+			base = 2
+			modifier = {
+				factor = 3
+				has_idea = ECU_active_inflationary_crisis
+			}
+		}
+
 		cost = 10
 
 		search_filters = {
@@ -1322,6 +1330,10 @@ focus_tree = {
 
 		ai_will_do = {
 			base = 4
+			modifier = {
+				factor = 3
+				has_idea = ECU_active_inflationary_crisis
+			}
 		}
 
 		available = {
@@ -2507,14 +2519,14 @@ focus_tree = {
 				if = {
 					limit = {
 						check_variable = {
-							ECU_conserv_op = 3
+							ECU_conserv_op > 1
 						}
 					}
 					start_civil_war = {
 						ideology = democratic
 						ruling_party = neutrality
-						capital = 972 
-						states = { 972 305 }
+						capital = 305 
+						states = { 1010 305 1036 }
 						keep_all_characters = yes 
 						PREV = {
 							ECU_alberto_enriquez_gallo = {
@@ -2530,14 +2542,14 @@ focus_tree = {
 				else_if = {
 					limit = {
 						check_variable = {
-							ECU_conserv_op = 2
+							ECU_conserv_op > 0
 						}
 					}
 					start_civil_war = {
 						ideology = democratic
 						ruling_party = neutrality
-						capital = 972 
-						states = { 972 305 1037 }
+						capital = 305 
+						states = { 1010 305 1037 1036 }
 						keep_all_characters = yes 
 						PREV = {
 							ECU_alberto_enriquez_gallo = {
@@ -2554,8 +2566,8 @@ focus_tree = {
 					start_civil_war = {
 						ideology = democratic
 						ruling_party = neutrality
-						capital = 972 
-						states = { 972 305 1037 1020 }
+						capital = 305 
+						states = { 1010 305 1037 1020 1036 }
 						keep_all_characters = yes 
 						PREV = {
 							ECU_alberto_enriquez_gallo = {
@@ -2586,7 +2598,7 @@ focus_tree = {
 					}
 					random_owned_controlled_state = {
 						prioritize = {
-							1020 
+							972 
 						}
 						create_unit = {
 							division = "name = \"División de Infanteria\" division_template = \"División de Infanteria\" start_experience_factor = 0.02 start_equipment_factor = 0.6" 
@@ -2672,7 +2684,7 @@ focus_tree = {
 						create_unit = {
 							division = "name = \"Brigada Liberal\" division_template = \"Milicias\" start_experience_factor = 0.04 start_equipment_factor = 0.9" 
 							owner = PREV
-							count = 3
+							count = 2
 						}
 					}
 				}
@@ -7081,7 +7093,7 @@ focus_tree = {
 		}
 
 		search_filters = {
-			FOCUS_FILTER_MANPOWER FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ECONOMIC_GROWTH
+			FOCUS_FILTER_MANPOWER FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ECONOMIC_GROWTH FOCUS_FILTER_WAR_SUPPORT
 		}
 		
 		completion_reward = {
@@ -7098,7 +7110,7 @@ focus_tree = {
 
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
-			#EUYL_clear_monroe_doctrine = yes
+			add_war_support = 0.05
 		}
 	}
 
@@ -7223,11 +7235,12 @@ focus_tree = {
 		cost = 2.9
 
 		search_filters = {
-			FOCUS_FILTER_POLITICAL
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT
 		}
 
 		completion_reward = {
 			add_command_power = 25
+			add_war_support = 0.05
 			every_state = {
 				limit = {
 					any_neighbor_state = {
@@ -7755,7 +7768,7 @@ focus_tree = {
 		}
 
 		search_filters = {
-			FOCUS_FILTER_STABILITY FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL
+			FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL
 		}
 
 		completion_reward = {
@@ -7767,6 +7780,10 @@ focus_tree = {
 				idea = ECU_socialist_support_idea
 				days = 720
 			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_war_support = 0.05
 		}
 	}
 
@@ -10455,7 +10472,7 @@ focus_tree = {
 		}
 
 		search_filters = {
-			FOCUS_FILTER_ARMY_XP
+			FOCUS_FILTER_ARMY_XP FOCUS_FILTER_WAR_SUPPORT
 		}
 
 		offset = {
@@ -10491,6 +10508,7 @@ focus_tree = {
 
 		completion_reward = {
 			army_experience = 20
+			add_war_support = 0.05
 			add_dynamic_modifier = {
 				modifier = ECU_ejercito_ecuatoriano_idea
 			}
@@ -10946,7 +10964,7 @@ focus_tree = {
 		}
 
 		search_filters = {
-			FOCUS_FILTER_AIR_XP FOCUS_FILTER_RESEARCH FOCUS_FILTER_HISTORICAL FOCUS_FILTER_STABILITY
+			FOCUS_FILTER_AIR_XP FOCUS_FILTER_RESEARCH FOCUS_FILTER_HISTORICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT
 		}
 
 		completion_reward = {
