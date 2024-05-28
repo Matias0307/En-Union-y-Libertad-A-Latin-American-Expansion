@@ -33,8 +33,8 @@ PRU_ltp_template_and_production = {
 	}
     add_equipment_to_stockpile = {
         type = light_tank_chassis_1
-        creator = "PRU"
-        version_name = "Lehky Tank Peruánský"
+        producer = "PRU"
+        variant_name = "Lehky Tank Peruánský"
         amount = 350
     }
 }
@@ -249,7 +249,7 @@ PRU_start_communist_civil_war = {
     }
     else_if = { ## Middle difficulty
         limit = {
-            check_variable = { ARG_temp_coalition_strength > 50 }
+            check_variable = { PRU_support_for_the_revolution > 50 }
         }
         start_civil_war = {
 			ruling_party = communism
@@ -429,1645 +429,3109 @@ PRU_improve_social_and_economic_crisis = {
     else = { remove_ideas = PRU_social_and_economic_crisis_3 }
 }
 
-PRU_partidos_update_update_effect = { 
+###############################################################
+###############################################################
+######################## APRISTAS #############################
+###############################################################
+###############################################################
 
+PRU_partidos_update_apra = {
     hidden_effect = {
-    ###############################################################
-    ###############################################################
-    ######################## APRISTAS ########################
-    ###############################################################
-    ###############################################################
-	if = { #LOYAL 
-        limit = {
-            check_variable = { PRU_apra_loyalty = -1 compare = equals } 
-        }
-        if = {
+        if = { #LOYAL 
             limit = {
-                NOT = { has_idea = PRU_loyal_goverment_apra }
+                check_variable = { PRU_apra_loyalty = -1 compare = equals } 
             }
-            add_ideas = PRU_loyal_goverment_apra
-        }
-        if = {
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_loyal_goverment_apra }
+                }
+                add_ideas = PRU_loyal_goverment_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_apra 
+                }
+                remove_ideas = PRU_hostil_apra 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_apra
+                }
+                remove_ideas = PRU_low_bonus_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_apra
+                }
+                remove_ideas = PRU_low_bonus_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_apra
+                }
+                remove_ideas = PRU_h_bonus_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_marina_apra
+                }
+                remove_ideas = PRU_h_bonus_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_ejercito_apra
+                }
+                remove_ideas = PRU_low_debuf_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_apra
+                }
+                remove_ideas = PRU_low_debuf_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_apra
+                }
+                remove_ideas = PRU_h_debuf_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_apra
+                }
+                remove_ideas = PRU_h_debuf_marina_apra
+            }
+            
+            }
+        else_if = { #EJERCITO LOW BONUS 
             limit = {
-                has_idea = PRU_hostil_apra 
+                check_variable = { var = PRU_apra_loyalty value = 1 compare = equals }
+                check_variable = { var = PRU_army_loyalty_status value = 1 compare = equals }
             }
-            remove_ideas = PRU_hostil_apra 
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_low_bonus_ejercito_apra }
+                }
+                add_ideas = PRU_low_bonus_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_apra 
+                }
+                remove_ideas = PRU_hostil_apra 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_apra
+                    
+                }
+                remove_ideas = PRU_loyal_goverment_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_apra
+                }
+                remove_ideas = PRU_low_bonus_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_apra
+                }
+                remove_ideas = PRU_h_bonus_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_apra
+                }
+                remove_ideas = PRU_h_bonus_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_low_debuf_ejercito_apra
+                }
+                remove_ideas = PRU_low_debuf_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_apra
+                }
+                remove_ideas = PRU_low_debuf_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_apra
+                }
+                remove_ideas = PRU_h_debuf_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_apra
+                }
+                remove_ideas = PRU_h_debuf_marina_apra
+            }
         }
-        if = {
+        else_if = { #EJERCITO H BONUS 
             limit = {
-                has_idea = PRU_low_bonus_ejercito_apra
+                check_variable = { PRU_apra_loyalty = 1 compare = equals } 
+                check_variable = { PRU_army_loyalty_status = 2 compare = equals }
             }
-            remove_ideas = PRU_low_bonus_ejercito_apra
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_h_bonus_ejercito_apra }
+                }
+                add_ideas = PRU_h_bonus_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_apra 
+                }
+                remove_ideas = PRU_hostil_apra 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_apra
+                
+                }
+                remove_ideas = PRU_loyal_goverment_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_apra
+                }
+                remove_ideas = PRU_low_bonus_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_apra
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_apra
+                
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_apra
+                }
+                remove_ideas = PRU_h_bonus_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_low_debuf_ejercito_apra
+                }
+                remove_ideas = PRU_low_debuf_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_apra
+                }
+                remove_ideas = PRU_low_debuf_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_apra
+                }
+                remove_ideas = PRU_h_debuf_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_apra
+                }
+                remove_ideas = PRU_h_debuf_marina_apra
+            }
         }
-        if = {
+        else_if = { #MARINA LOW BONUS 
             limit = {
-                has_idea = PRU_low_bonus_marina_apra
+                check_variable = { PRU_apra_loyalty = 2 compare = equals } 
+                check_variable = { PRU_navy_loyalty_status = 1 compare = equals }
             }
-            remove_ideas = PRU_low_bonus_marina_apra
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_low_bonus_marina_apra }
+                }
+                add_ideas = PRU_low_bonus_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_apra 
+                }
+                remove_ideas = PRU_hostil_apra 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_apra
+                
+                }
+                remove_ideas = PRU_loyal_goverment_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_apra
+                }
+                remove_ideas = PRU_h_bonus_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_apra
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_apra
+                
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_apra
+                }
+                remove_ideas = PRU_h_bonus_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_low_debuf_ejercito_apra
+                }
+                remove_ideas = PRU_low_debuf_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_apra
+                }
+                remove_ideas = PRU_low_debuf_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_apra
+                }
+                remove_ideas = PRU_h_debuf_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_apra
+                }
+                remove_ideas = PRU_h_debuf_marina_apra
+            }
         }
-        if = {
+        else_if = { #MARINA h BONUS 
             limit = {
-                has_idea = PRU_h_bonus_ejercito_apra
+                check_variable = { PRU_apra_loyalty = 2 compare = equals } 
+                check_variable = { PRU_navy_loyalty_status = 2 compare = equals }
             }
-            remove_ideas = PRU_h_bonus_ejercito_apra
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_h_bonus_marina_apra }
+                }
+                add_ideas = PRU_h_bonus_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_apra 
+                }
+                remove_ideas = PRU_hostil_apra 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_apra
+                
+                }
+                remove_ideas = PRU_loyal_goverment_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_apra
+                }
+                remove_ideas = PRU_h_bonus_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_apra
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_apra
+                
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_apra
+                }
+                remove_ideas = PRU_low_bonus_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_low_debuf_ejercito_apra
+                }
+                remove_ideas = PRU_low_debuf_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_apra
+                }
+                remove_ideas = PRU_low_debuf_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_apra
+                }
+                remove_ideas = PRU_h_debuf_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_apra
+                }
+                remove_ideas = PRU_h_debuf_marina_apra
+            }
         }
-        if = {
+        else_if = { #EJERCITO LOW DEBUF 
             limit = {
-                has_idea = PRU_h_bonus_marina_apra
+                check_variable = { PRU_apra_loyalty = 1 compare = equals } 
+                check_variable = { PRU_navy_loyalty_status = 1 compare = equals }
             }
-            remove_ideas = PRU_h_bonus_marina_apra
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_low_debuf_ejercito_apra}
+                }
+                add_ideas = PRU_low_debuf_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_apra 
+                }
+                remove_ideas = PRU_hostil_apra 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_apra
+                
+                }
+                remove_ideas = PRU_loyal_goverment_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_apra
+                }
+                remove_ideas = PRU_h_bonus_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_apra
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_apra
+                
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_apra
+                }
+                remove_ideas = PRU_low_bonus_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_apra
+                }
+                remove_ideas = PRU_h_bonus_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_apra
+                }
+                remove_ideas = PRU_low_debuf_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_apra
+                }
+                remove_ideas = PRU_h_debuf_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_apra
+                }
+                remove_ideas = PRU_h_debuf_marina_apra
+            }
         }
-        if = {
+        else_if = { #EJERCITO H DEBUF 
             limit = {
-                has_idea = PRU_low_debuf_ejercito_apra
+                check_variable = { PRU_apra_loyalty = 1 compare = equals } 
+                check_variable = { PRU_navy_loyalty_status = 2 compare = equals }
             }
-            remove_ideas = PRU_low_debuf_ejercito_apra
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_h_debuf_ejercito_apra }
+                }
+                add_ideas = PRU_h_debuf_ejercito_apra 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_apra 
+                }
+                remove_ideas = PRU_hostil_apra 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_apra
+                
+                }
+                remove_ideas = PRU_loyal_goverment_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_apra
+                }
+                remove_ideas = PRU_h_bonus_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_apra
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_apra
+                
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_apra
+                }
+                remove_ideas = PRU_low_bonus_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_apra
+                }
+                remove_ideas = PRU_h_bonus_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_apra
+                }
+                remove_ideas = PRU_low_debuf_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_ejercito_apra
+                }
+                remove_ideas = PRU_low_debuf_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_apra
+                }
+                remove_ideas = PRU_h_debuf_marina_apra
+            }
         }
-        if = {
+        else_if = { #MARINA LOW DEBUF 
             limit = {
-                has_idea = PRU_low_debuf_marina_apra
+                check_variable = { PRU_apra_loyalty = 2 compare = equals } 
+                check_variable = { PRU_army_loyalty_status = 1 compare = equals }
             }
-            remove_ideas = PRU_low_debuf_marina_apra
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_low_debuf_marina_apra }
+                }
+                add_ideas = PRU_low_debuf_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_apra 
+                }
+                remove_ideas = PRU_hostil_apra 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_apra
+                
+                }
+                remove_ideas = PRU_loyal_goverment_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_apra
+                }
+                remove_ideas = PRU_h_bonus_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_apra
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_apra
+                
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_apra
+                }
+                remove_ideas = PRU_low_bonus_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_apra
+                }
+                remove_ideas = PRU_h_bonus_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_apra 
+                }
+                remove_ideas = PRU_h_debuf_ejercito_apra 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_ejercito_apra
+                }
+                remove_ideas = PRU_low_debuf_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_apra
+                }
+                remove_ideas = PRU_h_debuf_marina_apra
+            }
         }
-        if = {
+        else_if = { #MARINA LOW DEBUF 
             limit = {
-                has_idea = PRU_h_debuf_ejercito_apra
+                check_variable = { PRU_apra_loyalty = 2 compare = equals } 
+                check_variable = { PRU_army_loyalty_status = 2 compare = equals }
             }
-            remove_ideas = PRU_h_debuf_ejercito_apra
-        }
-        if = {
-              limit = {
-                  has_idea = PRU_h_debuf_marina_apra
-              }
-              remove_ideas = PRU_h_debuf_marina_apra
-          }
-          
-        }
-    else_if = { #EJERCITO LOW BONUS 
-      limit = {
-          check_variable = { var = PRU_apra_loyalty value = 1 compare = equals }
-          check_variable = { var = PRU_army_loyalty_status value = 1 compare = equals }
-          }
-      if = {
-          limit = {
-              NOT = { has_idea = PRU_low_bonus_ejercito_apra }
-          }
-          add_ideas = PRU_low_bonus_ejercito_apra
-      }
-      if = {
-          limit = {
-              has_idea = PRU_hostil_apra 
-          }
-          remove_ideas = PRU_hostil_apra 
-      }
-      if = {
-          limit = {
-              has_idea = PRU_loyal_goverment_apra
-             
-          }
-          remove_ideas = PRU_loyal_goverment_apra
-      }
-      if = {
-          limit = {
-              has_idea = PRU_low_bonus_marina_apra
-          }
-          remove_ideas = PRU_low_bonus_marina_apra
-      }
-      if = {
-          limit = {
-              has_idea = PRU_h_bonus_ejercito_apra
-          }
-          remove_ideas = PRU_h_bonus_ejercito_apra
-      }
-      if = {
-          limit = {
-              has_idea =  PRU_h_bonus_marina_apra
-          }
-          remove_ideas = PRU_h_bonus_marina_apra
-      }
-      if = {
-          limit = {
-              has_idea =  PRU_low_debuf_ejercito_apra
-          }
-          remove_ideas = PRU_low_debuf_ejercito_apra
-      }
-      if = {
-          limit = {
-              has_idea = PRU_low_debuf_marina_apra
-          }
-          remove_ideas = PRU_low_debuf_marina_apra
-      }
-      if = {
-          limit = {
-              has_idea = PRU_h_debuf_ejercito_apra
-          }
-          remove_ideas = PRU_h_debuf_ejercito_apra
-      }
-      if = {
-          limit = {
-              has_idea = PRU_h_debuf_marina_apra
-          }
-          remove_ideas = PRU_h_debuf_marina_apra
-      }
-    }
-    else_if = { #EJERCITO H BONUS 
-    limit = {
-        check_variable = { PRU_apra_loyalty = 1 compare = equals } 
-        check_variable = { PRU_army_loyalty_status = 2 compare = equals }
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_h_bonus_ejercito_apra }
-        }
-        add_ideas = PRU_h_bonus_ejercito_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_apra 
-        }
-        remove_ideas = PRU_hostil_apra 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_apra
-           
-        }
-        remove_ideas = PRU_loyal_goverment_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_marina_apra
-        }
-        remove_ideas = PRU_low_bonus_marina_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_apra
-         
-        }
-        remove_ideas = PRU_low_bonus_ejercito_apra
-        
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_h_bonus_marina_apra
-        }
-        remove_ideas = PRU_h_bonus_marina_apra
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_low_debuf_ejercito_apra
-        }
-        remove_ideas = PRU_low_debuf_ejercito_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_apra
-        }
-        remove_ideas = PRU_low_debuf_marina_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_apra
-        }
-        remove_ideas = PRU_h_debuf_ejercito_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_marina_apra
-        }
-        remove_ideas = PRU_h_debuf_marina_apra
-    }
-    }
-    else_if = { #MARINA LOW BONUS 
-    limit = {
-        check_variable = { PRU_apra_loyalty = 2 compare = equals } 
-        check_variable = { PRU_navy_loyalty_status = 1 compare = equals }
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_low_bonus_marina_apra }
-        }
-        add_ideas = PRU_low_bonus_marina_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_apra 
-        }
-        remove_ideas = PRU_hostil_apra 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_apra
-           
-        }
-        remove_ideas = PRU_loyal_goverment_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_bonus_ejercito_apra
-        }
-        remove_ideas = PRU_h_bonus_ejercito_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_apra
-         
-        }
-        remove_ideas = PRU_low_bonus_ejercito_apra
-        
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_h_bonus_marina_apra
-        }
-        remove_ideas = PRU_h_bonus_marina_apra
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_low_debuf_ejercito_apra
-        }
-        remove_ideas = PRU_low_debuf_ejercito_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_apra
-        }
-        remove_ideas = PRU_low_debuf_marina_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_apra
-        }
-        remove_ideas = PRU_h_debuf_ejercito_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_marina_apra
-        }
-        remove_ideas = PRU_h_debuf_marina_apra
-    }
-    }
-    else_if = { #MARINA h BONUS 
-    limit = {
-        check_variable = { PRU_apra_loyalty = 2 compare = equals } 
-        check_variable = { PRU_navy_loyalty_status = 2 compare = equals }
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_h_bonus_marina_apra }
-        }
-        add_ideas = PRU_h_bonus_marina_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_apra 
-        }
-        remove_ideas = PRU_hostil_apra 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_apra
-           
-        }
-        remove_ideas = PRU_loyal_goverment_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_bonus_ejercito_apra
-        }
-        remove_ideas = PRU_h_bonus_ejercito_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_apra
-         
-        }
-        remove_ideas = PRU_low_bonus_ejercito_apra
-        
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_marina_apra
-        }
-        remove_ideas = PRU_low_bonus_marina_apra
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_low_debuf_ejercito_apra
-        }
-        remove_ideas = PRU_low_debuf_ejercito_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_apra
-        }
-        remove_ideas = PRU_low_debuf_marina_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_apra
-        }
-        remove_ideas = PRU_h_debuf_ejercito_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_marina_apra
-        }
-        remove_ideas = PRU_h_debuf_marina_apra
-    }
-    }
-    else_if = { #EJERCITO LOW DEBUF 
-    limit = {
-        check_variable = { PRU_apra_loyalty = 1 compare = equals } 
-        check_variable = { PRU_navy_loyalty_status = 1 compare = equals }
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_low_debuf_ejercito_apra}
-        }
-        add_ideas = PRU_low_debuf_ejercito_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_apra 
-        }
-        remove_ideas = PRU_hostil_apra 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_apra
-           
-        }
-        remove_ideas = PRU_loyal_goverment_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_bonus_ejercito_apra
-        }
-        remove_ideas = PRU_h_bonus_ejercito_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_apra
-         
-        }
-        remove_ideas = PRU_low_bonus_ejercito_apra
-        
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_marina_apra
-        }
-        remove_ideas = PRU_low_bonus_marina_apra
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_h_bonus_marina_apra
-        }
-        remove_ideas = PRU_h_bonus_marina_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_apra
-        }
-        remove_ideas = PRU_low_debuf_marina_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_apra
-        }
-        remove_ideas = PRU_h_debuf_ejercito_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_marina_apra
-        }
-        remove_ideas = PRU_h_debuf_marina_apra
-    }
-    }
-    else_if = { #EJERCITO H DEBUF 
-    limit = {
-        check_variable = { PRU_apra_loyalty = 1 compare = equals } 
-        check_variable = { PRU_navy_loyalty_status = 2 compare = equals }
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_h_debuf_ejercito_apra }
-        }
-        add_ideas = PRU_h_debuf_ejercito_apra 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_apra 
-        }
-        remove_ideas = PRU_hostil_apra 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_apra
-           
-        }
-        remove_ideas = PRU_loyal_goverment_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_bonus_ejercito_apra
-        }
-        remove_ideas = PRU_h_bonus_ejercito_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_apra
-         
-        }
-        remove_ideas = PRU_low_bonus_ejercito_apra
-        
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_marina_apra
-        }
-        remove_ideas = PRU_low_bonus_marina_apra
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_h_bonus_marina_apra
-        }
-        remove_ideas = PRU_h_bonus_marina_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_apra
-        }
-        remove_ideas = PRU_low_debuf_marina_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_ejercito_apra
-        }
-        remove_ideas = PRU_low_debuf_ejercito_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_marina_apra
-        }
-        remove_ideas = PRU_h_debuf_marina_apra
-    }
-    }
-    else_if = { #MARINA LOW DEBUF 
-    limit = {
-        check_variable = { PRU_apra_loyalty = 2 compare = equals } 
-        check_variable = { PRU_army_loyalty_status = 1 compare = equals }
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_low_debuf_marina_apra }
-        }
-        add_ideas = PRU_low_debuf_marina_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_apra 
-        }
-        remove_ideas = PRU_hostil_apra 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_apra
-           
-        }
-        remove_ideas = PRU_loyal_goverment_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_bonus_ejercito_apra
-        }
-        remove_ideas = PRU_h_bonus_ejercito_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_apra
-         
-        }
-        remove_ideas = PRU_low_bonus_ejercito_apra
-        
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_marina_apra
-        }
-        remove_ideas = PRU_low_bonus_marina_apra
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_h_bonus_marina_apra
-        }
-        remove_ideas = PRU_h_bonus_marina_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_apra 
-        }
-        remove_ideas = PRU_h_debuf_ejercito_apra 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_ejercito_apra
-        }
-        remove_ideas = PRU_low_debuf_ejercito_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_marina_apra
-        }
-        remove_ideas = PRU_h_debuf_marina_apra
-    }
-    }
-    else_if = { #MARINA LOW DEBUF 
-    limit = {
-        check_variable = { PRU_apra_loyalty = 2 compare = equals } 
-        check_variable = { PRU_army_loyalty_status = 2 compare = equals }
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_h_debuf_marina_apra }
-        }
-        add_ideas = PRU_h_debuf_marina_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_apra 
-        }
-        remove_ideas = PRU_hostil_apra 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_apra
-           
-        }
-        remove_ideas = PRU_loyal_goverment_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_bonus_ejercito_apra
-        }
-        remove_ideas = PRU_h_bonus_ejercito_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_apra
-         
-        }
-        remove_ideas = PRU_low_bonus_ejercito_apra
-        
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_marina_apra
-        }
-        remove_ideas = PRU_low_bonus_marina_apra
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_h_bonus_marina_apra
-        }
-        remove_ideas = PRU_h_bonus_marina_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_apra 
-        }
-        remove_ideas = PRU_h_debuf_ejercito_apra 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_ejercito_apra
-        }
-        remove_ideas = PRU_low_debuf_ejercito_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_apra
-        }
-        remove_ideas = PRU_low_debuf_marina_apra
-    }
-    }
-    else_if = { #HOSTILE
-    limit = {
-        check_variable = { PRU_apra_loyalty = -2 compare = equals } 
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_hostil_apra  }
-        }
-        add_ideas = PRU_hostil_apra 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_apra
-        }
-        remove_ideas = PRU_low_bonus_ejercito_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_apra
-           
-        }
-        remove_ideas = PRU_loyal_goverment_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_marina_apra
-        }
-        remove_ideas = PRU_low_bonus_marina_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_bonus_ejercito_apra
-        }
-        remove_ideas = PRU_h_bonus_ejercito_apra
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_h_bonus_marina_apra
-        }
-        remove_ideas = PRU_h_bonus_marina_apra
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_low_debuf_ejercito_apra
-        }
-        remove_ideas = PRU_low_debuf_ejercito_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_apra
-        }
-        remove_ideas = PRU_low_debuf_marina_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_apra
-        }
-        remove_ideas = PRU_h_debuf_ejercito_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_marina_apra
-        }
-        remove_ideas = PRU_h_debuf_marina_apra
-    }
-    }
-    else = { #INDIFFERENT/INCONSEQUENTIAL 
-    if = {
-        limit = {
-           has_idea = PRU_h_debuf_marina_apra 
-        }
-         remove_ideas = PRU_h_debuf_marina_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_apra 
-        }
-        remove_ideas = PRU_hostil_apra 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_apra
-           
-        }
-        remove_ideas = PRU_loyal_goverment_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_bonus_ejercito_apra
-        }
-        remove_ideas = PRU_h_bonus_ejercito_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_apra
-         
-        }
-        remove_ideas = PRU_low_bonus_ejercito_apra
-        
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_marina_apra
-        }
-        remove_ideas = PRU_low_bonus_marina_apra
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_h_bonus_marina_apra
-        }
-        remove_ideas = PRU_h_bonus_marina_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_apra 
-        }
-        remove_ideas = PRU_h_debuf_ejercito_apra 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_ejercito_apra
-        }
-        remove_ideas = PRU_low_debuf_ejercito_apra
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_apra
-        }
-        remove_ideas = PRU_low_debuf_marina_apra
-    }
-    }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_h_debuf_marina_apra }
+                }
+                add_ideas = PRU_h_debuf_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_apra 
+                }
+                remove_ideas = PRU_hostil_apra 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_apra
+                
+                }
+                remove_ideas = PRU_loyal_goverment_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_apra
+                }
+                remove_ideas = PRU_h_bonus_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_apra
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_apra
+                
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_apra
+                }
+                remove_ideas = PRU_low_bonus_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_apra
+                }
+                remove_ideas = PRU_h_bonus_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_apra 
+                }
+                remove_ideas = PRU_h_debuf_ejercito_apra 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_ejercito_apra
+                }
+                remove_ideas = PRU_low_debuf_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_apra
+                }
+                remove_ideas = PRU_low_debuf_marina_apra
+            }
+        }
+        else_if = { #HOSTILE
+            limit = {
+                check_variable = { PRU_apra_loyalty = -2 compare = equals } 
+            }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_hostil_apra  }
+                }
+                add_ideas = PRU_hostil_apra 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_apra
+                }
+                remove_ideas = PRU_low_bonus_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_apra
+                
+                }
+                remove_ideas = PRU_loyal_goverment_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_apra
+                }
+                remove_ideas = PRU_low_bonus_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_apra
+                }
+                remove_ideas = PRU_h_bonus_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_apra
+                }
+                remove_ideas = PRU_h_bonus_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_low_debuf_ejercito_apra
+                }
+                remove_ideas = PRU_low_debuf_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_apra
+                }
+                remove_ideas = PRU_low_debuf_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_apra
+                }
+                remove_ideas = PRU_h_debuf_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_apra
+                }
+                remove_ideas = PRU_h_debuf_marina_apra
+            }
+        }
+        else = { #INDIFFERENT/INCONSEQUENTIAL 
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_apra 
+                }
+                remove_ideas = PRU_h_debuf_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_apra 
+                }
+                remove_ideas = PRU_hostil_apra 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_apra
+                
+                }
+                remove_ideas = PRU_loyal_goverment_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_apra
+                }
+                remove_ideas = PRU_h_bonus_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_apra
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_apra
+                
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_apra
+                }
+                remove_ideas = PRU_low_bonus_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_apra
+                }
+                remove_ideas = PRU_h_bonus_marina_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_apra 
+                }
+                remove_ideas = PRU_h_debuf_ejercito_apra 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_ejercito_apra
+                }
+                remove_ideas = PRU_low_debuf_ejercito_apra
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_apra
+                }
+                remove_ideas = PRU_low_debuf_marina_apra
+            }
+        }
+    }
+}
 
-     ###############################################################
-    ###############################################################
-    ######################## QUECHUAS ########################
-    ###############################################################
-    ###############################################################
-	if = { #LOYAL 
-        limit = {
-            check_variable = { PRU_que_loyalty = -1 compare = equals } 
-        }
-        if = {
-            limit = {
-                NOT = { has_idea = PRU_loyal_goverment_que }
-            }
-            add_ideas = PRU_loyal_goverment_que
-        }
-        if = {
-            limit = {
-                has_idea = PRU_hostil_que 
-            }
-            remove_ideas = PRU_hostil_que 
-        }
-        if = {
-            limit = {
-                has_idea = PRU_low_bonus_ejercito_que
-            }
-            remove_ideas = PRU_low_bonus_ejercito_que
-        }
-        if = {
-            limit = {
-                has_idea = PRU_low_bonus_marina_que
-            }
-            remove_ideas = PRU_low_bonus_marina_que
-        }
-        if = {
-            limit = {
-                has_idea = PRU_h_bonus_ejercito_que
-            }
-            remove_ideas = PRU_h_bonus_ejercito_que
-        }
-        if = {
-            limit = {
-                has_idea = PRU_h_bonus_marina_que
-            }
-            remove_ideas = PRU_h_bonus_marina_que
-        }
-        if = {
-            limit = {
-                has_idea = PRU_low_debuf_ejercito_que
-            }
-            remove_ideas = PRU_low_debuf_ejercito_que
-        }
-        if = {
-            limit = {
-                has_idea = PRU_low_debuf_marina_que
-            }
-            remove_ideas = PRU_low_debuf_marina_que
-        }
-        if = {
-            limit = {
-                has_idea = PRU_h_debuf_ejercito_que
-            }
-            remove_ideas = PRU_h_debuf_ejercito_que
-        }
-        if = {
-            limit = {
-                has_idea = PRU_h_debuf_marina_que
-            }
-            remove_ideas = PRU_h_debuf_marina_que
-        }
-        
-    }
-    else_if = { #EJERCITO LOW BONUS 
-    limit = {
-        check_variable = { PRU_que_loyalty = 1 compare = equals } 
-        check_variable = { PRU_army_loyalty_status = 1 compare = equals }
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_low_bonus_ejercito_que }
-        }
-        add_ideas = PRU_low_bonus_ejercito_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_que 
-        }
-        remove_ideas = PRU_hostil_que 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_que
-           
-        }
-        remove_ideas = PRU_loyal_goverment_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_marina_que
-        }
-        remove_ideas = PRU_low_bonus_marina_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_bonus_ejercito_que
-        }
-        remove_ideas = PRU_h_bonus_ejercito_que
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_h_bonus_marina_que
-        }
-        remove_ideas = PRU_h_bonus_marina_que
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_low_debuf_ejercito_que
-        }
-        remove_ideas = PRU_low_debuf_ejercito_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_que
-        }
-        remove_ideas = PRU_low_debuf_marina_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_que
-        }
-        remove_ideas = PRU_h_debuf_ejercito_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_marina_que
-        }
-        remove_ideas = PRU_h_debuf_marina_que
-    }
-    }
-    else_if = { #EJERCITO H BONUS 
-    limit = {
-        check_variable = { PRU_que_loyalty = 1 compare = equals } 
-        check_variable = { PRU_army_loyalty_status = 2 compare = equals }
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_h_bonus_ejercito_que }
-        }
-        add_ideas = PRU_h_bonus_ejercito_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_que
-        }
-        remove_ideas = PRU_hostil_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_que
-           
-        }
-        remove_ideas = PRU_loyal_goverment_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_marina_que
-        }
-        remove_ideas = PRU_low_bonus_marina_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_que
-         
-        }
-        remove_ideas = PRU_low_bonus_ejercito_que
-        
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_h_bonus_marina_que
-        }
-        remove_ideas = PRU_h_bonus_marina_que
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_low_debuf_ejercito_que
-        }
-        remove_ideas = PRU_low_debuf_ejercito_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_que
-        }
-        remove_ideas = PRU_low_debuf_marina_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_que
-        }
-        remove_ideas = PRU_h_debuf_ejercito_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_marina_que
-        }
-        remove_ideas = PRU_h_debuf_marina_que
-    }
-    }
-    else_if = { #MARINA LOW BONUS 
-    limit = {
-        check_variable = { PRU_que_loyalty = 2 compare = equals } 
-        check_variable = { PRU_navy_loyalty_status = 1 compare = equals }
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_low_bonus_marina_que }
-        }
-        add_ideas = PRU_low_bonus_marina_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_que 
-        }
-        remove_ideas = PRU_hostil_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_que
-           
-        }
-        remove_ideas = PRU_loyal_goverment_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_bonus_ejercito_que
-        }
-        remove_ideas = PRU_h_bonus_ejercito_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_que
-         
-        }
-        remove_ideas = PRU_low_bonus_ejercito_que
-        
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_h_bonus_marina_que
-        }
-        remove_ideas = PRU_h_bonus_marina_que
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_low_debuf_ejercito_que
-        }
-        remove_ideas = PRU_low_debuf_ejercito_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_que
-        }
-        remove_ideas = PRU_low_debuf_marina_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_que
-        }
-        remove_ideas = PRU_h_debuf_ejercito_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_marina_que
-        }
-        remove_ideas = PRU_h_debuf_marina_que
-    }
-    }
-    else_if = { #MARINA h BONUS 
-    limit = {
-        check_variable = { PRU_que_loyalty = 2 compare = equals } 
-        check_variable = { PRU_navy_loyalty_status = 2 compare = equals }
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_h_bonus_marina_que }
-        }
-        add_ideas = PRU_h_bonus_marina_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_que 
-        }
-        remove_ideas = PRU_hostil_que 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_que
-           
-        }
-        remove_ideas = PRU_loyal_goverment_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_bonus_ejercito_que
-        }
-        remove_ideas = PRU_h_bonus_ejercito_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_que
-         
-        }
-        remove_ideas = PRU_low_bonus_ejercito_que
-        
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_marina_que
-        }
-        remove_ideas = PRU_low_bonus_marina_que
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_low_debuf_ejercito_que
-        }
-        remove_ideas = PRU_low_debuf_ejercito_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_que
-        }
-        remove_ideas = PRU_low_debuf_marina_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_que
-        }
-        remove_ideas = PRU_h_debuf_ejercito_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_marina_que
-        }
-        remove_ideas = PRU_h_debuf_marina_que
-    }
-    }
-    else_if = { #EJERCITO LOW DEBUF 
-    limit = {
-        check_variable = { PRU_que_loyalty = 1 compare = equals } 
-        check_variable = { PRU_navy_loyalty_status = 1 compare = equals }
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_low_debuf_ejercito_que}
-        }
-        add_ideas = PRU_low_debuf_ejercito_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_que 
-        }
-        remove_ideas = PRU_hostil_que 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_que
-           
-        }
-        remove_ideas = PRU_loyal_goverment_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_bonus_ejercito_que
-        }
-        remove_ideas = PRU_h_bonus_ejercito_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_que
-         
-        }
-        remove_ideas = PRU_low_bonus_ejercito_que
-        
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_marina_que
-        }
-        remove_ideas = PRU_low_bonus_marina_que
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_h_bonus_marina_que
-        }
-        remove_ideas = PRU_h_bonus_marina_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_que
-        }
-        remove_ideas = PRU_low_debuf_marina_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_que
-        }
-        remove_ideas = PRU_h_debuf_ejercito_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_marina_que
-        }
-        remove_ideas = PRU_h_debuf_marina_que
-    }
-    }
-    else_if = { #EJERCITO H DEBUF 
-    limit = {
-        check_variable = { PRU_que_loyalty = 1 compare = equals } 
-        check_variable = { PRU_navy_loyalty_status = 2 compare = equals }
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_h_debuf_ejercito_que }
-        }
-        add_ideas = PRU_h_debuf_ejercito_que 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_que 
-        }
-        remove_ideas = PRU_hostil_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_que
-           
-        }
-        remove_ideas = PRU_loyal_goverment_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_bonus_ejercito_que
-        }
-        remove_ideas = PRU_h_bonus_ejercito_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_que
-         
-        }
-        remove_ideas = PRU_low_bonus_ejercito_que
-        
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_marina_que
-        }
-        remove_ideas = PRU_low_bonus_marina_que
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_h_bonus_marina_que
-        }
-        remove_ideas = PRU_h_bonus_marina_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_que
-        }
-        remove_ideas = PRU_low_debuf_marina_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_ejercito_que
-        }
-        remove_ideas = PRU_low_debuf_ejercito_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_marina_que
-        }
-        remove_ideas = PRU_h_debuf_marina_que
-    }
-    }
-    else_if = { #MARINA LOW DEBUF 
-    limit = {
-        check_variable = { PRU_que_loyalty = 2 compare = equals } 
-        check_variable = { PRU_army_loyalty_status = 1 compare = equals }
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_low_debuf_marina_que }
-        }
-        add_ideas = PRU_low_debuf_marina_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_que 
-        }
-        remove_ideas = PRU_hostil_que 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_que
-           
-        }
-        remove_ideas = PRU_loyal_goverment_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_bonus_ejercito_que
-        }
-        remove_ideas = PRU_h_bonus_ejercito_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_que
-         
-        }
-        remove_ideas = PRU_low_bonus_ejercito_que
-        
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_marina_que
-        }
-        remove_ideas = PRU_low_bonus_marina_que
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_h_bonus_marina_que
-        }
-        remove_ideas = PRU_h_bonus_marina_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_que 
-        }
-        remove_ideas = PRU_h_debuf_ejercito_que 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_ejercito_que
-        }
-        remove_ideas = PRU_low_debuf_ejercito_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_marina_que
-        }
-        remove_ideas = PRU_h_debuf_marina_que
-    }
-    }
-    else_if = { #MARINA LOW DEBUF 
-    limit = {
-        check_variable = { PRU_que_loyalty = 2 compare = equals } 
-        check_variable = { PRU_army_loyalty_status = 2 compare = equals }
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_h_debuf_marina_que }
-        }
-        add_ideas = PRU_h_debuf_marina_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_que
-        }
-        remove_ideas = PRU_hostil_que 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_que
-           
-        }
-        remove_ideas = PRU_loyal_goverment_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_bonus_ejercito_que
-        }
-        remove_ideas = PRU_h_bonus_ejercito_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_que
-         
-        }
-        remove_ideas = PRU_low_bonus_ejercito_que
-        
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_marina_que
-        }
-        remove_ideas = PRU_low_bonus_marina_que
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_h_bonus_marina_que
-        }
-        remove_ideas = PRU_h_bonus_marina_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_que 
-        }
-        remove_ideas = PRU_h_debuf_ejercito_que 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_ejercito_que
-        }
-        remove_ideas = PRU_low_debuf_ejercito_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_que
-        }
-        remove_ideas = PRU_low_debuf_marina_que
-    }
-    }
-    else_if = { #HOSTILE
-    limit = {
-        check_variable = { PRU_que_loyalty = -2 compare = equals } 
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_hostil_que  }
-        }
-        add_ideas = PRU_hostil_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_que
-        }
-        remove_ideas = PRU_low_bonus_ejercito_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_que
-           
-        }
-        remove_ideas = PRU_loyal_goverment_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_marina_que
-        }
-        remove_ideas = PRU_low_bonus_marina_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_bonus_ejercito_que
-        }
-        remove_ideas = PRU_h_bonus_ejercito_que
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_h_bonus_marina_que
-        }
-        remove_ideas = PRU_h_bonus_marina_que
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_low_debuf_ejercito_que
-        }
-        remove_ideas = PRU_low_debuf_ejercito_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_que
-        }
-        remove_ideas = PRU_low_debuf_marina_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_que
-        }
-        remove_ideas = PRU_h_debuf_ejercito_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_marina_que
-        }
-        remove_ideas = PRU_h_debuf_marina_que
-    }
-    }
-    else = { #INDIFFERENT/INCONSEQUENTIAL 
-    if = {
-        limit = {
-           has_idea = PRU_h_debuf_marina_que
-        }
-         remove_ideas = PRU_h_debuf_marina_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_que 
-        }
-        remove_ideas = PRU_hostil_que 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_que
-           
-        }
-        remove_ideas = PRU_loyal_goverment_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_bonus_ejercito_que
-        }
-        remove_ideas = PRU_h_bonus_ejercito_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_que
-         
-        }
-        remove_ideas = PRU_low_bonus_ejercito_que
-        
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_marina_que
-        }
-        remove_ideas = PRU_low_bonus_marina_que
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_h_bonus_marina_que
-        }
-        remove_ideas = PRU_h_bonus_marina_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_que 
-        }
-        remove_ideas = PRU_h_debuf_ejercito_que 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_ejercito_que
-        }
-        remove_ideas = PRU_low_debuf_ejercito_que
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_que
-        }
-        remove_ideas = PRU_low_debuf_marina_que
-    }
+###############################################################
+###############################################################
+######################## QUECHUAS #############################
+###############################################################
+###############################################################
 
+PRU_partidos_update_que = {
+    hidden_effect = {
+        if = { #LOYAL 
+            limit = {
+                check_variable = { PRU_que_loyalty = -1 compare = equals } 
+            }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_loyal_goverment_que }
+                }
+                add_ideas = PRU_loyal_goverment_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_que 
+                }
+                remove_ideas = PRU_hostil_que 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_que
+                }
+                remove_ideas = PRU_low_bonus_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_que
+                }
+                remove_ideas = PRU_low_bonus_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_que
+                }
+                remove_ideas = PRU_h_bonus_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_marina_que
+                }
+                remove_ideas = PRU_h_bonus_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_ejercito_que
+                }
+                remove_ideas = PRU_low_debuf_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_que
+                }
+                remove_ideas = PRU_low_debuf_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_que
+                }
+                remove_ideas = PRU_h_debuf_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_que
+                }
+                remove_ideas = PRU_h_debuf_marina_que
+            }
+            
+        }
+        else_if = { #EJERCITO LOW BONUS 
+            limit = {
+                check_variable = { PRU_que_loyalty = 1 compare = equals } 
+                check_variable = { PRU_army_loyalty_status = 1 compare = equals }
+                }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_low_bonus_ejercito_que }
+                }
+                add_ideas = PRU_low_bonus_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_que 
+                }
+                remove_ideas = PRU_hostil_que 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_que
+                
+                }
+                remove_ideas = PRU_loyal_goverment_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_que
+                }
+                remove_ideas = PRU_low_bonus_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_que
+                }
+                remove_ideas = PRU_h_bonus_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_que
+                }
+                remove_ideas = PRU_h_bonus_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_low_debuf_ejercito_que
+                }
+                remove_ideas = PRU_low_debuf_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_que
+                }
+                remove_ideas = PRU_low_debuf_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_que
+                }
+                remove_ideas = PRU_h_debuf_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_que
+                }
+                remove_ideas = PRU_h_debuf_marina_que
+            }
+        }
+        else_if = { #EJERCITO H BONUS 
+            limit = {
+                check_variable = { PRU_que_loyalty = 1 compare = equals } 
+                check_variable = { PRU_army_loyalty_status = 2 compare = equals }
+                }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_h_bonus_ejercito_que }
+                }
+                add_ideas = PRU_h_bonus_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_que
+                }
+                remove_ideas = PRU_hostil_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_que
+                
+                }
+                remove_ideas = PRU_loyal_goverment_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_que
+                }
+                remove_ideas = PRU_low_bonus_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_que
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_que
+                
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_que
+                }
+                remove_ideas = PRU_h_bonus_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_low_debuf_ejercito_que
+                }
+                remove_ideas = PRU_low_debuf_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_que
+                }
+                remove_ideas = PRU_low_debuf_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_que
+                }
+                remove_ideas = PRU_h_debuf_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_que
+                }
+                remove_ideas = PRU_h_debuf_marina_que
+            }
+        }
+        else_if = { #MARINA LOW BONUS 
+            limit = {
+                check_variable = { PRU_que_loyalty = 2 compare = equals } 
+                check_variable = { PRU_navy_loyalty_status = 1 compare = equals }
+                }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_low_bonus_marina_que }
+                }
+                add_ideas = PRU_low_bonus_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_que 
+                }
+                remove_ideas = PRU_hostil_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_que
+                
+                }
+                remove_ideas = PRU_loyal_goverment_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_que
+                }
+                remove_ideas = PRU_h_bonus_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_que
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_que
+                
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_que
+                }
+                remove_ideas = PRU_h_bonus_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_low_debuf_ejercito_que
+                }
+                remove_ideas = PRU_low_debuf_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_que
+                }
+                remove_ideas = PRU_low_debuf_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_que
+                }
+                remove_ideas = PRU_h_debuf_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_que
+                }
+                remove_ideas = PRU_h_debuf_marina_que
+            }
+        }
+        else_if = { #MARINA h BONUS 
+            limit = {
+                check_variable = { PRU_que_loyalty = 2 compare = equals } 
+                check_variable = { PRU_navy_loyalty_status = 2 compare = equals }
+                }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_h_bonus_marina_que }
+                }
+                add_ideas = PRU_h_bonus_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_que 
+                }
+                remove_ideas = PRU_hostil_que 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_que
+                
+                }
+                remove_ideas = PRU_loyal_goverment_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_que
+                }
+                remove_ideas = PRU_h_bonus_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_que
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_que
+                
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_que
+                }
+                remove_ideas = PRU_low_bonus_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_low_debuf_ejercito_que
+                }
+                remove_ideas = PRU_low_debuf_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_que
+                }
+                remove_ideas = PRU_low_debuf_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_que
+                }
+                remove_ideas = PRU_h_debuf_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_que
+                }
+                remove_ideas = PRU_h_debuf_marina_que
+            }
+        }
+        else_if = { #EJERCITO LOW DEBUF 
+            limit = {
+                check_variable = { PRU_que_loyalty = 1 compare = equals } 
+                check_variable = { PRU_navy_loyalty_status = 1 compare = equals }
+                }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_low_debuf_ejercito_que}
+                }
+                add_ideas = PRU_low_debuf_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_que 
+                }
+                remove_ideas = PRU_hostil_que 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_que
+                
+                }
+                remove_ideas = PRU_loyal_goverment_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_que
+                }
+                remove_ideas = PRU_h_bonus_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_que
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_que
+                
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_que
+                }
+                remove_ideas = PRU_low_bonus_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_que
+                }
+                remove_ideas = PRU_h_bonus_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_que
+                }
+                remove_ideas = PRU_low_debuf_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_que
+                }
+                remove_ideas = PRU_h_debuf_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_que
+                }
+                remove_ideas = PRU_h_debuf_marina_que
+            }
+        }
+        else_if = { #EJERCITO H DEBUF 
+            limit = {
+                check_variable = { PRU_que_loyalty = 1 compare = equals } 
+                check_variable = { PRU_navy_loyalty_status = 2 compare = equals }
+                }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_h_debuf_ejercito_que }
+                }
+                add_ideas = PRU_h_debuf_ejercito_que 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_que 
+                }
+                remove_ideas = PRU_hostil_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_que
+                
+                }
+                remove_ideas = PRU_loyal_goverment_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_que
+                }
+                remove_ideas = PRU_h_bonus_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_que
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_que
+                
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_que
+                }
+                remove_ideas = PRU_low_bonus_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_que
+                }
+                remove_ideas = PRU_h_bonus_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_que
+                }
+                remove_ideas = PRU_low_debuf_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_ejercito_que
+                }
+                remove_ideas = PRU_low_debuf_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_que
+                }
+                remove_ideas = PRU_h_debuf_marina_que
+            }
+        }
+        else_if = { #MARINA LOW DEBUF 
+            limit = {
+                check_variable = { PRU_que_loyalty = 2 compare = equals } 
+                check_variable = { PRU_army_loyalty_status = 1 compare = equals }
+                }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_low_debuf_marina_que }
+                }
+                add_ideas = PRU_low_debuf_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_que 
+                }
+                remove_ideas = PRU_hostil_que 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_que
+                
+                }
+                remove_ideas = PRU_loyal_goverment_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_que
+                }
+                remove_ideas = PRU_h_bonus_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_que
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_que
+                
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_que
+                }
+                remove_ideas = PRU_low_bonus_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_que
+                }
+                remove_ideas = PRU_h_bonus_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_que 
+                }
+                remove_ideas = PRU_h_debuf_ejercito_que 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_ejercito_que
+                }
+                remove_ideas = PRU_low_debuf_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_que
+                }
+                remove_ideas = PRU_h_debuf_marina_que
+            }
+        }
+        else_if = { #MARINA LOW DEBUF 
+            limit = {
+                check_variable = { PRU_que_loyalty = 2 compare = equals } 
+                check_variable = { PRU_army_loyalty_status = 2 compare = equals }
+                }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_h_debuf_marina_que }
+                }
+                add_ideas = PRU_h_debuf_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_que
+                }
+                remove_ideas = PRU_hostil_que 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_que
+                
+                }
+                remove_ideas = PRU_loyal_goverment_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_que
+                }
+                remove_ideas = PRU_h_bonus_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_que
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_que
+                
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_que
+                }
+                remove_ideas = PRU_low_bonus_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_que
+                }
+                remove_ideas = PRU_h_bonus_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_que 
+                }
+                remove_ideas = PRU_h_debuf_ejercito_que 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_ejercito_que
+                }
+                remove_ideas = PRU_low_debuf_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_que
+                }
+                remove_ideas = PRU_low_debuf_marina_que
+            }
+        }
+        else_if = { #HOSTILE
+            limit = {
+                check_variable = { PRU_que_loyalty = -2 compare = equals } 
+                }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_hostil_que  }
+                }
+                add_ideas = PRU_hostil_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_que
+                }
+                remove_ideas = PRU_low_bonus_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_que
+                
+                }
+                remove_ideas = PRU_loyal_goverment_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_que
+                }
+                remove_ideas = PRU_low_bonus_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_que
+                }
+                remove_ideas = PRU_h_bonus_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_que
+                }
+                remove_ideas = PRU_h_bonus_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_low_debuf_ejercito_que
+                }
+                remove_ideas = PRU_low_debuf_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_que
+                }
+                remove_ideas = PRU_low_debuf_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_que
+                }
+                remove_ideas = PRU_h_debuf_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_que
+                }
+                remove_ideas = PRU_h_debuf_marina_que
+            }
+        }
+        else = { #INDIFFERENT/INCONSEQUENTIAL 
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_que
+                }
+                remove_ideas = PRU_h_debuf_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_que 
+                }
+                remove_ideas = PRU_hostil_que 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_que
+                
+                }
+                remove_ideas = PRU_loyal_goverment_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_que
+                }
+                remove_ideas = PRU_h_bonus_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_que
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_que
+                
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_que
+                }
+                remove_ideas = PRU_low_bonus_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_que
+                }
+                remove_ideas = PRU_h_bonus_marina_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_que 
+                }
+                remove_ideas = PRU_h_debuf_ejercito_que 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_ejercito_que
+                }
+                remove_ideas = PRU_low_debuf_ejercito_que
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_que
+                }
+                remove_ideas = PRU_low_debuf_marina_que
+            }
+        }
     }
-    ###############################################################
-    ###############################################################
-    ######################## NACIONALISTAS ########################
-    ###############################################################
-    ###############################################################
-		if = { #LOYAL 
+}
+
+###############################################################
+###############################################################
+######################## NACIONALISTAS ########################
+###############################################################
+###############################################################
+PRU_partidos_update_ur = {
+    hidden_effect = {
+        if = { #LOYAL 
+            limit = {
+                check_variable = { PRU_ur_loyalty = -1 compare = equals } 
+            }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_loyal_goverment_ur }
+                }
+                add_ideas = PRU_loyal_goverment_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_ur 
+                }
+                remove_ideas = PRU_hostil_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_ur
+                }
+                remove_ideas = PRU_low_bonus_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_ur
+                }
+                remove_ideas = PRU_low_bonus_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_ur
+                }
+                remove_ideas = PRU_h_bonus_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_marina_ur
+                }
+                remove_ideas = PRU_h_bonus_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_ejercito_ur
+                }
+                remove_ideas = PRU_low_debuf_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_ur
+                }
+                remove_ideas = PRU_low_debuf_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_ur
+                }
+                remove_ideas = PRU_h_debuf_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_ur
+                }
+                remove_ideas = PRU_h_debuf_marina_ur
+            }
+        }
+        else_if = { #EJERCITO LOW BONUS 
+            limit = {
+                check_variable = { PRU_ur_loyalty = 1 compare = equals } 
+                check_variable = { PRU_army_loyalty_status = 1 compare = equals }
+            }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_low_bonus_ejercito_ur }
+                }
+                add_ideas = PRU_low_bonus_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_ur 
+                }
+                remove_ideas = PRU_hostil_ur 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_ur
+                
+                }
+                remove_ideas = PRU_loyal_goverment_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_ur
+                }
+                remove_ideas = PRU_low_bonus_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_ur
+                }
+                remove_ideas = PRU_h_bonus_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_ur
+                }
+                remove_ideas = PRU_h_bonus_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_low_debuf_ejercito_ur
+                }
+                remove_ideas = PRU_low_debuf_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_ur
+                }
+                remove_ideas = PRU_low_debuf_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_ur
+                }
+                remove_ideas = PRU_h_debuf_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_ur
+                }
+                remove_ideas = PRU_h_debuf_marina_ur
+            }
+        }
+        else_if = { #EJERCITO H BONUS 
+            limit = {
+                check_variable = { PRU_ur_loyalty = 1 compare = equals } 
+                check_variable = { PRU_army_loyalty_status = 2 compare = equals }
+            }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_h_bonus_ejercito_ur }
+                }
+                add_ideas = PRU_h_bonus_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_ur
+                }
+                remove_ideas = PRU_hostil_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_ur
+                
+                }
+                remove_ideas = PRU_loyal_goverment_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_ur
+                }
+                remove_ideas = PRU_low_bonus_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_ur
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_ur
+                
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_ur
+                }
+                remove_ideas = PRU_h_bonus_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_low_debuf_ejercito_ur
+                }
+                remove_ideas = PRU_low_debuf_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_ur
+                }
+                remove_ideas = PRU_low_debuf_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_ur
+                }
+                remove_ideas = PRU_h_debuf_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_ur
+                }
+                remove_ideas = PRU_h_debuf_marina_ur
+            }
+        }
+        else_if = { #MARINA LOW BONUS 
+            limit = {
+                check_variable = { PRU_ur_loyalty = 2 compare = equals } 
+                check_variable = { PRU_navy_loyalty_status = 1 compare = equals }
+            }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_low_bonus_marina_ur }
+                }
+                add_ideas = PRU_low_bonus_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_ur 
+                }
+                remove_ideas = PRU_hostil_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_ur
+                
+                }
+                remove_ideas = PRU_loyal_goverment_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_ur
+                }
+                remove_ideas = PRU_h_bonus_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_ur
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_ur
+                
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_ur
+                }
+                remove_ideas = PRU_h_bonus_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_low_debuf_ejercito_ur
+                }
+                remove_ideas = PRU_low_debuf_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_ur
+                }
+                remove_ideas = PRU_low_debuf_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_ur
+                }
+                remove_ideas = PRU_h_debuf_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_ur
+                }
+                remove_ideas = PRU_h_debuf_marina_ur
+            }
+        }
+        else_if = { #MARINA h BONUS 
+            limit = {
+                check_variable = { PRU_ur_loyalty = 2 compare = equals } 
+                check_variable = { PRU_navy_loyalty_status = 2 compare = equals }
+            }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_h_bonus_marina_ur }
+                }
+                add_ideas = PRU_h_bonus_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_ur 
+                }
+                remove_ideas = PRU_hostil_ur 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_ur
+                
+                }
+                remove_ideas = PRU_loyal_goverment_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_ur
+                }
+                remove_ideas = PRU_h_bonus_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_ur
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_ur
+                
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_ur
+                }
+                remove_ideas = PRU_low_bonus_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_low_debuf_ejercito_ur
+                }
+                remove_ideas = PRU_low_debuf_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_ur
+                }
+                remove_ideas = PRU_low_debuf_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_ur
+                }
+                remove_ideas = PRU_h_debuf_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_ur
+                }
+                remove_ideas = PRU_h_debuf_marina_ur
+            }
+        }
+        else_if = { #EJERCITO LOW DEBUF 
+            limit = {
+                check_variable = { PRU_ur_loyalty = 1 compare = equals } 
+                check_variable = { PRU_navy_loyalty_status = 1 compare = equals }
+            }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_low_debuf_ejercito_ur}
+                }
+                add_ideas = PRU_low_debuf_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_ur 
+                }
+                remove_ideas = PRU_hostil_ur 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_ur
+                
+                }
+                remove_ideas = PRU_loyal_goverment_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_ur
+                }
+                remove_ideas = PRU_h_bonus_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_ur
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_ur
+                
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_ur
+                }
+                remove_ideas = PRU_low_bonus_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_ur
+                }
+                remove_ideas = PRU_h_bonus_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_ur
+                }
+                remove_ideas = PRU_low_debuf_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_ur
+                }
+                remove_ideas = PRU_h_debuf_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_ur
+                }
+                remove_ideas = PRU_h_debuf_marina_ur
+            }
+        }
+        else_if = { #EJERCITO H DEBUF 
+            limit = {
+                check_variable = { PRU_ur_loyalty = 1 compare = equals } 
+                check_variable = { PRU_navy_loyalty_status = 2 compare = equals }
+            }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_h_debuf_ejercito_ur }
+                }
+                add_ideas = PRU_h_debuf_ejercito_ur 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_ur 
+                }
+                remove_ideas = PRU_hostil_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_ur
+                
+                }
+                remove_ideas = PRU_loyal_goverment_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_ur
+                }
+                remove_ideas = PRU_h_bonus_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_ur
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_ur
+                
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_ur
+                }
+                remove_ideas = PRU_low_bonus_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_ur
+                }
+                remove_ideas = PRU_h_bonus_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_ur
+                }
+                remove_ideas = PRU_low_debuf_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_ejercito_ur
+                }
+                remove_ideas = PRU_low_debuf_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_ur
+                }
+                remove_ideas = PRU_h_debuf_marina_ur
+            }
+        }
+        else_if = { #MARINA LOW DEBUF 
+            limit = {
+                check_variable = { PRU_ur_loyalty = 2 compare = equals } 
+                check_variable = { PRU_army_loyalty_status = 1 compare = equals }
+            }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_low_debuf_marina_ur }
+                }
+                add_ideas = PRU_low_debuf_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_ur 
+                }
+                remove_ideas = PRU_hostil_ur 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_ur
+                
+                }
+                remove_ideas = PRU_loyal_goverment_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_ur
+                }
+                remove_ideas = PRU_h_bonus_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_ur
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_ur
+                
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_ur
+                }
+                remove_ideas = PRU_low_bonus_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_ur
+                }
+                remove_ideas = PRU_h_bonus_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_ur 
+                }
+                remove_ideas = PRU_h_debuf_ejercito_ur 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_ejercito_ur
+                }
+                remove_ideas = PRU_low_debuf_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_ur
+                }
+                remove_ideas = PRU_h_debuf_marina_ur
+            }
+        }
+        else_if = { #MARINA LOW DEBUF 
+            limit = {
+                check_variable = { PRU_ur_loyalty = 2 compare = equals } 
+                check_variable = { PRU_army_loyalty_status = 2 compare = equals }
+            }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_h_debuf_marina_ur }
+                }
+                add_ideas = PRU_h_debuf_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_ur
+                }
+                remove_ideas = PRU_hostil_ur 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_ur
+                
+                }
+                remove_ideas = PRU_loyal_goverment_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_ur
+                }
+                remove_ideas = PRU_h_bonus_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_ur
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_ur
+                
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_ur
+                }
+                remove_ideas = PRU_low_bonus_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_ur
+                }
+                remove_ideas = PRU_h_bonus_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_ur 
+                }
+                remove_ideas = PRU_h_debuf_ejercito_ur 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_ejercito_ur
+                }
+                remove_ideas = PRU_low_debuf_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_ur
+                }
+                remove_ideas = PRU_low_debuf_marina_ur
+            }
+        }
+        else_if = { #HOSTILE
+            limit = {
+                check_variable = { PRU_ur_loyalty = -2 compare = equals } 
+            }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_hostil_ur  }
+                }
+                add_ideas = PRU_hostil_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_ur
+                }
+                remove_ideas = PRU_low_bonus_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_ur
+                
+                }
+                remove_ideas = PRU_loyal_goverment_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_ur
+                }
+                remove_ideas = PRU_low_bonus_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_ur
+                }
+                remove_ideas = PRU_h_bonus_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_ur
+                }
+                remove_ideas = PRU_h_bonus_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_low_debuf_ejercito_ur
+                }
+                remove_ideas = PRU_low_debuf_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_ur
+                }
+                remove_ideas = PRU_low_debuf_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_ur
+                }
+                remove_ideas = PRU_h_debuf_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_ur
+                }
+                remove_ideas = PRU_h_debuf_marina_ur
+            }
+        }
+        else = { #INDIFFERENT/INCONSEQUENTIAL 
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_ur
+                }
+                remove_ideas = PRU_h_debuf_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_ur 
+                }
+                remove_ideas = PRU_hostil_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_ur
+                
+                }
+                remove_ideas = PRU_loyal_goverment_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_ur
+                }
+                remove_ideas = PRU_h_bonus_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_ur
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_ur
+                
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_ur
+                }
+                remove_ideas = PRU_low_bonus_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_ur
+                }
+                remove_ideas = PRU_h_bonus_marina_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_ur 
+                }
+                remove_ideas = PRU_h_debuf_ejercito_ur 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_ejercito_ur
+                }
+                remove_ideas = PRU_low_debuf_ejercito_ur
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_ur
+                }
+                remove_ideas = PRU_low_debuf_marina_ur
+            }
+        }
+    }
+}
+
+###############################################################
+###############################################################
+######################## OLIGARCAS ############################
+###############################################################
+###############################################################
+
+PRU_partidos_update_oli = {
+    hidden_effect = {
+        if = { #LOYAL 
+            limit = {
+                check_variable = { PRU_oli_loyalty = -1 compare = equals } 
+            }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_loyal_goverment_oli }
+                }
+                add_ideas = PRU_loyal_goverment_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_oli
+                }
+                remove_ideas = PRU_hostil_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_oli
+                }
+                remove_ideas = PRU_low_bonus_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_oli
+                }
+                remove_ideas = PRU_low_bonus_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_oli
+                }
+                remove_ideas = PRU_h_bonus_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_marina_oli
+                }
+                remove_ideas = PRU_h_bonus_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_ejercito_oli
+                }
+                remove_ideas = PRU_low_debuf_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_oli
+                }
+                remove_ideas = PRU_low_debuf_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_oli
+                }
+                remove_ideas = PRU_h_debuf_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_oli
+                }
+                remove_ideas = PRU_h_debuf_marina_oli
+            } 
+        }
+        else_if = { #EJERCITO LOW BONUS 
+            limit = {
+                check_variable = { PRU_oli_loyalty = 1 compare = equals } 
+                check_variable = { PRU_army_loyalty_status = 1 compare = equals }
+            }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_low_bonus_ejercito_oli }
+                }
+                add_ideas = PRU_low_bonus_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_oli 
+                }
+                remove_ideas = PRU_hostil_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_oli
+                
+                }
+                remove_ideas = PRU_loyal_goverment_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_oli
+                }
+                remove_ideas = PRU_low_bonus_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_oli
+                }
+                remove_ideas = PRU_h_bonus_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_oli
+                }
+                remove_ideas = PRU_h_bonus_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_low_debuf_ejercito_oli
+                }
+                remove_ideas = PRU_low_debuf_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_oli
+                }
+                remove_ideas = PRU_low_debuf_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_oli
+                }
+                remove_ideas = PRU_h_debuf_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_oli
+                }
+                remove_ideas = PRU_h_debuf_marina_oli
+            }
+        }
+        else_if = { #EJERCITO H BONUS 
+            limit = {
+                check_variable = { PRU_oli_loyalty = 1 compare = equals } 
+                check_variable = { PRU_army_loyalty_status = 2 compare = equals }
+            }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_h_bonus_ejercito_oli }
+                }
+                add_ideas = PRU_h_bonus_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_oli
+                }
+                remove_ideas = PRU_hostil_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_oli
+                
+                }
+                remove_ideas = PRU_loyal_goverment_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_oli
+                }
+                remove_ideas = PRU_low_bonus_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_oli
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_oli
+                
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_oli
+                }
+                remove_ideas = PRU_h_bonus_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_low_debuf_ejercito_oli
+                }
+                remove_ideas = PRU_low_debuf_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_oli
+                }
+                remove_ideas = PRU_low_debuf_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_oli
+                }
+                remove_ideas = PRU_h_debuf_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_oli
+                }
+                remove_ideas = PRU_h_debuf_marina_oli
+            }
+        }
+        else_if = { #MARINA LOW BONUS 
+            limit = {
+                check_variable = { PRU_oli_loyalty = 2 compare = equals } 
+                check_variable = { PRU_navy_loyalty_status = 1 compare = equals }
+                }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_low_bonus_marina_oli }
+                }
+                add_ideas = PRU_low_bonus_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_oli 
+                }
+                remove_ideas = PRU_hostil_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_oli
+                
+                }
+                remove_ideas = PRU_loyal_goverment_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_oli
+                }
+                remove_ideas = PRU_h_bonus_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_oli
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_oli
+                
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_oli
+                }
+                remove_ideas = PRU_h_bonus_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_low_debuf_ejercito_oli
+                }
+                remove_ideas = PRU_low_debuf_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_oli
+                }
+                remove_ideas = PRU_low_debuf_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_oli
+                }
+                remove_ideas = PRU_h_debuf_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_oli
+                }
+                remove_ideas = PRU_h_debuf_marina_oli
+            }
+        }
+        else_if = { #MARINA h BONUS 
+            limit = {
+                check_variable = { PRU_oli_loyalty = 2 compare = equals } 
+                check_variable = { PRU_navy_loyalty_status = 2 compare = equals }
+            }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_h_bonus_marina_oli }
+                }
+                add_ideas = PRU_h_bonus_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_oli 
+                }
+                remove_ideas = PRU_hostil_oli 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_oli
+                
+                }
+                remove_ideas = PRU_loyal_goverment_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_oli
+                }
+                remove_ideas = PRU_h_bonus_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_oli
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_oli
+                
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_oli
+                }
+                remove_ideas = PRU_low_bonus_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_low_debuf_ejercito_oli
+                }
+                remove_ideas = PRU_low_debuf_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_oli
+                }
+                remove_ideas = PRU_low_debuf_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_oli
+                }
+                remove_ideas = PRU_h_debuf_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_oli
+                }
+                remove_ideas = PRU_h_debuf_marina_oli
+            }
+        }
+        else_if = { #EJERCITO LOW DEBUF 
+            limit = {
+                check_variable = { PRU_oli_loyalty = 1 compare = equals } 
+                check_variable = { PRU_navy_loyalty_status = 1 compare = equals }
+            }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_low_debuf_ejercito_oli}
+                }
+                add_ideas = PRU_low_debuf_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_oli 
+                }
+                remove_ideas = PRU_hostil_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_oli
+                
+                }
+                remove_ideas = PRU_loyal_goverment_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_oli
+                }
+                remove_ideas = PRU_h_bonus_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_oli
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_oli
+                
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_oli
+                }
+                remove_ideas = PRU_low_bonus_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_oli
+                }
+                remove_ideas = PRU_h_bonus_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_oli
+                }
+                remove_ideas = PRU_low_debuf_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_oli
+                }
+                remove_ideas = PRU_h_debuf_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_oli
+                }
+                remove_ideas = PRU_h_debuf_marina_oli
+            }
+        }
+        else_if = { #EJERCITO H DEBUF 
+            limit = {
+                check_variable = { PRU_oli_loyalty = 1 compare = equals } 
+                check_variable = { PRU_navy_loyalty_status = 2 compare = equals }
+            }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_h_debuf_ejercito_oli }
+                }
+                add_ideas = PRU_h_debuf_ejercito_oli 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_oli 
+                }
+                remove_ideas = PRU_hostil_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_oli
+                
+                }
+                remove_ideas = PRU_loyal_goverment_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_oli
+                }
+                remove_ideas = PRU_h_bonus_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_oli
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_oli
+                
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_oli
+                }
+                remove_ideas = PRU_low_bonus_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_oli
+                }
+                remove_ideas = PRU_h_bonus_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_oli
+                }
+                remove_ideas = PRU_low_debuf_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_ejercito_oli
+                }
+                remove_ideas = PRU_low_debuf_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_oli
+                }
+                remove_ideas = PRU_h_debuf_marina_oli
+            }
+        }
+        else_if = { #MARINA LOW DEBUF 
+            limit = {
+                check_variable = { PRU_oli_loyalty = 2 compare = equals } 
+                check_variable = { PRU_army_loyalty_status = 1 compare = equals }
+            }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_low_debuf_marina_oli }
+                }
+                add_ideas = PRU_low_debuf_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_oli 
+                }
+                remove_ideas = PRU_hostil_oli 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_oli
+                
+                }
+                remove_ideas = PRU_loyal_goverment_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_oli
+                }
+                remove_ideas = PRU_h_bonus_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_oli
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_oli
+                
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_oli
+                }
+                remove_ideas = PRU_low_bonus_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_oli
+                }
+                remove_ideas = PRU_h_bonus_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_oli
+                }
+                remove_ideas = PRU_h_debuf_ejercito_oli 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_ejercito_oli
+                }
+                remove_ideas = PRU_low_debuf_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_oli
+                }
+                remove_ideas = PRU_h_debuf_marina_oli
+            }
+        }
+        else_if = { #MARINA LOW DEBUF 
+            limit = {
+                check_variable = { PRU_oli_loyalty = 2 compare = equals } 
+                check_variable = { PRU_army_loyalty_status = 2 compare = equals }
+                }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_h_debuf_marina_oli }
+                }
+                add_ideas = PRU_h_debuf_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_oli
+                }
+                remove_ideas = PRU_hostil_oli 
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_oli
+                
+                }
+                remove_ideas = PRU_loyal_goverment_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_oli
+                }
+                remove_ideas = PRU_h_bonus_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_oli
+                
+                }
+                remove_ideas = PRU_low_bonus_ejercito_oli
+                
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_oli
+                }
+                remove_ideas = PRU_low_bonus_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_oli
+                }
+                remove_ideas = PRU_h_bonus_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_oli
+                }
+                remove_ideas = PRU_h_debuf_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_ejercito_oli
+                }
+                remove_ideas = PRU_low_debuf_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_oli
+                }
+                remove_ideas = PRU_low_debuf_marina_oli
+            }
+        }
+        else_if = { #HOSTILE
+            limit = {
+                check_variable = { PRU_oli_loyalty = -2 compare = equals } 
+                }
+            if = {
+                limit = {
+                    NOT = { has_idea = PRU_hostil_oli  }
+                }
+                add_ideas = PRU_hostil_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_oli
+                }
+                remove_ideas = PRU_low_bonus_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_oli
+                
+                }
+                remove_ideas = PRU_loyal_goverment_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_oli
+                }
+                remove_ideas = PRU_low_bonus_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_oli
+                }
+                remove_ideas = PRU_h_bonus_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_oli
+                }
+                remove_ideas = PRU_h_bonus_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_low_debuf_ejercito_oli
+                }
+                remove_ideas = PRU_low_debuf_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_oli
+                }
+                remove_ideas = PRU_low_debuf_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_oli
+                }
+                remove_ideas = PRU_h_debuf_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_oli
+                }
+                remove_ideas = PRU_h_debuf_marina_oli
+            }
+        }
+        else = { #INDIFFERENT/INCONSEQUENTIAL 
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_marina_oli
+                }
+                remove_ideas = PRU_h_debuf_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_hostil_oli
+                }
+                remove_ideas = PRU_hostil_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_loyal_goverment_oli
+                
+                }
+                remove_ideas = PRU_loyal_goverment_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_bonus_ejercito_oli
+                }
+                remove_ideas = PRU_h_bonus_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_ejercito_oli
+                }
+                remove_ideas = PRU_low_bonus_ejercito_oli
+                
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_bonus_marina_oli
+                }
+                remove_ideas = PRU_low_bonus_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea =  PRU_h_bonus_marina_oli
+                }
+                remove_ideas = PRU_h_bonus_marina_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_h_debuf_ejercito_oli
+                }
+                remove_ideas = PRU_h_debuf_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_ejercito_oli
+                }
+                remove_ideas = PRU_low_debuf_ejercito_oli
+            }
+            if = {
+                limit = {
+                    has_idea = PRU_low_debuf_marina_oli
+                }
+                remove_ideas = PRU_low_debuf_marina_oli
+            }
+        }
+    }
+}
+
+PRU_partidos_update_update_effect = {
+    PRU_partidos_update_apra = yes 
+    PRU_partidos_update_oli = yes 
+    PRU_partidos_update_que = yes 
+    PRU_partidos_update_ur = yes
+}
+
+PRU_clear_caudillismo_mechanic = {
+    clear_variable = PRU_apra_loyalty
+    clear_variable = PRU_ur_loyalty
+    clear_variable = PRU_que_loyalty
+    clear_variable = PRU_oli_loyalty
+
+    ## Idea Removal ##
+    if = {
         limit = {
-            check_variable = { PRU_ur_loyalty = -1 compare = equals } 
+            has_idea = PRU_h_debuf_marina_oli
         }
-        if = {
-            limit = {
-                NOT = { has_idea = PRU_loyal_goverment_ur }
-            }
-            add_ideas = PRU_loyal_goverment_ur
+        remove_ideas = PRU_h_debuf_marina_oli
+    }
+    if = {
+        limit = {
+            has_idea = PRU_hostil_oli
         }
-        if = {
-            limit = {
-                has_idea = PRU_hostil_ur 
-            }
-            remove_ideas = PRU_hostil_ur
+        remove_ideas = PRU_hostil_oli
+    }
+    if = {
+        limit = {
+            has_idea = PRU_loyal_goverment_oli
+        
         }
-        if = {
-            limit = {
-                has_idea = PRU_low_bonus_ejercito_ur
-            }
-            remove_ideas = PRU_low_bonus_ejercito_ur
+        remove_ideas = PRU_loyal_goverment_oli
+    }
+    if = {
+        limit = {
+            has_idea = PRU_h_bonus_ejercito_oli
         }
-        if = {
-            limit = {
-                has_idea = PRU_low_bonus_marina_ur
-            }
-            remove_ideas = PRU_low_bonus_marina_ur
+        remove_ideas = PRU_h_bonus_ejercito_oli
+    }
+    if = {
+        limit = {
+            has_idea = PRU_low_bonus_ejercito_oli
         }
-        if = {
-            limit = {
-                has_idea = PRU_h_bonus_ejercito_ur
-            }
-            remove_ideas = PRU_h_bonus_ejercito_ur
-        }
-        if = {
-            limit = {
-                has_idea = PRU_h_bonus_marina_ur
-            }
-            remove_ideas = PRU_h_bonus_marina_ur
-        }
-        if = {
-            limit = {
-                has_idea = PRU_low_debuf_ejercito_ur
-            }
-            remove_ideas = PRU_low_debuf_ejercito_ur
-        }
-        if = {
-            limit = {
-                has_idea = PRU_low_debuf_marina_ur
-            }
-            remove_ideas = PRU_low_debuf_marina_ur
-        }
-        if = {
-            limit = {
-                has_idea = PRU_h_debuf_ejercito_ur
-            }
-            remove_ideas = PRU_h_debuf_ejercito_ur
-        }
-        if = {
-            limit = {
-                has_idea = PRU_h_debuf_marina_ur
-            }
-            remove_ideas = PRU_h_debuf_marina_ur
-        }
+        remove_ideas = PRU_low_bonus_ejercito_oli
         
     }
-    else_if = { #EJERCITO LOW BONUS 
-    limit = {
-        check_variable = { PRU_ur_loyalty = 1 compare = equals } 
-        check_variable = { PRU_army_loyalty_status = 1 compare = equals }
-        }
     if = {
         limit = {
-            NOT = { has_idea = PRU_low_bonus_ejercito_ur }
+            has_idea = PRU_low_bonus_marina_oli
         }
-        add_ideas = PRU_low_bonus_ejercito_ur
+        remove_ideas = PRU_low_bonus_marina_oli
     }
     if = {
         limit = {
-            has_idea = PRU_hostil_ur 
+            has_idea =  PRU_h_bonus_marina_oli
         }
-        remove_ideas = PRU_hostil_ur 
+        remove_ideas = PRU_h_bonus_marina_oli
     }
     if = {
         limit = {
-            has_idea = PRU_loyal_goverment_ur
-           
+            has_idea = PRU_h_debuf_ejercito_oli
         }
-        remove_ideas = PRU_loyal_goverment_ur
+        remove_ideas = PRU_h_debuf_ejercito_oli
     }
     if = {
         limit = {
-            has_idea = PRU_low_bonus_marina_ur
+            has_idea = PRU_low_debuf_ejercito_oli
         }
-        remove_ideas = PRU_low_bonus_marina_ur
+        remove_ideas = PRU_low_debuf_ejercito_oli
     }
     if = {
         limit = {
-            has_idea = PRU_h_bonus_ejercito_ur
+            has_idea = PRU_low_debuf_marina_oli
         }
-        remove_ideas = PRU_h_bonus_ejercito_ur
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_h_bonus_marina_ur
-        }
-        remove_ideas = PRU_h_bonus_marina_ur
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_low_debuf_ejercito_ur
-        }
-        remove_ideas = PRU_low_debuf_ejercito_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_ur
-        }
-        remove_ideas = PRU_low_debuf_marina_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_ur
-        }
-        remove_ideas = PRU_h_debuf_ejercito_ur
+        remove_ideas = PRU_low_debuf_marina_oli
     }
     if = {
         limit = {
@@ -2075,97 +3539,16 @@ PRU_partidos_update_update_effect = {
         }
         remove_ideas = PRU_h_debuf_marina_ur
     }
-    }
-    else_if = { #EJERCITO H BONUS 
-    limit = {
-        check_variable = { PRU_ur_loyalty = 1 compare = equals } 
-        check_variable = { PRU_army_loyalty_status = 2 compare = equals }
-        }
     if = {
         limit = {
-            NOT = { has_idea = PRU_h_bonus_ejercito_ur }
-        }
-        add_ideas = PRU_h_bonus_ejercito_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_ur
+            has_idea = PRU_hostil_ur 
         }
         remove_ideas = PRU_hostil_ur
     }
     if = {
         limit = {
             has_idea = PRU_loyal_goverment_ur
-           
-        }
-        remove_ideas = PRU_loyal_goverment_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_marina_ur
-        }
-        remove_ideas = PRU_low_bonus_marina_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_ur
-         
-        }
-        remove_ideas = PRU_low_bonus_ejercito_ur
         
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_h_bonus_marina_ur
-        }
-        remove_ideas = PRU_h_bonus_marina_ur
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_low_debuf_ejercito_ur
-        }
-        remove_ideas = PRU_low_debuf_ejercito_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_ur
-        }
-        remove_ideas = PRU_low_debuf_marina_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_ur
-        }
-        remove_ideas = PRU_h_debuf_ejercito_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_marina_ur
-        }
-        remove_ideas = PRU_h_debuf_marina_ur
-    }
-    }
-    else_if = { #MARINA LOW BONUS 
-    limit = {
-        check_variable = { PRU_ur_loyalty = 2 compare = equals } 
-        check_variable = { PRU_navy_loyalty_status = 1 compare = equals }
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_low_bonus_marina_ur }
-        }
-        add_ideas = PRU_low_bonus_marina_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_ur 
-        }
-        remove_ideas = PRU_hostil_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_ur
-           
         }
         remove_ideas = PRU_loyal_goverment_ur
     }
@@ -2178,283 +3561,7 @@ PRU_partidos_update_update_effect = {
     if = {
         limit = {
             has_idea = PRU_low_bonus_ejercito_ur
-         
-        }
-        remove_ideas = PRU_low_bonus_ejercito_ur
         
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_h_bonus_marina_ur
-        }
-        remove_ideas = PRU_h_bonus_marina_ur
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_low_debuf_ejercito_ur
-        }
-        remove_ideas = PRU_low_debuf_ejercito_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_ur
-        }
-        remove_ideas = PRU_low_debuf_marina_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_ur
-        }
-        remove_ideas = PRU_h_debuf_ejercito_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_marina_ur
-        }
-        remove_ideas = PRU_h_debuf_marina_ur
-    }
-    }
-    else_if = { #MARINA h BONUS 
-    limit = {
-        check_variable = { PRU_ur_loyalty = 2 compare = equals } 
-        check_variable = { PRU_navy_loyalty_status = 2 compare = equals }
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_h_bonus_marina_ur }
-        }
-        add_ideas = PRU_h_bonus_marina_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_ur 
-        }
-        remove_ideas = PRU_hostil_ur 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_ur
-           
-        }
-        remove_ideas = PRU_loyal_goverment_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_bonus_ejercito_ur
-        }
-        remove_ideas = PRU_h_bonus_ejercito_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_ur
-         
-        }
-        remove_ideas = PRU_low_bonus_ejercito_ur
-        
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_marina_ur
-        }
-        remove_ideas = PRU_low_bonus_marina_ur
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_low_debuf_ejercito_ur
-        }
-        remove_ideas = PRU_low_debuf_ejercito_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_ur
-        }
-        remove_ideas = PRU_low_debuf_marina_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_ur
-        }
-        remove_ideas = PRU_h_debuf_ejercito_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_marina_ur
-        }
-        remove_ideas = PRU_h_debuf_marina_ur
-    }
-    }
-    else_if = { #EJERCITO LOW DEBUF 
-    limit = {
-        check_variable = { PRU_ur_loyalty = 1 compare = equals } 
-        check_variable = { PRU_navy_loyalty_status = 1 compare = equals }
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_low_debuf_ejercito_ur}
-        }
-        add_ideas = PRU_low_debuf_ejercito_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_ur 
-        }
-        remove_ideas = PRU_hostil_ur 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_ur
-           
-        }
-        remove_ideas = PRU_loyal_goverment_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_bonus_ejercito_ur
-        }
-        remove_ideas = PRU_h_bonus_ejercito_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_ur
-         
-        }
-        remove_ideas = PRU_low_bonus_ejercito_ur
-        
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_marina_ur
-        }
-        remove_ideas = PRU_low_bonus_marina_ur
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_h_bonus_marina_ur
-        }
-        remove_ideas = PRU_h_bonus_marina_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_ur
-        }
-        remove_ideas = PRU_low_debuf_marina_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_ur
-        }
-        remove_ideas = PRU_h_debuf_ejercito_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_marina_ur
-        }
-        remove_ideas = PRU_h_debuf_marina_ur
-    }
-    }
-    else_if = { #EJERCITO H DEBUF 
-    limit = {
-        check_variable = { PRU_ur_loyalty = 1 compare = equals } 
-        check_variable = { PRU_navy_loyalty_status = 2 compare = equals }
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_h_debuf_ejercito_ur }
-        }
-        add_ideas = PRU_h_debuf_ejercito_ur 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_ur 
-        }
-        remove_ideas = PRU_hostil_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_ur
-           
-        }
-        remove_ideas = PRU_loyal_goverment_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_bonus_ejercito_ur
-        }
-        remove_ideas = PRU_h_bonus_ejercito_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_ur
-         
-        }
-        remove_ideas = PRU_low_bonus_ejercito_ur
-        
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_marina_ur
-        }
-        remove_ideas = PRU_low_bonus_marina_ur
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_h_bonus_marina_ur
-        }
-        remove_ideas = PRU_h_bonus_marina_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_ur
-        }
-        remove_ideas = PRU_low_debuf_marina_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_ejercito_ur
-        }
-        remove_ideas = PRU_low_debuf_ejercito_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_marina_ur
-        }
-        remove_ideas = PRU_h_debuf_marina_ur
-    }
-    }
-    else_if = { #MARINA LOW DEBUF 
-    limit = {
-        check_variable = { PRU_ur_loyalty = 2 compare = equals } 
-        check_variable = { PRU_army_loyalty_status = 1 compare = equals }
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_low_debuf_marina_ur }
-        }
-        add_ideas = PRU_low_debuf_marina_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_ur 
-        }
-        remove_ideas = PRU_hostil_ur 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_ur
-           
-        }
-        remove_ideas = PRU_loyal_goverment_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_bonus_ejercito_ur
-        }
-        remove_ideas = PRU_h_bonus_ejercito_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_ur
-         
         }
         remove_ideas = PRU_low_bonus_ejercito_ur
         
@@ -2485,964 +3592,186 @@ PRU_partidos_update_update_effect = {
     }
     if = {
         limit = {
-            has_idea = PRU_h_debuf_marina_v
+            has_idea = PRU_low_debuf_marina_ur
         }
-        remove_ideas = PRU_h_debuf_marina_ur
-    }
-    }
-    else_if = { #MARINA LOW DEBUF 
-    limit = {
-        check_variable = { PRU_ur_loyalty = 2 compare = equals } 
-        check_variable = { PRU_army_loyalty_status = 2 compare = equals }
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_h_debuf_marina_ur }
-        }
-        add_ideas = PRU_h_debuf_marina_ur
+        remove_ideas = PRU_low_debuf_marina_ur
     }
     if = {
         limit = {
-            has_idea = PRU_hostil_ur
+            has_idea = PRU_h_debuf_marina_que
         }
-        remove_ideas = PRU_hostil_ur 
+        remove_ideas = PRU_h_debuf_marina_que
     }
     if = {
         limit = {
-            has_idea = PRU_loyal_goverment_ur
-           
+            has_idea = PRU_hostil_que 
         }
-        remove_ideas = PRU_loyal_goverment_ur
+        remove_ideas = PRU_hostil_que 
     }
     if = {
         limit = {
-            has_idea = PRU_h_bonus_ejercito_ur
+            has_idea = PRU_loyal_goverment_que
+        
         }
-        remove_ideas = PRU_h_bonus_ejercito_ur
+        remove_ideas = PRU_loyal_goverment_que
     }
     if = {
         limit = {
-            has_idea = PRU_low_bonus_ejercito_ur
-         
+            has_idea = PRU_h_bonus_ejercito_que
         }
-        remove_ideas = PRU_low_bonus_ejercito_ur
+        remove_ideas = PRU_h_bonus_ejercito_que
+    }
+    if = {
+        limit = {
+            has_idea = PRU_low_bonus_ejercito_que
+        
+        }
+        remove_ideas = PRU_low_bonus_ejercito_que
         
     }
     if = {
         limit = {
-            has_idea = PRU_low_bonus_marina_ur
+            has_idea = PRU_low_bonus_marina_que
         }
-        remove_ideas = PRU_low_bonus_marina_ur
+        remove_ideas = PRU_low_bonus_marina_que
     }
     if = {
         limit = {
-            has_idea =  PRU_h_bonus_marina_ur
+            has_idea =  PRU_h_bonus_marina_que
         }
-        remove_ideas = PRU_h_bonus_marina_ur
+        remove_ideas = PRU_h_bonus_marina_que
     }
     if = {
         limit = {
-            has_idea = PRU_h_debuf_ejercito_ur 
+            has_idea = PRU_h_debuf_ejercito_que 
         }
-        remove_ideas = PRU_h_debuf_ejercito_ur 
+        remove_ideas = PRU_h_debuf_ejercito_que 
     }
     if = {
         limit = {
-            has_idea = PRU_low_debuf_ejercito_ur
+            has_idea = PRU_low_debuf_ejercito_que
         }
-        remove_ideas = PRU_low_debuf_ejercito_ur
+        remove_ideas = PRU_low_debuf_ejercito_que
     }
     if = {
         limit = {
-            has_idea = PRU_low_debuf_marina_ur
+            has_idea = PRU_low_debuf_marina_que
         }
-        remove_ideas = PRU_low_debuf_marina_ur
-    }
-    }
-    else_if = { #HOSTILE
-    limit = {
-        check_variable = { PRU_ur_loyalty = -2 compare = equals } 
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_hostil_ur  }
-        }
-        add_ideas = PRU_hostil_ur
+        remove_ideas = PRU_low_debuf_marina_que
     }
     if = {
         limit = {
-            has_idea = PRU_low_bonus_ejercito_ur
+            has_idea = PRU_h_debuf_marina_apra 
         }
-        remove_ideas = PRU_low_bonus_ejercito_ur
+        remove_ideas = PRU_h_debuf_marina_apra
     }
     if = {
         limit = {
-            has_idea = PRU_loyal_goverment_ur
-           
+            has_idea = PRU_hostil_apra 
         }
-        remove_ideas = PRU_loyal_goverment_ur
+        remove_ideas = PRU_hostil_apra 
     }
     if = {
         limit = {
-            has_idea = PRU_low_bonus_marina_ur
+            has_idea = PRU_loyal_goverment_apra
+        
         }
-        remove_ideas = PRU_low_bonus_marina_ur
+        remove_ideas = PRU_loyal_goverment_apra
     }
     if = {
         limit = {
-            has_idea = PRU_h_bonus_ejercito_ur
+            has_idea = PRU_h_bonus_ejercito_apra
         }
-        remove_ideas = PRU_h_bonus_ejercito_ur
+        remove_ideas = PRU_h_bonus_ejercito_apra
     }
     if = {
         limit = {
-            has_idea =  PRU_h_bonus_marina_ur
+            has_idea = PRU_low_bonus_ejercito_apra
+        
         }
-        remove_ideas = PRU_h_bonus_marina_ur
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_low_debuf_ejercito_ur
-        }
-        remove_ideas = PRU_low_debuf_ejercito_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_ur
-        }
-        remove_ideas = PRU_low_debuf_marina_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_ur
-        }
-        remove_ideas = PRU_h_debuf_ejercito_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_marina_ur
-        }
-        remove_ideas = PRU_h_debuf_marina_ur
-    }
-    }
-    else = { #INDIFFERENT/INCONSEQUENTIAL 
-    if = {
-        limit = {
-           has_idea = PRU_h_debuf_marina_ur
-        }
-         remove_ideas = PRU_h_debuf_marina_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_ur 
-        }
-        remove_ideas = PRU_hostil_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_ur
-           
-        }
-        remove_ideas = PRU_loyal_goverment_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_bonus_ejercito_ur
-        }
-        remove_ideas = PRU_h_bonus_ejercito_ur
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_ur
-         
-        }
-        remove_ideas = PRU_low_bonus_ejercito_ur
+        remove_ideas = PRU_low_bonus_ejercito_apra
         
     }
     if = {
         limit = {
-            has_idea = PRU_low_bonus_marina_ur
+            has_idea = PRU_low_bonus_marina_apra
         }
-        remove_ideas = PRU_low_bonus_marina_ur
+        remove_ideas = PRU_low_bonus_marina_apra
     }
     if = {
         limit = {
-            has_idea =  PRU_h_bonus_marina_ur
+            has_idea =  PRU_h_bonus_marina_apra
         }
-        remove_ideas = PRU_h_bonus_marina_ur
+        remove_ideas = PRU_h_bonus_marina_apra
     }
     if = {
         limit = {
-            has_idea = PRU_h_debuf_ejercito_ur 
+            has_idea = PRU_h_debuf_ejercito_apra 
         }
-        remove_ideas = PRU_h_debuf_ejercito_ur 
+        remove_ideas = PRU_h_debuf_ejercito_apra 
     }
     if = {
         limit = {
-            has_idea = PRU_low_debuf_ejercito_ur
+            has_idea = PRU_low_debuf_ejercito_apra
         }
-        remove_ideas = PRU_low_debuf_ejercito_ur
+        remove_ideas = PRU_low_debuf_ejercito_apra
     }
     if = {
         limit = {
-            has_idea = PRU_low_debuf_marina_ur
+            has_idea = PRU_low_debuf_marina_apra
         }
-        remove_ideas = PRU_low_debuf_marina_ur
-    }
+        remove_ideas = PRU_low_debuf_marina_apra
     }
 
-    ###############################################################
-    ###############################################################
-    ######################## OLIGARCAS ########################
-    ###############################################################
-    ###############################################################
-		if = { #LOYAL 
-        limit = {
-            check_variable = { PRU_oli_loyalty = -1 compare = equals } 
-        }
-        if = {
-            limit = {
-                NOT = { has_idea = PRU_loyal_goverment_oli }
-            }
-            add_ideas = PRU_loyal_goverment_oli
-        }
-        if = {
-            limit = {
-                has_idea = PRU_hostil_oli
-            }
-            remove_ideas = PRU_hostil_oli
-        }
-        if = {
-            limit = {
-                has_idea = PRU_low_bonus_ejercito_oli
-            }
-            remove_ideas = PRU_low_bonus_ejercito_oli
-        }
-        if = {
-            limit = {
-                has_idea = PRU_low_bonus_marina_oli
-            }
-            remove_ideas = PRU_low_bonus_marina_oli
-        }
-        if = {
-            limit = {
-                has_idea = PRU_h_bonus_ejercito_oli
-            }
-            remove_ideas = PRU_h_bonus_ejercito_oli
-        }
-        if = {
-            limit = {
-                has_idea = PRU_h_bonus_marina_oli
-            }
-            remove_ideas = PRU_h_bonus_marina_oli
-        }
-        if = {
-            limit = {
-                has_idea = PRU_low_debuf_ejercito_oli
-            }
-            remove_ideas = PRU_low_debuf_ejercito_oli
-        }
-        if = {
-            limit = {
-                has_idea = PRU_low_debuf_marina_oli
-            }
-            remove_ideas = PRU_low_debuf_marina_oli
-        }
-        if = {
-            limit = {
-                has_idea = PRU_h_debuf_ejercito_oli
-            }
-            remove_ideas = PRU_h_debuf_ejercito_oli
-        }
-        if = {
-            limit = {
-                has_idea = PRU_h_debuf_marina_oli
-            }
-            remove_ideas = PRU_h_debuf_marina_oli
-        }
-        
-    }
-    else_if = { #EJERCITO LOW BONUS 
-    limit = {
-        check_variable = { PRU_oli_loyalty = 1 compare = equals } 
-        check_variable = { PRU_army_loyalty_status = 1 compare = equals }
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_low_bonus_ejercito_oli }
-        }
-        add_ideas = PRU_low_bonus_ejercito_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_oli 
-        }
-        remove_ideas = PRU_hostil_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_oli
-           
-        }
-        remove_ideas = PRU_loyal_goverment_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_marina_oli
-        }
-        remove_ideas = PRU_low_bonus_marina_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_bonus_ejercito_oli
-        }
-        remove_ideas = PRU_h_bonus_ejercito_oli
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_h_bonus_marina_oli
-        }
-        remove_ideas = PRU_h_bonus_marina_oli
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_low_debuf_ejercito_oli
-        }
-        remove_ideas = PRU_low_debuf_ejercito_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_oli
-        }
-        remove_ideas = PRU_low_debuf_marina_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_oli
-        }
-        remove_ideas = PRU_h_debuf_ejercito_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_marina_oli
-        }
-        remove_ideas = PRU_h_debuf_marina_oli
-    }
-    }
-    else_if = { #EJERCITO H BONUS 
-    limit = {
-        check_variable = { PRU_oli_loyalty = 1 compare = equals } 
-        check_variable = { PRU_army_loyalty_status = 2 compare = equals }
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_h_bonus_ejercito_oli }
-        }
-        add_ideas = PRU_h_bonus_ejercito_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_oli
-        }
-        remove_ideas = PRU_hostil_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_oli
-           
-        }
-        remove_ideas = PRU_loyal_goverment_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_marina_oli
-        }
-        remove_ideas = PRU_low_bonus_marina_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_oli
-         
-        }
-        remove_ideas = PRU_low_bonus_ejercito_oli
-        
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_h_bonus_marina_oli
-        }
-        remove_ideas = PRU_h_bonus_marina_oli
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_low_debuf_ejercito_oli
-        }
-        remove_ideas = PRU_low_debuf_ejercito_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_oli
-        }
-        remove_ideas = PRU_low_debuf_marina_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_oli
-        }
-        remove_ideas = PRU_h_debuf_ejercito_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_marina_oli
-        }
-        remove_ideas = PRU_h_debuf_marina_oli
-    }
-    }
-    else_if = { #MARINA LOW BONUS 
-    limit = {
-        check_variable = { PRU_oli_loyalty = 2 compare = equals } 
-        check_variable = { PRU_navy_loyalty_status = 1 compare = equals }
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_low_bonus_marina_oli }
-        }
-        add_ideas = PRU_low_bonus_marina_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_oli 
-        }
-        remove_ideas = PRU_hostil_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_oli
-           
-        }
-        remove_ideas = PRU_loyal_goverment_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_bonus_ejercito_oli
-        }
-        remove_ideas = PRU_h_bonus_ejercito_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_oli
-         
-        }
-        remove_ideas = PRU_low_bonus_ejercito_oli
-        
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_h_bonus_marina_oli
-        }
-        remove_ideas = PRU_h_bonus_marina_oli
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_low_debuf_ejercito_oli
-        }
-        remove_ideas = PRU_low_debuf_ejercito_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_oli
-        }
-        remove_ideas = PRU_low_debuf_marina_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_oli
-        }
-        remove_ideas = PRU_h_debuf_ejercito_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_marina_oli
-        }
-        remove_ideas = PRU_h_debuf_marina_oli
-    }
-    }
-    else_if = { #MARINA h BONUS 
-    limit = {
-        check_variable = { PRU_oli_loyalty = 2 compare = equals } 
-        check_variable = { PRU_navy_loyalty_status = 2 compare = equals }
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_h_bonus_marina_oli }
-        }
-        add_ideas = PRU_h_bonus_marina_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_oli 
-        }
-        remove_ideas = PRU_hostil_oli 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_oli
-           
-        }
-        remove_ideas = PRU_loyal_goverment_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_bonus_ejercito_oli
-        }
-        remove_ideas = PRU_h_bonus_ejercito_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_oli
-         
-        }
-        remove_ideas = PRU_low_bonus_ejercito_oli
-        
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_marina_oli
-        }
-        remove_ideas = PRU_low_bonus_marina_oli
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_low_debuf_ejercito_oli
-        }
-        remove_ideas = PRU_low_debuf_ejercito_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_oli
-        }
-        remove_ideas = PRU_low_debuf_marina_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_oli
-        }
-        remove_ideas = PRU_h_debuf_ejercito_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_marina_oli
-        }
-        remove_ideas = PRU_h_debuf_marina_oli
-    }
-    }
-    else_if = { #EJERCITO LOW DEBUF 
-    limit = {
-        check_variable = { PRU_oli_loyalty = 1 compare = equals } 
-        check_variable = { PRU_navy_loyalty_status = 1 compare = equals }
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_low_debuf_ejercito_oli}
-        }
-        add_ideas = PRU_low_debuf_ejercito_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_oli 
-        }
-        remove_ideas = PRU_hostil_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_oli
-           
-        }
-        remove_ideas = PRU_loyal_goverment_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_bonus_ejercito_oli
-        }
-        remove_ideas = PRU_h_bonus_ejercito_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_oli
-         
-        }
-        remove_ideas = PRU_low_bonus_ejercito_oli
-        
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_marina_oli
-        }
-        remove_ideas = PRU_low_bonus_marina_oli
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_h_bonus_marina_oli
-        }
-        remove_ideas = PRU_h_bonus_marina_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_oli
-        }
-        remove_ideas = PRU_low_debuf_marina_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_oli
-        }
-        remove_ideas = PRU_h_debuf_ejercito_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_marina_oli
-        }
-        remove_ideas = PRU_h_debuf_marina_oli
-    }
-    }
-    else_if = { #EJERCITO H DEBUF 
-    limit = {
-        check_variable = { PRU_oli_loyalty = 1 compare = equals } 
-        check_variable = { PRU_navy_loyalty_status = 2 compare = equals }
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_h_debuf_ejercito_oli }
-        }
-        add_ideas = PRU_h_debuf_ejercito_oli 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_oli 
-        }
-        remove_ideas = PRU_hostil_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_oli
-           
-        }
-        remove_ideas = PRU_loyal_goverment_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_bonus_ejercito_oli
-        }
-        remove_ideas = PRU_h_bonus_ejercito_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_oli
-         
-        }
-        remove_ideas = PRU_low_bonus_ejercito_oli
-        
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_marina_oli
-        }
-        remove_ideas = PRU_low_bonus_marina_oli
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_h_bonus_marina_oli
-        }
-        remove_ideas = PRU_h_bonus_marina_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_oli
-        }
-        remove_ideas = PRU_low_debuf_marina_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_ejercito_oli
-        }
-        remove_ideas = PRU_low_debuf_ejercito_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_marina_oli
-        }
-        remove_ideas = PRU_h_debuf_marina_oli
-    }
-    }
-    else_if = { #MARINA LOW DEBUF 
-    limit = {
-        check_variable = { PRU_oli_loyalty = 2 compare = equals } 
-        check_variable = { PRU_army_loyalty_status = 1 compare = equals }
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_low_debuf_marina_oli }
-        }
-        add_ideas = PRU_low_debuf_marina_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_oli 
-        }
-        remove_ideas = PRU_hostil_oli 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_oli
-           
-        }
-        remove_ideas = PRU_loyal_goverment_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_bonus_ejercito_oli
-        }
-        remove_ideas = PRU_h_bonus_ejercito_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_oli
-         
-        }
-        remove_ideas = PRU_low_bonus_ejercito_oli
-        
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_marina_oli
-        }
-        remove_ideas = PRU_low_bonus_marina_oli
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_h_bonus_marina_oli
-        }
-        remove_ideas = PRU_h_bonus_marina_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_oli
-        }
-        remove_ideas = PRU_h_debuf_ejercito_oli 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_ejercito_oli
-        }
-        remove_ideas = PRU_low_debuf_ejercito_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_marina_oli
-        }
-        remove_ideas = PRU_h_debuf_marina_oli
-    }
-    }
-    else_if = { #MARINA LOW DEBUF 
-    limit = {
-        check_variable = { PRU_oli_loyalty = 2 compare = equals } 
-        check_variable = { PRU_army_loyalty_status = 2 compare = equals }
-        }
-    if = {
-        limit = {
-            NOT = { has_idea = PRU_h_debuf_marina_oli }
-        }
-        add_ideas = PRU_h_debuf_marina_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_oli
-        }
-        remove_ideas = PRU_hostil_oli 
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_oli
-           
-        }
-        remove_ideas = PRU_loyal_goverment_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_bonus_ejercito_oli
-        }
-        remove_ideas = PRU_h_bonus_ejercito_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_oli
-         
-        }
-        remove_ideas = PRU_low_bonus_ejercito_oli
-        
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_marina_oli
-        }
-        remove_ideas = PRU_low_bonus_marina_oli
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_h_bonus_marina_oli
-        }
-        remove_ideas = PRU_h_bonus_marina_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_oli
-        }
-        remove_ideas = PRU_h_debuf_ejercito_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_ejercito_oli
-        }
-        remove_ideas = PRU_low_debuf_ejercito_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_oli
-        }
-        remove_ideas = PRU_low_debuf_marina_oli
-    }
-    }
-    else_if = { #HOSTILE
-    limit = {
-        check_variable = { PRU_oli_loyalty = -2 compare = equals } 
-        }
+    ### Country Flags ###
+
     if = {
         limit = {
-            NOT = { has_idea = PRU_hostil_oli  }
+            has_country_flag = PRU_que_be_friend
         }
-        add_ideas = PRU_hostil_oli
+        clr_country_flag = PRU_que_be_friend
     }
     if = {
         limit = {
-            has_idea = PRU_low_bonus_ejercito_oli
+            has_country_flag = PRU_que_exclu
         }
-        remove_ideas = PRU_low_bonus_ejercito_oli
+        clr_country_flag = PRU_que_exclu
     }
     if = {
         limit = {
-            has_idea = PRU_loyal_goverment_oli
-           
+            has_country_flag = PRU_ur_be_friend
         }
-        remove_ideas = PRU_loyal_goverment_oli
+        clr_country_flag = PRU_ur_be_friend
     }
     if = {
         limit = {
-            has_idea = PRU_low_bonus_marina_oli
+            has_country_flag = PRU_ur_exclu
         }
-        remove_ideas = PRU_low_bonus_marina_oli
+        clr_country_flag = PRU_ur_exclu
     }
     if = {
         limit = {
-            has_idea = PRU_h_bonus_ejercito_oli
+            has_country_flag = PRU_apra_be_friend
         }
-        remove_ideas = PRU_h_bonus_ejercito_oli
+        clr_country_flag = PRU_apra_be_friend
     }
     if = {
         limit = {
-            has_idea =  PRU_h_bonus_marina_oli
+            has_country_flag = PRU_apra_exclu
         }
-        remove_ideas = PRU_h_bonus_marina_oli
+        clr_country_flag = PRU_apra_exclu
     }
     if = {
         limit = {
-            has_idea =  PRU_low_debuf_ejercito_oli
+            has_country_flag = PRU_oli_be_friend
         }
-        remove_ideas = PRU_low_debuf_ejercito_oli
+        clr_country_flag = PRU_oli_be_friend
     }
     if = {
         limit = {
-            has_idea = PRU_low_debuf_marina_oli
+            has_country_flag = PRU_oli_exclu
         }
-        remove_ideas = PRU_low_debuf_marina_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_oli
-        }
-        remove_ideas = PRU_h_debuf_ejercito_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_marina_oli
-        }
-        remove_ideas = PRU_h_debuf_marina_oli
-    }
-    }
-    else = { #INDIFFERENT/INCONSEQUENTIAL 
-    if = {
-        limit = {
-           has_idea = PRU_h_debuf_marina_oli
-        }
-         remove_ideas = PRU_h_debuf_marina_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_hostil_oli
-        }
-        remove_ideas = PRU_hostil_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_loyal_goverment_oli
-           
-        }
-        remove_ideas = PRU_loyal_goverment_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_bonus_ejercito_oli
-        }
-        remove_ideas = PRU_h_bonus_ejercito_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_ejercito_oli
-         
-        }
-        remove_ideas = PRU_low_bonus_ejercito_oli
-        
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_bonus_marina_oli
-        }
-        remove_ideas = PRU_low_bonus_marina_oli
-    }
-    if = {
-        limit = {
-            has_idea =  PRU_h_bonus_marina_oli
-        }
-        remove_ideas = PRU_h_bonus_marina_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_h_debuf_ejercito_oli
-        }
-        remove_ideas = PRU_h_debuf_ejercito_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_ejercito_oli
-        }
-        remove_ideas = PRU_low_debuf_ejercito_oli
-    }
-    if = {
-        limit = {
-            has_idea = PRU_low_debuf_marina_oli
-        }
-        remove_ideas = PRU_low_debuf_marina_oli
-    }
+        clr_country_flag = PRU_oli_exclu
     }
 
-    }
-    }
+}

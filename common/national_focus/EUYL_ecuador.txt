@@ -114,6 +114,14 @@ focus_tree = {
 			has_idea = ECU_la_gloriosa
 		}
 
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+
 		cost = 5
 
 		available = {
@@ -764,7 +772,7 @@ focus_tree = {
 		cost = 6
 
 		ai_will_do = {
-			base = 2
+			base = 1
 			modifier = {
 				factor = 3
 				has_army_manpower = {
@@ -778,7 +786,12 @@ focus_tree = {
 			modifier = {
 				factor = 0
 				is_historical_focus_on = yes 
-				date < 1941.7.5
+				date < 1941.5.5
+			}
+			modifier = {
+				factor = 10
+				is_historical_focus_on = yes 
+				date > 1941.5.10
 			}
 		}
 
@@ -914,6 +927,10 @@ focus_tree = {
 
 		ai_will_do = {
 			base = 3
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
 		}
 
 		available = {
@@ -1588,7 +1605,7 @@ focus_tree = {
 					tooltip = consumer_goods_factor_tt
 				}
 				add_to_variable = {
-					ECU_economy_production_speed_civilian_factory_factor = 0.1
+					ECU_economy_production_speed_civilian_factory_factor = 0.07
 					tooltip = production_speed_industrial_complex_factor_tt
 				}
 			}
@@ -1598,7 +1615,7 @@ focus_tree = {
 					tooltip = consumer_goods_factor_tt
 				}
 				add_to_variable = {
-					ECU_economy_production_speed_civilian_factory_factor = 0.15
+					ECU_economy_production_speed_civilian_factory_factor = 0.1
 					tooltip = production_speed_industrial_complex_factor_tt
 				}
 			}
@@ -1636,13 +1653,13 @@ focus_tree = {
 					has_completed_focus = ECU_returned_to_the_gold_standard_focus
 				}
 				add_to_variable = {
-					ECU_economy_consumer_goods = -0.2
+					ECU_economy_consumer_goods = -0.15
 					tooltip = consumer_goods_factor_tt
 				}
 			}
 			else = {
 				add_to_variable = {
-					ECU_economy_consumer_goods = -0.25
+					ECU_economy_consumer_goods = -0.2
 					tooltip = consumer_goods_factor_tt
 				}
 			}
@@ -1809,11 +1826,11 @@ focus_tree = {
 					tooltip = industrial_capacity_factory_tt
 				}
 				add_to_variable = {
-					ECU_economy_production_factory_efficiency_gain_factor = 0.075
+					ECU_economy_production_factory_efficiency_gain_factor = 0.07
 					tooltip = production_factory_efficiency_gain_factor_tt
 				}
 				add_to_variable = {
-					ECU_economy_production_factory_max_efficiency_factor = 0.075
+					ECU_economy_production_factory_max_efficiency_factor = 0.07
 					tooltip = production_factory_max_efficiency_factor_tt
 				}
 			}
@@ -2752,7 +2769,7 @@ focus_tree = {
 		cost = 5
 
 		ai_will_do = {
-			base = 5
+			base = 2 ## portrait aint so good i must admit :(
 		}
 
 		available = {
@@ -4903,18 +4920,6 @@ focus_tree = {
 			base = 5
 		}
 
-		offset = {
-			x = 3
-			y = 0
-			trigger = {
-				has_game_rule = {
-					rule = obsolete_focus_branches_visibility
-					option = HIDE
-				}
-				has_completed_focus = ECU_the_paez_dictatorship
-			}
-		}
-
 		cost = 10
 
 		available = {
@@ -4932,7 +4937,7 @@ focus_tree = {
 		## Unlocks the United Kingdom of Ecuador Peru and Bolivia
 		## Gain claim on every state owned by them
 		## Add the Ambition of Juan Jose Flores national spirit (army bonuses against peru and bolivia)
-		## Also increases compliance growth
+		## Also increases compliance growth | scrapped, too OP (i think)
 
 		completion_reward = {
 			hidden_effect = {
@@ -5767,6 +5772,8 @@ focus_tree = {
 
 		completion_reward = {
 			unlock_decision_category_tooltip = ECU_reforming_the_lost_unions
+
+			set_country_flag = EUYL_can_reform_lost_unions_flag
 		}
 	}
 
@@ -6127,8 +6134,9 @@ focus_tree = {
 				idea = fascist_influence
 				days = 720
 			}
-			ECU_dissolve_the_constituent_assembly = yes
+			
 			custom_effect_tooltip = CHL_skip_one_line_tt
+			
 			ECU_worsen_liberal_opinion = yes
 
 			if = {
@@ -6172,7 +6180,10 @@ focus_tree = {
 			custom_effect_tooltip = ECU_gallo_imprisoned_tt
 			hidden_effect = {
 				retire_character = ECU_alberto_enriquez_gallo
-				add_ideas = mutiny_1
+				add_timed_idea = {
+					idea = mutiny_1
+					days = 300
+				}
 			}
 			ECU_worsen_liberal_opinion = yes 
 			custom_effect_tooltip = CHL_skip_one_line_tt
@@ -6241,7 +6252,7 @@ focus_tree = {
 			custom_trigger_tooltip = {
 				tooltip = ECU_intensified_support_in_more_than_4_states_tt
 				check_variable = {
-					ECU_states_cooperated > 4
+					ECU_states_cooperated > 3
 				}
 			}
 		}
@@ -6470,6 +6481,8 @@ focus_tree = {
 		prerequisite = {
 			focus = ECU_gain_support_from_the_fascists
 		}
+
+		cost = 5
 
 		available = {
 			has_idea = ECU_the_constituent_assembly
@@ -7750,7 +7763,10 @@ focus_tree = {
 				mission = ECU_gallos_looming_coup
 				days = -30
 			}
-			add_ideas = ECU_socialist_support_idea
+			add_timed_idea = {
+				idea = ECU_socialist_support_idea
+				days = 720
+			}
 		}
 	}
 
@@ -7824,6 +7840,15 @@ focus_tree = {
 		}
 
 		cost = 10
+
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 10
+				is_historical_focus_on = yes 
+				date > 1938.7.1
+			}
+		}
 
 		available = {
 			has_civil_war = no
@@ -7975,7 +8000,12 @@ focus_tree = {
 		}
 
 		ai_will_do = {
-			base = 5
+			base = 1
+			modifier = {
+				factor = 10
+				is_historical_focus_on = yes 
+				date > 1938.10.1
+			}
 		}
 
 		cost = 7.2
@@ -8009,8 +8039,8 @@ focus_tree = {
 				# TODO: create event for aurelio's death | DONE
 				country_event = {
 					id = ecu.8 
-					days = 490
-					random_days = 90
+					days = 320
+					random_days = 75
 					hours = 8
 				}
 				if = {
@@ -8825,7 +8855,7 @@ focus_tree = {
 		}
 	}
 
-	## Trade our resources for Economic Aid ## || part of the banana company easter egg
+	## Trade our resources for Economic Aid ## 
 	focus = {
 		id = ECU_trade_our_resources_for_economic_aid
 		icon = GFX_ECU_oil_trade_america
@@ -10747,7 +10777,7 @@ focus_tree = {
 		x = 74
 		y = 0
 
-		cost = 3
+		cost = 2.9
 
 		ai_will_do = {
 			base = 3
@@ -11154,6 +11184,13 @@ focus_tree = {
 
 		ai_will_do = {
 			base = 3
+			modifier = {
+				factor = 0
+				has_game_rule = {
+					rule = ECU_ai_behavior
+					option = ECU_CONSERVATISM
+				}
+			}
 		}
 
 		cost = 6
@@ -11214,7 +11251,6 @@ focus_tree = {
 
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
-			ECU_worsen_liberal_opinion = yes 
 			ECU_improve_conservative_opinion = yes
 		}
 	}

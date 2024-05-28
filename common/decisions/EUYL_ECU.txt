@@ -369,10 +369,17 @@ ECU_liberal_conservative_conflict = {
 					ECU_conservative_opinion > -3
 				}
 			}
-			custom_trigger_tooltip = {
-				tooltip = ECU_not_actively_cooperating_with_liberals_tt
-				check_variable = {
-					ECU_liberal_opinion < 3
+			if = {
+				limit = {
+					check_variable = {
+						ECU_liberal_opinion = 3
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = ECU_conservatives_arent_hostile_tt
+					check_variable = {
+						ECU_conservative_opinion > -1
+					}
 				}
 			}
 		}
@@ -450,6 +457,10 @@ ECU_liberal_conservative_conflict = {
 
 		ai_will_do = {
 			factor = 375
+			modifier = {
+				factor = 500
+				has_active_mission = ECU_impending_conservative_insurrection
+			}
 		}
 
 		visible = {
@@ -475,6 +486,10 @@ ECU_liberal_conservative_conflict = {
 
 		ai_will_do = {
 			factor = 375
+			modifier = {
+				factor = 500
+				has_active_mission = ECU_impending_liberal_insurrection
+			}
 		}
 
 		visible = {
@@ -515,6 +530,10 @@ ECU_liberal_conservative_conflict = {
 				has_completed_focus = ECU_support_gallo
 			}
 			modifier = {
+				factor = 500
+				has_active_mission = ECU_impending_liberal_insurrection
+			}
+			modifier = {
 				factor = 5
 				check_variable = {
 					ECU_liberal_opinion < 3
@@ -539,6 +558,12 @@ ECU_liberal_conservative_conflict = {
 						check_variable = {
 							ECU_liberal_opinion > 1
 						}
+					}
+				}
+				NOT = {
+					OR = {
+						has_active_mission = ECU_impending_liberal_insurrection
+						has_completed_focus = ECU_stabilize_our_politics
 					}
 				}
 			}
@@ -603,9 +628,20 @@ ECU_liberal_conservative_conflict = {
 				has_completed_focus = ECU_the_elections_that_shouldve_been
 			}
 			modifier = {
+				factor = 500
+				has_active_mission = ECU_impending_conservative_insurrection
+			}
+			modifier = {
 				factor = 5
 				check_variable = {
 					ECU_conservative_opinion < 3
+				}
+			}
+			modifier = {
+				factor = 100
+				has_game_rule = {
+					rule = ECU_ai_behavior
+					option = ECU_CONSERVATISM
 				}
 			}
 			modifier = {
@@ -622,6 +658,12 @@ ECU_liberal_conservative_conflict = {
 			modifier = {
 				factor = 0
 				has_completed_focus = ECU_support_gallo
+				NOT = {
+					OR = {
+						has_active_mission = ECU_impending_conservative_insurrection
+						has_completed_focus = ECU_stabilize_our_politics
+					}
+				}
 			}
 		}
 
@@ -887,6 +929,18 @@ ECU_economic_reignition_cat = {
 		
 		ai_will_do = {
             base = 190
+			modifier = {
+				factor = 3
+				NOT = {
+					any_core_state = {
+						NOT = {
+							has_dynamic_modifier = {
+								modifier = ECU_rural_state
+							}
+						}
+					}
+				}
+			}
         }
 
 		complete_effect = {
@@ -1158,6 +1212,14 @@ EUYL_peru_ecuador_rising_tensions = {
 					ratio > 1
 				}
 			}
+			modifier = { ## this is so that they only do it once if its on historical
+				factor = 0
+				is_historical_focus_on = yes 
+				OR = {
+					has_country_flag = PRU_succesful_skirmish_flag
+					has_country_flag = EUYL_unsuccesful_skirmish_flag
+				}
+			}
 		}
 
 		on_map_mode = map_and_decisions_view
@@ -1207,7 +1269,14 @@ EUYL_peru_ecuador_rising_tensions = {
 				random_list = {
 					70 = {
 						country_event = peruecuador.13
-						set_country_flag = PRU_succesful_skirmish_flag
+						if = {
+							limit = {
+								NOT = {
+									has_country_flag = PRU_succesful_skirmish_flag
+								}
+							}
+							set_country_flag = PRU_succesful_skirmish_flag
+						}
 						ECU = { country_event = peruecuador.14 }
 					}
 					30 = {
@@ -1220,7 +1289,14 @@ EUYL_peru_ecuador_rising_tensions = {
 				random_list = {
 					50 = {
 						country_event = peruecuador.13
-						set_country_flag = PRU_succesful_skirmish_flag
+						if = {
+							limit = {
+								NOT = {
+									has_country_flag = PRU_succesful_skirmish_flag
+								}
+							}
+							set_country_flag = PRU_succesful_skirmish_flag
+						}
 						ECU = { country_event = peruecuador.14 }
 					}
 					50 = {
@@ -2066,17 +2142,18 @@ EUYL_peru_ecuador_rising_tensions = {
 
 		complete_effect = {
 			country_event = peruecuador.10
-			activate_mission = PRU_blockade_guayaquil
-		}
-
-		timeout_effect = {
-			country_event = peruecuador.11
 			if = {
 				limit = {
-					has_completed_focus = PRU_launch_the_guayaquil_offensive
+					NOT = {
+						has_completed_focus = PRU_launch_the_guayaquil_offensive
+					}
 				}
 				activate_mission = PRU_blockade_guayaquil
 			}
+		}
+
+		timeout_effect = {
+			country_event = peruecuador.11 ## in this event, Peru can just get the next mission via focus
 		}
 	}
 
@@ -2088,7 +2165,7 @@ EUYL_peru_ecuador_rising_tensions = {
 		}
 
 		available = {
-			ships_in_area = { area = 107 size > 7 } 
+			ships_in_area = { area = 107 size > 6 } 
 		}
 
 		cancel_trigger = {
@@ -3001,6 +3078,7 @@ ECU_reforming_the_lost_unions = {
 					load_focus_tree = generic_focus
 					add_stability = 0.15 
 					add_war_support = 0.3
+					retire_country_leader = yes
 					if = {
 						limit = {
 							has_government = fascism 
@@ -3196,6 +3274,7 @@ ECU_reforming_the_lost_unions = {
 					load_focus_tree = generic_focus
 					add_stability = 0.15 
 					add_war_support = 0.3
+					retire_country_leader = yes
 					if = {
 						limit = {
 							has_government = fascism 
@@ -3395,6 +3474,7 @@ ECU_reforming_the_lost_unions = {
 					load_focus_tree = generic_focus
 					add_stability = 0.15 
 					add_war_support = 0.3
+					retire_country_leader = yes
 					if = {
 						limit = {
 							has_government = fascism 
@@ -3561,6 +3641,7 @@ ECU_reforming_the_lost_unions = {
 					load_focus_tree = generic_focus
 					add_stability = 0.15 
 					add_war_support = 0.3
+					retire_country_leader = yes
 					if = {
 						limit = {
 							has_government = fascism 
@@ -3608,7 +3689,7 @@ ECU_reforming_the_lost_unions = {
 					}
 					division_template = { 
 						name = "Divisão de Infantaria Brasilera" 
-						division_names_group = BRA_INF_01 
+						division_names_group = POR_INF_01 
 						is_locked = no 
 						regiments = { 
 							infantry = { x = 0 y = 0 } 
@@ -3704,6 +3785,7 @@ ECU_reforming_the_lost_unions = {
 					load_focus_tree = generic_focus
 					add_stability = 0.15 
 					add_war_support = 0.3
+					retire_country_leader = yes
 					if = {
 						limit = {
 							has_government = fascism 
@@ -3990,6 +4072,7 @@ ECU_reforming_the_lost_unions = {
 					load_focus_tree = generic_focus
 					add_stability = 0.15 
 					add_war_support = 0.3
+					retire_country_leader = yes
 					if = {
 						limit = {
 							has_government = fascism 
@@ -4130,6 +4213,7 @@ ECU_reforming_the_lost_unions = {
 					load_focus_tree = generic_focus
 					add_stability = 0.15 
 					add_war_support = 0.3
+					retire_country_leader = yes
 					if = {
 						limit = {
 							has_government = fascism 
@@ -4331,6 +4415,7 @@ ECU_reforming_the_lost_unions = {
 					load_focus_tree = generic_focus
 					add_stability = 0.15 
 					add_war_support = 0.3
+					retire_country_leader = yes
 					if = {
 						limit = {
 							has_government = fascism 
@@ -4463,6 +4548,7 @@ ECU_reforming_the_lost_unions = {
 					load_focus_tree = generic_focus
 					add_stability = 0.15 
 					add_war_support = 0.3
+					retire_country_leader = yes
 					if = {
 						limit = {
 							has_government = fascism 
@@ -4687,6 +4773,7 @@ ECU_reforming_the_lost_unions = {
 					load_focus_tree = generic_focus
 					add_stability = 0.15 
 					add_war_support = 0.3
+					retire_country_leader = yes
 					if = {
 						limit = {
 							has_government = fascism 
@@ -4887,6 +4974,7 @@ ECU_reforming_the_lost_unions = {
 					load_focus_tree = generic_focus
 					add_stability = 0.15 
 					add_war_support = 0.3
+					retire_country_leader = yes
 					if = {
 						limit = {
 							has_government = fascism 
@@ -5156,17 +5244,7 @@ ECU_the_united_kingdom_of_peru_ecuador_and_bolivia = {
 			custom_effect_tooltip = ECU_gain_core_on_all_bolivian_states_tt
 			every_controlled_state = {
 				limit = {
-					OR = {
-						has_state_flag = peruvian_starting_state
-						has_state_flag = bolivian_starting_state
-						state = 1019
-						state = 951
-						state = 1035
-						state = 995
-						state = 993
-						state = 992
-						state = 688
-					}
+					is_claimed_by = ROOT
 					NOT = {
 						is_core_of = ROOT 
 					}
@@ -5181,6 +5259,14 @@ ECU_the_united_kingdom_of_peru_ecuador_and_bolivia = {
 				add_idea = ECU_the_ambition_of_jose_juan_flores_2
 			}
 			remove_country_leader_trait = ECU_low_public_support
+
+			hidden_effect = {
+				news_event = {
+					id = ecu.26 
+					days = 1
+					hours = 12
+				}
+			}
 		}
 	}
 
@@ -5646,14 +5732,16 @@ ECU_bananas_for_all = {
 				add_dynamic_modifier = {
 					modifier = ECU_local_banana_production
 				}
-				if = {
-					limit = {
+			}
+			if = {
+				limit = {
+					FROM = {
 						NOT = {
 							is_core_of = ROOT
 						}
 					}
-					add_compliance = 15
 				}
+				FROM = { add_compliance = 15 }
 			}
 
 			custom_effect_tooltip = CHL_skip_one_line_tt

@@ -700,6 +700,14 @@ country_event = {
 			custom_effect_tooltip = ECU_can_begin_defensive_preperations_tt
 			set_country_flag = ECU_can_begin_defensive_preperations_flag
 		}
+		if = {
+			limit = {
+				NOT = {
+					has_country_flag = EUYL_unsuccesful_skirmish_flag
+				}
+			}
+			set_country_flag = EUYL_unsuccesful_skirmish_flag
+		}
 	}
 }
 
@@ -872,19 +880,14 @@ country_event = {
 				has_civil_war = yes 
 			}
 		}
-		create_wargoal = {
-			target = ECU 
+		declare_war_on = {
+			target = FROM 
 			type = annex_everything
 		}
 		custom_effect_tooltip = EUYL_modify_peru_ecuador_war_idea_by_tt
 		add_to_variable = {
-			EUYL_peru_ecuador_attack_bonus = 0.02
+			EUYL_peru_ecuador_attack_bonus = 0.03
 			tooltip = army_attack_factor_tt
-		}
-		add_ai_strategy = {
-			type = declare_war
-			id = ECU
-			value = 100
 		}
 	}
 
@@ -906,6 +909,17 @@ country_event = {
 		add_to_variable = {
 			EUYL_peru_ecuador_defense_bonus = -0.03
 			tooltip = army_defence_factor_tt
+		}
+		FROM = {
+			create_wargoal = {
+				target = ROOT
+				type = annex_everything
+			}
+			add_ai_strategy = {
+				type = declare_war
+				id = ROOT 
+				value = 100
+			}
 		}
 	}
 }
@@ -1400,6 +1414,7 @@ country_event = {
 				FROM = {
 					is_in_faction = yes ## uh oh, they have big friends
 				}
+				is_in_faction = no
 			}
 		}
 		hidden_effect = {
@@ -1624,7 +1639,7 @@ country_event = {
 		}
 	}
 
-	option = { ## We aint givin u nothin
+	option = { ## We aint givin u nothin :speaking_head:
 		name = ecu.12.a 
 		ai_chance = {
 			base = 30
@@ -1774,7 +1789,7 @@ country_event = {
 			if = {
 				limit = {
 					OR = {
-						has_stability < 0.4
+						has_stability < 0.5
 						has_completed_focus = ECU_loser_of_the_peru_ecuador_war
 					}
 					NOT = {
@@ -1949,6 +1964,21 @@ country_event = {
 		ai_chance = {
 			base = 40
 		}
+		if = {
+			limit = {
+				NOT = {
+					has_government = neutrality
+				}
+			}
+			set_politics = {
+				ruling_party = neutrality
+				elections_allowed = yes
+			}
+			add_popularity = {
+				ideology = neutrality
+				popularity = 0.25
+			}
+		}
 		add_country_leader_role = {
 			character = ECU_provisional_junta
 			promote_leader = yes
@@ -2002,22 +2032,11 @@ country_event = {
 
 	option = {
 		name = ecu.19.a 
-		if = {
-			limit = {
-				NOT = {
-					has_government = neutrality
-				}
-			}
-			set_politics = {
-				ruling_party = neutrality
-				elections_allowed = yes
-			}
-			add_popularity = {
-				ideology = neutrality
-				popularity = 0.25
-			}
-		}
 		promote_character = ECU_jose_velasco_ibarra
+		add_popularity = {
+			ideology = neutrality
+			popularity = 0.1
+		}
 		if = {
 			limit = {
 				has_idea = ECU_la_gloriosa
@@ -2109,11 +2128,19 @@ country_event = {
 
 	trigger = {
 		original_tag = ECU 
+		is_subject = no 
+		has_civil_war = no
 		has_country_leader = {
 			character = ECU_asamblea_constituyente
 			ruling_only = yes 
 		}
 		has_idea = ECU_united_fruit_company
+		USA = {
+			has_opinion = {
+				target = ROOT
+				value > 49
+			}
+		}
 	}
 
 	option = { ## We don't have a choice...
@@ -2126,7 +2153,7 @@ country_event = {
 			}
 		}
 
-		drop_cosmetic_tag = yes
+		hidden_effect = { drop_cosmetic_tag = yes }
 
 		set_cosmetic_tag = ECU_BANANA_COMPANY
 		add_country_leader_role = {
@@ -2271,6 +2298,34 @@ country_event = {
 		custom_effect_tooltip = ECU_edmundo_passes_away_tt
 		hidden_effect = {
 			retire_character = ECU_edmundo_chiriboga
+		}
+	}
+}
+
+## The United Kingdom of Ecuador, Peru, and Bolivia ##
+news_event = {
+	id = ecu.26
+	title = ecu.26.t 
+	desc = ecu.26.d 
+	picture = GFX_news_event_ANZAC_day
+
+	major = yes 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = ecu.26.a 
+		trigger = {
+			original_tag = ECU 
+		}
+	}
+
+	option = {
+		name = ecu.26.b 
+		trigger = {
+			NOT = {
+				original_tag = ECU
+			}
 		}
 	}
 }

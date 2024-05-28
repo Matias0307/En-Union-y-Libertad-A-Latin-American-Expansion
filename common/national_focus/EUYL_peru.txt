@@ -7,6 +7,7 @@
 ### search_filters = {FOCUS_FILTER_ANNEXATION}
 ### search_filters = {FOCUS_FILTER_SECOND_WAR_OF_THE_PACIFIC}
 ### search_filters = {FOCUS_FILTER_ARMY_NAVY_RIVALRY}
+### search_filters = {FOCUS_FILTER_CAUDILLISMO}
 
 focus_tree = {
 	id = peru_focus
@@ -196,17 +197,25 @@ focus_tree = {
 			}
 		}
 		completion_reward = {
-				add_popularity = {
-					ideology = communism
-					popularity = -0.05
-				}
-				add_popularity = {
-					ideology = democratic
-					popularity = -0.15
-				}				
+			add_popularity = {
+				ideology = communism
+				popularity = -0.05
+			}
+			add_popularity = {
+				ideology = democratic
+				popularity = -0.15
+			}	
+			
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			PRU = { 
+		    	set_country_flag = PRU_que_exclu
+	        }
+	        custom_effect_tooltip = PRU_unlock_exclu_que
+			PRU_partidos_update_que = yes
 		}		
 		cost = 4
-		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
+		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_CAUDILLISMO FOCUS_FILTER_HISTORICAL }
 	}	
 
 	focus = {
@@ -576,6 +585,17 @@ focus_tree = {
 					EUYL_peru_ecuador_threat_level > 0
 				}
 			}
+			NOT = {
+				has_war_with = ECU
+			}
+			hidden_trigger = {
+				NOT = {
+					OR = {
+						has_global_flag = EUYL_peru_ecuador_war_triggered_flag
+						has_global_flag = EUYL_peru_ecuador_war_concluded_flag
+					}
+				}
+			}
 		}
 
 		search_filters = {
@@ -616,6 +636,14 @@ focus_tree = {
 				tooltip = EUYL_border_tension_level_3_tt
 				check_variable = {
 					EUYL_peru_ecuador_threat_level > 2
+				}
+			}
+			hidden_trigger = {
+				NOT = {
+					OR = {
+						has_global_flag = EUYL_peru_ecuador_war_triggered_flag
+						has_global_flag = EUYL_peru_ecuador_war_concluded_flag
+					}
 				}
 			}
 		}
@@ -674,13 +702,13 @@ focus_tree = {
 				}
 				add_days_mission_timeout = {
 					mission = EUYL_conflict_escalation
-					days = -50
+					days = -30
 				}
 				hidden_effect = {
-					PRU = {
+					ECU = {
 						add_days_mission_timeout = {
 							mission = EUYL_conflict_escalation
-							days = -50
+							days = -30
 						}
 					}
 				}
@@ -718,6 +746,18 @@ focus_tree = {
 					surrender_progress > 0.04
 				}
 			}
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes 
+				NOT = {
+					has_war_with = ECU
+				}
+			}
+			modifier = {
+				factor = 100 ## TOP PRIORITY
+				is_historical_focus_on = yes
+				has_war_with = ECU
+			}
 		}
 
 		available = {
@@ -731,6 +771,11 @@ focus_tree = {
 				has_war_with = ECU 
 				ECU = {
 					has_completed_focus = ECU_march_into_piura
+				}
+			}
+			hidden_trigger = {
+				NOT = {
+					has_global_flag = EUYL_peru_ecuador_war_concluded_flag
 				}
 			}
 		}
@@ -754,8 +799,38 @@ focus_tree = {
 					target = ECU 
 					type = annex_everything
 				}
-				activate_mission = PRU_capture_guayaquil
 			}
+			1005 = {
+				create_unit = {
+					division = "name = \"Brigada Peruana\" division_template = \"Brigada Peruana\" start_experience_factor = 0.04 start_equipment_factor = 0.9" 
+					owner = ROOT
+					allow_spawning_on_enemy_provs = yes
+				}
+			}
+			custom_effect_tooltip = EUYL_modify_peru_ecuador_war_idea_by_tt
+			add_to_variable = {
+				EUYL_peru_ecuador_attack_bonus = 0.05
+				tooltip = army_attack_factor_tt
+			}
+			add_to_variable = {
+				EUYL_peru_ecuador_defense_bonus = 0.05
+				tooltip = army_defence_factor_tt
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			if = {
+				limit = {
+					NOT = {
+						OR = {
+							has_active_mission = PRU_blockade_guayaquil
+							has_active_mission = PRU_capture_guayaquil
+						}
+					}
+				}
+				activate_mission = PRU_blockade_guayaquil
+			}
+
 			custom_effect_tooltip = PRU_following_will_occur_if_succesfully_capture_guayaquil_tt
 			effect_tooltip = {
 				custom_effect_tooltip = EUYL_modify_peru_ecuador_war_idea_by_tt
@@ -1989,7 +2064,7 @@ focus_tree = {
 			}
 		}
 
-		search_filters = { FOCUS_FILTER_POLITICAL }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_CAUDILLISMO }
 		completion_reward = {
 			custom_effect_tooltip = PRU_coup_will_launch_tt
 			custom_effect_tooltip = PRU_add_5_to_coup
@@ -2053,12 +2128,13 @@ focus_tree = {
 				}
 			}
 
+			custom_effect_tooltip = CHL_skip_one_line_tt
 			
-			 PRU= { 
-		    set_country_flag = PRU_que_exclu
-	         }
+			PRU = { 
+		    	set_country_flag = PRU_que_exclu
+	        }
 	        custom_effect_tooltip = PRU_unlock_exclu_que
-            PRU_partidos_update_update_effect = yes
+            PRU_partidos_update_que = yes
 		}
 	}
 
@@ -2178,14 +2254,16 @@ focus_tree = {
 
 		cost = 6
 
-		search_filters = { FOCUS_FILTER_INDUSTRY }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_CAUDILLISMO }
 		completion_reward = {
 			custom_effect_tooltip = PRU_ur_loyalty_our_status_text
 	        set_variable = { PRU_ur_loyalty = -1 }
-	        PRU= { 
-		     set_country_flag = PRU_ur_be_friend
-	         }
-	        PRU_partidos_update_update_effect = yes
+	        PRU = { 
+		     	set_country_flag = PRU_ur_be_friend
+	        }
+	        PRU_partidos_update_ur = yes
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
 			
 			random_owned_controlled_state = {
 				add_extra_state_shared_building_slots = 1
@@ -2399,7 +2477,7 @@ focus_tree = {
 
 		cost = 10
 
-		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER FOCUS_FILTER_ARMY_NAVY_RIVALRY }
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_CAUDILLISMO FOCUS_FILTER_MANPOWER FOCUS_FILTER_ARMY_NAVY_RIVALRY }
 		completion_reward = {
 			EUYL_add_1_military = yes 
 			add_ideas = URG_expanded_consription
@@ -2409,16 +2487,19 @@ focus_tree = {
 				}
 				PRU_increase_army_15_percent = yes 
 			}	
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
 			custom_effect_tooltip = PRU_unlock_friend_oli
 		    PRU = { 
 				set_country_flag = PRU_oli_be_friend
 		    }
-             PRU= { 
-		    set_country_flag = PRU_apra_exclu
-	         }
+            PRU = { 
+		    	set_country_flag = PRU_apra_exclu
+	        }
 	        custom_effect_tooltip = PRU_unlock_exclu_apra
-            PRU_partidos_update_update_effect = yes
-			 
+            PRU_partidos_update_apra = yes 
+			PRU_partidos_update_oli = yes
 		}
 	}
 
@@ -4676,7 +4757,7 @@ focus_tree = {
 			}
 		}
 
-		search_filters = { FOCUS_FILTER_POLITICAL }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_CAUDILLISMO }
 		completion_reward = {
 			hidden_effect = {
 				delete_unit_template_and_units = {
@@ -4708,13 +4789,9 @@ focus_tree = {
 			}
 
 			hidden_effect = {
-				set_cosmetic_tag = yes_inca
-				set_variable = { PRU_apra_loyalty = 0 }
-                 set_variable = { PRU_ur_loyalty = 0}
-                 set_variable = { PRU_que_loyalty = 0 }
-                 set_variable = { PRU_oli_loyalty = 0  }
-				 PRU_partidos_update_update_effect = yes
-      				set_cosmetic_tag = INC_UNIFIED
+				PRU_clear_caudillismo_mechanic = yes
+
+      			set_cosmetic_tag = INC_UNIFIED
 				country_event = { id = peru.28 days = 6 }
 				division_template = { 
 					name = "Milicias" 
@@ -5347,11 +5424,6 @@ focus_tree = {
 				type = annex_everything
 				target = ARG 
 			}
-			PRU= { 
-		    set_country_flag = PRU_que_exclu
-	        }
-	        custom_effect_tooltip = PRU_unlock_exclu_que
-			 PRU_partidos_update_update_effect = yes
 		}
 	}
 
@@ -5525,10 +5597,21 @@ focus_tree = {
 
 		allow_branch = {
 			has_dlc = "Trial of Allegiance"
+			NOT = {
+				OR = {
+					has_completed_focus = PRU_the_people_serve_the_state
+					has_completed_focus = PRU_the_state_serves_the_people
+					has_completed_focus = PRU_communist_peru
+				}
+			}
 		}
 
         completion_reward = {
-			if = {	
+			add_ideas = CHL_crusade_against_imperialism_idea
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			every_country = {
 				limit = {
 					OR = {
 						AND = {
@@ -5560,7 +5643,11 @@ focus_tree = {
 					target = ROOT
 					modifier = CHL_crusading_against_imperialism
 				}	
-			}	
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = CHL_crusade_against_imperialism_tt
         
 			create_faction = "Native Alliance"
 				
@@ -5808,7 +5895,7 @@ focus_tree = {
 	focus = {
 		id = PRU_take_out_colombia
 		icon = GFX_PRU_attack_colombia
-		x = 0
+		x = -1
 		y = 3
 		relative_position_id = PRU_eliminate_the_paraguayans
 		prerequisite = { focus = PRU_eliminate_the_paraguayans }
@@ -5849,7 +5936,7 @@ focus_tree = {
 	focus = {
 		id = PRU_take_out_venezuela
 		icon = GFX_ARG_attack_venezuela
-		x = 0
+		x = 1
 		y = 3
 		relative_position_id = PRU_go_after_uruguay
 		prerequisite = { focus = PRU_go_after_uruguay }
@@ -5890,7 +5977,7 @@ focus_tree = {
 	focus = {
 		id = PRU_victory_in_south_america
 		icon = GFX_focus_por_recover_latin_america
-		x = -2
+		x = -3
 		y = 1
 		relative_position_id = PRU_take_out_venezuela
 		prerequisite = { focus = PRU_take_out_venezuela }
@@ -6216,7 +6303,7 @@ focus_tree = {
 		
 		available = {
 		}
-		
+
 		bypass = {
 			communism < 0.05
 		}
@@ -6245,17 +6332,21 @@ focus_tree = {
 				ideology = democratic
 				popularity = ban_ideology_var
 			}	
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
 			set_variable = { PRU_oli_loyalty = -2 }
 			custom_effect_tooltip = PRU_unlock_friend_que
             custom_effect_tooltip = PRU_oli_loyalty_hostile_status_text
 		    PRU = { 
 				set_country_flag = PRU_que_be_friend
-				 set_country_flag = PRU_oli_exclu
+				set_country_flag = PRU_oli_exclu
 		    }
-			PRU_partidos_update_update_effect = yes	
+			PRU_partidos_update_que = yes 
+			PRU_partidos_update_oli = yes
 		}		
 		cost = 4
-		search_filters = {FOCUS_FILTER_POLITICAL}
+		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_CAUDILLISMO}
 	}	
 	
 	focus = {
@@ -6345,17 +6436,21 @@ focus_tree = {
 				ideology = fascism
 				popularity = 0.03
 			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
 			set_variable = { PRU_que_loyalty = -2 }
 			custom_effect_tooltip = PRU_unlock_friend_oli
             custom_effect_tooltip = PRU_que_loyalty_hostile_status_text
 		    PRU = { 
 				set_country_flag = PRU_oli_be_friend
-				 set_country_flag = PRU_que_exclu
+				set_country_flag = PRU_que_exclu
 		    }
-			PRU_partidos_update_update_effect = yes				
+			PRU_partidos_update_oli = yes 
+			PRU_partidos_update_que = yes			
 		}		
 		cost = 4
-		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL}
+		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL FOCUS_FILTER_CAUDILLISMO}
 	}
 	
 	focus = {
@@ -6541,6 +6636,9 @@ focus_tree = {
 					NOT = {
 						has_war_with = ROOT
 					}
+					NOT = {
+						original_tag = ECU
+					}
 				}
 				country_event = {
 					id = peru.133
@@ -6665,15 +6763,18 @@ focus_tree = {
 				}
 				remove_ideas = PRU_communist_oppression
 			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
 			set_variable = { PRU_ur_loyalty = -2 }
-		    PRU_partidos_update_update_effect = yes
 		    custom_effect_tooltip = PRU_ur_loyalty_hostile_status_text
-             PRU= { 
-		    set_country_flag = PRU_ur_exclu
-	         }
+            PRU = { 
+		    	set_country_flag = PRU_ur_exclu
+	        }
+			PRU_partidos_update_ur = yes
 		}		
 		cost = 10
-		search_filters = {FOCUS_FILTER_POLITICAL}
+		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_CAUDILLISMO}
 	}
 
 	focus = {
@@ -6744,16 +6845,18 @@ focus_tree = {
 					add_political_power = 120	
 				}
 			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
 			
 			set_variable = { PRU_ur_loyalty = -2 }
-		    PRU_partidos_update_update_effect = yes
 		    custom_effect_tooltip = PRU_ur_loyalty_hostile_status_text
-             PRU= { 
-		    set_country_flag = PRU_ur_exclu
-	         }
+            PRU = { 
+		    	set_country_flag = PRU_ur_exclu
+	        }
+			PRU_partidos_update_ur = yes
 		}		
 		cost = 10
-		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL}
+		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_CAUDILLISMO FOCUS_FILTER_HISTORICAL}
 	}	
 
 	focus = { ## The People Serve the People 
@@ -7048,19 +7151,21 @@ focus_tree = {
 			has_government = communism
 		}
 
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_INDUSTRY }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_CAUDILLISMO FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
 			add_political_power = 25
 			add_stability = 0.05
 			add_war_support = 0.05
 			EUYL_add_1_civilian = yes 
 
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
 			custom_effect_tooltip = PRU_que_loyalty_our_status_text
 	        set_variable = { PRU_que_loyalty = -1 }
-	        PRU= { 
-		     set_country_flag = PRU_que_be_friend
-	         }
-	        PRU_partidos_update_update_effect = yes
+	        PRU = { 
+		     	set_country_flag = PRU_que_be_friend
+	        }
+	        PRU_partidos_update_que = yes
 
 		}
 	}
@@ -7662,7 +7767,7 @@ focus_tree = {
 
 		ai_will_do = { factor = 2 }
 
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ECONOMIC_GROWTH }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_CAUDILLISMO FOCUS_FILTER_STABILITY FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ECONOMIC_GROWTH }
 		completion_reward = {
 			add_political_power = 25
 			add_stability = 0.05
@@ -7681,12 +7786,15 @@ focus_tree = {
 				add_political_power = 25
 				EUYL_add_1_civilian = yes 
 			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
 			set_variable = { PRU_oli_loyalty = -2 }
             custom_effect_tooltip = PRU_oli_loyalty_hostile_status_text
 		    PRU = { 
-				 set_country_flag = PRU_oli_exclu
+				set_country_flag = PRU_oli_exclu
 		    }
-			PRU_partidos_update_update_effect = yes	
+			PRU_partidos_update_oli = yes
 		}
 	}
 
@@ -7702,7 +7810,7 @@ focus_tree = {
 
 		ai_will_do = { factor = 2 }
 
-		search_filters = {FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ECONOMIC_GROWTH }
+		search_filters = {FOCUS_FILTER_INDUSTRY FOCUS_FILTER_CAUDILLISMO FOCUS_FILTER_ECONOMIC_GROWTH }
 		completion_reward = {
 			random_owned_controlled_state = {
 				add_building_construction = {
@@ -7741,12 +7849,14 @@ focus_tree = {
 				EUYL_add_1_civilian = yes 
 			}
 
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
 			set_variable = { PRU_ur_loyalty = -2 }
             custom_effect_tooltip = PRU_ur_loyalty_hostile_status_text
 		    PRU = { 
-				 set_country_flag = PRU_ur_exclu
+				set_country_flag = PRU_ur_exclu
 		    }
-			PRU_partidos_update_update_effect = yes		
+			PRU_partidos_update_ur = yes	
 		}
 	}
 
@@ -8648,11 +8758,6 @@ focus_tree = {
 		completion_reward = {		
 			BOL = { country_event = { id = peru.137 hours = 4 } }
 			custom_effect_tooltip = PRU_if_bolivia_strengthened_relations
-			   set_variable = { PRU_apra_loyalty = 0 }
-                 set_variable = { PRU_ur_loyalty = 0}
-                 set_variable = { PRU_que_loyalty = 0 }
-                 set_variable = { PRU_oli_loyalty = 0  }
-				 PRU_partidos_update_update_effect = yes
 		}		
 		cost = 10
 		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION}
@@ -8990,14 +9095,17 @@ focus_tree = {
 				popularity = 0.15
 			}
 			add_stability = 0.05
-			PRU= { 
-		    set_country_flag = PRU_ur_exclu
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			PRU = { 
+		    	set_country_flag = PRU_ur_exclu
 	        }
 	        custom_effect_tooltip = PRU_unlock_exclu_ur
-			 PRU_partidos_update_update_effect = yes
+			PRU_partidos_update_ur = yes
 		}		
 		cost = 10
-		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
+		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_CAUDILLISMO FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
 	}	
 
 	focus = {
@@ -9036,10 +9144,12 @@ focus_tree = {
 		completion_reward = {	
 			custom_effect_tooltip = PRU_apra_loyalty_our_status_text
 	        set_variable = { PRU_apra_loyalty = -1 }
-	        PRU= { 
-		     set_country_flag = PRU_apra_be_friend
-	         }
-	        PRU_partidos_update_update_effect = yes
+	        PRU = { 
+		     	set_country_flag = PRU_apra_be_friend
+	        }
+	        PRU_partidos_update_apra = yes
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
 
 			add_political_power = 50
 			every_other_country = {
@@ -9063,7 +9173,7 @@ focus_tree = {
 			}		
 		}		
 		cost = 5
-		search_filters = {FOCUS_FILTER_POLITICAL}
+		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_CAUDILLISMO}
 	}
 	
 	focus = {
@@ -9410,15 +9520,15 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = PRU_apra_loyalty_our_status_text
 	        set_variable = { PRU_apra_loyalty = -1 }
-	        PRU= { 
-		     set_country_flag = PRU_apra_be_friend
-	         }
-	        PRU_partidos_update_update_effect = yes
+	        PRU = { 
+		    	set_country_flag = PRU_apra_be_friend
+	        }
+	        PRU_partidos_update_apra = yes
 
-			if = {
-				limit = { has_idea = monroe_doctrine_idea }
-				remove_ideas = monroe_doctrine_idea
-			}
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			EUYL_clear_monroe_doctrine = yes
+
 			if = {
 				limit = {
 					ENG = {
@@ -9463,7 +9573,7 @@ focus_tree = {
 			}
 		}
 		cost = 10
-		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL}
+		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_CAUDILLISMO FOCUS_FILTER_HISTORICAL}
 	}
 
 	focus = {
@@ -9611,15 +9721,17 @@ focus_tree = {
 			set_rule = { can_create_factions = yes }
 			create_faction = "The Andean Pact"
 
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
 			custom_effect_tooltip = PRU_apra_loyalty_our_status_text
 	        set_variable = { PRU_apra_loyalty = -1 }
-	        PRU= { 
-		     set_country_flag = PRU_apra_be_friend
-	         }
-	        PRU_partidos_update_update_effect = yes
+	        PRU = { 
+		     	set_country_flag = PRU_apra_be_friend
+	        }
+	        PRU_partidos_update_apra = yes
 		}		
 		cost = 10
-		search_filters = {FOCUS_FILTER_POLITICAL}
+		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_CAUDILLISMO}
 	}	
 
 	focus = {
@@ -10972,7 +11084,7 @@ focus_tree = {
 				}
 			}
 			custom_effect_tooltip = PRU_modify_chilean_airforce_ns_intro
-			add_to_variable = { JUNO_airforce_modifier_air_ace_generation_chance_factor = 0.15 tooltip = air_ace_generation_chance_factor_tt }
+			add_to_variable = { JUNO_airforce_modifier_air_ace_generation_chance_factor = 0.05 tooltip = air_ace_generation_chance_factor_tt }
 			add_to_variable = { JUNO_airforce_modifier_air_doctrine_cost_factor = -0.1 tooltip = air_doctrine_cost_factor_tt }
 		}
 	}
@@ -10992,7 +11104,7 @@ focus_tree = {
 			air_experience = 150
 			custom_effect_tooltip = PRU_modify_chilean_airforce_ns_intro
 			add_to_variable = { JUNO_airforce_modifier_air_superiority_efficiency = 0.05 tooltip = air_superiority_efficiency_tt }
-			add_to_variable = { JUNO_airforce_modifier_air_cas_present_factor = 0.1 tooltip = air_cas_present_factor_tt }
+			add_to_variable = { JUNO_airforce_modifier_air_cas_present_factor = 0.05 tooltip = air_cas_present_factor_tt }
 			add_to_variable = { JUNO_airforce_modifier_ground_attack_factor = 0.05 tooltip = ground_attack_factor_tt }
 		}
 	}
@@ -11024,7 +11136,7 @@ focus_tree = {
 				category = infantry_weapons
 			}
 			 custom_effect_tooltip = PRU_modify_chilean_army_ns_intro
-			add_to_variable = { JUNO_army_modifier_army_org_factor = 0.04 tooltip = army_org_factor_tt }
+			add_to_variable = { JUNO_army_modifier_army_org_factor = 0.03 tooltip = army_org_factor_tt }
 			add_to_variable = { JUNO_army_modifier_army_core_defence_factor = 0.04 tooltip = army_core_defence_factor_tt }
 		}
 	}
@@ -11126,7 +11238,6 @@ focus_tree = {
 		   }
 		   custom_effect_tooltip = PRU_modify_chilean_army_ns_intro
 		   add_to_variable = { JUNO_army_modifier_experience_gain_army_factor = 0.05 tooltip = experience_gain_army_factor_tt }
-		   add_to_variable = { JUNO_army_modifier_army_org_factor = 0.05 tooltip = army_org_factor_tt }
 		}
 	}
 
@@ -11229,9 +11340,9 @@ focus_tree = {
 			add_stability = 0.05
 			add_war_support = 0.1
 			custom_effect_tooltip = PRU_modify_chilean_army_ns_intro
-			add_to_variable = { JUNO_army_modifier_max_planning_factor = 0.05 tooltip = max_planning_factor_tt }
+			add_to_variable = { JUNO_army_modifier_max_planning_factor = 0.03 tooltip = max_planning_factor_tt }
 			add_to_variable = { JUNO_army_modifier_army_artillery_defence_factor = 0.05 tooltip = army_artillery_defence_factor_tt }
-			add_to_variable = { JUNO_army_modifier_conscription = 0.015 tooltip = conscription_tt }
+			add_to_variable = { JUNO_army_modifier_conscription = 0.005 tooltip = conscription_tt }
 		}		
 		cost = 5
 		search_filters = {FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_HISTORICAL}
@@ -11294,7 +11405,7 @@ focus_tree = {
 				}
 				PRU_increase_army_10_percent = yes 
 			}	
-			add_to_variable = { JUNO_army_modifier_conscription = 0.015 tooltip = conscription_tt }	
+			add_to_variable = { JUNO_army_modifier_conscription = 0.005 tooltip = conscription_tt }	
 		}		
 		cost = 6
 		search_filters = {FOCUS_FILTER_MANPOWER FOCUS_FILTER_ARMY_NAVY_RIVALRY FOCUS_FILTER_HISTORICAL} 		
@@ -11317,10 +11428,9 @@ focus_tree = {
 			}
 		}
 		completion_reward = {
-			add_ideas = PRU_strength_in_our_guns_idea
 			army_experience = 50	
 			custom_effect_tooltip = PRU_modify_chilean_army_ns_intro
-			add_to_variable = { JUNO_army_production_speed_arms_factory_factor = 0.15 tooltip = industrial_capacity_factory_tt }
+			add_to_variable = { JUNO_army_production_speed_arms_factory_factor = 0.05 tooltip = industrial_capacity_factory_tt }
 		}		
 		cost = 5
 		search_filters = {FOCUS_FILTER_RESEARCH}		
@@ -11342,8 +11452,7 @@ focus_tree = {
 				is_historical_focus_on = yes 
 			}
 		}
-		completion_reward = {
-			add_ideas = PRU_strength_in_our_minds_idea		
+		completion_reward = {	
 			army_experience = 45	
 			custom_effect_tooltip = PRU_modify_chilean_army_ns_intro
 			add_to_variable = { JUNO_army_modifier_max_planning_factor = 0.1 tooltip = max_planning_factor_tt }
@@ -11531,10 +11640,10 @@ focus_tree = {
 		}
 		completion_reward = {
 			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 2
+				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
 					type = arms_factory
-					level = 2
+					level = 1
 					instant_build = yes
 				}
 			}
@@ -11576,7 +11685,7 @@ focus_tree = {
 			}
 			custom_effect_tooltip = PRU_unlock_alpaca
 			custom_effect_tooltip = PRU_modify_chilean_army_ns_intro
-			add_to_variable = { JUNO_army_modifier_special_forces_cap = 0.15 tooltip = special_forces_cap_tt }
+			add_to_variable = { JUNO_army_modifier_special_forces_cap = 0.1 tooltip = special_forces_cap_tt }
             add_to_variable = { JUNO_army_modifier_army_attack_factor = 0.05 tooltip = army_attack_factor_tt }
 
 		}		
@@ -11698,7 +11807,7 @@ focus_tree = {
 				tooltip = refit_speed_tt
 			}
 			add_to_variable = {
-				ROOT.JUNO_navy_repair_speed_factor = 0.25
+				ROOT.JUNO_navy_repair_speed_factor = 0.1
 				tooltip = repair_speed_factor_tt
 			}
 		   	add_to_variable = { 
@@ -12032,9 +12141,9 @@ focus_tree = {
 				add_idea = PRU_improper_air_force_2
 			}
 			custom_effect_tooltip = PRU_modify_chilean_airforce_ns_intro
-			add_to_variable = { JUNO_airforce_modifier_air_range_factor = 0.1 tooltip = air_range_factor_tt }
+			add_to_variable = { JUNO_airforce_modifier_air_range_factor = 0.05 tooltip = air_range_factor_tt }
 			add_to_variable = { JUNO_airforce_modifier_air_agility_factor = 0.05 tooltip = air_agility_factor_tt }
-			add_to_variable = { JUNO_airforce_modifier_air_defence_factor = 0.1 tooltip = air_defence_factor_tt }
+			add_to_variable = { JUNO_airforce_modifier_air_defence_factor = 0.05 tooltip = air_defence_factor_tt }
 		}		
 		cost = 5
 	}		
