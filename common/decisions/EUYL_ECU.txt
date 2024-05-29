@@ -1212,14 +1212,6 @@ EUYL_peru_ecuador_rising_tensions = {
 					ratio > 1
 				}
 			}
-			modifier = { ## this is so that they only do it once if its on historical
-				factor = 0
-				is_historical_focus_on = yes 
-				OR = {
-					has_country_flag = PRU_succesful_skirmish_flag
-					has_country_flag = EUYL_unsuccesful_skirmish_flag
-				}
-			}
 		}
 
 		on_map_mode = map_and_decisions_view
@@ -2234,7 +2226,18 @@ EUYL_peru_ecuador_rising_tensions = {
 		}
 
 		available = {
-			ships_in_area = { area = 107 size > 6 } 
+			if = {
+				limit = {
+					is_ai = yes 
+				}
+				OR = {
+					ships_in_area = { area = 109 size > 3 }
+					ships_in_area = { area = 107 size > 3 }  
+				}
+			}
+			else = {
+				ships_in_area = { area = 107 size > 6 } 
+			}
 		}
 
 		cancel_trigger = {
@@ -2257,6 +2260,11 @@ EUYL_peru_ecuador_rising_tensions = {
 			add_war_support = 0.02
 			ECU = { 
 				add_war_support = -0.03 
+				add_stability = -0.05
+				country_event = {
+					id = ecu.27
+					days = 2
+				}
 				add_timed_idea = {
 					idea = EUYL_blockaded
 					days = 90
@@ -2471,6 +2479,7 @@ EUYL_peru_ecuador_rising_tensions = {
 				name = "Macheteros" 
 				division_names_group = SPAN_INF_02 
 				is_locked = no 
+				template_counter = 4
 				regiments = { 
 					infantry = { x = 0 y = 0 } 
 					infantry = { x = 1 y = 0 } 
@@ -2482,7 +2491,7 @@ EUYL_peru_ecuador_rising_tensions = {
 			}
 			305 = {
 				create_unit = {
-					division = "name = \"Macheteros\" division_template = \"Macheteros\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+					division = "name = \"Macheteros\" division_template = \"Macheteros\" start_experience_factor = 0.05 start_equipment_factor = 1" 
 					owner = ROOT
 					count = 2
 				}

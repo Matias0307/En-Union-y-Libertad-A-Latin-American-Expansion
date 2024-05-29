@@ -334,14 +334,14 @@ country_event = {
 			every_state = {
 				limit = {
 					is_controlled_by = PRU 
-					is_core_of = ECU
+					is_owned_by = ECU
 				}
 				transfer_state_to = PRU
 			}
 			every_state = {
 				limit = {
 					is_controlled_by = ECU 
-					is_core_of = PRU
+					is_owned_by = PRU
 				}
 				transfer_state_to = ECU
 			}
@@ -349,10 +349,15 @@ country_event = {
 				white_peace = ECU
 				if = {
 					limit = {
-						controls_state = 1037 ## Historically Occupied by Peru
+						any_controlled_state = {
+							NOT = {
+								state = 1036
+							}
+							has_state_flag = ECU_starting_state
+						}
 					}
 					country_event = {
-						id = peruecuador.7 ## Shall we return Guayaquil to Ecuador
+						id = peruecuador.7 ## Shall we Withdraw from Ecuadorian Lands?
 						days = 3
 						random_days = 2
 						hours = 6
@@ -461,7 +466,7 @@ news_event = {
 	}
 }
 
-## Shall we return Guayaquil to Ecuador 
+## Shall we Withdraw from Ecuadorian Lands?
 country_event = {
 	id = peruecuador.7
 	title = peruecuador.7.t 
@@ -476,14 +481,14 @@ country_event = {
 			base = 10
 		}
 		add_stability = 0.03
-		1037 = { 
-			transfer_state_to = ECU 
-			if = {
-				limit = {
-					is_core_of = ROOT 
+		every_owned_state = {
+			limit = {
+				has_state_flag = ECU_starting_state
+				NOT = {
+					state = 1036
 				}
-				remove_core_of = ROOT
 			}
+			transfer_state_to = ECU
 		}
 		ECU = {
 			country_event = peruecuador.8
@@ -512,7 +517,7 @@ country_event = {
 	}
 }
 
-## Peru returns Guayaquil 
+## Peru withdraws from our lands 
 country_event = {
 	id = peruecuador.8
 	title = peruecuador.8.t 
@@ -527,7 +532,7 @@ country_event = {
 	}
 }
 
-## Peru still holds onto Guayaquil 
+## Peru refuses to withdraw their forces
 country_event = {
 	id = peruecuador.9
 	title = peruecuador.9.t 
@@ -563,6 +568,11 @@ country_event = {
 		create_wargoal = {
 			target = PRU 
 			type = annex_everything
+		}
+		add_ai_strategy = {
+			type = declare_war
+			id = PRU
+			value = 150
 		}
 		add_political_power = 25
 	}
@@ -892,11 +902,11 @@ country_event = {
 		if = {
 			limit = {
 				NOT = {
-					has_template = "Brigada Peruana"
+					has_template = "Nacionalistas de Piura"
 				}
 			}
 			division_template = {
-				name = "Brigada Peruana"
+				name = "Nacionalistas de Piura"
 				division_names_group = SPAN_INF_02
 				template_counter = 3
 				
@@ -905,12 +915,16 @@ country_event = {
 					infantry = { x = 0 y = 1 }
 					infantry = { x = 0 y = 2 }
 					infantry = { x = 0 y = 3 }
+					infantry = { x = 1 y = 0 }
+					infantry = { x = 1 y = 1 }
+					infantry = { x = 1 y = 2 }
+					infantry = { x = 1 y = 3 }
 				}
 			}
 		}
 		1005 = {
 			create_unit = {
-				division = "name = \"Brigada Peruana\" division_template = \"Brigada Peruana\" start_experience_factor = 0.04 start_equipment_factor = 0.9" 
+				division = "name = \"Brigada Peruana\" division_template = \"Brigada Peruana\" start_experience_factor = 0.04 start_equipment_factor = 1" 
 				owner = ROOT
 				count = 2
 				allow_spawning_on_enemy_provs = yes
@@ -2353,6 +2367,37 @@ news_event = {
 			NOT = {
 				original_tag = ECU
 			}
+		}
+	}
+}
+
+## Peru has Blockaded us
+country_event = {
+	id = ecu.27
+	title = ecu.27.t 
+	desc = ecu.27.d 
+	picture = GFX_report_event_ast_navy
+
+	is_triggered_only = yes 
+
+	option = {
+		name = ecu.27.a 
+		effect_tooltip = {
+			add_war_support = -0.03 
+			add_stability = -0.05
+			add_timed_idea = {
+				idea = EUYL_blockaded
+				days = 90
+			}
+		}
+		custom_effect_tooltip = EUYL_modify_peru_ecuador_war_idea_by_tt
+		add_to_variable = {
+			EUYL_peru_ecuador_attack_bonus = -0.01
+			tooltip = army_attack_factor_tt
+		}
+		add_to_variable = {
+			EUYL_peru_ecuador_defense_bonus = -0.01
+			tooltip = army_defence_factor_tt
 		}
 	}
 }
