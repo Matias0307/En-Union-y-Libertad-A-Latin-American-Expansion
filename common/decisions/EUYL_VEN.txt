@@ -437,7 +437,10 @@ VEN_political_crisis = { ## need to make custom trigger tooltips for these :/
         }
 
         available = {
-            has_stability > 0.74
+            has_stability > 0.84
+            NOT = {
+                has_completed_focus = ECU_support_la_gloriosa
+            }
         }
 
         cancel_trigger = {
@@ -548,6 +551,46 @@ VEN_political_crisis = { ## need to make custom trigger tooltips for these :/
         }
 
         days_remove = 70
+    }
+
+    ECU_deal_with_the_draft_dodgers = {
+        icon = generic_civil_support
+
+		allowed = {
+			original_tag = ECU
+		}
+
+		available = {
+			OR = {
+				has_idea = draft_dodging
+				has_idea = draft_dodging_2
+				has_idea = draft_dodging_3
+			}
+		}
+
+		custom_cost_text = decision_cost_CP_25
+        custom_cost_trigger = {
+            command_power > 24
+        }
+		ai_will_do = {
+			factor = 1
+		}
+
+		visible = {
+			OR = {
+				has_idea = draft_dodging
+				has_idea = draft_dodging_2
+				has_idea = draft_dodging_3
+			}
+									
+		}
+
+		complete_effect = {
+            hidden_effect = {
+                add_command_power = -25
+            }
+			country_event = stability.21
+		}
     }
 }
 

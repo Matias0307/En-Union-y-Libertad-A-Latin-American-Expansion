@@ -42,6 +42,21 @@ focus_tree = {
 			has_idea = ECU_la_gloriosa
 		}
 
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 20
+				is_historical_focus_on = yes
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					has_government = fascism
+					has_government = communism
+				}
+			}
+		}
+
 		cost = 5
 
 		available = {
@@ -82,6 +97,17 @@ focus_tree = {
 		}
 
 		cost = 10
+
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 20
+				OR = {
+					has_government = fascism
+					has_government = communism
+				}
+			}
+		}
 
 		available = {
 			has_country_leader = {
@@ -6179,7 +6205,7 @@ focus_tree = {
 			hidden_effect = {
 				retire_character = ECU_alberto_enriquez_gallo
 				add_timed_idea = {
-					idea = mutiny_1
+					idea = ECU_mutinies
 					days = 300
 				}
 			}
@@ -6253,6 +6279,14 @@ focus_tree = {
 					ECU_states_cooperated > 3
 				}
 			}
+		}
+
+		bypass = {
+			has_country_leader = {
+				character = ECU_jorge_luna_yepez
+				ruling_only = yes 
+			}
+			has_government = fascism
 		}
 
 		search_filters = {
@@ -6375,6 +6409,14 @@ focus_tree = {
 			}
 		}
 
+		bypass = {
+			has_country_leader = {
+				character = ECU_federico_páez
+				ruling_only = yes 
+			}
+			has_government = fascism
+		}
+
 		search_filters = {
 			FOCUS_FILTER_POLITICAL FOCUS_FILTER_BIPARTISANSHIP FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_STABILITY
 		}
@@ -6481,6 +6523,18 @@ focus_tree = {
 		}
 
 		cost = 5
+
+		offset = {
+			x = -1
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ECU_the_paez_dictatorship
+			}
+		}
 
 		available = {
 			has_idea = ECU_the_constituent_assembly
@@ -10577,6 +10631,18 @@ focus_tree = {
 			base = 2
 		}
 
+		offset = {
+			x = 1
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ECU_the_paez_dictatorship
+			}
+		}
+
 		available = {
 			any_other_country = {
 				has_country_flag = ECU_seeked_advisors_from_here_flag
@@ -10864,11 +10930,23 @@ focus_tree = {
 				}
 				unlock_decision_category_tooltip = ECU_fuerzas_armadas_ecuatorianas
 			}
-			add_equipment_to_stockpile = {
-			    type = small_plane_airframe_1
-			    amount = 15
-			    producer = USA
-			    variant_name = "P-36A"
+			if = {
+				limit = {
+					has_dlc = "By Blood Alone"
+				}
+				add_equipment_to_stockpile = {
+					type = small_plane_airframe_1
+					amount = 15
+					producer = USA
+					variant_name = "P-36A"
+				}
+			}
+			else = {
+				add_equipment_to_stockpile = {
+					type = fighter_equipment_0
+					amount = 15
+					producer = USA
+				}
 			}
 		}
 	}

@@ -1720,6 +1720,20 @@ EUYL_peru_ecuador_rising_tensions = {
 	EUYL_formalize_a_militia_regiment_in_FROM = {
 		icon = generic_army_support
 
+		state_target = yes 
+
+		target_array = controlled_states
+
+		target_trigger = {
+			FROM = {
+				any_neighbor_state = {
+					owner = {
+						has_war_with = ROOT
+					}
+				}
+			}
+		}
+
 		visible = {
 			OR = {
 				has_war_with = PRU 
@@ -1737,19 +1751,8 @@ EUYL_peru_ecuador_rising_tensions = {
 				}
 				has_completed_focus = PRU_ramp_up_mobilization
 			}
-		}
-
-		state_target = yes 
-
-		target_array = controlled_states
-
-		target_trigger = {
 			FROM = {
-				any_neighbor_state = {
-					owner = {
-						has_war_with = ROOT
-					}
-				}
+				is_fully_controlled_by = ROOT
 			}
 		}
 
@@ -2466,7 +2469,7 @@ EUYL_peru_ecuador_rising_tensions = {
 
 		on_map_mode = map_and_decisions_view
 
-		custom_cost_text = decision_cost_15_army_xp
+		custom_cost_text = ARG_mobilize_elite_15
 		custom_cost_trigger = {
 			has_army_experience > 14
 		}
@@ -5023,7 +5026,7 @@ ECU_reforming_the_lost_unions = {
 			hidden_effect = {
 				CAN = {
 					drop_cosmetic_tag = yes 
-					set_cosmetic_tag = CHL_REORGANIZED
+					set_cosmetic_tag = CAN_REORGANIZED
 					transfer_state = 464
 					transfer_state = 465
 					transfer_state = 468
@@ -5222,10 +5225,13 @@ ECU_cooperating_with_the_fascists = {
 	}
 
 	ECU_use_the_german_spies_to_intensify_support = {
-		icon = recruit_operative
+		icon = SWI_expand_covert_operations
 
 		visible = {
 			has_completed_focus = ECU_diplomatic_mission_to_germany
+			NOT = {
+				has_government = fascism
+			}
 		}
 
 		highlight_states = {
