@@ -9356,6 +9356,13 @@ ARG_spread_of_peronism = {
 				factor = 10
 				check_variable = { ARG_peronist_support > 100 }
 			}
+			modifier = {
+				factor = 15
+				OR = {
+					has_completed_focus = ARG_union_civica_radical
+					has_completed_focus = ARG_partido_socialista
+				}
+			}
 		}
 
 		available = { 
@@ -9426,6 +9433,25 @@ ARG_spread_of_peronism = {
 			}
 		}
 
+		ai_will_do = {
+			base = 20
+			modifier = {
+				factor = 0
+				OR = {
+					is_historical_focus_on = yes 
+					has_completed_focus = ARG_formalize_the_GOU
+					has_completed_focus = ARG_kill_off_roberto
+				}
+			}
+			modifier = {
+				factor = 15
+				OR = {
+					has_completed_focus = ARG_union_civica_radical
+					has_completed_focus = ARG_partido_socialista
+				}
+			}
+		}
+
 		available = {
 			has_civil_war = no 
 			has_manpower > 9999
@@ -9442,12 +9468,9 @@ ARG_spread_of_peronism = {
 		}
 
 		remove_effect = {
-			custom_effect_tooltip = ARG_peronist_march_will_be_dealt_with_tt
-			hidden_effect = {
-				FROM = {
-					remove_dynamic_modifier = {
-						modifier = ARG_peronist_march
-					}
+			FROM = {
+				remove_dynamic_modifier = {
+					modifier = ARG_peronist_march
 				}
 			}
 		}
@@ -9498,6 +9521,17 @@ ARG_spread_of_peronism = {
 			}
 		}
 
+		ai_will_do = {
+			base = 15
+			modifier = {
+				factor = 25
+				OR = {
+					has_completed_focus = ARG_union_civica_radical
+					has_completed_focus = ARG_partido_socialista
+				}
+			}
+		}
+
 		fire_only_once = yes 
 
 		cost = 25
@@ -9526,6 +9560,23 @@ ARG_spread_of_peronism = {
 				OR = {
 					has_completed_focus = ARG_support_the_peronists
 					has_completed_focus = ARG_kill_off_roberto
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 75
+			modifier = {
+				factor = 15
+				OR = {
+					has_completed_focus = ARG_union_civica_radical
+					has_completed_focus = ARG_partido_socialista
+				}
+			}
+			modifier = {
+				factor = 5
+				check_variable = {
+					ARG_peronist_support > 21 #tweny wan
 				}
 			}
 		}
@@ -9590,6 +9641,16 @@ ARG_spread_of_peronism = {
 				has_country_leader = {
 					character = ARG_juan_domingo_peron
 					ruling_only = yes 
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 350
+			modifier = {
+				factor = 0.4 
+				check_variable = {
+					ARG_peronist_support > 129
 				}
 			}
 		}
@@ -10348,6 +10409,7 @@ ARG_managing_the_army = {
 				has_idea = ARG_military_conscription_1
 				has_idea = ARG_military_conscription_2
 				has_idea = ARG_military_conscription_3
+				has_idea = ARG_military_conscription_4
 			}
 		}
 
@@ -10364,6 +10426,7 @@ ARG_managing_the_army = {
 						has_idea = ARG_military_conscription_2
 						has_idea = ARG_military_conscription_3
 						has_idea = ARG_military_conscription_4
+						has_idea = ARG_military_conscription_5
 					}
 				}
 			}
@@ -10389,8 +10452,8 @@ ARG_managing_the_army = {
 		}
 
 		remove_effect = {
-			add_to_variable = { ARG_cost_to_improve_mob = 25 }
-			add_to_variable = { ARG_days_to_improve_mob = 35 }
+			add_to_variable = { ARG_cost_to_improve_mob = 20 }
+			add_to_variable = { ARG_days_to_improve_mob = 30 }
 			if = {
 				limit = {
 					has_idea = ARG_military_conscription_1
@@ -10409,10 +10472,17 @@ ARG_managing_the_army = {
 					add_idea = ARG_military_conscription_3
 				}
 			}
-			else = { 
+			else_if = { 
+				limit = { has_idea = ARG_military_conscription_3 }
 				swap_ideas = {
 					remove_idea = ARG_military_conscription_3
 					add_idea = ARG_military_conscription_4
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = ARG_military_conscription_4
+					add_idea = ARG_military_conscription_5
 				}
 			}
 		}
