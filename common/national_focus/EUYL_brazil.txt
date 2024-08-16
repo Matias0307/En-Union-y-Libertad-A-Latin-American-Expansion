@@ -218,7 +218,7 @@ focus_tree = {
 		}
 
 		search_filters = {
-			FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_POLITICAL FOCUS_FITLER_MONARCHISM
+			FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_POLITICAL FOCUS_FILTER_MONARCHISM
 		}
 
 		select_effect = {
@@ -236,11 +236,20 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = CHL_pathcivilwar
 			custom_effect_tooltip = BRA_limit_to_50_support_and_8_states_tt
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
 			unlock_decision_tooltip = {
 				decision = BRA_sway_officer_loyalty
 				show_effect_tooltip = yes
 			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
 			BRA_add_3_monarchist_support = yes
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
 			add_political_power = 50
 			add_command_power = 25
 			BRA_limit_monarchist_support = yes
@@ -900,6 +909,9 @@ focus_tree = {
 				custom_effect_tooltip = BRA_spacer_tt
 			}
 			BRA_add_15_monarchist_support = yes
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			
 			custom_effect_tooltip = BRA_failure_to_maintain_authoritarianism_result_in_integralist_uprising_tt
 			set_global_flag = BRA_absorbed_integralists_flag
 			hidden_effect = {
@@ -14327,9 +14339,15 @@ focus_tree = {
 		}
 
 		bypass = {
-			OR = {
-				has_completed_focus = BRA_create_our_own_faction
-				has_completed_focus = BRA_join_the_axis
+			PAR = {
+				OR = {
+					has_war_with = ROOT 
+					exists = no 
+					is_subject_of = ROOT 
+					capital_scope = {
+						controls_or_subject_of = yes
+					}
+				}
 			}
 		}
 
