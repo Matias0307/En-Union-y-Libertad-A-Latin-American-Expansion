@@ -17072,12 +17072,24 @@ focus_tree = {
 			has_active_mission = BRA_impending_integralist_uprising
 		}
 
+		offset = {
+			x = -16
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = BRA_empower_the_patrianovistas
+			}
+		}
+
 		ai_will_do = {
 			factor = 10
 		}
 
 		available = {
-			BRA_is_the_commune_of_brazil = yes 
+			#BRA_is_the_commune_of_brazil = yes 
 			has_global_flag = BRA_civil_war_in_progress
 		}
 
@@ -17109,7 +17121,7 @@ focus_tree = {
 		}
 
 		available = {
-			BRA_is_the_commune_of_brazil = yes 
+			#BRA_is_the_commune_of_brazil = yes 
 			has_global_flag = BRA_civil_war_in_progress 
 			has_active_mission = BRA_integralists_seeking_to_strengthen_their_uprising
 		}
@@ -17117,7 +17129,15 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_BRAZILIAN_CIVIL_WAR FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			custom_effect_tooltip = BRA_integralist_strengthen_mission_cancelled_tt
-			unlock_decision_tooltip = BRA_crush_the_integralists
+			if = {
+				limit = {
+					BRA_is_the_commune_of_brazil = yes 
+				}
+				unlock_decision_tooltip = BRA_crush_the_integralists
+			}
+			else = {
+				add_political_power = 50
+			}
 		}
 	}
 
@@ -17136,8 +17156,7 @@ focus_tree = {
 			BRA_is_the_commune_of_brazil = yes 
 			has_global_flag = BRA_civil_war_in_progress
 			has_global_flag = paulistas_revolted
-			NOT = { has_active_mission = BRA_impending_paulista_revolt }
-			controls_state = 501
+			has_full_control_of_state = 501
 		}
 
 		cost = 5

@@ -12910,9 +12910,16 @@ focus_tree = {
 		ai_will_do = { factor = 15 }
 
 		available = {
-			custom_trigger_tooltip = {
-				tooltip = ARG_tension_below_35_tt
-				check_variable = { ARG_political_tension < 35 }
+			if = {
+				limit = { ## quick checker just in case
+					has_dynamic_modifier = {
+						modifier = ARG_infamous_decade_idea
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = ARG_tension_below_35_tt
+					check_variable = { ARG_political_tension < 35 }
+				}
 			}
 			NOT = {
 				has_country_leader = {
