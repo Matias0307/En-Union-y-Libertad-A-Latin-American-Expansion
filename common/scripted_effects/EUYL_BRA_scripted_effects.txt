@@ -29,7 +29,7 @@ BRA_initiate_balance_of_power = {
         id = BRA_progress_to_dictatorship_bop
         left_side = BRA_democracy_side # will keep the last set side if not specified
         right_side = BRA_dictatorship_side # will keep the last set side if not specified
-        set_value = -0.65 # if specified will set the value of the power balance, this option will override the effect of set_default so the two options should not be used together. if neither set_default or set_value is specified the current value of the power balance will not change
+        set_value = -0.75 # if specified will set the value of the power balance, this option will override the effect of set_default so the two options should not be used together. if neither set_default or set_value is specified the current value of the power balance will not change
     }
 }
 
@@ -583,29 +583,16 @@ BRA_add_economic_recession = {
 		limit = {
 			has_idea = BRA_economic_recession_1
 		}
-		swap_ideas = {
-            remove_idea = BRA_economic_recession_1
-            add_idea = BRA_economic_recession_2
-        }
-	}
-	else_if = {
-		limit = { 
-			has_idea = BRA_economic_recession_2 
+		modify_timed_idea = {
+			idea = BRA_economic_recession_1
+			days = 90
 		}
-        swap_ideas = {
-            remove_idea = BRA_economic_recession_2
-            add_idea = BRA_economic_recession_3
-        }
-	}
-	else_if = {
-		limit = {
-			has_idea = BRA_economic_recession_3
-		}
-		add_political_power = -25
-		add_stability = -0.01
 	}
 	else = {
-		add_ideas = BRA_economic_recession_1
+		add_timed_idea = {
+			idea = BRA_economic_recession_1
+			days = 90
+		}
 	}
 }
 
