@@ -33,14 +33,7 @@ country_event = {
 				tag = USA 
 				date < 1949.1.1
 			} 
-			AND = { 
-				has_dlc = "Arms Against Tyranny"
-				tag = DEN 
-				power_balance_value = { #BoP is on the Warfare Side
-					id = DEN_balance_of_power
-					value > 0
-				}
-			} 
+			DEN_aat = no #Denmark has custom election events
 			AND = { 
 				tag = PAN
 				date < 1937.1.1
@@ -116,14 +109,16 @@ country_event = {
 				tag = USA 
 				date < 1949.1.1
 			} 
-			AND = { 
-				has_dlc = "Arms Against Tyranny"
-				tag = DEN 
-				power_balance_value = { #BoP is on the Welfare Side
-					id = DEN_balance_of_power
-					value < 0
+			NOT = { #AUS cannot rearm no matter what the public wants under these treaties
+				AND = {
+					tag = AUS
+					OR = {
+						has_idea = AUS_treaty_of_saint_germain_en_laye
+						has_idea = AUS_revised_treaty_of_saint_germain_en_laye
+					}
 				}
 			}
+			DEN_aat = no #Denmark has custom election events
 			AND = { 
 				tag = PAN
 				date < 1937.1.1
@@ -219,12 +214,7 @@ country_event = {
 				tag = USA 
 				date < 1949.1.1
 			} 
-			AND = {
-				has_dlc = "Arms Against Tyranny"
-				tag = DEN
-				is_subject = yes
-				var:DEN.DEN_overlord_nation = { has_government = fascism }
-			}
+			DEN_aat = no #Denmark has custom election events
 			AND = { 
 				tag = PAN
 				date < 1937.1.1
@@ -310,12 +300,7 @@ country_event = {
 				tag = USA 
 				date < 1949.1.1
 			} 
-			AND = {
-				has_dlc = "Arms Against Tyranny"
-				tag = DEN
-				is_subject = yes
-				var:DEN.DEN_overlord_nation = { has_government = communism }
-			}
+			DEN_aat = no #Denmark has custom election events
 			AND = { 
 				tag = PAN
 				date < 1937.1.1
@@ -435,6 +420,8 @@ country_event = {
 				tag = GRE 
 				#has_dlc = "Battle for the Bosporus"
 			} 
+			DEN_aat = no #Denmark has custom election events
+			NOR_aat = no
 			OR = {
 				original_tag = ARG 
 				original_tag = PAR 
@@ -457,6 +444,13 @@ country_event = {
 	
 	option = {
 		name = election.6.a
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 10
+				can_lose_democracy_support = yes
+			}
+		}
 		trigger = {
 			NOT = {
 				AND = {
@@ -483,6 +477,13 @@ country_event = {
 
 	option = {
 		name = election.6.b
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 10
+				can_lose_democracy_support = yes
+			}
+		}
 		trigger = {
 			NOT = {
 				AND = {
@@ -566,7 +567,8 @@ country_event = {
 				original_tag = ECU
 			}
 		}
-		NOR_AAT = no
+		DEN_aat = no #Denmark has custom election events
+		NOR_aat = no
 		OR = { NOT = { original_tag = SPR } NOT = { date < 1937.1.1 } }
 		has_government = democratic
 		has_country_flag = coalition_with_fascists
@@ -664,7 +666,8 @@ country_event = {
 				original_tag = ECU
 			}
 		}
-		NOR_AAT = no
+		DEN_aat = no #Denmark has custom election events
+		NOR_aat = no
 		OR = { NOT = { original_tag = SPR } NOT = { date < 1937.1.1 } }
 		has_government = democratic
 		has_country_flag = coalition_with_communists
@@ -742,6 +745,7 @@ country_event = {
 				var:DEN.DEN_overlord_nation = { has_government = fascism }
 			}
 		}
+		DEN_aat = no #Denmark has custom election events
 		NOR_AAT = no
 		NOT = {
 			AND = {
@@ -813,15 +817,8 @@ country_event = {
 
 		has_government = democratic
 		communism > 0.5
-		OR = {
-			is_puppet = no
-			AND = {
-				has_dlc = "Arms Against Tyranny"
-				tag = DEN
-				is_subject = yes
-				var:DEN.DEN_overlord_nation = { has_government = communism }
-			}
-		}
+		is_puppet = no
+		DEN_aat = no #Denmark has custom election events
 		NOR_AAT = no
 		NOT = {
 			AND = {
