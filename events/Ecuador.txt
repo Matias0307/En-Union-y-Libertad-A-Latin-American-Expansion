@@ -2404,3 +2404,65 @@ country_event = {
 		}
 	}
 }
+
+## USA asking for military access in Galapagos
+country_event = {
+	id = ecu.28
+	title = ecu.28.t 
+	desc = ecu.28.d 
+	picture = GFX_report_event_military_planning
+
+	is_triggered_only = yes 
+
+	option = {
+		name = "Ok"
+		649 = {
+			if = {
+				limit = {
+					infrastructure < 5
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes 
+				}
+			}
+			add_building_construction = {
+				type = naval_base
+				level = 1
+				instant_build = yes
+				province = {
+					all_provinces = yes
+					limit_to_naval_base = yes
+				}
+			}
+		}
+		give_military_access = FROM 
+		diplomatic_relation = {
+			country = FROM
+			relation = docking_rights
+			active = yes
+		}
+
+		hidden_effect = {
+			FROM = {
+				country_event = {
+					id = peru.16
+					hours = 6
+				}
+			}
+		}
+	}
+
+	option = {
+		name = ecu.28.b 
+		FROM = {
+			add_state_claim = 649
+			country_event = {
+				id = peru.17 
+				hours = 6
+			}
+		}
+
+	}
+}
