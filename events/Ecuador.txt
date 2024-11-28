@@ -2416,6 +2416,9 @@ country_event = {
 
 	option = {
 		name = "Ok"
+		ai_chance = {
+			base = 20
+		}
 		649 = {
 			if = {
 				limit = {
@@ -2456,6 +2459,20 @@ country_event = {
 
 	option = {
 		name = ecu.28.b 
+		ai_chance = {
+			base = 5
+			modifier = {
+				factor = 4
+				OR = {
+					has_government = fascism
+					has_government = communism
+				}
+			}
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
 		FROM = {
 			add_state_claim = 649
 			country_event = {
@@ -2464,5 +2481,40 @@ country_event = {
 			}
 		}
 
+	}
+}
+
+## Peru has Militarized Pastaza!
+country_event = {
+	id = ecu.29
+	title = ecu.29.t
+	desc = ecu.29.d
+	picture = GFX_report_event_generic_army
+
+	is_triggered_only = yes 
+
+	option = { ## we must militarize in response
+		name = ecu.29.a 
+		ai_chance = {
+			base = 25
+		}
+		1036 = {
+			set_demilitarized_zone = no
+		}
+		add_war_support = 0.03
+		add_stability = -0.03
+	}
+
+	option = { ## we must back down
+		name = ecu.29.b
+		ai_chance = {
+			base = 5
+			modifier = {
+				factor = 2
+				has_government = democratic
+			}
+		}
+		add_war_support = -0.05
+		add_stability = 0.03
 	}
 }
