@@ -5225,9 +5225,12 @@ focus_tree = {
 		available = {
 			has_country_flag = CHL_nacista_coup_player
 			has_active_mission = CHL_government_preparing_to_act_against_the_coup
-			custom_trigger_tooltip = {
-				tooltip = CHL_support_in_at_least_6_provinces_tt
-				check_variable = { CHL_number_of_states_garnered > 5 }
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = CHL_support_in_at_least_6_provinces_tt
+					check_variable = { CHL_number_of_states_garnered > 5 }
+				}
+				fascism > 0.45
 			}
 		}
 
@@ -5242,9 +5245,20 @@ focus_tree = {
 		completion_reward = {
 			add_war_support = 0.05
 			custom_effect_tooltip = CHL_government_counter_coup_shattered_tt
-			add_days_mission_timeout = {
-				mission = CHL_possible_coup_attempt_player
-				days = -100
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			effect_tooltip = {
+				set_politics = {
+					ruling_party = fascism
+				}
+			}
+
+			hidden_effect = {
+				add_days_mission_timeout = {
+					mission = CHL_possible_coup_attempt_player
+					days = -300
+				}
 			}
 		}
 	}
@@ -5859,6 +5873,10 @@ focus_tree = {
 
 		cost = 6
 
+		ai_will_do = {
+			factor = 10
+		}
+
 		search_filters = { FOCUS_FILTER_MANPOWER }
 		completion_reward = {
 			unlock_decision_tooltip = CHL_increase_our_mobilization
@@ -5906,6 +5924,10 @@ focus_tree = {
 		icon = GFX_focus_r56_goal_GER_european_reich
 		x = 3
 		y = 1
+
+		ai_will_do = {
+			factor = 10
+		}
 		
 		available = {
 			has_government = fascism
@@ -5936,6 +5958,10 @@ focus_tree = {
 		}
 
 		cost = 10
+
+		ai_will_do = {
+			factor = 10
+		}
 
 		search_filters = {
 			FOCUS_FILTER_NAVY_XP FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH
@@ -5977,6 +6003,10 @@ focus_tree = {
 		}
 
 		cost = 5
+
+		ai_will_do = {
+			factor = 10
+		}
 
 		available = {
 			has_navy_size = {
@@ -6052,7 +6082,7 @@ focus_tree = {
 		cost = 10
 		
 		ai_will_do = {
-			factor = 5
+			factor = 10
 		}
 		
 		cancel_if_invalid = yes
@@ -6693,6 +6723,10 @@ focus_tree = {
 		}
 
 		cost = 5
+
+		ai_will_do = {
+			factor = 10
+		}
 
 		available = {
 			OR = {
@@ -12740,6 +12774,18 @@ focus_tree = {
 		}
 
 		cost = 2
+
+		offset = {
+			x = -2
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CHL_side_with_the_nacistas
+			}
+		}
 
 		available = {
 			NOT = {

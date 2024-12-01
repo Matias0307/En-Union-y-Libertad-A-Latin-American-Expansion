@@ -1128,41 +1128,6 @@ country_event = {
 	}
 }
 
-#Event that triggers the sudden increase in power 
-country_event = {
-	id = chile.24
-	title = chile.24.t
-	desc = chile.24.d
-
-	hidden = yes 
-
-	trigger = {
-		original_tag = CHL 
-		has_civil_war = no 
-		has_dynamic_modifier = { modifier = CHL_political_instability }
-		date > 1936.2.1
-		NOT = {
-			OR = {
-				has_government = fascism
-				has_government = communism
-			}
-		}
-	}
-
-	mean_time_to_happen = { days = 95 }
-
-	immediate = {
-		random_list = {
-			CHL_chance_of_fascist = {
-				country_event = { id = chile.25 days = 25 } #Nacista demand increased recognition
-			}
-			CHL_chance_of_communist = {
-				country_event = { id = chile.26 days = 25 } #Communists demand increased recognition
-			}
-		}
-	}
-}
-
 #Nacistas demand increased recognition 
 country_event = {
 	id = chile.25
@@ -1263,46 +1228,6 @@ country_event = {
 	}
 }
 
-#Events that trigger slight increase in power
-country_event = {
-	id = chile.27
-	title = chile.27.t 
-	desc = chile.27.d 
-
-	hidden = yes 
-
-	trigger = {
-		original_tag = CHL 
-		has_dynamic_modifier = { modifier = CHL_political_instability }
-		date > 1936.5.1
-		has_civil_war = no 
-	}
-
-	mean_time_to_happen = { days = 165 }
-
-	immediate = {
-		random_list = {
-			40 = {
-				modifier = {
-					factor = 0
-					has_country_flag = CHL_nacista_defeated
-				}
-				country_event = { id = chile.28 days = 35 } #Nacista increase
-			}
-			40 = {
-				modifier = {
-					factor = 0
-					has_country_flag = CHL_communist_defeated
-				}
-				country_event = { id = chile.28 days = 35 } #Communist increase
-			}
-			20 = {
-
-			}
-		}
-	}
-}
-
 #Nacistas increment slightly their power
 country_event = {
 	id = chile.28
@@ -1358,17 +1283,11 @@ country_event = {
 	desc = chile.30.d 
 	picture = GFX_report_event_generic_rally2
 
-	trigger = {
-		original_tag = CHL 
-		has_dynamic_modifier = { modifier = CHL_political_instability }
-		date > 1936.8.1
-	}
+	is_triggered_only = yes
 
 	immediate = {
 		add_stability = -0.01
 	}
-
-	mean_time_to_happen = { days = 325 }
 
 	option = {
 		name = chile.30.a 
@@ -1862,26 +1781,7 @@ country_event = {
 	desc = chile.40.d 
 	picture = GFX_report_event_generic_read_write 
 
-	trigger = {
-		original_tag = CHL 
-		has_dynamic_modifier = { modifier = CHL_political_instability }
-		OR = {
-			has_country_flag = CHL_nacista_friendly
-			has_country_flag = CHL_communists_friendly
-		}
-		has_government = democratic
-		NOT = {
-			has_country_flag = CHL_government_stopped
-		}
-	}
-
-	immediate = {
-		add_stability = -0.005
-	}
-
-	mean_time_to_happen = { days = 70 }
-
-	fire_only_once = no 
+	is_triggered_only = yes
 
 	option = {
 		name = chile.40.a 
@@ -1928,42 +1828,6 @@ country_event = {
 			divide_variable = { CHL_fascist_drift = 450 }
 			divide_variable = { CHL_communist_drift = 450 }
 		}
-	}
-}
-
-#Hidden event that consistently updates election 
-country_event = {
-	id = chile.41
-	title = chile.41.t 
-	desc = chile.41.d 
-
-	hidden = yes 
-
-	fire_only_once = no 
-
-	trigger = {
-		original_tag = CHL 
-		has_country_flag = CHL_election_preperations
-		NOT = {
-			has_game_rule = {
-				rule = EUYL_CHL_choose_national_focus
-				option = DLC_CHL_TREE
-			}
-		}
-	}
-
-	mean_time_to_happen = { days = 25 }
-
-	immediate = {
-		set_variable = { CHL_chance_of_f_winning = party_popularity@fascism }
-		set_variable = { CHL_chance_of_c_winning = party_popularity@communism }
-		set_variable = { CHL_chance_of_d_winning = party_popularity@democratic }
-		multiply_variable = { CHL_chance_of_f_winning = 100 }
-		multiply_variable = { CHL_chance_of_c_winning = 100 }
-		multiply_variable = { CHL_chance_of_d_winning = 100 }
-		round_variable = CHL_chance_of_f_winning
-		round_variable = CHL_chance_of_c_winning
-		round_variable = CHL_chance_of_d_winning
 	}
 }
 
@@ -2543,17 +2407,7 @@ country_event = {
 			long_name = CHL_frente_popular_long 
 			name = CHL_frente_popular 
 		}
-		retire_ideology_leader = communism
-		create_country_leader = {
-			name = "Pedro Aguirre Cerda"
-			desc = "POLITICS_PEDRO_AGURRE_CERDA_DESC"
-			picture = "gfx/leaders/CHL/portrait_CHL_pedro_aguirre_cerda.dds"
-			expire = "1965.1.1"
-			ideology = social_democracy
-			traits = {
-				CHL_leader_of_the_people
-			}
-		}
+		promote_character = EUYL_CHL_pedro_aguirre_cerda
 		hidden_effect = {
 			add_to_variable = { CHL_communists_power = 2 }
 			set_temp_variable = { CHL_temp_power = 100 }
@@ -2791,5 +2645,40 @@ country_event = {
 			idea = CHL_railway_strikes
 			days = 90
 		}
+	}
+}
+
+## Fascist Coup in Chile ##
+news_event = {
+	id = chile.51
+	title = chile.51.t
+	desc = chile.51.d
+	picture = GFX_news_event_nacista_coup
+	
+	major = yes
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = chile.51.a
+		trigger = {
+			NOT = {
+				original_tag = CHL
+			}
+			has_government = fascism
+		}
+	}
+	option = {
+		name = chile.51.b 
+		trigger = {
+			NOT = {
+				original_tag = CHL 
+				has_government = fascism
+			}
+		}
+	}
+	option = {
+		name = chile.51.c
+		trigger = { original_tag = CHL }
 	}
 }

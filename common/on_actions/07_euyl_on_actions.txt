@@ -4727,6 +4727,161 @@ on_actions = {
             }
         }
 	}
+    on_monthly_CHL = {
+        effect = {
+            if = {
+                limit = {
+                    has_country_flag = CHL_election_preperations
+                }
+                set_variable = { CHL_chance_of_f_winning = party_popularity@fascism }
+                set_variable = { CHL_chance_of_c_winning = party_popularity@communism }
+                set_variable = { CHL_chance_of_d_winning = party_popularity@democratic }
+                multiply_variable = { CHL_chance_of_f_winning = 100 }
+                multiply_variable = { CHL_chance_of_c_winning = 100 }
+                multiply_variable = { CHL_chance_of_d_winning = 100 }
+                round_variable = CHL_chance_of_f_winning
+                round_variable = CHL_chance_of_c_winning
+                round_variable = CHL_chance_of_d_winning
+            }
+        }
+        effect = {
+            if = {
+                limit = {
+                    OR = {
+                        has_country_flag = CHL_nacista_friendly
+                        has_country_flag = CHL_communists_friendly
+                    }
+                    has_government = democratic
+                    NOT = {
+                        has_country_flag = CHL_government_stopped
+                    }
+                }
+                random_list = {
+                    30 = {
+                        modifier = {
+                            factor = 0
+                            has_country_flag = CHL_government_stopped
+                        }
+                        country_event = {
+                            id = chile.40 
+                            days = 1
+                        }
+                    }
+                    70 = {
+
+                    }
+                }
+            }
+            if = {
+                limit = {
+                    has_civil_war = no 
+                    has_dynamic_modifier = { modifier = CHL_political_instability }
+                    date > 1936.2.1
+                }
+                random_list = {
+                    20 = {
+                        modifier = {
+                            factor = 1.2
+                            check_variable = {
+                                CHL_nacista_power > 29
+                            }
+                        }
+                        modifier = {
+                            factor = 0
+                            OR = {
+                                has_government = fascism 
+                                NOT = {
+                                    has_dynamic_modifier = {
+                                        modifier = CHL_political_instability
+                                    }
+                                }
+                            }
+                        }
+                        country_event = {
+                            id = chile.25 
+                            days = 2
+                        }
+                    }
+                    20 = {
+                        modifier = {
+                            factor = 1.2
+                            check_variable = {
+                                CHL_communists_power > 29
+                            }
+                        }
+                        modifier = {
+                            factor = 0
+                            OR = {
+                                has_government = communism 
+                                NOT = {
+                                    has_dynamic_modifier = {
+                                        modifier = CHL_political_instability
+                                    }
+                                }
+                            }
+                        }
+                        country_event = {
+                            id = chile.26 
+                            days = 4
+                        }
+                    }
+                    20 = {
+                        modifier = {
+                            factor = 0.4 
+                            has_government = fascism 
+                        }
+                        modifier = {
+                            factor = 0
+                            NOT = {
+                                has_dynamic_modifier = {
+                                    modifier = CHL_political_instability
+                                }
+                            }
+                        }
+                        country_event = {
+                            id = chile.28
+                            days = 4
+                        }
+                    }
+                    20 = {
+                        modifier = {
+                            factor = 0.4 
+                            has_government = communism 
+                        }
+                        modifier = {
+                            factor = 0
+                            NOT = {
+                                has_dynamic_modifier = {
+                                    modifier = CHL_political_instability
+                                }
+                            }
+                        }
+                        country_event = {
+                            id = chile.29
+                            days = 4
+                        }
+                    }
+                    5 = {
+                        modifier = {
+                            factor = 0
+                            NOT = {
+                                has_dynamic_modifier = {
+                                    modifier = CHL_political_instability
+                                }
+                            }
+                        }
+                        country_event = {
+                            id = chile.20
+                            days = 4
+                        }
+                    }
+                    45 = {
+
+                    }
+                }
+            }
+        }
+    }
 	on_monthly_BRA = { #updates the coffee variables
 		effect = {
 			if = {
