@@ -7142,7 +7142,7 @@ focus_tree = {
 		relative_position_id = BRA_victory_for_the_neutrals
 		prerequisite = { focus = BRA_victory_for_the_neutrals }
 
-		cost = 15
+		cost = 10
 
 		ai_will_do = {
             factor = 4
@@ -7389,7 +7389,7 @@ focus_tree = {
 		relative_position_id = BRA_promote_free_speech
 		prerequisite = { focus = BRA_promote_free_speech}
 
-		cost = 15
+		cost = 10
 
 		available = {
 			has_dynamic_modifier = { modifier = BRA_brazilian_political_crisis }
@@ -9964,7 +9964,7 @@ focus_tree = {
 		relative_position_id = BRA_internal_management
 		prerequisite = { focus = BRA_internal_management }
 
-		cost = 5
+		cost = 2.9
 
 		available = {
 			has_civil_war = no 
@@ -9996,7 +9996,7 @@ focus_tree = {
 			has_government = neutrality
 		}
 
-		cost = 5
+		cost = 2.9
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
@@ -10026,7 +10026,7 @@ focus_tree = {
 			has_government = neutrality
 		}
 
-		cost = 5
+		cost = 2.9
 
 		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
@@ -10055,7 +10055,7 @@ focus_tree = {
 			has_government = neutrality
 		}
 
-		cost = 5
+		cost = 2
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
@@ -13198,9 +13198,9 @@ focus_tree = {
 		}
 	}
 
-	focus = {
+	focus = { ## Our Right Over the Andes 
 		id = BRA_take_out_peru
-		icon = GFX_focus_PRU_attack
+		icon = GFX_ECU_conquer_peru_and_bolivia_icon
 		x = -1
 		y = 1
 		relative_position_id = BRA_form_jungle_regiments
@@ -13208,6 +13208,7 @@ focus_tree = {
 			focus = BRA_form_jungle_regiments
 		}
 		will_lead_to_war_with = PRU
+		will_lead_to_war_with = BOL
 
 		cost = 5
 
@@ -13216,13 +13217,35 @@ focus_tree = {
 				is_in_faction_with = PRU 
 				has_war_with = PRU
 			}
+			NOT = {
+				is_in_faction_with = BOL 
+				has_war_with = BOL
+			}
 		}
 
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			create_wargoal = {
-				type = annex_everything
-				target = PRU
+			custom_effect_tooltip = BRA_gain_claims_on_bolivia_and_peru_tt
+			
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			every_state = {
+				limit = {
+					OR = {
+						is_core_of = BOL 
+						is_core_of = PRU 
+					}
+					OR = {
+						is_fully_controlled_by = BOL 
+						is_fully_controlled_by = PRU
+					}
+					NOT = {
+						is_claimed_by = ROOT 
+						is_controlled_by = ROOT
+						is_core_of = ROOT
+					}
+				}
+				add_claim_by = ROOT
 			}
 		}
 	}
