@@ -4071,7 +4071,12 @@ country_event = {
 		has_completed_focus = ARG_infamous_decade
 		has_civil_war = no 
 		has_character = ARG_juan_domingo_peron
-		NOT = { has_completed_focus = ARG_kill_off_roberto } ## Sets off the peronist mechanic and bla bla bla
+		NOT = { 
+			OR = {
+				has_completed_focus = ARG_kill_off_roberto
+				has_completed_focus = ARG_formalize_the_GOU
+			}
+		} ## Sets off the peronist mechanic and bla bla bla
 		NOT = { has_war_with = ITA }
 		ITA = { exists = yes }
 		NOT = {
@@ -4276,8 +4281,15 @@ country_event = {
 			has_completed_focus = ARG_union_civica_radical
 			has_completed_focus = ARG_roberto_leads_the_way
 		}
-		NOT = { has_completed_focus = ARG_depoliticize_the_military } ## this national spirit makes it impossible for military to rebel
-		NOT = { has_completed_focus = ARG_crack_down_on_our_generals }
+		NOT = {
+			OR = {
+				has_completed_focus = ARG_commence_plans_for_the_coup
+				has_completed_focus = ARG_support_the_peronists
+				has_completed_focus = ARG_formalize_the_GOU
+				has_completed_focus = ARG_depoliticize_the_military
+				has_completed_focus = ARG_crack_down_on_our_generals
+			}
+		}
 		has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
 		OR = {
 			AND = {
@@ -4451,8 +4463,11 @@ country_event = {
 		original_tag = ARG 
 		has_civil_war = no 
 		has_character = ARG_juan_domingo_peron
-		NOT = { has_idea = ARG_juan_domingo_peron_idea }
-		has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
+		NOT = { has_idea = ARG_juan_domingo_peron_country_idea }
+		OR = {
+			has_dynamic_modifier = { modifier = ARG_infamous_decade_idea }
+			has_country_flag = ARG_activated_peronist_mechanic_flag
+		}
 		## ^ realistically speaking, Peron would only become popular if the country is still suffering from the infamous decade
 		## as in real life, Peron gained popularity because he was seen as the one to finally solve the crisis going on in Argentina
 		NOT = {
@@ -4461,8 +4476,8 @@ country_event = {
 				ruling_only = yes 
 			}
 		}
-		NOT = {
-			ARG_juan_domingo_peron = {
+		ARG_juan_domingo_peron = {
+			NOT = {
 				OR = {
 					has_character_flag = ARG_in_chile
 					has_character_flag = ARG_in_italy 
@@ -4476,15 +4491,13 @@ country_event = {
 				has_global_flag = ARG_peron_returned_from_italy
 			}
 			has_completed_focus = ARG_formalize_the_GOU
+			has_country_flag = ARG_activated_peronist_mechanic_flag
 		}
 	}
 
 	option = {
 		name = argentina.rework.47.a 
-		effect_tooltip = { add_ideas = ARG_juan_domingo_peron_country_idea }
-		hidden_effect = {
-			add_ideas = ARG_juan_domingo_peron_idea
-		}
+		add_ideas = ARG_juan_domingo_peron_country_idea
 	}
 }
 
@@ -4561,8 +4574,14 @@ country_event = {
 				clr_country_flag = ARG_peron_liberated_flag
 			}
 			if = {
-				limit = { has_idea = ARG_juan_domingo_peron_idea }
-				remove_ideas = ARG_juan_domingo_peron_idea
+				limit = { has_idea = ARG_juan_domingo_peron_country_idea }
+				remove_ideas = ARG_juan_domingo_peron_country_idea
+			}
+			if = {
+				limit = {
+					has_country_flag = ARG_peronist_mechanic_active_flag
+				}
+				clr_country_flag = ARG_peronist_mechanic_active_flag
 			}
 			if = {
 				limit = {
@@ -4572,6 +4591,22 @@ country_event = {
 					character = ARG_juan_domingo_peron
 					ideology = peronism_ideology
 					trait = ARG_inexperienced_leader_2
+				}
+			}
+			if = {
+				limit = {
+					has_cosmetic_tag = ARG_military_junta
+				}
+				drop_cosmetic_tag = yes
+			}
+			every_controlled_state = {
+				limit = {
+					has_dynamic_modifier = {
+						modifier = ARG_peronist_march
+					}
+				}
+				remove_dynamic_modifier = {
+					modifier = ARG_peronist_march
 				}
 			}
 		}
@@ -4587,10 +4622,7 @@ country_event = {
 
 	is_triggered_only = yes 
 
-	option = {
-		name = argentina.rework.50.a 
-		custom_effect_tooltip = ARG_peron_will_be_liberated_and_return_to_government_tt
-		custom_effect_tooltip = ARG_add_15_peronist_support_tt
+	immediate = {
 		hidden_effect = {
 			ARG_juan_domingo_peron = {
 				clr_character_flag = BRA_imprisoned
@@ -4604,6 +4636,12 @@ country_event = {
 				max = 200
 			}
 		}
+	}
+
+	option = {
+		name = argentina.rework.50.a 
+		custom_effect_tooltip = ARG_peron_will_be_liberated_and_return_to_government_tt
+		custom_effect_tooltip = ARG_add_15_peronist_support_tt
 	}
 }
 
@@ -4622,6 +4660,19 @@ country_event = {
 		name = argentina.rework.52.a 
 		custom_effect_tooltip = ARG_peron_will_be_imprisoned_tt
 		custom_effect_tooltip = ARG_remove_50_peronist_support_bad_tt
+
+		if = {
+			limit = {
+				has_completed_focus = ARG_spread_the_peronist_ideals
+			}
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = {
+				decision = ARG_march_in_FROM
+				show_effect_tooltip = yes 
+			}
+		}
+
 		hidden_effect = {
 			subtract_from_variable = { ARG_peronist_support = 50 }
 			ARG_juan_domingo_peron = {
@@ -4664,6 +4715,9 @@ country_event = {
 				idea = ARG_fradulant_election_charges
 				days = 365
 			}
+		}
+		hidden_effect = {
+			set_country_flag = ARG_fraud_triggered_flag
 		}
 	}
 }

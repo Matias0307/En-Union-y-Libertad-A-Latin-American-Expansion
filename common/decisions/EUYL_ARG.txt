@@ -612,8 +612,13 @@ ARG_posadist_ambitions = {
 		available = {
 			custom_trigger_tooltip = {
 				tooltip = ARG_every_owned_state_over_2_inf_tt
-				all_owned_state = {
-					infrastructure > 2
+				any_owned_state = {
+					NOT = {
+						OR = {
+							infrastructure < 3
+							NOT = { has_state_category = wasteland }
+						}
+					}
 				}
 			}
 		}
@@ -1171,6 +1176,16 @@ ARG_bop = {
 		}
 
 		days_re_enable = 90
+	}
+
+	debug_empower_army = {
+		visible = {
+			is_debug = yes
+		}
+
+		complete_effect = {
+			ARG_move_50_left = yes
+		}
 	}
 
 	ARG_nationwide_speech = {
@@ -9706,8 +9721,11 @@ ARG_spread_of_peronism = {
 		}
 
 		cancel_trigger = {
-			FROM = {
-				has_dynamic_modifier = { modifier = ARG_peronist_march }
+			OR = {
+				FROM = {
+					has_dynamic_modifier = { modifier = ARG_peronist_march }
+				}
+				NOT = { has_country_flag = ARG_peron_imprisoned_flag }
 			}
 		}
 
@@ -10174,6 +10192,13 @@ ARG_managing_the_army = {
 				}
 			}
 			NOT = { has_global_flag = ARG_peron_returned_from_italy }
+			NOT = {
+				OR = {
+					has_completed_focus = ARG_commence_plans_for_the_coup
+					has_completed_focus = ARG_support_the_peronists
+					has_completed_focus = ARG_formalize_the_GOU
+				}
+			}
 		}
 
 		available = {
@@ -10194,6 +10219,7 @@ ARG_managing_the_army = {
 				OR = {
 					has_completed_focus = ARG_commence_plans_for_the_coup
 					has_completed_focus = ARG_support_the_peronists
+					has_completed_focus = ARG_formalize_the_GOU
 				}
 			}
 			NOT = { has_idea = ARG_juan_domingo_peron_country_idea }

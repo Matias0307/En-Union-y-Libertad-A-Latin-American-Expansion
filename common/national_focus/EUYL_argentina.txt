@@ -8448,6 +8448,9 @@ focus_tree = {
 		ai_will_do = { factor = 100 }
 
 		available = {
+			NOT = {
+				has_completed_focus = ARG_kill_off_roberto
+			}
 			OR = {
 				custom_trigger_tooltip = {
 					tooltip = ARG_more_than_225_predicted_electoral_votes_UCRA_tt
@@ -18098,17 +18101,13 @@ focus_tree = {
 				ruling_only = yes 
 			}
 		}
-
-		select_effect = {
-			country_event = {
-				id = argentina.rework.52
-				days = 20
-				random_days = 25
-			}
-		}
 		
 		ai_will_do = {
 			factor = 15
+		}
+
+		select_effect = {
+			set_country_flag = ARG_activated_peronist_mechanic_flag
 		}
 		
 		cancel_if_invalid = no
@@ -18118,14 +18117,6 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			add_political_power = 20
-			country_event = {
-				id = argentina.rework.48 
-				hours = 8
-			}
-			unlock_decision_tooltip = {
-				decision = ARG_march_in_FROM
-				show_effect_tooltip = yes 
-			}
 		}
 	}
 	
@@ -18208,7 +18199,7 @@ focus_tree = {
 		relative_position_id = ARG_commence_plans_for_the_coup
 		prerequisite = { focus = ARG_commence_plans_for_the_coup }
 		
-		cost = 2.9
+		cost = 5
 		
 		ai_will_do = {
 			factor = 15
@@ -18224,6 +18215,14 @@ focus_tree = {
 				ruling_only = yes 
 			}
 		}
+
+		select_effect = {
+			country_event = {
+				id = argentina.rework.52
+				days = 65
+				random_days = 25
+			}
+		}
 		
 		cancel_if_invalid = yes
 		continue_if_invalid = no
@@ -18231,8 +18230,13 @@ focus_tree = {
 		
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-			custom_effect_tooltip = ARG_add_10_peronist_support_tt
-			add_to_variable = { ARG_peronist_support = 10 }
+			custom_effect_tooltip = ARG_weekly_peronist_support_increases_by_3_tt
+			add_to_variable = { ARG_peronist_support_weekly = 3 }
+			clamp_variable = {
+				var = ARG_peronist_support_weekly
+				min = 0
+				max = 10
+			}
 		}
 	}
 	
@@ -19428,6 +19432,7 @@ focus_tree = {
 		available = { has_idea = ARG_fradulant_election_charges }
 
 		bypass = {
+			has_country_flag = ARG_fraud_triggered_flag
 			NOT = { has_idea = ARG_fradulant_election_charges }
 		}
 
@@ -19436,6 +19441,10 @@ focus_tree = {
 			add_stability = 0.05
 			remove_ideas = ARG_fradulant_election_charges
 			ARG_decrease_5_political_tension = yes 
+
+			hidden_effect = {
+				clr_country_flag = ARG_fraud_triggered_flag
+			}
 		}
 	}
 
@@ -19936,6 +19945,9 @@ focus_tree = {
 			}
 		}
 
+		cancel_if_invalid = yes 
+		continue_if_invalid = no
+
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			custom_effect_tooltip = ARG_remove_15_peronist_support_tt
@@ -20038,7 +20050,7 @@ focus_tree = {
 
 		## make it so that it requires Peron returning from Chile and Italy 
 
-		cost = 7.2
+		cost = 5
 
 		ai_will_do = { 
 			base = 10
@@ -20078,13 +20090,6 @@ focus_tree = {
 			}
 		}
 
-		bypass = {
-			has_country_leader = {
-				character = ARG_juan_domingo_peron
-				ruling_only = yes 
-			}
-		}
-
 		select_effect = {
 			country_event = {
 				id = argentina.rework.52
@@ -20093,14 +20098,21 @@ focus_tree = {
 			}
 		}
 
+		bypass = {
+			has_country_leader = {
+				character = ARG_juan_domingo_peron
+				ruling_only = yes 
+			}
+		}
+
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
-			custom_effect_tooltip = ARG_add_10_peronist_support_tt
-			add_to_variable = { ARG_peronist_support = 10 }
+			custom_effect_tooltip = ARG_weekly_peronist_support_increases_by_3_tt
+			add_to_variable = { ARG_peronist_support_weekly = 3 }
 			clamp_variable = {
-				var = ARG_peronist_support
+				var = ARG_peronist_support_weekly
 				min = 0
-				max = 200
+				max = 10
 			}
 		}
 	}
@@ -20129,14 +20141,14 @@ focus_tree = {
 			}
 		}
 
-		cost = 5
+		cost = 7.2
 
 		ai_will_do = { factor = 7 }
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
-			custom_effect_tooltip = ARG_add_10_peronist_support_tt
-			add_to_variable = { ARG_peronist_support = 10 }
+			custom_effect_tooltip = ARG_add_25_peronist_support_tt
+			add_to_variable = { ARG_peronist_support = 25 }
 			clamp_variable = {
 				var = ARG_peronist_support
 				min = 0
