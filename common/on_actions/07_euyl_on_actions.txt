@@ -260,23 +260,23 @@ on_actions = {
         }
     }
 	on_monthly_ARG = {
-        effect = { ##Only for ahistorical peronist path
-            if = {
-                limit = {
-                    NOT = {
-                        has_country_leader = {
-                            character = ARG_juan_domingo_peron
-                            ruling_only = yes 
-                        }
-                    }
-                    NOT = { has_global_flag = ARG_imprisonment_triggered_flag}
-                    has_country_flag = ARG_peronist_mechanic_active_flag
-                    has_completed_focus = ARG_commence_plans_for_the_coup
-                }
-                country_event = argentina.rework.52
-                set_global_flag = ARG_imprisonment_triggered_flag
-            }
-        }
+        #effect = { ##Only for ahistorical peronist path
+        #    if = {
+        #        limit = {
+        #            NOT = {
+        #                has_country_leader = {
+        #                    character = ARG_juan_domingo_peron
+        #                    ruling_only = yes 
+        #                }
+        #            }
+        #            NOT = { has_global_flag = ARG_imprisonment_triggered_flag}
+        #            has_country_flag = ARG_peronist_mechanic_active_flag
+        #            has_completed_focus = ARG_commence_plans_for_the_coup
+        #        }
+        #        country_event = argentina.rework.52
+        #        set_global_flag = ARG_imprisonment_triggered_flag
+        #    }
+        #}
         effect = {
             if = {
                 limit = {
@@ -589,6 +589,15 @@ on_actions = {
                     var = ARG_peronist_support_weekly
                     min = 0
                     max = 10
+                }
+                if = {
+                    limit = {
+                        check_variable = {
+                            ARG_peronist_support > 145
+                        }
+                        has_country_flag = ARG_peron_imprisoned_flag
+                    }
+                    country_event = argentina.rework.51
                 }
             }
         }
