@@ -18,5 +18,141 @@ ideas = {
 				production_speed_buildings_factor = 0.1
 			}
 		}
+
+		CEA_the_banana_republic = {
+			allowed = {
+				always = yes
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			available = {
+				USA = { exists = yes }
+				NOT = {
+					has_war_with = USA
+				}
+			}
+
+			on_add = {
+				every_other_country = {
+					limit = { NOT = { original_tag = USA } }
+					add_opinion_modifier = {
+						target = ROOT
+						modifier = CEA_banana_republic_other_country
+					}
+				}
+
+				USA = {
+					add_opinion_modifier = {
+						target = ROOT 
+						modifier = CEA_banana_republic_modifier
+					}
+				}
+
+				add_opinion_modifier = {
+					target = USA 
+					modifier = CEA_banana_republic_modifier
+				}
+			}
+
+			removal_cost = -1
+			
+			picture = CEA_banana_republic_icon
+			
+			modifier = {
+				stability_factor = -0.05
+				political_power_gain = -0.1
+				industrial_capacity_factory = -0.1
+				custom_modifier_tooltip = CEA_countries_other_than_us_less_likely_to_trade_tt
+				custom_modifier_tooltip = CEA_able_to_ask_for_american_funding_tt
+				custom_modifier_tooltip = CEA_stability_drops_before_50_strike_tt
+			}
+		}
+
+		CEA_coffee_production_1 = {
+			name = CEA_coffee_production
+			allowed = {
+				always = yes
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			available = {
+				USA = { exists = yes }
+				NOT = {
+					has_war_with = USA
+				}
+			}
+
+			removal_cost = -1
+			
+			picture = ETH_coffee_exports
+			
+			modifier = {
+				consumer_goods_factor = -0.1
+				production_speed_buildings_factor = -0.05
+				research_speed_factor = -0.05
+			}
+		}
+
+		CEA_coffee_production_2 = {
+			name = CEA_coffee_production
+			allowed = {
+				always = yes
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			available = {
+				USA = { exists = yes }
+				NOT = {
+					has_war_with = USA
+				}
+			}
+
+			removal_cost = -1
+			
+			picture = ETH_coffee_exports
+			
+			modifier = {
+				consumer_goods_factor = -0.1
+			}
+		}
+
+		CEA_repaying_the_american_debt = { ##If the player refuses to continue being a banana republic
+			allowed = {
+				always = yes
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			available = {
+				USA = { exists = yes }
+				NOT = {
+					has_war_with = USA
+				}
+				check_variable = {
+					CEA_debt_payed_off < 100
+				}
+			}
+
+			removal_cost = -1
+			
+			picture = CEA_repay_american_debt_icon
+			
+			modifier = {
+				stability_factor = -0.1
+				consumer_goods_factor = 0.5
+				custom_modifier_tooltip = CEA_debt_must_be_payed_off_to_remove_tt
+			}
+		}
 	}
 }

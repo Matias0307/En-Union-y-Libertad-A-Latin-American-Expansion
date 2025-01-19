@@ -74,5 +74,84 @@ shared_focus = {
 			idea = CEA_revitalize_the_ROOT_industry
 			days = 240
 		}
+
+		if = {
+			limit = {
+				has_active_mission = CEA_brewing_strikes
+			}
+			add_days_mission_timeout = {
+				mission = CEA_brewing_strikes
+				days = 60
+			}
+		}
+	}
+}
+
+shared_focus = {
+	id = CEA_force_out_the_banana_companies
+	icon = GFX_CEA_cancel_banana_icon
+	cost = 5
+	x = 5
+	y = 1
+	relative_position_id = CEA_the_economy
+	prerequisite = {
+		focus = CEA_the_economy
+	}
+	mutually_exclusive = {
+		focus = CEA_depend_further_on_the_united_states
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL
+	}
+
+	completion_reward = {
+		swap_ideas = {
+			remove_idea = CEA_the_banana_republic
+			add_idea = CEA_repaying_the_american_debt
+		}
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		custom_effect_tooltip = CEA_unlock_decisions_to_pay_off_debt_tt
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		add_opinion_modifier = {
+			target = USA
+			modifier = CEA_kicked_out_our_companies
+		}
+	}
+}
+
+shared_focus = {
+	id = CEA_depend_further_on_the_united_states
+	icon = GFX_PAR_invite_american_investors
+	x = 1
+	y = 1
+	relative_position_id = CEA_the_economy
+	prerequisite = {
+		focus = CEA_the_economy
+	}
+	mutually_exclusive = {
+		focus = CEA_force_out_the_banana_companies
+	}
+
+	cost = 5
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL
+	}
+
+	completion_reward = {
+		add_political_power = 50
+
+		custom_effect_tooltip = CEA_cost_to_ask_for_financing_reduced_tt
+
+		custom_effect_tooltip = CEA_usa_more_likely_to_demand_profit_cuts_tt
+
+		subtract_from_variable = {
+			CEA_request_financing_cost = 25
+		}
 	}
 }
