@@ -4040,9 +4040,7 @@ focus_tree = {
 			COL = {
 				OR = {
 					has_war_with = ROOT 
-					capital_scope = {
-						controls_or_subject_of = yes
-					}
+					is_subject_of = ROOT
 				}
 			}
 		}
@@ -5416,11 +5414,14 @@ focus_tree = {
 	focus = {
 		id = ECU_restore_the_empire
 		icon = GFX_ECU_spanish_empire_icon
-		x = 0
+		x = 1
 		y = 1
 		relative_position_id = ECU_recapture_the_motherland
 		prerequisite = {
 			focus = ECU_recapture_the_motherland
+		}
+		mutually_exclusive = {
+			focus = ECU_restore_the_empire
 		}
 
 		cost = 10
@@ -5487,11 +5488,51 @@ focus_tree = {
 		}
 	}
 
+	## The Kingdom Lives On ##
+	focus = {
+		id = ECU_the_kingdom_lives_on
+		icon = GFX_focus_ETH_freedom_at_gunpoint
+		x = -1
+		y = 1
+		relative_position_id = ECU_recapture_the_motherland
+		prerequisite = {
+			focus = ECU_recapture_the_motherland
+		}
+		mutually_exclusive = {
+			focus = ECU_restore_the_empire
+		}
+
+		cost = 10 
+
+		available = {
+			has_army_manpower = {
+				size > 499999
+			}
+			num_of_controlled_states > 49
+		}
+
+		search_filters = {
+			FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT
+		}
+
+		completion_reward = {
+			add_stability = 0.1 
+			add_war_support = 0.1
+
+			IF = {
+				limit = {
+					is_major = no 
+				}
+				set_major = yes
+			}
+		}
+	}
+
 	## Claim the French Throne ##
 	focus = {
 		id = ECU_claim_the_french_throne
 		icon = GFX_focus_attack_france
-		x = 2
+		x = 3
 		y = 1
 		relative_position_id = ECU_recapture_the_motherland
 		prerequisite = {
@@ -5974,6 +6015,8 @@ focus_tree = {
 						state = 1023
 						state = 491
 						state = 495
+						state = 1059
+						state = 1060
 						state = 1026
 						state = 969
 					}
