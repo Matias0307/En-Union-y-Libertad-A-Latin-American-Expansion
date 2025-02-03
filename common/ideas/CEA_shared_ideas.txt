@@ -2,7 +2,7 @@ ideas = {
 	country = {
 		CEA_revitalize_the_ROOT_industry = {
 			allowed = {
-				always = yes
+				always = no
 			}
 
 			allowed_civil_war = {
@@ -21,7 +21,7 @@ ideas = {
 
 		CEA_the_banana_republic = {
 			allowed = {
-				always = yes
+				always = no
 			}
 
 			allowed_civil_war = {
@@ -74,7 +74,7 @@ ideas = {
 		CEA_coffee_production_1 = {
 			name = CEA_coffee_production
 			allowed = {
-				always = yes
+				always = no
 			}
 
 			allowed_civil_war = {
@@ -102,7 +102,7 @@ ideas = {
 		CEA_coffee_production_2 = {
 			name = CEA_coffee_production
 			allowed = {
-				always = yes
+				always = no
 			}
 
 			allowed_civil_war = {
@@ -127,7 +127,7 @@ ideas = {
 
 		CEA_repaying_the_american_debt = { ##If the player refuses to continue being a banana republic
 			allowed = {
-				always = yes
+				always = no
 			}
 
 			allowed_civil_war = {
@@ -152,6 +152,192 @@ ideas = {
 				stability_factor = -0.1
 				consumer_goods_factor = 0.5
 				custom_modifier_tooltip = CEA_debt_must_be_payed_off_to_remove_tt
+			}
+		}
+
+		CEA_railway_expansion_idea = {
+			name = CEA_railway_expansion
+			picture = ARG_invest_in_railways
+
+			allowed = {
+				always = no
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				production_speed_rail_way_factor = 0.1
+				production_speed_supply_node_factor = 0.05
+			}
+		}
+
+		CEA_railway_expansion_idea_2 = { ##Transportation of Goods
+			name = CEA_railway_expansion
+			picture = ARG_invest_in_railways
+
+			allowed = {
+				always = no
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				production_speed_industrial_complex_factor = 0.15
+				production_speed_rail_way_factor = 0.1
+				production_speed_supply_node_factor = 0.1
+				consumer_goods_factor = -0.1
+				line_change_production_efficiency_factor = 0.1
+			}
+		}
+
+		CEA_railway_expansion_idea_3 = { #Improved Arms Transport
+			name = CEA_railway_expansion
+			picture = ARG_invest_in_railways
+
+			allowed = {
+				always = no
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				production_speed_arms_factory_factor = 0.15
+				industrial_capacity_factory = 0.1
+				production_speed_rail_way_factor = 0.1
+				production_speed_supply_node_factor = 0.05
+			}
+		}
+
+		CEA_railway_expansion_idea_4 = { #Both
+			name = CEA_railway_expansion
+			picture = ARG_invest_in_railways
+
+			allowed = {
+				always = no
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				production_speed_industrial_complex_factor = 0.15
+				production_speed_rail_way_factor = 0.1
+				production_speed_supply_node_factor = 0.1
+				consumer_goods_factor = -0.1
+				line_change_production_efficiency_factor = 0.1
+				production_speed_arms_factory_factor = 0.15
+				industrial_capacity_factory = 0.1
+			}
+		}
+
+		CEA_rosario_mining_company_2 = {
+			name = CEA_rosario_mining_company
+			picture = ARG_resource_extration_focus
+
+			allowed = {
+				always = no 
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1 
+
+			modifier = {
+				local_resources_factor = 0.15
+			}
+		}
+	}
+
+	industrial_concern = {
+		
+		CEA_rosario_mining_company_1 = {
+			name = CEA_rosario_mining_company
+			
+			picture = generic_industrial_concern_1
+			
+			cost = 75
+			
+			allowed = {
+				OR = {
+					original_tag = HON 
+					original_tag = NIC
+				}
+			}
+			
+			visible = {
+				has_completed_focus = CEA_force_out_the_banana_companies
+			}
+			
+			research_bonus = {
+				industry = 0.05
+				synth_resources = 0.1
+			}
+			
+			modifier = {
+				local_resources_factor = 0.1
+			}
+			
+			traits = { refinery_concern }
+			
+			ai_will_do = {
+				factor = 1
+			}
+		}
+
+		CEA_united_fruit_company = {
+			name = "United Fruit Company"
+			picture = ECU_fruit_company_icon
+
+			allowed = {
+				always = no
+			}
+
+			cost = 100
+
+			allowed_to_remove = {
+				always = no
+			}
+
+			available = {
+				any_controlled_state = {
+					OR = {
+						has_dynamic_modifier = {
+							modifier = CEA_local_banana_production
+						}
+						has_dynamic_modifier = {
+							modifier = CEA_improved_banana_production
+						}
+					}
+				}
+			}
+
+			research_bonus = {
+				industry = 0.02
+			}
+			
+			traits = { industrial_concern }
+
+			modifier = {
+				local_building_slots_factor = 0.05
+				consumer_goods_factor = 0.05
+				custom_modifier_tooltip = CEA_removed_if_theres_no_plantations_tt
 			}
 		}
 	}

@@ -125,6 +125,54 @@ shared_focus = {
 }
 
 shared_focus = {
+	id = CEA_nationalize_the_industry
+	icon = GFX_ARG_nationalize_industry
+	x = 0
+	y = 1
+	relative_position_id = CEA_force_out_the_banana_companies
+	prerequisite = {
+		focus = CEA_force_out_the_banana_companies
+	}
+
+	cost = 10
+
+	search_filters = {
+		FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY
+	}
+
+	completion_reward = {
+		add_political_power = 25
+		EUYL_add_2_civilian = yes
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		custom_effect_tooltip = CEA_if_you_still_have_active_plantations_following_occur_tt
+
+		effect_tooltip = {
+			add_stability = -0.05
+		}
+
+		hidden_effect = {
+			if = {
+				limit = {
+					any_controlled_state = {
+						OR = {
+							has_dynamic_modifier = {
+								modifier = CEA_local_banana_production
+							}
+							has_dynamic_modifier = {
+								modifier = CEA_improved_banana_production
+							}
+						}
+					}
+				}
+				add_stability = -0.05
+			}
+		}
+	}
+}
+
+shared_focus = {
 	id = CEA_depend_further_on_the_united_states
 	icon = GFX_PAR_invite_american_investors
 	x = 1
@@ -152,6 +200,352 @@ shared_focus = {
 
 		subtract_from_variable = {
 			CEA_request_financing_cost = 25
+		}
+	}
+}
+
+shared_focus = {
+	id = CEA_infraustrcure_investments
+	icon = GFX_focus_generic_road_investment
+	cost = 5
+	x = -5
+	y = 1
+	relative_position_id = CEA_the_economy
+	prerequisite = {
+		focus = CEA_the_economy
+	}
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY
+	}
+	completion_reward = {
+		custom_effect_tooltip = CEA_every_state_with_2_or_less_receive_1_tt
+		every_controlled_state = {
+			limit = {
+				infrastructure < 3
+				is_owned_by = ROOT
+			}
+			add_building_construction = {
+				type = infrastructure
+				level = 1
+				instant_build = yes
+			}
+		}
+	}
+}
+
+shared_focus = {
+	id = CEA_strengthen_the_local_industry
+	icon = GFX_goal_generic_construct_civ_factory
+	x = 2
+	y = 1
+	relative_position_id = CEA_infraustrcure_investments
+	prerequisite = {
+		focus = CEA_infraustrcure_investments
+	}
+
+	cost = 7.2
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY
+	}
+
+	completion_reward = {
+		custom_effect_tooltip = CEA_if_stability_over_70_tt
+
+		effect_tooltip = {
+			EUYL_add_2_civilian = yes
+		}
+
+		custom_effect_tooltip = CEA_if_stability_below_70_tt
+
+		effect_tooltip = {
+			EUYL_add_1_civilian = yes
+		}
+
+		hidden_effect = {
+			if = {
+				limit = {
+					has_stability > 0.7
+				}
+				EUYL_add_2_civilian = yes
+			} else = {
+				EUYL_add_1_civilian = yes
+			}
+		}
+	}
+}
+
+shared_focus = {
+	id = CEA_the_ROOT_military_industry
+	dynamic = yes
+
+	icon = {
+		trigger = {
+			original_tag = HON
+		}
+		value = GFX_CEA_honduras_military_icon
+	}
+	icon = {
+		trigger = {
+			original_tag = ELS
+		}
+		value = GFX_CEA_salvador_military_icon
+	}
+	icon = {
+		trigger = {
+			original_tag = NIC
+		}
+		value = GFX_CEA_nicaragua_military_icon
+	}
+	icon = {
+		trigger = {
+			original_tag = PAN
+		}
+		value = GFX_CEA_panama_military_icon
+	}
+	icon = {
+		trigger = {
+			original_tag = GUA
+		}
+		value = GFX_CEA_guatemala_military_icon
+	}
+	icon = {
+		trigger = {
+			original_tag = COS
+		}
+		value = GFX_CEA_costa_rica_military_icon
+	}
+
+	icon = {
+		trigger = {
+			NOT = {
+				OR = {
+					original_tag = ELS
+					original_tag = GUA
+					original_tag = NIC
+					original_tag = HON 
+					original_tag = COS 
+					original_tag = PAN
+				}
+			}
+		}
+		value = GFX_focus_generic_military_industry
+	}
+
+	x = -2
+	y = 1
+	relative_position_id = CEA_infraustrcure_investments
+	prerequisite = {
+		focus = CEA_infraustrcure_investments
+	}
+
+	cost = 5
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ARMY_XP
+	}
+
+	completion_reward = {
+		army_experience = 10
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		EUYL_add_1_military = yes
+	}
+}
+
+shared_focus = {
+	id = CEA_railway_expansion
+	cost = 5
+	icon = GFX_focus_generic_railroad
+	x = 0
+	y = 1
+	relative_position_id = CEA_infraustrcure_investments
+	prerequisite = {
+		focus = CEA_infraustrcure_investments
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY
+	}
+
+	completion_reward = {
+		add_ideas = CEA_railway_expansion_idea
+	}
+}
+
+shared_focus = {
+	id = CEA_transportation_of_goods
+	icon = GFX_focus_SOV_the_road_of_life
+	x = -1
+	y = 1
+	relative_position_id = CEA_strengthen_the_local_industry
+	prerequisite = {
+		focus = CEA_strengthen_the_local_industry
+	}
+	prerequisite = {
+		focus = CEA_railway_expansion
+	}
+
+	cost = 10
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY
+	}
+
+	completion_reward = {
+		if = {
+			limit = {
+				has_idea = CEA_railway_expansion_idea
+			}
+			swap_ideas = {
+				remove_idea = CEA_railway_expansion_idea
+				add_idea = CEA_railway_expansion_idea_2
+			}
+		}
+		else = {
+			swap_ideas = {
+				remove_idea = CEA_railway_expansion_idea_3
+				add_idea = CEA_railway_expansion_idea_4
+			}
+		}
+	}
+}
+
+shared_focus = {
+	id = CEA_improved_arms_transport
+	icon = GFX_focus_generic_tank_assembly
+	x = 1
+	y = 1
+	relative_position_id = CEA_the_ROOT_military_industry
+	prerequisite = {
+		focus = CEA_the_ROOT_military_industry
+	}
+	prerequisite = {
+		focus = CEA_railway_expansion
+	}
+
+	cost = 10
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY
+	}
+
+	completion_reward = {
+		if = {
+			limit = {
+				has_idea = CEA_railway_expansion_idea
+			}
+			swap_ideas = {
+				remove_idea = CEA_railway_expansion_idea
+				add_idea = CEA_railway_expansion_idea_3
+			}
+		}
+		else = {
+			swap_ideas = {
+				remove_idea = CEA_railway_expansion_idea_2
+				add_idea = CEA_railway_expansion_idea_4
+			}
+		}
+	}
+}
+
+shared_focus = {
+	id = CEA_root_adjective_scholars
+	icon = GFX_focus_research
+	x = 0
+	y = 2
+	relative_position_id = CEA_railway_expansion
+	prerequisite = {
+		focus = CEA_transportation_of_goods
+		focus = CEA_improved_arms_transport
+	}
+
+	cost = 10
+
+	available = {
+		num_of_factories > 10
+	}
+
+	search_filters = {
+		FOCUS_FILTER_RESEARCH
+	}
+
+	completion_reward = {
+		add_research_slot = 1
+	}
+}
+
+## Only available for Honduras and Nicaragua
+
+shared_focus = {
+	id = CEA_the_rosario_mining_company
+	icon = GFX_goal_generic_construction2
+	x = 0
+	y = 2
+	relative_position_id = CEA_transportation_of_goods
+	prerequisite = {
+		focus = CEA_transportation_of_goods
+	}
+
+	allow_branch = {
+		OR = {
+			original_tag = HON 
+			original_tag = NIC
+		}
+	}
+
+	available = {
+		NOT = {
+			has_war_with = USA 
+		}
+		USA = { exists = yes }
+		OR = {
+			has_completed_focus = CEA_depend_further_on_the_united_states
+			has_completed_focus = CEA_force_out_the_banana_companies
+		}
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY
+	}
+
+	completion_reward = {
+		random_owned_controlled_state = {
+			add_resource = {
+				type = steel
+				amount = 4
+			}
+		}
+		random_owned_controlled_state = {
+			add_resource = {
+				type = tungsten
+				amount = 2
+			}
+		}
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		custom_effect_tooltip = CEA_if_completed_focus_force_out_companies_tt
+
+		custom_effect_tooltip = EUYL_available_as_industrial_concern_tt
+		show_ideas_tooltip = CEA_rosario_mining_company_1
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		custom_effect_tooltip = CEA_if_completed_focus_depend_on_us_further_tt
+
+		effect_tooltip = {
+			add_ideas = CEA_rosario_mining_company_2
+		}
+
+		hidden_effect = {
+			if = {
+				limit = {
+					has_completed_focus = CEA_depend_further_on_the_united_states
+				}
+				add_ideas = CEA_rosario_mining_company_2
+			}
 		}
 	}
 }
