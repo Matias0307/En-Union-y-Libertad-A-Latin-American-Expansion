@@ -8111,13 +8111,43 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_ANNEXATION FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-			custom_effect_tooltip = PRU_will_be_known_as_sau
-			custom_effect_tooltip = ARG_unlock_integrate_territory
-			hidden_effect = {
+			unlock_decision_category_tooltip = ARG_integrate_our_territories
+			custom_effect_tooltip = BRA_annex_every_subject_tt
+			custom_effect_tooltip = BRA_gain_claims_on_every_sa_state_tt
+			if = {
+				limit = {
+					NOT = {
+						has_cosmetic_tag = GUOSR_UNIFIED
+					}
+				}
 				set_cosmetic_tag = SAU_UNIFIED
 			}
 			hidden_effect = {
-				set_country_flag = EUYL_can_integrate
+				every_other_country = {
+					limit = {
+						is_subject_of = ROOT 
+						has_government = communism
+					}
+					ROOT = {
+						annex_country = {
+							target = PREV 
+							transfer_troops = yes 
+						}
+					}
+				}
+				if = {
+					limit = {
+						NOT = { has_country_flag = EUYL_can_integrate }
+					}
+					set_country_flag = EUYL_can_integrate
+				}
+				every_state = {
+					limit = {
+						NOT = { is_owned_by = ROOT }
+						is_on_continent = south_america
+					}
+					add_claim_by = ROOT
+				}
 			}
 		}
 	}
