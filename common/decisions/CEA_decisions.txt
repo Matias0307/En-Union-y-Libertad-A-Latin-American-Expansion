@@ -64,6 +64,39 @@ CEA_managing_the_banana_republic = {
 		}
 	}
 
+	CEA_pay_off_the_debt = {
+		priority = 20
+		icon = eng_trade_unions_demand
+
+		activation = {
+			always = no
+		}
+
+		available = {
+			NOT = {
+				has_idea = CEA_repaying_the_american_debt
+			}
+		}
+
+		cancel_trigger = {
+			OR = {
+				USA = {
+					exists = no 
+					has_war_with = ROOT 
+				}
+				NOT = {
+					has_idea = CEA_repaying_the_american_debt
+				}
+			}
+		}
+
+		days_mission_timeout = 720
+
+		timeout_effect = { ##might expand on this later on, depends on how lazy I am lol
+			add_stability = -0.15
+		}
+	}
+
 	CEA_redirect_fundings_to_improve_worker_conditions = {
 		icon = generic_fundraising
 
@@ -113,6 +146,9 @@ CEA_managing_the_banana_republic = {
 				has_country_flag = CEA_USA_deterred_by_our_fragile_stability_flag
 				has_idea = strikes_1
 			}
+			NOT = {
+				has_country_flag = CEA_cant_ask_for_financing_flag
+			}
 		}
 
 		visible = {
@@ -150,8 +186,6 @@ CEA_managing_the_banana_republic = {
 	CEA_improve_the_plantation_in_FROM = {
 		icon = GFX_EUYL_banana_icon
 
-		### Make this decision visible after taking a focus
-
 		on_map_mode = map_and_decisions_view
 
 		cost = 20
@@ -167,6 +201,7 @@ CEA_managing_the_banana_republic = {
 		}
 
 		visible = {
+			has_completed_focus = CEA_improve_the_plantations
 			has_idea = CEA_the_banana_republic
 			FROM = {
 				NOT = {
@@ -298,8 +333,6 @@ CEA_managing_the_banana_republic = {
 
 		on_map_mode = map_and_decisions_view
 
-		## Another decision unlocked via focus
-
 		state_target = yes 
 		target_array = controlled_states
 		target_trigger = {
@@ -314,6 +347,7 @@ CEA_managing_the_banana_republic = {
 		}
 
 		visible = {
+			has_completed_focus = CEA_dismantle_the_plantation_monopoly
 			FROM = {
 				OR = {
 					has_dynamic_modifier = {
