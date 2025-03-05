@@ -1332,7 +1332,13 @@ characters={
 				factor  = 1.000
 			}
 			on_add = {
-				EUYL_add_1_dockyard = yes 
+				if = {
+					limit = {
+						NOT = { has_global_flag = EUYL_BRA_aristides_guilhem_hired_flag }
+					}
+					EUYL_add_1_dockyard = yes
+					set_global_flag = EUYL_BRA_aristides_guilhem_hired_flag 
+				}
 			}
 		}
 		name="EUYL_BRA_aristides_guilhem"
@@ -1580,11 +1586,17 @@ characters={
 				EUYL_collectivization_expert 
 			}
 			on_add = {
-				ROOT = {
-					add_popularity = {
-						ideology = democratic
-						popularity = 0.05
+				if = {
+					limit = {
+						NOT = { has_global_flag = EUYL_BRA_washington_luis_pereira_appointed }
 					}
+					ROOT = {
+						add_popularity = {
+							ideology = democratic
+							popularity = 0.05
+						}
+					}
+					set_global_flag = EUYL_BRA_washington_luis_pereira_appointed
 				}
 			}
 		}

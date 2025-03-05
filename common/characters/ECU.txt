@@ -157,6 +157,9 @@ characters={
 			on_add = {
 				if = {
 					limit = {
+						NOT = {
+							has_global_flag = ECU_added_carlos_advisor_flag
+						}
 						ECU = {
 							has_idea = ECU_aftermath_of_4_day_civil_war_1
 							NOT = {
@@ -165,6 +168,7 @@ characters={
 						}
 					}
 					ECU = { ECU_improve_liberal_opinion = yes }
+					set_global_flag = ECU_added_carlos_advisor_flag
 				}
 			}
 		}
@@ -466,13 +470,21 @@ characters={
 				has_completed_focus = ECU_reform_the_organic_law_of_the_bank
 			}
 			on_add = {
-				ECU = {
-					EUYL_add_1_civilian = yes
-					custom_effect_tooltip = ECU_modify_economic_reignition_intro_tt
-					add_to_variable = {
-						ECU_economy_production_speeds_buildings_factor = 0.075
-						tooltip = production_speed_buildings_factor_tt
+				if = {
+					limit = {
+						NOT = {
+							has_global_flag = ECU_added_manuel_gomez_morin_flag
+						}
 					}
+					ECU = {
+						EUYL_add_1_civilian = yes
+						custom_effect_tooltip = ECU_modify_economic_reignition_intro_tt
+						add_to_variable = {
+							ECU_economy_production_speeds_buildings_factor = 0.075
+							tooltip = production_speed_buildings_factor_tt
+						}
+					}
+					set_global_flag = ECU_added_manuel_gomez_morin_flag
 				}
 			}
 		}
