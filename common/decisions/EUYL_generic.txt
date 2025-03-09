@@ -88,6 +88,10 @@ political_actions = {
 		fire_only_once = yes 
 
 		complete_effect = {
+			add_stability = 0.01
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
 			drop_cosmetic_tag = yes 
 			set_cosmetic_tag = COL_NUEVA_GRANADA
 		}
@@ -96,6 +100,12 @@ political_actions = {
 	EUYL_enforce_mandatory_conscription = {
 		priority = 100
 		icon = generic_military 
+
+		visible = {
+			capital_scope = {
+				is_on_continent = south_america
+			}
+		}
 
 		available = {
 			has_civil_war = no 
@@ -564,38 +574,8 @@ economy_decisions = {
 		}
 
 		remove_effect = {
-			
 			clr_country_flag = GUA_developing_state_flag
-			custom_effect_tooltip = GUA_modify_uneven_economic_development_tt
-			add_to_variable = {
-				GUA_uneven_development_industrial_capacity_factory = 0.05
-				tooltip = industrial_capacity_factory_tt
-			}
-			add_to_variable = {
-				GUA_uneven_development_consumer_goods_factor = -0.1
-				tooltip = consumer_goods_factor_tt
-			}
-			add_to_variable = {
-				GUA_uneven_development_buildings_factor = 0.05
-				tooltip = production_speed_buildings_factor_tt
-			}
-
-			custom_effect_tooltip = CHL_skip_one_line_tt
-
-			if = {
-				limit = {
-					NOT = {
-						any_controlled_state = {
-							has_state_flag = GUA_underdeveloped_flag
-						}
-					}
-				}
-				effect_tooltip = {
-					remove_dynamic_modifier = {
-						modifier = GUA_uneven_economic_development
-					}
-				}
-			}
+			EUYL_improve_GUA_uneven_economic_development = yes
 		}
 	}
 
