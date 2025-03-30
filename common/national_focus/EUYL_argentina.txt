@@ -12905,6 +12905,34 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			SOV = { country_event = generic.2 }
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			IF = {
+				limit = {
+						has_dlc = "Arms Against Tyranny"
+				}	
+				custom_effect_tooltip = available_mio_tt
+				show_mio_tooltip = SOV_rubin_design_bureau_organization
+				show_mio_tooltip = SOV_mig_design_bureau_organization
+				show_mio_tooltip = SOV_gaz_organization
+
+				mio:SOV_rubin_design_bureau_organization = {
+					add_mio_size = 1
+				}
+				mio:SOV_mig_design_bureau_organization = {
+					add_mio_size = 1
+				}
+				mio:SOV_gaz_organization = {
+					add_mio_size = 4
+				}
+			}
+			ELSE = {
+				custom_effect_tooltip = available_designer
+				show_ideas_tooltip = SOV_rubin_design_bureau
+				show_ideas_tooltip = SOV_mig_design_bureau
+				show_ideas_tooltip = SOV_gaz
+			}
 		}
 	}
 
@@ -14708,6 +14736,39 @@ focus_tree = {
 				}
 			}
 		}
+
+		bypass = {
+			NOT = {
+				has_active_mission = ARG_the_1937_elections
+			}
+			OR = {
+				is_power_balance_in_range = {
+					id = ARG_general_balance_of_power
+					range = ARG_slightly_influential_oligarchs
+				}
+				is_power_balance_in_range = {
+					id = ARG_general_balance_of_power
+					range < ARG_slightly_influential_oligarchs
+				}
+			}
+		}
+
+		bypass_effect = {
+			add_ideas = ARG_los_azules
+			add_political_power = 25
+			if = {
+				limit = {
+					is_power_balance_side_active = {
+						id = ARG_general_balance_of_power
+						side = ARG_oligarchs_side
+					}
+				}
+				ARG_move_5_left = yes 
+			}
+			hidden_effect = {
+				promote_character = ARG_jose_p_tamborini
+			}
+		}
 		
 		cancel_if_invalid = yes
 		continue_if_invalid = no
@@ -14940,6 +15001,37 @@ focus_tree = {
 					id = ARG_general_balance_of_power
 					range > ARG_slightly_influential_socialists
 				}
+			}
+		}
+
+		bypass = {
+			NOT = {
+				has_active_mission = ARG_the_1937_elections
+			}
+			OR = {
+				is_power_balance_in_range = {
+					id = ARG_general_balance_of_power
+					range = ARG_slightly_influential_socialists
+				}
+				is_power_balance_in_range = {
+					id = ARG_general_balance_of_power
+					range > ARG_slightly_influential_socialists
+				}
+			}
+		}
+
+		bypass_effect = {
+			add_stability = 0.03
+			add_political_power = 35
+			add_ideas = ARG_los_grises
+			if = {
+				limit = {
+					is_power_balance_side_active = {
+						id = ARG_general_balance_of_power
+						side = ARG_socialist_side
+					}
+				}
+				ARG_move_5_right = yes 
 			}
 		}
 		

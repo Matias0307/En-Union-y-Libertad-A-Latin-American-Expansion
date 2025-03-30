@@ -1471,6 +1471,15 @@ focus_tree = {
 				}
 				remove_ideas = BRA_low_literacy_rate
 			}
+			if = {
+				limit = {
+					NOT = {
+						has_completed_focus = BRA_by_blood_alone
+					}
+				}
+				custom_effect_tooltip = CHL_skip_one_line_tt
+				add_research_slot = 1
+			}
 		}
 	}
 
@@ -3995,6 +4004,15 @@ focus_tree = {
 			unlock_decision_tooltip = BRA_expand_our_coffee_plantations_in_FROM
 			custom_effect_tooltip = BRA_plantation_will_be_setup_tt
 			custom_effect_tooltip = BRA_coffee_dependency_increases_5_tt
+			if = {
+				limit = {
+					has_dlc = "Trial of Allegiance"
+				}
+				custom_effect_tooltip = CHL_skip_one_line_tt
+
+				custom_effect_tooltip = EUYL_available_as_industrial_concern_tt
+				show_ideas_tooltip = BRA_departamento_nacional_do_cafe_idea
+			}
 			hidden_effect = {
 				random_owned_controlled_state = {
 					limit = {
@@ -4496,7 +4514,7 @@ focus_tree = {
 		relative_position_id = BRA_establish_the_FNM 
 		prerequisite = { focus = BRA_establish_the_FNM }
 
-		cost = 10
+		cost = 5
 
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
@@ -5236,17 +5254,12 @@ focus_tree = {
 		relative_position_id = BRA_establish_csn
 		prerequisite = { focus = BRA_open_up_steel_mines }
 		
-		cost = 7.2
+		cost = 5
 
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
 			random_owned_controlled_state = {
 				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = arms_factory
-					level = 1
-					instant_build = yes 
-				}
 				add_resource = {
 					type = steel
 					amount = 8
@@ -5266,7 +5279,7 @@ focus_tree = {
 			focus = BRA_increased_military_output
 		}
 
-		cost = 10
+		cost = 5
 
 		available = {
 			controls_state = 495
@@ -5279,7 +5292,7 @@ focus_tree = {
 			943 = {
 				add_resource = {
 					type = oil 
-					amount = 16
+					amount = 7
 				}
 			}
 			unlock_decision_tooltip = extract_oil_in_the_amazons
@@ -5287,9 +5300,61 @@ focus_tree = {
 	}
 
 	focus = {
+		id = BRA_harness_centrifuge_technology
+		icon = GFX_focus_generic_nuclear_development
+		x = -1
+		y = 1
+		relative_position_id = BRA_expand_our_petroleum_industry
+		prerequisite = {
+			focus = BRA_expand_our_petroleum_industry
+		}
+
+		cost = 10
+
+		available = {
+			is_subject = no
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH
+		}
+
+		completion_reward = {
+			every_controlled_state = {
+				limit = { is_core_of = ROOT }
+				add_dynamic_modifier = { modifier = PAR_advanced_reactor_technology days = 720 }
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			if = {
+				limit = {
+					NOT = { has_tech = atomic_research }
+				}
+				add_tech_bonus = {
+					name = BRA_harness_centrifuge_technology
+					bonus = 1.0
+					uses = 1
+					category = nuclear
+				}
+			}
+			else = {
+				add_breakthrough_progress = {
+					specialization = specialization_nuclear
+					value = 0.5
+				}
+				add_breakthrough_points = {
+					specialization = specialization_nuclear
+					value = 2
+				}
+			}
+		}
+	}
+
+	focus = {
 		id = BRA_brasilia 
 		icon = GFX_focus_BRA_new_capital
-		x = 0
+		x = 1
 		y = 1
 		relative_position_id = BRA_expand_our_petroleum_industry
 		prerequisite = { focus = BRA_expand_our_petroleum_industry }
@@ -5446,7 +5511,7 @@ focus_tree = {
 		relative_position_id = BRA_forca_aerea
 		prerequisite = { focus = BRA_forca_aerea }
 
-		cost = 7
+		cost = 5
 
 		available = {
 			exists = yes 
@@ -5483,6 +5548,30 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			unlock_decision_category_tooltip = BRA_foreign_plane_purchases
+
+			if = {
+				limit = {
+					has_dlc = "Trial of Allegiance"
+				}
+				custom_effect_tooltip = CHL_skip_one_line_tt
+				if = {
+					limit = {
+						has_dlc = "Arms Against Tyranny"
+					}
+					custom_effect_tooltip = BRA_following_companies_will_be_invited_tt
+					#USA
+					show_mio_tooltip = USA_north_american_aviation_organization
+					# UK
+					show_mio_tooltip = ENG_avro_organization
+					# France
+					show_mio_tooltip = FRA_bloch_organization
+					# Sweden
+					show_mio_tooltip = SWE_saab_organization	
+				}		
+				else = {
+					add_political_power = 50
+				}
+			}
 		}
 	}
 
@@ -6172,26 +6261,26 @@ focus_tree = {
 		}
 	}
 
-	focus = {
-		id = BRA_purchase_foreign_arms
-		icon = GFX_BRA_foreign_purchases
-		x = -1
-		y = 1
-		relative_position_id = BRA_invest_in_the_army
-		prerequisite = { focus = BRA_invest_in_the_army }
-
-		cost = 10
-
-		available = {
-			exists = yes 
-			has_civil_war = no 
-			num_of_factories > 39
-		}
-
-		completion_reward = {
-			custom_effect_tooltip = PRU_purchase_foreign_arms_from_other_country
-		}
-	}
+	#focus = {
+	#	id = BRA_purchase_foreign_arms
+	#	icon = GFX_BRA_foreign_purchases
+	#	x = -1
+	#	y = 1
+	#	relative_position_id = BRA_invest_in_the_army
+	#	prerequisite = { focus = BRA_invest_in_the_army }
+#
+	#	cost = 10
+#
+	#	available = {
+	#		exists = yes 
+	#		has_civil_war = no 
+	#		num_of_factories > 39
+	#	}
+#
+	#	completion_reward = {
+	#		custom_effect_tooltip = PRU_purchase_foreign_arms_from_other_country
+	#	}
+	#}
 
 	focus = {
 		id = BRA_modernize_the_tank_korp
@@ -6271,6 +6360,23 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
+			if = {
+				limit = {
+					has_dlc = "Trial of Allegiance"
+				}
+				if = {
+					limit = {
+						has_dlc = "Arms Against Tyranny"
+					}
+					custom_effect_tooltip = available_mio_tt
+					show_mio_tooltip = USA_marmon_herrington_organization
+				}
+				else = {
+					add_political_power = 25
+				}
+				custom_effect_tooltip = CHL_skip_one_line_tt
+			}
+
 			USA = {
 				country_event = { id = brazil.9 hours = 4 }
 			}
@@ -6946,6 +7052,11 @@ focus_tree = {
 					has_idea = BRA_police_brutality_3
 				}
 			}
+
+			custom_trigger_tooltip = {
+				tooltip = BRA_mutually_exclusive_with_preperations_with_coup_tt
+				NOT = { has_completed_focus = BRA_preperations_for_the_self_coup }
+			}
 		}
 
 		cost = 7.2
@@ -6967,6 +7078,13 @@ focus_tree = {
 				mission = BRA_the_1938_elections
 				days = 15
 			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_political_power = 50
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
 			add_popularity = {
 				ideology = democratic
 				popularity = 0.05
@@ -8548,6 +8666,10 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			unlock_decision_tooltip = BRA_spread_our_movement_in_FROM
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_political_power = 50
 		}
 	}
 
@@ -8863,7 +8985,7 @@ focus_tree = {
 			}
 			add_popularity = {
 				ideology = communism
-				popularity = -0.1
+				popularity = -0.01
 			}
 			hidden_effect = {
 				subtract_from_variable = { BRA_cost_to_stop_commies = 25 }
@@ -8879,7 +9001,7 @@ focus_tree = {
 		relative_position_id = BRA_the_war_on_communism_vargas
 		prerequisite = { focus = BRA_the_war_on_communism_vargas }
 
-		cost = 4
+		cost = 2
 
 		ai_will_do = {
             factor = 5
@@ -8898,7 +9020,7 @@ focus_tree = {
 			add_stability = -0.01
 			add_popularity = {
 				ideology = communism
-				popularity = -0.04
+				popularity = -0.05
 			}
 			random_character = {
 				limit = { has_character_flag = BRA_communist }
@@ -8920,7 +9042,7 @@ focus_tree = {
 		relative_position_id = BRA_the_war_on_communism_vargas
 		prerequisite = { focus = BRA_the_war_on_communism_vargas }
 
-		cost = 4
+		cost = 2
 
 		ai_will_do = {
             factor = 5
@@ -9047,6 +9169,11 @@ focus_tree = {
 			power_balance_value = {
 				id = BRA_progress_to_dictatorship_bop
 				value > 0.2
+			}
+
+			custom_trigger_tooltip = {
+				tooltip = BRA_mutually_exclusive_with_cut_back_censorship_tt
+				NOT = { has_completed_focus = BRA_cut_back_on_our_censorship }
 			}
 		}
 
@@ -12106,11 +12233,10 @@ focus_tree = {
 	focus = {
 		id = BRA_try_to_convince_plantations #convince the plantations 
 		icon = GFX_URG_agricultural_economy
-		x = -1
+		x = 0
 		y = 1
 		relative_position_id = BRA_farmers_to_arms
 		prerequisite = { focus = BRA_farmers_to_arms }
-		prerequisite = { focus = BRA_learn_subversive_techniques_from_the_communists }
 
 		cost = 7.2
 		
@@ -16935,6 +17061,40 @@ focus_tree = {
 			BRA_improve_militia_training = yes 
 			EUYL_add_1_military = yes 
 			custom_effect_tooltip = BRA_post_civil_war_repayment_will_get_more_expensive_tt
+
+			if = {
+				limit = {
+					has_dlc = "Trial of Allegiance"
+				}
+				IF = {
+					limit = {
+						has_dlc = "Arms Against Tyranny"
+					}	
+					custom_effect_tooltip = invites_mio_tt
+	
+					show_mio_tooltip = SOV_rubin_design_bureau_organization
+					mio:SOV_rubin_design_bureau_organization = {
+						add_mio_size = 3
+					}
+	
+					show_mio_tooltip = SOV_mig_design_bureau_organization
+					mio:SOV_mig_design_bureau_organization = {
+						add_mio_size = 3
+					}
+	
+					show_mio_tooltip = SOV_gaz_organization
+					mio:SOV_gaz_organization = {
+						add_mio_size = 3
+					}
+	
+				}
+				ELSE = {
+					custom_effect_tooltip = available_designer
+					show_ideas_tooltip = SOV_rubin_design_bureau
+					show_ideas_tooltip = SOV_mig_design_bureau
+					show_ideas_tooltip = SOV_gaz
+				}
+			}
 			hidden_effect = {
 				
 				# POST CIVIL WAR SOVIET WAR PAYMENT #

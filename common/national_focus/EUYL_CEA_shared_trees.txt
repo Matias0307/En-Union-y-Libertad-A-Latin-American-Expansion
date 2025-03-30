@@ -217,7 +217,7 @@ shared_focus = {
 	}
 
 	available = {
-		has_country_flag = CEA_rural_subsidies_flag
+		has_country_flag = CEA_promoted_urbanization_flag
 	}
 
 	search_filters = {
@@ -368,6 +368,18 @@ shared_focus = {
 
 		custom_effect_tooltip = CEA_we_have_two_years_to_pay_off_debt_tt
 
+		if = {
+			limit = {
+				OR = {
+					original_tag = NIC 
+					original_tag = HON
+				}
+			}
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			custom_effect_tooltip = EUYL_available_as_industrial_concern_tt
+			show_ideas_tooltip = CEA_rosario_mining_company_1
+		}
+
 		hidden_effect = {
 			activate_mission = CEA_pay_off_the_debt
 		}
@@ -477,6 +489,21 @@ shared_focus = {
 		NOT = {
 			has_idea = CEA_repaying_the_american_debt
 		}
+		if = {
+			limit = {
+				original_tag = GUA
+			}
+			custom_trigger_tooltip = {
+				tooltip = GUA_balanced_development_tt
+				NOT = {
+					OR = {
+						has_idea = GUA_uneven_economic_development_1
+						has_idea = GUA_uneven_economic_development_2
+						has_idea = GUA_uneven_economic_development_3
+					}
+				}
+			}
+		}
 	}
 
 	search_filters = {
@@ -521,10 +548,66 @@ shared_focus = {
 	}
 }
 
+## Import American Companies ##
+shared_focus = {
+	id = CEA_import_american_companies
+	icon = GFX_CEA_import_american_companies_icon
+	x = -2
+	y = 2
+	relative_position_id = CEA_depend_further_on_the_united_states
+	prerequisite = {
+		focus = CEA_depend_further_on_the_united_states
+	}
+
+	cost = 10
+
+	available = {
+		USA = {
+			has_opinion = {
+				target = ROOT
+				value > 50
+			}
+		}
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL
+	}
+
+	completion_reward = {
+		if = {
+			limit = {
+				has_dlc = "Arms Against Tyranny"
+			}
+			custom_effect_tooltip = CEA_lockeed_ford_chrysler_available_as_MIO_tt
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			mio:USA_ford_motor_company_organization = {
+				add_mio_funds = 750
+			}
+			mio:USA_chrysler_organization = {
+				add_mio_funds = 750
+			}
+			mio:USA_lockheed_organization = {
+				add_mio_funds = 750
+			}
+		}
+		else = {
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = lockheed_CEA
+			show_ideas_tooltip = ford_motor_company_CEA
+			show_ideas_tooltip = chrysler_CEA
+		}
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		add_political_power = 50
+	}
+}
+
 ### Generic Banana Republic Path ###
 shared_focus = {
 	id = CEA_improve_the_plantations
-	icon = GFX_CEA_expand_banana_icon
+	icon = GFX_EUYL_bananer
 	cost = 5
 	x = 0
 	y = 1
@@ -585,6 +668,123 @@ shared_focus = {
 }
 
 shared_focus = {
+	id = CEA_gold_from_the_soil
+	icon = GFX_CEA_expand_banana_icon
+	x = -1
+	y = 1
+	relative_position_id = CEA_agriculture_above_all
+	prerequisite = {
+		focus = CEA_agriculture_above_all
+	}
+
+	cost = 10
+
+	available = {
+		num_of_factories > 9
+		has_idea = CEA_agriculture_above_all_idea
+		any_controlled_state = {
+			has_dynamic_modifier = {
+				modifier = CEA_improved_banana_production
+			}
+		}
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY
+	}
+
+	completion_reward = {
+		EUYL_add_1_civilian = yes 
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		swap_ideas = {
+			remove_idea = CEA_agriculture_above_all_idea
+			add_idea = CEA_agriculture_above_all_idea_2
+		}
+	}
+}
+
+shared_focus = {
+	id = CEA_USA_root_economic_cooperation
+	dynamic = yes
+
+	icon = {
+		trigger = {
+			original_tag = HON
+		}
+		value = GFX_CEA_america_cooperation_honduras_icon
+	}
+	icon = {
+		trigger = {
+			OR = {
+				original_tag = NIC 
+				original_tag = ELS
+			}
+		}
+		value = GFX_CEA_america_cooperation_nicaragua_icon
+	}
+	icon = {
+		trigger = {
+			original_tag = GUA
+		}
+		value = GFX_CEA_america_cooperation_guatemala_icon
+	}
+	icon = {
+		trigger = {
+			original_tag = COS
+		}
+		value = GFX_CEA_america_cooperation_costa_rica_icon
+	}
+
+	icon = {
+		trigger = {
+			NOT = {
+				OR = {
+					original_tag = ELS
+					original_tag = GUA
+					original_tag = NIC
+					original_tag = HON 
+					original_tag = COS 
+					original_tag = PAN
+				}
+			}
+		}
+		value = GFX_focus_generic_american_investments
+	}
+
+	cost = 10 
+
+	x = 1
+	y = 1
+
+	relative_position_id = CEA_agriculture_above_all
+	prerequisite = {
+		focus = CEA_agriculture_above_all
+	}
+
+	available = {
+		num_of_factories > 9
+		USA = { exists = yes }
+		NOT = {
+			has_war_with = USA
+		}
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY
+	}
+
+	completion_reward = {
+		EUYL_add_1_civilian = yes
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		custom_effect_tooltip = CEA_american_financing_decisions_now_add_civilian_factory_tt
+	}
+}
+
+shared_focus = {
 	id = CEA_infraustrcure_investments
 	icon = GFX_focus_generic_road_investment
 	cost = 5
@@ -640,8 +840,10 @@ shared_focus = {
 			custom_trigger_tooltip = {
 				tooltip = GUA_balanced_development_tt
 				NOT = {
-					has_dynamic_modifier = {
-						modifier = GUA_uneven_economic_development
+					OR = {
+						has_idea = GUA_uneven_economic_development_1
+						has_idea = GUA_uneven_economic_development_2
+						has_idea = GUA_uneven_economic_development_3
 					}
 				}
 			}
@@ -873,8 +1075,10 @@ shared_focus = {
 			custom_trigger_tooltip = {
 				tooltip = GUA_balanced_development_tt
 				NOT = {
-					has_dynamic_modifier = {
-						modifier = GUA_uneven_economic_development
+					OR = {
+						has_idea = GUA_uneven_economic_development_1
+						has_idea = GUA_uneven_economic_development_2
+						has_idea = GUA_uneven_economic_development_3
 					}
 				}
 			}
@@ -905,12 +1109,10 @@ shared_focus = {
 		focus = CEA_the_ROOT_military_industry
 	}
 
-	cost = 10
+	cost = 7.2
 
 	available = {
-		has_army_manpower = {
-			size > 34999
-		}
+		has_civil_war = no 
 	}
 
 	search_filters = {
@@ -925,7 +1127,7 @@ shared_focus = {
 		random_owned_controlled_state = {
 			add_resource = {
 				type = oil
-				amount = 5
+				amount = 4
 			}
 		}
 	}
@@ -1125,6 +1327,132 @@ shared_focus = {
 				}
 				add_ideas = CEA_rosario_mining_company_2
 			}
+		}
+	}
+}
+
+### JOINT CENTRAL AMERICAN FOCUSES WHEN IN FACTION ###
+joint_focus = {
+	id = NORDIC_northern_command_test
+	
+	icon = GFX_goal_generic_army_doctrines
+	
+	
+	x = 3
+	y = 8
+	cost = 5
+
+	text_icon = NORDIC_focus_style
+
+	available = {
+		NORDIC_basic_available_trigger = yes
+		has_stability > 0.5
+		has_war_support > 0.25
+	}
+
+	search_filters = { FOCUS_FILTER_ARMY_XP FOCUS_FILTER_NAVY_XP FOCUS_FILTER_AIR_XP }
+
+	joint_trigger = {
+  		NORDIC_basic_joint_trigger = yes 
+	}
+
+
+	completion_reward = {
+		air_experience = 25
+		navy_experience = 25
+		army_experience = 25
+		add_command_power = 25		
+		add_ideas = { NORDIC_command_ns }
+	}
+}
+
+joint_focus = {
+	id = NORDIC_political_cooperation_test
+	icon = GFX_focus_generic_improve_the_administration
+
+
+	x = 0
+	y = 6
+	cost = 5
+
+	text_icon = NORDIC_focus_style
+
+	available = {
+		NORDIC_basic_available_trigger = yes
+		is_faction_leader = yes
+	}
+
+	search_filters = { FOCUS_FILTER_POLITICAL }
+
+	joint_trigger = {
+  		NORDIC_basic_joint_trigger = yes 
+	}
+
+	completion_reward = {
+
+	}
+
+	completion_reward_joint_originator = {
+		add_political_power = 100
+		add_stability = 0.1
+		if = {
+			limit = {
+				has_global_flag = NORDIC_democratic_alliance_formed
+			}
+			add_popularity = {
+				ideology = democratic 
+				popularity = 0.1
+			}
+		}
+		else_if = {
+			limit = {
+				has_global_flag = NORDIC_communist_alliance_formed
+			}
+			add_popularity = {
+				ideology = communism 
+				popularity = 0.1
+			}	
+		}
+		else_if = {
+			limit = {
+				has_global_flag = NORDIC_monarchist_alliance_formed
+			}
+			add_popularity = {
+				ideology = neutrality 
+				popularity = 0.1
+			}	
+		}
+	}
+
+	completion_reward_joint_member = {
+		add_political_power = 50
+		add_stability = 0.1
+		if = {
+			limit = {
+				has_global_flag = NORDIC_democratic_alliance_formed
+			}
+			add_popularity = {
+				ideology = democratic 
+				popularity = 0.05
+			}
+		}
+		else_if = {
+			limit = {
+				has_global_flag = NORDIC_communist_alliance_formed
+			}
+			add_popularity = {
+				ideology = communism 
+				popularity = 0.05
+			}	
+		}
+		else_if = {
+			limit = {
+				has_global_flag = NORDIC_monarchist_alliance_formed
+			}
+			add_popularity = {
+				ideology = neutrality 
+				popularity = 0.05
+			}	
 		}
 	}
 }
