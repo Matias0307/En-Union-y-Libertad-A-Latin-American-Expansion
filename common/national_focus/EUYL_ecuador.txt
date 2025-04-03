@@ -884,7 +884,7 @@ focus_tree = {
 		mutually_exclusive = {
 			focus = ECU_loser_of_the_peru_ecuador_war
 		}
-		x = 1
+		x = 2
 		y = 1
 		relative_position_id = ECU_march_into_piura
 		prerequisite = {
@@ -914,7 +914,7 @@ focus_tree = {
 		mutually_exclusive = {
 			focus = ECU_victor_of_the_peru_ecuador_war
 		}
-		x = -1
+		x = -2
 		y = 1
 		relative_position_id = ECU_march_into_piura
 		prerequisite = {
@@ -954,12 +954,35 @@ focus_tree = {
 		}
 	}
 
+	## Technological Lessons from the War ##
+	focus = {
+		id = ECU_technological_lessons_from_the_war
+		icon = GFX_focus_research2
+		x = -2
+		y = 1
+		relative_position_id = ECU_victor_of_the_peru_ecuador_war
+		prerequisite = {
+			focus = ECU_victor_of_the_peru_ecuador_war
+			focus = ECU_loser_of_the_peru_ecuador_war
+		}
+
+		cost = 10
+
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+
 	## Get Revenge on Peru ##
 	focus = {
 		id = ECU_get_revenge_on_peru
 		icon = GFX_focus_PRU_attack
 		x = 0
-		y = 1
+		y = 2
 		relative_position_id = ECU_loser_of_the_peru_ecuador_war
 		prerequisite = {
 			focus = ECU_loser_of_the_peru_ecuador_war
@@ -1003,7 +1026,7 @@ focus_tree = {
 		id = ECU_greater_ecuador
 		icon = GFX_ECU_greater_ecuador_icon
 		x = 0
-		y = 1
+		y = 2
 		relative_position_id = ECU_victor_of_the_peru_ecuador_war
 		prerequisite = {
 			focus = ECU_victor_of_the_peru_ecuador_war
@@ -2217,7 +2240,7 @@ focus_tree = {
 				}
 				add_resource = {
 					type = steel
-					amount = 4
+					amount = 5
 				}
 			}
 			custom_effect_tooltip = CHL_skip_one_line_tt
@@ -5449,7 +5472,7 @@ focus_tree = {
 		cost = 10
 
 		available = {
-			has_full_control_of_state = 41
+			41 = { is_controlled_by = ROOT }
 			num_of_controlled_states > 49
 			has_army_manpower = { size > 499999 }
 		}
@@ -5546,6 +5569,15 @@ focus_tree = {
 					is_major = no 
 				}
 				set_major = yes
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			custom_effect_tooltip = ARG_unlock_integrate_territory
+			if = {
+				limit = {
+					NOT = { has_country_flag = EUYL_can_integrate }
+				}
+				set_country_flag = EUYL_can_integrate
 			}
 		}
 	}
@@ -6403,7 +6435,7 @@ focus_tree = {
 	focus = {
 		id = ECU_the_great_betrayal
 		icon = GFX_ECU_the_great_betrayal_icon
-		x = -3
+		x = -4
 		y = 1
 		relative_position_id = ECU_gain_support_from_the_fascists
 		prerequisite = {
@@ -6532,7 +6564,7 @@ focus_tree = {
 	focus = {
 		id = ECU_take_full_control
 		icon = GFX_ECU_take_full_control_icon
-		x = 3
+		x = 4
 		y = 1
 		relative_position_id = ECU_gain_support_from_the_fascists
 		prerequisite = {
@@ -6885,7 +6917,7 @@ focus_tree = {
 	focus = {
 		id = ECU_italian_allignment
 		icon = GFX_focus_befriend_italy
-		x = 0
+		x = -1
 		y = 1
 		relative_position_id = ECU_crush_the_bipartisanship_conflict
 		prerequisite = {
@@ -6904,12 +6936,6 @@ focus_tree = {
 			}
 			ITA = {
 				exists = yes 
-				NOT = {
-					OR = {
-						has_government = democratic
-						has_government = communism
-					}
-				}
 				is_subject = no 
 				NOT = { 
 					has_war_with = ROOT 
@@ -6971,11 +6997,17 @@ focus_tree = {
 	focus = {
 		id = ECU_fascist_researchers
 		icon = GFX_focus_ARG_fascist_researchers
-		x = 0
-		y = 2
-		relative_position_id = ECU_italian_allignment
+		x = 2
+		y = 1
+		relative_position_id = ECU_crush_the_bipartisanship_conflict
 		prerequisite = {
-			focus = ECU_italian_allignment
+			focus = ECU_crush_the_bipartisanship_conflict
+		}
+
+		available = {
+			NOT = {
+				has_idea = ECU_aftermath_of_4_day_civil_war_1
+			}
 		}
 
 		ai_will_do = {
