@@ -157,7 +157,7 @@ political_actions = {
 		}
 
 		modifier = {
-			conscription = 0.015
+			conscription = 0.01
 		}
 
 		days_remove = -1
@@ -590,6 +590,64 @@ economy_decisions = {
 		}
 	}
 
+	EUYL_redirect_resources_to_build_up_supply_connections = {
+		icon = generic_motorized
+
+		allowed = {
+			capital_scope = {
+				OR = {
+					is_on_continent = south_america
+					is_on_continent = north_america
+				}
+			}
+		}
+
+		visible = {
+			capital_scope = {
+				OR = {
+					is_on_continent = south_america
+					is_on_continent = north_america
+				}
+			}
+		}
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 0
+			has_civil_war = no 
+		}
+
+		fire_only_once = yes 
+
+		cancel_trigger = {
+			has_civil_war = yes
+		}
+
+		ai_will_do = {
+			base = 2
+			modifier = {
+				factor = 10
+				num_of_factories > 19
+			}
+			modifier = {
+				factor = 15
+				num_of_factories > 34
+			}
+		}
+
+		custom_cost_trigger = {
+			num_of_civilian_factories_available_for_projects > 0
+		}
+		custom_cost_text = decision_cost_civ_factory_1
+
+		days_remove = 720
+
+		modifier = {
+			civilian_factory_use = 1
+			production_speed_rail_way_factor = 0.15
+			production_speed_supply_node_factor = 0.5
+		}
+	}
+
 	EUYL_implement_the_import_substitution_model = {
 		icon = eng_trade_unions_support
 
@@ -610,6 +668,15 @@ economy_decisions = {
 				OR = {
 					has_idea = export_focus
 					has_idea = free_trade
+				}
+			}
+		}
+
+		visible = {
+			capital_scope = {
+				OR = {
+					is_on_continent = south_america
+					is_on_continent = north_america
 				}
 			}
 		}
