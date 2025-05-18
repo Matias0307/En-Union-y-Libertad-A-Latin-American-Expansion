@@ -253,6 +253,19 @@ shared_focus = {
 	available = {
 		has_civil_war = no
 		has_idea = CEA_coffee_production_1
+
+		if = {
+			limit = {
+				original_tag = NIC 
+			}
+			NOT = {
+				any_controlled_state = {
+					has_dynamic_modifier = {
+						modifier = BOL_underdeveloped_province
+					}
+				}
+			}
+		}
 	}
 
 	search_filters = {
@@ -341,6 +354,12 @@ shared_focus = {
 	}
 	mutually_exclusive = {
 		focus = CEA_depend_further_on_the_united_states
+	}
+
+	allow_branch = {
+		NOT = {
+			original_tag = PAN
+		}
 	}
 
 	search_filters = {
@@ -527,6 +546,12 @@ shared_focus = {
 	}
 	mutually_exclusive = {
 		focus = CEA_force_out_the_banana_companies
+	}
+
+	allow_branch = {
+		NOT = {
+			original_tag = PAN
+		}
 	}
 
 	cost = 5
@@ -746,7 +771,6 @@ shared_focus = {
 					original_tag = NIC
 					original_tag = HON 
 					original_tag = COS 
-					original_tag = PAN
 				}
 			}
 		}
@@ -800,6 +824,14 @@ shared_focus = {
 		}
 	}
 
+	offset = {
+		x = -2
+		y = 0
+		trigger = {
+			original_tag = NIC
+		}
+	}
+
 	prerequisite = {
 		focus = CEA_the_economy
 	}
@@ -817,6 +849,113 @@ shared_focus = {
 				type = infrastructure
 				level = 1
 				instant_build = yes
+			}
+		}
+	}
+}
+
+## Connect the East ##
+shared_focus = {
+	id = CEA_NIC_connect_the_east
+	icon = GFX_CEA_nicaragua_connect_east
+	cost = 5
+	x = -4
+	y = 1
+	relative_position_id = CEA_the_economy
+	prerequisite = {
+		focus = CEA_the_economy
+	}
+
+	allow_branch = {
+		original_tag = NIC
+	}
+
+	available = {
+		1054 = {
+			has_dynamic_modifier = {
+				modifier = BOL_underdeveloped_province
+			}
+		}
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY
+	}
+
+	completion_reward = {
+		if = {
+			limit = {
+				can_build_railway = {
+					start_state = 1054
+					target_state = ROOT.capital
+					build_only_on_allied = yes 
+				}
+			}
+			build_railway = {
+				level = 1
+				start_state = 1054
+				target_state = ROOT.capital
+			}
+		}
+		1054 = {
+			add_building_construction = {
+				type = infrastructure
+				level = 1
+				instant_build = yes
+			}
+		}
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		unlock_decision_tooltip = {
+			decision = NIC_develop_the_provinca_of_1054
+			show_effect_tooltip = yes
+		}
+	}
+}
+
+shared_focus = {
+	id = CEA_NIC_develop_the_east
+	icon = GFX_CEA_nicaragua_develop_east
+	cost = 7.2
+	x = 0
+	y = 1
+
+	relative_position_id = CEA_NIC_connect_the_east
+
+	prerequisite = {
+		focus = CEA_NIC_connect_the_east
+	}
+
+	available = {
+		1054 = {
+			is_fully_controlled_by = ROOT 
+			NOT = {
+				has_dynamic_modifier = {
+					modifier = BOL_underdeveloped_province
+				}
+			}
+		}
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY
+	}
+
+	completion_reward = {
+		1054 = {
+			add_building_construction = {
+				type = industrial_complex
+				level = 1
+				instant_build = yes
+			}
+			add_resource = {
+				type = steel
+				amount = 3
+			}
+			add_resource = {
+				type = tungsten
+				amount = 2
 			}
 		}
 	}
@@ -844,6 +983,18 @@ shared_focus = {
 						has_idea = GUA_uneven_economic_development_1
 						has_idea = GUA_uneven_economic_development_2
 						has_idea = GUA_uneven_economic_development_3
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				original_tag = NIC 
+			}
+			NOT = {
+				any_controlled_state = {
+					has_dynamic_modifier = {
+						modifier = BOL_underdeveloped_province
 					}
 				}
 			}
@@ -933,12 +1084,15 @@ shared_focus = {
 	id = NIC_exploit_nicaraguan_gold
 	icon = GFX_NIC_gold_mines_icon
 	cost = 10
-	x = 0
+	x = 1
 	y = 1
 
 	relative_position_id = CEA_open_new_mines
 	prerequisite = {
 		focus = CEA_open_new_mines
+	}
+	prerequisite = {
+		focus = CEA_NIC_develop_the_east
 	}
 
 	allow_branch = {
@@ -1079,6 +1233,18 @@ shared_focus = {
 						has_idea = GUA_uneven_economic_development_1
 						has_idea = GUA_uneven_economic_development_2
 						has_idea = GUA_uneven_economic_development_3
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				original_tag = NIC 
+			}
+			NOT = {
+				any_controlled_state = {
+					has_dynamic_modifier = {
+						modifier = BOL_underdeveloped_province
 					}
 				}
 			}
@@ -1330,6 +1496,8 @@ shared_focus = {
 		}
 	}
 }
+
+
 
 ### JOINT CENTRAL AMERICAN FOCUSES WHEN IN FACTION ###
 joint_focus = {

@@ -530,6 +530,10 @@ economy_decisions = {
 
 		visible = {
 			has_completed_focus = CEA_commence_regional_development_programs
+			FROM = {
+				is_fully_controlled_by = ROOT 
+				has_state_flag = GUA_underdeveloped_flag
+			}
 		}
 
 		modifier = {
@@ -552,8 +556,6 @@ economy_decisions = {
 
 		days_remove = 60
 
-		fire_only_once = yes
-
 		complete_effect = {
 			set_country_flag = GUA_developing_state_flag
 			FROM = {
@@ -574,6 +576,9 @@ economy_decisions = {
 
 		cancel_effect = {
 			clr_country_flag = GUA_developing_state_flag
+			FROM = {
+				set_state_flag = GUA_underdeveloped_flag
+			}
 		}
 
 		remove_effect = {
@@ -585,6 +590,58 @@ economy_decisions = {
 					flag = GUA_recently_promoted_development_flag
 					days = 90
 					value = 1
+				}
+			}
+		}
+	}
+
+	NIC_develop_the_provinca_of_1054 = {
+		icon = generic_construction
+
+		allowed = {
+			original_tag = NIC
+		}
+
+		highlight_states = {
+			highlight_states_trigger = {
+				state = 1054
+			}
+		}
+
+		visible = {
+			has_completed_focus = CEA_NIC_connect_the_east
+			1054 = { 
+				is_fully_controlled_by = ROOT 
+				has_dynamic_modifier = {
+					modifier = BOL_underdeveloped_province
+				}
+			}
+		}
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 0
+		}
+
+		cost = 25
+
+		days_remove = 90
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+
+		cancel_trigger = {
+			1054 = {
+				NOT = {
+					is_fully_controlled_by = ROOT 
+				}
+			}
+		}
+
+		remove_effect = {
+			1054 = {
+				remove_dynamic_modifier = {
+					modifier = BOL_underdeveloped_province
 				}
 			}
 		}
@@ -1315,6 +1372,7 @@ economy_decisions = {
 				}
 				has_completed_focus = BOL_the_bohen_plan
 			}
+			NOT = { original_tag = NIC }
 		}
 
 		fire_only_once = yes 
