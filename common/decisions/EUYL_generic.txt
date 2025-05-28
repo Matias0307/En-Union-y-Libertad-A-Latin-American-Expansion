@@ -1800,71 +1800,6 @@ operations = {
 		}
 	}
 
-	BOL_invite_vicente_rojo_to_the_military_school = {
-		icon = eng_trade_unions_support
-
-		allowed = { original_tag = BOL }
-
-		available = {
-			exists = yes 
-			SPR_scw_in_progress = yes
-			any_country_with_original_tag = {
-				original_tag_to_check = SPR
-				has_war = yes 
-				surrender_progress > 0.5
-			}
-		}
-
-		cost = 25
-
-		fire_only_once = yes 
-
-		complete_effect = {
-			custom_effect_tooltip = BOL_viente_rojo_available_tt
-			hidden_effect = {
-				BOL_vicente_rojo = {
-					clr_character_flag = BRA_living_in_the_exterior
-				}
-			}
-		}
-	}
-
-	BOL_promote_manuel_marzana_oroza = {
-		icon = generic_army_support
-
-		allowed = { original_tag = BOL }
-
-		available = {
-			OR = {
-				has_war = yes 
-				date > 1937.1.1
-			}
-			hidden_trigger = {
-				has_political_power > 24
-				command_power > 24
-			}
-		}
-
-		custom_cost_text = BRA_cost_25_pol_command
-
-		custom_cost_trigger = {
-			has_political_power > 24
-			command_power > 24
-		}
-
-		fire_only_once = yes 
-
-		complete_effect = {
-			hidden_effect = {
-				add_political_power = -25
-				add_command_power = -25
-			}
-			add_war_support = 0.05
-			custom_effect_tooltip = BOL_promote_manuel_tt
-			set_country_flag = BOL_promoted_manuel
-		}
-	}
-
 	CHL_deal_with_rebellion_in_FROM = {
 		icon = oppression
 
@@ -2507,6 +2442,51 @@ foreing_immigration = {
 
 		modifier = {
 			political_power_factor = -0.1
+			monthly_population = 1
+		}
+	}
+
+	VEN_bring_in_FROM_refugees = {
+		icon = GFX_EUYL_attract_refugees
+
+		priority = 15
+
+		target_trigger = {
+			FROM = {
+				OR = {
+					original_tag = POR 
+					original_tag = SPR
+				}
+			}
+		}
+
+		available = {
+			exists = yes 
+			has_war = no 
+		}
+
+		visible = { 
+			NOT = { has_country_flag = EUYL_attracting_refugees }
+			has_completed_focus = VEN_accept_portuguese_and_spanish_refugees
+			is_subject = no 
+		}
+
+		cost = 25 
+
+		days_remove = 100
+
+		fire_only_once = yes
+
+		complete_effect = {
+			hidden_effect = { set_country_flag = EUYL_attracting_refugees }
+			add_manpower = 5000
+		}
+
+		remove_effect = {
+			clr_country_flag = EUYL_attracting_refugees
+		}
+
+		modifier = {
 			monthly_population = 1
 		}
 	}

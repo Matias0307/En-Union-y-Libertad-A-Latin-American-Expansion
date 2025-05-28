@@ -67,7 +67,7 @@ focus_tree = {
 			base = 15
 		}
 
-		cost = 5
+		cost = 2.9
 		
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
@@ -2330,12 +2330,12 @@ focus_tree = {
 			NOT = { has_completed_focus = VEN_support_the_workers_cause }
 		}
 
-		cost = 5
+		cost = 4
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			custom_effect_tooltip = VEN_path_cancelled_if_going_down_commie_path_tt
-			add_political_power = 75
+			add_political_power = 50
 			if = {
 				limit = {
 					NOT = { has_government = fascism } 
@@ -3003,6 +3003,37 @@ focus_tree = {
 		}
 	}
 
+	## Promote Immigration ##
+	focus = {
+		id = VEN_promote_immigration
+		icon = GFX_goal_generic_propaganda
+		x = 0
+		y = 2
+		relative_position_id = VEN_venezuela_stands_with_no_one
+		prerequisite = {
+			focus = VEN_venezuela_stands_with_no_one
+			focus = VEN_allied_allignment
+			focus = VEN_axis_allignment
+		}
+
+		cost = 7.2
+
+		available = {
+			is_subject = no 
+			has_civil_war = no 
+		}
+
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			custom_effect_tooltip = ARG_cost_to_attract_immigrants_reduced_tt
+			hidden_effect = {
+				subtract_from_variable = { EUYL_cost_many_immigrants = 35 }
+				subtract_from_variable = { EUYL_cost_some_immigrants = 20 }
+				subtract_from_variable = { EUYL_cost_few_immigrants = 10 }
+			}
+		}
+	}
+
 	### Import German Weaponry ###
 	focus = {
 		id = VEN_import_german_weaponry
@@ -3389,7 +3420,7 @@ focus_tree = {
 		relative_position_id = VEN_temporarily_imprison_galavis
 		prerequisite = { focus = VEN_temporarily_imprison_galavis }
 
-		cost = 5
+		cost = 4
 
 		ai_will_do = {
 			base = 10
@@ -3426,7 +3457,7 @@ focus_tree = {
 		relative_position_id = VEN_enact_the_february_plan
 		prerequisite = { focus = VEN_enact_the_february_plan }
 
-		cost = 6
+		cost = 4
 
 		ai_will_do = {
 			base = 10
@@ -4423,35 +4454,6 @@ focus_tree = {
 		}
 	}
 
-	## Promote Immigration ##
-	focus = {
-		id = VEN_promote_immigration
-		icon = GFX_goal_generic_propaganda
-		x = -1
-		y = 1
-		relative_position_id = VEN_a_free_venezuela
-		prerequisite = {
-			focus = VEN_a_free_venezuela
-		}
-
-		cost = 7.2
-
-		available = {
-			is_subject = no 
-			has_civil_war = no 
-		}
-
-		search_filters = { FOCUS_FILTER_MANPOWER }
-		completion_reward = {
-			custom_effect_tooltip = ARG_cost_to_attract_immigrants_reduced_tt
-			hidden_effect = {
-				subtract_from_variable = { EUYL_cost_many_immigrants = 35 }
-				subtract_from_variable = { EUYL_cost_some_immigrants = 20 }
-				subtract_from_variable = { EUYL_cost_few_immigrants = 10 }
-			}
-		}
-	}
-
 	## Support the Accion Democratica ## (supports the coup and cuts the effects short)
 	focus = {
 		id = VEN_support_the_accion_democratica
@@ -5163,7 +5165,7 @@ focus_tree = {
 			focus = VEN_brutal_protest_Repression
 		}
 
-		cost = 8
+		cost = 5
 
 		ai_will_do = {
 			base = 30
@@ -5388,7 +5390,12 @@ focus_tree = {
 		available = {
 			ITA = {
 				exists = yes 
-				has_government = fascism 
+				NOT = {
+					OR = {
+						has_government = democratic
+						has_government = communism
+					}
+				}
 				is_subject = no 
 				NOT = { 
 					has_war_with = ROOT 
@@ -5445,7 +5452,12 @@ focus_tree = {
 		available = {
 			ITA = {
 				exists = yes 
-				has_government = fascism 
+				NOT = {
+					OR = {
+						has_government = democratic
+						has_government = communism
+					}
+				} 
 				is_subject = no 
 				has_civil_war = no
 				NOT = { 
@@ -5465,6 +5477,37 @@ focus_tree = {
 		}
 	}
 
+	### Accept Portuguese and Spanish Refugees ###
+	focus = {
+		id = VEN_accept_portuguese_and_spanish_refugees
+		icon = GFX_VEN_aceept_spanish_portuguese_refugees_icon
+		x = 0
+		y = 1
+		relative_position_id = VEN_italian_military_advisors
+		prerequisite = {
+			focus = VEN_italian_military_advisors
+		}
+
+		cost = 5
+
+		available = {
+			NOT = {
+				OR = {
+					has_war_with = POR 
+					has_war_with = SPR
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_MANPOWER
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = VEN_unlocks_unique_refugee_decisions_for_portugal_and_spain_tt
+		}
+	}
+
 	### Consolidate Power ### || this will send an event to USA notifying them about VEN going fascist, make them give warning saying that defusal to declare war by 43 will result in american intervention
 	focus = {
 		id = VEN_consolidate_power
@@ -5476,7 +5519,7 @@ focus_tree = {
 			focus = VEN_la_nueva_era
 		}
 
-		cost = 7.2
+		cost = 5
 
 		ai_will_do = {
 			base = 3
@@ -5496,8 +5539,8 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			add_stability = 0.1
-			add_war_support = 0.1
+			add_stability = 0.05
+			add_war_support = 0.05
 			if = {
 				limit = {
 					VEN_abrupt_government_transition_active = yes 

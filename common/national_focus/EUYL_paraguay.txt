@@ -5384,6 +5384,8 @@ focus_tree = {
 
 		cost = 5
 
+		ai_will_do = { factor = 2 }
+
 		offset = {
 			x = -20
 			y = 0
@@ -5413,12 +5415,15 @@ focus_tree = {
 	focus = {
 		id = PAR_the_paraguayan_army
 		icon = GFX_PAR_ejercito_paraguayo_icon
-		x = 10
+		x = 12
 		y = 1
 		relative_position_id = PAR_restructure_the_armed_forces
 		prerequisite = { focus = PAR_restructure_the_armed_forces }
 
 		cost = 7.2
+
+		ai_will_do = { factor = 2 }
+
 
 		search_filters = { FOCUS_FILTER_ARMY_XP FOCUS_FILTER_INDUSTRY FOCUS_FILTER_BALANCE_OF_POWER }
 		completion_reward = {
@@ -5459,6 +5464,8 @@ focus_tree = {
 		mutually_exclusive = { focus = PAR_the_more_the_merrier }
 
 		cost = 10
+
+		ai_will_do = { factor = 2 }
 
 		available = {
 			num_of_military_factories > 5
@@ -5622,6 +5629,8 @@ focus_tree = {
 
 		cost = 10
 
+		ai_will_do = { factor = 2 }
+
 		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_WAR_SUPPORT }
 		completion_reward = {
 			add_ideas = BOL_expanded_army
@@ -5713,6 +5722,8 @@ focus_tree = {
 		}
 		cost = 10
 
+		ai_will_do = { factor = 2 }
+
 		search_filters = { FOCUS_FILTER_ARMY_XP }
 		completion_reward = {
 			if = {
@@ -5774,7 +5785,7 @@ focus_tree = {
 	focus = {
 		id = PAR_the_paraguayan_airforce
 		icon = GFX_PAR_fuerza_aerea_icon
-		x = 0
+		x = 2
 		y = 1
 		relative_position_id = PAR_restructure_the_armed_forces
 		prerequisite = { focus = PAR_restructure_the_armed_forces }
@@ -5794,6 +5805,100 @@ focus_tree = {
 				mio:PAR_douglas_aircraft_company = {
 					add_mio_size = 2
 				}
+			}
+		}
+	}
+
+	## The golden ten
+
+	focus = {
+		id = PAR_the_golden_ten
+		icon = GFX_focus_generic_copy_plane_designs
+		x = -1
+		y = 1
+		relative_position_id = PAR_the_paraguayan_airforce
+		prerequisite = {
+			focus = PAR_the_paraguayan_airforce
+		}
+
+		cost = 5
+
+		available = {
+			NOT = {
+				has_war_with = BRA 
+			}
+			threat > 0.1
+		}
+
+		ai_will_do = { factor = 2 }
+
+		search_filters = {
+			FOCUS_FILTER_AIR_XP FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			BRA = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = PAR_the_golden_ten_opinion
+				}
+			}
+			add_opinion_modifier = {
+				target = BRA
+				modifier = PAR_the_golden_ten_opinion
+			}
+			every_other_country = {
+				limit = {
+					is_major = yes 
+					has_government = democratic
+				}
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = PAR_the_golden_ten_opinion
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_ace = {
+				name = Jose
+				surname = Duarte
+				callsign = Dorado
+				type = support_unique
+			}
+
+			add_ace = {
+				name = Pedro 
+				surname = Cataldo 
+				callsign = Raina
+				type = support_unique
+			}
+
+			BRA = {
+				add_ace = {
+					name = Félix 
+					surname = Zárate
+					callsign = Monges 
+					type = support_unique
+				}
+
+				add_ace = {
+					name = Ismael  
+					surname = Florentín
+					callsign = Angel
+					type = support_unique
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			air_experience = 50
+
+			add_doctrine_cost_reduction = {
+				name = PAR_the_golden_ten
+				cost_reduction = 0.25
+				uses = 2
+				category = air_doctrine
 			}
 		}
 	}

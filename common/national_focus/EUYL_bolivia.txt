@@ -93,6 +93,20 @@ focus_tree = {
                 add_idea = BOL_great_depression_2
             }
             add_ideas = BOL_focused_on_what_were_good_at_1
+
+            custom_effect_tooltip = CHL_skip_one_line_tt
+
+            if = {
+                limit = {
+                    has_dlc = "Arms Against Tyranny"
+                }
+                custom_effect_tooltip = available_mio_tt
+				show_mio_tooltip = USA_ford_motor_company_organization
+            } 
+            else = {
+                custom_effect_tooltip = available_designer
+				show_ideas_tooltip = ford_motor_company_BOL
+            }
         }
     }
 
@@ -122,6 +136,20 @@ focus_tree = {
                 add_idea = BOL_great_depression_2
             }
             add_ideas = BOL_switched_to_agrarian_society_1
+
+            custom_effect_tooltip = CHL_skip_one_line_tt
+
+            if = {
+                limit = {
+                    has_dlc = "Arms Against Tyranny"
+                }
+                custom_effect_tooltip = available_mio_tt
+				show_mio_tooltip = USA_ford_motor_company_organization
+            } 
+            else = {
+                custom_effect_tooltip = available_designer
+				show_ideas_tooltip = ford_motor_company_BOL
+            }
         }
     }
 
@@ -5258,7 +5286,7 @@ focus_tree = {
     focus = {
         id = BOL_army_revival
         icon = GFX_goal_generic_construct_mil_factory
-        x = 44
+        x = 46
         y = 0
 
         cost = 5
@@ -5289,10 +5317,180 @@ focus_tree = {
                 days = 200
             }
             custom_effect_tooltip = BOL_army_go_through_reform_tt
+
+            custom_effect_tooltip = CHL_skip_one_line_tt
+            custom_effect_tooltip = CHL_skip_one_line_tt
+
             custom_effect_tooltip = PRU_effect_when_idea_removed_tt
+            unlock_decision_category_tooltip = BOL_bolivian_military_operations
+            custom_effect_tooltip = CHL_skip_one_line_tt
             effect_tooltip = {
                 add_ideas = BOL_reformed_army
             }
+        }
+    }
+
+    ## Fundar el Instituto Geográfico Militar ##
+    focus = {
+        id = BOL_fund_the_institute_of_military_geography
+        icon = GFX_focus_generic_national_security
+        x = -2
+        y = 1
+        relative_position_id = BOL_reforming_the_army
+        prerequisite = {
+            focus = BOL_reforming_the_army
+        }
+
+        cost = 5
+
+        available = {
+            has_stability > 0.3
+            has_civil_war = no
+        }
+
+        search_filters = {
+            FOCUS_FILTER_INDUSTRY
+        }
+
+        completion_reward = {
+            if = {
+                limit = {
+                    has_dlc = "Arms Against Tyranny"
+                }
+                custom_effect_tooltip = available_mio_tt
+                show_mio_tooltip = BOL_IGM_organization
+                custom_effect_tooltip = BOL_unlock_national_level_planning_trait_tt
+
+                custom_effect_tooltip = CHL_skip_one_line_tt
+
+                mio:BOL_IGM_organization = {
+					add_mio_funds = 1000
+				}
+            }
+            else = {
+                custom_effect_tooltip = available_designer
+                show_ideas_tooltip = BOL_IGM_company
+            }
+        }
+    }
+
+    ## Los Colorados de Bolivia ##
+    focus = {
+        id = BOL_the_colorados_of_Bolivia
+        icon = GFX_focus_AFG_against_kabul
+        x = -3
+        y = 2
+        relative_position_id = BOL_reforming_the_army
+        prerequisite = {
+            focus = BOL_reforming_the_army
+        }
+
+        cost = 6
+
+        search_filters = {
+            FOCUS_FILTER_MANPOWER FOCUS_FILTER_HISTORICAL
+        }
+
+        completion_reward = {
+            custom_effect_tooltip = BOL_spawn_veteran_colorado_division_tt
+
+            custom_effect_tooltip = CHL_skip_one_line_tt
+
+            if = {
+				limit = {
+					has_dlc = "Arms Against Tyranny"
+				}
+				add_doctrine_cost_reduction = {
+					name = BOL_the_colorados_of_Bolivia
+					cost_reduction = 0.5
+					uses = 2
+					category = cat_mountaineers_doctrine
+				}
+			}
+			else = {
+                add_tech_bonus = {
+                    name = BOL_the_colorados_of_Bolivia
+                    bonus = 1
+                    uses = 1
+                    category = mountaineers_tech
+                }
+            }
+
+            hidden_effect = {
+                1073 = {
+                    create_unit = {
+                        division = "name = \"Batallón de Colorados del Chaco\" division_template = \"División de Infanteria\" start_experience_factor = 1"
+                        owner = BOL
+                    }
+                }
+            }
+        }
+    }
+
+    ## Founded the School of Mechanics and Navegation ##
+    focus = {
+        id = BOL_founded_the_school_of_mechanics_and_navegation
+        icon = GFX_GENERIC_goal_mariner2
+        x = 5
+        y = 1
+        relative_position_id = BOL_reforming_the_army
+        prerequisite = { focus = BOL_reforming_the_army }
+
+        cost = 5
+
+        available = {
+            custom_trigger_tooltip = {
+                tooltip = BOL_army_reformed
+                has_idea = BOL_reformed_army
+            }
+            has_full_control_of_state = 1087
+            has_full_control_of_state = 1083
+        }
+
+        search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_ARMY_XP }
+        completion_reward = {
+            if = {
+				limit = {
+					NOT = {
+						has_tech = marines
+					}
+				}
+				set_technology = {
+    				marines = 1
+				}
+			}			
+			add_tech_bonus = {
+                name = special_forces_bonus
+				bonus = 1
+				uses = 1
+				category = marine_tech
+			}
+
+            custom_effect_tooltip = CHL_skip_one_line_tt
+
+            add_ideas = BOL_founded_the_school_of_mechanics_and_navegation_idea
+
+            custom_effect_tooltip = CHL_skip_one_line_tt
+
+            navy_experience = 10
+
+            custom_effect_tooltip = CHL_skip_one_line_tt
+
+            custom_effect_tooltip = BOL_form_riberalta_tt
+			hidden_effect = {
+				add_victory_points = {
+					province = 5188
+					value = 3
+				}
+				set_province_name = { id = 5188 name = "Riberalta" }
+			}
+
+            hidden_effect = {
+				set_technology = {
+					BOL_founded_school_of_mechanics_and_navigation = 1
+					popup = no
+				}
+			}
         }
     }
 
@@ -5355,7 +5553,7 @@ focus_tree = {
     focus = {
         id = BOL_restoring_faith_in_the_army
         icon = GFX_ARG_quantity
-        x = -4
+        x = -6
         y = 1
         relative_position_id = BOL_reforming_the_army
         prerequisite = { focus = BOL_reforming_the_army }
@@ -5476,7 +5674,7 @@ focus_tree = {
     focus = {
         id = BOL_expanding_our_armaments
         icon = GFX_focus_generic_tank_production
-        x = -2
+        x = -4
         y = 3
         relative_position_id = BOL_reforming_the_army
         prerequisite = { focus = BOL_reforming_the_army }
@@ -5523,7 +5721,7 @@ focus_tree = {
     focus = {
         id = BOL_establishing_a_proper_airforce
         icon = GFX_goal_generic_air_fighter2
-        x = 6
+        x = 7
         y = 1
         relative_position_id = BOL_reforming_the_army
         prerequisite = { focus = BOL_reforming_the_army }
@@ -5630,7 +5828,7 @@ focus_tree = {
     focus = {
         id = BOL_rebuilding_the_bolivian_navy
         icon = GFX_goal_generic_construct_naval_dockyard
-        x = 9
+        x = 10
         y = 1
         relative_position_id = BOL_army_revival
         prerequisite = { focus = BOL_army_revival }

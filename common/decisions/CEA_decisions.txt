@@ -394,4 +394,72 @@ CEA_managing_the_banana_republic = {
 			add_stability = 0.01
 		}
 	}
+
+	HON_transfer_ownership_of_FROM_to_sam_zemurray = {
+		icon = generic_confiscation
+
+		on_map_mode = map_and_decisions_view
+		state_target = yes
+
+		target_array = controlled_states
+
+		target_trigger = {
+			FROM = {
+				OR = {
+					has_dynamic_modifier = {
+						modifier = CEA_local_banana_production
+					}
+					has_dynamic_modifier = {
+						modifier = CEA_improved_banana_production
+					}
+				}
+			}
+		}
+
+		available = {
+			NOT = {
+				has_country_flag = CEA_recently_transferred_ownership_flag
+			}
+		}
+
+		visible = {
+			has_idea = HON_sam_zemurray_idea
+			FROM = {
+				NOT = {
+					has_dynamic_modifier = {
+						modifier = CEA_state_owned_by_sam_zemurray
+					}
+				}
+			}
+		}
+
+		cost = 50
+
+		fire_only_once = yes
+
+		complete_effect = {
+			set_country_flag = {
+				flag = CEA_recently_transferred_ownership_flag
+				days = 90
+				value = 1
+			}
+
+			add_stability = -0.01
+
+			FROM = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes 
+				}
+
+				custom_effect_tooltip = CHL_skip_one_line_tt
+
+				add_dynamic_modifier = {
+					modifier = CEA_state_owned_by_sam_zemurray
+				}
+			}
+		}
+	}
 }

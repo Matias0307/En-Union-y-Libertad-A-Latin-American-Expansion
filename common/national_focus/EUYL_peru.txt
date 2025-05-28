@@ -4682,6 +4682,11 @@ focus_tree = {
 				ideology = neutrality
 				popularity = 0.04
 			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = PRU_dora_mayer
 		}
 	}
 
@@ -5655,7 +5660,7 @@ focus_tree = {
 
 		allow_branch = {
 			has_dlc = "Trial of Allegiance"
-			has_completed_focus = PRU_delay_democracy
+			#has_completed_focus = PRU_delay_democracy
 		}
 
         completion_reward = {
@@ -5716,10 +5721,6 @@ focus_tree = {
 		y = 1
 		cost = 10
 
-		allow_branch = {
-			has_dlc = "Trial of Allegiance"
-			has_completed_focus = PRU_delay_democracy
-		}
 
 		prerequisite = {
 			focus = PRU_Liberate_the_indigenous_people_of_America
@@ -5810,10 +5811,6 @@ focus_tree = {
 		y = 1
 		cost = 10
 
-		allow_branch = {
-			has_dlc = "Trial of Allegiance"
-			has_completed_focus = PRU_delay_democracy
-		}
 
 		prerequisite = {
 			focus = PRU_Liberate_the_indigenous_people_of_America
@@ -9839,7 +9836,7 @@ focus_tree = {
 	focus = {
 		id = PRU_invite_the_bolivians
 		icon = GFX_PRU_invite_bolivia
-		x = -1
+		x = -2
 		y = 1
 		relative_position_id = PRU_south_america_united
 		prerequisite = { focus = PRU_south_america_united }
@@ -9884,7 +9881,7 @@ focus_tree = {
 		icon = GFX_ARG_inv_colombia
 		prerequisite = { focus = PRU_south_america_united }	
 		relative_position_id = PRU_south_america_united
-		x = 1
+		x = 2
 		y = 1
 		
 		available = {
@@ -9928,10 +9925,8 @@ focus_tree = {
 		id = PRU_cooperate_with_allied_scientists
 		icon = GFX_goal_generic_scientific_exchange
 		prerequisite = { focus = PRU_south_america_united }
-		prerequisite = { focus = PRU_ask_the_region_powers_to_join }
-		prerequisite = { focus = PRU_invite_the_bolivians }	
 		relative_position_id = PRU_south_america_united
-		x = -4
+		x = -3
 		y = 2
 		
 		available = {
@@ -10084,11 +10079,11 @@ focus_tree = {
 	focus = {
 		id = PRU_ask_the_powers_above_us_to_join #war with ecuador
 		icon = GFX_focus_northernlands
-		prerequisite = { focus = PRU_ask_the_region_powers_to_join }	
+		prerequisite = { focus = PRU_south_america_united }
 		mutually_exclusive = { focus = PRU_reconcile_with_ecuador }
-		relative_position_id = PRU_ask_the_region_powers_to_join
-		x = -1
-		y = 1
+		relative_position_id = PRU_south_america_united
+		x = 1
+		y = 2
 		
 		available = {
 			ECU = {
@@ -10119,11 +10114,11 @@ focus_tree = {
 	focus = {
 		id = PRU_reconcile_with_ecuador #cede territory for gurantee and faction invitation
 		icon = GFX_ARG_invite_ecuador
-		prerequisite = { focus = PRU_ask_the_region_powers_to_join }
+		prerequisite = { focus = PRU_south_america_united }
 		mutually_exclusive = { focus = PRU_ask_the_powers_above_us_to_join }	
-		relative_position_id = PRU_ask_the_region_powers_to_join
-		x = -3
-		y = 1
+		relative_position_id = PRU_south_america_united
+		x = -1
+		y = 2
 		
 		available = {
 			any_other_country = {
@@ -10217,10 +10212,12 @@ focus_tree = {
 	focus = {
 		id = PRU_demand_spanish_concessions #cut ties with the spanish
 		icon = GFX_PRU_demand_spanish_concession
-		prerequisite = { focus = PRU_invite_argentina }	
-		prerequisite = { focus = PRU_ask_the_minor_powers_to_join }	
+		prerequisite = {
+			focus = PRU_ask_the_minor_powers_to_join
+			focus = PRU_invite_argentina
+		}	
 		relative_position_id = PRU_ask_the_powers_above_us_to_join
-		x = 1
+		x = 0
 		y = 2
 		
 		available = {
@@ -10387,8 +10384,9 @@ focus_tree = {
 	focus = {
 		id = PRU_ask_the_minor_powers_to_join #ask the democracies to join the faction 
 		icon = GFX_focus_SA_demo
-		prerequisite = { focus = PRU_south_america_united }	
-		prerequisite = { focus = PRU_invite_the_bolivians }
+		prerequisite = {
+			focus = PRU_south_america_united
+		}
 		relative_position_id = PRU_south_america_united
 		x = 3
 		y = 3
@@ -11208,6 +11206,81 @@ focus_tree = {
 			add_to_variable = { JUNO_airforce_modifier_air_superiority_efficiency = 0.05 tooltip = air_superiority_efficiency_tt }
 			add_to_variable = { JUNO_airforce_modifier_air_cas_present_factor = 0.05 tooltip = air_cas_present_factor_tt }
 			add_to_variable = { JUNO_airforce_modifier_ground_attack_factor = 0.05 tooltip = ground_attack_factor_tt }
+		}
+	}
+
+	## La Compañía de Paracaidistas ##
+	focus = {
+		id = PRU_paratrooper_company
+		icon = GFX_focus_generic_paratrooper
+		x = 2
+		y = 1
+		relative_position_id = PRU_train_our_pilots
+		prerequisite = { focus = PRU_train_our_pilots }
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_HISTORICAL FOCUS_FILTER_MANPOWER }
+
+		completion_reward = {
+			IF = {
+				limit = { NOT = { has_tech = paratroopers } }
+				set_technology = { paratroopers = 1 }
+			}
+			ELSE_IF = {
+				limit = { NOT = { has_tech = paratroopers2 } }
+				set_technology = { paratroopers2 = 1 }
+			}
+			ELSE_IF = {
+				limit = { NOT = { has_tech = paratroopers3 } }
+				set_technology = { paratroopers3 = 1 }
+			}
+
+			IF = {
+				limit = {
+					has_dlc = "Arms Against Tyranny"
+				}
+				add_doctrine_cost_reduction = {
+					name = PRU_paratrooper_company
+					cost_reduction = 0.5
+					uses = 1
+					category = special_forces_doctrine
+				}
+			}
+			else = {
+				add_tech_bonus = {
+					name = PRU_paratrooper_company
+					bonus = 1
+					uses = 1
+					category = para_tech
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			if = {
+				limit = {
+					has_dlc = "By Blood Alone"
+				}
+				add_equipment_to_stockpile = {
+					type = small_plane_airframe_1
+					amount = 10
+					producer = ITA
+					variant_name = "Caproni Ca.111"
+				}
+			}
+			else = {
+				add_equipment_to_stockpile = {
+					type = fighter_equipment_0
+					amount = 10
+					producer = ITA
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = PRU_modify_chilean_airforce_ns_intro
+			add_to_variable = { JUNO_army_modifier_special_forces_cap = 0.15 tooltip = special_forces_cap_tt }
 		}
 	}
 
@@ -12283,15 +12356,15 @@ focus_tree = {
 					icon = "GFX_ITA_early_bomber_old_medium"
 				}
 				create_equipment_variant = {
-				name = "Ca.111"
-				type = small_plane_cas_airframe_0
-				modules = {
-					fixed_main_weapon_slot = small_bomb_bay
-					fixed_auxiliary_weapon_slot_1 = empty
-					engine_type_slot = engine_1_1x
-					special_type_slot_1 = empty
-				}
-				icon = "GFX_ITA_iw_small_airframe_medium"
+					name = "Ca.111"
+					type = small_plane_cas_airframe_0
+					modules = {
+						fixed_main_weapon_slot = small_bomb_bay
+						fixed_auxiliary_weapon_slot_1 = empty
+						engine_type_slot = engine_1_1x
+						special_type_slot_1 = empty
+					}
+					icon = "GFX_ITA_iw_small_airframe_medium"
 		     	}		
 				add_equipment_to_stockpile = {
 					type = medium_plane_airframe

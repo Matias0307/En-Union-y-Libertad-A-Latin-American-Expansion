@@ -3548,3 +3548,122 @@ CHL_countering_bolivias_plan = {
         }
     }
 }
+
+BOL_bolivian_military_operations = {
+    BOL_invite_vicente_rojo_to_the_military_school = {
+		icon = eng_trade_unions_support
+
+		available = {
+			exists = yes 
+			SPR_scw_in_progress = yes
+			any_country_with_original_tag = {
+				original_tag_to_check = SPR
+				has_war = yes 
+				surrender_progress > 0.5
+			}
+		}
+
+        ai_will_do = {
+            base = 5
+            modifier = {
+                add = 35
+                has_government = fascism
+            }
+        }
+
+		cost = 25
+
+		fire_only_once = yes 
+
+		complete_effect = {
+			custom_effect_tooltip = BOL_viente_rojo_available_tt
+			hidden_effect = {
+				BOL_vicente_rojo = {
+					clr_character_flag = BRA_living_in_the_exterior
+				}
+			}
+		}
+	}
+
+	BOL_promote_manuel_marzana_oroza = {
+		icon = generic_army_support
+
+		available = {
+			OR = {
+				has_war = yes 
+				date > 1937.1.1
+			}
+			hidden_trigger = {
+				has_political_power > 24
+				command_power > 24
+			}
+		}
+
+        ai_will_do = {
+            base = 5
+            modifier = {
+                add = 35
+                OR = {
+                    has_government = fascism 
+                    is_historical_focus_on = yes
+                }
+            }
+        }
+
+		custom_cost_text = BRA_cost_25_pol_command
+
+		custom_cost_trigger = {
+			has_political_power > 24
+			command_power > 24
+		}
+
+		fire_only_once = yes 
+
+		complete_effect = {
+			hidden_effect = {
+				add_political_power = -25
+				add_command_power = -25
+			}
+			add_war_support = 0.05
+			custom_effect_tooltip = BOL_promote_manuel_tt
+			set_country_flag = BOL_promoted_manuel
+		}
+	}
+
+    BOL_extend_general_staff = {
+        icon = generic_military
+
+        fire_only_once = yes 
+
+        cost = 25
+
+        ai_will_do = {
+            base = 5
+            modifier = {
+                add = 35
+                OR = {
+                    has_government = fascism 
+                    is_historical_focus_on = yes
+                }
+            }
+        }
+
+        available = {
+            custom_trigger_tooltip = {
+                tooltip = BOL_army_reformed
+                has_idea = BOL_reformed_army
+            }
+        }
+
+        complete_effect = {
+            add_corps_commander_role = {
+				Character = EUYL_BOL_gualberto_villarroel_lopez
+				skill = 4
+				attack_skill = 3
+				defense_skill = 3
+				planning_skill = 4
+				logistics_skill = 3
+			}
+        }
+    }
+}

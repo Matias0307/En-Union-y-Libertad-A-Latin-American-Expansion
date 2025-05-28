@@ -1517,6 +1517,51 @@ focus_tree = {
 			}
 		}
 	}
+
+	focus = {
+		id = ARG_ready_the_economy_for_war
+		icon = GFX_focus_generic_tank_production
+		x = 6
+		y = 1
+		relative_position_id = ARG_focus_economy
+		prerequisite = { focus = ARG_focus_economy }
+		
+		
+		cost = 5
+
+		ai_will_do = {
+			factor = 205
+			modifier = {
+				factor = 0.01
+				OR = {
+					has_active_mission = ARG_government_collapse
+					has_active_mission = ARG_government_crackdown
+					has_active_mission = ARG_the_1937_elections
+				}
+			}
+		}
+		
+		available_if_capitulated = no
+		search_filters = {FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL}
+		completion_reward = {
+			if = {
+				limit = { controls_state = 956 }
+				956 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes 
+					}
+				}
+			}
+			else = { EUYL_add_1_military = yes }
+			unlock_decision_tooltip = {
+				decision = ARG_gain_slightly_the_trust_of_the_people
+				show_effect_tooltip = yes 
+			}
+		}
+	}
 	
 	focus = {
 		id = ARG_deal_with_depression
@@ -1767,52 +1812,6 @@ focus_tree = {
 		search_filters = {FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			EUYL_add_1_military = yes 
-		}
-	}
-	
-	
-	focus = {
-		id = ARG_ready_the_economy_for_war
-		icon = GFX_focus_generic_tank_production
-		x = 6
-		y = 1
-		relative_position_id = ARG_focus_economy
-		prerequisite = { focus = ARG_focus_economy }
-		
-		
-		cost = 5
-
-		ai_will_do = {
-			factor = 205
-			modifier = {
-				factor = 0.01
-				OR = {
-					has_active_mission = ARG_government_collapse
-					has_active_mission = ARG_government_crackdown
-					has_active_mission = ARG_the_1937_elections
-				}
-			}
-		}
-		
-		available_if_capitulated = no
-		search_filters = {FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL}
-		completion_reward = {
-			if = {
-				limit = { controls_state = 956 }
-				956 = {
-					add_extra_state_shared_building_slots = 1
-					add_building_construction = {
-						type = arms_factory
-						level = 1
-						instant_build = yes 
-					}
-				}
-			}
-			else = { EUYL_add_1_military = yes }
-			unlock_decision_tooltip = {
-				decision = ARG_gain_slightly_the_trust_of_the_people
-				show_effect_tooltip = yes 
-			}
 		}
 	}
 	
@@ -4060,40 +4059,7 @@ focus_tree = {
 		}
 	}
 	
-	focus = {
-		id = ARG_gain_the_support_of_the_workers
-		icon = GFX_ARG_gain_the_support_of_the_workers
-		x = 1
-		y = 1
-		relative_position_id = ARG_federalize_the_economy
-		prerequisite = { focus = ARG_federalize_the_economy }
-		
-		ai_will_do = {
-			factor = 3
-		}
-		
-		cost = 10
-		
-		available = {
-			custom_trigger_tooltip = {
-				tooltip = ARG_has_rosas_idea_tt
-				has_dynamic_modifier = { modifier = ARG_rosas_immortalized_idea }
-			}
-		}
 	
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		search_filters = {FOCUS_FILTER_POLITICAL}
-		completion_reward = {
-			custom_effect_tooltip = ARG_modify_rosas_by_economy_tt
-			hidden_effect = {
-				add_to_variable = { ARG_rosas_production_speed_buildings_factor = 0.05 }
-				add_to_variable = { ARG_rosas_industrial_capacity_factory = 0.05 }
-				subtract_from_variable = { ARG_rosas_consumer_goods_factor = 0.1 }
-			}
-		}
-	}
 	
 	focus = {
 		id = ARG_gain_the_support_of_the_military
@@ -4651,49 +4617,6 @@ focus_tree = {
 	}
 	
 	focus = {
-		id = ARG_build_better_highways
-		icon = GFX_goal_generic_construct_infrastructure 
-		x = 0
-		y = 1
-		relative_position_id = ARG_militarize_our_economy
-		prerequisite = { focus = ARG_militarize_our_economy }
-		
-		cost = 8
-
-		ai_will_do = { factor = 15 }
-
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
-		completion_reward = {
-			custom_effect_tooltip = ARG_add_1_infrastructure_2_random_states_tt
-			hidden_effect = {
-				random_owned_controlled_state = {
-					limit = { 
-						is_fully_controlled_by = ROOT 
-						infrastructure < 5
-					}
-					add_building_construction = {
-						type = infrastructure
-						level = 1
-						instant_build = yes 
-					}
-				}
-				random_owned_controlled_state = {
-					limit = { 
-						is_fully_controlled_by = ROOT 
-						infrastructure < 5
-					}
-					add_building_construction = {
-						type = infrastructure
-						level = 1
-						instant_build = yes 
-					}
-				}
-			}
-			add_ideas = ARG_invest_in_infrastructure
-		}
-	}
-	
-	focus = {
 		id = ARG_develop_uruguay
 		icon = GFX_ARG_develop_uruguayan
 		x = 0
@@ -5113,6 +5036,49 @@ focus_tree = {
 			}
 			EUYL_add_2_military = yes 
 			ARG_improve_disorganized_militias = yes 
+		}
+	}
+
+	focus = {
+		id = ARG_build_better_highways
+		icon = GFX_goal_generic_construct_infrastructure 
+		x = 0
+		y = 1
+		relative_position_id = ARG_militarize_our_economy
+		prerequisite = { focus = ARG_militarize_our_economy }
+		
+		cost = 8
+
+		ai_will_do = { factor = 15 }
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			custom_effect_tooltip = ARG_add_1_infrastructure_2_random_states_tt
+			hidden_effect = {
+				random_owned_controlled_state = {
+					limit = { 
+						is_fully_controlled_by = ROOT 
+						infrastructure < 5
+					}
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes 
+					}
+				}
+				random_owned_controlled_state = {
+					limit = { 
+						is_fully_controlled_by = ROOT 
+						infrastructure < 5
+					}
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes 
+					}
+				}
+			}
+			add_ideas = ARG_invest_in_infrastructure
 		}
 	}
 	
@@ -6723,6 +6689,41 @@ focus_tree = {
 					mission = ARG_duration_of_the_crisis
 					days = -35
 				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_gain_the_support_of_the_workers
+		icon = GFX_ARG_gain_the_support_of_the_workers
+		x = 1
+		y = 1
+		relative_position_id = ARG_federalize_the_economy
+		prerequisite = { focus = ARG_federalize_the_economy }
+		
+		ai_will_do = {
+			factor = 3
+		}
+		
+		cost = 10
+		
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ARG_has_rosas_idea_tt
+				has_dynamic_modifier = { modifier = ARG_rosas_immortalized_idea }
+			}
+		}
+	
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		search_filters = {FOCUS_FILTER_POLITICAL}
+		completion_reward = {
+			custom_effect_tooltip = ARG_modify_rosas_by_economy_tt
+			hidden_effect = {
+				add_to_variable = { ARG_rosas_production_speed_buildings_factor = 0.05 }
+				add_to_variable = { ARG_rosas_industrial_capacity_factory = 0.05 }
+				subtract_from_variable = { ARG_rosas_consumer_goods_factor = 0.1 }
 			}
 		}
 	}
@@ -11491,6 +11492,14 @@ focus_tree = {
 			add_political_power = 25
 			add_war_support = 0.05
 			hidden_effect = {
+				if = {
+					limit = {
+						NOT = {
+							has_idea = EUYL_anarchist_ethos
+						}
+					}
+					add_ideas = EUYL_anarchist_ethos
+				}
 				every_state = {
 					limit = {
 						has_state_flag = ARG_original_state_not_yet_integrated
