@@ -1477,6 +1477,100 @@ economy_decisions = {
 }
 
 operations = {
+	CHL_next_phase_of_our_modernization_plans = {
+		priority = 350
+		icon = generic_motorized
+
+		allowed = {
+			original_tag = CHL
+		}
+
+		activation = {
+			always = no 
+		}
+
+		days_mission_timeout = 435
+
+		is_good = yes 
+
+		available = {
+			always = no 
+		}
+
+		cancel_trigger = {
+			exists = no
+		}
+
+		timeout_effect = {
+			if = {
+				limit = {
+					has_country_flag = CHL_phase_one_complete_flag
+				}
+
+				custom_effect_tooltip = CHL_phase_2_completed_tt
+
+				custom_effect_tooltip = CHL_skip_one_line_tt
+
+				add_tech_bonus = {
+					name = CHL_commence_a_new_modernization_process
+					bonus = 0.75
+					uses = 1
+					category = cat_mechanized_equipment
+				}
+				add_tech_bonus = {
+					name = CHL_commence_a_new_modernization_process
+					bonus = 0.75
+					uses = 1
+					category = motorized_equipment
+				}
+				add_tech_bonus = {
+					name = CHL_commence_a_new_modernization_process
+					bonus = 0.75
+					uses = 1
+					category = artillery
+				}
+
+				activate_mission = CHL_next_phase_of_our_modernization_plans
+
+				hidden_effect = {
+					clr_country_flag = CHL_phase_one_complete_flag
+				}
+			}
+			else = {
+				custom_effect_tooltip = CHL_phase_3_completed_tt
+
+				custom_effect_tooltip = CHL_skip_one_line_tt
+				
+				add_tech_bonus = {
+					name = CHL_commence_a_new_modernization_process
+					bonus = 1
+					uses = 1
+					category = cat_mechanized_equipment
+				}
+				add_tech_bonus = {
+					name = CHL_commence_a_new_modernization_process
+					bonus = 1
+					uses = 1
+					category = motorized_equipment
+				}
+				add_tech_bonus = {
+					name = CHL_commence_a_new_modernization_process
+					bonus = 1
+					uses = 1
+					category = artillery
+				}
+
+				custom_effect_tooltip = CHL_skip_one_line_tt
+
+				add_doctrine_cost_reduction = {
+					cost_reduction = 0.5
+					uses = 1
+					category = land_doctrine
+				}
+			}
+		}
+	}
+
 	BRA_gain_back_our_territory_from_FROM = {
 		priority = 200
 		icon = generic_prepare_civil_war
