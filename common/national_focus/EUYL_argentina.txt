@@ -4828,12 +4828,13 @@ focus_tree = {
 					states = {
 						946
 					}
+					set_country_flag = URG_fash_urg_flag
 				}
 			}
 			random_other_country = {
 				limit = {
 					original_tag = URG
-					has_government = fascism
+					has_country_flag = URG_fash_urg_flag
 					has_civil_war = yes
 				}
 				division_template = { 
@@ -4852,14 +4853,7 @@ focus_tree = {
 					create_unit = {
 						division = "name = \"Militares\" division_template = \"Militares\" start_experience_factor = 0.35 start_equipment_factor = 1.0" 
 						owner = PREV
-					}
-					create_unit = {
-						division = "name = \"Militares\" division_template = \"Militares\" start_experience_factor = 0.2 start_equipment_factor = 1.0" 
-						owner = PREV
-					}
-					create_unit = {
-						division = "name = \"Militares\" division_template = \"Militares\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
-						owner = PREV
+						count = 3
 					}
 				}
 			}
@@ -4886,7 +4880,7 @@ focus_tree = {
 			OR = {
 				any_other_country = {
 					original_tag = URG 
-					has_government = fascism
+					has_country_flag = URG_fash_urg_flag
 					controls_state = 300
 					controls_state = 946
 					controls_state = 1090
@@ -4909,34 +4903,25 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION }
 		completion_reward = {
-			ROOT = {
-				if = {
-					limit = { 
-						has_country_flag = ARG_refused_annexation 
-						controls_state = 1090
-						controls_state = 946
-						controls_state = 300
-					}
-					add_state_core = 946
-					add_state_core = 300
-					add_state_core = 1090
-				}
-				if = {
-					limit = { 
-						NOT = {
-							controls_state = 946
-							controls_state = 300
-							controls_state = 1090
-						}
-					}
-					add_state_core = 946
-					add_state_core = 300
-					add_state_core = 1090
-					annex_country = {
-						target = URG
-						transfer_troops = yes
+			if = {
+				limit = {
+					URG = {
+						exists = yes
 					}
 				}
+				annex_country = {
+					target = URG 
+					transfer_troops = yes
+				}
+			}
+			every_controlled_state = {
+				limit = {
+					is_core_of = URG
+					NOT = {
+						is_core_of = ROOT
+					}
+				}
+				add_core_of = ROOT
 			}
 			hidden_effect = {
 				if = {
