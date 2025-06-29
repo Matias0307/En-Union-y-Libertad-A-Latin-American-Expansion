@@ -10,15 +10,15 @@
 ### search_filters = {FOCUS_FILTER_CHI_INFLATION}
 
 focus_tree = {
-	id = honduran_focus
+	id = panamanian_focus
 	
 	country = {
 		factor = 0
 		
-		#modifier = {
-		#	add = 10
-		#	tag = PAN
-		#}
+		modifier = {
+			add = 10
+			tag = PAN
+		}
 	}
 	
 	initial_show_position = {
@@ -28,4 +28,964 @@ focus_tree = {
 	default = no
 
 	shared_focus = CEA_the_economy
+	shared_focus = CEA_the_defense_pact
+
+	## Panamanian subtree for economy ##
+
+	# Significant Influx of US Dollars #
+	focus = {
+		id = PAN_significant_influx_of_US_dollars
+		icon = GFX_focus_generic_american_investments
+		cost = 5
+		x = 0
+		y = 1
+		relative_position_id = CEA_the_economy
+		prerequisite = {
+			focus = CEA_the_economy
+		}
+
+		allow_branch = {
+			original_tag = PAN
+		}
+
+		available = {
+			NOT = {
+				has_war_with = USA
+			}
+			USA = {
+				exists = yes
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_timed_idea = {
+				idea = PAN_US_dollar_influx
+				days = 365
+			}
+		}
+	}
+
+	# Increase National Production in the West #
+	focus = {
+		id = PAN_increase_national_production_in_the_north
+		icon = GFX_PAN_increase_national_production_in_the_north_icon
+		cost = 10
+		x = -1
+		y = 1
+		relative_position_id = PAN_significant_influx_of_US_dollars
+		prerequisite = {
+			focus = PAN_significant_influx_of_US_dollars
+		}
+
+		available = {
+			1057 = {
+				is_fully_controlled_by = ROOT
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_HISTORICAL FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			1057 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			custom_effect_tooltip = PAN_if_us_dollar_influx_is_active_tt
+			effect_tooltip = {
+				1057 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+
+			custom_effect_tooltip = PAN_if_us_dollar_influx_is_NOT_active_tt
+			effect_tooltip = {
+				PAN_improve_looming_shadow_of_america = yes
+			}
+
+			hidden_effect = {
+				if = {
+					limit = {
+						has_idea = PAN_US_dollar_influx
+					}
+					1057 = {
+						add_extra_state_shared_building_slots = 1
+						add_building_construction = {
+							type = industrial_complex
+							level = 1
+							instant_build = yes
+						}
+					}
+				}
+				else = {
+					PAN_improve_looming_shadow_of_america = yes
+				}
+			}
+		}
+	}
+
+	# Increase National Production in the East #
+	focus = {
+		id = PAN_increase_national_production_in_the_south
+		icon = GFX_PAN_increase_national_production_in_the_south_icon
+		cost = 10
+		x = 1
+		y = 1
+		relative_position_id = PAN_significant_influx_of_US_dollars
+		prerequisite = {
+			focus = PAN_significant_influx_of_US_dollars
+		}
+
+		available = {
+			304 = {
+				is_fully_controlled_by = ROOT
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_HISTORICAL FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			304 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			custom_effect_tooltip = PAN_if_us_dollar_influx_is_active_tt
+			effect_tooltip = {
+				304 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+
+			custom_effect_tooltip = PAN_if_us_dollar_influx_is_NOT_active_tt
+			effect_tooltip = {
+				PAN_improve_looming_shadow_of_america = yes
+			}
+
+			hidden_effect = {
+				if = {
+					limit = {
+						has_idea = PAN_US_dollar_influx
+					}
+					304 = {
+						add_extra_state_shared_building_slots = 1
+						add_building_construction = {
+							type = industrial_complex
+							level = 1
+							instant_build = yes
+						}
+					}
+				}
+				else = {
+					PAN_improve_looming_shadow_of_america = yes
+				}
+			}
+		}
+	}
+
+	## The Forestry of Panama ##
+	focus = {
+		id = PAN_the_forestry_of_panama
+		icon = GFX_focus_CHL_expand_the_forestry
+		cost = 5
+		x = -1
+		y = 1
+		relative_position_id = PAN_increase_national_production_in_the_south
+		prerequisite = {
+			focus = PAN_increase_national_production_in_the_south
+			focus = PAN_increase_national_production_in_the_north
+		}
+
+		available = {
+			num_of_controlled_states > 0
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			unlock_decision_category_tooltip = PAN_national_forestry_industry
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = EUYL_available_as_industrial_concern_tt
+			show_ideas_tooltip = PAN_puertas_and_plywood_orozco
+		}
+	}
+
+	## Ferrocarril de Panama ##
+	focus = {
+		id = PAN_ferrocarril_de_panama_focus
+		icon = GFX_PAN_ferrocarril_de_panama_icon
+		cost = 5
+		x = 1
+		y = 1
+		relative_position_id = PAN_increase_national_production_in_the_south
+		prerequisite = {
+			focus = PAN_increase_national_production_in_the_south
+		}
+
+		available = {
+			has_full_control_of_state = 304
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_equipment_to_stockpile = {
+				type = train_equipment
+				amount = 20
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			unlock_decision_tooltip = {
+				decision = PAN_pump_investments_in_the_national_railway_company
+				show_effect_tooltip = yes
+			}
+		}
+	}
+
+	## Diversify our Employment ##
+	focus = {
+		id = PAN_diversify_our_employment
+		icon = GFX_focus_generic_monetary_union
+		x = 0
+		y = 2
+		relative_position_id = PAN_increase_national_production_in_the_north
+		prerequisite = {
+			focus = PAN_increase_national_production_in_the_north
+		}
+
+		cost = 7.2
+
+		available = {
+			num_of_civilian_factories > 4
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_BALANCE_OF_POWER FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			EUYL_add_1_civilian = yes 
+			add_manpower = -2500
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_timed_idea = {
+				idea = PAN_diversified_employment
+				days = 365
+			}
+			PAN_improve_looming_shadow_of_america = yes
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			PAN_move_5_towards_panama = yes
+		}
+	}
+
+	## Exploit the Riches of our Nation ##
+	focus = {
+		id = PAN_exploit_the_riches_of_our_nation
+		icon = GFX_PAN_exploit_natural_resources_icon
+		x = -1
+		y = 1
+		relative_position_id = PAN_diversify_our_employment
+		prerequisite = {
+			focus = PAN_diversify_our_employment
+		}
+		prerequisite = {
+			focus = CEA_open_new_mines
+		}
+
+		allow_branch = {
+			original_tag = PAN ## Just in case since it requires a shared focus as a prerequisite
+		}
+
+		available = {
+			has_tech = excavation2
+		}
+
+		cost = 10 
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			add_ideas = PAN_the_riches_of_our_nation
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			PAN_improve_looming_shadow_of_america = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = ARG_unlock_unique_prospect
+		}
+	}
+
+	### PANAMA CANAL SUBTREE ###
+
+	focus = {
+		id = PAN_the_future_of_the_canal
+		icon = GFX_PAN_future_of_the_canal_icon
+		x = 8
+		y = 1
+		relative_position_id = CEA_the_economy
+		prerequisite = {
+			focus = CEA_the_economy
+		}
+
+		allow_branch = {
+			original_tag = PAN
+		}
+
+		cost = 5
+
+		available = {
+			any_controlled_state = {
+				any_neighbor_state = {
+					state = 685
+				}
+			}
+			is_subject = no
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_BALANCE_OF_POWER
+		}
+
+		completion_reward = {
+			country_event = cea.7
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			PAN_move_5_towards_panama = yes
+		}
+	}
+
+	## Diplomacy subtree ##
+	focus = {
+		id = PAN_a_diplomatic_approach
+		icon = GFX_focus_generic_diplomatic_treaty
+		x = -2
+		y = 1
+		relative_position_id = PAN_the_future_of_the_canal
+		prerequisite = {
+			focus = PAN_the_future_of_the_canal
+		}
+		mutually_exclusive = {
+			focus = PAN_a_militarist_approach
+		}
+
+		cost = 0
+
+		available = {
+			always = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = PAN_focus_bypassed_upon_event_selection_tt
+		}
+	}
+
+	## Militarist subtree ##
+	focus = {
+		id = PAN_a_militarist_approach
+		icon = GFX_focus_RAJ_a_private_military
+		x = 2
+		y = 1
+		relative_position_id = PAN_the_future_of_the_canal
+		prerequisite = {
+			focus = PAN_the_future_of_the_canal
+		}
+		mutually_exclusive = {
+			focus = PAN_a_diplomatic_approach
+		}
+
+		cost = 0
+
+		available = {
+			always = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = PAN_focus_bypassed_upon_event_selection_tt
+		}
+	}
+
+	## Reap off the Profits of the Canal
+	focus = {
+		id = PAN_reap_off_the_profits_of_the_canal
+		icon = GFX_focus_RAJ_special_economic_zones
+		x = -2
+		y = 1
+		relative_position_id = PAN_a_militarist_approach
+		prerequisite = {
+			focus = PAN_a_militarist_approach
+			focus = PAN_a_diplomatic_approach
+		}
+
+		cost = 10
+
+		available = {
+			exists = yes 
+			num_of_controlled_states > 0
+			OR = {
+				any_controlled_state = {
+					any_neighbor_state = {
+						state = 685
+					}
+				}
+				has_full_control_of_state = 685
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = PAN_focus_effects_depend_on_control_over_the_canal_tt
+			if = {
+				limit = {
+					685 = { is_controlled_by = ROOT }
+				}
+				EUYL_add_4_civilian = yes
+			}
+			else_if = {
+				limit = {
+					power_balance_value = {
+						id = PAN_control_over_canal_bop
+						value > 0.75
+					}
+				}
+				EUYL_add_2_civilian = yes 
+				EUYL_add_1_civilian = yes
+			}
+			else_if = {
+				limit = { 
+					power_balance_value = {
+						id = PAN_control_over_canal_bop
+						value > 0.3
+					}
+				}
+				EUYL_add_2_civilian = yes
+			}
+			else = {
+				EUYL_add_1_civilian = yes
+			}
+		}
+	}
+
+	## Militarize near the canal ##
+	focus = {
+		id = PAN_militarize_near_the_canal
+		icon = GFX_focus_generic_military_industry
+		x = 0
+		y = 2
+		relative_position_id = PAN_a_militarist_approach
+		prerequisite = {
+			focus = PAN_a_militarist_approach
+		}
+
+		cost = 7.2
+
+		available = {
+			has_army_manpower = {
+				size > 14999
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_BALANCE_OF_POWER
+		}
+
+		completion_reward = {
+			EUYL_add_1_military = yes 
+			unlock_decision_tooltip = PAN_prop_up_defensive_fortifications_in_FROM
+			unlock_decision_tooltip = PAN_set_up_anti_air_in_the_capital
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			PAN_move_5_towards_panama = yes
+		}
+	}
+
+	## Pre-emptive Measures ##
+	focus = {
+		id = PAN_preemptive_measures
+		icon = GFX_focus_generic_military_dictatorship
+		x = 0
+		y = 1
+		relative_position_id = PAN_militarize_near_the_canal
+		prerequisite = {
+			focus = PAN_militarize_near_the_canal
+		}
+
+		cost = 10
+
+		available = {
+			OR = {
+				has_government = fascism
+				has_government = communism
+				has_war_support > 0.49 
+				threat > 0.2
+				has_army_manpower = {
+					size > 24999
+				}
+				power_balance_value = {
+					id = PAN_control_over_canal_bop
+					value > 0.15
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER
+		}
+
+		completion_reward = {
+			EUYL_add_1_military = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_ideas = PAN_pre_emptive_measures_idea_1
+
+			custom_effect_tooltip = PAN_if_you_go_to_war_with_USA_following_occur_tt
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = PAN_pre_emptive_measures_idea_1
+					add_idea = PAN_pre_emptive_measures_idea_2
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			PAN_move_10_towards_panama = yes
+		}
+	}
+
+	## Toda Panama es de Panama ##
+	focus = {
+		id = PAN_toda_panama_es_de_panama
+		icon = GFX_PAN_toda_panama_es_de_panama_icon
+		x = 0
+		y = 1
+		relative_position_id = PAN_preemptive_measures
+		prerequisite = {
+			focus = PAN_preemptive_measures
+		}
+
+		cost = 10
+
+		available = {
+			OR = {
+				has_army_manpower = {
+					size > 49999
+				}
+				has_full_control_of_state = 685
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_BALANCE_OF_POWER
+		}
+
+		completion_reward = {
+			PAN_move_20_towards_panama = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_war_support = 0.1
+			add_stability = 0.05
+			add_command_power = 25
+
+			custom_effect_tooltip = PAN_if_you_control_the_panama_canal_following_will_occur_tt
+			effect_tooltip = {
+				685 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes 
+					}
+				}
+				add_political_power = 75
+			}
+		}
+	}
+
+	## Demand control over the canal ##
+	focus = {
+		id = PAN_demand_control_over_the_canal
+		icon = GFX_PAN_demand_control_over_the_canal_icon
+		x = 1
+		y = 1
+		relative_position_id = PAN_a_militarist_approach
+		prerequisite = {
+			focus = PAN_a_militarist_approach
+		}
+		mutually_exclusive = {
+			focus = PAN_take_the_canal_by_force
+		}
+
+		cost = 7.2
+
+		available = {
+			NOT = {
+				controls_state = 685
+			}
+			any_controlled_state = {
+				any_neighbor_state = {
+					state = 685
+					controller = {
+						NOT = {
+							has_war_with = ROOT 
+							tag = ROOT
+						}
+					}
+				}
+			}
+			power_balance_value = {
+				id = PAN_control_over_canal_bop
+				value > 0.25
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			hidden_effect = {
+				685 = {
+					controller = {
+						save_event_target_as = PANAMA_CANAL_CONTROLLER
+					}
+				}
+			}
+			event_target:PANAMA_CANAL_CONTROLLER = {
+				country_event = {
+					id = cea.8
+					hours = 4
+					random_hours = 6
+				}
+			}
+		}
+	}
+
+	## Take the Canal by Force (player needs to hold canal for 90 days to peace out) ##
+	## gives wargoal and ai thingy i forgor what its called looooolzers
+	focus = {
+		id = PAN_take_the_canal_by_force
+		icon = GFX_focus_generic_attack_usa
+		x = 3
+		y = 1
+		relative_position_id = PAN_a_militarist_approach
+		prerequisite = {
+			focus = PAN_a_militarist_approach
+		}
+		mutually_exclusive = {
+			focus = PAN_demand_control_over_the_canal
+		}
+
+		cost = 5
+
+		available = {
+			NOT = {
+				controls_state = 685
+			}
+			any_controlled_state = {
+				any_neighbor_state = {
+					state = 685
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			hidden_effect = {
+				685 = {
+					controller = {
+						save_global_event_target_as = PANAMA_CANAL_CONTROLLER_GLOBAL
+					}
+				}
+			}
+			create_wargoal = {
+			    type = take_state_focus
+			    target = event_target:PANAMA_CANAL_CONTROLLER_GLOBAL 
+			    generator = { 685 }
+			}
+			add_ai_strategy = {
+				type = declare_war
+				id = event_target:PANAMA_CANAL_CONTROLLER_GLOBAL 
+				value = 100
+			}
+
+			custom_effect_tooltip = PAN_upon_capturing_and_controlling_canal_for_90_days_tt
+		}
+	}
+
+	## Aid in the Maintanance of the Canal ##
+	focus = {
+		id = PAN_aid_in_the_maintanance_of_the_canal
+		icon = GFX_focus_generic_public_works
+		x = 0
+		y = 2
+		relative_position_id = PAN_a_diplomatic_approach
+		prerequisite = {
+			focus = PAN_a_diplomatic_approach
+		}
+
+		cost = 5
+
+		available = {
+			NOT = {
+				has_war_with = USA 
+			}
+			OR = {
+				any_controlled_state = {
+					any_neighbor_state = {
+						state = 685
+					}
+				}
+				controls_state = 685
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_BALANCE_OF_POWER FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_manpower = -5000
+			}
+
+			PAN_move_10_towards_panama = yes 
+
+			add_political_power = 25
+		}
+	}
+
+	## Improve the Water Locks ##
+	focus = {
+		id = PAN_improve_the_water_locks
+		icon = GFX_focus_RAJ_water_privatization
+		x = 0 
+		y = 1
+		relative_position_id = PAN_aid_in_the_maintanance_of_the_canal
+		prerequisite = {
+			focus = PAN_aid_in_the_maintanance_of_the_canal
+		}
+
+		cost = 7.2
+
+		available = {
+			NOT = {
+				has_war_with = USA 
+			}
+			OR = {
+				any_controlled_state = {
+					any_neighbor_state = {
+						state = 685
+					}
+				}
+				controls_state = 685
+			}
+			power_balance_value = {
+				id = PAN_control_over_canal_bop
+				value > 0
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_BALANCE_OF_POWER FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = PAN_if_panamanian_control_over_canal_more_than_50_following_occur_tt
+			effect_tooltip = {
+				EUYL_add_2_civilian = yes 
+			}
+			custom_effect_tooltip = EUYL_if_not_following_will_occur_tt
+			effect_tooltip = {
+				EUYL_add_1_civilian = yes
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = PAN_offer_aid_in_the_completion_of_the_madden_dam
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			PAN_move_10_towards_panama = yes 
+
+			hidden_effect = {
+				if = {
+					limit = {
+						power_balance_value = {
+							id = PAN_control_over_canal_bop
+							value > 0.5
+						}
+					}
+					EUYL_add_2_civilian = yes 
+				}
+				else = {
+					EUYL_add_1_civilian = yes
+				}
+			}
+		}
+	}
+
+	## Our One True Ally
+	focus = {
+		id = PAN_our_one_true_ally
+		icon = GFX_focus_chi_mission_to_the_us
+		x = 0
+		y = 1
+		relative_position_id = PAN_improve_the_water_locks
+		prerequisite = {
+			focus = PAN_improve_the_water_locks
+		}
+
+		cost = 10
+
+		available = {
+			OR = {
+				num_of_factories > 9
+				power_balance_value = {
+					id = PAN_control_over_canal_bop
+					value > 0.35
+				}
+				USA = {
+					has_opinion = {
+						target = ROOT
+						value > 79
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_BALANCE_OF_POWER
+		}
+
+		completion_reward = {
+			EUYL_add_1_civilian = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = PAN_closer_cooperation_with_the_united_states
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			PAN_move_20_towards_panama = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			USA = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = BOL_improved_relations
+				}
+			}
+			add_opinion_modifier = {
+				target = USA
+				modifier = BOL_improved_relations
+			}
+		}
+	}
+
+	## Request Control over the Panama Canal ##
+	focus = {
+		id = PAN_request_control_over_the_panama_canal
+		icon = GFX_PAN_request_control_over_canal_icon
+		x = -2
+		y = 1
+		relative_position_id = PAN_a_diplomatic_approach
+		prerequisite = {
+			focus = PAN_a_diplomatic_approach
+		}
+
+		cost = 10
+
+		available = {
+			NOT = {
+				controls_state = 685 
+			}
+			power_balance_value = {
+				id = PAN_control_over_canal_bop
+				value > 0.05
+			}
+			any_controlled_state = {
+				any_neighbor_state = {
+					state = 685
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			hidden_effect = {
+				685 = {
+					controller = {
+						save_event_target_as = PANAMA_CANAL_CONTROLLER
+					}
+				}
+			}
+			event_target:PANAMA_CANAL_CONTROLLER = {
+				country_event = {
+					id = cea.11
+					hours = 4
+					random_hours = 6
+				}
+			}
+		}
+	}
 }

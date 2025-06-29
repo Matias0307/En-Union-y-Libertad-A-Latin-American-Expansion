@@ -22,6 +22,7 @@ ideas = {
 				agency_upgrade_time = 1.0
 
 				custom_modifier_tooltip = HON_american_financing_decisions_cheaper_and_stronger_tt
+				custom_modifier_tooltip = HON_taking_three_anti_american_focuses_removes_it_tt
 			}
 			
 			allowed_to_remove = {
@@ -65,6 +66,7 @@ ideas = {
 				agency_upgrade_time = 1.0
 
 				custom_modifier_tooltip = HON_american_financing_decisions_cheaper_and_stronger_tt
+				custom_modifier_tooltip = HON_taking_three_anti_american_focuses_removes_it_tt
 			}
 			
 			allowed_to_remove = {
@@ -75,9 +77,6 @@ ideas = {
 							HON_anti_american_focuses_taken > 2
 						}
 					}
-				}
-				hidden_trigger = {
-					always = no
 				}
 			}
 			
@@ -105,6 +104,7 @@ ideas = {
 				agency_upgrade_time = 1.0
 
 				custom_modifier_tooltip = HON_american_financing_decisions_cheaper_and_stronger_tt
+				custom_modifier_tooltip = HON_taking_three_anti_american_focuses_removes_it_tt
 			}
 			
 			allowed_to_remove = {
@@ -116,8 +116,43 @@ ideas = {
 						}
 					}
 				}
-				hidden_trigger = {
-					always = no
+			}
+			
+			cancel_if_invalid = no
+		}
+
+		HON_american_owned_industry_7 = {
+			picture = HON_american_owned_industry_icon
+			name = HON_american_owned_industry
+
+			allowed = {
+				always = no
+			}
+			removal_cost = -1
+		
+			modifier = {
+				consumer_goods_expected_value = 0.55
+				production_speed_industrial_complex_factor = -0.65
+				production_speed_arms_factory_factor = -0.35
+				production_speed_dockyard_factor = -0.35
+				industrial_capacity_factory = -0.35
+				guarantee_tension = 0.75
+				max_fuel_factor = -0.45
+				fuel_gain_factor = -0.6
+				agency_upgrade_time = 1.0
+
+				custom_modifier_tooltip = HON_american_financing_decisions_cheaper_and_stronger_tt
+				custom_modifier_tooltip = HON_taking_three_anti_american_focuses_removes_it_tt
+			}
+			
+			allowed_to_remove = {
+				custom_trigger_tooltip = {
+					tooltip = HON_taking_three_anti_american_focuses_removes_it_tt
+					ROOT = {
+						check_variable = {
+							HON_anti_american_focuses_taken > 2
+						}
+					}
 				}
 			}
 			
@@ -272,6 +307,27 @@ ideas = {
 				add_opinion_modifier = {
 					target = USA 
 					modifier = CEA_banana_republic_modifier
+				}
+			}
+
+			on_remove = {
+				hidden_effect = {
+					every_other_country = {
+						remove_opinion_modifier = {
+							target = ROOT
+							modifier = CEA_banana_republic_other_country
+						}
+					}
+					USA = {
+						remove_opinion_modifier = {
+							target = ROOT
+							modifier = CEA_banana_republic_modifier
+						}
+					}
+					remove_opinion_modifier = {
+						target = USA 
+						modifier = CEA_banana_republic_modifier
+					}
 				}
 			}
 
@@ -708,6 +764,120 @@ ideas = {
 				industrial_capacity_factory = -0.05
 			}
 		}
+
+		CEA_mal_de_panama = {
+			picture = CEA_mal_de_panama_icon
+
+			allowed = {
+				always = no
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				production_speed_buildings_factor = -0.05
+				consumer_goods_factor = 0.1
+				local_resources_factor = -0.05
+			}
+		}
+
+		CEA_protection_over_our_crops = {
+			picture = LIT_invested_in_farms
+
+			allowed = {
+				always = no
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				production_speed_buildings_factor = 0.05
+			}
+		}
+
+		CEA_trade_initiative_originator = {
+			name = CEA_trade_initiative
+			picture = can_wartime_prices_and_trade_board
+
+			allowed = {
+				always = no 
+			}
+
+			allowed_civil_war = {
+				always = yes 
+			}
+
+			removal_cost = -1 
+
+			modifier = {
+				trade_opinion_factor = 0.3
+			}
+		}
+
+		CEA_trade_initiative_member = {
+			name = CEA_trade_initiative
+			picture = can_wartime_prices_and_trade_board
+
+			allowed = {
+				always = no 
+			}
+
+			allowed_civil_war = {
+				always = yes 
+			}
+
+			removal_cost = -1 
+
+			modifier = {
+				trade_opinion_factor = 0.1
+			}
+		}
+
+		CEA_manufacturing_initiative_originator = {
+			name = CEA_manufacturing_initiative
+			picture = generic_production_bonus
+
+			allowed = {
+				always = no 
+			}
+
+			allowed_civil_war = {
+				always = yes 
+			}
+
+			removal_cost = -1 
+
+			modifier = {
+				industrial_capacity_factory = 0.05
+			}
+		}
+
+		CEA_manufacturing_initiative_member = {
+			name = CEA_manufacturing_initiative
+			picture = generic_production_bonus
+
+			allowed = {
+				always = no 
+			}
+
+			allowed_civil_war = {
+				always = yes 
+			}
+
+			removal_cost = -1 
+
+			modifier = {
+				industrial_capacity_factory = 0.03
+			}
+		}
 	}
 
 	industrial_concern = {
@@ -784,6 +954,124 @@ ideas = {
 				local_building_slots_factor = 0.05
 				consumer_goods_factor = 0.05
 				custom_modifier_tooltip = CEA_removed_if_theres_no_plantations_tt
+			}
+		}
+
+		CEA_united_fruit_company_2 = {
+			name = "United Fruit Company"
+			picture = ECU_fruit_company_icon
+
+			allowed = {
+				always = no
+			}
+
+			cost = 100
+
+			allowed_to_remove = {
+				always = no
+			}
+
+			available = {
+				any_controlled_state = {
+					OR = {
+						has_dynamic_modifier = {
+							modifier = CEA_local_banana_production
+						}
+						has_dynamic_modifier = {
+							modifier = CEA_improved_banana_production
+						}
+					}
+				}
+			}
+
+			research_bonus = {
+				industry = 0.04
+			}
+			
+			traits = { industrial_concern }
+
+			modifier = {
+				political_power_factor = -0.05
+				local_building_slots_factor = 0.075
+				production_speed_buildings_factor = 0.05
+			}
+		}
+
+		PAN_puertas_and_plywood_orozco = {
+			name = "Puertas & Plywood Orozco"
+			picture = PAN_plywood_orozco_icon
+
+			allowed = {
+				original_tag = PAN
+			}
+
+			available = {
+				has_completed_focus = PAN_the_forestry_of_panama
+			}
+
+			cost = 150
+
+			allowed_to_remove = {
+				always = no
+			}
+
+			research_bonus = {
+				industry = 0.05
+			}
+
+			traits = {
+				EUYL_forestry_company
+			}
+
+			modifier = {
+				local_resources_factor = 0.05
+				local_building_slots_factor = 0.05
+
+				custom_modifier_tooltip = PAN_forestry_decisions_will_be_improved_tt
+			}
+		}
+
+		PAN_ferrocarril_de_panama_1 = {
+			name = "Ferrocarril de Panamá"
+			picture = generic_industrial_concern_2
+
+			allowed = {
+				original_tag = PAN
+			}
+
+			visible = {
+				NOT = {
+					has_idea = PAN_ferrocarril_de_panama_2
+				}
+			}
+
+			cost = 75
+
+			on_add = {
+				ROOT = {
+					PAN_move_5_towards_panama = yes
+				}
+			}
+
+			traits = { railway_company }
+
+			modifier = {
+				political_power_gain = -0.05
+			}
+		}
+
+		PAN_ferrocarril_de_panama_2 = {
+			name = "Ferrocarril de Panamá"
+			picture = generic_industrial_concern_2
+
+			allowed = {
+				always = no
+			}
+
+			traits = { railway_company }
+
+			modifier = {
+				industrial_capacity_factory = 0.05
 			}
 		}
 	}

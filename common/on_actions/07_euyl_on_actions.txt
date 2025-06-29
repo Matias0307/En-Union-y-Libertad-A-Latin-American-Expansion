@@ -2341,6 +2341,24 @@ on_actions = {
             USA = {
                 country_event = { id = conference_trigger.1 days = 7 }
             }
+            every_country = {
+                limit = {
+                    OR = {
+                        original_tag = HON 
+                        original_tag = GUA 
+                        original_tag = NIC 
+                        original_tag = ELS
+                        original_tag = COS
+                    }
+                    has_idea = CEA_the_banana_republic
+                    exists = yes
+                }
+                country_event = {
+                    id = cea.6 
+                    days = 390
+                    random_days = 120
+                }
+            }
             if = { ### Argentina
                 limit = {
                     has_game_rule = {
@@ -5512,5 +5530,28 @@ on_actions = {
             }
         }
 	}
+
+    on_state_control_changed = {
+        effect = {
+            if = {
+                limit = {
+                    FROM.FROM = { state = 685 }
+                }
+                if = {
+                    limit = {
+                        tag = PAN 
+                    }
+                    PAN = {
+                        PAN_move_100_towards_panama = yes 
+                    }
+                }
+                else = {
+                    PAN = {
+                        PAN_move_100_towards_america = yes
+                    }
+                }
+            }
+        }
+    }
 }
 

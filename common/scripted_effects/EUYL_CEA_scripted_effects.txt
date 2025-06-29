@@ -5,8 +5,8 @@ HON_level_up_american_owned_industry = {
             has_idea = HON_american_owned_industry_1
         }
         swap_ideas = {
-            remove_ideas = HON_american_owned_industry_1
-            add_ideas = HON_american_owned_industry_2
+            remove_idea = HON_american_owned_industry_1
+            add_idea = HON_american_owned_industry_2
         }
         set_country_flag = {
             flag = HON_recently_modified_american_owned_industry_flag
@@ -19,8 +19,8 @@ HON_level_up_american_owned_industry = {
             has_idea = HON_american_owned_industry_2
         }
         swap_ideas = {
-            remove_ideas = HON_american_owned_industry_2
-            add_ideas = HON_american_owned_industry_3
+            remove_idea = HON_american_owned_industry_2
+            add_idea = HON_american_owned_industry_3
         }
         set_country_flag = {
             flag = HON_recently_modified_american_owned_industry_flag
@@ -33,8 +33,8 @@ HON_level_up_american_owned_industry = {
             has_idea = HON_american_owned_industry_3
         }
         swap_ideas = {
-            remove_ideas = HON_american_owned_industry_3
-            add_ideas = HON_american_owned_industry_4
+            remove_idea = HON_american_owned_industry_3
+            add_idea = HON_american_owned_industry_4
         }
         set_country_flag = {
             flag = HON_recently_modified_american_owned_industry_flag
@@ -44,5 +44,276 @@ HON_level_up_american_owned_industry = {
     }
     else = {
         EUYL_add_1_civilian = yes
+    }
+}
+
+HON_level_down_american_owned_industry = {
+    custom_effect_tooltip = CHL_skip_one_line_tt
+    custom_effect_tooltip = HON_this_focus_count_as_an_anti_american_focus_tt
+    if = {
+        limit = {
+            has_idea = HON_american_owned_industry_1
+        }
+        swap_ideas = {
+            remove_idea = HON_american_owned_industry_1
+            add_idea = HON_american_owned_industry_5
+        }
+        set_country_flag = {
+            flag = HON_recently_modified_american_owned_industry_flag
+            days = 180
+            value = 1
+        }
+    }
+    else_if = {
+        limit = {
+            has_idea = HON_american_owned_industry_5
+        }
+        swap_ideas = {
+            remove_idea = HON_american_owned_industry_5
+            add_idea = HON_american_owned_industry_6
+        }
+        set_country_flag = {
+            flag = HON_recently_modified_american_owned_industry_flag
+            days = 180
+            value = 1
+        }
+    }
+    else_if = {
+        limit = {
+            has_idea = HON_american_owned_industry_6
+        }
+        swap_ideas = {
+            remove_idea = HON_american_owned_industry_6
+            add_idea = HON_american_owned_industry_7
+        }
+        set_country_flag = {
+            flag = HON_recently_modified_american_owned_industry_flag
+            days = 180
+            value = 1
+        }
+    }
+    else = {
+        add_stability = -0.01
+    }
+    add_to_variable = { HON_anti_american_focuses_taken = 1 }
+    clamp_variable = {
+        var = HON_anti_american_focuses_taken
+        min = 0
+        max = 5
+    }
+}
+
+HON_worsen_banana_exports = {
+    if = {
+        limit = {
+            has_idea = HON_poor_banana_exports_1
+        }
+        swap_ideas = {
+            remove_idea = HON_poor_banana_exports_1
+            add_idea = HON_poor_banana_exports_2
+        }
+    }
+    else_if = {
+        limit = {
+            has_idea = HON_poor_banana_exports_2
+        }
+        swap_ideas = {
+            remove_idea = HON_poor_banana_exports_2
+            add_idea = HON_poor_banana_exports_3
+        }
+    }
+    else_if = {
+        limit = {
+            has_idea = HON_poor_banana_exports_3
+        }
+        swap_ideas = {
+            remove_idea = HON_poor_banana_exports_3
+            add_idea = HON_poor_banana_exports_4
+        }
+    }
+    else = {
+        add_stability = -0.03
+    }
+    hidden_effect = {
+        activate_mission = HON_worsening_banana_exports
+    }
+}
+
+HON_remove_poor_banana_exports = {
+    if = {
+        limit = {
+            has_idea = HON_poor_banana_exports_1
+        }
+        remove_ideas = HON_poor_banana_exports_1
+    }
+    else_if = {
+        limit = {
+            has_idea = HON_poor_banana_exports_2
+        }
+        remove_ideas = HON_poor_banana_exports_2
+    }
+    else_if = {
+        limit = {
+            has_idea = HON_poor_banana_exports_3
+        }
+        remove_ideas = HON_poor_banana_exports_3
+    }
+    else = {
+        remove_ideas = HON_poor_banana_exports_4
+    }
+}
+
+## Panama BoP Scripted Effects ##
+PAN_initiate_balance_of_power = {
+    set_power_balance = {
+        id = PAN_control_over_canal_bop
+        left_side = PAN_america_control_side
+	    right_side = PAN_panama_control_side
+        set_value = -0.55 # if specified will set the value of the power balance, this option will override the effect of set_default so the two options should not be used together. if neither set_default or set_value is specified the current value of the power balance will not change
+    }
+}
+
+PAN_move_5_towards_panama = {
+    add_power_balance_value = {
+        id = PAN_control_over_canal_bop
+        value = 0.05
+    }
+}
+
+PAN_move_10_towards_panama = {
+    add_power_balance_value = {
+        id = PAN_control_over_canal_bop
+        value = 0.1
+    }
+}
+
+PAN_move_20_towards_panama = {
+    add_power_balance_value = {
+        id = PAN_control_over_canal_bop
+        value = 0.2
+    }
+}
+
+PAN_move_35_towards_panama = {
+    add_power_balance_value = {
+        id = PAN_control_over_canal_bop
+        value = 0.35
+    }
+}
+
+PAN_move_5_towards_america = {
+    add_power_balance_value = {
+        id = PAN_control_over_canal_bop
+        value = -0.05
+    }
+}
+
+PAN_move_10_towards_america = {
+    add_power_balance_value = {
+        id = PAN_control_over_canal_bop
+        value = -0.1
+    }
+}
+
+PAN_move_20_towards_america = {
+    add_power_balance_value = {
+        id = PAN_control_over_canal_bop
+        value = -0.20
+    }
+}
+
+PAN_move_35_towards_america = {
+    add_power_balance_value = {
+        id = PAN_control_over_canal_bop
+        value = -0.35
+    }
+}
+
+# Debug
+
+PAN_move_100_towards_america = {
+    add_power_balance_value = {
+        id = PAN_control_over_canal_bop
+        value = -1
+    }
+}
+
+PAN_move_100_towards_panama = {
+    add_power_balance_value = {
+        id = PAN_control_over_canal_bop
+        value = 1
+    }
+}
+
+########
+
+PAN_improve_looming_shadow_of_america = {
+    if = {
+        limit = {
+            has_idea = PAN_looming_shadow_of_america_1
+        }
+        swap_ideas = {
+            remove_idea = PAN_looming_shadow_of_america_1
+            add_idea = PAN_looming_shadow_of_america_2
+        }
+    }
+    else_if = {
+        limit = {
+            has_idea = PAN_looming_shadow_of_america_2
+        }
+        swap_ideas = {
+            remove_idea = PAN_looming_shadow_of_america_2
+            add_idea = PAN_looming_shadow_of_america_3
+        }
+    }
+    else_if = {
+        limit = {
+            has_idea = PAN_looming_shadow_of_america_3
+        }
+        swap_ideas = {
+            remove_idea = PAN_looming_shadow_of_america_3
+            add_idea = PAN_looming_shadow_of_america_4
+        }
+    }
+    else_if = {
+        limit = {
+            has_idea = PAN_looming_shadow_of_america_4
+        }
+        remove_ideas = PAN_looming_shadow_of_america_4
+    }
+    else = {
+        EUYL_add_1_civilian = yes
+    }
+}
+
+CEA_basic_create_faction = {
+    save_global_event_target_as = CENTRAL_AMERICAN_FACTION_CREATOR
+    set_global_flag = CEA_central_american_defense_pact_created_flag
+    create_faction = CEA_central_american_defense_pact
+    every_other_country = {
+        limit = {
+            CEA_is_available_to_receive_invite = yes
+        }
+        country_event = {
+            id = cea.12
+            hours = 8
+            random_hours = 24
+        }
+    }
+}
+
+CEA_basic_dismantle_faction = {
+    clear_global_event_target = CENTRAL_AMERICAN_FACTION_CREATOR
+    clr_global_flag = CEA_central_american_defense_pact_created_flag
+    if = {
+        limit = {
+            is_faction_leader = yes 
+        }
+        dismantle_faction = yes 
+    }
+    else = {
+        var:faction_leader = {
+            dismantle_faction = yes
+        }
     }
 }

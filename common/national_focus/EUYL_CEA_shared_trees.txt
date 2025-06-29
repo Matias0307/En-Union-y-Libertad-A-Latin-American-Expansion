@@ -72,12 +72,12 @@ shared_focus = {
 		has_civil_war = no 
 	}
 
-	cost = 5
+	cost = 2.9
 
 	completion_reward = {
 		add_timed_idea = {
 			idea = CEA_revitalize_the_ROOT_industry
-			days = 240
+			days = 180
 		}
 
 		if = {
@@ -89,15 +89,21 @@ shared_focus = {
 				days = 60
 			}
 		}
+
+		if = {
+			limit = {
+				original_tag = PAN 
+			}
+			PAN_move_5_towards_panama = yes
+		}
 	}
 }
 
-## Unique Guatemala Subtree ##
+## Only with Roads can we Prosper ## HONDURAS FOCUS
 shared_focus = {
-	id = CEA_commence_regional_development_programs
-	icon = GFX_GUA_regional_development_icon
-	cost = 5
-	x = -5
+	id = HON_only_with_roads_can_we_prosper
+	icon = GFX_goal_generic_construct_infrastructure
+	x = 0
 	y = 1
 	relative_position_id = CEA_the_economy
 	prerequisite = {
@@ -105,80 +111,13 @@ shared_focus = {
 	}
 
 	allow_branch = {
-		original_tag = GUA
+		original_tag = HON
 	}
+
+	cost = 5
 
 	available = {
-		has_idea = GUA_uneven_economic_development_1
-	}
-	search_filters = {
-		FOCUS_FILTER_INDUSTRY
-	}
-
-	completion_reward = {
-		unlock_decision_tooltip = GUA_promote_development_in_FROM
-
-		custom_effect_tooltip = GUA_decisions_will_improve_uneven_economic_development_tt
-	}
-}
-
-shared_focus = {
-	id = CEA_the_future_of_our_eceonomy
-	icon = GFX_focus_generic_industrialists
-	cost = 7.2
-	x = 0
-	y = 1
-
-	relative_position_id = CEA_commence_regional_development_programs
-	prerequisite = {
-		focus = CEA_commence_regional_development_programs
-	}
-
-	available = {
-		custom_trigger_tooltip = {
-			tooltip = GUA_balanced_development_tt
-			NOT = {
-				OR = {
-					has_idea = GUA_uneven_economic_development_1
-					has_idea = GUA_uneven_economic_development_2
-					has_idea = GUA_uneven_economic_development_3
-				}
-			}
-		}
-	}
-
-	search_filters = {
-		FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY
-	}
-	
-	completion_reward = {
-		add_stability = 0.02 
-		
-		custom_effect_tooltip = CHL_skip_one_line_tt
-
-		country_event = cea.5 ## The Future of our Economy
-	}
-}
-
-shared_focus = {
-	id = CEA_an_export_oriented_industry
-	icon = GFX_CEA_generic_export_focus_icon
-	cost = 10
-	x = 2
-	y = 1
-	relative_position_id = CEA_the_future_of_our_eceonomy
-	prerequisite = {
-		focus = CEA_the_future_of_our_eceonomy
-	}
-	prerequisite = {
-		focus = CEA_coffee_exports
-	}
-	mutually_exclusive = {
-		focus = CEA_enhanced_manufacturing_plants
-	}
-
-	available = {
-		has_country_flag = CEA_rural_subsidies_flag
+		num_of_controlled_states > 0
 	}
 
 	search_filters = {
@@ -186,51 +125,7 @@ shared_focus = {
 	}
 
 	completion_reward = {
-		EUYL_add_1_civilian = yes
-
-		custom_effect_tooltip = CHL_skip_one_line_tt
-
-		add_ideas = CEA_an_export_oriented_industry_idea
-
-		custom_effect_tooltip = CHL_skip_one_line_tt
-
-		EUYL_level_up_export_law = yes
-	}
-}
-
-shared_focus = {
-	id = CEA_enhanced_manufacturing_plants
-	icon = GFX_focus_generic_military_industry
-	cost = 10
-	x = -1
-	y = 1
-	relative_position_id = CEA_the_future_of_our_eceonomy
-	prerequisite = {
-		focus = CEA_the_future_of_our_eceonomy
-	}
-	prerequisite = {
-		focus = CEA_strengthen_the_local_industry
-	}
-
-	mutually_exclusive = {
-		focus = CEA_an_export_oriented_industry
-	}
-
-	available = {
-		has_country_flag = CEA_promoted_urbanization_flag
-	}
-
-	search_filters = {
-		FOCUS_FILTER_INDUSTRY
-	}
-
-	completion_reward = {
-		EUYL_add_2_civilian = yes 
-		EUYL_add_1_military = yes
-
-		custom_effect_tooltip = CHL_skip_one_line_tt
-
-		add_ideas = CEA_enhanced_manufacturing_plants_idea
+		add_ideas = HON_only_with_roads_can_we_prosper_idea
 	}
 }
 
@@ -356,14 +251,34 @@ shared_focus = {
 		focus = CEA_depend_further_on_the_united_states
 	}
 
+	available = {
+		is_subject = no 
+		if = {
+			limit = {
+				original_tag = HON
+			}
+			NOT = {
+				has_country_flag = HON_recently_modified_american_owned_industry_flag
+			}
+		}
+	}
+
 	allow_branch = {
 		NOT = {
 			original_tag = PAN
 		}
 	}
 
+	offset = {
+		x = 2
+		y = 0
+		trigger = {
+			original_tag = HON
+		}
+	}
+
 	search_filters = {
-		FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL
+		FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANTI_AMERICAN_FOCUS
 	}
 
 	completion_reward = {
@@ -399,9 +314,117 @@ shared_focus = {
 			show_ideas_tooltip = CEA_rosario_mining_company_1
 		}
 
+		if = {
+			limit = {
+				original_tag = HON
+			}
+			HON_level_down_american_owned_industry = yes
+		}
+
 		hidden_effect = {
 			activate_mission = CEA_pay_off_the_debt
 		}
+	}
+}
+
+## Full Economic Independence ##
+shared_focus = {
+	id = HON_full_economic_independence
+	icon = GFX_HON_economic_independence_icon
+	x = 4
+	y = 1
+	relative_position_id = CEA_force_out_the_banana_companies
+	prerequisite = {
+		focus = CEA_force_out_the_banana_companies
+	}
+
+	cost = 5 
+
+	allow_branch = {
+		original_tag = HON
+	}
+
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = HON_does_not_have_economy_law_american_owned_industry_tt
+			NOT = {
+				OR = {
+					has_idea = HON_american_owned_industry_1
+					has_idea = HON_american_owned_industry_2
+					has_idea = HON_american_owned_industry_3
+					has_idea = HON_american_owned_industry_4
+					has_idea = HON_american_owned_industry_5
+					has_idea = HON_american_owned_industry_6
+					has_idea = HON_american_owned_industry_7
+				}
+			}
+		}
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ANTI_AMERICAN_FOCUS
+	}
+
+	completion_reward = {
+		EUYL_add_1_civilian = yes 
+	}
+}
+
+## Mobilize the Economy ##
+shared_focus = {
+	id = HON_mobilize_the_economy
+	icon = GFX_focus_generic_mass_production
+	x = 4
+	y = 1
+	relative_position_id = CEA_force_out_the_banana_companies
+	prerequisite = {
+		focus = CEA_force_out_the_banana_companies
+	}
+
+	cost = 5
+
+	offset = {
+		x = 2
+		y = 0
+		trigger = {
+			original_tag = HON
+		}
+	}
+
+	available = {
+		is_subject = no 
+		NOT = {
+			has_idea = CEA_repaying_the_american_debt
+		}
+		if = {
+			limit = {
+				original_tag = HON 
+			}
+			custom_trigger_tooltip = {
+				tooltip = HON_does_not_have_economy_law_american_owned_industry_tt
+				NOT = {
+					OR = {
+						has_idea = HON_american_owned_industry_1
+						has_idea = HON_american_owned_industry_2
+						has_idea = HON_american_owned_industry_3
+						has_idea = HON_american_owned_industry_4
+						has_idea = HON_american_owned_industry_5
+						has_idea = HON_american_owned_industry_6
+						has_idea = HON_american_owned_industry_7
+					}
+				}
+			}
+		}
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY
+	}
+
+	completion_reward = {
+		EUYL_level_up_conscription_law = yes 
+		EUYL_level_up_mobilization_law = yes
+		EUYL_add_1_military = yes
 	}
 }
 
@@ -417,6 +440,10 @@ shared_focus = {
 
 	cost = 5
 
+	available = {
+		is_subject = no 
+	}
+
 	search_filters = {
 		FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL
 	}
@@ -424,6 +451,13 @@ shared_focus = {
 	completion_reward = {
 		add_political_power = 25
 		unlock_decision_tooltip = CEA_dismantle_the_plantation_in_FROM
+
+		if = {
+			limit = {
+				original_tag = HON 
+			}
+			custom_effect_tooltip = HON_removing_all_plantations_will_remove_poor_banana_exports_national_spirit_tt
+		}
 	}
 }
 
@@ -439,8 +473,20 @@ shared_focus = {
 
 	cost = 10
 
+	available = {
+		is_subject = no 
+		if = {
+			limit = {
+				original_tag = HON
+			}
+			NOT = {
+				has_country_flag = HON_recently_modified_american_owned_industry_flag
+			}
+		}
+	}
+
 	search_filters = {
-		FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY
+		FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ANTI_AMERICAN_FOCUS
 	}
 
 	completion_reward = {
@@ -453,6 +499,13 @@ shared_focus = {
 
 		effect_tooltip = {
 			add_stability = -0.05
+		}
+
+		if = {
+			limit = {
+				original_tag = HON
+			}
+			HON_level_down_american_owned_industry = yes
 		}
 
 		hidden_effect = {
@@ -472,6 +525,65 @@ shared_focus = {
 				add_stability = -0.05
 			}
 		}
+	}
+}
+
+## Diversify the Economy ##
+shared_focus = {
+	id = HON_diversify_the_economy
+	icon = GFX_focus_AFG_a_modern_economy
+	x = 0
+	y = 2
+	relative_position_id = CEA_nationalize_the_industry
+	prerequisite = {
+		focus = CEA_nationalize_the_industry
+	}
+
+	cost = 10
+
+	allow_branch = {
+		original_tag = HON
+	}
+
+	available = {
+		NOT = {
+			has_country_flag = HON_recently_modified_american_owned_industry_flag
+		}
+		custom_trigger_tooltip = {
+			tooltip = CEA_no_active_plantations_tt
+			NOT = {
+				any_controlled_state = {
+					OR = {
+						has_dynamic_modifier = {
+							modifier = CEA_local_banana_production
+						}
+						has_dynamic_modifier = {
+							modifier = CEA_improved_banana_production
+						}
+					}
+				}
+			}
+		}
+	}
+
+	search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY FOCUS_FILTER_ANTI_AMERICAN_FOCUS }
+	completion_reward = {
+		EUYL_add_1_civilian = yes 
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+		add_timed_idea = {
+			idea = HON_diversified_economy_1
+			days = 365
+		}
+		custom_effect_tooltip = PRU_effect_when_idea_removed_tt
+		effect_tooltip = {
+			swap_ideas = {
+				remove_idea = HON_diversified_economy_1
+				add_idea = HON_diversified_economy_2
+			}
+		}
+
+		HON_level_down_american_owned_industry = yes
 	}
 }
 
@@ -567,6 +679,13 @@ shared_focus = {
 
 		custom_effect_tooltip = CEA_usa_more_likely_to_demand_profit_cuts_tt
 
+		if = {
+			limit = {
+				original_tag = HON 
+			}
+			custom_effect_tooltip = HON_american_owned_industry_can_be_improved_but_will_be_impossible_to_remove_tt
+		}
+
 		subtract_from_variable = {
 			CEA_request_financing_cost = 25
 		}
@@ -578,7 +697,7 @@ shared_focus = {
 shared_focus = {
 	id = HON_the_black_hand_of_zemurray
 	icon = GFX_HON_black_hand_of_zamurray_icon
-	cost = 7
+	cost = 7.2
 	x = 0
 	y = 1
 
@@ -596,6 +715,9 @@ shared_focus = {
 		NOT = {
 			has_war_with = USA
 		}
+		NOT = {
+			has_country_flag = HON_recently_modified_american_owned_industry_flag
+		}
 	}
 
 	search_filters = {
@@ -603,11 +725,6 @@ shared_focus = {
 	}
 
 	completion_reward = {
-		swap_ideas = {
-			remove_idea = HON_american_owned_industry_1
-			add_idea = HON_american_owned_industry_2 
-		}
-
 		custom_effect_tooltip = CHL_skip_one_line_tt
 
 		add_political_power = 25
@@ -626,7 +743,62 @@ shared_focus = {
 	}
 }
 
-## Import American Companies ##
+## Expand United Fruit's Influence ##
+shared_focus = {
+	id = HON_expand_united_fruits_influence
+	icon = GFX_HON_expand_united_fruit_icon
+	x = 0
+	y = 2
+	relative_position_id = HON_the_black_hand_of_zemurray
+	prerequisite = {
+		focus = HON_the_black_hand_of_zemurray
+	}
+
+	cost = 10 
+
+	available = {
+		OR = {
+			AND = {
+				has_country_flag = CEA_mal_de_panama_flag
+				NOT = {
+					has_idea = CEA_mal_de_panama
+				}
+			}
+			any_controlled_state = {
+				has_dynamic_modifier = {
+					modifier = CEA_state_owned_by_sam_zemurray
+				}
+			}
+			num_of_factories > 9
+		}
+		NOT = {
+			has_country_flag = HON_recently_modified_american_owned_industry_flag
+		}
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL
+	}
+
+	completion_reward = {
+		add_political_power = -10
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		EUYL_add_1_civilian = yes
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		swap_ideas = {
+			remove_idea = CEA_united_fruit_company
+			add_idea = CEA_united_fruit_company_2
+		}
+
+		HON_level_up_american_owned_industry = yes
+	}
+}
+
+## Import American Military Companies ##
 shared_focus = {
 	id = CEA_import_american_companies
 	icon = GFX_CEA_import_american_companies_icon
@@ -686,11 +858,11 @@ shared_focus = {
 
 		custom_effect_tooltip = CHL_skip_one_line_tt
 
-		add_political_power = 50
+		EUYL_add_1_military = yes
 
 		if = {
 			limit = {
-				original_tag = HON 
+				original_tag = HON
 			}
 			HON_level_up_american_owned_industry = yes
 		}
@@ -733,6 +905,130 @@ shared_focus = {
 	}
 }
 
+## Unique Honduran Foucs | Restore the Golden Crop
+shared_focus = {
+	id = HON_restore_the_golden_crop
+	icon = GFX_CEA_expand_banana_icon
+	x = -1
+	y = 1
+	relative_position_id = CEA_improve_the_plantations
+	prerequisite = {
+		focus = CEA_improve_the_plantations
+		focus = HON_the_black_hand_of_zemurray
+	}
+
+	allow_branch = {
+		original_tag = HON
+	}
+
+	cost = 5
+
+	available = {
+		has_country_flag = CEA_mal_de_panama_flag
+
+		custom_trigger_tooltip = {
+			tooltip = CEA_any_controlled_state_has_active_banana_plantations_tt
+			any_controlled_state = {
+				OR = {
+					has_dynamic_modifier = {
+						modifier = CEA_local_banana_production
+					}
+					has_dynamic_modifier = {
+						modifier = CEA_improved_banana_production
+					}
+				}
+			}
+		}
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY
+	}
+
+	completion_reward = {
+		custom_effect_tooltip = HON_if_affected_by_mal_de_panama_tt
+		effect_tooltip = {
+			swap_ideas = {
+				remove_idea = CEA_mal_de_panama
+				add_idea = CEA_protection_over_our_crops
+			}
+			add_stability = 0.05
+			add_political_power = 25
+		}
+		custom_effect_tooltip = CHL_skip_one_line_tt
+		custom_effect_tooltip = HON_if_not_affected_by_mal_de_panama_tt
+		effect_tooltip = {
+			add_stability = 0.03
+			add_political_power = 10
+			add_ideas = CEA_protection_over_our_crops
+		}
+
+		hidden_effect = {
+			if = {
+				limit = {
+					has_idea = CEA_mal_de_panama
+				}
+				swap_ideas = {
+					remove_idea = CEA_mal_de_panama
+					add_idea = CEA_protection_over_our_crops
+				}
+				add_stability = 0.05
+				add_political_power = 25
+			}
+			else = {
+				add_stability = 0.03
+				add_political_power = 10
+				add_ideas = CEA_protection_over_our_crops
+			}
+		}
+	}
+}
+
+## Re-Establish our Foothold in the Banana Market ##
+shared_focus = {
+	id = HON_re_establish_our_foothold_in_the_banana_market
+	icon = GFX_HON_reestablish_banana_market_dominance_icon
+	x = 0
+	y = 2
+	relative_position_id = CEA_improve_the_plantations
+	prerequisite = {
+		focus = CEA_improve_the_plantations
+	}
+
+	cost = 7.2
+
+	available = {
+		OR = {
+			has_idea = free_trade
+			custom_trigger_tooltip = {
+				tooltip = HON_any_controlled_state_has_improved_banana_production_tt
+				any_controlled_state = {
+					has_dynamic_modifier = {
+						modifier = CEA_improved_banana_production
+					}
+				}
+			}
+		}
+		NOT = {
+			has_country_flag = HON_recently_modified_american_owned_industry_flag
+		}
+	}
+
+	allow_branch = {
+		original_tag = HON
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY
+	}
+
+	completion_reward = {
+		HON_remove_poor_banana_exports = yes 
+
+		HON_level_up_american_owned_industry = yes
+	}
+}
+
 shared_focus = {
 	id = CEA_agriculture_above_all
 	icon = GFX_focus_generic_agricultural_subsidies
@@ -748,11 +1044,16 @@ shared_focus = {
 
 	allow_branch = {
 		NOT = {
-			original_tag = HON
+			OR = {
+				original_tag = HON
+				original_tag = PAN
+			}
 		}
 	}
 
 	available = {
+		has_country_flag = CEA_mal_de_panama_flag
+
 		any_controlled_state = {
 			OR = {
 				has_dynamic_modifier = {
@@ -771,6 +1072,13 @@ shared_focus = {
 
 	completion_reward = {
 		add_ideas = CEA_agriculture_above_all_idea
+
+		if = {
+			limit = {
+				has_idea = CEA_mal_de_panama
+			}
+			remove_ideas = CEA_mal_de_panama
+		}
 	}
 }
 
@@ -859,6 +1167,14 @@ shared_focus = {
 		value = GFX_focus_generic_american_investments
 	}
 
+	offset = {
+		x = 0
+		y = 1
+		trigger = {
+			original_tag = HON
+		}
+	}
+
 	cost = 10 
 
 	x = 1
@@ -867,6 +1183,8 @@ shared_focus = {
 	relative_position_id = CEA_agriculture_above_all
 	prerequisite = {
 		focus = CEA_agriculture_above_all
+		focus = HON_re_establish_our_foothold_in_the_banana_market
+		focus = HON_expand_united_fruits_influence
 	}
 
 	available = {
@@ -887,6 +1205,68 @@ shared_focus = {
 		custom_effect_tooltip = CHL_skip_one_line_tt
 
 		custom_effect_tooltip = CEA_american_financing_decisions_now_add_civilian_factory_tt
+	}
+}
+
+## Overcoming the Great Depression ##
+shared_focus = {
+	id = HON_overcoming_the_great_depression
+	icon = GFX_focus_generic_economic_recovery
+	x = -1
+	y = 1
+	relative_position_id = HON_re_establish_our_foothold_in_the_banana_market
+	prerequisite = {
+		focus = HON_re_establish_our_foothold_in_the_banana_market
+	}
+	prerequisite = {
+		focus = HON_expand_united_fruits_influence
+	}
+
+	cost = 10
+
+	available = {
+		NOT = {
+			has_country_flag = HON_recently_modified_american_owned_industry_flag
+		}
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY
+	}
+
+	completion_reward = {
+		EUYL_add_2_civilian = yes 
+
+		HON_level_up_american_owned_industry = yes
+	}
+}
+
+## Protect the Plantations at all Cost ##
+shared_focus = {
+	id = HON_protect_the_plantations_at_all_cost
+	icon = GFX_HON_protect_plantations_icon
+	x = -1
+	y = 1
+	relative_position_id = HON_expand_united_fruits_influence
+	prerequisite = {
+		focus = HON_expand_united_fruits_influence
+		focus = HON_re_establish_our_foothold_in_the_banana_market
+	}
+
+	cost = 8
+
+	available = {
+		has_civil_war = no 
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY
+	}
+
+	completion_reward = {
+		EUYL_level_up_conscription_law = yes 
+
+		EUYL_add_1_military = yes
 	}
 }
 
@@ -914,6 +1294,14 @@ shared_focus = {
 		}
 	}
 
+	offset = {
+		x = 2
+		y = 0
+		trigger = {
+			original_tag = HON
+		}
+	}
+
 	prerequisite = {
 		focus = CEA_the_economy
 	}
@@ -924,7 +1312,7 @@ shared_focus = {
 		custom_effect_tooltip = CEA_every_state_with_3_or_less_receive_1_tt
 		every_controlled_state = {
 			limit = {
-				infrastructure < 4
+				infrastructure < 3
 				is_owned_by = ROOT
 			}
 			add_building_construction = {
@@ -933,10 +1321,17 @@ shared_focus = {
 				instant_build = yes
 			}
 		}
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		add_timed_idea = {
+			idea = ARG_invest_in_infrastructure
+			days = 365
+		}
 	}
 }
 
-## Connect the East ##
+## Connect the East NICARAGUA SUBTREE ##
 shared_focus = {
 	id = CEA_NIC_connect_the_east
 	icon = GFX_CEA_nicaragua_connect_east
@@ -1501,6 +1896,13 @@ shared_focus = {
 
 	completion_reward = {
 		add_research_slot = 1
+
+		if = {
+			limit = {
+				original_tag = PAN 
+			}
+			PAN_improve_looming_shadow_of_america = yes
+		}
 	}
 }
 
@@ -1580,129 +1982,430 @@ shared_focus = {
 }
 
 
-
 ### JOINT CENTRAL AMERICAN FOCUSES WHEN IN FACTION ###
 joint_focus = {
-	id = NORDIC_northern_command_test
-	
-	icon = GFX_goal_generic_army_doctrines
-	
-	
-	x = 3
-	y = 8
-	cost = 5
+	id = CEA_the_defense_pact
+	icon = GFX_CEA_the_defense_pact_icon
+	relative_position_id = CEA_the_economy
+	x = 21
+	y = 0
 
-	text_icon = NORDIC_focus_style
+	offset = {
+		x = 4
+		y = 0
+		trigger = {
+			original_tag = HON
+		}
+	}
+
+	cost = 2.9
+
+	text_icon = EUYL_CEA_focus_style
 
 	available = {
-		NORDIC_basic_available_trigger = yes
-		has_stability > 0.5
-		has_war_support > 0.25
+		CEA_basic_available_trigger = yes
 	}
 
-	search_filters = { FOCUS_FILTER_ARMY_XP FOCUS_FILTER_NAVY_XP FOCUS_FILTER_AIR_XP }
 
-	joint_trigger = {
-  		NORDIC_basic_joint_trigger = yes 
+    cancel_if_invalid = yes
+    continue_if_invalid = no
+    available_if_capitulated = no
+
+	ai_will_do = {
+		factor = 1
 	}
 
+	joint_trigger = { CEA_basic_available_trigger = yes }
+
+	search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_POLITICAL }
 
 	completion_reward = {
-		air_experience = 25
-		navy_experience = 25
-		army_experience = 25
-		add_command_power = 25		
-		add_ideas = { NORDIC_command_ns }
+		custom_effect_tooltip = CEA_add_national_defense_pact_ideas_tt
+		hidden_effect = {
+			add_dynamic_modifier = {
+				modifier = CEA_defense_pact_army
+			}
+			add_dynamic_modifier = {
+				modifier = CEA_defense_pact_industry
+			}
+			add_dynamic_modifier = {
+				modifier = CEA_defense_pact_politics
+			}
+		}
+	}
+
+	completion_reward_joint_originator = {
+		add_stability = 0.02
+		add_political_power = 25
+	}
+
+	completion_reward_joint_member = {
+		add_stability = 0.01 
+		add_political_power = 15
 	}
 }
 
 joint_focus = {
-	id = NORDIC_political_cooperation_test
-	icon = GFX_focus_generic_improve_the_administration
-
-
+	id = CEA_prevent_foreign_political_influence
+	icon = GFX_EUYL_generic_no_spy_icon
 	x = 0
-	y = 6
-	cost = 5
-
-	text_icon = NORDIC_focus_style
-
-	available = {
-		NORDIC_basic_available_trigger = yes
-		is_faction_leader = yes
+	y = 2
+	relative_position_id = CEA_the_defense_pact
+	prerequisite = {
+		focus = CEA_the_defense_pact
 	}
 
-	search_filters = { FOCUS_FILTER_POLITICAL }
+	cost = 5
+
+	text_icon = EUYL_CEA_focus_style
+
+	available = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	ai_will_do = {
+		factor = 1
+	}
 
 	joint_trigger = {
-  		NORDIC_basic_joint_trigger = yes 
+		CEA_basic_available_trigger = yes 
+	}
+
+	search_filters = {
+		FOCUS_FILTER_POLITICAL
 	}
 
 	completion_reward = {
-
+		effect_tooltip = {
+			custom_effect_tooltip = CEA_modify_defense_pact_politics_ns_intro
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_political_drift_defence_factor = 0.2
+				tooltip = drift_defence_factor_tt
+			}
+		}
 	}
 
 	completion_reward_joint_originator = {
-		add_political_power = 100
-		add_stability = 0.1
-		if = {
-			limit = {
-				has_global_flag = NORDIC_democratic_alliance_formed
-			}
-			add_popularity = {
-				ideology = democratic 
-				popularity = 0.1
+		add_political_power = 15
+		hidden_effect = {
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_political_drift_defence_factor = 0.2
 			}
 		}
-		else_if = {
-			limit = {
-				has_global_flag = NORDIC_communist_alliance_formed
+	}
+}
+
+### Enhance Foreign Relations
+joint_focus = {
+	id = CEA_enhance_foreign_relations
+	icon = GFX_focus_RAJ_to_shake_the_world
+	x = 1
+	y = 1
+	relative_position_id = CEA_prevent_foreign_political_influence
+	prerequisite = {
+		focus = CEA_prevent_foreign_political_influence
+	}
+
+	cost = 5
+
+	text_icon = EUYL_CEA_focus_style
+
+	available = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	joint_trigger = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	search_filters = {
+		FOCUS_FILTER_POLITICAL
+	}
+
+	completion_reward = {
+		effect_tooltip = {
+			custom_effect_tooltip = CEA_modify_defense_pact_politics_ns_intro
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_political_improve_relations_maintain_cost_factor = -0.25
+				tooltip = improve_relations_maintain_cost_factor_tt
 			}
-			add_popularity = {
-				ideology = communism 
-				popularity = 0.1
-			}	
 		}
-		else_if = {
-			limit = {
-				has_global_flag = NORDIC_monarchist_alliance_formed
+	}
+
+	completion_reward_joint_originator = {
+		hidden_effect = {
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_political_improve_relations_maintain_cost_factor = -0.25
 			}
-			add_popularity = {
-				ideology = neutrality 
-				popularity = 0.1
-			}	
 		}
 	}
 
 	completion_reward_joint_member = {
+		
+	}
+}
+
+### Embrace Foreign Trade ##
+joint_focus = {
+	id = CEA_embrace_foreign_trade
+	icon = GFX_goal_generic_positive_trade_relations
+	x = 0
+	y = 2
+	relative_position_id = CEA_enhance_foreign_relations
+	prerequisite = {
+		focus = CEA_enhance_foreign_relations
+	}
+
+	cost = 6
+
+	text_icon = EUYL_CEA_focus_style
+
+	available = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	joint_trigger = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	search_filters = {
+		FOCUS_FILTER_POLITICAL FOCUS_FILTER_ECONOMIC_GROWTH
+	}
+
+	completion_reward = {
+		effect_tooltip = {
+			custom_effect_tooltip = CEA_modify_defense_pact_politics_ns_intro
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_political_trade_laws_cost_factor = -0.1
+				tooltip = trade_laws_cost_factor_tt
+			}
+		}
+	}
+
+	completion_reward_joint_originator = {
+		add_timed_idea = {
+			idea = CEA_trade_initiative_originator
+			days = 365
+		}
+		hidden_effect = {
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_political_trade_laws_cost_factor = -0.1
+			}
+		}
+	}
+
+	completion_reward_joint_member = {
+		add_timed_idea = {
+			idea = CEA_trade_initiative_member
+			days = 300
+		}
+	}
+}
+
+### Regional Political Reforms ###
+joint_focus = {
+	id = CEA_regional_political_reforms
+	icon = GFX_CEA_political_reforms_icon
+	x = -1
+	y = 1
+	relative_position_id = CEA_prevent_foreign_political_influence
+	prerequisite = {
+		focus = CEA_prevent_foreign_political_influence
+	}
+
+	cost = 5
+
+	text_icon = EUYL_CEA_focus_style
+
+	available = {
+		CEA_basic_available_trigger = yes 
+		has_civil_war = no
+	}
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	joint_trigger = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	search_filters = {
+		FOCUS_FILTER_POLITICAL
+	}
+
+	completion_reward_joint_originator = {
 		add_political_power = 50
+	}
+
+	completion_reward_joint_member = {
+		add_political_power = 30
+	}
+}
+
+### Establish a Unified Parliament ###
+joint_focus = {
+	id = CEA_establish_a_unified_parliament
+	icon = GFX_focus_AFG_parliamentary_democracy
+	x = 1
+	y = 1
+	relative_position_id = CEA_regional_political_reforms
+	prerequisite = {
+		focus = CEA_regional_political_reforms
+	}
+	prerequisite = {
+		focus = CEA_enhance_foreign_relations
+	}
+
+	cost = 7.2
+
+	text_icon = EUYL_CEA_focus_style
+
+	available = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	joint_trigger = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	search_filters = {
+		FOCUS_FILTER_POLITICAL
+	}
+
+	completion_reward = {
+		effect_tooltip = {
+			custom_effect_tooltip = CEA_modify_defense_pact_politics_ns_intro
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_political_political_power_factor = 0.1
+				tooltip = political_power_factor_tt
+			}
+		}
+	}
+
+	completion_reward_joint_originator = {
+		hidden_effect = {
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_political_political_power_factor = 0.1
+			}
+		}
+	}
+}
+
+### Cooperate with the local Manufacturers ###
+joint_focus = {
+	id = CEA_cooperate_with_the_local_manufacturers
+	icon = GFX_goal_generic_production
+	x = 0
+	y = 2
+	relative_position_id = CEA_regional_political_reforms
+	prerequisite = {
+		focus = CEA_regional_political_reforms
+	}
+
+	cost = 6
+
+	text_icon = EUYL_CEA_focus_style
+
+	available = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	joint_trigger = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	search_filters = {
+		FOCUS_FILTER_POLITICAL
+	}
+
+	completion_reward = {
+		effect_tooltip = {
+			custom_effect_tooltip = CEA_modify_defense_pact_politics_ns_intro
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_political_economy_cost_factor = -0.1
+				tooltip = economy_cost_factor_tt
+			}
+		}
+	}
+
+	completion_reward_joint_originator = {
+		add_timed_idea = {
+			idea = CEA_manufacturing_initiative_originator
+			days = 240
+		}
+		hidden_effect = {
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_political_economy_cost_factor = 0.1
+			}
+		}
+	}
+
+	completion_reward_joint_member = {
+		add_timed_idea = {
+			idea = CEA_manufacturing_initiative_member
+			days = 180
+		}
+	}
+}
+
+## No Compromise on our Future
+
+joint_focus = {
+	id = CEA_no_compromise_on_our_future
+	icon = GFX_focus_freedom
+	x = -1
+	y = 1
+	relative_position_id = CEA_embrace_foreign_trade
+	prerequisite = {
+		focus = CEA_embrace_foreign_trade
+	}
+	prerequisite = {
+		focus = CEA_cooperate_with_the_local_manufacturers
+	}
+
+	cost = 10
+
+	text_icon = EUYL_CEA_focus_style
+
+	available = {
+		CEA_basic_available_trigger = yes 
+		has_civil_war = no
+	}
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	joint_trigger = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	search_filters = {
+		FOCUS_FILTER_STABILITY
+	}
+
+	completion_reward_joint_originator = {
 		add_stability = 0.1
-		if = {
-			limit = {
-				has_global_flag = NORDIC_democratic_alliance_formed
-			}
-			add_popularity = {
-				ideology = democratic 
-				popularity = 0.05
-			}
-		}
-		else_if = {
-			limit = {
-				has_global_flag = NORDIC_communist_alliance_formed
-			}
-			add_popularity = {
-				ideology = communism 
-				popularity = 0.05
-			}	
-		}
-		else_if = {
-			limit = {
-				has_global_flag = NORDIC_monarchist_alliance_formed
-			}
-			add_popularity = {
-				ideology = neutrality 
-				popularity = 0.05
-			}	
-		}
+	}
+
+	completion_reward_joint_member = {
+		add_stability = 0.05
 	}
 }

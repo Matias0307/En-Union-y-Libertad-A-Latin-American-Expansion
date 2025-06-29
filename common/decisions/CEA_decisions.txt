@@ -1,11 +1,41 @@
 CEA_managing_the_banana_republic = {
+	HON_worsening_banana_exports = {
+		priority = 5
+		icon = GFX_HON_worsening_banana_export_icon
+
+		activation = {
+			always = no
+		}
+
+		available = {
+			NOT = {
+				HON_active_poor_banana_exports = yes
+			}
+		}
+
+		cancel_trigger = {
+			exists = no
+		}
+
+		days_mission_timeout = 365
+
+		timeout_effect = {
+			HON_worsen_banana_exports = yes
+		}
+
+		complete_effect = {
+			add_stability = 0.02
+			add_political_power = 20
+		}
+	}
+
 	CEA_brewing_strikes = {
 		priority = 15
 		icon = revolt 
 
 		activation = {
 			has_idea = CEA_the_banana_republic
-			has_stability < 0.5
+			has_stability < 0.4
 			NOT = {
 				has_country_flag = CEA_improving_work_conditions_flag 
 			}
@@ -14,7 +44,7 @@ CEA_managing_the_banana_republic = {
 		available = {
 			OR = {
 				has_country_flag = CEA_improving_work_conditions_flag
-				has_stability > 0.49
+				has_stability > 0.39
 			}
 		}
 
@@ -24,7 +54,7 @@ CEA_managing_the_banana_republic = {
 			}
 		}
 
-		days_mission_timeout = 225
+		days_mission_timeout = 235
 
 		timeout_effect = {
 			add_timed_idea = {
@@ -444,8 +474,6 @@ CEA_managing_the_banana_republic = {
 				value = 1
 			}
 
-			add_stability = -0.01
-
 			FROM = {
 				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
@@ -458,6 +486,448 @@ CEA_managing_the_banana_republic = {
 
 				add_dynamic_modifier = {
 					modifier = CEA_state_owned_by_sam_zemurray
+				}
+			}
+		}
+	}
+}
+
+PAN_BoP_canal_control = {
+	PAN_push_our_claim_over_the_canal = {
+		icon = generic_nationalism
+
+		visible = {
+			exists = yes 
+		}
+
+		available = {
+			is_subject = no 
+			num_of_controlled_states > 0
+			any_controlled_state = {
+				any_neighbor_state = {
+					state = 685
+				}
+			}
+		}
+
+		cost = 20
+
+		days_remove = 60
+
+		complete_effect = {
+			PAN_move_5_towards_panama = yes
+		}
+	}
+
+	PAN_bolster_our_defences_near_the_canal_in_FROM = {
+		icon = generic_military
+		on_map_mode = map_and_decisions_view
+
+		state_target = yes
+
+		target_trigger = {
+			FROM = {
+				any_neighbor_state = {
+					state = 685
+					NOT = {
+						is_controlled_by = ROOT
+					}
+				}
+			}
+		}
+
+		visible = {
+			has_completed_focus = PAN_a_militarist_approach
+			FROM = {
+				is_fully_controlled_by = ROOT
+			}
+		}
+
+		available = {
+			divisions_in_state = {
+				size > 1
+				state = FROM
+			}
+		}
+
+		days_re_enable = 180
+
+		custom_cost_text = decision_cost_CP_25_pp_15
+		custom_cost_trigger = {
+			command_power > 24
+			has_political_power > 14
+		}
+
+		complete_effect = {
+			PAN_move_10_towards_panama = yes
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = EUYL_decision_will_reappear_in_180_days_tt
+
+			hidden_effect = {
+				add_political_power = -15
+				add_command_power = -25
+			}
+		}
+	}
+
+	PAN_light_up_the_fire_of_nationalism = {
+		icon = generic_civil_support
+
+		visible = {
+			has_completed_focus = PAN_a_militarist_approach
+		}
+
+		available = {
+			num_of_controlled_states > 0
+			is_subject = no
+		}
+
+		custom_cost_text = CHL_cost_15_cp
+		custom_cost_trigger = {
+			command_power > 14
+		}
+
+		days_remove = 120
+
+		complete_effect = {
+			PAN_move_5_towards_panama = yes
+			add_war_support = 0.02
+			hidden_effect = {
+				add_command_power = -15
+			}
+		}
+	}
+
+	PAN_prop_up_defensive_fortifications_in_FROM = {
+		icon = generic_fortification
+
+		visible = {
+			has_completed_focus = PAN_a_militarist_approach
+		}
+
+		available = {
+			has_completed_focus = PAN_militarize_near_the_canal
+		}
+
+		on_map_mode = map_and_decisions_view
+
+		state_target = yes
+
+		target_trigger = {
+			FROM = {
+				any_neighbor_state = {
+					state = 685
+					NOT = {
+						is_controlled_by = ROOT
+					}
+				}
+			}
+		}
+
+		cost = 25 
+
+		fire_only_once = yes 
+
+		complete_effect = {
+			PAN_move_5_towards_panama = yes
+			FROM = {
+				add_building_construction = {
+					type = bunker
+					level = 1
+					instant_build = yes
+					province = {
+						all_provinces = yes
+						limit_to_border = yes
+					}
+				}
+			}
+		}
+	}
+
+	PAN_set_up_anti_air_in_the_capital = {
+		icon = ger_military_buildup
+		on_map_mode = map_and_decisions_view
+
+		state_target = yes 
+
+		targets = { 304 }
+
+		visible = {
+			has_completed_focus = PAN_a_militarist_approach
+			304 = {
+				is_fully_controlled_by = ROOT
+			}
+		}
+
+		available = {
+			has_completed_focus = PAN_militarize_near_the_canal
+		}
+
+		cost = 35
+
+		days_remove = 50
+
+		modifier = {
+			consumer_goods_factor = 0.5
+		}
+
+		fire_only_once = yes
+
+		remove_effect = {
+			PAN_move_10_towards_panama = yes
+			304 = {
+				add_building_construction = {
+					type = anti_air_building
+					level = 2
+				}
+			}
+		}
+	}
+
+	PAN_increase_labor_force_on_the_canal = {
+		icon = eng_blackshirt_march
+		on_map_mode = map_and_decisions_view
+
+		state_target = yes 
+
+		targets = { 685 }
+
+		visible = {
+			has_completed_focus = PAN_a_diplomatic_approach
+		}
+
+		available = {
+			exists = yes 
+
+			any_controlled_state = {
+				any_neighbor_state = {
+					state = 685
+				}
+			}
+		}
+
+		cost = 25
+
+		days_re_enable = 180
+
+		complete_effect = {
+			PAN_move_10_towards_panama = yes 
+
+			random_owned_controlled_state = {
+				add_manpower = -5000
+			}
+
+			custom_effect_tooltip = EUYL_decision_will_reappear_in_180_days_tt
+		}
+	}
+
+	PAN_offer_aid_in_the_completion_of_the_madden_dam = {
+		icon = hol_drain_water_lines
+
+		on_map_mode = map_and_decisions_view
+
+		state_target = yes 
+
+		targets = { 685 }
+
+		visible = {
+			has_completed_focus = PAN_a_diplomatic_approach
+		}
+
+		available = {
+			exists = yes 
+			has_completed_focus = PAN_improve_the_water_locks
+			any_controlled_state = {
+				any_neighbor_state = {
+					state = 685
+				}
+			}
+		}
+
+		fire_only_once = yes 
+
+		custom_cost_trigger = {
+			num_of_civilian_factories_available_for_projects > 0
+		}
+		custom_cost_text = decision_cost_civ_factory_1
+
+		modifier = {
+			civilian_factory_use = 1
+			consumer_goods_factor = 0.1
+		}
+
+		days_remove = 60
+
+		remove_effect = {
+			PAN_move_20_towards_panama = yes
+
+			685 = {
+				add_building_construction = {
+					type = dam
+					level = 1
+					instant_build = yes
+					province = {
+						id = 7617
+					}
+				}
+			}
+		}
+	}
+
+	PAN_closer_cooperation_with_the_united_states = {
+		icon = generic_USA_flag
+
+		visible = {
+			has_completed_focus = PAN_a_diplomatic_approach
+		}
+
+		available = {
+			has_completed_focus = PAN_our_one_true_ally
+			NOT = {
+				has_war_with = USA 
+			}
+			USA = { exists = yes }
+		}
+
+		cost = 50
+
+		days_remove = 90
+
+		complete_effect = {
+			PAN_move_10_towards_panama = yes 
+		}
+
+		modifier = {
+			industrial_capacity_factory = 0.05
+			democratic_drift = 0.05
+		}
+	}
+}
+
+PAN_national_forestry_industry = {
+	PAN_prepare_the_land_for_civilian_population_in_FROM = {
+		icon = eng_blackshirt_march
+
+		on_map_mode = map_and_decisions_view
+
+		state_target = yes 
+		target_array = core_states
+
+		visible = {
+			FROM = {
+				is_fully_controlled_by = ROOT
+			}
+		}
+
+		available = {
+			FROM = {
+				has_state_flag = PAN_forestry_completed_here_flag
+			}
+		}
+
+		cost = 20
+
+		fire_only_once = yes 
+
+		days_remove = 25
+
+		remove_effect = {
+			FROM = {
+				add_extra_state_shared_building_slots = 1
+			}
+		}
+	}
+
+	PAN_perform_forestry_operations_in_FROM = {
+		icon = generic_forestry
+
+		on_map_mode = map_and_decisions_view
+
+		state_target = yes 
+		targets = {
+			1057 304 493 1092
+		}
+
+		available = {
+			NOT = {
+				has_country_flag = PAN_performing_forestry_operations_flag
+			}
+			FROM = {
+				is_fully_controlled_by = ROOT
+			}
+		}
+
+		cost = 50
+
+		fire_only_once = yes 
+
+		days_remove = 120
+
+		modifier = {
+			consumer_goods_factor = 0.05
+		}
+
+		cancel_trigger = {
+			NOT = {
+				has_full_control_of_state = FROM
+			}
+		}
+
+		cancel_effect = {
+			clr_country_flag = PAN_performing_forestry_operations_flag
+			add_political_power = 20
+		}
+
+		complete_effect = {
+			set_country_flag = PAN_performing_forestry_operations_flag
+		}
+
+		remove_effect = {
+			clr_country_flag = PAN_performing_forestry_operations_flag
+			FROM = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = PAN_forestry_completed_here_flag
+			}
+
+			effect_tooltip = {
+				FROM = {
+					add_dynamic_modifier = {
+						modifier = VEN_concerning_enviornmental_impact
+					}
+				}
+			}
+
+			custom_effect_tooltip = PAN_if_forestry_company_active_following_effects_occur_tt
+			effect_tooltip = {
+				add_timed_idea = {
+					idea = PAN_forestry_company_profits
+					days = 75
+				}
+			}
+
+			hidden_effect = {
+				if = {
+					limit = {
+						has_idea = PAN_puertas_and_plywood_orozco
+					}
+					add_timed_idea = {
+						idea = PAN_forestry_company_profits
+						days = 75
+					}
+				}
+				else = {
+					FROM = {
+						add_dynamic_modifier = {
+							modifier = VEN_concerning_enviornmental_impact
+						}
+					}
 				}
 			}
 		}

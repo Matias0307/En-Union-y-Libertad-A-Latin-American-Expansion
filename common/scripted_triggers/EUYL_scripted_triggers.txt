@@ -324,6 +324,32 @@ EUYL_formed_gran_colombia = {
 	}
 }
 
+EUYL_is_latin_american = {
+	OR = {
+		original_tag = ARG 
+		original_tag = PAR 
+		original_tag = BRA 
+		original_tag = COL 
+		original_tag = CHL 
+		original_tag = URG 
+		original_tag = PRU
+		original_tag = BOL 
+		original_tag = VEN 
+		original_tag = ECU
+		original_tag = GUA 
+		original_tag = HON 
+		original_tag = NIC 
+		original_tag = PAN 
+		original_tag = ELS 
+		original_tag = COS 
+		original_tag = BLZ
+		original_tag = CUB 
+		original_tag = HAI 
+		original_tag = DOM
+		original_tag = MEX
+	}
+}
+
 ## Central America ##
 CEA_is_central_american = {
 	OR = {
@@ -334,5 +360,54 @@ CEA_is_central_american = {
 		original_tag = ELS 
 		original_tag = COS 
 		original_tag = BLZ
+	}
+}
+
+CEA_is_banana_republic = {
+	custom_trigger_tooltip = {
+		tooltip = CEA_is_banana_republic_tt
+		CEA_is_central_american = yes
+		has_idea = CEA_the_banana_republic
+	}
+}
+
+HON_active_poor_banana_exports = {
+	custom_trigger_tooltip = {
+		tooltip = HON_active_poor_banana_exports_tt
+		OR = {
+			has_idea = HON_poor_banana_exports_1
+			has_idea = HON_poor_banana_exports_2
+			has_idea = HON_poor_banana_exports_3
+			has_idea = HON_poor_banana_exports_4
+		}
+	}
+}
+
+CEA_is_available_to_receive_invite = {
+	CEA_is_central_american = yes 
+	is_in_faction = no 
+	exists = yes 
+	NOT = { 
+		has_war_with = ROOT 
+		tag = event_target:CENTRAL_AMERICAN_FACTION_CREATOR
+	}
+	num_of_controlled_states > 0 ## actually OWNS anything
+}
+
+CEA_basic_available_trigger = {
+	CEA_central_american_faction_member = yes 
+	any_allied_country = {
+		CEA_central_american_faction_member = yes
+	}
+}
+
+CEA_central_american_faction_member = {
+	custom_trigger_tooltip = {
+		tooltip = CEA_is_member_of_central_american_faction_tt
+		CEA_is_central_american = yes 
+		OR = {
+			is_in_faction_with = event_target:CENTRAL_AMERICAN_FACTION_CREATOR
+			is_faction_leader = yes
+		}
 	}
 }

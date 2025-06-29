@@ -877,6 +877,81 @@ ideas = {
 		}
 	}	
 
+	aircraft_manufacturer = {
+			
+		designer = yes
+		
+		ECU_SEDTA_idea = {
+			
+			allowed = {
+				original_tag = ECU
+			}
+
+			available = {
+				has_completed_focus = ECU_founded_SEDTA
+			}
+			
+			cost = 150
+			
+			picture = ECU_SEDTA_icon
+			
+			research_bonus = {
+				air_equipment = 0.15
+			}
+			traits = { medium_aircraft_manufacturer }
+			
+			modifier = {
+			}
+		}
+	}
+
+	naval_manufacturer = {
+		designer = yes 
+
+		#ECU_ASTINAVE = {
+		#	allowed = {
+		#		original_tag = ECU 
+		#	}
+#
+		#	available = {
+		#		has_completed_focus = ECU_redirect_funding_towards_ASTINAVE
+		#	}
+#
+		#	cost = 125
+#
+		#	picture = ECU_ASTINAVE_icon
+#
+		#	research_bonus = {
+		#		naval_equipment = 0.1
+		#	}
+		#	
+		#	modifier = {
+		#		naval_accidents_chance = -0.05
+		#		repair_speed_factor = 0.03
+		#	}
+		#	
+		#	traits = { repair_and_refurbishment_plant }
+		#}
+
+		ECU_arsenal_de_marina = {
+			allowed = {
+				original_tag = ECU 
+			}
+
+			cost = 150
+
+			picture = generic_naval_manufacturer_3
+
+			research_bonus = {
+				naval_equipment = 0.15
+			}
+
+			traits = {
+				coastal_defence_naval_manufacturer
+			}
+		}
+	}
+
 	industrial_concern = {
 		ECU_united_fruit_company = {
 			name = "United Fruit Company"
@@ -940,6 +1015,94 @@ ideas = {
 			modifier = {
 				industrial_capacity_factory = 0.05
 				consumer_goods_factor = 0.05
+			}
+		}
+
+		ECU_anglo_ecuadorian_oilfields = {
+			name = "Anglo-Ecuadorian Oilfields"
+			picture = ECU_anglo_ecuadorian_oilfields_icon
+
+			cost = 150 
+
+			available = {
+				ENG = {
+					exists = yes 
+					NOT = {
+						has_war_with = ROOT
+					}
+				}
+			}
+
+			on_add = {
+				if = {
+					limit = {
+						NOT = {
+							has_country_flag = ECU_anglo_ecuadorian_oilfields_added_flag
+						}
+					}
+					1089 = {
+						add_resource = {
+							type = oil
+							amount = 4
+						}
+					}
+				}
+
+				set_country_flag = ECU_anglo_ecuadorian_oilfields_added_flag
+			}
+
+			research_bonus = {
+				industry = 0.05
+				synth_resources = 0.1
+			}
+
+			traits = {
+				refining_concern
+			}
+
+			modifier = {
+				local_resources_factor = 0.03
+			}
+		}
+
+		ECU_leonard_exploration_company = {
+			name = "Leonard Exploration Company"
+			picture = generic_industrial_concern_2
+
+			cost = 100 
+
+			research_bonus = {
+				industry = 0.05
+				synth_resources = 0.15
+			}
+
+			traits = {
+				refining_concern
+			}
+		}
+
+		ECU_royal_dutch_shell = {
+			name = "Royal Dutch Shell"
+			picture = PAR_shell_pic
+
+			cost = 150
+
+			allowed = { original_tag = ECU }
+
+			available = {
+				has_completed_focus = ECU_royal_dutch_shell_focus
+			}
+
+			modifier = {
+				trade_laws_cost_factor = -0.2
+			}
+
+			research_bonus = {
+				industry = 0.1
+			}
+
+			traits = {
+				industrial_concern
 			}
 		}
 	}

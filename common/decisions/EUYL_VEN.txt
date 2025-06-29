@@ -646,6 +646,122 @@ VEN_political_crisis = { ## need to make custom trigger tooltips for these :/
 			country_event = stability.22
 		}
     }
+
+    PAN_capture_the_canal = {
+        icon = generic_operation
+
+        allowed = {
+            original_tag = PAN
+        }
+
+        activation = {
+            original_tag = PAN 
+            has_completed_focus = PAN_take_the_canal_by_force
+            has_offensive_war_with = event_target:PANAMA_CANAL_CONTROLLER_GLOBAL
+        }
+
+        fire_only_once = yes
+
+        available = {
+            685 = {
+                is_controlled_by = ROOT
+            }
+        }
+
+        days_mission_timeout = 90
+
+        cancel_trigger = {
+            OR = {
+                NOT = {
+                    has_war_with = event_target:PANAMA_CANAL_CONTROLLER_GLOBAL 
+                }
+                ROOT = { exists = no }
+                event_target:PANAMA_CANAL_CONTROLLER_GLOBAL = {
+                    exists = no 
+                }
+            }
+        }
+
+        highlight_states = {
+            highlight_state_targets = {
+                state = 685
+            }
+        }
+
+        on_map_mode = map_and_decisions_view
+
+		is_good = no 
+
+        complete_effect = { ##success
+            add_war_support = 0.03
+            activate_mission = PAN_hold_the_canal
+        }
+
+        timeout_effect = { ## failed
+            event_target:PANAMA_CANAL_CONTROLLER_GLOBAL = {
+                country_event = cea.10 
+            }
+            country_event = cea.9
+        }
+    }
+
+    PAN_hold_the_canal = {
+        icon = generic_fortification
+
+        allowed = {
+            original_tag = PAN
+        }
+
+        activation = {
+            always = no 
+        }
+
+        available = {
+            NOT = {
+                685 = {
+                    is_controlled_by = ROOT
+                }
+            }
+        }
+
+        days_mission_timeout = 90
+
+        cancel_trigger = {
+            OR = {
+                NOT = {
+                    has_war_with = event_target:PANAMA_CANAL_CONTROLLER_GLOBAL 
+                }
+                ROOT = { exists = no }
+                event_target:PANAMA_CANAL_CONTROLLER_GLOBAL = {
+                    exists = no 
+                }
+            }
+        }
+
+        highlight_states = {
+            highlight_state_targets = {
+                state = 685
+            }
+        }
+
+        on_map_mode = map_and_decisions_view
+
+		is_good = yes
+
+        complete_effect = { ##player failed objective
+            event_target:PANAMA_CANAL_CONTROLLER_GLOBAL = {
+                country_event = cea.10 
+            }
+            country_event = cea.9
+        }   
+
+        timeout_effect = { ## Player succeeded
+            event_target:PANAMA_CANAL_CONTROLLER_GLOBAL = {
+                country_event = cea.9
+            }
+            country_event = cea.10
+        }
+    }
 }
 
 VEN_escalantes_advancing_dementia = {

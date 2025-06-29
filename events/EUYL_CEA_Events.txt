@@ -225,3 +225,558 @@ country_event = {
 		}
 	}
 }
+
+## Mal de Panama has Hit our Plantations ##
+country_event = {
+	id = cea.6
+	title = cea.6.t
+	desc = cea.6.d
+	picture = GFX_CEA_mal_de_panama_event
+
+	is_triggered_only = yes 
+
+	option = {
+		name = cea.6.a
+		add_timed_idea = {
+			idea = CEA_mal_de_panama
+			days = 365
+		}
+		set_country_flag = CEA_mal_de_panama_flag
+	}
+}
+
+## The Future of the Canal ##
+country_event = {
+	id = cea.7
+	title = cea.7.t 
+	desc = cea.7.d 
+	picture = GFX_PAN_future_of_canal_event_pic
+
+	is_triggered_only = yes 
+
+	option = { ## We need to approach the situation diplomatically
+		name = cea.7.a 
+		ai_chance = {
+			base = 1
+			modifier = {
+				add = 50
+				OR = {
+					has_government = democratic
+					has_government = neutrality 
+					has_stability > 0.6
+				}
+			}
+		}
+		complete_national_focus = PAN_a_diplomatic_approach
+		USA = {
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = sided_with_the_americans
+			}
+		}
+		unlock_decision_tooltip = PAN_increase_labor_force_on_the_canal
+		unlock_decision_tooltip = PAN_offer_aid_in_the_completion_of_the_madden_dam
+	}
+
+	option = { ## Only with the Military can this situation be resolved
+		name = cea.7.b 
+		ai_chance = {
+			base = 1
+			modifier = {
+				add = 50
+				OR = {
+					has_government = fascism
+					has_government = communism
+					has_war_support > 0.6
+				}
+			}
+		}
+		complete_national_focus = PAN_a_militarist_approach
+		USA = {
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = ARG_against_us
+			}
+		}
+		add_command_power = 10
+		unlock_decision_tooltip = PAN_bolster_our_defences_near_the_canal_in_FROM
+		unlock_decision_tooltip = PAN_light_up_the_fire_of_nationalism
+	}
+}
+
+## Panama is Demanding we hand over Control of the CanaL
+country_event = {
+	id = cea.8
+	title = cea.8.t 
+	desc = cea.8.d 
+	picture = GFX_report_event_generic_army
+
+	is_triggered_only = yes 
+
+	## Their claim is valid ##
+	option = {
+		name = cea.8.a 
+		ai_chance = {
+			base = 2
+			modifier = {
+				factor = 0
+				FROM = {
+					is_power_balance_in_range = {
+						id = PAN_control_over_canal_bop
+						range = PAN_total_american_control_over_canal
+					}
+				}
+			}
+			modifier = {
+				factor = 20
+				strength_ratio = {
+					tag = FROM
+					ratio < 1
+				}
+			}
+			modifier = {
+				factor = 5
+				has_opinion = {
+					target = FROM 
+					value > 49
+				}
+			}
+			modifier = {
+				factor = 2
+				num_of_factories > 9
+			}
+			modifier = {
+				factor = 3
+				FROM = {
+					power_balance_value = {
+						id = PAN_control_over_canal_bop
+						value > 0.45
+					}
+				}
+			}
+		}
+		FROM = { 
+			transfer_state = 685 
+			country_event = {
+				id = peru.16
+				hours = 8
+			}
+		}
+	}
+
+	## Are they... being serious? Of couse NOT
+	option = {
+		name = cea.8.b 
+		ai_chance = {
+			base = 10
+			modifier = {
+				factor = 0
+				FROM = {
+					is_power_balance_in_range = {
+						id = PAN_control_over_canal_bop
+						range = PAN_total_panamanian_control_over_canal
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				strength_ratio = {
+					tag = FROM
+					ratio > 2
+				}
+			}
+			modifier = {
+				factor = 3
+				FROM = {
+					power_balance_value = {
+						id = PAN_control_over_canal_bop
+						value < -0.05
+					}
+				}
+			}
+		}
+		FROM = {
+			country_event = {
+				id = peru.17
+				hours = 8
+			}
+		}
+	}
+}
+
+## We have failed our Objectives
+country_event = {
+	id = cea.9
+	title = cea.9.t 
+	desc = cea.9.d 
+	picture = GFX_report_event_generic_destroyed_vehicles
+
+	is_triggered_only = yes 
+
+	immediate = {
+		hidden_effect = {
+			if = {
+				limit = {
+					original_tag = PAN
+				}
+				white_peace = event_target:PANAMA_CANAL_CONTROLLER_GLOBAL
+			}
+		}
+	}
+
+	option = {
+		name = cea.9.a 
+		add_stability = -0.05
+		add_war_support = -0.1
+		if = {
+			limit = {
+				original_tag = PAN 
+			}
+			effect_tooltip = {
+				white_peace = event_target:PANAMA_CANAL_CONTROLLER_GLOBAL
+			}
+		}
+		else = {
+			effect_tooltip = {
+				white_peace = PAN
+			}
+		}
+		hidden_effect = {
+			clear_global_event_target = PANAMA_CANAL_CONTROLLER_GLOBAL
+		}
+	}
+}
+
+## We have Succeeded with our Objectives 
+country_event = {
+	id = cea.10
+	title = cea.10.t 
+	desc = cea.10.d 
+	picture = GFX_report_event_france_victory_syria
+
+	is_triggered_only = yes 
+
+	immediate = {
+		hidden_effect = {
+			if = {
+				limit = {
+					original_tag = PAN 
+				}
+				transfer_state = 685
+				white_peace = event_target:PANAMA_CANAL_CONTROLLER_GLOBAL 
+			}
+		}
+	}
+
+	option = {
+		name = cea.10.a 
+		if = {
+			limit = {
+				original_tag = PAN 
+			}
+			add_stability = 0.05
+			add_war_support = 0.1
+			effect_tooltip = {
+				transfer_state = 685
+				white_peace = event_target:PANAMA_CANAL_CONTROLLER_GLOBAL 
+			}
+		}
+		else = {
+			add_war_support = 0.03
+			effect_tooltip = {
+				white_peace = PAN
+				PAN = {
+					transfer_state = 685
+				}
+			}
+		}
+		hidden_effect = {
+			clear_global_event_target = PANAMA_CANAL_CONTROLLER_GLOBAL
+		}
+	}
+}
+
+## Panama is reqesting Control over the Canal
+country_event = {
+	id = cea.11
+	title = cea.11.t 
+	desc = cea.11.d 
+	picture = GFX_report_event_generic_sign_treaty1
+
+	is_triggered_only = yes 
+
+	## They can have it ##
+	option = {
+		name = cea.11.a 
+		ai_chance = {
+			base = 2
+			modifier = {
+				factor = 0
+				FROM = {
+					is_power_balance_in_range = {
+						id = PAN_control_over_canal_bop
+						range = PAN_total_american_control_over_canal
+					}
+				}
+			}
+			modifier = {
+				factor = 10
+				strength_ratio = {
+					tag = FROM
+					ratio < 1
+				}
+			}
+			modifier = {
+				factor = 10
+				has_opinion = {
+					target = FROM 
+					value > 49
+				}
+			}
+			modifier = {
+				factor = 2
+				num_of_factories > 9
+			}
+			modifier = {
+				factor = 3
+				FROM = {
+					power_balance_value = {
+						id = PAN_control_over_canal_bop
+						value > 0.45
+					}
+				}
+			}
+		}
+		FROM = { 
+			transfer_state = 685 
+			country_event = {
+				id = peru.16
+				hours = 8
+			}
+		}
+	}
+
+	## They can have it, but it will come at a cost
+	option = {
+		name = cea.11.b
+		ai_chance = {
+			base = 4
+			modifier = {
+				factor = 0
+				FROM = { ## the US will give it to them for free if the player worked hard for this
+					is_power_balance_in_range = {
+						id = PAN_control_over_canal_bop
+						range = PAN_total_panamanian_control_over_canal
+					}
+				}
+			}
+			modifier = {
+				factor = 10
+				strength_ratio = {
+					tag = FROM
+					ratio < 1
+				}
+			}
+			modifier = {
+				factor = 15
+				has_opinion = {
+					target = FROM 
+					value > 49
+				}
+			}
+			modifier = {
+				factor = 3
+				num_of_factories > 9
+			}
+			modifier = {
+				factor = 5
+				FROM = {
+					power_balance_value = {
+						id = PAN_control_over_canal_bop
+						value > 0.25
+					}
+				}
+			}
+		}
+		FROM = { ## FROM = PAN
+            transfer_state = 685
+            country_event = {
+                id = venezuela.25 
+                hours = 4
+                random_hours = 16
+            }
+            add_ideas = VEN_panama_canal_compensation_ven
+        }
+        add_ideas = VEN_panama_canal_compensation_usa
+	}
+
+	## Are they... being serious? Of couse NOT
+	option = {
+		name = cea.8.c 
+		ai_chance = {
+			base = 10
+			modifier = {
+				factor = 0
+				FROM = {
+					is_power_balance_in_range = {
+						id = PAN_control_over_canal_bop
+						range = PAN_total_panamanian_control_over_canal
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				strength_ratio = {
+					tag = FROM
+					ratio > 2
+				}
+			}
+			modifier = {
+				factor = 3
+				FROM = {
+					power_balance_value = {
+						id = PAN_control_over_canal_bop
+						value < -0.05
+					}
+				}
+			}
+		}
+		FROM = {
+			country_event = {
+				id = peru.17
+				hours = 8
+			}
+		}
+	}
+}
+
+## FROM Invites us to the Central American Defense Pact ##
+country_event = {
+	id = cea.12
+	title = cea.12.t 
+	desc = cea.12.d 
+	picture = GFX_report_event_generic_sign_treaty2
+
+	is_triggered_only = yes 
+
+	option = { ## Together we are stronger
+		name = cea.12.a 
+		ai_chance = {
+			base = 15
+			modifier = {
+				factor = 3
+				FROM = {
+					has_government = ROOT 
+				}
+			}
+			modifier = {
+				factor = 2
+				has_opinion = {
+					target = FROM 
+					value > 24
+				}
+			}
+			modifier = {
+				factor = 2
+				threat > 0.5
+			}
+			modifier = {
+				factor = 2
+				strength_ratio = {
+					tag = FROM
+					ratio < 1
+				}
+			}
+		}
+		custom_effect_tooltip = CEA_joins_central_american_defense_pact_tt
+		hidden_effect = {
+			event_target:CENTRAL_AMERICAN_FACTION_CREATOR = {
+				add_to_faction = ROOT
+				country_event = {
+					id = cea.13
+					hours = 2
+					random_hours = 4
+				}
+			}
+		}
+	}
+
+	option = { ## We can't join
+		name = cea.12.b 
+		ai_chance = {
+			base = 5
+			modifier = {
+				factor = 2
+				threat < 0.1
+			}
+			modifier = {
+				factor = 2
+				FROM = {
+					NOT = {
+						has_government = ROOT
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				strength_ratio = {
+					tag = FROM
+					ratio > 1
+				}
+			}
+		}
+		event_target:CENTRAL_AMERICAN_FACTION_CREATOR = {
+			country_event = {
+				id = cea.14
+				hours = 12
+				random_hours = 12
+			}
+		}
+	}
+}
+
+## FROM has accepted to join the pact
+country_event = {
+	id = cea.13
+	title = cea.13.t 
+	desc = cea.13.d 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = cea.13.a 
+	}
+}
+
+## FROM has rejected the offer to join 
+country_event = {
+	id = cea.14
+	title = cea.14.t 
+	desc = cea.14.d 
+
+	is_triggered_only = yes 
+
+	option = { ## if thats their choice, then so be it
+		name = cea.14.a 
+		ai_chance = {
+			base = 10
+		}
+	}
+
+	option = {
+		name = cea.14.b 
+		ai_chance = {
+			base = 2
+		}
+		trigger = {
+			OR = {
+				has_government = communism
+				has_government = fascism
+			}
+		}
+		create_wargoal = {
+			type = annex_everything
+			target = FROM 
+		}
+	}
+}
