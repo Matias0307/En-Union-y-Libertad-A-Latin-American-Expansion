@@ -930,7 +930,7 @@ country_event = {
         ai_chance = {
             base = 5
             modifier = {
-                factor = 5
+                factor = 3
                 strength_ratio = {
                     tag = FROM
                     ratio > 1
@@ -1375,7 +1375,7 @@ country_event = {
     }
 
     option = { ## We can't do anything about it
-        name = venezuela.28.b
+        name = venezuela.28.c
         ai_chance = {
             base = 5
             modifier = {
@@ -1946,7 +1946,7 @@ country_event = {
 country_event = {
     id = venezuela.45
     title = venezuela.45.t 
-    desc = veenzuela.45.d 
+    desc = venezuela.45.d 
     picture = GFX_report_event_generic_read_write
 
     is_triggered_only = yes 
@@ -1957,20 +1957,27 @@ country_event = {
             base = 15
             modifier = {
                 factor = 5
-                surrender_progress > 0.34
+                surrender_progress > 0.3
             }
             modifier = {
                 factor = 3
                 FROM = {
                     has_army_manpower = {
-                        size > 299999
+                        size > 199999
                     }
                 }
             }
             modifier = {
-                factor = 0 
-                FROM = {
-                    surrender_progress > 0.1
+                factor = 2
+                has_opinion = {
+                    target = FROM 
+                    value > 79
+                }
+            }
+            modifier = {
+                factor = 2
+                any_enemy_country = { ## Venezuela is in the same war
+                    has_war_with = FROM
                 }
             }
         }
@@ -2026,9 +2033,9 @@ country_event = {
         ai_chance = {
             base = 2
             modifier = {
-                factor = 5
+                factor = 3
                 FROM = {
-                    surrender_progress > 0.01
+                    surrender_progress < 0.2
                 }
             }
         }
