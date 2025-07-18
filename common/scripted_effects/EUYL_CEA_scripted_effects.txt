@@ -294,11 +294,24 @@ CEA_basic_create_faction = {
         limit = {
             CEA_is_available_to_receive_invite = yes
         }
+        add_ai_strategy = {
+			type = alliance
+			id = event_target:CENTRAL_AMERICAN_FACTION_CREATOR
+			value = 100
+		}
+		add_ai_strategy = {
+			type = support
+			id = event_target:CENTRAL_AMERICAN_FACTION_CREATOR
+			value = 100
+		}
         country_event = {
             id = cea.12
             hours = 8
             random_hours = 24
         }
+    }
+    hidden_effect = {
+        add_ideas = CEA_the_central_american_defense_pact_idea
     }
 }
 
@@ -314,6 +327,142 @@ CEA_basic_dismantle_faction = {
     else = {
         var:faction_leader = {
             dismantle_faction = yes
+        }
+    }
+}
+
+HON_add_5_control_over_nation = {
+    custom_effect_tooltip = HON_add_5_control_over_nation_tt
+    add_to_variable = {
+        HON_control_over_nation_var = 5
+    }
+    clamp_variable = {
+        var = HON_control_over_nation_var
+        min = 0
+        max = 100
+    }
+}
+
+HON_add_10_control_over_nation = {
+    custom_effect_tooltip = HON_add_10_control_over_nation_tt
+    add_to_variable = {
+        HON_control_over_nation_var = 10
+    }
+    clamp_variable = {
+        var = HON_control_over_nation_var
+        min = 0
+        max = 100
+    }
+}
+
+HON_add_15_control_over_nation = {
+    custom_effect_tooltip = HON_add_15_control_over_nation_tt
+    add_to_variable = {
+        HON_control_over_nation_var = 15
+    }
+    clamp_variable = {
+        var = HON_control_over_nation_var
+        min = 0
+        max = 100
+    }
+}
+
+HON_remove_5_control_over_nation = {
+    custom_effect_tooltip = HON_reduce_5_control_over_nation_tt
+    subtract_from_variable = {
+        HON_control_over_nation_var = 5
+    }
+    clamp_variable = {
+        var = HON_control_over_nation_var
+        min = 0
+        max = 100
+    }
+}
+
+HON_remove_10_control_over_nation = {
+    custom_effect_tooltip = HON_reduce_10_control_over_nation_tt
+    subtract_from_variable = {
+        HON_control_over_nation_var = 10
+    }
+    clamp_variable = {
+        var = HON_control_over_nation_var
+        min = 0
+        max = 100
+    }
+}
+
+HON_remove_15_control_over_nation = {
+    custom_effect_tooltip = HON_reduce_15_control_over_nation_tt
+    subtract_from_variable = {
+        HON_control_over_nation_var = 15
+    }
+    clamp_variable = {
+        var = HON_control_over_nation_var
+        min = 0
+        max = 100
+    }
+}
+
+HON_effects_from_current_control_over_nation = {
+    if = {
+        limit = {
+            has_country_flag = HON_went_against_tiburicio_flag
+        }
+        set_temp_variable = {
+            HON_ceiling = 25
+        }
+        subtract_from_temp_variable = {
+            HON_ceiling = HON_control_over_nation_var
+        }
+        if = {
+            limit = {
+                check_variable = {
+                    HON_ceiling > 0
+                }
+            }
+            divide_temp_variable = {
+                HON_ceiling = 2
+            }
+            round_variable = HON_ceiling
+        }
+        custom_effect_tooltip = HON_due_to_current_control_over_nation_following_effects_occur_tt
+        add_political_power = HON_ceiling
+        if = {
+            limit = {
+                check_variable = {
+                    HON_ceiling < -15
+                }
+            }
+            add_stability = -0.03
+        }
+    }
+    else = {
+        set_temp_variable = {
+            HON_ceiling = -50
+        }
+        add_to_temp_variable = {
+            HON_ceiling = HON_control_over_nation_var
+        }
+        if = {
+            limit = {
+                check_variable = {
+                    HON_ceiling > 0
+                }
+            }
+            divide_temp_variable = {
+                HON_ceiling = 2
+            }
+            round_variable = HON_ceiling
+        }
+        custom_effect_tooltip = HON_due_to_current_control_over_nation_following_effects_occur_tt
+        add_political_power = HON_ceiling
+        if = {
+            limit = {
+                check_variable = {
+                    HON_ceiling < -15
+                }
+            }
+            add_stability = -0.03
         }
     }
 }

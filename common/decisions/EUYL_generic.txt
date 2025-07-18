@@ -855,6 +855,61 @@ economy_decisions = {
 		}
 	}
 
+	CEA_construct_a_power_grid_in_FROM = {
+		icon = generic_construction
+		allowed = {
+			CEA_is_central_american = yes
+		}
+
+		state_target = yes
+		target_array = controlled_states
+		target_trigger = {
+			FROM = {
+				is_core_of = ROOT
+				is_fully_controlled_by = ROOT
+				NOT = { has_dynamic_modifier = { modifier = PAR_power_grid_present } }
+			}
+		}
+
+		on_map_mode = map_and_decisions_view
+
+		cost = 25
+		days_remove = 30
+
+		fire_only_once = yes 
+
+		visible = {
+			has_completed_focus = CEA_establish_a_regional_electrical_grid
+			FROM = {
+				NOT = { has_dynamic_modifier = { modifier = PAR_power_grid_present } }
+			}
+		}
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 0
+			hidden_trigger = {
+				NOT = { has_country_flag = PAR_currently_constructing_power_grid }
+			}
+		}
+		modifier = {
+			civilian_factory_use = 1
+		}
+
+		complete_effect = { set_country_flag = PAR_currently_constructing_power_grid }
+
+		remove_effect = { 
+			clr_country_flag = PAR_currently_constructing_power_grid
+			FROM = {
+				add_dynamic_modifier = { modifier = PAR_power_grid_present }
+			}
+			custom_effect_tooltip = CEA_modify_defense_pact_industry_tt
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_consumer_goods_factor = -0.01
+				tooltip = consumer_goods_factor_tt
+			}
+		}
+	}
+
 	ARG_steal_factories_from_FROM = {
 		allowed = {
 			original_tag = ARG

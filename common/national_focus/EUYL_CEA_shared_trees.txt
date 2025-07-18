@@ -1331,113 +1331,6 @@ shared_focus = {
 	}
 }
 
-## Connect the East NICARAGUA SUBTREE ##
-shared_focus = {
-	id = CEA_NIC_connect_the_east
-	icon = GFX_CEA_nicaragua_connect_east
-	cost = 5
-	x = -4
-	y = 1
-	relative_position_id = CEA_the_economy
-	prerequisite = {
-		focus = CEA_the_economy
-	}
-
-	allow_branch = {
-		original_tag = NIC
-	}
-
-	available = {
-		1054 = {
-			has_dynamic_modifier = {
-				modifier = BOL_underdeveloped_province
-			}
-		}
-	}
-
-	search_filters = {
-		FOCUS_FILTER_INDUSTRY
-	}
-
-	completion_reward = {
-		if = {
-			limit = {
-				can_build_railway = {
-					start_state = 1054
-					target_state = ROOT.capital
-					build_only_on_allied = yes 
-				}
-			}
-			build_railway = {
-				level = 1
-				start_state = 1054
-				target_state = ROOT.capital
-			}
-		}
-		1054 = {
-			add_building_construction = {
-				type = infrastructure
-				level = 1
-				instant_build = yes
-			}
-		}
-
-		custom_effect_tooltip = CHL_skip_one_line_tt
-
-		unlock_decision_tooltip = {
-			decision = NIC_develop_the_provinca_of_1054
-			show_effect_tooltip = yes
-		}
-	}
-}
-
-shared_focus = {
-	id = CEA_NIC_develop_the_east
-	icon = GFX_CEA_nicaragua_develop_east
-	cost = 7.2
-	x = 0
-	y = 1
-
-	relative_position_id = CEA_NIC_connect_the_east
-
-	prerequisite = {
-		focus = CEA_NIC_connect_the_east
-	}
-
-	available = {
-		1054 = {
-			is_fully_controlled_by = ROOT 
-			NOT = {
-				has_dynamic_modifier = {
-					modifier = BOL_underdeveloped_province
-				}
-			}
-		}
-	}
-
-	search_filters = {
-		FOCUS_FILTER_INDUSTRY
-	}
-
-	completion_reward = {
-		1054 = {
-			add_building_construction = {
-				type = industrial_complex
-				level = 1
-				instant_build = yes
-			}
-			add_resource = {
-				type = steel
-				amount = 3
-			}
-			add_resource = {
-				type = tungsten
-				amount = 2
-			}
-		}
-	}
-}
-
 shared_focus = {
 	id = CEA_strengthen_the_local_industry
 	icon = GFX_goal_generic_construct_civ_factory
@@ -1551,82 +1444,6 @@ shared_focus = {
 			add_resource = {
 				type = tungsten
 				amount = 2
-			}
-		}
-	}
-}
-
-## Only for Nicaragua
-shared_focus = {
-	id = NIC_exploit_nicaraguan_gold
-	icon = GFX_NIC_gold_mines_icon
-	cost = 10
-	x = 1
-	y = 1
-
-	relative_position_id = CEA_open_new_mines
-	prerequisite = {
-		focus = CEA_open_new_mines
-	}
-	prerequisite = {
-		focus = CEA_NIC_develop_the_east
-	}
-
-	allow_branch = {
-		original_tag = NIC
-	}
-
-	available = {
-		OR = {
-			has_completed_focus = CEA_nationalize_the_industry
-			num_of_factories > 14
-		}
-	}
-
-	search_filters = {
-		FOCUS_FILTER_INDUSTRY
-	}
-
-	completion_reward = {
-		1055 = {
-			add_extra_state_shared_building_slots = 2
-			add_building_construction = {
-				type = industrial_complex
-				level = 1
-				instant_build = yes
-			}
-			add_building_construction = {
-				type = infrastructure
-				level = 1
-				instant_build = yes
-			}
-			add_dynamic_modifier = {
-				modifier = VEN_gold_extraction
-			}
-		}
-
-		custom_effect_tooltip = CEA_if_completed_rosario_mining_company_following_effects_occur_tt
-
-		effect_tooltip = {
-			1055 = {
-				add_resource = {
-					type = steel
-					amount = 8
-				}
-			}
-		}
-
-		hidden_effect = {
-			if = {
-				limit = {
-					has_completed_focus = CEA_the_rosario_mining_company
-				}
-				1055 = {
-					add_resource = {
-						type = steel
-						amount = 8
-					}
-				}
 			}
 		}
 	}
@@ -1982,19 +1799,851 @@ shared_focus = {
 }
 
 
+#### SHARED ARMED FORCES BRANCHES ####
+shared_focus = {
+	id = CEA_armed_forces
+
+	dynamic = yes
+
+	icon = {
+		trigger = {
+			original_tag = HON
+		}
+		value = GFX_CEA_armed_forces_HON_icon
+	}
+	icon = {
+		trigger = {
+			original_tag = ELS
+		}
+		value = GFX_CEA_armed_forces_ELS_icon
+	}
+	icon = {
+		trigger = {
+			original_tag = NIC
+		}
+		value = GFX_CEA_armed_forces_NIC_icon
+	}
+	icon = {
+		trigger = {
+			original_tag = PAN
+		}
+		value = GFX_CEA_armed_forces_PAN_icon
+	}
+	icon = {
+		trigger = {
+			original_tag = GUA
+		}
+		value = GFX_CEA_armed_forces_GUA_icon
+	}
+	icon = {
+		trigger = {
+			original_tag = COS
+		}
+		value = GFX_CEA_armed_forces_COS_icon
+	}
+
+	icon = {
+		trigger = {
+			NOT = {
+				OR = {
+					original_tag = ELS
+					original_tag = GUA
+					original_tag = NIC
+					original_tag = HON 
+					original_tag = COS 
+					original_tag = PAN
+				}
+			}
+		}
+		value = GFX_goal_generic_army_doctrines
+	}
+
+	x = 75
+	y = 0
+
+	cost = 2.9
+
+	available = {
+		has_civil_war = no 
+	}
+
+	search_filters = {
+		FOCUS_FILTER_AIR_XP FOCUS_FILTER_ARMY_XP FOCUS_FILTER_NAVY_XP
+	}
+
+	completion_reward = {
+		army_experience = 10
+		navy_experience = 15
+		air_experience = 15
+	}
+}
+
+shared_focus = {
+	id = CEA_enforce_mandatory_trainings
+	icon = GFX_focus_generic_little_entente
+	cost = 5
+	x = -4
+	y = 1
+	relative_position_id = CEA_armed_forces
+	prerequisite = {
+		focus = CEA_armed_forces
+	}
+
+	search_filters = {
+		FOCUS_FILTER_ARMY_XP FOCUS_FILTER_WAR_SUPPORT
+	}
+
+	completion_reward = {
+		add_timed_idea = {
+			idea = CEA_enforced_mandatory_training_idea_1
+			days = 365
+		}
+		custom_effect_tooltip = PRU_effect_when_idea_removed_tt
+		effect_tooltip = {
+			swap_ideas = {
+				remove_idea = CEA_enforced_mandatory_training_idea_1
+				add_idea = CEA_enforced_mandatory_training_idea_2
+			}
+		}
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		army_experience = 15
+	}
+}
+
+shared_focus = {
+	id = CEA_modernize_our_infantry_equipment
+	icon = GFX_goal_generic_small_arms
+	cost = 7.2
+	x = -2
+	y = 1
+	relative_position_id = CEA_enforce_mandatory_trainings
+	prerequisite = {
+		focus = CEA_enforce_mandatory_trainings
+	}
+
+	search_filters = {
+		FOCUS_FILTER_RESEARCH
+	}
+
+	completion_reward = {
+		add_tech_bonus = {
+			name = ARG_modernize_our_infantry_equipment
+			bonus = 0.75
+			uses = 2
+			category = infantry_weapons
+		}
+	}
+}
+
+shared_focus = {
+	id = CEA_establish_jungle_regiments
+	icon = GFX_BRA_jungle_regiments
+	cost = 8
+	x = 1
+	y = 1
+	relative_position_id = CEA_modernize_our_infantry_equipment
+	prerequisite = {
+		focus = CEA_modernize_our_infantry_equipment
+	}
+
+	cost = 8
+
+	available = {
+		OR = {
+			threat > 0.2
+			has_war_support > 0.5 
+			num_of_controlled_states > 3
+		}
+	}
+
+	completion_reward = {
+		add_ideas = CEA_jungle_regiments_idea
+	}
+}
+
+shared_focus = { ## Military Police 
+	id = CEA_military_police
+	icon = GFX_EUYL_generic_soldier_recruit_icon
+	cost = 10
+	x = 0
+	y = 3
+	relative_position_id = CEA_enforce_mandatory_trainings
+	prerequisite = {
+		focus = CEA_enforce_mandatory_trainings
+	}
+
+	available = {
+		custom_trigger_tooltip = {
+			tooltip = CEA_has_improved_version_of_enforced_mandatory_training_tt
+			has_idea = CEA_enforced_mandatory_training_idea_2
+		}
+	}
+	search_filters = {
+		FOCUS_FILTER_MANPOWER
+	}
+
+	completion_reward = {
+		swap_ideas = {
+			remove_idea = CEA_enforced_mandatory_training_idea_2
+			add_idea = CEA_enforced_mandatory_training_idea_3
+		}
+	}
+}
+
+### Import American Weapons ##
+shared_focus = {
+	id = CEA_import_american_weapons
+	icon = GFX_CEA_import_american_weapons_icon
+	cost = 10
+	x = -1
+	y = 1
+	relative_position_id = CEA_modernize_our_infantry_equipment
+	prerequisite = {
+		focus = CEA_modernize_our_infantry_equipment
+	}
+
+	available = {
+		USA = {
+			exists = yes 
+			NOT = {
+				has_war_with = ROOT
+			}
+		}
+		custom_trigger_tooltip = {
+			tooltip = CEA_has_improved_version_of_enforced_mandatory_training_tt
+			has_idea = CEA_enforced_mandatory_training_idea_2
+		}
+	}
+	
+	search_filters = {
+		FOCUS_FILTER_POLITICAL
+	}
+
+	completion_reward = {
+		if = {
+			limit = {
+				has_dlc = "Arms Against Tyranny"
+			}
+			add_equipment_subsidy = {
+				cic = 500
+				equipment_type = infantry_equipment
+				seller_tags  = { USA }
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 500
+				producer = USA
+			}
+		}
+		else = {
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 2000
+				producer = USA
+			}
+		}
+
+		if = {
+			limit = {
+				original_tag = PAN 
+			}
+			PAN_move_5_towards_america = yes
+		}
+	}
+}
+
+## Modernize our Artillery 
+shared_focus = {
+	id = CEA_modernize_our_artillery
+	icon = GFX_goal_generic_army_artillery2
+	cost = 7.2
+	x = 3
+	y = 1
+	relative_position_id = CEA_enforce_mandatory_trainings
+	prerequisite = {
+		focus = CEA_enforce_mandatory_trainings
+	}
+
+	search_filters = {
+		FOCUS_FILTER_RESEARCH
+	}
+
+	completion_reward = {
+		add_tech_bonus = {
+			name = CEA_modernize_our_artillery
+			bonus = 0.75
+			uses = 2
+			category = artillery
+		}
+	}
+}
+
+## Mobile Warfare ##
+shared_focus = {
+	id = CEA_mobile_warfare
+	icon = GFX_goal_generic_army_motorized
+	cost = 8
+	x = 1
+	y = 1
+	relative_position_id = CEA_enforce_mandatory_trainings
+	prerequisite = {
+		focus = CEA_enforce_mandatory_trainings
+	}
+
+	search_filters = {
+		FOCUS_FILTER_RESEARCH
+	}
+
+	completion_reward = {
+		add_tech_bonus = {
+			name = CEA_mobile_warfare
+			bonus = 0.75
+			uses = 1
+			category = motorized_equipment
+		}
+		add_tech_bonus = {
+			name = CEA_mobile_warfare
+			bonus = 0.75
+			uses = 2
+			category = cat_mechanized_equipment
+		}
+	}
+}
+
+## Armored Production ##
+shared_focus = {
+	id = CEA_armored_effort
+	icon = GFX_focus_generic_tank_production
+	cost = 10
+	x = 0
+	y = 1
+	relative_position_id = CEA_mobile_warfare
+	prerequisite = {
+		focus = CEA_mobile_warfare
+	}
+
+	available = {
+		num_of_factories > 6
+		custom_trigger_tooltip = {
+			tooltip = CEA_has_improved_version_of_enforced_mandatory_training_tt
+			has_idea = CEA_enforced_mandatory_training_idea_2
+		}
+	}
+
+	search_filters = {
+		FOCUS_FILTER_RESEARCH FOCUS_FILTER_INDUSTRY
+	}
+
+	completion_reward = {
+		EUYL_add_1_military = yes 
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		add_tech_bonus = {
+			name = CEA_armored_effort
+			bonus = 0.5
+			uses = 3
+			category = armor
+		}
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		add_breakthrough_progress = {
+			specialization = specialization_land
+			value = 0.5
+		}
+	}
+}
+
+## The Army of ROOT.GetName 
+shared_focus = {
+	id = CEA_the_army_of_ROOT
+	icon = GFX_focus_chi_army_reform
+	cost = 10
+	x = 0
+	y = 1
+	relative_position_id = CEA_military_police
+	prerequisite = {
+		focus = CEA_military_police
+	}
+
+	available = {
+		has_army_manpower = {
+			size > 29999
+		}
+	}
+
+	completion_reward = {
+		army_experience = 50
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		add_doctrine_cost_reduction = {
+			name = CEA_the_army_of_ROOT
+			cost_reduction = 0.5
+			uses = 2
+			category = land_doctrine
+		}
+	}
+}
+
+## Invest in the Airforce ## im genuinely drunk while doing this lmfaooo
+shared_focus = {
+	id = CEA_invest_in_the_airforce
+	icon = GFX_goal_generic_air_fighter
+	cost = 6
+	x = 0
+	y = 1
+	relative_position_id = CEA_armed_forces
+	prerequisite = {
+		focus = CEA_armed_forces
+	}
+
+	completion_reward = {
+		add_timed_idea = {
+			idea = ARG_expand_air_force
+			days = 500
+		}
+	}
+}
+
+## Ground Support ##
+shared_focus  = {
+	id = CEA_ground_support
+	icon = GFX_focus_generic_tank_air_support
+	cost = 8
+	x = 0
+	y = 2
+	relative_position_id = CEA_invest_in_the_airforce
+	prerequisite = {
+		focus = CEA_invest_in_the_airforce
+	}
+	prerequisite = {
+		focus = CEA_modernize_our_artillery
+	}
+
+	search_filters = {
+		FOCUS_FILTER_RESEARCH
+	}
+
+	completion_reward = {
+		add_ideas = CEA_ground_support_idea
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		add_tech_bonus = {
+			name = CEA_ground_support
+			bonus = 0.5
+			uses = 2
+			category = cas_bomber
+		}
+	}
+}
+
+## No Pilot Left Behind ##
+shared_focus = {
+	id = CEA_no_pilot_left_behind
+	icon = GFX_EUYL_generic_pilot_icon
+	cost = 10
+	x = 0
+	y = 1
+	relative_position_id = CEA_ground_support
+	prerequisite = {
+		focus = CEA_ground_support
+	}
+
+	search_filters = {
+		FOCUS_FILTER_AIR_XP FOCUS_FILTER_RESEARCH
+	}
+
+	completion_reward = {
+		air_experience = 50
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		add_doctrine_cost_reduction = {
+			name = CEA_no_pilot_left_behind
+			cost_reduction = 0.5
+			uses = 2
+			category = air_doctrine
+		}
+	}
+}
+
+## The Naval Forces of ROOT ##
+shared_focus = {
+	id = CEA_the_naval_forces_of_ROOT
+	icon = GFX_focus_generic_navy_battleship2
+	cost = 5
+	x = 5
+	y = 1
+	relative_position_id = CEA_armed_forces
+	prerequisite = {
+		focus = CEA_armed_forces
+	}
+
+	available = {
+		any_controlled_state = {
+			is_coastal = yes 
+		}
+	}
+
+	search_filters = {
+		FOCUS_FILTER_RESEARCH FOCUS_FILTER_NAVY_XP
+	}
+
+	completion_reward = {
+		navy_experience = 15
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		add_doctrine_cost_reduction = {
+			name = CEA_the_naval_forces_of_ROOT
+			cost_reduction = 0.1
+			uses = 1
+			category = naval_doctrine
+		}
+	}
+}
+
+### Naval Production ###
+shared_focus = {
+	id = CEA_naval_production
+	icon = GFX_goal_generic_construct_naval_dockyard
+	cost = 7.2
+	x = 2
+	y = 1
+	relative_position_id = CEA_the_naval_forces_of_ROOT
+	prerequisite = {
+		focus = CEA_the_naval_forces_of_ROOT
+	}
+
+	available = {
+		any_controlled_state = {
+			is_coastal = yes 
+		}
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY
+	}
+
+	completion_reward = {
+		add_ideas = CEA_naval_production_idea
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		EUYL_add_1_dockyard = yes
+	}
+}
+
+## Import Foreign Fighters ##
+shared_focus = {
+	id = CEA_import_foreign_fighters
+	icon = GFX_goal_generic_air_fighter2
+	cost = 10
+	x = 1
+	y = 1
+	relative_position_id = CEA_invest_in_the_airforce
+	prerequisite = {
+		focus = CEA_invest_in_the_airforce
+	}
+
+	search_filters = {
+		FOCUS_FILTER_RESEARCH
+	}
+
+	completion_reward = {
+		add_tech_bonus = {
+			name = CEA_import_foreign_fighters
+			bonus = 0.75
+			uses = 2
+			category = light_fighter
+			category = cat_heavy_fighter
+		}
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		IF = {
+			limit = {
+				has_dlc = "Arms Against Tyranny"
+			}
+			add_equipment_subsidy = {
+				cic = 500
+				equipment_type = small_plane_airframe
+				seller_tags = { USA JAP ENG FRA ITA GER SOV } 
+			}
+			custom_effect_tooltip = generic_skip_one_line_tt
+			IF = {
+				limit = {
+					has_dlc = "By Blood Alone"
+				}
+				add_equipment_to_stockpile = { 
+					type = small_plane_airframe_0
+					amount = 10
+					producer = ENG
+				}
+				add_equipment_to_stockpile = { 
+					type = small_plane_airframe_1
+					amount = 10
+					producer = GER
+				}
+			}
+			ELSE = {
+				add_equipment_to_stockpile = { 
+					type = fighter_equipment_1
+					amount = 10
+					producer = ENG
+				}
+				add_equipment_to_stockpile = { 
+					type = fighter_equipment_1
+					amount = 10
+					producer = GER
+				}
+			}
+		}
+		ELSE = {
+			IF = {
+				limit = {
+					has_dlc = "By Blood Alone"
+				}
+				add_equipment_to_stockpile = { 
+					type = small_plane_airframe_0
+					amount = 25
+					producer = ENG
+				}
+				add_equipment_to_stockpile = { 
+					type = small_plane_airframe_1
+					amount = 25
+					producer = GER
+				}
+			}
+			ELSE = {
+				add_equipment_to_stockpile = { 
+					type = fighter_equipment_1
+					amount = 25
+					producer = ENG
+				}
+				add_equipment_to_stockpile = { 
+					type = fighter_equipment_1
+					amount = 25
+					producer = GER
+				}
+			}
+		}		
+	}
+}
+
+shared_focus = {
+	id = CEA_fund_bomber_production
+	icon = GFX_focus_SWE_marauder_bombers
+	cost = 10
+	x = 3
+	y = 1
+	relative_position_id = CEA_invest_in_the_airforce
+	prerequisite = {
+		focus = CEA_invest_in_the_airforce
+	}
+
+	search_filters = {
+		FOCUS_FILTER_RESEARCH
+	}
+
+	completion_reward = {
+		add_tech_bonus = {
+			name = CEA_fund_bomber_production
+			bonus = 0.5
+			uses = 2
+			category = tactical_bomber
+		}
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		add_breakthrough_progress = {
+			specialization = specialization_air
+			value = 0.5
+		}
+	}
+}
+
+## Screening Ships ##
+shared_focus = {
+	id = CEA_screening_ships
+	icon = GFX_focus_generic_destroyer
+	cost = 10
+	x = 0
+	y = 1
+	relative_position_id = CEA_the_naval_forces_of_ROOT
+	prerequisite = {
+		focus = CEA_the_naval_forces_of_ROOT
+	}
+
+	search_filters = {
+		FOCUS_FILTER_RESEARCH
+	}
+
+	completion_reward = {
+		add_tech_bonus = {
+			name = CEA_screening_ships
+			bonus = 1.0
+			uses = 1
+			category = ss_tech
+		}
+		add_tech_bonus = {
+			name = CEA_screening_ships
+			bonus = 1.0
+			uses = 1
+			category = dd_tech
+		}
+	}
+}
+
+## Produce Naval Bomber ##
+shared_focus = {
+	id = CEA_produce_naval_bombers
+	icon = GFX_goal_generic_air_naval_bomber
+	cost = 10
+	x = -1
+	y = 1
+	relative_position_id = CEA_screening_ships
+	prerequisite = {
+		focus = CEA_screening_ships
+	}
+	prerequisite = {
+		focus = CEA_fund_bomber_production
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH
+	}
+
+	completion_reward = {
+		add_ideas = CEA_produce_naval_bombers_idea
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		add_tech_bonus = {
+			name = CEA_produce_naval_bombers
+			bonus = 0.5
+			uses = 1
+			category = naval_air
+		}
+		add_tech_bonus = {
+			name = CEA_produce_naval_bombers
+			bonus = 0.65
+			uses = 1
+			category = naval_bomber
+		}	
+	}
+}
+
+## Heavy Ship Effort ##
+shared_focus = {
+	id = CEA_heavy_ship_effort
+	icon = GFX_goal_generic_navy_battleship
+	cost = 10
+	x = 1
+	y = 1
+	relative_position_id = CEA_screening_ships
+	prerequisite = {
+		focus = CEA_screening_ships
+	}
+
+	search_filters = {
+		FOCUS_FILTER_RESEARCH
+	}
+
+	completion_reward = {
+		add_tech_bonus = {
+			name = CEA_heavy_ship_effort
+			bonus = 1.0
+			uses = 1
+			category = bb_tech
+		}
+		add_tech_bonus = {
+			name = CEA_heavy_ship_effort
+			bonus = 0.75
+			uses = 2
+			category = cl_tech	
+			category = ca_tech	
+		}
+	}
+}
+
+### Breakthrough in our Naval Technology ##
+shared_focus = {
+	id = CEA_breakthrough_in_our_naval_technology
+	icon = GFX_focus_generic_navy_research_bonus
+	cost = 10
+	x = 0
+	y = 2
+	relative_position_id = CEA_screening_ships
+	prerequisite = {
+		focus = CEA_screening_ships
+	}
+
+	available = {
+		has_navy_size = {
+			size > 9
+		}
+	}
+
+	search_filters = {
+		FOCUS_FILTER_RESEARCH FOCUS_FILTER_NAVY_XP
+	}
+
+	completion_reward = {
+		navy_experience = 50
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		add_breakthrough_progress = {
+			specialization = specialization_naval
+			value = 0.5
+		}
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		add_doctrine_cost_reduction = {
+			name = CEA_breakthrough_in_our_naval_technology
+			cost_reduction = 0.5
+			uses = 2
+			category = naval_doctrine
+		}
+	}
+}
+
 ### JOINT CENTRAL AMERICAN FOCUSES WHEN IN FACTION ###
 joint_focus = {
 	id = CEA_the_defense_pact
 	icon = GFX_CEA_the_defense_pact_icon
 	relative_position_id = CEA_the_economy
-	x = 21
-	y = 0
+	x = 7
+	y = 6
 
 	offset = {
-		x = 4
-		y = 0
+		x = 2
+		y = 1
 		trigger = {
 			original_tag = HON
+		}
+	}
+
+	offset = {
+		x = 1
+		y = 2
+		trigger = {
+			original_tag = PAN
+		}
+	}
+
+	offset = {
+		x = -2
+		y = 0
+		trigger = {
+			original_tag = GUA
 		}
 	}
 
@@ -2106,7 +2755,7 @@ joint_focus = {
 		focus = CEA_prevent_foreign_political_influence
 	}
 
-	cost = 5
+	cost = 6
 
 	text_icon = EUYL_CEA_focus_style
 
@@ -2160,7 +2809,7 @@ joint_focus = {
 		focus = CEA_enhance_foreign_relations
 	}
 
-	cost = 6
+	cost = 7.2
 
 	text_icon = EUYL_CEA_focus_style
 
@@ -2221,7 +2870,7 @@ joint_focus = {
 		focus = CEA_prevent_foreign_political_influence
 	}
 
-	cost = 5
+	cost = 6
 
 	text_icon = EUYL_CEA_focus_style
 
@@ -2265,7 +2914,7 @@ joint_focus = {
 		focus = CEA_enhance_foreign_relations
 	}
 
-	cost = 7.2
+	cost = 10
 
 	text_icon = EUYL_CEA_focus_style
 
@@ -2315,7 +2964,7 @@ joint_focus = {
 		focus = CEA_regional_political_reforms
 	}
 
-	cost = 6
+	cost = 7.2
 
 	text_icon = EUYL_CEA_focus_style
 
@@ -2352,7 +3001,7 @@ joint_focus = {
 		}
 		hidden_effect = {
 			add_to_variable = {
-				global.CEA_DEFENSE_PACT_political_economy_cost_factor = 0.1
+				global.CEA_DEFENSE_PACT_political_economy_cost_factor = -0.1
 			}
 		}
 	}
@@ -2366,7 +3015,6 @@ joint_focus = {
 }
 
 ## No Compromise on our Future
-
 joint_focus = {
 	id = CEA_no_compromise_on_our_future
 	icon = GFX_focus_freedom
@@ -2407,5 +3055,1298 @@ joint_focus = {
 
 	completion_reward_joint_member = {
 		add_stability = 0.05
+	}
+}
+
+### Economic Cooperation 
+joint_focus = {
+	id = CEA_economic_cooperation
+	icon = GFX_focus_generic_industry_3
+	x = -5
+	y = 1
+	relative_position_id = CEA_the_defense_pact
+	prerequisite = {
+		focus = CEA_the_defense_pact
+	}
+
+	cost = 5
+
+	text_icon = EUYL_CEA_focus_style
+
+	available = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	joint_trigger = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY
+	}
+
+	completion_reward = {
+		effect_tooltip = {
+			custom_effect_tooltip = CEA_modify_defense_pact_industry_tt
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_production_speed_industrial_complex_factor = 0.05
+				tooltip = production_speed_industrial_complex_factor_tt
+			}
+		}
+	}
+
+	completion_reward_joint_originator = {
+		hidden_effect = {
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_production_speed_industrial_complex_factor = 0.05
+			}
+		}
+	}
+}
+
+## Peg our Currencies to the same rate
+joint_focus = {
+	id = CEA_peg_our_currencies_to_the_same_rate
+	icon = GFX_focus_mex_privatisation
+	x = -3
+	y = 1
+	relative_position_id = CEA_the_defense_pact
+	prerequisite = {
+		focus = CEA_the_defense_pact
+	}
+
+	cost = 7.2
+
+	text_icon = EUYL_CEA_focus_style
+
+	available = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	joint_trigger = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY
+	}
+
+	completion_reward = {
+		effect_tooltip = {
+			custom_effect_tooltip = CEA_modify_defense_pact_industry_tt
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_consumer_goods_factor = -0.05
+				tooltip = consumer_goods_factor_tt
+			}
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_production_factory_max_efficiency_factor = 0.03
+				tooltip = production_factory_max_efficiency_factor_tt
+			}
+		}
+	}
+
+	completion_reward_joint_originator = {
+		hidden_effect = {
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_consumer_goods_factor = -0.05
+				tooltip = consumer_goods_factor_tt
+			}
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_production_factory_max_efficiency_factor = 0.03
+				tooltip = production_factory_max_efficiency_factor_tt
+			}
+		}
+	}
+}
+
+## Improved Consumer Purchasing Power
+joint_focus = {
+	id = CEA_improved_consumer_purchasing_power
+	icon = GFX_focus_RAJ_trickle_down_economics
+	x = 0
+	y = 1
+	relative_position_id = CEA_peg_our_currencies_to_the_same_rate
+	prerequisite = {
+		focus = CEA_peg_our_currencies_to_the_same_rate
+	}
+
+	cost = 6
+
+	text_icon = EUYL_CEA_focus_style
+
+	available = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	joint_trigger = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY
+	}
+
+	completion_reward = {
+		effect_tooltip = {
+			custom_effect_tooltip = CEA_modify_defense_pact_industry_tt
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_industrial_capacity_factory = 0.02
+				tooltip = industrial_capacity_factory_tt
+			}
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_consumer_goods_factor = -0.05
+				tooltip = consumer_goods_factor_tt
+			}
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_industry_free_repair_factor = 0.05
+				tooltip = MODIFIER_INDUSTRY_FREE_REPAIR_FACTOR
+			}
+		}
+	}
+
+	completion_reward_joint_originator = {
+		hidden_effect = {
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_industrial_capacity_factory = 0.02
+			}
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_consumer_goods_factor = -0.05
+			}
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_industry_free_repair_factor = 0.05
+			}
+		}
+	}
+}
+
+## Push Joint Industrial Reforms ##
+joint_focus = {
+	id = CEA_push_joint_industrial_reforms
+	icon = GFX_goal_generic_construct_civ_factory
+	x = -1
+	y = 3
+	relative_position_id = CEA_peg_our_currencies_to_the_same_rate
+	prerequisite = {
+		focus = CEA_peg_our_currencies_to_the_same_rate
+	}
+	prerequisite = {
+		focus = CEA_economic_cooperation
+	}
+
+	cost = 7.2
+
+	text_icon = EUYL_CEA_focus_style
+
+	available = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	joint_trigger = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY
+	}
+
+	completion_reward = {
+		EUYL_add_1_civilian = yes 
+		effect_tooltip = {
+			custom_effect_tooltip = CEA_modify_defense_pact_industry_tt
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_line_change_production_efficiency_factor = 0.05
+				tooltip = line_change_production_efficiency_factor_tt
+			}
+		}
+	}
+
+	completion_reward_joint_originator = {
+		hidden_effect = {
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_line_change_production_efficiency_factor = 0.05
+				tooltip = line_change_production_efficiency_factor_tt
+			}
+		}
+	}
+}
+
+## Establish a regional Electrical Grid ##
+joint_focus = {
+	id = CEA_establish_a_regional_electrical_grid
+	icon = GFX_focus_generic_electrification
+	x = -1
+	y = 1
+	relative_position_id = CEA_economic_cooperation
+	prerequisite = {
+		focus = CEA_economic_cooperation
+	}
+
+	cost = 6
+
+	text_icon = EUYL_CEA_focus_style
+
+	available = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	joint_trigger = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY
+	}
+
+	completion_reward = {
+		unlock_decision_tooltip = { 
+			decision = CEA_construct_a_power_grid_in_FROM
+			show_modifiers = yes 
+			show_effect_tooltip = yes 
+		}
+		custom_effect_tooltip = EUYL_decisions_will_be_available_in_economic_policy_tt
+	}
+
+	completion_reward_joint_originator = {
+		random_owned_controlled_state = {
+			add_extra_state_shared_building_slots = 1
+		}
+	}
+}
+
+## Improve the Rails ##
+joint_focus = {
+	id = CEA_improve_the_rails
+	icon = GFX_focus_generic_railroad
+	x = -1
+	y = 1
+	relative_position_id = CEA_establish_a_regional_electrical_grid
+	prerequisite = {
+		focus = CEA_establish_a_regional_electrical_grid
+	}
+
+	cost = 10
+
+	text_icon = EUYL_CEA_focus_style
+
+	available = {
+		any_controlled_state = {
+			custom_trigger_tooltip = {
+				tooltip = EUYL_power_grid_present_in_this_state_tt
+				has_dynamic_modifier = {
+					modifier = PAR_power_grid_present
+				}
+			}
+		}
+		CEA_basic_available_trigger = yes 
+	}
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	joint_trigger = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY
+	}
+
+	completion_reward = {
+		effect_tooltip = {
+			custom_effect_tooltip = CEA_modify_defense_pact_industry_tt
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_production_speed_rail_way_factor = 0.1
+				tooltip = production_speed_rail_way_factor_tt
+			}
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_production_speed_supply_node_factor = 0.1
+				tooltip = production_speed_supply_node_factor_tt
+			}
+		}
+		effect_tooltip = {
+			custom_effect_tooltip = CEA_modify_defense_pact_army_tt
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_supply_node_range = 0.05 tooltip = supply_node_range_tt }
+		}
+	}
+
+	completion_reward_joint_originator = {
+		hidden_effect = {
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_production_speed_rail_way_factor = 0.1
+			}
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_production_speed_supply_node_factor = 0.1
+			}
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_supply_node_range = 0.05 }
+		}
+	}
+}
+
+## Joint Urban Planning ##
+joint_focus = {
+	id = CEA_joint_urban_planning
+	icon = GFX_focus_generic_low_cost_housing
+	x = 0
+	y = 2
+	relative_position_id = CEA_establish_a_regional_electrical_grid
+	prerequisite = {
+		focus = CEA_establish_a_regional_electrical_grid
+	}
+
+	cost = 6
+
+	text_icon = EUYL_CEA_focus_style
+
+	available = {
+		any_controlled_state = {
+			custom_trigger_tooltip = {
+				tooltip = EUYL_power_grid_present_in_this_state_tt
+				has_dynamic_modifier = {
+					modifier = PAR_power_grid_present
+				}
+			}
+		}
+		CEA_basic_available_trigger = yes 
+	}
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	joint_trigger = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY
+	}
+
+	completion_reward = {
+		effect_tooltip = {
+			custom_effect_tooltip = CEA_modify_defense_pact_industry_tt
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_global_building_slots_factor = 0.1
+				tooltip = global_building_slots_factor_tt
+			}
+		}
+	}
+
+	completion_reward_joint_originator = {
+		hidden_effect = {
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_global_building_slots_factor = 0.1
+			}
+		}
+	}
+}
+
+## Standardize our Manufacturing ##
+joint_focus = {
+	id = CEA_standardize_our_manufacturing
+	icon = GFX_focus_generic_reorient_production
+	x = 1
+	y = 1
+	relative_position_id = CEA_push_joint_industrial_reforms
+	prerequisite = {
+		focus = CEA_push_joint_industrial_reforms
+	}
+
+	cost = 7.2
+
+	text_icon = EUYL_CEA_focus_style
+
+	available = {
+		num_of_factories > 9
+		CEA_basic_available_trigger = yes 
+	}
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	joint_trigger = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY
+	}
+
+	completion_reward = {
+		effect_tooltip = {
+			custom_effect_tooltip = CEA_modify_defense_pact_industry_tt
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_industrial_capacity_factory = 0.05
+				tooltip = industrial_capacity_factory_tt
+			}
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_production_speed_arms_factory_factor = 0.05
+				tooltip = production_speed_arms_factory_factor_tt
+			}
+		}
+	}
+
+	completion_reward_joint_originator = {
+		hidden_effect = {
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_industrial_capacity_factory = 0.05
+			}
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_production_speed_arms_factory_factor = 0.05
+			}
+		}
+	}
+}
+
+## The Mines are Calling ##
+joint_focus = {
+	id = CEA_the_mines_are_calling
+	icon = GFX_focus_generic_resource_extraction
+	x = -1
+	y = 1
+	relative_position_id = CEA_cooperate_with_the_local_manufacturers
+	prerequisite = {
+		focus = CEA_cooperate_with_the_local_manufacturers
+	}
+	prerequisite = {
+		focus = CEA_standardize_our_manufacturing
+	}
+
+	cost = 10 
+
+	text_icon = EUYL_CEA_focus_style
+
+	available = {
+		num_of_controlled_states > 0
+		CEA_basic_available_trigger = yes 
+	}
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	joint_trigger = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY
+	}
+
+	completion_reward = {
+		effect_tooltip = {
+			custom_effect_tooltip = CEA_modify_defense_pact_industry_tt
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_local_resources_factor = 0.05
+				tooltip = industrial_capacity_factory_tt
+			}
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_production_lack_of_resource_penalty_factor = -0.1
+				tooltip = production_speed_arms_factory_factor_tt
+			}
+		}
+	}
+
+	completion_reward_joint_originator = {
+		EUYL_add_1_civilian = yes 
+		random_owned_controlled_state = {
+			add_resource = {
+				type = steel
+				amount = 5
+			}
+		}
+		hidden_effect = {
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_local_resources_factor = 0.05
+			}
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_production_lack_of_resource_penalty_factor = -0.1
+			}
+		}
+	}
+
+	completion_reward_joint_member = {
+		random_owned_controlled_state = {
+			add_resource = {
+				type = steel
+				amount = 2
+			}
+			add_resource = {
+				type = chromium
+				amount = 1
+			}
+		}
+	}
+}
+
+## An Industry that Keeps Growing 
+joint_focus = {
+	id = CEA_an_industry_that_keeps_growing
+	icon = GFX_CEA_industry_forward_icon
+	x = -1
+	y = 2
+	relative_position_id = CEA_push_joint_industrial_reforms
+	prerequisite = {
+		focus = CEA_push_joint_industrial_reforms
+	}
+	prerequisite = {
+		focus = CEA_joint_urban_planning
+	}
+
+	cost = 10 
+
+	text_icon = EUYL_CEA_focus_style
+
+	available = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	joint_trigger = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY
+	}
+
+	completion_reward = {
+		effect_tooltip = {
+			custom_effect_tooltip = CEA_modify_defense_pact_industry_tt
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_production_speed_industrial_complex_factor = 0.02
+				tooltip = production_speed_industrial_complex_factor_tt
+			}
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_line_change_production_efficiency_factor = 0.05
+				tooltip = line_change_production_efficiency_factor_tt
+			}
+		}
+	}
+
+	completion_reward_joint_originator = {
+		EUYL_add_2_civilian = yes 
+		hidden_effect = {
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_production_speed_industrial_complex_factor = 0.02
+			}
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_line_change_production_efficiency_factor = 0.05
+			}
+		}
+	}
+
+	completion_reward_joint_member = {
+		EUYL_add_1_civilian = yes 
+	}
+}
+
+### Joint Military Exercises ###
+joint_focus = {
+	id = CEA_joint_military_exercises
+	icon = GFX_ARG_urban_militias
+	x = 4
+	y = 1
+	relative_position_id = CEA_the_defense_pact
+	prerequisite = {
+		focus = CEA_the_defense_pact
+	}
+
+	cost = 6
+
+	text_icon = EUYL_CEA_focus_style
+
+	available = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	joint_trigger = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	search_filters = {
+		FOCUS_FILTER_ARMY_XP
+	}
+
+	completion_reward = {
+		effect_tooltip = {
+			custom_effect_tooltip = CEA_modify_defense_pact_army_tt
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_max_command_power = 20 tooltip = max_command_power_tt }
+		}
+	}
+
+	completion_reward_joint_originator = {
+		army_experience = 30
+		hidden_effect = {
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_max_command_power = 20 }
+		}
+	}
+
+	completion_reward_joint_member = {
+		army_experience = 20
+	}
+}
+
+### Pefect Flexible Maneuverability
+joint_focus = {
+	id = CEA_perfect_flexible_maneuverability
+	icon = GFX_focus_generic_truck
+	x = -1
+	y = 1
+	relative_position_id = CEA_joint_military_exercises
+	prerequisite = {
+		focus = CEA_joint_military_exercises
+	}
+
+	cost = 7.2
+
+	text_icon = EUYL_CEA_focus_style
+
+	available = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	joint_trigger = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	search_filters = {
+		FOCUS_FILTER_RESEARCH
+	}
+
+	completion_reward = {
+		effect_tooltip = {
+			custom_effect_tooltip = CEA_modify_defense_pact_army_tt
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_army_speed_factor = 0.05 tooltip = army_speed_factor_tt }
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_org_loss_when_moving = -0.05 tooltip = org_loss_when_moving_tt }
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_motorized_attack_factor = 0.03 tooltip = motorized_attack_factor_tt }
+		}
+	}
+
+	completion_reward_joint_originator = {
+		add_tech_bonus = {
+			name = ARG_modernize_our_motorized
+			bonus = 0.5
+			uses = 2
+			category = motorized_equipment
+		}
+		hidden_effect = {
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_army_speed_factor = 0.05 }
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_org_loss_when_moving = -0.05 }
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_motorized_attack_factor = 0.03 }
+		}
+	}
+
+	completion_reward_joint_member = {
+		add_tech_bonus = {
+			name = ARG_modernize_our_motorized
+			bonus = 0.4
+			uses = 1
+			category = motorized_equipment
+		}
+	}
+}
+
+## Pursue the Tank Doctrine ##
+joint_focus = {
+	id = CEA_pursue_the_tank_doctrine
+	icon = GFX_focus_generic_tank_assault
+	x = 0
+	y = 1
+	relative_position_id = CEA_perfect_flexible_maneuverability
+	prerequisite = {
+		focus = CEA_perfect_flexible_maneuverability
+	}
+
+	cost = 10
+
+	text_icon = EUYL_CEA_focus_style
+
+	available = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	joint_trigger = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	search_filters = {
+		FOCUS_FILTER_RESEARCH
+	}
+
+	completion_reward = {
+		effect_tooltip = {
+			custom_effect_tooltip = CEA_modify_defense_pact_army_tt
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_army_armor_attack_factor = 0.1 tooltip = army_armor_attack_factor_tt }
+		}
+	}
+
+	completion_reward_joint_originator = {
+		add_tech_bonus = {
+			name = CEA_pursue_the_tank_doctrine
+			bonus = 0.75
+			uses = 2
+			category = armor
+		}
+		hidden_effect = {
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_army_armor_attack_factor = 0.1 }
+		}
+	}
+
+	completion_reward_joint_member = {
+		add_tech_bonus = {
+			name = CEA_pursue_the_tank_doctrine
+			bonus = 0.5
+			uses = 2
+			category = armor
+		}
+	}
+}
+
+### Tactical Cooperation ###
+joint_focus = {
+	id = CEA_tactical_cooperation
+	icon = GFX_focus_generic_military_academy
+	x = 1
+	y = 1
+	relative_position_id = CEA_joint_military_exercises
+	prerequisite = {
+		focus = CEA_joint_military_exercises
+	}
+
+	cost = 6
+
+	text_icon = EUYL_CEA_focus_style
+
+	available = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	joint_trigger = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	completion_reward = {
+		effect_tooltip = {
+			custom_effect_tooltip = CEA_modify_defense_pact_army_tt
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_planning_speed = 0.05 tooltip = planning_speed_factor_tt }
+		}
+	}
+
+	completion_reward_joint_originator = {
+		add_tech_bonus = {
+			name = CEA_pursue_the_tank_doctrine
+			bonus = 0.75
+			uses = 2
+			category = armor
+		}
+		hidden_effect = {
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_planning_speed = 0.05 }
+		}
+	}
+}
+
+## Outplay our Opponents Tactically ###
+joint_focus = {
+	id = CEA_outplay_our_opponents_tactically
+	icon = GFX_EUYL_generic_tactics_icon
+	x = 0
+	y = 1
+	relative_position_id = CEA_tactical_cooperation
+	prerequisite = {
+		focus = CEA_tactical_cooperation
+	}
+
+	cost = 10 
+
+	text_icon = EUYL_CEA_focus_style
+
+	available = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	joint_trigger = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	search_filters = {
+		FOCUS_FILTER_ARMY_XP
+	}
+
+	completion_reward = {
+		effect_tooltip = {
+			custom_effect_tooltip = CEA_modify_defense_pact_army_tt
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_army_core_attack_factor = 0.05 tooltip = army_core_attack_factor_tt }
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_army_core_defence_factor = 0.05 tooltip = army_core_defence_factor_tt }
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_army_attack_factor = 0.05 tooltip = army_attack_factor_tt }
+		}
+	}
+
+	completion_reward_joint_originator = {
+		army_experience = 10
+		hidden_effect = {
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_army_core_attack_factor = 0.07 }
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_army_core_defence_factor = 0.07 }
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_army_attack_factor = 0.05 }
+		}
+	}
+}
+
+## Regional Conscription ###
+joint_focus = {
+	id = CEA_regional_conscription
+	icon = GFX_EUYL_generic_soldier_recruit_icon
+	x = 0
+	y = 3
+	relative_position_id = CEA_joint_military_exercises
+	prerequisite = {
+		focus = CEA_joint_military_exercises
+	}
+
+	cost = 10
+
+	text_icon = EUYL_CEA_focus_style
+
+	available = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	joint_trigger = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	search_filters = {
+		FOCUS_FILTER_MANPOWER
+	}
+
+	completion_reward = {
+		effect_tooltip = {
+			custom_effect_tooltip = CEA_modify_defense_pact_army_tt
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_conscription = 0.01 tooltip = conscription_tt }
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_conscription_factor = 0.05 tooltip = conscription_factor_tt }
+		}
+	}
+
+	completion_reward_joint_originator = {
+		add_manpower = 10000
+		hidden_effect = {
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_conscription = 0.01 }
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_conscription_factor = 0.05 }
+		}
+	}
+}
+
+## Import Foreign Guns ##
+joint_focus = {
+	id = CEA_import_foreign_guns
+	icon = GFX_focus_ETH_freedom_at_gunpoint
+	x = -1
+	y = 1
+	relative_position_id = CEA_regional_conscription
+	prerequisite = {
+		focus = CEA_regional_conscription
+	}
+
+	cost = 6
+
+	text_icon = EUYL_CEA_focus_style
+
+	available = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	joint_trigger = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	completion_reward_joint_originator = {
+		random_list = {
+			20 = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 1250
+					producer = ITA
+				}
+			}
+			20 = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 1250
+					producer = SOV
+				}
+			}
+			20 = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 1250
+					producer = ENG
+				}
+			}
+			40 = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 1250
+					producer = USA
+				}
+			}
+			20 = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 1250
+					producer = GER
+				}
+			}
+		}
+	}
+
+	completion_reward_joint_member = {
+		random_list = {
+			20 = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 750
+					producer = ITA
+				}
+			}
+			20 = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 750
+					producer = SOV
+				}
+			}
+			20 = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 750
+					producer = ENG
+				}
+			}
+			40 = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 750
+					producer = USA
+				}
+			}
+			20 = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 750
+					producer = GER
+				}
+			}
+		}
+	}
+}
+
+### A Military Economy ###
+joint_focus = {
+	id = CEA_a_military_economy
+	icon = GFX_BRA_generic_military
+	x = 4
+	y = 1
+	relative_position_id = CEA_joint_military_exercises
+	prerequisite = {
+		focus = CEA_joint_military_exercises
+	}
+
+	cost = 8
+
+	text_icon = EUYL_CEA_focus_style
+
+	available = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	joint_trigger = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY
+	}
+
+	completion_reward = {
+		EUYL_add_1_military = yes
+	}
+}
+
+## Invest in the Navy ##
+joint_focus = {
+	id = CEA_invest_in_the_navy
+	icon = GFX_goal_generic_construct_naval_dockyard
+	x = 1
+	y = 1
+	relative_position_id = CEA_a_military_economy
+	prerequisite = {
+		focus = CEA_a_military_economy
+	}
+
+	cost = 10
+
+	text_icon = EUYL_CEA_focus_style
+
+	available = {
+		any_controlled_state = {
+			is_coastal = yes
+		}
+		CEA_basic_available_trigger = yes 
+	}
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	joint_trigger = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY
+	}
+
+	completion_reward = {
+		EUYL_add_1_dockyard = yes
+		effect_tooltip = {
+			custom_effect_tooltip = CEA_modify_defense_pact_industry_tt
+			add_to_variable = { global.CEA_DEFENSE_PACT_industry_production_speed_dockyard_factor = 0.05 tooltip = production_speed_dockyard_factor_tt }
+		}
+	}
+
+	completion_reward_joint_originator = {
+		hidden_effect = {
+			add_to_variable = { global.CEA_DEFENSE_PACT_industry_production_speed_dockyard_factor = 0.05 }
+		}
+	}
+}
+
+## Allocate Fuel for our Armies ##
+joint_focus = {
+	id = CEA_allocate_fuel_for_our_armies
+	icon = GFX_focus_generic_stockpile_fuel
+	x = -1
+	y = 1
+	relative_position_id = CEA_a_military_economy
+	prerequisite = {
+		focus = CEA_a_military_economy
+	}
+	
+	cost = 8
+
+	text_icon = EUYL_CEA_focus_style
+
+	available = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	joint_trigger = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY
+	}
+
+	completion_reward = {
+		effect_tooltip = {
+			custom_effect_tooltip = CEA_modify_defense_pact_army_tt
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_fuel_gain_factor = 0.05 tooltip = fuel_gain_factor_tt }
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_supply_consumption_factor = -0.05 tooltip = supply_consumption_factor_tt }
+		}
+	}
+
+	completion_reward_joint_originator = {
+		hidden_effect = {
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_fuel_gain_factor = 0.05 }
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_supply_consumption_factor = -0.05 }
+		}
+	}
+}
+
+## Threats All Around ##
+joint_focus = {
+	id = CEA_threats_all_around
+	icon = GFX_CEA_threats_around_icon
+	x = 0
+	y = 2
+	relative_position_id = CEA_a_military_economy
+	prerequisite = {
+		focus = CEA_a_military_economy
+	}
+
+	cost = 10 
+
+	text_icon = EUYL_CEA_focus_style
+
+	available = {
+		has_army_manpower = {
+			size > 19999
+		}
+		CEA_basic_available_trigger = yes 
+	}
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	joint_trigger = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY
+	}
+
+	completion_reward = {
+		effect_tooltip = {
+			custom_effect_tooltip = CEA_modify_defense_pact_army_tt
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_army_core_defence_factor = 0.05 tooltip = army_core_defence_factor_tt }
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_war_stability_factor = 0.05 tooltip = war_stability_factor_tt }
+		}
+		effect_tooltip = {
+			custom_effect_tooltip = CEA_modify_defense_pact_industry_tt
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_production_speed_arms_factory_factor = 0.05
+				tooltip = production_speed_arms_factory_factor_tt
+			}
+		}
+	}
+
+	completion_reward_joint_originator = {
+		EUYL_add_2_military = yes 
+		hidden_effect = {
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_army_core_defence_factor = 0.05 }
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_war_stability_factor = 0.05 }
+			add_to_variable = {
+				global.CEA_DEFENSE_PACT_industry_production_speed_arms_factory_factor = 0.05
+			}
+		}
+	}
+
+	completion_reward_joint_member = {
+		EUYL_add_1_military = yes
+	}
+}
+
+### The Army of Central America ###
+joint_focus = {
+	id = CEA_the_army_of_central_america
+	icon = GFX_CEA_army_of_central_america_icon
+	x = -2
+	y = 1
+	relative_position_id = CEA_threats_all_around
+	prerequisite = {
+		focus = CEA_threats_all_around
+	}
+	prerequisite = {
+		focus = CEA_regional_conscription
+	}
+
+	cost = 10
+
+	text_icon = EUYL_CEA_focus_style
+
+	available = {
+		has_army_manpower = {
+			size > 34999
+		}
+		CEA_basic_available_trigger = yes 
+	}
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	joint_trigger = {
+		CEA_basic_available_trigger = yes 
+	}
+
+	search_filters = {
+		FOCUS_FILTER_ARMY_XP FOCUS_FILTER_WAR_SUPPORT
+	}
+
+	completion_reward = {
+		add_war_support = 0.05
+		effect_tooltip = {
+			custom_effect_tooltip = CEA_modify_defense_pact_army_tt
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_experience_gain_army_factor = 0.1 tooltip = experience_gain_army_factor_tt }
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_land_doctrine_cost_factor = -0.1 tooltip = land_doctrine_cost_factor_tt }
+		}
+	}
+
+	completion_reward_joint_originator = {
+		army_experience = 40
+		add_command_power = 35
+		hidden_effect = {
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_experience_gain_army_factor = 0.1 }
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_war_stability_factor = 0.05 }
+			add_to_variable = { global.CEA_DEFENSE_PACT_army_land_doctrine_cost_factor = -0.1 }
+		}
+	}
+
+	completion_reward_joint_member = {
+		army_experience = 25
+		add_command_power = 15
 	}
 }

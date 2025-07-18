@@ -3,6 +3,12 @@
 ###########################
 
 add_namespace = cea
+add_namespace = hon 
+add_namespace = cos 
+add_namespace = pan 
+add_namespace = els 
+add_namespace = gua 
+add_namespace = nic
 
 # USA demands a cut from our profits
 country_event = {
@@ -678,13 +684,19 @@ country_event = {
 			}
 			modifier = {
 				factor = 2
-				threat > 0.5
+				threat > 0.1
 			}
 			modifier = {
 				factor = 2
 				strength_ratio = {
 					tag = FROM
 					ratio < 1
+				}
+			}
+			modifier = {
+				factor = 2
+				FROM = {
+					num_of_factories > 9
 				}
 			}
 		}
@@ -698,13 +710,17 @@ country_event = {
 					random_hours = 4
 				}
 			}
+
+			## Setting Up Ai stuff
+
+			add_ideas = CEA_the_central_american_defense_pact_idea
 		}
 	}
 
 	option = { ## We can't join
 		name = cea.12.b 
 		ai_chance = {
-			base = 5
+			base = 3
 			modifier = {
 				factor = 2
 				threat < 0.1
@@ -743,8 +759,40 @@ country_event = {
 
 	is_triggered_only = yes 
 
+	immediate = {
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_global_flag = CEA_defense_pact_event_triggered_flag
+					}
+				}
+				news_event = {
+					id = cea.15
+					days = 1
+				}
+				set_global_flag = CEA_defense_pact_event_triggered_flag
+			}
+		}
+	}
+
 	option = {
 		name = cea.13.a 
+		effect_tooltip = {
+			add_to_faction = FROM
+		}
+		hidden_effect = {
+			add_ai_strategy = {
+				type = alliance
+				id = FROM
+				value = 100
+			}
+			add_ai_strategy = {
+				type = support
+				id = FROM
+				value = 100
+			}
+		}
 	}
 }
 
@@ -778,5 +826,52 @@ country_event = {
 			type = annex_everything
 			target = FROM 
 		}
+	}
+}
+
+### The Formation of the Central American Defense Pact | NEWS EVENT
+news_event = {
+	id = cea.15
+	title = cea.15.t 
+	desc = cea.15.d 
+	picture = GFX_CEA_formation_defense_pact_pic
+
+	major = yes 
+	is_triggered_only = yes 
+
+	option = {
+		name = cea.15.a 
+		trigger = {
+			CEA_is_central_american = yes 
+		}
+	}
+
+	option = {
+		name = cea.15.b 
+		trigger = {
+			NOT = {
+				CEA_is_central_american = yes
+			}
+		}
+	}
+}
+
+### The Re-Election of Tiburicio by the Constituent Assembly ###
+country_event = {
+	id = hon.1 
+	title = hon.1.t 
+	desc = hon.1.d 
+	picture = GFX_HON_tiburicio_reelected_pic
+
+	is_triggered_only = yes 
+
+	option = { ## Tiburicio Lives on!
+		name = hon.1.a 
+	}
+
+	option = { ## Denounce the re-election!
+		name = hon.1.b 
+		set_country_flag = HON_went_against_tiburicio_flag
+		
 	}
 }
