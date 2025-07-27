@@ -73,6 +73,120 @@ on_actions = {
             }
         }
     }
+
+    on_monthly_HON = {
+        effect = {
+            if = {
+                limit = {
+                    has_country_leader = {
+                        character = HON_tiburcio_carías_andino
+                        ruling_only = yes 
+                    }
+                    has_country_flag = HON_active_protests_flag
+                    has_civil_war = no 
+                }
+                random_list = {
+                    20 = {
+                        modifier = {
+                            factor = 0.7
+                            has_stability > 0.6
+                        }
+                        modifier = {
+                            factor = 1.5 
+                            has_stability < 0.24
+                        }
+                        modifier = {
+                            factor = 0.8
+                            has_defensive_war = yes 
+                        }
+                        modifier = {
+                            factor = 1.4
+                            check_variable = {
+                                HON_control_over_nation_var < 50
+                            }
+                        }
+                        modifier = { ## just in case
+                            factor = 0
+                            OR = {
+                                NOT = { has_country_flag = HON_active_protests_flag }
+                                NOT = { 
+                                    has_country_leader = {
+                                        character = HON_tiburcio_carías_andino
+                                        ruling_only = yes 
+                                    }
+                                }
+                                has_civil_war = yes
+                            }
+                        }
+                        country_event = { ## Protests
+                            id = hon.2 
+                            random_days = 3
+                            random_hours = 8
+                        }
+                    }
+                    95 = {
+
+                    }
+                }
+            }
+        }
+        effect = {
+            if = {
+                limit = {
+                    has_country_leader = {
+                        character = HON_tiburcio_carías_andino
+                        ruling_only = yes 
+                    }
+                    has_country_flag = HON_went_against_tiburicio_flag
+                    has_civil_war = no 
+                }
+                random_list = {
+                    20 = {
+                        modifier = {
+                            factor = 0.7
+                            has_stability < 0.35
+                        }
+                        modifier = {
+                            factor = 1.5 
+                            has_stability > 0.6
+                        }
+                        modifier = {
+                            factor = 0.8
+                            has_defensive_war = yes 
+                        }
+                        modifier = {
+                            factor = 1.4
+                            check_variable = {
+                                HON_control_over_nation_var > 50
+                            }
+                        }
+                        modifier = { ## just in case
+                            factor = 0
+                            OR = {
+                                NOT = { has_country_flag = HON_went_against_tiburicio_flag }
+                                NOT = { 
+                                    has_country_leader = {
+                                        character = HON_tiburcio_carías_andino
+                                        ruling_only = yes 
+                                    }
+                                }
+                                has_civil_war = yes
+                            }
+                        }
+                        country_event = { ## Tiburicio Crackdown
+                            id = hon.3
+                            random_days = 3
+                            random_hours = 8
+                        }
+                    }
+                    95 = {
+
+                    }
+                }
+            }
+        }
+    }
+
     on_monthly_VEN = {
         effect = { ##Strikes orchestrated by the communists
             if = {
@@ -2230,6 +2344,30 @@ on_actions = {
 	
 	#ROOT is winner, FROM gets annexed.
     on_annex = { 
+        effect = {
+            if = {
+                limit = {
+                    ROOT = {
+                        original_tag = URG 
+                        has_completed_focus = URG_form_the_global_anarchist_council
+                    }
+                    FROM = {
+                        NOT = {
+                            original_tag = URG
+                        }
+                    }
+                }
+                set_temp_variable = {
+                    pol_power_add = ROOT.num_of_controlled_states
+                }
+                divide_temp_variable = {
+					pol_power_add = 2
+				}
+				round_variable = pol_power_add
+                log = "Pol power: [?pol_power_add]"
+                add_political_power = pol_power_add
+            }
+        }
         effect = {
             #End of the peru-bolivia unification Civil War
             if = {

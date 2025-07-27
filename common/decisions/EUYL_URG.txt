@@ -878,11 +878,13 @@ URG_teritorial_expansion = {
 
 		target_trigger = {
 			FROM = {
-				is_on_continent = south_america
 				is_fully_controlled_by = ROOT
 				NOT = { is_core_of = ROOT }
 				any_neighbor_state = {
-					is_core_of = ROOT
+					OR = {
+						is_core_of = ROOT
+						is_owned_by = ROOT
+					}
 				}
 			}
 		}
@@ -925,6 +927,20 @@ URG_teritorial_expansion = {
 		remove_effect = {
 			FROM = {
 				add_core_of = ROOT
+			}
+			if = {
+				limit = {
+					has_completed_focus = URG_form_the_global_anarchist_council
+				}
+				set_temp_variable = {
+                    pol_power_add = ROOT.num_of_controlled_states
+                }
+				divide_temp_variable = {
+					pol_power_add = 2
+				}
+				round_variable = pol_power_add
+                log = "Pol power: [?pol_power_add]"
+                add_political_power = pol_power_add
 			}
 		}
     }

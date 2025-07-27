@@ -867,11 +867,323 @@ country_event = {
 
 	option = { ## Tiburicio Lives on!
 		name = hon.1.a 
+		add_stability = -0.02
+		add_political_power = 20
+
+		custom_effect_tooltip = HON_protests_will_now_become_active_tt
+		set_country_flag = HON_active_protests_flag
+		set_country_flag = HON_went_with_tiburicio_flag
+
+		custom_effect_tooltip = HON_unlocks_pro_tiburicio_decisions_tt
+
+		hidden_effect = {
+			country_event = { ## negative event over the small liberal revolts
+				id = hon.4 
+				days = 4
+				random_days = 7
+				random_hours = 8
+			}
+		}
 	}
 
 	option = { ## Denounce the re-election!
 		name = hon.1.b 
 		set_country_flag = HON_went_against_tiburicio_flag
-		
+		add_stability = 0.02
+		add_political_power = -25
+
+		custom_effect_tooltip = HON_unlocks_anti_tiburicio_decisions_tt
+
+		hidden_effect = {
+			country_event = {
+				id = hon.5 
+				days = 7
+				random_days = 14
+				random_hours = 12
+			}
+		}
+	}
+}
+
+## People take up the Streets to Protest Against Tiburicio
+country_event = {
+	id = hon.2 
+	title = hon.2.t
+	desc = hon.2.d 
+	picture = GFX_report_event_generic_riot
+
+	is_triggered_only = yes
+
+	trigger = {
+		has_country_leader = {
+			character = HON_tiburcio_carías_andino
+			ruling_only = yes 
+		}
+		any_controlled_state = {
+			NOT = {
+				has_dynamic_modifier = {
+					modifier = BRA_protests
+				}
+			}
+		}
+	}
+
+	option = {
+		name = hon.2.a 
+		random_owned_controlled_state = {
+			limit = {
+				NOT = {
+					has_dynamic_modifier = {
+						modifier = BRA_protests
+					}
+				}
+			}
+			add_dynamic_modifier = {
+				modifier = BRA_protests
+				days = 80
+			}
+		}
+		random_list = {
+			75 = {
+				HON_remove_5_control_over_nation = yes 
+			}
+			25 = {
+				HON_remove_10_control_over_nation = yes 
+			}
+		}
+	}
+}
+
+## Tiburicio Cracks Down on his Opposition
+country_event = {
+	id = hon.3 
+	title = hon.3.t 
+	desc = hon.3.d 
+	picture = GFX_HON_tiburicio_crackdown_pic
+
+	is_triggered_only = yes 
+
+	trigger = {
+		has_country_leader = {
+			character = HON_tiburcio_carías_andino
+			ruling_only = yes 
+		}
+	}
+
+	option = {
+		name = hon.3.a 
+		random_owned_controlled_state = {
+			add_manpower = -5000
+		}
+		random_list = {
+			80 = {
+				HON_add_5_control_over_nation = yes 
+			}
+			20 = {
+				HON_add_10_control_over_nation = yes
+			}
+		}
+	}
+}
+
+## Partido Liberal Commences plans to revolt against us
+country_event = {
+	id = hon.4
+	title = hon.4.t 
+	desc = hon.4.d 
+	picture = GFX_HON_liberal_revolt_pic
+
+	is_triggered_only = yes 
+
+	option = {
+		name = hon.4.a 
+		activate_mission = HON_looming_revolt_against_tiburicio
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		HON_remove_5_control_over_nation = yes
+	}
+}
+
+## Partido Liberal has commenced plans to revolt against Tiburicio
+country_event = {
+	id = hon.5
+	title = hon.5.t 
+	desc = hon.5.d 
+	picture = GFX_HON_liberal_revolt_pic
+
+	is_triggered_only = yes 
+
+	option = {
+		name = hon.5.a 
+		activate_mission = HON_looming_revolt_against_tiburicio
+	}
+}
+
+## Liberals launch their revolution 
+country_event = {
+	id = hon.6
+	title = hon.6.t 
+	desc = hon.6.d 
+	picture = GFX_HON_liberal_revolt_launched_pic
+
+	is_triggered_only = yes 
+
+	option = {
+		name = hon.6.a 
+		effect_tooltip = {
+			start_civil_war = {
+				ideology = communism
+			}
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_template = "Milicias"
+					}
+				}
+				division_template = { 
+					name = "Milicias" 
+					division_names_group = SPAN_INF_02 
+					template_counter = 3
+					is_locked = yes 
+					regiments = { 
+						infantry = { x = 0 y = 0 }  
+						infantry = { x = 0 y = 1 } 
+						infantry = { x = 0 y = 2 } 
+					}
+				}
+			}
+			if = {
+				limit = { ##civil war is against player
+					has_country_flag = HON_went_with_tiburicio_flag
+				}
+				hidden_effect = {
+                    every_controlled_state = {
+                        limit = {
+                            has_dynamic_modifier = {
+                                modifier = BRA_protests
+                            }
+                        }
+                        remove_dynamic_modifier = {
+                            modifier = BRA_protests
+                        }
+                    }
+                }
+				start_civil_war = {
+					ideology = democratic 
+					size = 0.4
+					keep_all_characters = yes 
+					PREV = {
+						HON_collective_liberal_resistance = {
+							set_nationality = prev.PREV
+						}
+						HON_manuel_calix_herrera = {
+							set_nationality = prev.PREV 
+						}
+						HON_vicente_mejia_colindres = {
+							set_nationality = prev.PREV
+						}
+					}
+					promote_character = HON_collective_liberal_resistance
+				}
+				add_ideas = HON_the_third_honduran_civil_war
+				every_controlled_state = {
+					create_unit = {
+                        division = "name = \"Milicias Hondureñas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+                        owner = ROOT
+                        count = 2
+                    }
+				}
+				random_owned_controlled_state = {
+					create_unit = {
+                        division = "name = \"Milicias Hondureñas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+                        owner = ROOT
+                        count = 2
+                    }
+				}
+				random_other_country = {
+					limit = {
+						original_tag = HON 
+						has_government = democratic
+					}
+					add_ideas = HON_the_third_honduran_civil_war
+					HON_manuel_calix_herrera = {
+                        add_corps_commander_role = {
+                            skill = 2
+                            attack_skill = 1
+                            defense_skill = 2
+                            planning_skill = 2
+                            logistics_skill = 2
+                        }
+                    }
+					## TODO: add load_focus_tree to load the thingy mabob
+					every_controlled_state = {
+						create_unit = {
+							division = "name = \"Milicias Hondureñas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+							owner = PREV
+							count = 3
+						}
+					}
+				}
+			}
+			else = {
+				start_civil_war = {
+					ruling_party = democratic
+					ideology = ROOT 
+					size = 0.7
+					keep_all_characters = yes 
+					PREV = {
+						HON_tiburcio_carías_andino = {
+							set_nationality = prev.PREV
+						}
+						HON_abraham_williams_calderon = {
+							set_nationality = prev.PREV
+						}
+					}
+					promote_character = HON_tiburcio_carías_andino
+				}
+				add_ideas = HON_the_third_honduran_civil_war
+				every_controlled_state = {
+					create_unit = {
+                        division = "name = \"Milicias Hondureñas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+                        owner = ROOT
+                        count = 2
+                    }
+				}
+				random_owned_controlled_state = {
+					create_unit = {
+                        division = "name = \"Milicias Hondureñas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+                        owner = ROOT
+                        count = 2
+                    }
+				}
+				random_other_country = {
+					limit = {
+						original_tag = HON 
+						NOT = { has_government = democratic }
+					}
+					add_ideas = HON_the_third_honduran_civil_war
+					HON_tiburcio_carías_andino = {
+                        add_corps_commander_role = {
+                            skill = 2
+                            attack_skill = 1
+                            defense_skill = 2
+                            planning_skill = 2
+                            logistics_skill = 2
+                        }
+                    }
+					## TODO: add load_focus_tree to load the thingy mabob
+					every_controlled_state = {
+						create_unit = {
+							division = "name = \"Milicias Hondureñas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+							owner = PREV
+							count = 3
+						}
+					}
+				}
+			}
+		}
 	}
 }

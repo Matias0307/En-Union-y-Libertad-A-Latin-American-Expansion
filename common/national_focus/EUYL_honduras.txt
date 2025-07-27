@@ -8,6 +8,8 @@
 ### search_filters = {FOCUS_FILTER_CORRUPTION}
 ### search_filters = {FOCUS_FILTER_POLITICAL_TENSION}
 ### search_filters = {FOCUS_FILTER_CHI_INFLATION}
+### search_filters = {FOCUS_FILTER_ANTI_AMERICAN_FOCUS}
+### search_filters = {FOCUS_FILTER_CONTROL_OVER_NATION}
 
 focus_tree = {
 	id = honduran_focus
@@ -39,6 +41,42 @@ focus_tree = {
 
 		available = {
 			has_civil_war = no 
+			has_country_leader = {
+				character = HON_tiburcio_carías_andino
+				ruling_only = yes 
+			}
+		}
+
+		cost = 4
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_CONTROL_OVER_NATION
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = HON_if_tiburicio_re_election_still_active_tt
+			effect_tooltip = {
+				HON_add_5_control_over_nation = yes 
+				add_political_power = 40
+			}
+
+			custom_effect_tooltip = HON_if_not_tiburicio_re_election_active_tt
+			effect_tooltip = {
+				add_political_power = 15
+			}
+
+			hidden_effect = {
+				if = {
+					limit = {
+						has_active_mission = HON_re_election_of_tiburicio
+					}
+					HON_add_5_control_over_nation = yes 
+					add_political_power = 40 
+				}
+				else = {
+					add_political_power = 15
+				}
+			}
 		}
 	}
 }

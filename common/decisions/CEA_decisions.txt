@@ -933,3 +933,479 @@ PAN_national_forestry_industry = {
 		}
 	}
 }
+
+HON_el_cariato_cat = {
+	HON_re_election_of_tiburicio = {
+		priority = 20
+		icon = eng_trade_unions_support
+
+		activation = {
+			always = no 
+		}
+
+		available = {
+			NOT = {
+				has_country_leader = {
+					character = HON_tiburcio_carías_andino
+					ruling_only = yes 
+				}
+			}
+		}
+
+		days_mission_timeout = 85
+
+		cancel_trigger = {
+			OR = {
+				exists = no 
+				is_subject = yes 
+			}
+		}
+
+		is_good = yes 
+
+		timeout_effect = {
+			country_event = hon.1
+		}
+	}
+
+	HON_looming_revolt_against_tiburicio = {
+		priority = 20 
+		icon = revolt
+
+		activation = {
+			always = no 
+		}
+
+		available = {
+			OR = {
+				NOT = {
+					has_country_leader = {
+						character = HON_tiburcio_carías_andino
+						ruling_only = yes 
+					}
+				}
+				has_completed_focus = HON_silence_the_partido_liberal
+			}
+		}
+
+		is_good = no 
+
+		days_mission_timeout = 205
+
+		cancel_trigger = {
+			OR = {
+				exists = no 
+				is_subject = yes 
+			}
+		}
+
+		timeout_effect = {
+			
+		}
+	}
+
+	HON_imprison_political_opponents = {
+		icon = generic_arrest
+
+		visible = {
+			has_country_flag = HON_went_with_tiburicio_flag
+		}
+
+		available = {
+			has_civil_war = no 
+			has_army_manpower = {
+				size > 8999
+			}
+		}
+
+		cost = 20
+
+		days_mission_timeout = 35
+
+		remove_effect = {
+			HON_add_5_control_over_nation = yes 
+			random_owned_controlled_state = {
+				add_manpower = -317
+			}
+		}
+	}
+
+	HON_take_direct_control_of_the_armed_forces = {
+		icon = generic_army_support
+
+		visible = {
+			has_country_flag = HON_went_with_tiburicio_flag
+			has_country_leader = {
+				character = HON_tiburcio_carías_andino
+				ruling_only = yes
+			}
+		}
+
+		available = {
+			has_country_leader = {
+				character = HON_tiburcio_carías_andino
+				ruling_only = yes 
+			}
+			has_civil_war = no 
+		}
+
+		fire_only_once = yes
+
+		custom_cost_text = decision_cost_15_army_xp
+		custom_cost_trigger = {
+			has_army_experience > 14
+		}
+
+		complete_effect = {
+			hidden_effect = {
+				army_experience = -15
+			}
+			HON_add_10_control_over_nation = yes 
+			HON_tiburcio_carías_andino = {
+				add_field_marshal_role = {
+					traits = { old_guard politically_connected war_hero offensive_doctrine }
+					skill = 3
+					attack_skill = 3
+					defense_skill = 2
+					planning_skill = 3
+					logistics_skill = 2
+					visible = {
+						has_country_leader = {
+							character = HON_tiburcio_carías_andino
+							ruling_only = yes
+						}
+					}
+				}
+			}
+		}
+	}
+
+	HON_arrest_the_protesters_in_FROM = {
+		icon = generic_brainwash
+
+		state_target = yes 
+
+		target_array = core_states
+
+		target_trigger = {
+			FROM = {
+				has_dynamic_modifier = {
+					modifier = BRA_protests
+				}
+			}
+		}
+
+		on_map_mode = map_only
+
+		visible = {
+			has_country_flag = HON_went_with_tiburicio_flag
+			FROM = {
+				has_dynamic_modifier = {
+					modifier = BRA_protests
+				}
+			}
+		}
+
+		available = {
+			NOT = {
+				has_country_flag = HON_dealing_with_protesters_flag
+			}
+			has_civil_war = no 
+		}
+
+		cancel_trigger = {
+			FROM = {
+				OR = {
+					controller = {
+						NOT = {
+							original_tag = ROOT 
+						}
+					}
+					NOT = {
+						has_dynamic_modifier = {
+							modifier = BRA_protests
+						}
+					}
+				}
+			}
+			exists = no 
+		}
+
+		cost = 15
+
+		days_remove = 20
+
+		complete_effect = {
+			set_country_flag = HON_dealing_with_protesters_flag
+		}
+
+		cancel_effect = {
+			clr_country_flag = HON_dealing_with_protesters_flag
+		}
+
+		remove_effect = {
+			FROM = {
+				remove_dynamic_modifier = {
+					modifier = BRA_protests
+				}
+			}
+			random_list = {
+				50 = {
+					HON_add_5_control_over_nation = yes 
+				}
+				50 = {
+
+				}
+			}
+			clr_country_flag = HON_dealing_with_protesters_flag
+		}
+	}
+
+	HON_repress_the_protestors_in_FROM = {
+		icon = oppression
+
+		state_target = yes 
+
+		target_array = core_states
+
+		target_trigger = {
+			FROM = {
+				has_dynamic_modifier = {
+					modifier = BRA_protests
+				}
+			}
+		}
+
+		on_map_mode = map_only
+
+		visible = {
+			has_country_flag = HON_went_with_tiburicio_flag
+			FROM = {
+				has_dynamic_modifier = {
+					modifier = BRA_protests
+				}
+			}
+		}
+
+		available = {
+			NOT = {
+				has_country_flag = HON_dealing_with_protesters_flag
+			}
+			has_civil_war = no 
+		}
+
+		cancel_trigger = {
+			FROM = {
+				OR = {
+					controller = {
+						NOT = {
+							original_tag = ROOT 
+						}
+					}
+					NOT = {
+						has_dynamic_modifier = {
+							modifier = BRA_protests
+						}
+					}
+				}
+			}
+			exists = no 
+		}
+
+		cost = 15
+
+		days_remove = 20
+
+		complete_effect = {
+			set_country_flag = HON_dealing_with_protesters_flag
+		}
+
+		cancel_effect = {
+			clr_country_flag = HON_dealing_with_protesters_flag
+		}
+
+		remove_effect = {
+			FROM = {
+				remove_dynamic_modifier = {
+					modifier = BRA_protests
+				}
+				add_manpower = -1000
+			}
+			random_list = {
+				70 = {
+					HON_add_5_control_over_nation = yes 
+				}
+				30 = {
+					add_stability = -0.01
+				}
+			}
+			clr_country_flag = HON_dealing_with_protesters_flag
+			custom_effect_tooltip = HON_this_will_get_us_closer_to_a_totalitarian_dictatorship_tt
+		}
+	}
+
+	HON_persecute_the_communists = {
+		icon = generic_police_action
+
+		visible = {
+			has_country_flag = HON_went_with_tiburicio_flag
+		}
+
+		available = {
+			has_civil_war = no 
+		}
+
+		fire_only_once = yes
+
+		cost = 25
+
+		days_re_enable = 60
+
+		complete_effect = {
+			add_popularity = {
+				ideology = communism
+				popularity = -0.02
+			}
+			HON_add_5_control_over_nation = yes
+		}
+	}
+
+	HON_deploy_the_private_police_in_FROM = {
+		icon = generic_army_support
+
+		state_target = yes 
+		target_array = controlled_states
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT
+			}
+		}
+
+		on_map_mode = map_and_decisions_view
+
+		fire_only_once = yes
+
+		visible = {
+			has_country_flag = HON_went_with_tiburicio_flag
+		}
+
+		available = {
+			has_completed_focus = HON_establish_private_police
+			has_country_leader = {
+				character = HON_tiburcio_carías_andino
+				ruling_only = yes 
+			}
+			has_civil_war = no 
+		}
+
+		fire_only_once = yes
+
+		custom_cost_text = decision_cost_CP_5_pp_25
+		custom_cost_trigger = {
+			command_power > 4
+			has_political_power > 24
+		}
+
+		complete_effect = {
+			hidden_effect = {
+				add_command_power = -5
+				add_political_power = -25
+			}
+			HON_add_5_control_over_nation = yes
+		}
+	}
+	
+	## and now the decisions for going against tiburicio
+
+	HON_rally_support_in_FROM = {
+		icon = generic_civil_support
+
+		visible = {
+			has_country_flag = HON_went_against_tiburicio_flag
+			has_country_leader = {
+				character = HON_tiburcio_carías_andino
+				ruling_only = yes
+			}
+		}
+
+		state_target = yes 
+		target_array = core_states
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+			}
+		}
+
+		on_map_mode = map_and_decisions_view
+
+		available = {
+			has_country_leader = {
+				character = HON_tiburcio_carías_andino
+				ruling_only = yes
+			}
+		}
+
+		cost = 15
+
+		days_remove = 40
+
+		modifier = {
+			political_power_gain = -0.05
+		}
+
+		cancel_trigger = {
+			OR = {
+				NOT = {
+					has_country_leader = {
+						character = HON_tiburcio_carías_andino
+						ruling_only = yes 
+					}
+				}
+				NOT = {
+					has_full_control_of_state = FROM
+				}
+			}
+		}
+
+		remove_effect = {
+			HON_remove_5_control_over_nation = yes
+		}
+	}
+
+	HON_speak_out_against_tiburicio = {
+		icon = generic_nationalism
+
+		visible = {
+			has_country_flag = HON_went_against_tiburicio_flag
+			has_country_leader = {
+				character = HON_tiburcio_carías_andino
+				ruling_only = yes
+			}
+		}
+
+		cost = 20 
+
+		available = {
+			has_civil_war = no 
+			has_country_leader = {
+				character = HON_tiburcio_carías_andino
+				ruling_only = yes
+			}
+		}
+
+		days_re_enable = 90
+
+		complete_effect = {
+			random_list = {
+				75 = {
+					HON_remove_5_control_over_nation = yes 
+				}
+				25 = {
+					HON_remove_10_control_over_nation = yes 
+				}
+			}
+
+			custom_effect_tooltip = EUYL_decision_will_reappear_in_90_days_tt
+		}
+	}
+}
