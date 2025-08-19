@@ -947,7 +947,7 @@ country_event = {
 			75 = {
 				HON_remove_5_control_over_nation = yes 
 			}
-			25 = {
+			20 = {
 				HON_remove_10_control_over_nation = yes 
 			}
 		}
@@ -974,6 +974,15 @@ country_event = {
 		name = hon.3.a 
 		random_owned_controlled_state = {
 			add_manpower = -5000
+		}
+		if = {
+			limit = {
+				has_active_mission = HON_looming_revolt_against_tiburicio
+			}
+			add_days_mission_timeout = {
+				mission = HON_looming_revolt_against_tiburicio
+				days = -15
+			}
 		}
 		random_list = {
 			80 = {
@@ -1017,6 +1026,18 @@ country_event = {
 	option = {
 		name = hon.5.a 
 		activate_mission = HON_looming_revolt_against_tiburicio
+
+		custom_effect_tooltip = HON_communists_will_begin_re_organizing_themselves_next_70_days_tt
+
+		hidden_effect = {
+			country_event = {
+				id = hon.7
+				days = 70
+				random_days = 24
+				hours = 8
+				random_hours = 8
+			}
+		}
 	}
 }
 
@@ -1128,7 +1149,10 @@ country_event = {
 					}
 				}
 			}
-			else = {
+			else = { ## Player controls nation
+				set_temp_variable = {
+					HON_control_over_nation_var_temp = HON_control_over_nation_var
+				}
 				start_civil_war = {
 					ruling_party = democratic
 					ideology = ROOT 
@@ -1145,6 +1169,15 @@ country_event = {
 					promote_character = HON_tiburcio_carías_andino
 				}
 				add_ideas = HON_the_third_honduran_civil_war
+				if = {
+					limit = {
+						has_completed_focus = HON_organize_the_resistance_groups
+					}
+					promote_character = HON_vicente_mejia_colindres
+				}
+				else = {
+					promote_character = HON_collective_liberal_resistance
+				}
 				every_controlled_state = {
 					create_unit = {
                         division = "name = \"Milicias Hondureñas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
@@ -1159,6 +1192,47 @@ country_event = {
                         count = 2
                     }
 				}
+				if = {
+					limit = {
+						has_completed_focus = HON_gain_control_of_the_armed_forces
+					}
+					random_owned_controlled_state = {
+						create_unit = {
+							division = "name = \"Brigada de Infanteria\" division_template = \"Brigada de Infanteria\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+							owner = ROOT
+							count = 2
+						}
+					}
+				}
+				if = {
+					limit = {
+						check_variable = {
+							HON_control_over_nation_var < 30
+						}
+					}
+					random_owned_controlled_state = {
+						create_unit = {
+							division = "name = \"Milicias Hondureñas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+							owner = ROOT
+						}
+					}
+				}
+				if = {
+					limit = {
+						has_country_flag = HON_smuggle_equipment_flag
+					}
+					add_equipment_to_stockpile = {
+						type = infantry_equipment
+						amount = 500
+					}
+				}
+				if = {
+					limit = {
+						has_completed_focus = HON_utilize_communist_guerilla_tactics
+					}
+					add_ideas = HON_guerilla_tactics
+				}
+				clear_variable = HON_control_over_nation_var ## no point in keeping track of this var after this point
 				random_other_country = {
 					limit = {
 						original_tag = HON 
@@ -1182,8 +1256,88 @@ country_event = {
 							count = 3
 						}
 					}
+					if = {
+						limit = {
+							check_variable = {
+								HON_control_over_nation_var_temp > 59
+							}
+						}
+						every_controlled_state = {
+							create_unit = {
+								division = "name = \"Milicias Hondureñas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+								owner = PREV
+							}
+						}
+					}
 				}
 			}
 		}
 	}
+}
+
+## The Question Over the Communists ## (choose whether to include them in the group rebelling against Tiburicio)
+country_event = {
+	id = hon.7 
+	title = hon.7.t 
+	desc = hon.7.d 
+	picture = GFX_HON_question_over_communists_pic
+
+	is_triggered_only = yes 
+
+	trigger = {
+		has_active_mission = HON_looming_revolt_against_tiburicio
+	}
+
+	option = { ## They would be a valuable asset to our cause
+		name = hon.7.a 
+		ai_chance = {
+			base = 10
+		}
+		add_stability = -0.02
+		add_popularity = {
+			ideology = communism
+			popularity = 0.03
+		}
+
+		custom_effect_tooltip = HON_capable_of_using_communist_guerilla_tactics_tt
+		custom_effect_tooltip = HON_communist_path_unlocked_tt
+
+		set_country_flag = HON_supproted_communists_flag
+
+		HON_remove_5_control_over_nation = yes 
+	}
+
+	option = { ## We don't need them 
+		name = hon.7.b 
+		ai_chance = {
+			base = 5
+		}
+		add_stability = 0.03
+		add_popularity = {
+			ideology = communism
+			popularity = -0.02
+		}
+	}
+}
+
+## Conclusion of the Civil War
+country_event = {
+    id = hon.8
+    title = venezuela.22.t 
+    desc = venezuela.22.d 
+    picture = GFX_report_event_france_victory_syria
+
+    is_triggered_only = yes 
+
+    option = {
+        name = venezuela.22.a 
+        add_stability = 0.05
+        add_war_support = 0.05
+        add_political_power = 25
+        
+		add_timed_idea = {
+			idea = CEA_post_civil_war_hardships
+			days = 365
+		}
+    }
 }

@@ -36,7 +36,7 @@ focus_tree = {
 	focus = {
 		id = HON_rewrite_the_honduran_constitution
 		icon = GFX_HON_rewrite_constitution_icon
-		x = 48
+		x = 46
 		y = 0
 
 		available = {
@@ -50,7 +50,7 @@ focus_tree = {
 		cost = 4
 
 		search_filters = {
-			FOCUS_FILTER_POLITICAL FOCUS_FILTER_CONTROL_OVER_NATION
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_CONTROL_OVER_NATION FOCUS_FILTER_HISTORICAL
 		}
 
 		completion_reward = {
@@ -77,6 +77,697 @@ focus_tree = {
 					add_political_power = 15
 				}
 			}
+		}
+	}
+
+	## Support from the Partido Nacional
+	focus = {
+		id = HON_support_from_the_partido_nacional
+		icon = GFX_HON_partido_nacional_support_icon
+		x = -3
+		y = 1
+		relative_position_id = HON_rewrite_the_honduran_constitution
+		prerequisite = {
+			focus = HON_rewrite_the_honduran_constitution
+		}
+
+		cost = 6
+
+		available = {
+			has_country_leader = {
+				character = HON_tiburcio_carías_andino
+				ruling_only = yes 
+			}
+			has_civil_war = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_CONTROL_OVER_NATION FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_popularity = {
+				ideology = neutrality
+				popularity = 0.04
+			}
+			HON_add_5_control_over_nation = yes
+			HON_effects_from_current_control_over_nation = yes
+		}
+	}
+
+	## Allegience with the Catholic Church ##
+	focus = {
+		id = HON_allegience_with_the_catholic_church
+		icon = GFX_focus_por_concordat
+		x = 1
+		y = 1
+		relative_position_id = HON_rewrite_the_honduran_constitution
+		prerequisite = {
+			focus = HON_rewrite_the_honduran_constitution
+		}
+
+		cost = 5
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_timed_idea = {
+				idea = HON_allegience_with_the_catholic_church_idea
+				days = 365
+			}
+		}
+	}
+
+	## No More Re-Elections ## Anti-Tiburicio path
+	focus = {
+		id = HON_no_more_re_elections 
+		icon = GFX_HON_against_tiburicio_icon
+		x = 10
+		y = 2
+		relative_position_id = HON_rewrite_the_honduran_constitution
+		prerequisite = {
+			focus = HON_rewrite_the_honduran_constitution
+		}
+		mutually_exclusive = {
+			focus = HON_the_mandate_of_tiburicio
+		}
+
+		cost = 6
+
+		available = {
+			has_country_flag = HON_went_against_tiburicio_flag
+			has_active_mission = HON_looming_revolt_against_tiburicio
+		}
+
+		select_effect = {
+			add_days_mission_timeout = {
+				mission = HON_looming_revolt_against_tiburicio
+				days = 42
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_CONTROL_OVER_NATION FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = HON_selecting_focus_delays_looming_revolt_by_42_days_tt
+			HON_remove_5_control_over_nation = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = HON_take_control_of_liberal_resistance_tt
+			custom_effect_tooltip = EUYL_will_lead_to_civil_war_tt
+		}
+	}
+
+	## Gain Control of the Armed Forces ##
+	focus = {
+		id = HON_gain_control_of_the_armed_forces
+		icon = GFX_CEA_armed_forces_HON_icon
+		x = 2
+		y = 1
+		relative_position_id = HON_no_more_re_elections
+		prerequisite = {
+			focus = HON_no_more_re_elections
+		}
+
+		cost = 10
+
+		available = {
+			has_active_mission = HON_looming_revolt_against_tiburicio
+			custom_trigger_tooltip = {
+				tooltip = HON_control_over_nation_below_20_tt
+				check_variable = {
+					HON_control_over_nation_var < 20
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_CONTROL_OVER_NATION FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			HON_remove_5_control_over_nation = yes
+
+			custom_effect_tooltip = HON_start_of_civil_war_gain_2_brigada_de_infanteria_divisions_tt
+		}
+	}
+
+	## Organize the Resistance Groups ##
+	focus = {
+		id = HON_organize_the_resistance_groups
+		icon = GFX_focus_generic_support_the_left_right
+		x = 0
+		y = 1
+		relative_position_id = HON_no_more_re_elections
+		prerequisite = {
+			focus = HON_no_more_re_elections
+		}
+
+		cost = 7.2
+
+		available = {
+			has_active_mission = HON_looming_revolt_against_tiburicio
+			has_civil_war = no 
+		}
+
+		bypass = {
+			has_civil_war = yes 
+			NOT = {
+				has_country_leader = {
+					character = HON_tiburcio_carías_andino
+					ruling_only = yes
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_CONTROL_OVER_NATION FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			add_stability = -0.03
+			add_political_power = 50
+			HON_effects_from_current_control_over_nation = yes
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = HON_vicente_will_take_control_over_the_revolution_instead_of_being_disorganized_resistance_tt
+		}
+	}
+
+	## Utilize Commnist Guerilla Tactics ##
+	focus = {
+		id = HON_utilize_communist_guerilla_tactics
+		icon = GFX_focus_ITA_banda_carita
+		x = -1
+		y = 1
+		relative_position_id = HON_organize_the_resistance_groups
+		prerequisite = {
+			focus = HON_organize_the_resistance_groups
+		}
+
+		cost = 6
+
+		available = {
+			has_active_mission = HON_looming_revolt_against_tiburicio
+			has_country_flag = HON_supproted_communists_flag
+			has_civil_war = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = EUYL_start_of_civil_war_gain_following_tt
+			effect_tooltip = {
+				add_ideas = HON_guerilla_tactics
+			}
+
+			add_popularity = {
+				ideology = communism
+				popularity = 0.03
+			}
+		}
+	}
+
+	## Libre, Soberana e Independiente ## might later add more effectsa to this idk yet i think its fine as is
+	focus = {
+		id = HON_libre_soberana_e_independiente
+		icon = GFX_HON_libre_soberana_e_independiente_icon
+		x = 0
+		y = 2
+		relative_position_id = HON_organize_the_resistance_groups
+		prerequisite = {
+			focus = HON_organize_the_resistance_groups
+		}
+
+		cost = 5
+
+		available = {
+			has_active_mission = HON_looming_revolt_against_tiburicio
+		}
+
+		bypass = {
+			has_civil_war = yes 
+			NOT = {
+				has_country_leader = {
+					character = HON_tiburcio_carías_andino
+					ruling_only = yes
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_WAR_SUPPORT
+		}
+
+		completion_reward = {
+			add_war_support = 0.1
+			custom_effect_tooltip = VEN_trigger_civil_war_tt
+			hidden_effect = {
+				add_days_mission_timeout = {
+					mission = HON_looming_revolt_against_tiburicio
+					days = -200
+				}
+			}
+		}
+	}
+
+	## Appropriate Banana Plantation Funds ##
+	focus = {
+		id = HON_appropriate_banana_plantation_funds
+		icon = GFX_HON_appropriate_banana_plantation_funds_icon
+		x = 1
+		y = 1
+		relative_position_id = HON_libre_soberana_e_independiente
+		prerequisite = {
+			focus = HON_libre_soberana_e_independiente
+		}
+
+		cost = 7.2
+
+		available = {
+			has_civil_war = yes 
+			NOT = {
+				has_idea = CEA_mal_de_panama ## if your plantations are f**ked, then gg bro
+			}
+			NOT = { ## Do I even need to explain why?
+				has_completed_focus = CEA_dismantle_the_plantation_monopoly
+			}
+		}
+
+		cancel_if_invalid = no 
+		continue_if_invalid = yes 
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			EUYL_add_1_military = yes
+			if = {
+				limit = {
+					has_civil_war = yes 
+				}
+				add_ideas = HON_banana_plantation_funds
+			}
+			custom_effect_tooltip = HON_if_completed_focus_depend_further_on_the_united_states_tt
+			custom_effect_tooltip = HON_USA_ban_us_from_asking_for_financing_for_a_year_tt
+
+			set_country_flag = {
+				flag = CEA_USA_deterred_by_our_fragile_stability_flag
+				days = 365
+				value = 1
+			}
+
+			USA = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = HON_appropriated_banana_plantation_funds
+				}
+			}
+		}
+	}
+
+	## Capture Government Reserves ##
+	focus = {
+		id = HON_capture_government_reserves
+		icon = GFX_goal_generic_small_arms
+		x = -1
+		y = 1
+		relative_position_id = HON_libre_soberana_e_independiente
+		prerequisite = {
+			focus = HON_libre_soberana_e_independiente
+		}
+
+		cost = 5
+
+		available = {
+			has_civil_war = yes
+			
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ARMY_XP
+		}
+
+		completion_reward = {
+			army_experience = 5
+
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 750
+			}
+		}
+	}
+
+	## No Compromise on our Freedom ##
+	focus = {
+		id = HON_no_compromise_on_our_freedom
+		icon = GFX_HON_future_of_democracy_icon
+		x = -3
+		y = 2
+		relative_position_id = HON_libre_soberana_e_independiente
+		prerequisite = {
+			focus = HON_libre_soberana_e_independiente
+		}
+
+		mutually_exclusive = {
+			focus = HON_the_future_belongs_to_the_working_class
+		}
+
+		cost = 6
+
+		available = {
+			has_civil_war = no 
+		}
+	}
+
+	## The Future Belongs to the Working Class ##
+	focus = {
+		id = HON_the_future_belongs_to_the_working_class
+		icon = GFX_HON_communist_path_icon
+		x = 6
+		y = 2
+		relative_position_id = HON_libre_soberana_e_independiente
+		prerequisite = {
+			focus = HON_libre_soberana_e_independiente
+		}
+
+		mutually_exclusive = {
+			focus = HON_no_compromise_on_our_freedom
+		}
+
+		cost = 6
+
+		available = {
+			has_civil_war = no 
+			has_country_flag = HON_supproted_communists_flag
+		}
+
+		search_filters = { 
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			set_politics = {
+				ruling_party = communism
+			}
+			promote_character = HON_manuel_calix_herrera
+			add_popularity = {
+				ideology = communism
+				popularity = 0.02
+			}
+			add_political_power = 25
+			add_stability = 0.03
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = HON_will_need_to_dismantle_banana_plantations_within_3_years_tt
+			hidden_effect = {
+				activate_mission = HON_dismantle_the_banana_plantations
+			}
+		}
+	}
+
+	## Communism to the Masses ##
+	focus = {
+		id = HON_communism_to_the_masses
+		icon = GFX_EUYL_generic_communism_propaganda_icon
+		x = 0
+		y = 1
+		relative_position_id = HON_the_future_belongs_to_the_working_class
+		prerequisite = {
+			focus = HON_the_future_belongs_to_the_working_class
+		}
+
+		cost = 7.2
+
+		available = {
+			has_government = communism
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			add_ideas = HON_communism_to_the_masses_level_1
+
+			custom_effect_tooltip = HON_unlock_decisions_to_bolster_communist_support_tt
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_category_tooltip = HON_revolution_in_the_tropics
+		}
+	}
+
+	## Land by and For the Workers ##
+	focus = {
+		id = HON_land_by_and_for_the_workers
+		icon = GFX_focus_generic_workers_and_farmers_rise
+		x = -3
+		y = 1
+		relative_position_id = HON_communism_to_the_masses
+		prerequisite = {
+			focus = HON_communism_to_the_masses
+		}
+
+		available = {
+			communism > 0.3
+			has_country_flag = HON_land_reforms_completed_flag
+		}
+
+		cost = 5
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			every_core_state = {
+				add_extra_state_shared_building_slots = 1
+			}
+		}
+	}
+
+	## Appropriate the Means of Production ##
+	focus = {
+		id = HON_appropriate_the_means_of_production
+		icon = GFX_focus_generic_communist_industry
+		x = -1
+		y = 1
+		relative_position_id = HON_land_by_and_for_the_workers
+		prerequisite = {
+			focus = HON_land_by_and_for_the_workers
+		}
+
+		cost = 10
+
+		available = {
+			communism > 0.5
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_1_civilian = yes 
+			EUYL_add_1_military = yes 
+			if = {
+				limit = {
+					any_controlled_state = {
+						is_coastal = yes 
+					}
+				}
+				EUYL_add_1_dockyard = yes
+			}
+		}
+	}
+
+	## Bolster Manuel's Public Support ##
+	focus = {
+		id = HON_bolster_manuels_public_support
+		icon = GFX_HON_manuel_calix_support_icon
+		x = 4
+		y = 1
+		relative_position_id = HON_communism_to_the_masses
+		prerequisite = {
+			focus = HON_communism_to_the_masses
+		}
+
+		cost = 8
+
+		available = {
+			has_country_leader = {
+				character = HON_manuel_calix_herrera
+				ruling_only = yes 
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			add_political_power = 20
+
+			unlock_decision_tooltip = {
+				decision = HON_promote_and_improve_the_lives_of_the_peasants
+				show_effect_tooltip = yes 
+			}
+
+			unlock_decision_tooltip = {
+				decision = HON_gain_the_support_of_the_workers
+				show_effect_tooltip = yes
+			}
+		}
+	}
+
+	## Formalize the Honduran Revolutionary Army ##
+	focus = {
+		id = HON_formalize_the_honduran_revolutionary_army
+		icon = GFX_EUYL_generic_commie_army_icon
+		x = -2
+		y = 1
+		relative_position_id = HON_bolster_manuels_public_support
+		prerequisite = {
+			focus = HON_bolster_manuels_public_support
+		}
+
+		cost = 10 
+
+		available = {
+			HON_manuel_calix_herrera = {
+				NOT = {
+					has_trait = CEA_very_low_public_support
+				}
+			}
+			communism > 0.34
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ARMY_XP FOCUS_FILTER_MANPOWER
+		}
+
+		completion_reward = {
+			army_experience = 10
+			add_ideas = HON_the_honduran_revolutionary_army_1
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = {
+				decision = HON_divert_funds_to_imporve_the_revolutionary_army
+				show_effect_tooltip = yes
+			}
+		}
+	}
+
+	## Completely Restructure the Government ##
+	focus = {
+		id = HON_completely_restructure_the_government
+		icon = GFX_focus_generic_communist
+		x = 0
+		y = 1
+		relative_position_id = HON_bolster_manuels_public_support
+		prerequisite = {
+			focus = HON_bolster_manuels_public_support
+		}
+
+		cost = 7.2
+
+		available = {
+			HON_manuel_calix_herrera = {
+				NOT = {
+					has_trait = CEA_very_low_public_support
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			add_political_power = 75
+		}
+	}
+
+	## Assess Foreign Relations ##
+	focus = {
+		id = HON_assess_foreign_relations
+		icon = GFX_goal_generic_position_armies
+		x = 1
+		y = 1
+		relative_position_id = HON_completely_restructure_the_government
+		prerequisite = {
+			focus = HON_completely_restructure_the_government
+		}
+
+		cost = 5
+
+		available = {
+			HON_manuel_calix_herrera = {
+				NOT = {
+					OR = {
+						has_trait = CEA_very_low_public_support
+						has_trait = ECU_low_public_support
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			add_ideas = CEA_open_foreing_relations
+		}
+	}
+
+	## The Mandate of Tiburicio ## HISTORICAL/FASCIST PATH
+	focus = {
+		id = HON_the_mandate_of_tiburicio
+		icon = GFX_HON_supported_tiburicio_icon
+		x = -1
+		y = 1
+		relative_position_id = HON_support_from_the_partido_nacional
+		prerequisite = {
+			focus = HON_allegience_with_the_catholic_church
+			focus = HON_support_from_the_partido_nacional
+		}
+		mutually_exclusive = {
+			focus = HON_no_more_re_elections
+		}
+
+		cost = 5
+
+		available = {
+			has_country_flag = HON_went_with_tiburicio_flag
+			has_active_mission = HON_looming_revolt_against_tiburicio
+			custom_trigger_tooltip = {
+				tooltip = HON_control_over_nation_above_45_tt
+				check_variable = {
+					HON_control_over_nation_var > 45
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_CONTROL_OVER_NATION FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			HON_add_5_control_over_nation = yes 
+			add_political_power = 50
 		}
 	}
 }

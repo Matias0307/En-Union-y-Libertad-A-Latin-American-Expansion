@@ -762,6 +762,70 @@ VEN_political_crisis = { ## need to make custom trigger tooltips for these :/
             country_event = cea.10
         }
     }
+
+    HON_dismantle_the_banana_plantations = {
+        icon = GFX_HON_worsening_banana_export_icon
+        priority = 100
+
+        allowed = {
+            original_tag = HON 
+        }
+
+        activation = {
+            always = no 
+        }
+
+        available = {
+            NOT = {
+                any_controlled_state = {
+                    OR = {
+                        has_dynamic_modifier = {
+                            modifier = CEA_local_banana_production
+                        }
+                        has_dynamic_modifier = {
+                            modifier = CEA_improved_banana_production
+                        }
+                    }
+                }
+            }
+        }
+
+        days_mission_timeout = 1095
+
+        highlight_states = {
+            highlight_states_trigger = {
+                OR = {
+                    has_dynamic_modifier = {
+                        modifier = CEA_local_banana_production
+                    }
+                    has_dynamic_modifier = {
+                        modifier = CEA_improved_banana_production
+                    }
+                }
+            }
+        }
+
+        on_map_mode = map_and_decisions_view
+
+		is_good = no
+
+        complete_effect = { ##player succeeded
+            add_popularity = {
+                ideology = communism
+                popularity = 0.05
+            }
+            add_stability = 0.05
+        }   
+
+        timeout_effect = { ## Player failed loool
+            add_political_power = -50
+            add_stability = -0.05
+            add_popularity = {
+                ideology = communism
+                popularity = -0.08
+            }
+        }
+    }
 }
 
 VEN_escalantes_advancing_dementia = {
