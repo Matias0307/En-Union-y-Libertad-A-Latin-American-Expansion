@@ -144,7 +144,7 @@ focus_tree = {
 	focus = {
 		id = HON_no_more_re_elections 
 		icon = GFX_HON_against_tiburicio_icon
-		x = 10
+		x = 11
 		y = 2
 		relative_position_id = HON_rewrite_the_honduran_constitution
 		prerequisite = {
@@ -427,11 +427,11 @@ focus_tree = {
 		}
 	}
 
-	## No Compromise on our Freedom ##
+	## No Compromise on our Freedom ## || will also allow for elections to take place n stuff
 	focus = {
 		id = HON_no_compromise_on_our_freedom
 		icon = GFX_HON_future_of_democracy_icon
-		x = -3
+		x = 6
 		y = 2
 		relative_position_id = HON_libre_soberana_e_independiente
 		prerequisite = {
@@ -453,7 +453,7 @@ focus_tree = {
 	focus = {
 		id = HON_the_future_belongs_to_the_working_class
 		icon = GFX_HON_communist_path_icon
-		x = 6
+		x = -4
 		y = 2
 		relative_position_id = HON_libre_soberana_e_independiente
 		prerequisite = {
@@ -568,7 +568,7 @@ focus_tree = {
 			focus = HON_land_by_and_for_the_workers
 		}
 
-		cost = 10
+		cost = 8
 
 		available = {
 			communism > 0.5
@@ -592,6 +592,51 @@ focus_tree = {
 		}
 	}
 
+	## National Production and Nothing Else ##
+	focus = {
+		id = HON_national_production_and_nothing_else
+		icon = GFX_HON_national_prodution_icon
+		x = 1
+		y = 1
+		relative_position_id = HON_land_by_and_for_the_workers
+		prerequisite = {
+			focus = HON_land_by_and_for_the_workers
+		}
+
+		cost = 10 
+
+		available = {
+			NOT = {
+				has_completed_focus = CEA_depend_further_on_the_united_states
+			}
+			NOT = {
+				has_idea = free_trade
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = {
+						has_idea = closed_economy
+					}
+				}
+				add_ideas = closed_economy
+			}
+			else = {
+				add_political_power = 150 
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_ideas = HON_national_production
+		}
+	}
+
 	## Bolster Manuel's Public Support ##
 	focus = {
 		id = HON_bolster_manuels_public_support
@@ -603,7 +648,7 @@ focus_tree = {
 			focus = HON_communism_to_the_masses
 		}
 
-		cost = 8
+		cost = 6
 
 		available = {
 			has_country_leader = {
@@ -654,7 +699,7 @@ focus_tree = {
 		}
 
 		search_filters = {
-			FOCUS_FILTER_ARMY_XP FOCUS_FILTER_MANPOWER
+			FOCUS_FILTER_ARMY_XP FOCUS_FILTER_MANPOWER FOCUS_FILTER_INDUSTRY
 		}
 
 		completion_reward = {
@@ -667,6 +712,10 @@ focus_tree = {
 				decision = HON_divert_funds_to_imporve_the_revolutionary_army
 				show_effect_tooltip = yes
 			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			EUYL_add_1_military = yes 
 		}
 	}
 
@@ -704,7 +753,7 @@ focus_tree = {
 	focus = {
 		id = HON_assess_foreign_relations
 		icon = GFX_goal_generic_position_armies
-		x = 1
+		x = 0
 		y = 1
 		relative_position_id = HON_completely_restructure_the_government
 		prerequisite = {
@@ -730,6 +779,29 @@ focus_tree = {
 
 		completion_reward = {
 			add_ideas = CEA_open_foreing_relations
+			set_rule = {
+				can_create_factions = yes
+			}
+		}
+	}
+
+	### The Revolution in the Tropics ###
+	focus = {
+		id = HON_the_revolution_in_the_tropics
+		icon = GFX_CEA_revolution_in_tropics_icon
+		x = 0
+		y = 4
+		relative_position_id = HON_communism_to_the_masses
+		prerequisite = {
+			focus = HON_communism_to_the_masses
+		}
+
+		cost = 5
+
+		available = {
+			has_army_manpower = {
+				size > 24999
+			}
 		}
 	}
 
@@ -737,7 +809,7 @@ focus_tree = {
 	focus = {
 		id = HON_the_mandate_of_tiburicio
 		icon = GFX_HON_supported_tiburicio_icon
-		x = -1
+		x = -4
 		y = 1
 		relative_position_id = HON_support_from_the_partido_nacional
 		prerequisite = {
