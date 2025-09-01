@@ -785,6 +785,86 @@ focus_tree = {
 		}
 	}
 
+	## Join the Soviets ##
+	focus = {
+		id = HON_join_the_soviets
+		icon = GFX_focus_chi_mission_to_the_soviet_union
+		x = -1
+		y = 1
+		relative_position_id = HON_assess_foreign_relations
+		prerequisite = {
+			focus = HON_assess_foreign_relations
+		}
+		mutually_exclusive = {
+			focus = HON_our_comrades_in_the_tropics
+		}
+
+		cost = 10
+
+		available = {
+			is_in_faction = no 
+			SOV = {
+				exists = yes 
+				has_government = communism
+				NOT = { has_war_with = ROOT }
+				is_subject = no 
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			SOV = {
+				country_event = generic.2
+			}
+
+			custom_effect_tooltip = ARG_iftheyaccept
+
+			unlock_decision_tooltip = {
+				decision = HON_import_soviet_guns
+				show_effect_tooltip = yes
+			}
+		}
+	}
+
+	## Our Comrades in the Tropics ## will start up the central american defense pact
+	focus = {
+		id = HON_our_comrades_in_the_tropics
+		icon = GFX_CEA_commie_allies_icon
+		x = 1
+		y = 1
+		relative_position_id = HON_assess_foreign_relations
+		prerequisite = {
+			focus = HON_assess_foreign_relations
+		}
+		mutually_exclusive = {
+			focus = HON_join_the_soviets
+		}
+
+		cost = 10
+
+		available = {
+			is_in_faction = no 
+			any_other_country = {
+				CEA_is_central_american = yes 
+				has_government = communism
+			}
+			NOT = {
+				has_global_flag = CEA_central_american_defense_pact_created_flag
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			CEA_basic_create_faction = yes
+		}
+	}
+
 	### The Revolution in the Tropics ###
 	focus = {
 		id = HON_the_revolution_in_the_tropics
@@ -803,6 +883,35 @@ focus_tree = {
 				size > 24999
 			}
 		}
+
+		search_filters = {
+			FOCUS_FILTER_WAR_SUPPORT
+		}
+
+		completion_reward = {
+			add_war_support = 0.03
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_ideas = CEA_revolution_in_the_tropics_idea
+		}
+	}
+
+	## Agitate Foreign Guerilla Groups ## will do something similar to germany's offensive planning, adding modifiers
+	focus = {
+		id = HON_agitate_foreign_guerilla_groups
+		icon = GFX_HON_agitate_foreign_guerilla_groups_icon
+		x = 1
+		y = 1
+		relative_position_id = HON_the_revolution_in_the_tropics
+		prerequisite = {
+			focus = HON_the_revolution_in_the_tropics
+		}
+		prerequisite = {
+			focus = HON_formalize_the_honduran_revolutionary_army
+		}
+
+		cost = 6
 	}
 
 	## The Mandate of Tiburicio ## HISTORICAL/FASCIST PATH

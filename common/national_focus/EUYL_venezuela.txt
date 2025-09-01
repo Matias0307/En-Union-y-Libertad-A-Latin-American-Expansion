@@ -10715,7 +10715,7 @@ focus_tree = {
 						has_government = ROOT 
 						is_in_faction_with = ROOT
 					}
-					capital_scope = {
+					303 = {
 						controls_or_subject_of = yes
 					}
 					has_war_with = ROOT
@@ -10728,28 +10728,26 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			if = {
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
 				limit = {
-					ECU = {
-						exists = yes 
-						NOT = {
-							has_war_with = ROOT 
-						}
-						NOT = {
-							capital_scope = {
-								controls_or_subject_of = yes
-							}
-						}
+					OR = {
+						controls_state = 1022
+						controls_state = 303
+						controls_state = 1040
+					}
+					NOT = {
+						has_war_with = ROOT 
+						is_in_faction_with = ROOT
+						is_subject_of = ROOT
 					}
 				}
-				create_wargoal = {
-					target = ECU 
-					type = annex_everything
+				hidden_effect = {
+					create_wargoal = {
+						target = PREV 
+						type = annex_everything
+					}
 				}
-			}
-			create_wargoal = {
-				target = PRU
-				type = annex_everything
 			}
 		}
 	}
