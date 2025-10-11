@@ -1009,6 +1009,15 @@ HON_el_cariato_cat = {
 			country_event = hon.6
 		}
 
+		cancel_effect = {
+			if = {
+				limit = { ## fail safe
+					has_country_flag = HON_went_against_tiburicio_flag
+				}
+				country_event = hon.6 
+			}
+		}
+
 		complete_effect = {
 			if = {
 				limit = { ## fail safe
@@ -1018,6 +1027,8 @@ HON_el_cariato_cat = {
 			}
 			else = {
 				add_political_power = 10
+				custom_effect_tooltip = HON_protests_will_no_longer_be_active_tt
+				clr_country_flag = HON_active_protests_flag
 			}
 		}
 	}
@@ -1031,9 +1042,6 @@ HON_el_cariato_cat = {
 
 		available = {
 			has_civil_war = no 
-			has_army_manpower = {
-				size > 8999
-			}
 		}
 
 		cost = 20
@@ -1096,6 +1104,7 @@ HON_el_cariato_cat = {
 					}
 				}
 			}
+			set_country_flag = HON_took_control_of_armed_forces_flag
 		}
 	}
 
@@ -1260,6 +1269,16 @@ HON_el_cariato_cat = {
 			}
 			clr_country_flag = HON_dealing_with_protesters_flag
 			custom_effect_tooltip = HON_this_will_get_us_closer_to_a_totalitarian_dictatorship_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						NOT = {
+							has_country_flag = HON_totalitarian_dictatorship_avail_flag
+						}
+					}
+					set_country_flag = HON_totalitarian_dictatorship_avail_flag
+				}
+			}
 		}
 	}
 
@@ -1272,6 +1291,7 @@ HON_el_cariato_cat = {
 
 		available = {
 			has_civil_war = no 
+			has_completed_focus = HON_initiate_an_anti_communist_campaign
 		}
 
 		fire_only_once = yes
@@ -1289,13 +1309,14 @@ HON_el_cariato_cat = {
 		}
 	}
 
-	HON_deploy_the_private_police_in_FROM = { ## TODO: create division template and add division in state
+	HON_deploy_the_private_police_in_FROM = {
 		icon = generic_army_support
 
 		state_target = yes 
 		target_array = controlled_states
 		target_trigger = {
 			FROM = {
+				is_core_of = ROOT
 				is_fully_controlled_by = ROOT
 			}
 		}
@@ -1329,8 +1350,50 @@ HON_el_cariato_cat = {
 			hidden_effect = {
 				add_command_power = -5
 				add_political_power = -25
+				if = {
+					limit = {
+						NOT = {
+							has_template = "Policia Privada"
+						}
+					}
+					division_template = { 
+						name = "Policia Privada" 
+						division_names_group = SPAN_INF_02 
+						template_counter = 90
+						is_locked = yes 
+						division_cap = 10
+						regiments = { 
+							infantry = { x = 0 y = 0 }
+							infantry = { x = 0 y = 1 }
+							infantry = { x = 1 y = 0 }
+							infantry = { x = 1 y = 1 }
+						}
+						support = { 
+							artillery = { x = 0 y = 1 }
+						}
+					}		
+				}
 			}
 			HON_add_5_control_over_nation = yes
+			if = {
+				limit = {
+					check_variable = {
+						HON_num_of_private_police_var < 10
+					}
+				}
+				FROM = {
+					create_unit = {
+						division = "name = \"Policia Privada\" division_template = \"Policia Privada\" start_experience_factor = 0.1 start_equipment_factor = 1.0"
+						owner = ROOT
+					}
+				}
+				add_to_variable = {
+					HON_num_of_private_police_var = 1
+				}
+			}
+			else = {
+				add_manpower = 5000
+			}
 		}
 	}
 	
@@ -1744,6 +1807,97 @@ HON_revolution_in_the_tropics = {
 				type = infantry_equipment
 				amount = 1500
 				producer = FROM
+			}
+		}
+	}
+
+	HON_agitate_guerillas_in_FROM = {
+		icon = generic_civil_support
+
+		target_trigger = {
+			FROM = {
+				is_neighbor_of = ROOT 
+				exists = yes 
+				has_civil_war = no 
+			}
+		}
+
+		visible = {
+			has_completed_focus = HON_agitate_foreign_guerilla_groups
+			NOT = {
+				has_war_with = FROM
+			}
+		}
+
+		cost = 50
+
+		days_remove = 90
+
+		fire_only_once = yes 
+
+		modifier = {
+			political_power_gain = -0.1
+		}
+
+		complete_effect = {
+			FROM = {
+				set_country_flag = HON_activate_guerillas_here_flag
+				add_popularity = {
+					ideology = communism
+					popularity = 0.05
+				}
+				add_stability = -0.02
+			}
+
+			custom_effect_tooltip = HON_upon_declaration_of_war_gain_active_guerilla_modifiers_in_states_tt
+		}
+	}
+
+	HON_integrate_the_revolutionaries_in_FROM = {
+		icon = generic_nationalism
+
+		state_target = yes 
+
+		target_array = controlled_states
+
+		target_trigger = {
+			FROM = {
+				NOT = { is_core_of = ROOT }
+				has_state_flag = HON_can_integrate_this_state_flag
+			}
+		}
+
+		visible = {
+			has_completed_focus = HON_integrate_the_revolutionaries
+		}
+
+		available = {
+			FROM = {
+				compliance > 20
+				resistance < 20
+			}
+		}
+
+		cost = 25
+
+		days_remove = 70
+
+		modifier = {
+			political_power_factor = -0.1
+		}
+
+		cancel_trigger = {
+			NOT = {
+				FROM = {
+					is_controlled_by = ROOT
+				}
+			}
+		}
+
+		remove_effect = {
+			FROM = {
+				add_core_of = ROOT 
+				clr_state_flag = HON_can_integrate_this_state_flag
 			}
 		}
 	}

@@ -923,6 +923,60 @@ on_actions = {
                 }
             }
         }
+        effect = { ## Guerilla groups benefitting Honduras
+            if = {
+                limit = {
+                    ROOT = {
+                        original_tag = HON 
+                        has_government = communism
+                        has_completed_focus = HON_agitate_foreign_guerilla_groups
+                    }
+                    FROM = {
+                        has_country_flag = HON_activate_guerillas_here_flag
+                        num_of_controlled_states > 0
+                    }
+                }
+                FROM = {
+                    every_state = {
+						limit = {
+							is_controlled_by = FROM
+							OR = {
+                                is_on_continent = south_america
+                                is_on_continent = north_america
+                            }
+						}
+						add_dynamic_modifier = {
+							modifier = HON_active_guerillas_modifier
+							scope = HON
+							days = 180
+						}
+                        set_state_flag = HON_can_integrate_this_state_flag
+					}
+                }
+            }
+        }
+        effect = {
+            if = {
+                limit = { ## League of Central American Dictators in action
+                    ROOT = {
+                        CEA_is_a_member_of_the_league_of_dictators = yes
+                    }
+                    FROM = {
+                        CEA_is_a_member_of_the_league_of_dictators = yes
+                    }
+                }
+                ROOT = { ## country thats declaring war, doing it like this to make the event easier by jsut having to use PREV
+                    every_other_country = { ## TODO: make an event for the other countries that asks them if they want to intervene the invading country or not, give option to oppose or straight up intervene
+                        limit = {
+                            CEA_is_a_member_of_the_league_of_dictators = yes
+                            NOT = { has_war_with = ROOT }
+                            has_civil_war = no 
+                        }
+
+                    }
+                }
+            }
+        }
         effect = {
             if = { ## Peru Declares War on Chile
                 limit = {

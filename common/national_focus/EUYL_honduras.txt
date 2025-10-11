@@ -33,6 +33,136 @@ focus_tree = {
 	shared_focus = CEA_the_defense_pact
 	shared_focus = CEA_armed_forces
 
+	### IN THE SHARED ECONOMY BRANCH ###
+	focus = {
+		id = HON_only_with_roads_can_we_prosper
+		icon = GFX_goal_generic_construct_infrastructure
+		x = 0
+		y = 1
+		relative_position_id = CEA_the_economy
+		prerequisite = {
+			focus = CEA_the_economy
+		}
+
+		allow_branch = {
+			original_tag = HON
+		}
+
+		cost = 5
+
+		available = {
+			num_of_controlled_states > 0
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			add_ideas = HON_only_with_roads_can_we_prosper_idea
+		}
+	}
+
+	## Founded BANADESA ##
+	focus = {
+		id = HON_founded_banadesa
+		icon = GFX_HON_banadesa_focus_icon
+		x = 0
+		y = 1
+		relative_position_id = HON_only_with_roads_can_we_prosper
+		prerequisite = {
+			focus = HON_only_with_roads_can_we_prosper
+		}
+
+		cost = 7.2
+
+		available = {
+			has_civil_war = no 
+			num_of_factories > 13
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = EUYL_available_as_industrial_concern_tt
+			show_ideas_tooltip = HON_BANADESA
+		}
+	}
+
+	### IN THE SHARED ARMY BRANCH ###
+	focus = {
+		id = HON_create_the_machine_gun_squadron
+		icon = GFX_HON_create_machine_gun_squadron_icon
+		x = 0
+		y = 1
+		relative_position_id = CEA_import_american_weapons
+		prerequisite = {
+			focus = CEA_import_american_weapons
+		}
+
+		cost = 7
+
+		allow_branch = {
+			original_tag = HON
+		}
+
+		search_filters = {
+			FOCUS_FILTER_MANPOWER FOCUS_FILTER_CONTROL_OVER_NATION FOCUS_FILTER_HISTORICAL
+		}
+
+		available = {
+			has_civil_war = no 
+		}
+
+		cancel_if_invalid = no 
+		continue_if_invalid = yes 
+
+		select_effect = {
+			division_template = { 
+				name = "Cuerpo de Ametralladora" 
+				division_names_group = SPAN_INF_02 
+				template_counter = 7
+				regiments = { 
+					infantry = { x = 0 y = 0 }
+					infantry = { x = 0 y = 1 }
+					infantry = { x = 1 y = 0 }
+					infantry = { x = 1 y = 1 }
+					infantry = { x = 2 y = 0 }
+					infantry = { x = 2 y = 1 }
+					artillery_brigade = { x = 3 y = 0 }
+				}
+				support = { 
+					artillery = { x = 0 y = 1 }
+				}
+			}
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = HON_create_cuerpo_de_ametralladora_comprising_of_6_infantry_1_art_supp_art_tt
+			capital_scope = {
+				create_unit = {
+					division = "name = \"Cuerpo de Ametralladora\" division_template = \"Cuerpo de Ametralladora\" start_experience_factor = 0.2 start_equipment_factor = 1.0"
+					owner = ROOT
+					count = 2
+				}
+			}
+			if = {
+				limit = {
+					has_country_leader = {
+						character = HON_tiburcio_carías_andino
+						ruling_only = yes 
+					}
+				}
+				HON_add_5_control_over_nation = yes 
+			}
+			hidden_effect = {
+				add_manpower = 10000
+			}
+		}
+	}
+
 	focus = {
 		id = HON_rewrite_the_honduran_constitution
 		icon = GFX_HON_rewrite_constitution_icon
@@ -427,11 +557,12 @@ focus_tree = {
 		}
 	}
 
+	##### DEMOCRATIC PATH #####
 	## No Compromise on our Freedom ## || will also allow for elections to take place n stuff
 	focus = {
 		id = HON_no_compromise_on_our_freedom
 		icon = GFX_HON_future_of_democracy_icon
-		x = 6
+		x = 7
 		y = 2
 		relative_position_id = HON_libre_soberana_e_independiente
 		prerequisite = {
@@ -449,6 +580,7 @@ focus_tree = {
 		}
 	}
 
+	##### COMMUNIST PATH #####
 	## The Future Belongs to the Working Class ##
 	focus = {
 		id = HON_the_future_belongs_to_the_working_class
@@ -912,6 +1044,49 @@ focus_tree = {
 		}
 
 		cost = 6
+
+		available = {
+			communism > 0.4
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			add_political_power = 50 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = HON_unlock_agitate_guerillas_decisions_tt
+		}
+	}
+
+	## Integrate the Revolutionaries ##
+	focus = {
+		id = HON_integrate_the_revolutionaries
+		icon = GFX_focus_AUS_danubian_socialist_communes
+		x = 0
+		y = 1
+		relative_position_id = HON_agitate_foreign_guerilla_groups
+		prerequisite = {
+			focus = HON_agitate_foreign_guerilla_groups
+		}
+
+		cost = 10 
+
+		available = {
+			num_of_controlled_states > 9
+			communism > 0.65
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = HON_unlock_integration_decisions_tt
+		}
 	}
 
 	## The Mandate of Tiburicio ## HISTORICAL/FASCIST PATH
@@ -933,11 +1108,12 @@ focus_tree = {
 
 		available = {
 			has_country_flag = HON_went_with_tiburicio_flag
-			has_active_mission = HON_looming_revolt_against_tiburicio
+			#has_active_mission = HON_looming_revolt_against_tiburicio ## this makes no sense old me
+			has_civil_war = no 
 			custom_trigger_tooltip = {
-				tooltip = HON_control_over_nation_above_45_tt
+				tooltip = HON_control_over_nation_above_40_tt
 				check_variable = {
-					HON_control_over_nation_var > 45
+					HON_control_over_nation_var > 40
 				}
 			}
 		}
@@ -949,6 +1125,511 @@ focus_tree = {
 		completion_reward = {
 			HON_add_5_control_over_nation = yes 
 			add_political_power = 50
+		}
+	}
+
+	## Silence the Partido Liberal ##
+	focus = {
+		id = HON_silence_the_partido_liberal
+		icon = GFX_HON_silence_the_partido_liberal_icon
+		x = -3
+		y = 1
+		relative_position_id = HON_the_mandate_of_tiburicio
+		prerequisite = {
+			focus = HON_the_mandate_of_tiburicio
+		}
+
+		cost = 10 
+
+		available = {
+			has_country_leader = {
+				character = HON_tiburcio_carías_andino
+				ruling_only = yes 
+			}
+			has_active_mission = HON_looming_revolt_against_tiburicio
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_CONTROL_OVER_NATION
+		}
+
+		completion_reward = {
+			add_political_power = 30
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = HON_revolutionaries_will_be_repressed_and_prevent_uprising_tt
+			custom_effect_tooltip = HON_this_will_get_us_closer_to_a_totalitarian_dictatorship_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						NOT = {
+							has_country_flag = HON_totalitarian_dictatorship_avail_flag
+						}
+					}
+					set_country_flag = HON_totalitarian_dictatorship_avail_flag
+				}
+			}
+		}
+	}
+
+	## Initiate an Anti-Communist Campaign
+	focus = {
+		id = HON_initiate_an_anti_communist_campaign
+		icon = GFX_focus_GER_end_european_communism
+		x = 0
+		y = 1
+		relative_position_id = HON_the_mandate_of_tiburicio
+		prerequisite = {
+			focus = HON_the_mandate_of_tiburicio
+		}
+
+		cost = 5
+
+		available = {
+			has_country_leader = {
+				character = HON_tiburcio_carías_andino
+				ruling_only = yes
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_CONTROL_OVER_NATION FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_timed_idea = {
+				idea = communism_banned
+				days = 720
+			}
+			add_political_power = 25
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = {
+				decision = HON_persecute_the_communists
+				show_effect_tooltip = yes
+			}
+		}
+	}
+
+	## Apply the Ley de Policia ##
+	focus = {
+		id = HON_apply_the_ley_de_policia
+		icon = GFX_HON_ley_de_policia_icon
+		x = 0
+		y = 1
+		relative_position_id = HON_initiate_an_anti_communist_campaign
+		prerequisite = {
+			focus = HON_initiate_an_anti_communist_campaign
+		}
+
+		cost = 6
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = HON_control_over_nation_above_50_tt
+				check_variable = {
+					HON_control_over_nation_var > 50
+				}
+			}
+			has_country_leader = {
+				character = HON_tiburcio_carías_andino
+				ruling_only = yes
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER FOCUS_FILTER_CONTROL_OVER_NATION FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_ideas = HON_ley_de_policia
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			HON_add_5_control_over_nation = yes
+		}
+	}
+
+	## Establish Private Police ##
+	focus = {
+		id = HON_establish_private_police
+		icon = GFX_HON_private_police_icon
+		x = 4
+		y = 1
+		relative_position_id = HON_apply_the_ley_de_policia
+		prerequisite = {
+			focus = HON_apply_the_ley_de_policia
+		}
+
+		cost = 10
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = HON_control_over_nation_above_75_tt
+				check_variable = {
+					HON_control_over_nation_var > 75
+				}
+			}
+			has_country_leader = {
+				character = HON_tiburcio_carías_andino
+				ruling_only = yes
+			}
+			has_army_manpower = {
+				size > 19999
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_MANPOWER FOCUS_FILTER_CONTROL_OVER_NATION
+		}
+
+		completion_reward = {
+			add_manpower = 17500
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = {
+				decision = HON_deploy_the_private_police_in_FROM
+				show_effect_tooltip = yes
+			}
+
+			custom_effect_tooltip = HON_you_can_only_deploy_up_to_10_private_police_divisions_tt
+		}
+	}
+
+	## Take measures to reduce foreign Debt 
+	focus = {
+		id = HON_take_measures_to_reduce_foreign_debt
+		icon = GFX_focus_RAJ_special_economic_zones
+		x = 6
+		y = 1
+		relative_position_id = HON_the_mandate_of_tiburicio
+		prerequisite = {
+			focus = HON_the_mandate_of_tiburicio
+		}
+
+		cost = 6
+
+		available = {
+			num_of_factories > 9
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_timed_idea = {
+				idea = HON_paying_off_debt
+				days = 410
+			}
+			custom_effect_tooltip = EUYL_effects_when_removed_tt
+			effect_tooltip = {
+				EUYL_add_1_civilian = yes 
+				add_ideas = HON_payed_off_debt
+			}
+		}
+	}
+
+	## Establish a Control Change System ##
+	focus = {
+		id = HON_establish_a_control_change_system
+		icon = GFX_EUYL_consumer_goods_icon
+		x = 0
+		y = 2
+		relative_position_id = HON_take_measures_to_reduce_foreign_debt
+		prerequisite = {
+			focus = HON_take_measures_to_reduce_foreign_debt
+		}
+
+		cost = 8
+
+		available = {
+			has_idea = HON_payed_off_debt
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			EUYL_add_2_civilian = yes 
+		}
+	}
+
+	## Import American M1 garands ##
+	focus = {
+		id = HON_import_american_m1_garands
+		icon = GFX_goal_generic_small_arms
+		x = 3
+		y = 1
+		relative_position_id = HON_take_measures_to_reduce_foreign_debt
+		prerequisite = {
+			focus = HON_take_measures_to_reduce_foreign_debt
+		}
+
+		cost = 8
+
+		available = {
+			has_idea = HON_payed_off_debt
+			NOT = { has_war_with = USA }
+			USA = { exists = yes }
+		}
+
+		search_filters = { 
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 1500
+				producer = USA 
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			EUYL_add_1_military = yes
+		}
+	}
+
+	## Purchase War Planes ##
+	focus = {
+		id = HON_purchase_war_planes
+		icon = GFX_focus_generic_copy_plane_designs
+		x = 1
+		y = 1
+		relative_position_id = HON_take_measures_to_reduce_foreign_debt
+		prerequisite = {
+			focus = HON_take_measures_to_reduce_foreign_debt
+		}
+
+		cost = 6
+
+		search_filters = {
+			FOCUS_FILTER_AIR_XP FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			air_experience = 10
+			EUYL_add_1_air_base = yes 
+			
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			if = {
+				limit = {
+					has_dlc = "By Blood Alone"
+				}
+				add_equipment_to_stockpile = {
+					type = small_plane_airframe_1
+					amount = 15
+					producer = USA
+					variant_name = "P-36A"
+				}
+			}
+			else = {
+				add_equipment_to_stockpile = {
+					type = fighter_equipment_0
+					amount = 15
+					producer = USA
+				}
+			}
+		}
+	}
+
+	## All to the Mines ## this is related to the revision of the minery code but hoi4esque
+	focus = {
+		id = HON_all_to_the_mines
+		icon = GFX_focus_generic_mining_industry
+		x = -1
+		y = 1
+		relative_position_id = HON_establish_a_control_change_system
+		prerequisite = {
+			focus = HON_establish_a_control_change_system
+		}
+		prerequisite = {
+			focus = HON_establish_private_police
+		}
+
+		cost = 10 
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = { 
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT 
+				}
+				ROOT = {
+					add_resource = {
+						type = chromium
+						amount = 8
+						state = PREV
+					}
+					add_resource = {
+						type = steel
+						amount = 6
+						state = PREV
+					}
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT 
+				}
+				ROOT = {
+					add_resource = {
+						type = tungsten
+						amount = 6
+						state = PREV
+					}
+					add_resource = {
+						type = steel
+						amount = 5
+						state = PREV
+					}
+					add_resource = {
+						type = oil
+						amount = 3
+						state = PREV
+					}
+				}
+			}
+		}
+	}
+
+	###### FASCIST PATH #####
+	## The Totalitarian Regime ##
+	focus = {
+		id = HON_the_totalitarian_regime
+		icon = GFX_HON_the_totalitarian_regime_icon
+		x = 2
+		y = 2
+		relative_position_id = HON_apply_the_ley_de_policia
+		prerequisite = {
+			focus = HON_apply_the_ley_de_policia
+		}
+		mutually_exclusive = {
+			focus = HON_el_cariato
+		}
+
+		cost = 8
+
+		available = {
+			has_country_leader = {
+				character = HON_tiburcio_carías_andino
+				ruling_only = yes
+			}
+			custom_trigger_tooltip = {
+				tooltip = HON_control_over_nation_above_95_tt
+				check_variable = {
+					HON_control_over_nation_var > 95
+				}
+			}
+			has_country_flag = HON_totalitarian_dictatorship_avail_flag
+			has_country_flag = HON_took_control_of_armed_forces_flag
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			set_temp_variable = {
+				HON_neutrality_pop = party_popularity@neutrality
+			}
+			set_temp_variable = {
+				HON_negative_neutrality_pop = HON_neutrality_pop
+			}
+			multiply_temp_variable = {
+				HON_negative_neutrality_pop = -1
+			}
+			add_popularity = {
+				ideology = neutrality
+				popularity = HON_negative_neutrality_pop
+			}
+			add_popularity = {
+				ideology = fascism
+				popularity = HON_neutrality_pop
+			}
+
+			add_country_leader_role = {
+				character = HON_tiburcio_carías_andino
+				promote_leader = yes
+				country_leader = {
+					ideology = fascism_ideology
+					expire = "1965.1.1.1"
+					traits = { VEN_firm_believer_in_authoritarian_rule JUNO_the_general_president anti_communist fascist_sympathies }
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_timed_idea = {
+				idea = nationalism
+				days = 365
+			}
+
+			add_political_power = 50
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = HON_youll_be_able_to_repress_potential_revolutionaries_and_protests_using_your_divisions_rather_than_using_political_power_tt
+
+			hidden_effect = {
+				set_portraits = {
+					character = HON_tiburcio_carías_andino
+					civilian={
+						large="gfx/leaders/HON/portrait_HON_Tiburcio_Carias_army.dds"
+					}
+					army = {
+						large="gfx/leaders/HON/portrait_HON_Tiburcio_Carias_army.dds"
+					}
+				}
+			}
+		}
+	}
+
+	##### HISTORICAL PATH #####
+	## El Cariato ##
+	focus = {
+		id = HON_el_cariato 
+		icon = GFX_HON_el_cariato_icon
+		x = -6
+		y = 2
+		relative_position_id = HON_apply_the_ley_de_policia
+		prerequisite = {
+			focus = HON_apply_the_ley_de_policia
+		}
+		mutually_exclusive = {
+			focus = HON_the_totalitarian_regime
+		}
+
+		cost = 6
+
+		available = {
+			has_country_leader = {
+				character = HON_tiburcio_carías_andino
+				ruling_only = yes
+			}
+			custom_trigger_tooltip = {
+				tooltip = HON_control_over_nation_above_75_tt
+				check_variable = {
+					HON_control_over_nation_var > 75
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL FOCUS_FILTER_CONTROL_OVER_NATION
+		}
+
+		completion_reward = {
+			
 		}
 	}
 }
