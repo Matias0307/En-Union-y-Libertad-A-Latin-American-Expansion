@@ -856,6 +856,173 @@ news_event = {
 	}
 }
 
+## CEA dictator is notified that invading country (FROM) is trying to expand their influence 
+country_event = {
+	id = cea.16
+	title = cea.16.t 
+	desc = cea.16.d 
+	picture = GFX_report_event_generic_army
+
+	is_triggered_only = yes 
+
+	## We can't allow it 
+	option = {
+		name = cea.16.a 
+		ai_chance = {
+			base = 2
+			modifier = {
+				factor = 5
+				FROM = {
+					strength_ratio = { ## FROM is significantly stronger
+						tag = ROOT 
+						ratio > 2
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				FROM = {
+					strength_ratio = { ## FROM is stronger
+						tag = ROOT 
+						ratio > 1.5
+					}
+				}
+			}
+			modifier = {
+				factor = 10 ## FROM has already been denonced before 
+				has_country_flag = CEA_denouncee_flag
+				FROM = {
+					has_country_flag = CEA_denounced_flag
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = { 
+					original_tag = HON 
+					has_completed_focus = HON_deepen_our_alliance_with_guatemala
+				}
+				original_tag = GUA
+			}
+		}
+		add_war_support = 0.03
+		create_wargoal = {
+			target = FROM 
+			type = annex_everything
+		}
+		add_ai_strategy = {
+			type = declare_war
+			id = FROM
+			value = 150
+		}
+		FROM = {
+			country_event = { ## FROM prepares for an offensive against us
+				id = cea.18 
+				hours = 8
+				random_hours = 24
+			}
+		}
+	}
+
+	## Denounce FROM 
+	option = {
+		name = cea.16.b 
+		ai_chance = {
+			base = 5
+			modifier = {
+				factor = 2
+				FROM = {
+					original_tag = ELS ## I just feel bad lol, imagine gangbanging El Salvador :pray: :sob:
+				}
+			}
+			modifier = {
+				factor = 3
+				FROM = {
+					AND = {
+						strength_ratio = { ## FROM is roughly the same strength
+							tag = ROOT 
+							ratio < 1.3 
+						}
+						strength_ratio = {
+							tag = ROOT 
+							ratio > 0.7 
+						}
+					}
+				}
+			}
+		}
+		add_political_power = 20
+		set_country_flag = CEA_denouncee_flag
+		FROM = {
+			if = {
+				limit = {
+					NOT = {
+						has_country_flag = CEA_denounced_flag
+					}
+				}
+				set_country_flag = CEA_denounced_flag
+			}
+			country_event = {
+				id = cea.17 ## FROM denounced our expansion
+				hours = 16
+				random_hours = 32
+			}
+		}
+	}
+
+	## Let them go
+	option = {
+		name = cea.16.c 
+		ai_chance = {
+			base = 3
+			modifier = {
+				factor = 2
+				FROM = {
+					strength_ratio = { ## FROM is weaker
+						tag = ROOT 
+						ratio < 0.6
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				has_opinion = {
+					target = FROM 
+					value > 49
+				}
+			}
+		}
+	}
+}
+
+## FROM has denounced us 
+country_event = {
+	id = cea.17 
+	title = cea.17.t 
+	desc = cea.17.d 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = cea.17.a 
+	}
+}
+
+## FROM prepares an offensive against us 
+country_event = {
+	id = cea.18 
+	title = cea.18.t 
+	desc = cea.18.d 
+	picture = GFX_report_event_generic_army
+
+	is_triggered_only = yes 
+
+	option = {
+		name = cea.18.a 
+	}
+
+}
+
+############# HONDURAS #############
 ### The Re-Election of Tiburicio by the Constituent Assembly ###
 country_event = {
 	id = hon.1 
@@ -1170,6 +1337,7 @@ country_event = {
 					promote_character = HON_tiburcio_carías_andino
 				}
 				add_ideas = HON_the_third_honduran_civil_war
+				remove_ideas = CEA_league_of_central_american_dictators
 				if = {
 					limit = {
 						has_completed_focus = HON_organize_the_resistance_groups
@@ -1382,3 +1550,233 @@ country_event = {
 		retire_character = HON_tiburcio_carías_andino
 	}
 }
+
+## Salvador Cisnero Rebels Against the Government (Historical: October 1940)
+country_event = {
+	id = hon.10 
+	title = hon.10.t 
+	desc = hon.10.d 
+	picture = GFX_report_event_lithuania_army
+
+	fire_only_once = yes 
+
+	trigger = {
+		exists = yes
+		original_tag = HON
+		has_country_leader = { ## This will prevent any other path from having these issues 
+			character = HON_tiburcio_carías_andino
+			ruling_only = yes 
+		}
+		NOT = {
+			has_active_mission = HON_looming_coup
+			has_active_mission = HON_looming_revolt_against_tiburicio
+			has_idea = CEA_post_civil_war_hardships
+		}
+		has_civil_war = no 
+		OR = {
+			date > 1940.8.8
+			check_variable = {
+				HON_control_over_nation_var > 98 ## Fascism will lead to this faster, logically
+			}
+		}
+	}
+
+	option = {
+		name = hon.10.a 
+		custom_effect_tooltip = HON_cisnero_will_occupy_states_across_the_country_tt
+
+		HON_remove_15_control_over_nation = yes
+
+		hidden_effect = {
+			set_country_flag = HON_cisnero_trigger_flag
+			every_controlled_state = {
+				limit = {
+					has_state_flag = honduras_starting_state
+				}
+				add_dynamic_modifier = {
+					modifier = HON_state_occupied_by_salvador_cisnero
+				}
+			}
+			activate_mission = HON_looming_coup
+			if = {
+				limit = {
+					NOT = {
+						has_country_flag = HON_player_failed_to_stop_civil_war_flag
+					}
+					NOT = {
+						has_completed_focus = HON_silence_the_partido_liberal ## This focus straight up prevents ts :wilted_rose: my ahh gotten soft, i never used to be this laxed with civil wars
+					}
+				}
+				if = {
+					limit = {
+						has_government = fascism 
+					}
+					country_event = { ## Liberals join Crisneros
+						id = hon.12
+						days = 10
+						random_days = 12
+					}
+				}
+				else = {
+					country_event = { ## Liberals Begin one final Revolt attempt (Historical: November 1943)
+						id = hon.14
+						days = 800
+						random_days = 365
+					}
+				}
+			}
+		}
+	}
+}
+
+## Generic Honduras Civil war Start event (Our Nation Erupts in Flames)
+country_event = {
+	id = hon.11
+	title = hon.11.t 
+	desc = hon.11.d 
+	picture = GFX_report_event_generic_riot
+
+	is_triggered_only = yes 
+
+	option = {
+		name = hon.11.a
+	}
+}
+
+## Liberals Join Crisneros Coup Attempt
+country_event = {
+	id = hon.12
+	title = hon.12.t
+	desc = hon.12.d
+	picture = GFX_report_event_riot_police_poland
+
+	is_triggered_only = yes 
+
+	trigger = { 
+		has_active_mission = HON_looming_coup
+	}
+
+	option = {
+		name = hon.12.a 
+
+		HON_remove_5_control_over_nation = yes 
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		add_days_mission_timeout = {
+			mission = HON_looming_coup
+			days = -100
+		}
+	}
+}
+
+## The Question of Crisneros ##
+country_event = {
+	id = hon.13
+	title = con.13.t 
+	desc = hon.13.d
+
+	is_triggered_only = yes 
+
+	option = { ## Straight to the Firing Squad
+		name = hon.13.a 
+		add_war_support = 0.05
+		add_stability = -0.03
+		add_political_power = 25
+
+		custom_effect_tooltip = HON_crisneros_will_be_murdered_tt
+
+		hidden_effect = {
+			if = {
+				limit = {
+					has_character = HON_salvador_cisneros
+				}
+				retire_character = HON_salvador_cisneros
+			}
+		}
+	}
+
+	option = { ## Lifetime Imprisonment
+		name = hon.13.b 
+
+		add_political_power = 15
+
+		custom_effect_tooltip = HON_crisneros_will_be_imprisoned_for_life_tt
+
+		hidden_effect = {
+			if = {
+				limit = {
+					has_character = HON_salvador_cisneros
+				}
+				retire_character = HON_salvador_cisneros
+			}
+		}
+	}
+
+	option = { ## Bring him back to the ranks
+		name = hon.13.c 
+
+		add_war_support = -0.05
+		add_stability = -0.05
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		HON_salvador_cisneros = {
+			set_nationality = ROOT
+		}
+	}
+}
+
+## Liberals Attempt One more Time to Overthrow our Government ##
+country_event = {
+	id = hon.14
+	title = hon.14.t 
+	desc = hon.14.d 
+	picture = GFX_report_event_generic_riot
+
+	is_triggered_only = yes 
+
+	trigger = {
+		exists = yes 
+		has_country_leader = {
+			character = HON_tiburcio_carías_andino
+			ruling_only = yes 
+		}
+		has_civil_war = no
+		NOT = { 
+			has_active_mission = HON_looming_coup
+		} 
+	}
+
+	option = {
+		name = hon.14.a 
+		custom_effect_tooltip = HON_liberals_will_provoke_protests_all_over_the_country_tt
+
+		HON_remove_15_control_over_nation = yes
+
+		hidden_effect = {
+			set_country_flag = HON_second_liberal_trigger_flag
+			every_controlled_state = {
+				limit = {
+					OR = {
+						has_state_flag = honduras_starting_state
+						AND = {
+							any_neighbor_state = { has_state_flag = honduras_starting_state }
+							is_core_of = ROOT
+						}
+					}
+					NOT = {
+						has_dynamic_modifier = {
+							modifier = BRA_protests
+						}
+					}
+				}
+				add_dynamic_modifier = {
+					modifier = BRA_protests
+				}
+			}
+			activate_mission = HON_looming_coup
+		}
+	}
+}
+

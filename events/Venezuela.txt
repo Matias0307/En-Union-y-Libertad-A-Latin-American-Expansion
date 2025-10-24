@@ -2184,6 +2184,38 @@ country_event = {
             }
             country_event = peru.16
         }
+        if = {
+            limit = {
+                FROM = { original_tag = HON } ## idk if this is too op or not, if anything i'll just use it on small countries
+            }
+            every_core_state = {
+                add_core_of = HON
+            }
+        }
+        hidden_effect = {
+            if = {
+                limit = { ## League of Central American Dictators in action
+                    FROM = {
+                        CEA_is_a_member_of_the_league_of_dictators = yes
+                    }
+                }
+                FROM = { ## country thats declaring war, doing it like this to make the event easier by jsut having to use FROM
+                    every_other_country = { ## DONE: make an event for the other countries that asks them if they want to intervene the invading country or not, give option to oppose or straight up intervene
+                        limit = {
+                            CEA_is_a_member_of_the_league_of_dictators = yes
+                            NOT = { has_war_with = FROM }
+                            NOT = { original_tag = ROOT } ##blud got annexed loool, no point in sending them the event
+                            has_civil_war = no 
+                        }
+                        country_event = {
+                            id = cea.16 
+                            hours = 16
+                            random_hours = 32
+                        }
+                    }
+                }
+            }
+        }
     }
 
     option = { ## we'll fight till the very end

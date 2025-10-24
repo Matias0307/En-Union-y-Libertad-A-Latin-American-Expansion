@@ -826,6 +826,269 @@ VEN_political_crisis = { ## need to make custom trigger tooltips for these :/
             }
         }
     }
+
+    HON_looming_coup = {
+        icon = revolt 
+        priority = 200
+
+        allowed = {
+            original_tag = HON
+        }
+
+        activation = {
+            always = no 
+        }
+
+        available = {
+            NOT = { 
+				OR = {
+                    any_controlled_state = {
+                        has_dynamic_modifier = {
+                            modifier = BRA_protests
+                        }
+                    }
+                    any_controlled_state = {
+                        has_dynamic_modifier = {
+                            modifier = HON_state_occupied_by_salvador_cisnero
+                        }
+                    }
+                }
+			}
+        }
+
+        days_mission_timeout = 300
+
+        cancel_trigger = {
+            exists = no 
+            has_civil_war = yes 
+        }
+
+        cancel_effect = {
+            if = {
+                limit = {
+                    has_country_flag = HON_cisnero_trigger_flag
+                }
+                clr_country_flag = HON_cisnero_trigger_flag
+            }
+        }
+
+        is_good = no 
+
+        complete_effect = {
+            add_stability = 0.01 
+            if = {
+                limit = {
+                    has_country_flag = HON_cisnero_trigger_flag
+                }
+                clr_country_flag = HON_cisnero_trigger_flag
+                country_event = {
+                    id = hon.13 ## The question of Salvador Cisneros
+                    days = 1
+                }
+            }
+        }
+
+        timeout_effect = {
+            custom_effect_tooltip = HON_a_civil_war_will_erupt_tt
+
+            country_event = {
+                id = hon.11
+                hours = 4
+                random_hours = 4
+            }
+
+            hidden_effect = {
+                every_controlled_state = {
+                    if = {
+                        limit = {
+                            has_dynamic_modifier = {
+                                modifier = BRA_protests
+                            }
+                        }
+                        remove_dynamic_modifier = {
+                            modifier = BRA_protests
+                        }
+                    }
+                    IF = {
+                        limit = {
+                            has_dynamic_modifier = {
+                                modifier = HON_state_occupied_by_salvador_cisnero
+                            }
+                        }
+                        remove_dynamic_modifier = {
+                            modifier = HON_state_occupied_by_salvador_cisnero
+                        }
+                    }
+                }
+                if = { ## Historical 1940 Coup from Cristero
+                    limit = {
+                        has_country_flag = HON_cisnero_trigger_flag
+                    }
+                    if = {
+                        limit = {
+                            NOT = {
+                                has_template = "Milicias"
+                            }
+                        }
+                        division_template = { 
+                            name = "Milicias" 
+                            division_names_group = SPAN_INF_02 
+                            template_counter = 3
+                            is_locked = yes 
+                            regiments = { 
+                                infantry = { x = 0 y = 0 }  
+                                infantry = { x = 0 y = 1 } 
+                                infantry = { x = 0 y = 2 } 
+                            }
+                        }
+                    }
+                    clr_country_flag = HON_cisnero_trigger_flag
+                    start_civil_war = {
+                        ideology = neutrality 
+                        size = 0.4
+                        keep_all_characters = yes 
+                        PREV = {
+                            HON_salvador_cisneros = {
+                                set_nationality = prev.PREV
+                            }
+                            if = {
+                                limit = {
+                                    has_government = fascism
+                                    NOT = {
+                                        has_country_flag = HON_player_failed_to_stop_civil_war_flag
+                                    }
+                                }
+                                HON_collective_liberal_resistance = {
+                                    set_nationality = prev.PREV
+                                }
+                                HON_manuel_calix_herrera = {
+                                    set_nationality = prev.PREV 
+                                }
+                                HON_vicente_mejia_colindres = {
+                                    set_nationality = prev.PREV
+                                }
+                            }
+                        }
+                        add_country_leader_role = {
+                            character = HON_salvador_cisneros
+                            promote_leader = yes
+                            country_leader = {
+                                ideology = despotism
+                                expire = "1965.1.1.1"
+                                traits = { ECU_ambitious ECU_low_public_support }
+                            }
+                        }
+                    }
+                    if = {
+                        limit = { ## civil war will be harder, larger, and more difficult to defeat
+                            has_government = fascism
+                            NOT = {
+                                has_country_flag = HON_player_failed_to_stop_civil_war_flag
+                            } 
+                        }
+                        random_other_country = {
+                            limit = {
+                                original_tag = HON 
+                                has_government = neutrality
+                            }
+                            HON_manuel_calix_herrera = {
+                                add_corps_commander_role = {
+                                    skill = 2
+                                    attack_skill = 1
+                                    defense_skill = 2
+                                    planning_skill = 2
+                                    logistics_skill = 2
+                                }
+                            }
+                            every_controlled_state = {
+                                create_unit = {
+                                    division = "name = \"Milicias Hondureñas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+                                    owner = PREV
+                                }
+                            }
+                        }
+                    }
+                }
+                else = { ## Historical 1943 Coup attempt from the Liberals (yes, again)
+                    start_civil_war = {
+                        ideology = democratic 
+                        size = 0.4
+                        keep_all_characters = yes 
+                        PREV = {
+                            HON_collective_liberal_resistance = {
+                                set_nationality = prev.PREV
+                            }
+                            HON_manuel_calix_herrera = {
+                                set_nationality = prev.PREV 
+                            }
+                            HON_vicente_mejia_colindres = {
+                                set_nationality = prev.PREV
+                            }
+                        }
+                        promote_character = HON_collective_liberal_resistance
+                    }
+                }
+            }
+        }
+    }
+
+    HON_destroy_crisneros_camp_in_FROM = {
+        icon = oppression
+
+        state_target = yes 
+
+        target_array = core_states 
+
+        target_trigger = {
+            FROM = {
+                has_dynamic_modifier = {
+                    modifier = HON_state_occupied_by_salvador_cisnero
+                }
+            }
+        }
+
+        visible = {
+            has_civil_war = no 
+            has_country_flag = HON_cisnero_trigger_flag
+            has_active_mission = HON_looming_coup
+            any_controlled_state = {
+                has_dynamic_modifier = {
+                    modifier = HON_state_occupied_by_salvador_cisnero
+                }
+            }
+        }
+
+        available = {
+            if = {
+                limit = {
+                    is_ai = no 
+                }
+                divisions_in_state = {
+                    size > 2
+                    state = FROM
+                } 
+            }
+            else = {
+                has_army_manpower = {
+                    size > 9999
+                }
+            }
+        }
+
+        on_map_mode = map_and_decisions_view
+
+        cost = 40
+
+        fire_only_once = yes 
+
+        complete_effect = {
+            FROM = {
+                remove_dynamic_modifier = {
+                    modifier = HON_state_occupied_by_salvador_cisnero
+                }
+            }
+        }
+    }
 }
 
 VEN_escalantes_advancing_dementia = {

@@ -983,9 +983,6 @@ focus_tree = {
 				CEA_is_central_american = yes 
 				has_government = communism
 			}
-			NOT = {
-				has_global_flag = CEA_central_american_defense_pact_created_flag
-			}
 		}
 
 		search_filters = {
@@ -993,7 +990,17 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			CEA_basic_create_faction = yes
+			if = { ## not making a unique event, too lazy to do so
+				limit = {
+					has_global_flag = CEA_central_american_defense_pact_created_flag
+				}
+				event_target:CENTRAL_AMERICAN_FACTION_CREATOR = {
+					country_event = generic.2 
+				}
+			}
+			else = {
+				CEA_basic_create_faction = yes
+			}
 		}
 	}
 
@@ -1145,6 +1152,12 @@ focus_tree = {
 			has_country_leader = {
 				character = HON_tiburcio_carías_andino
 				ruling_only = yes 
+			}
+			custom_trigger_tooltip = {
+				tooltip = HON_control_over_nation_above_50_tt
+				check_variable = {
+					HON_control_over_nation_var > 50
+				}
 			}
 			has_active_mission = HON_looming_revolt_against_tiburicio
 		}
@@ -1567,6 +1580,11 @@ focus_tree = {
 				}
 			}
 
+			set_politics = {
+				ruling_party = fascism
+				elections_allowed = no
+			}
+
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
 			add_timed_idea = {
@@ -1578,8 +1596,18 @@ focus_tree = {
 
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
-			custom_effect_tooltip = HON_youll_be_able_to_repress_potential_revolutionaries_and_protests_using_your_divisions_rather_than_using_political_power_tt
+			set_variable = { HON_tot_regime_stability_var = 0.02 }
+			set_variable = { HON_tot_regime_pol_power_factor_var = 0.03 }
+			set_variable = { HON_tot_regime_conscription_var = 0 }
+			set_variable = { HON_tot_regime_war_support_var = 0 }
+			set_variable = { HON_tot_regime_army_attack_var = 0 }
+			set_variable = { HON_tot_regime_army_defense_var = 0 }
+			set_variable = { HON_tot_regime_consumer_goods_factor_var = 0 }
 
+			add_dynamic_modifier = {
+				modifier = HON_totalitarian_regime_dynamic_modifier
+			}
+			
 			hidden_effect = {
 				set_portraits = {
 					character = HON_tiburcio_carías_andino
@@ -1591,6 +1619,243 @@ focus_tree = {
 					}
 				}
 			}
+		}
+	}
+
+	## Shut Down the Press ##
+	focus = {
+		id = HON_shut_down_the_press
+		icon = GFX_EUYL_generic_ban_press
+		x = 0
+		y = 1
+		relative_position_id = HON_the_totalitarian_regime
+		prerequisite = {
+			focus = HON_the_totalitarian_regime
+		}
+
+		cost = 5
+
+		available = {
+			has_civil_war = no 
+			fascism > 0.4
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = HON_modify_totalitarian_regime_intro_tt
+			add_to_variable = {
+				HON_tot_regime_stability_var = 0.02
+				tooltip = stability_factor_tt
+			}
+			add_to_variable = {
+				HON_tot_regime_pol_power_factor_var = 0.03
+				tooltip = political_power_factor_tt
+			}
+		}
+	}
+
+	## Dissolve the Congress ##
+	focus = {
+		id = HON_dissolve_the_congress
+		icon = GFX_HON_dissolve_congress_icon
+		x = -1
+		y = 1
+		relative_position_id = HON_shut_down_the_press
+		prerequisite = {
+			focus = HON_shut_down_the_press
+		}
+
+		cost = 8
+
+		available = {
+			fascism > 0.6
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		completion_reward = {
+			custom_effect_tooltip = HON_modify_totalitarian_regime_intro_tt
+			add_to_variable = {
+				HON_tot_regime_pol_power_factor_var = 0.1
+				tooltip = political_power_factor_tt
+			}
+			add_to_variable = {
+				HON_tot_regime_consumer_goods_factor_var = 0.05
+				tooltip = consumer_goods_factor_tt
+			}
+		}
+	}
+
+	## Expand the Honduran Army ##
+	focus = {
+		id = HON_expand_the_honduran_army
+		icon = GFX_HON_honduran_army_icon
+		x = 2
+		y = 1
+		relative_position_id = HON_shut_down_the_press
+		prerequisite = {
+			focus = HON_shut_down_the_press
+		}
+
+		cost = 8
+
+		available = {
+			has_civil_war = no 
+			NOT = { 
+				any_controlled_state = {
+					has_dynamic_modifier = {
+						modifier = BRA_protests
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_MANPOWER
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = HON_modify_totalitarian_regime_intro_tt
+			add_to_variable = {
+				HON_tot_regime_conscription_var = 0.05
+				tooltip = conscription_tt
+			}
+			add_to_variable = {
+				HON_tot_regime_consumer_goods_factor_var = 0.1
+				tooltip = consumer_goods_factor_tt
+			}
+		}
+	}
+
+	## Modernizations to the Honduran Army ##
+	focus = {
+		id = HON_modernizations_to_the_honduran_army
+		icon = GFX_focus_chi_army_reform
+		x = 2
+		y = 1
+		relative_position_id = HON_expand_the_honduran_army
+		prerequisite = {
+			focus = HON_expand_the_honduran_army
+		}
+
+		cost = 7.2
+
+		available = {
+			has_army_manpower = {
+				size > 24999
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_ARMY_XP }
+
+		completion_reward = {
+			custom_effect_tooltip = HON_modify_totalitarian_regime_intro_tt
+			add_to_variable = {
+				HON_tot_regime_army_attack_var = 0.05
+				tooltip = army_attack_factor_tt
+			}
+			add_to_variable = {
+				HON_tot_regime_army_defense_var = 0.07
+				tooltip = army_defence_factor_tt
+			}
+			add_to_variable = {
+				HON_tot_regime_consumer_goods_factor_var = 0.1
+				tooltip = consumer_goods_factor_tt
+			}
+		}
+	}
+
+	## All to the Factories ##
+	focus = {
+		id = HON_all_to_the_factories
+		icon = GFX_focus_generic_military_industry
+		x = 0
+		y = 1
+		relative_position_id = HON_expand_the_honduran_army
+		prerequisite = {
+			focus = HON_expand_the_honduran_army
+		}
+
+		cost = 10 
+
+		available = {
+			has_army_manpower = {
+				size > 24999
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_WAR_SUPPORT
+		}
+
+		completion_reward = {
+			EUYL_add_2_military = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = HON_modify_totalitarian_regime_intro_tt
+			add_to_variable = {
+				HON_tot_regime_war_support_var = 0.05
+				tooltip = war_support_factor_tt
+			}
+			add_to_variable = {
+				HON_tot_regime_consumer_goods_factor_var = 0.15
+				tooltip = consumer_goods_factor_tt
+			}
+		}
+	}
+
+	## A true Cult of Personality ##
+	focus = {
+		id = HON_a_true_cult_of_personality
+		icon = GFX_HON_supported_tiburicio_icon
+		x = 0
+		y = 3
+		relative_position_id = HON_shut_down_the_press
+		prerequisite = {
+			focus = HON_shut_down_the_press
+		}
+
+		cost = 5
+
+		available = {
+			has_army_manpower = {
+				size > 39999
+			}
+			num_of_factories > 10
+			NOT = { 
+				any_controlled_state = {
+					has_dynamic_modifier = {
+						modifier = BRA_protests
+					}
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = HON_control_over_nation_at_100_tt
+				check_variable = {
+					HON_control_over_nation_var > 99
+				}
+			}
+			NOT = {
+				has_active_mission = HON_looming_coup
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_CONTROL_OVER_NATION
+		}
+
+		completion_reward = {
+			remove_ideas = HON_memory_of_the_second_civil_war
+
+			HON_add_5_control_over_nation = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			HON_effects_from_current_control_over_nation = yes 
 		}
 	}
 
@@ -1629,7 +1894,123 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			
+			add_popularity = {
+				ideology = neutrality
+				popularity = 0.03
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			HON_effects_from_current_control_over_nation = yes
+		}
+	}
+
+	## Deepen our Alliance with Guatemala ##
+	focus = {
+		id = HON_deepen_our_alliance_with_guatemala
+		icon = GFX_EUYL_ally_guatemala_icon
+		x = -5
+		y = 1
+		relative_position_id = HON_the_totalitarian_regime
+		prerequisite = {
+			focus = HON_el_cariato
+			focus = HON_the_totalitarian_regime
+		}
+		mutually_exclusive = {
+			focus = HON_demand_guatemalas_subjegation
+		}
+
+		cost = 8
+
+		available = {
+			GUA = {
+				exists = yes 
+				NOT = {
+					has_war_with = ROOT
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT
+		}
+
+		completion_reward = {
+			add_war_support = 0.03
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_opinion_modifier = {
+				target = GUA
+				modifier = CHL_strengthened_ties
+			}
+			GUA = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = CHL_strengthened_ties
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			give_guarantee = GUA 
+			GUA = { give_guarantee = HON }
+
+			custom_effect_tooltip = HON_if_GUA_is_in_league_of_cea_dictators_wont_intervene_tt
+		}
+	}
+
+	## Demand Guatemala's subjegation 
+	focus = {
+		id = HON_demand_guatemalas_subjegation
+		icon = GFX_EUYL_attack_guatemala_icon
+		x = -3
+		y = 1
+		relative_position_id = HON_the_totalitarian_regime
+		prerequisite = {
+			focus = HON_the_totalitarian_regime
+			focus = HON_el_cariato
+		}
+		mutually_exclusive = {
+			focus = HON_deepen_our_alliance_with_guatemala
+		}
+
+		cost = 8
+
+		available = {
+			GUA = {
+				exists = yes 
+				NOT = {
+					has_war_with = ROOT
+					is_in_faction_with = ROOT
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			GUA = {
+				country_event = {
+					id = venezuela.49
+					hours = 6
+					random_hours = 6
+				}
+			}
+			custom_effect_tooltip = ARG_iftheyaccept
+			effect_tooltip = {
+				annex_country = {
+					target = GUA
+					transfer_troops = yes
+				}
+				add_state_core = 1050 
+				add_state_core = 313
+				add_state_core = 1051
+			}
+
+			custom_effect_tooltip = HON_league_of_central_american_dictators_will_be_notified_and_may_intervene_tt
 		}
 	}
 }
