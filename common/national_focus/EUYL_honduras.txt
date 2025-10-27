@@ -166,7 +166,7 @@ focus_tree = {
 	focus = {
 		id = HON_rewrite_the_honduran_constitution
 		icon = GFX_HON_rewrite_constitution_icon
-		x = 46
+		x = 52
 		y = 0
 
 		available = {
@@ -562,7 +562,7 @@ focus_tree = {
 	focus = {
 		id = HON_no_compromise_on_our_freedom
 		icon = GFX_HON_future_of_democracy_icon
-		x = 7
+		x = 8
 		y = 2
 		relative_position_id = HON_libre_soberana_e_independiente
 		prerequisite = {
@@ -1100,7 +1100,7 @@ focus_tree = {
 	focus = {
 		id = HON_the_mandate_of_tiburicio
 		icon = GFX_HON_supported_tiburicio_icon
-		x = -4
+		x = -5
 		y = 1
 		relative_position_id = HON_support_from_the_partido_nacional
 		prerequisite = {
@@ -1819,13 +1819,9 @@ focus_tree = {
 			focus = HON_shut_down_the_press
 		}
 
-		cost = 5
+		cost = 6
 
 		available = {
-			has_army_manpower = {
-				size > 39999
-			}
-			num_of_factories > 10
 			NOT = { 
 				any_controlled_state = {
 					has_dynamic_modifier = {
@@ -1856,6 +1852,7 @@ focus_tree = {
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
 			HON_effects_from_current_control_over_nation = yes 
+			add_country_leader_trait = ECU_ambitious
 		}
 	}
 
@@ -1864,7 +1861,7 @@ focus_tree = {
 	focus = {
 		id = HON_el_cariato 
 		icon = GFX_HON_el_cariato_icon
-		x = -6
+		x = -8
 		y = 2
 		relative_position_id = HON_apply_the_ley_de_policia
 		prerequisite = {
@@ -1905,16 +1902,308 @@ focus_tree = {
 		}
 	}
 
+	## Reform Article 197 ##
+	focus = {
+		id = HON_reform_article_197
+		icon = GFX_HON_reform_article_197_icon
+		x = -1
+		y = 1
+		relative_position_id = HON_el_cariato
+		prerequisite = {
+			focus = HON_el_cariato
+		}
+
+		cost = 6
+
+		available = {
+			has_civil_war = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_political_power = 50
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = {
+				decision = HON_place_pro_government_council_members_in_FROM
+				show_effect_tooltip = yes
+			}
+		}
+	}
+
+	## Take out Loans from the Banana Companies ##
+	focus = {
+		id = HON_take_out_loans_from_the_banana_companies
+		icon = GFX_CEA_expand_banana_icon
+		x = 4
+		y = 1
+		relative_position_id = HON_el_cariato
+		prerequisite = {
+			focus = HON_el_cariato
+			focus = HON_the_totalitarian_regime
+		}
+
+		cost = 5
+
+		available = {
+			NOT = {
+				has_completed_focus = CEA_force_out_the_banana_companies
+			}
+			any_controlled_state = {
+				OR = {
+					has_dynamic_modifier = {
+						modifier = CEA_local_banana_production
+					}
+					has_dynamic_modifier = {
+						modifier = CEA_improved_banana_production
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_political_power = -50
+			EUYL_add_1_civilian = yes
+		}
+	}
+
+	## Tighten Security Laws ##
+	focus = {
+		id = HON_tighten_security_laws
+		icon = GFX_focus_AUS_lawmaking_leniency
+		x = 1
+		y = 1
+		relative_position_id = HON_el_cariato
+		prerequisite = {
+			focus = HON_el_cariato
+		}
+
+		cost = 5
+		
+		available = {
+			NOT = {
+				has_active_mission = HON_looming_coup
+			}
+			NOT = {
+				any_controlled_state = {
+					has_dynamic_modifier = {
+						modifier = BRA_protests
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_timed_idea = {
+				idea = HON_tightened_security_laws
+				days = 365
+			}
+			custom_effect_tooltip = EUYL_effects_when_removed_tt
+			effect_tooltip = {
+				HON_add_5_control_over_nation = yes
+			}
+		}
+	}
+
+	## Law of Organization of Local Districts ##
+	focus = {
+		id = HON_law_of_organization_of_local_districts
+		icon = GFX_HON_national_law_icon
+		x = -2
+		y = 1
+		relative_position_id = HON_reform_article_197
+		prerequisite = {
+			focus = HON_reform_article_197
+		}
+
+		cost = 10
+
+		available = {
+			has_civil_war = no 
+			any_controlled_state = {
+				has_dynamic_modifier = {
+					modifier = HON_pro_government_council_members_present
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_CONTROL_OVER_NATION FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = HON_for_every_state_with_pro_government_council_members_up_to_three_receive_buffs_tt
+			every_core_state = {
+				limit = {
+					is_controlled_by = ROOT
+					has_dynamic_modifier = {
+						modifier = HON_pro_government_council_members_present
+					}
+				}
+				random_select_amount = 3
+				hidden_effect = {
+					ROOT = {
+						HON_add_5_control_over_nation = yes 
+						add_political_power = 20
+						EUYL_add_1_civilian = yes
+					}
+				}
+			}
+		}
+	}
+
+	## Organize the Cabinet ##
+	focus = {
+		id = HON_organize_the_cabinet
+		icon = GFX_goal_generic_forceful_treaty
+		x = -4
+		y = 1
+		relative_position_id = HON_the_totalitarian_regime
+		prerequisite = {
+			focus = HON_the_totalitarian_regime
+			focus = HON_el_cariato
+		}
+
+		cost = 5 
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = HON_alfredo_leon_gomez
+			show_ideas_tooltip = HON_silverio_lainez
+			show_ideas_tooltip = HON_juan_galvez_duron
+		}
+	}
+
+	## Tiburicio Shall Remain ##
+	focus = {
+		id = HON_tiburicio_shall_remain
+		icon = GFX_HON_tiburicio_leader_icon
+		x = -1
+		y = 2
+		relative_position_id = HON_reform_article_197
+		prerequisite = {
+			focus = HON_reform_article_197
+		}
+		prerequisite = {
+			focus = HON_tighten_security_laws
+		}
+		mutually_exclusive = {
+			focus = HON_ascend_the_vice_president
+		}
+
+		cost = 5
+
+		available = {
+			has_civil_war = no 
+			NOT = {
+				has_active_mission = HON_looming_coup
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_political_power = 25
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_country_leader_trait = VEN_hardheaded
+		}
+	}
+
+	## Ascend the Vice President ##
+	focus = {
+		id = HON_ascend_the_vice_president
+		icon = GFX_HON_abraham_leader_icon
+		x = 1
+		y = 2
+		relative_position_id = HON_tighten_security_laws
+		prerequisite = {
+			focus = HON_reform_article_197
+		}
+		prerequisite = {
+			focus = HON_tighten_security_laws
+		}
+		mutually_exclusive = {
+			focus = HON_tiburicio_shall_remain
+		}
+
+		cost = 5
+
+		available = {
+			has_civil_war = no 
+			NOT = {
+				has_active_mission = HON_looming_coup
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			promote_character = HON_abraham_williams_calderon
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = HON_tiburcio_carías_andino
+		}
+	}
+
+	## Exile Political Opponents ##
+	focus = {
+		id = HON_exile_political_opponents
+		icon = GFX_focus_generic_limited_social_mobilization
+		x = 0
+		y = 1
+		relative_position_id = HON_ascend_the_vice_president
+		prerequisite = {
+			focus = HON_ascend_the_vice_president
+		}
+
+		cost = 7.2
+
+		available = {
+			has_civil_war = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_MANPOWER FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			add_ideas = HON_exile_political_opponents_idea
+		}
+	}
+
 	## Deepen our Alliance with Guatemala ##
 	focus = {
 		id = HON_deepen_our_alliance_with_guatemala
 		icon = GFX_EUYL_ally_guatemala_icon
 		x = -5
-		y = 1
+		y = 2
 		relative_position_id = HON_the_totalitarian_regime
 		prerequisite = {
-			focus = HON_el_cariato
-			focus = HON_the_totalitarian_regime
+			focus = HON_organize_the_cabinet
 		}
 		mutually_exclusive = {
 			focus = HON_demand_guatemalas_subjegation
@@ -1954,7 +2243,6 @@ focus_tree = {
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
 			give_guarantee = GUA 
-			GUA = { give_guarantee = HON }
 
 			custom_effect_tooltip = HON_if_GUA_is_in_league_of_cea_dictators_wont_intervene_tt
 		}
@@ -1965,11 +2253,10 @@ focus_tree = {
 		id = HON_demand_guatemalas_subjegation
 		icon = GFX_EUYL_attack_guatemala_icon
 		x = -3
-		y = 1
+		y = 2
 		relative_position_id = HON_the_totalitarian_regime
 		prerequisite = {
-			focus = HON_the_totalitarian_regime
-			focus = HON_el_cariato
+			focus = HON_organize_the_cabinet
 		}
 		mutually_exclusive = {
 			focus = HON_deepen_our_alliance_with_guatemala

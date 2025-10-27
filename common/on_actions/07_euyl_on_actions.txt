@@ -963,13 +963,17 @@ on_actions = {
                     }
                     FROM = {
                         CEA_is_a_member_of_the_league_of_dictators = yes
+                        NOT = {
+                            has_country_flag = CEA_invading_country_flag
+                        }
                     }
                 }
                 ROOT = { ## country thats declaring war, doing it like this to make the event easier by jsut having to use FROM
+                    set_country_flag = CEA_invading_country_flag
                     every_other_country = { ## DONE: make an event for the other countries that asks them if they want to intervene the invading country or not, give option to oppose or straight up intervene
                         limit = {
                             CEA_is_a_member_of_the_league_of_dictators = yes
-                            NOT = { has_war_with = ROOT }
+                            NOT = { original_tag = FROM }
                             has_civil_war = no 
                         }
                         country_event = {
@@ -979,6 +983,20 @@ on_actions = {
                         }
                     }
                 }
+            }
+        }
+        effect = { ## This is only to clear the flag
+            if = {
+                limit = {
+                    ROOT = {
+                        CEA_is_central_american = yes
+                    }
+                    FROM = {
+                        CEA_is_central_american = yes 
+                        has_country_flag = CEA_invading_country_flag
+                    }
+                }
+                FROM = { clr_country_flag = CEA_invading_country_flag }
             }
         }
         effect = {

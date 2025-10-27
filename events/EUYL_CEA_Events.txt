@@ -869,7 +869,7 @@ country_event = {
 	option = {
 		name = cea.16.a 
 		ai_chance = {
-			base = 2
+			base = 3
 			modifier = {
 				factor = 5
 				FROM = {
@@ -1587,6 +1587,18 @@ country_event = {
 
 		HON_remove_15_control_over_nation = yes
 
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		if = {
+			limit = {
+				NOT = {
+					has_country_flag = HON_active_protests_flag
+				}
+			}
+			custom_effect_tooltip = HON_protests_will_now_become_active_tt
+			set_country_flag = HON_active_protests_flag
+		}
+
 		hidden_effect = {
 			set_country_flag = HON_cisnero_trigger_flag
 			every_controlled_state = {
@@ -1753,6 +1765,21 @@ country_event = {
 		custom_effect_tooltip = HON_liberals_will_provoke_protests_all_over_the_country_tt
 
 		HON_remove_15_control_over_nation = yes
+
+		if = {
+			limit = {
+				NOT = {
+					has_country_flag = HON_active_protests_flag
+				}
+			}
+			custom_effect_tooltip = HON_protests_will_now_become_active_tt
+			set_country_flag = HON_active_protests_flag
+		}
+
+		add_popularity = {
+			ideology = democratic
+			popularity = 0.1
+		}
 
 		hidden_effect = {
 			set_country_flag = HON_second_liberal_trigger_flag

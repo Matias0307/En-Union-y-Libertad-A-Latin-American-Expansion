@@ -1409,6 +1409,64 @@ HON_el_cariato_cat = {
 			}
 		}
 	}
+
+	HON_place_pro_government_council_members_in_FROM = {
+		icon = generic_political_address
+
+		visible = {
+			has_completed_focus = HON_reform_article_197
+			FROM = {
+				NOT = {
+					has_dynamic_modifier = {
+						modifier = HON_pro_government_council_members_present
+					}
+				}
+			}
+		}
+
+		state_target = yes 
+
+		target_array = core_states
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+			}
+		}
+
+		on_map_mode = map_and_decisions_view
+
+		available = {
+			has_civil_war = no 
+			FROM = {
+				NOT = {
+					has_dynamic_modifier = {
+						modifier = BRA_protests
+					}
+				}
+			}
+			NOT = {
+				has_country_flag = HON_recently_placed_pro_government_council_members_flag
+			}
+		}
+
+		cost = 40
+
+		fire_only_once = yes 
+
+		complete_effect = {
+			FROM = {
+				add_dynamic_modifier = {
+					modifier = HON_pro_government_council_members_present
+				}
+			}
+			set_country_flag = {
+				flag = HON_recently_placed_pro_government_council_members_flag
+				days = 90
+				value = 1
+			}
+		}
+	}
 	
 	## and now the decisions for going against tiburicio
 
