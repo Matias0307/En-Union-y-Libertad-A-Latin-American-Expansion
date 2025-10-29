@@ -1019,7 +1019,42 @@ country_event = {
 	option = {
 		name = cea.18.a 
 	}
+}
 
+## (NEWS EVENT) [BLZ.GetName] breaks free from British Rule
+news_event = {
+	id = cea.19
+	title = cea.19.t 
+	desc = cea.19.d 
+	picture = GFX_CEA_BLZ_independence_img
+
+	is_triggered_only = yes 
+
+	major = yes 
+
+	option = {
+		name = cea.19.a 
+		trigger = {
+			original_tag = BLZ 
+		}
+	}
+
+	option = {
+		name = cea.19.b 
+		trigger = {
+			original_tag = ENG 
+		}
+	}
+
+	option = {
+		name = "Ok" 
+		trigger = {
+			NOT = {
+				original_tag = BLZ 
+				original_tag = ENG
+			}
+		}
+	}
 }
 
 ############# HONDURAS #############
@@ -1803,6 +1838,313 @@ country_event = {
 				}
 			}
 			activate_mission = HON_looming_coup
+		}
+	}
+}
+
+## The [GetYear] General Elections (its the 1948 one)
+country_event = {
+	id = hon.15
+	title = hon.15.t 
+	desc = hon.15.d 
+	picture = GFX_HON_1948_elections_icon
+
+	is_triggered_only = yes 
+
+	option = { ##Juan Manuel Galvez
+		name = "Juan Manuel Galvez"
+		ai_chance = {
+			base = 10
+		}
+
+		remove_ideas = CEA_league_of_central_american_dictators
+
+		add_country_leader_role = {
+			character = HON_juan_galvez_duron
+			promote_leader = yes
+			country_leader = {
+				ideology = despotism
+				expire = "1965.1.1.1"
+				traits = { VEN_firm_believer_in_authoritarian_rule }
+			}
+		}
+	}
+
+	option = { ## José Ángel Zúñiga Huete
+		name = "José Ángel Zúñiga Huete"
+		ai_chance = {
+			base = 2
+			modifier = {
+				factor = 0 
+				is_historical_focus_on = yes
+			}
+		}
+
+		remove_ideas = CEA_league_of_central_american_dictators
+
+		add_popularity = {
+			ideology = democratic
+			popularity = 0.2
+		}
+
+		set_politics = {
+			ruling_party = democratic
+			elections_allowed = yes 
+			election_frequency = 48
+		}
+
+		add_country_leader_role = {
+			character = HON_jose_zuniga_huete
+			promote_leader = yes
+			country_leader = {
+				ideology = liberalism
+				expire = "1965.1.1.1"
+				traits = { URG_reformist_socialist }
+			}
+		}
+	}
+}
+
+## [FROM.GetName] is Demanding we hand Over [BLZ.GetName]
+country_event = {
+	id = hon.16
+	title = hon.16.t 
+	desc = hon.16.d 
+	picture = GFX_CEA_BLZ_annex_img
+
+	is_triggered_only = yes 
+
+	option = { ## Take it, we don't need them anyways
+		name = hon.16.a 
+		ai_chance = {
+			base = 4
+			modifier = {
+				factor = 4
+				has_opinion = {
+					target = FROM 
+					value > 69
+				}
+			}
+			modifier = {
+				factor = 3
+				FROM = {
+					OR = {
+						has_army_manpower = {
+							size > 24999
+						}
+						num_of_factories > 14
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				has_war = yes 
+			}
+		}
+		FROM = {
+			if = {
+				limit = {
+					BLZ = { exists = yes }
+				}
+				annex_country = {
+					target = BLZ 
+					transfer_troops = yes
+				}
+			}
+			else = {
+				transfer_state = 311
+			}
+			311 = {
+				add_compliance = 25
+			}
+			country_event = {
+				id = peru.16
+				hours = 6
+			}
+		}
+	}
+
+	option = { ## No, piss off
+		name = hon.16.b 
+		ai_chance = {
+			base = 5
+			modifier = {
+				factor = 2
+				FROM = {
+					has_war = yes 
+				}
+			}
+			modifier = {
+				factor = 2
+				has_opinion = {
+					target = FROM 
+					value < -10
+				}
+			}
+		}
+		FROM = {
+			country_event = {
+				id = peru.17 
+				hours = 6
+			}
+		}
+	}
+}
+
+## [FROM.GetName] is Diplomatically Asking for [BLZ.GetName]
+country_event = {
+	id = hon.17
+	title = hon.17.t 
+	desc = hon.17.d 
+	picture = GFX_CEA_BLZ_annex_img
+
+	is_triggered_only = yes 
+
+	option = { ## Sure, anything for our ally
+		name = hon.17.a 
+		ai_chance = {
+			base = 5
+			modifier = {
+				factor = 4
+				has_opinion = {
+					target = FROM 
+					value > 69
+				}
+			}
+			modifier = {
+				factor = 3
+				FROM = {
+					OR = {
+						has_army_manpower = {
+							size > 24999
+						}
+						num_of_factories > 14
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				has_war = yes 
+			}
+		}
+		FROM = {
+			if = {
+				limit = {
+					BLZ = { exists = yes }
+				}
+				annex_country = {
+					target = BLZ 
+					transfer_troops = yes
+				}
+			}
+			else = {
+				transfer_state = 311
+			}
+			311 = {
+				add_compliance = 25
+			}
+			country_event = {
+				id = peru.16
+				hours = 6
+			}
+		}
+	}
+
+	option = { ## Fine, but we expect a payment
+		name = hon.17.b 
+		ai_chance = {
+			base = 8
+			modifier = {
+				factor = 4
+				has_opinion = {
+					target = FROM 
+					value > 69
+				}
+			}
+			modifier = {
+				factor = 3
+				FROM = {
+					OR = {
+						has_army_manpower = {
+							size > 24999
+						}
+						num_of_factories > 14
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				has_war = yes 
+			}
+		}
+		FROM = {
+			if = {
+				limit = {
+					BLZ = { exists = yes }
+				}
+				annex_country = {
+					target = BLZ 
+					transfer_troops = yes
+				}
+			}
+			else = {
+				transfer_state = 311
+			}
+			random_owned_controlled_state = {
+				limit = {
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+			311 = {
+				add_compliance = 25
+			}
+			country_event = {
+				id = hon.17
+				hours = 6
+			}
+		}
+		EUYL_add_1_civilian = yes
+	}
+
+	option = { ## No
+		name = hon.17.c
+		ai_chance = {
+			base = 10
+		}
+		FROM = {
+			country_event = {
+				id = peru.17 
+				hours = 6
+			}
+		}
+	}
+}
+
+## [FROM.GetName] Hands Over [BLZ.GetName] but with a Price
+country_event = {
+	id = hon.17
+	title = hon.17.t 
+	desc = hon.17.d 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = "OK"
+		effect_tooltip = {
+			random_owned_controlled_state = {
+				limit = {
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+			FROM = { EUYL_add_1_civilian = yes }
 		}
 	}
 }

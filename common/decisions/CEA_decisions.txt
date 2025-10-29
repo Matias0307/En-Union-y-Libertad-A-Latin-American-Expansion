@@ -1973,3 +1973,292 @@ HON_revolution_in_the_tropics = {
 		}
 	}
 }
+
+HON_the_world_beyond_our_borders = {
+	HON_declare_the_greater_honduran_regime = {
+		icon = generic_form_nation
+
+		highlight_states = {
+			highlight_states_trigger = {
+				OR = {
+					state = 312
+					state = 1052
+					state = 1053
+					state = 1054
+					state = 1055
+					state = 317
+					state = 1056
+					state = 314
+					state = 313
+					state = 1050
+					state = 1051
+					state = 474
+					state = 475
+					state = 311
+				}
+			}
+		}
+
+		available = {
+			controls_state = 312
+			controls_state = 1052
+			controls_state = 1053
+			controls_state = 1054
+			controls_state = 1055
+			controls_state = 317
+			controls_state = 1056
+			controls_state = 314
+			controls_state = 313
+			controls_state = 1050
+			controls_state = 1051
+			controls_state = 474
+			controls_state = 475
+			controls_state = 311
+		}
+
+		visible = {
+			has_completed_focus = HON_honduras_above_all
+		}
+
+		complete_effect = {
+			set_cosmetic_tag = HON_GREATER
+			every_controlled_state = {
+				limit = {
+					OR = {
+						state = 312
+						state = 1052
+						state = 1053
+						state = 1054
+						state = 1055
+						state = 317
+						state = 1056
+						state = 314
+						state = 313
+						state = 1050
+						state = 1051
+						state = 474
+						state = 475
+						state = 311
+					}
+					NOT = { is_core_of = ROOT }
+				}
+				add_core_of = ROOT
+			}
+		}
+	}
+
+	HON_declare_FROM_as_a_honduran_district = {
+		icon = generic_nationalism
+
+		visible = {
+			OR = {
+				has_completed_focus = HON_honduras_above_all
+				has_completed_focus = HON_decimate_the_league_of_central_american_dictators
+			}
+		}
+
+		state_target = yes 
+
+		target_array = controlled_states
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+				NOT = { is_core_of = ROOT }
+			}
+		}
+
+		visible = {
+			FROM = {
+				NOT = {
+					is_core_of = ROOT
+					has_dynamic_modifier = {
+						modifier = HON_honduran_district
+					}
+				}
+			}
+		}
+
+		cost = 25
+
+		days_remove = 50
+
+		fire_only_once = yes
+
+		modifier = {
+			political_power_factor = -0.1
+		}
+
+		cancel_trigger = {
+			FROM = {
+				NOT = {
+					is_controlled_by = ROOT
+				}
+			}
+		}
+
+		remove_effect = {
+			FROM = {
+				add_dynamic_modifier = {
+					modifier = HON_honduran_district
+				}
+			}
+		}
+	}
+
+	HON_focus_our_military_efforts_against_FROM = {
+		icon = generic_operation
+		
+		custom_cost_trigger = {
+			command_power > 24
+		}
+
+		custom_cost_text = decision_cost_CP_25
+
+		ai_will_do = {
+			base = 150
+		}
+
+		target_trigger = {
+			FROM = {
+				is_neighbor_of = ROOT 
+			}
+		}
+
+		visible = {
+			OR = {
+				has_completed_focus = HON_honduras_above_all
+				has_completed_focus = HON_decimate_the_league_of_central_american_dictators
+			}
+		}
+
+		available = {
+			exists = yes 
+			has_civil_war = no 
+			FROM = {
+				has_war_with = ROOT
+			}
+			hidden_trigger = { 
+				NOT = { has_country_flag = PAR_focusing_mil }
+			}
+		}
+
+		cancel_trigger = {
+			OR = {
+				FROM = {
+					NOT = { has_war_with = ROOT }
+				}
+				has_civil_war = yes 
+			}
+		}
+
+		complete_effect = { 
+			set_country_flag = PAR_focusing_mil
+			hidden_effect = {
+				add_command_power = -25
+			}
+		}
+
+		cancel_effect = {
+			clr_country_flag = PAR_focusing_mil
+		}
+
+		targeted_modifier = {
+			tag = FROM 
+			attack_bonus_against = 0.075
+			defense_bonus_against = 0.075
+		}
+
+		modifier = { political_power_factor = -0.1 }
+
+		days_remove = 60
+
+		remove_effect = { clr_country_flag = PAR_focusing_mil }
+	}
+
+	HON_integrate_311 = {
+		icon = generic_nationalism
+
+		state_target = yes 
+		targets = {
+			311
+		}
+
+		on_map_mode = map_and_decisions_view
+
+		fire_only_once = yes 
+
+		available = {
+			311 = {
+				is_fully_controlled_by = ROOT 
+			}
+		}
+
+		visible = {
+			has_completed_focus = HON_ask_for_blz
+			311 = {
+				NOT = {
+					is_core_of = ROOT
+				}
+			}
+		}
+
+		cost = 50 
+
+		complete_effect = {
+			311 = { add_core_of = ROOT }
+		}
+	}
+
+	HON_offer_FROM_to_subjegate_to_us_for_the_greater_good = {
+		icon = generic_form_nation
+
+		target_trigger = {
+			FROM = {
+				CEA_is_central_american = yes 
+				exists = yes 
+				NOT = { original_tag = PAN }
+			}
+		}
+
+		visible = {
+			FROM = {
+				is_in_faction_with = ROOT
+			}
+			has_completed_focus = HON_unite_central_america
+		}
+
+		available = {
+			strength_ratio = {
+				tag = FROM 
+				ratio > 1
+			}
+		}
+
+		cost = 50
+
+		days_remove = 90
+
+		fire_only_once = yes
+
+		modifier = {
+			political_power_factor = -0.1
+		}
+
+		complete_effect = {
+			FROM = {
+				country_event = {
+					id = venezuela.49
+					hours = 6
+					random_hours = 6
+				}
+			}
+			custom_effect_tooltip = ARG_iftheyaccept
+			effect_tooltip = {
+				annex_country = {
+					target = FROM
+				}
+			}
+		}
+	}
+}
