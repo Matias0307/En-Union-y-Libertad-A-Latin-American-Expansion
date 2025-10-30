@@ -512,6 +512,63 @@ political_actions = {
 }
 
 economy_decisions = {
+	HON_exploit_the_resources_in_FROM = {
+		icon = generic_fundraising
+
+		allowed = {
+			original_tag = HON 
+		}
+
+		state_target = yes 
+
+		target_array = controlled_states
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+				NOT = { is_core_of = ROOT }
+				OR = {
+					industrial_complex > 2
+					arms_factory > 2
+				}
+			}
+		}
+		
+		available = {
+			if = {
+				limit = {
+					is_ai = no 
+				}
+				divisions_in_state = {
+					size > 0
+					state = FROM
+				}
+			}
+			else = {
+				has_civil_war = no 
+			}
+		}
+
+		visible = {
+			has_completed_focus = HON_exploit_our_conquered_land
+		}
+
+		fire_only_once = yes 
+
+		cost = 75
+
+		modifier = {
+			political_power_factor = -0.1 
+			consumer_goods_factor = 0.1
+		}
+
+		days_remove = 90
+
+		complete_effect = {
+			EUYL_add_1_military = yes 
+		}
+	}
+
 	GUA_promote_development_in_FROM = {
 		icon = generic_fundraising
 
@@ -1560,6 +1617,180 @@ economy_decisions = {
 }
 
 operations = {
+	HON_forcefully_conscript_soldiers_in_FROM = {
+		icon = oppression
+
+		allowed = { original_tag = HON }
+
+		state_target = yes 
+
+		target_array = controlled_states
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+				NOT = {
+					is_core_of = ROOT 
+				}
+			}
+		}
+
+		available = {
+			NOT = { has_country_flag = HON_recently_forced_conscription_in_a_state_flag }
+			FROM = {
+				NOT = {
+					has_dynamic_modifier = {
+						modifier = HON_forceful_conscription
+					}
+				}
+			}
+		}
+
+		visible = {
+			has_completed_focus = HON_force_prisoners_of_war_to_serve
+		}
+
+		fire_only_once = yes 
+
+		on_map_mode = map_only
+
+		cost = 50
+
+		complete_effect = {
+			FROM = {
+				add_dynamic_modifier = {
+					modifier = HON_forceful_conscription
+					days = 1080
+				}
+			}
+			set_country_flag = HON_recently_forced_conscription_in_a_state_flag
+		}
+
+		days_remove = 60
+
+		remove_effect = {
+			clr_country_flag = HON_recently_forced_conscription_in_a_state_flag
+		}
+	}
+
+	HON_deploy_our_war_plans_against_FROM_na = {
+		priority = 500
+		icon = generic_operation
+
+		allowed = {
+			original_tag = HON 
+		}
+
+		target_trigger = {
+			FROM = {
+				has_war_with = ROOT 
+			}
+		}
+
+		visible = {
+			has_completed_focus = HON_honduras_above_all
+			FROM = {
+				capital_scope = {
+					is_on_continent = north_america
+				}
+			}
+		}
+
+		available = {
+			has_completed_focus = HON_the_north_american_campaign
+		}
+
+		custom_cost_trigger = {
+			command_power > 24
+		}
+
+		custom_cost_text = decision_cost_CP_25
+
+		cancel_trigger = {
+			OR = {
+				FROM = {
+					NOT = { has_war_with = ROOT }
+				}
+				has_civil_war = yes 
+			}
+		}
+
+		complete_effect = { 
+			hidden_effect = {
+				add_command_power = -25
+			}
+		}
+
+		targeted_modifier = {
+			tag = FROM 
+			attack_bonus_against = 0.1
+			defense_bonus_against = 0.05
+		}
+
+		modifier = { political_power_factor = -0.15 }
+
+		days_remove = 60
+	}
+
+	HON_deploy_our_war_plans_against_FROM_sa = {
+		priority = 500
+		icon = generic_operation
+
+		allowed = {
+			original_tag = HON 
+		}
+
+		target_trigger = {
+			FROM = {
+				has_war_with = ROOT 
+			}
+		}
+
+		visible = {
+			has_completed_focus = HON_honduras_above_all
+			FROM = {
+				capital_scope = {
+					is_on_continent = south_america
+				}
+			}
+		}
+
+		available = {
+			has_completed_focus = HON_the_south_american_campaign
+		}
+
+		custom_cost_trigger = {
+			command_power > 24
+		}
+
+		custom_cost_text = decision_cost_CP_25
+
+		cancel_trigger = {
+			OR = {
+				FROM = {
+					NOT = { has_war_with = ROOT }
+				}
+				has_civil_war = yes 
+			}
+		}
+
+		complete_effect = { 
+			hidden_effect = {
+				add_command_power = -25
+			}
+		}
+
+		targeted_modifier = {
+			tag = FROM 
+			attack_bonus_against = 0.1
+			defense_bonus_against = 0.05
+		}
+
+		modifier = { political_power_factor = -0.15 }
+
+		days_remove = 60
+	}
+
 	CHL_next_phase_of_our_modernization_plans = {
 		priority = 350
 		icon = generic_motorized

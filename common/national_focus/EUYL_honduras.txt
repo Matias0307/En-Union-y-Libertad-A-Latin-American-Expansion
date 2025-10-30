@@ -166,7 +166,7 @@ focus_tree = {
 	focus = {
 		id = HON_rewrite_the_honduran_constitution
 		icon = GFX_HON_rewrite_constitution_icon
-		x = 52
+		x = 50
 		y = 0
 
 		available = {
@@ -570,7 +570,7 @@ focus_tree = {
 	focus = {
 		id = HON_no_compromise_on_our_freedom
 		icon = GFX_HON_future_of_democracy_icon
-		x = 8
+		x = 10
 		y = 2
 		relative_position_id = HON_libre_soberana_e_independiente
 		prerequisite = {
@@ -585,6 +585,21 @@ focus_tree = {
 
 		available = {
 			has_civil_war = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.05
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_stability = 0.05
 		}
 	}
 
@@ -2583,6 +2598,38 @@ focus_tree = {
 			custom_effect_tooltip = HON_if_completed_restructure_our_foreign_policy_following_occur_tt
 			unlock_decision_tooltip = HON_declare_the_greater_honduran_regime
 			custom_effect_tooltip = HON_youll_be_able_to_declare_honduran_disctricts_over_conquered_nations_tt
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			if = {
+				limit = {
+					has_dynamic_modifier = {
+						modifier = HON_totalitarian_regime_dynamic_modifier
+					}
+				}
+				add_to_variable = {
+					HON_tot_regime_army_attack_var = 0.02
+					tooltip = army_attack_factor_tt
+				}
+				add_to_variable = {
+					HON_tot_regime_army_defense_var = 0.03
+					tooltip = army_defence_factor_tt
+				}
+				add_to_variable = {
+					HON_tot_regime_consumer_goods_factor_var = 0.1
+					tooltip = consumer_goods_factor_tt
+				}
+			}
+			else_if = {
+				limit = { has_idea = CEA_revolution_in_the_tropics_idea }
+				swap_ideas = {
+					remove_idea = CEA_revolution_in_the_tropics_idea
+					add_idea = CEA_revolution_in_the_tropics_idea_2
+				}
+			}
+			else = { ## Historical Path 
+				add_ideas = HON_honduras_above_all_idea
+			}
 		}
 	}
 
@@ -2598,7 +2645,7 @@ focus_tree = {
 		}
 		will_lead_to_war_with = ELS
 
-		cost = 6
+		cost = 5
 
 		available = {
 			has_civil_war = no 
@@ -2608,6 +2655,7 @@ focus_tree = {
 			OR = {
 				314 = { controls_or_subject_of = yes }
 				has_war_with = ELS
+				is_in_faction_with = ELS
 			}
 		}
 
@@ -2620,6 +2668,232 @@ focus_tree = {
 				target = ELS
 				type = annex_everything
 			}
+		}
+	}
+
+	## Annhilate Nicaragua ##
+	focus = {
+		id = HON_annhilate_nicaragua
+		icon = GFX_CEA_attack_nicaragua_icon
+		x = 3
+		y = 1
+		relative_position_id = HON_take_over_els
+		prerequisite = {
+			focus = HON_take_over_els
+		}
+
+		cost = 6
+
+		available = {
+			314 = {
+				OR = {
+					controls_or_subject_of = yes 
+					CONTROLLER = {
+						is_in_faction_with = ROOT
+					}
+				}
+			}
+		}
+
+		bypass = {
+			NIC = {
+				OR = {
+					exists = no 
+					is_subject_of = ROOT 
+					is_in_faction_with = ROOT
+					all_core_state = {
+						is_controlled_by = ROOT
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			create_wargoal = {
+				target = NIC
+				type = annex_everything
+			}
+		}
+	}
+
+	## March Right Through Costa Rica ##
+	focus = {
+		id = HON_march_right_through_costa_rica
+		icon = GFX_CEA_attack_costa_rica_icon
+		x = 0
+		y = 1
+		relative_position_id = HON_annhilate_nicaragua
+		prerequisite = {
+			focus = HON_annhilate_nicaragua
+		}
+
+		cost = 6.7 ## IOEFWJOWEIOFNWEUIO SIX SEVENNNNNNNNNNN
+
+		available = {
+			1055 = {
+				OR = {
+					controls_or_subject_of = yes 
+					CONTROLLER = {
+						is_in_faction_with = ROOT
+					}
+				}
+			}
+			1054 = {
+				OR = {
+					controls_or_subject_of = yes 
+					CONTROLLER = {
+						is_in_faction_with = ROOT
+					}
+				}
+			}
+			317 = {
+				OR = {
+					controls_or_subject_of = yes 
+					CONTROLLER = {
+						is_in_faction_with = ROOT
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		bypass = {
+			COS = {
+				OR = {
+					exists = no 
+					is_subject_of = ROOT 
+					is_in_faction_with = ROOT
+					all_core_state = {
+						is_controlled_by = ROOT
+					}
+				}
+			}
+		}
+
+		completion_reward = {
+			create_wargoal = {
+				target = COS
+				type = annex_everything
+			}
+		}
+	}
+
+	## Take the Canal for Ourselves ##
+	focus = {
+		id = HON_take_the_canal_for_ourselves
+		icon = GFX_col_focus_canal
+		x = 0
+		y = 1
+		relative_position_id = HON_march_right_through_costa_rica
+		prerequisite = {
+			focus = HON_march_right_through_costa_rica
+		}
+
+		cost = 7.2
+
+		available = {
+			has_army_manpower = {
+				size > 54999
+			}
+		}
+
+		bypass = {
+			1057 = {
+				OR = {
+					controls_or_subject_of = yes 
+					controller = {
+						is_in_faction_with = ROOT
+					}
+				}
+			}
+			304 = {
+				OR = {
+					controls_or_subject_of = yes 
+					controller = {
+						is_in_faction_with = ROOT
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
+				limit = {
+					OR = {
+						controls_state = 1057 
+						controls_state = 304
+					}
+					NOT = {
+						OR = {
+							has_war_with = ROOT 
+							is_in_faction_with = ROOT
+						}
+					}
+				}
+				hidden_effect = {
+					ROOT = {
+						create_wargoal = {
+							target = PREV 
+							type = annex_everything
+						}
+					}
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = {
+				decision = COL_incidente_en_el_canal
+				show_effect_tooltip = yes 
+			}
+			custom_effect_tooltip = EUYL_when_decision_is_selected_tt
+			effect_tooltip = {
+				add_timed_idea = {
+					idea = HON_anything_for_the_canal
+					days = 90
+				}
+			}
+		}
+	}
+
+	## Exploit the Panama Canal ##
+	focus = {
+		id = HON_exploit_the_panama_canal
+		icon = GFX_focus_RAJ_special_economic_zones
+		x = 2
+		y = 1
+		relative_position_id = HON_take_the_canal_for_ourselves
+		prerequisite = {
+			focus = HON_take_the_canal_for_ourselves
+		}
+
+		cost = 10
+
+		available = {
+			exists = yes 
+			num_of_controlled_states > 0
+			685 = { controls_or_subject_of = yes }
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_2_civilian = yes 
+			EUYL_add_2_military = yes
 		}
 	}
 
@@ -2637,11 +2911,12 @@ focus_tree = {
 		cost = 6
 
 		available = {
-			GUA = {
-				exists = yes 
-				NOT = {
-					has_war_with = ROOT
-					is_in_faction_with = ROOT
+			314 = {
+				OR = {
+					controls_or_subject_of = yes 
+					CONTROLLER = {
+						is_in_faction_with = ROOT
+					}
 				}
 			}
 		}
@@ -2651,6 +2926,7 @@ focus_tree = {
 				OR = {
 					exists = no 
 					is_subject_of = ROOT 
+					is_in_faction_with = ROOT
 					all_core_state = {
 						is_controlled_by = ROOT
 					}
@@ -2667,6 +2943,363 @@ focus_tree = {
 				target = GUA
 				type = annex_everything
 			}
+		}
+	}
+
+	## Force Prisoners of War to Serve ##
+	focus = {
+		id = HON_force_prisoners_of_war_to_serve
+		icon = GFX_HON_force_prisoners_of_war_conscript_icon
+		x = 0
+		y = 1
+		relative_position_id = HON_take_over_els
+		prerequisite = {
+			focus = HON_take_over_els
+		}
+
+		cost = 7.2
+
+		available = {
+			any_controlled_state = {
+				NOT = {
+					is_core_of = ROOT
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_MANPOWER
+		}
+
+		completion_reward = {
+			add_ideas = HON_war_refugees
+
+			custom_effect_tooltip = HON_unlock_ability_to_forcefully_conscript_non_hondurans_to_the_field_tt
+		}
+	}
+
+	## Exploit our Conquered Land ##
+	focus = {
+		id = HON_exploit_our_conquered_land
+		icon = GFX_BRA_generic_military
+		x = 0
+		y = 1
+		relative_position_id = HON_force_prisoners_of_war_to_serve
+		prerequisite = {
+			focus = HON_force_prisoners_of_war_to_serve
+		}
+
+		cost = 10
+
+		available = {
+			num_of_controlled_states > 6
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_2_military = yes 
+			EUYL_add_1_military = yes 
+
+			custom_effect_tooltip = HON_unlock_exploit_resource_decisions_allowing_you_to_gain_1_military_factory_for_conquered_states_that_have_a_strong_industrial_base_tt
+		}
+	}
+
+	## The North American Campaign ##
+	focus = {
+		id = HON_the_north_american_campaign
+		icon = GFX_CEA_take_north_america_icon
+		x = -1
+		y = 3
+		relative_position_id = HON_settle_the_score_with_guatemala
+		prerequisite = {
+			focus = HON_exert_our_sphere_of_influence_over_the_caribbean
+		}
+		prerequisite = {
+			focus = HON_settle_the_score_with_guatemala
+		}
+
+		cost = 5
+
+		available = {
+			has_army_manpower = {
+				size > 99999
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION FOCUS_FILTER_ARMY_XP
+		}
+
+		completion_reward = {
+			army_experience = 50
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = HON_unlock_war_plan_decisions_na_tt
+		}
+	}
+
+	## The South American Campaign ##
+	focus = {
+		id = HON_the_south_american_campaign
+		icon = GFX_focus_generic_south_america
+		x = -1
+		y = 1
+		relative_position_id = HON_take_the_canal_for_ourselves
+		prerequisite = {
+			focus = HON_take_the_canal_for_ourselves
+		}
+
+		cost = 5
+
+		available = {
+			has_army_manpower = {
+				size > 99999
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION FOCUS_FILTER_ARMY_XP
+		}
+
+		completion_reward = {
+			army_experience = 50
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = HON_unlock_war_plan_decisions_sa_tt
+		}
+	}
+
+	## Honduras Bows down to No one ##
+	focus = {
+		id = HON_honduras_bows_to_no_one
+		icon = GFX_HON_honduras_bows_to_no_one_icon
+		x = -3
+		y = 1
+		relative_position_id = HON_the_south_american_campaign
+		prerequisite = {
+			focus = HON_the_south_american_campaign
+		}
+		prerequisite = {
+			focus = HON_the_north_american_campaign
+		}
+
+		cost = 10
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT
+		}
+
+		completion_reward = {
+			add_stability = 0.05
+			add_war_support = 0.05
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_ideas = HON_honduras_bows_to_no_one_idea
+		}
+	}
+
+	## Topple Over Mexico ##
+	focus = {
+		id = HON_topple_over_mexico
+		icon = GFX_focus_attack_mexico
+		x = 0
+		y = 1
+		relative_position_id = HON_the_north_american_campaign
+		prerequisite = {
+			focus = HON_the_north_american_campaign
+		}
+
+		cost = 6
+
+		available = {
+			1050 = { controls_or_subject_of = yes }
+			1051 = { controls_or_subject_of = yes }
+		}
+
+		bypass = {
+			MEX = {
+				OR = {
+					exists = no 
+					is_subject_of = ROOT 
+					is_in_faction_with = ROOT
+					all_core_state = {
+						is_controlled_by = ROOT
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			create_wargoal = {
+				target = MEX
+				type = annex_everything
+			}
+		}
+	}
+
+	## Conquer Northern South America ##
+	focus = {
+		id = HON_conquer_northern_south_america
+		icon = GFX_ARG_secure_the_north
+		x = 0
+		y = 1
+		relative_position_id = HON_the_south_american_campaign
+		prerequisite = {
+			focus = HON_the_south_american_campaign
+		}
+
+		cost = 7.2
+
+		available = {
+			304 = { controls_or_subject_of = yes }
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
+				limit = {
+					exists = yes
+					OR = {
+						original_tag = ECU 
+						original_tag = COL 
+						original_tag = VEN 
+					}
+					NOT = {
+						OR = {
+							has_war_with = ROOT 
+							is_in_faction_with = ROOT
+						}
+					}
+				}
+				hidden_effect = {
+					ROOT = {
+						create_wargoal = {
+							target = PREV 
+							type = annex_everything
+						}
+					}
+				}
+			}
+		}
+	}
+
+	## Topple the North American Giant ##
+	focus = {
+		id = HON_topple_the_north_american_giant
+		icon = GFX_focus_generic_attack_usa
+		x = 1
+		y = 1
+		relative_position_id = HON_topple_over_mexico
+		prerequisite = {
+			focus = HON_topple_over_mexico
+		}
+		prerequisite = {
+			focus = HON_honduras_bows_to_no_one
+		}
+
+		cost = 10 
+
+		available = {
+			has_army_manpower = {
+				size > 249999
+			}
+			has_navy_size = {
+				size > 39
+			}
+		}
+
+		## Honestly no point in having a bypass since there is no other focus to accompany this one lol
+		
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			create_wargoal = {
+				target = USA
+				type = annex_everything
+			}
+		}
+	}
+
+	## Topple the South American Giant ##
+	focus = {
+		id = HON_topple_the_south_american_giant
+		icon = GFX_ARG_attack_brazil
+		x = -1
+		y = 1
+		relative_position_id = HON_conquer_northern_south_america
+		prerequisite = {
+			focus = HON_conquer_northern_south_america
+		}
+		prerequisite = {
+			focus = HON_honduras_bows_to_no_one
+		}
+
+		cost = 10 
+
+		available = {
+			has_army_manpower = {
+				size > 199999
+			}
+			has_navy_size = {
+				size > 29
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			create_wargoal = {
+				target = BRA
+				type = annex_everything
+			}
+		}
+	}
+
+	## Honduran Global Hegemony ##
+	focus = {
+		id = HON_honduran_global_hegemony
+		icon = GFX_HON_honduran_global_hegemony_icon
+		x = 0
+		y = 2
+		relative_position_id = HON_honduras_bows_to_no_one
+		prerequisite = {
+			focus = HON_honduras_bows_to_no_one
+		}
+
+		cost = 10 
+
+		available = {
+			num_of_controlled_states > 49
+			has_army_manpower = {
+				size > 399999
+			}
+			num_of_factories > 99
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			add_ideas = HON_honduran_global_hegemony_idea
 		}
 	}
 
@@ -2958,6 +3591,142 @@ focus_tree = {
 
 		completion_reward = {
 			EUYL_add_2_dockyard = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+		}
+	}
+
+	## Exert our Sphere of Influence over the caribbean
+	focus = {
+		id = HON_exert_our_sphere_of_influence_over_the_caribbean
+		icon = GFX_VEN_el_mar_nuestro_icon
+		x = 0
+		y = 1
+		relative_position_id = HON_allocate_funds_to_our_naval_production
+		prerequisite = {
+			focus = HON_allocate_funds_to_our_naval_production
+		}
+
+		cost = 10 
+
+		available = {
+			has_navy_size = {
+				size > 14
+			}
+			has_army_manpower = {
+				size > 54999
+			}
+			num_of_factories > 24
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = CUB 
+						original_tag = DOM 
+						original_tag = HAI 
+					}
+					is_subject_of = ROOT 
+				}
+				ROOT = {
+					annex_country = {
+						target = PREV 
+						transfer_troops = yes 
+					}
+				}
+			}
+			if = {
+				limit = {
+					CUB = {
+						exists = yes 
+						NOT = {
+							capital_scope = {
+								controls_or_subject_of = yes 
+							}
+						}
+						NOT = {
+							has_war_with = ROOT
+						}
+					}
+				}
+				CUB = {
+					country_event = {
+						id = venezuela.49
+						hours = 6
+						random_hours = 6
+					}
+				}
+				custom_effect_tooltip = ARG_iftheyaccept
+				effect_tooltip = {
+					annex_country = {
+						target = CUB
+						transfer_troops = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					HAI = {
+						exists = yes 
+						NOT = {
+							capital_scope = {
+								controls_or_subject_of = yes 
+							}
+						}
+						NOT = {
+							has_war_with = ROOT
+						}
+					}
+				}
+				HAI = {
+					country_event = {
+						id = venezuela.49
+						hours = 6
+						random_hours = 6
+					}
+				}
+				custom_effect_tooltip = ARG_iftheyaccept
+				effect_tooltip = {
+					annex_country = {
+						target = HAI
+						transfer_troops = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					DOM = {
+						exists = yes 
+						NOT = {
+							capital_scope = {
+								controls_or_subject_of = yes 
+							}
+						}
+						NOT = {
+							has_war_with = ROOT
+						}
+					}
+				}
+				DOM = {
+					country_event = {
+						id = venezuela.49
+						hours = 6
+						random_hours = 6
+					}
+				}
+				custom_effect_tooltip = ARG_iftheyaccept
+				effect_tooltip = {
+					annex_country = {
+						target = DOM
+						transfer_troops = yes
+					}
+				}
+			}
 		}
 	}
 
