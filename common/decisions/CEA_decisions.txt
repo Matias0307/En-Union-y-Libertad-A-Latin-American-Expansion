@@ -17,7 +17,7 @@ CEA_managing_the_banana_republic = {
 			exists = no
 		}
 
-		days_mission_timeout = 365
+		days_mission_timeout = 480
 
 		timeout_effect = {
 			HON_worsen_banana_exports = yes
@@ -38,6 +38,12 @@ CEA_managing_the_banana_republic = {
 			has_stability < 0.4
 			NOT = {
 				has_country_flag = CEA_improving_work_conditions_flag 
+			}
+			NOT = {
+				has_country_leader = {
+					character = HON_sam_zemurray
+					ruling_only = yes
+				}
 			}
 		}
 
@@ -127,6 +133,222 @@ CEA_managing_the_banana_republic = {
 		}
 	}
 
+	HON_entice_the_shareholders_mission = {
+		priority = 50
+		icon = generic_political_address
+
+		activation = {
+			always = no 
+		}
+
+		available = {
+			num_of_controlled_states > 39
+		}
+
+		is_good = no 
+
+		fire_only_once = yes
+
+		days_mission_timeout = 1240
+
+		complete_effect = {
+			add_stability = 0.1
+			add_war_support = 0.1 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			every_controlled_state = {
+				limit = {
+					NOT = {
+						is_core_of = ROOT 
+					}
+				}
+				add_compliance = 0.15
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			swap_ideas = {
+				remove_idea = HON_the_banana_company_administration_5
+				add_idea = HON_the_banana_company_administration_6
+			}
+		}
+
+		timeout_effect = {
+			add_stability = -0.15
+		}
+	}
+
+	HON_war_plan_FROM = {
+		icon = generic_operation
+		
+		custom_cost_trigger = {
+			command_power > 24
+		}
+
+		custom_cost_text = decision_cost_CP_25
+
+		ai_will_do = {
+			base = 150
+		}
+
+		target_trigger = {
+			FROM = {
+				is_neighbor_of = ROOT 
+			}
+		}
+
+		visible = {
+			has_completed_focus = HON_branch_out_the_administration
+		}
+
+		available = {
+			exists = yes 
+			has_civil_war = no 
+			FROM = {
+				has_war_with = ROOT
+			}
+			hidden_trigger = { 
+				NOT = { has_country_flag = PAR_focusing_mil }
+			}
+		}
+
+		cancel_trigger = {
+			OR = {
+				FROM = {
+					NOT = { has_war_with = ROOT }
+				}
+				has_civil_war = yes 
+			}
+		}
+
+		complete_effect = { 
+			set_country_flag = PAR_focusing_mil
+			hidden_effect = {
+				add_command_power = -25
+			}
+		}
+
+		cancel_effect = {
+			clr_country_flag = PAR_focusing_mil
+		}
+
+		targeted_modifier = {
+			tag = FROM 
+			attack_bonus_against = 0.08
+			defense_bonus_against = 0.08
+		}
+
+		modifier = { political_power_factor = -0.1 }
+
+		days_remove = 75
+
+		remove_effect = { clr_country_flag = PAR_focusing_mil }
+	}
+
+	HON_integrate_the_plantations_of_FROM = {
+		icon = generic_nationalism
+
+		state_target = yes 
+
+		target_array = controlled_states
+
+		ai_will_do = {
+			base = 150
+		}
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+				NOT = { is_core_of = ROOT }
+			}
+		}
+
+		visible = {
+			has_completed_focus = HON_integrate_the_plantations_into_the_administration
+			FROM = {
+				NOT = { is_core_of = ROOT }
+				OR = {
+					has_dynamic_modifier = {
+						modifier = CEA_local_banana_production
+					}
+					has_dynamic_modifier = {
+						modifier = CEA_improved_banana_production
+					}
+				}
+			}
+		}
+
+		cost = 50
+
+		fire_only_once = yes 
+
+		complete_effect = {
+			FROM = {
+				add_core_of = ROOT
+			}
+		}
+	}
+
+	HON_establish_a_banana_trade_route_with_FROM = {
+		icon = generic_fundraising
+
+		target_trigger = {
+			FROM = {
+				is_subject = no
+				NOT = {
+					has_war_with = ROOT 
+				}
+				OR = {
+					is_major = yes 
+					AND = {
+						ic_ratio = {
+							tag = ROOT 
+							ratio < 0.9
+						}
+						capital_scope = {
+							OR = {
+								is_on_continent = south_america
+								is_on_continent = north_america
+							}
+						}
+					}
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 75
+		}
+
+		cost = 75
+
+		fire_only_once = yes 
+
+		available = {
+			NOT = { has_country_flag = HON_establishing_banana_trade_route_flag }
+		}
+
+		visible = {
+			has_completed_focus = HON_establish_banana_trading_partners
+			FROM = {
+				exists = yes 
+			}
+		}
+
+		days_remove = 60
+
+		complete_effect = {
+			FROM = { add_ideas = HON_banana_trade_idea }
+			EUYL_add_1_civilian = yes 
+			set_country_flag = HON_establishing_banana_trade_route_flag
+		}
+
+		remove_effect = {
+			clr_country_flag = HON_establishing_banana_trade_route_flag
+		}
+	}
+
 	CEA_redirect_fundings_to_improve_worker_conditions = {
 		icon = generic_fundraising
 
@@ -144,6 +366,10 @@ CEA_managing_the_banana_republic = {
 		modifier = {
 			consumer_goods_factor = 0.2
 			political_power_gain = -0.3
+		}
+
+		ai_will_do = {
+			base = 15
 		}
 
 		cancel_trigger = {
@@ -179,10 +405,26 @@ CEA_managing_the_banana_republic = {
 			NOT = {
 				has_country_flag = CEA_cant_ask_for_financing_flag
 			}
+			NOT = {
+				has_country_leader = {
+					character = HON_sam_zemurray
+					ruling_only = yes
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 15
 		}
 
 		visible = {
 			has_idea = CEA_the_banana_republic
+			NOT = {
+				has_country_leader = {
+					character = HON_sam_zemurray
+					ruling_only = yes
+				}
+			}
 		}
 
 		cost = CEA_request_financing_cost
@@ -231,6 +473,17 @@ CEA_managing_the_banana_republic = {
 
 		target_array = controlled_states
 
+		ai_will_do = {
+			base = 25
+			modifier = {
+				factor = 7
+				has_country_leader = {
+					character = HON_sam_zemurray
+					ruling_only = yes
+				}
+			}
+		}
+
 		target_trigger = {
 			FROM = {
 				is_fully_controlled_by = ROOT
@@ -260,6 +513,26 @@ CEA_managing_the_banana_republic = {
 		}
 
 		complete_effect = {
+			if = {
+				limit = {
+					has_completed_focus = HON_private_banana_militias
+					FROM = {
+						NOT = {
+							has_dynamic_modifier = {
+								modifier = CEA_local_banana_production
+							}
+						}
+					}
+				}
+				FROM = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
 			FROM = {
 				if = {
 					limit = {
@@ -299,6 +572,10 @@ CEA_managing_the_banana_republic = {
 			has_civil_war = no
 		}
 
+		ai_will_do = {
+			base = 250
+		}
+
 		cost = 30
 
 		days_remove = 90
@@ -335,6 +612,10 @@ CEA_managing_the_banana_republic = {
 
 		available = {
 			has_civil_war = no
+		}
+
+		ai_will_do = {
+			base = 350
 		}
 
 		cost = 50
@@ -403,6 +684,10 @@ CEA_managing_the_banana_republic = {
 
 		days_remove = 60
 
+		ai_will_do = {
+			base = 150
+		}
+
 		remove_effect = {
 			FROM = {
 				if = {
@@ -467,6 +752,10 @@ CEA_managing_the_banana_republic = {
 
 		fire_only_once = yes
 
+		ai_will_do = { ## TODO: Add modifier for easter egg ai path
+			base = 10
+		}
+
 		complete_effect = {
 			set_country_flag = {
 				flag = CEA_recently_transferred_ownership_flag
@@ -498,6 +787,24 @@ PAN_BoP_canal_control = {
 
 		visible = {
 			exists = yes 
+		}
+
+		ai_will_do = {
+			base = 150
+			modifier = {
+				factor = 0.2
+				power_balance_value = {
+					id = PAN_control_over_canal_bop
+					value > 0.79
+				}
+			}
+			modifier = {
+				factor = 2
+				power_balance_value = {
+					id = PAN_control_over_canal_bop
+					value < 0
+				}
+			}
 		}
 
 		available = {
@@ -534,6 +841,10 @@ PAN_BoP_canal_control = {
 					}
 				}
 			}
+		}
+
+		ai_will_do = {
+			base = 50
 		}
 
 		visible = {
@@ -579,6 +890,10 @@ PAN_BoP_canal_control = {
 			has_completed_focus = PAN_a_militarist_approach
 		}
 
+		ai_will_do = {
+			base = 65
+		}
+
 		available = {
 			num_of_controlled_states > 0
 			is_subject = no
@@ -609,6 +924,10 @@ PAN_BoP_canal_control = {
 
 		available = {
 			has_completed_focus = PAN_militarize_near_the_canal
+		}
+
+		ai_will_do = {
+			base = 15
 		}
 
 		on_map_mode = map_and_decisions_view
@@ -696,6 +1015,10 @@ PAN_BoP_canal_control = {
 
 		visible = {
 			has_completed_focus = PAN_a_diplomatic_approach
+		}
+
+		ai_will_do = {
+			base = 150
 		}
 
 		available = {
@@ -795,6 +1118,14 @@ PAN_BoP_canal_control = {
 
 		days_remove = 90
 
+		ai_will_do = {
+			base = 15
+			modifier = {
+				factor = 10
+				num_of_factories < 14
+			}
+		}
+
 		complete_effect = {
 			PAN_move_10_towards_panama = yes 
 		}
@@ -814,6 +1145,10 @@ PAN_national_forestry_industry = {
 
 		state_target = yes 
 		target_array = core_states
+
+		ai_will_do = {
+			base = 50
+		}
 
 		visible = {
 			FROM = {
@@ -848,6 +1183,10 @@ PAN_national_forestry_industry = {
 		state_target = yes 
 		targets = {
 			1057 304 493 1092
+		}
+
+		ai_will_do = {
+			base = 60
 		}
 
 		available = {
@@ -1002,6 +1341,12 @@ HON_el_cariato_cat = {
 			OR = {
 				exists = no 
 				is_subject = yes 
+				NOT = {
+					has_country_leader = { ## ...i dont gotta explain this bruh
+						character = HON_tiburcio_carías_andino
+						ruling_only = yes
+					}
+				}
 			}
 		}
 
@@ -1047,6 +1392,22 @@ HON_el_cariato_cat = {
 			has_civil_war = no 
 		}
 
+		ai_will_do = {
+			base = 35
+			modifier = {
+				factor = 10
+				check_variable = {
+					HON_control_over_nation_var < 60
+				}
+			}
+			modifier = {
+				factor = 3
+				check_variable = {
+					HON_control_over_nation_var < 99
+				}
+			}
+		}
+
 		cost = 20
 
 		days_remove = 35
@@ -1077,6 +1438,22 @@ HON_el_cariato_cat = {
 			has_country_leader = {
 				character = HON_tiburcio_carías_andino
 				ruling_only = yes
+			}
+		}
+
+		ai_will_do = {
+			base = 35
+			modifier = {
+				factor = 10
+				check_variable = {
+					HON_control_over_nation_var < 60
+				}
+			}
+			modifier = {
+				factor = 3
+				check_variable = {
+					HON_control_over_nation_var < 99
+				}
 			}
 		}
 
@@ -1133,6 +1510,26 @@ HON_el_cariato_cat = {
 				has_dynamic_modifier = {
 					modifier = BRA_protests
 				}
+			}
+		}
+
+		ai_will_do = { ## TODO: Add modifier for AI path
+			base = 5
+			modifier = {
+				factor = 10
+				check_variable = {
+					HON_control_over_nation_var < 60
+				}
+			}
+			modifier = {
+				factor = 3
+				check_variable = {
+					HON_control_over_nation_var < 99
+				}
+			}
+			modifier = {
+				factor = 10
+				has_active_mission = HON_looming_coup
 			}
 		}
 
@@ -1214,6 +1611,26 @@ HON_el_cariato_cat = {
 				has_dynamic_modifier = {
 					modifier = BRA_protests
 				}
+			}
+		}
+
+		ai_will_do = { ## TODO: Add modifier for AI path
+			base = 5
+			modifier = {
+				factor = 10
+				check_variable = {
+					HON_control_over_nation_var < 60
+				}
+			}
+			modifier = {
+				factor = 3
+				check_variable = {
+					HON_control_over_nation_var < 99
+				}
+			}
+			modifier = {
+				factor = 10
+				has_active_mission = HON_looming_coup
 			}
 		}
 
@@ -1307,6 +1724,10 @@ HON_el_cariato_cat = {
 			has_completed_focus = HON_initiate_an_anti_communist_campaign
 		}
 
+		ai_will_do = {
+			base = 50
+		}
+
 		fire_only_once = yes
 
 		cost = 25
@@ -1331,6 +1752,16 @@ HON_el_cariato_cat = {
 			FROM = {
 				is_core_of = ROOT
 				is_fully_controlled_by = ROOT
+			}
+		}
+
+		ai_will_do = {
+			base = 10
+			modifier = {
+				factor = 5
+				has_army_manpower = {
+					size < 99999
+				}
 			}
 		}
 
@@ -1424,6 +1855,10 @@ HON_el_cariato_cat = {
 			}
 		}
 
+		ai_will_do = {
+			base = 35
+		}
+
 		state_target = yes 
 
 		target_array = core_states
@@ -1489,6 +1924,10 @@ HON_el_cariato_cat = {
 			}
 		}
 
+		ai_will_do = {
+			base = 150
+		}
+
 		on_map_mode = map_and_decisions_view
 
 		available = {
@@ -1536,6 +1975,10 @@ HON_el_cariato_cat = {
 			}
 		}
 
+		ai_will_do = {
+			base = 150
+		}
+
 		cost = 20 
 
 		available = {
@@ -1573,6 +2016,10 @@ HON_el_cariato_cat = {
 			}
 		}
 
+		ai_will_do = {
+			base = 150
+		}
+
 		cost = 25
 
 		fire_only_once = yes 
@@ -1594,6 +2041,18 @@ HON_revolution_in_the_tropics = {
 
 		visible = {
 			has_completed_focus = HON_communism_to_the_masses
+		}
+
+		ai_will_do = {
+			base = 150
+			modifier = {
+				factor = 0.5
+				communism > 0.6
+			}
+			modifier = {
+				factor = 0.2
+				communism > 0.8
+			}
 		}
 
 		available = {
@@ -1624,6 +2083,18 @@ HON_revolution_in_the_tropics = {
 		target_trigger = {
 			FROM = {
 				is_fully_controlled_by = ROOT
+			}
+		}
+
+		ai_will_do = {
+			base = 140
+			modifier = {
+				factor = 0.5
+				communism > 0.6
+			}
+			modifier = {
+				factor = 0.2
+				communism > 0.8
 			}
 		}
 
@@ -1713,6 +2184,10 @@ HON_revolution_in_the_tropics = {
 			has_completed_focus = HON_communism_to_the_masses
 		}
 
+		ai_will_do = {
+			base = 250
+		}
+
 		cost = 50
 
 		fire_only_once = yes
@@ -1748,6 +2223,10 @@ HON_revolution_in_the_tropics = {
 		}
 
 		fire_only_once = yes 
+
+		ai_will_do = {
+			base = 350
+		}
 
 		cost = 25
 
@@ -1789,6 +2268,10 @@ HON_revolution_in_the_tropics = {
 
 		fire_only_once = yes 
 
+		ai_will_do = {
+			base = 350
+		}
+
 		cost = 25
 
 		available = {
@@ -1829,6 +2312,10 @@ HON_revolution_in_the_tropics = {
 
 		cost = 50
 
+		ai_will_do = {
+			base = 250
+		}
+
 		fire_only_once = yes 
 
 		available = {
@@ -1861,6 +2348,16 @@ HON_revolution_in_the_tropics = {
 
 		cost = 50
 
+		ai_will_do = {
+			base = 20
+			modifier = {
+				factor = 10
+				has_equipment = {
+					infantry_equipment < 0
+				}
+			}
+		}
+
 		available = {
 			has_war = yes 
 			SOV = {
@@ -1891,6 +2388,10 @@ HON_revolution_in_the_tropics = {
 				exists = yes 
 				has_civil_war = no 
 			}
+		}
+
+		ai_will_do = {
+			base = 75
 		}
 
 		visible = {
@@ -1936,6 +2437,10 @@ HON_revolution_in_the_tropics = {
 				NOT = { is_core_of = ROOT }
 				has_state_flag = HON_can_integrate_this_state_flag
 			}
+		}
+
+		ai_will_do = {
+			base = 100
 		}
 
 		visible = {
@@ -2020,6 +2525,12 @@ HON_the_world_beyond_our_borders = {
 			has_completed_focus = HON_honduras_above_all
 		}
 
+		fire_only_once = yes 
+
+		ai_will_do = {
+			base = 250
+		}
+
 		complete_effect = {
 			set_cosmetic_tag = HON_GREATER
 			every_controlled_state = {
@@ -2082,6 +2593,10 @@ HON_the_world_beyond_our_borders = {
 		cost = 25
 
 		days_remove = 50
+
+		ai_will_do = {
+			base = 50
+		}
 
 		fire_only_once = yes
 
@@ -2169,7 +2684,7 @@ HON_the_world_beyond_our_borders = {
 			defense_bonus_against = 0.075
 		}
 
-		modifier = { political_power_factor = -0.1 }
+		modifier = { political_power_factor = -0.05 }
 
 		days_remove = 60
 
@@ -2182,6 +2697,10 @@ HON_the_world_beyond_our_borders = {
 		state_target = yes 
 		targets = {
 			311
+		}
+
+		ai_will_do = {
+			base = 250
 		}
 
 		on_map_mode = map_and_decisions_view
@@ -2235,6 +2754,10 @@ HON_the_world_beyond_our_borders = {
 			}
 		}
 
+		ai_will_do = {
+			base = 250
+		}
+
 		cost = 50
 
 		days_remove = 90
@@ -2259,6 +2782,189 @@ HON_the_world_beyond_our_borders = {
 					target = FROM
 				}
 			}
+		}
+	}
+}
+
+HON_administrating_the_democracy = {
+	HON_for_the_people_of_honduras = {
+		icon = generic_political_address
+
+		available = {
+			has_civil_war = no 
+		}
+
+		ai_will_do = {
+			base = 250
+			modifier = {
+				factor = 0.5
+				democratic > 0.6
+			}
+			modifier = {
+				factor = 0.2
+				democratic > 0.84
+			}
+		}
+
+		cost = 20
+
+		days_remove = 90
+
+		modifier = {
+			democratic_drift = 0.1
+			political_power_factor = 0.05
+			consumer_goods_factor = 0.05
+		}
+	}
+
+	HON_visit_the_province_of_FROM = {
+		icon = generic_motorized
+
+		cost = 35
+
+		days_remove = 60
+
+		state_target = yes 
+
+		target_array = core_states
+
+		ai_will_do = {
+			base = 200
+			modifier = {
+				factor = 0.5
+				democratic > 0.6
+			}
+			modifier = {
+				factor = 0.2
+				democratic > 0.84
+			}
+		}
+
+		fire_only_once = yes 
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT
+			}
+		}
+
+		available = {
+			has_civil_war = no 
+			is_subject = no 
+		}
+
+		modifier = {
+			political_power_factor = -0.1
+		}
+
+		remove_effect = {
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.04
+			}
+		}
+	}
+
+	HON_improve_worker_conditions = {
+		icon = gre_investment_decisions
+
+		cost = 50
+
+		fire_only_once = yes 
+
+		ai_will_do = {
+			base = 50
+		}
+
+		visible = {
+			has_completed_focus = HON_open_up_our_commerce
+		}
+
+		available = {
+			num_of_controlled_states > 0
+		}
+
+		days_remove = 365
+
+		modifier = {
+			industrial_capacity_factory = 0.05
+			production_speed_buildings_factor = 0.05
+		}
+	}
+
+	HON_support_the_economy_of_FROM = {
+		icon = generic_fundraising
+
+		target_trigger = {
+			FROM = {
+				exists = yes 
+				capital_scope = {
+					OR = {
+						is_on_continent = south_america
+						is_on_continent = north_america
+					}
+				}
+				ic_ratio = { ## should be weaker
+					tag = ROOT
+					ratio < 0.9
+				}
+			}
+		}
+
+		available = {
+			NOT = {
+				has_war_with = FROM
+			}
+		}
+
+		visible = {
+			has_completed_focus = HON_ensure_the_security_of_the_region
+		}
+
+		fire_only_once = yes
+
+		cost = 25
+
+		days_remove = 90
+
+		ai_will_do = {
+			base = 25
+			modifier = {
+				factor = 5
+				FROM = { is_in_faction_with = ROOT }
+			}
+		}
+
+		modifier = {
+			political_power_factor = -0.15
+		}
+
+		complete_effect = {
+			FROM = {
+				EUYL_add_1_civilian = yes 
+				EUYL_add_1_military = yes 
+
+				country_event = {
+					id = cea.21 
+					hours = 3
+				}
+			}
+
+			random_list = {
+				50 = {
+					EUYL_add_1_civilian = yes 
+				}
+				50 = {
+					EUYL_add_1_military = yes 
+				}
+				35 = {
+
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_stability = 0.01
 		}
 	}
 }

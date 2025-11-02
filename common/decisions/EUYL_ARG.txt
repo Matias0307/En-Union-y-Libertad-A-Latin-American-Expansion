@@ -12151,10 +12151,27 @@ ARG_foreign_investments = {
 				NOT = {
 					has_war_with = ROOT 
 				}
-				NOT = {
-					has_country_flag = invested_in_ARG
-				}
 				has_capitulated = no 
+			}
+			if = {
+				limit = {
+					original_tag = ARG 
+				}
+				FROM = {
+					NOT = {
+						has_country_flag = invested_in_ARG
+					}
+				}
+			}
+			if = {
+				limit = {
+					original_tag = HON 
+				}
+				FROM = {
+					NOT = {
+						has_country_flag = invested_in_HON_flag
+					}
+				}
 			}
 			is_subject = no 
 		}
@@ -12162,8 +12179,8 @@ ARG_foreign_investments = {
 		cost = 100
 		
 		modifier = {
-			consumer_goods_factor =  0.1
-			political_power_factor =  -0.1
+			consumer_goods_factor = 0.35
+			political_power_factor = -0.1
 		}
 		
 		ai_will_do = {
@@ -12180,9 +12197,25 @@ ARG_foreign_investments = {
 			NOT = {
 				has_country_flag = ARG_investment_in_progress
 			}
-			FROM = {
-				NOT = {
-					has_country_flag = invested_in_ARG
+			if = {
+				limit = {
+					original_tag = ARG 
+				}
+				FROM = {
+					NOT = {
+						has_country_flag = invested_in_ARG
+					}
+				}
+			}
+
+			if = {
+				limit = {
+					original_tag = HON 
+				}
+				FROM = {
+					NOT = {
+						has_country_flag = invested_in_HON_flag
+					}
 				}
 			}
 		}
@@ -12190,8 +12223,56 @@ ARG_foreign_investments = {
 		remove_effect = {
 			clr_country_flag = ARG_investment_in_progress
 			custom_effect_tooltip = ARG_invest_in_countries_economy_tt
+			if = {
+				limit = {
+					original_tag = ARG 
+				}
+				FROM = {
+					set_country_flag = invested_in_ARG
+				}
+			}
+			else = { ## Honduras
+				FROM = {
+					set_country_flag = invested_in_HON_flag
+				}
+			}
+		}
+	}
+
+	HON_try_to_establish_a_free_trade_agreement_with_FROM = {
+		icon = generic_fundraising
+
+		target_trigger = {
 			FROM = {
-				set_country_flag = invested_in_ARG
+				has_country_flag = invested_in_HON_flag
+				exists = yes
+			}
+		}
+
+		available = {
+			NOT = {
+				has_war_with = FROM
+			}
+			FROM = {
+				exists = yes 
+				is_subject = no 
+			}
+		}
+
+		visible = {
+			has_completed_focus = HON_establish_free_trade_agreements
+		}
+
+		fire_only_once = yes ## this does the hard part for me lol
+
+		cost = 50
+
+		complete_effect = {
+			FROM = {
+				country_event = {
+					id = hon.18 
+					hours = 6
+				}
 			}
 		}
 	}

@@ -1057,6 +1057,149 @@ news_event = {
 	}
 }
 
+## [FROM.GetName] Invites us to Re-unite Central America 
+country_event = {
+	id = cea.20
+	title = cea.20.t 
+	desc = cea.20.d 
+	picture = GFX_CEA_central_america_pic
+
+	is_triggered_only = yes 
+
+	option = { ## Sure
+		name = cea.20.a 
+		ai_chance = {
+			base = 20
+            modifier = {
+                factor = 4
+                strength_ratio = {
+                    tag = FROM 
+                    ratio < 1
+                }
+            }
+            modifier = {
+                factor = 0
+                strength_ratio = {
+                    tag = FROM 
+                    ratio > 1
+                }
+            }
+            modifier = {
+                factor = 2
+                has_opinion = {
+                    target = FROM
+                    value > 79
+                }
+            }
+            modifier = {
+                factor = 3
+                FROM = {
+                    num_of_factories > 49
+                }
+            }
+            modifier = {
+                factor = 2
+                num_of_factories < 19
+            }
+            modifier = {
+                factor = 2
+                has_army_manpower = {
+                    size < 99999
+                }
+            }
+            modifier = {
+                factor = 3
+                OR = {
+                    is_in_faction_with = FROM 
+                    has_government = FROM
+                }
+            }
+		}
+		custom_effect_tooltip = GAME_OVER_TT
+        FROM = {
+            annex_country = {
+                target = ROOT
+                transfer_troops = yes 
+            }
+            country_event = peru.16
+        }
+	}
+
+	option = { ## nah
+		name = venezuela.49.b 
+		ai_chance = {
+            base = 5 ##erm mati did you just copy paste a par- YES I DID ITS MY OWN CODE I DO WHATEVER I WANT
+            modifier = {
+                factor = 3
+                FROM = {
+                    has_war = yes 
+                }
+            }
+            modifier = {
+                factor = 2
+                NOT = {
+                    has_government = FROM
+                }
+            }
+            modifier = {
+                factor = 0.5
+                has_war = yes
+            }
+            modifier = {
+                factor = 2
+                has_army_manpower = {
+                    size > 199999
+                }
+            }
+            modifier = {
+                factor = 0.5
+                FROM = {
+                    has_army_manpower = {
+                        size > 149999
+                    }
+                }
+            }
+            modifier = {
+                factor = 2
+                num_of_factories > 49
+            }
+            modifier = {
+                factor = 2
+                FROM = {
+                    CEA_is_central_american = yes
+                }
+            }
+            modifier = {
+				factor = 100
+				has_game_rule = {
+					rule = EUYL_chaos_mode
+					option = YES
+				}
+			}
+        }
+        FROM = {
+            country_event = {
+                id = peru.17 
+                hours = 4 
+                random_hours = 4
+            }
+        }
+	}
+}
+
+## [FROM.GetName] has Given us an Industrial Incentive 
+country_event = {
+	id = cea.21
+	title = cea.21.t 
+	desc = cea.21.d 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = cea.21.a 
+	}
+}
+
 ############# HONDURAS #############
 ### The Re-Election of Tiburicio by the Constituent Assembly ###
 country_event = {
@@ -1853,6 +1996,9 @@ country_event = {
 
 	option = { ##Juan Manuel Galvez
 		name = "Juan Manuel Galvez"
+		trigger = {
+			has_completed_focus = HON_allow_for_free_elections
+		}
 		ai_chance = {
 			base = 10
 		}
@@ -1900,6 +2046,20 @@ country_event = {
 				ideology = liberalism
 				expire = "1965.1.1.1"
 				traits = { URG_reformist_socialist }
+			}
+		}
+	}
+
+	option = {
+		name = "Vicente Mejía Colindres"
+		trigger = {
+			has_completed_focus = HON_hold_general_elections
+		}
+		ai_chance = {
+			base = 5
+			modifier = {
+				factor = 2
+				has_government = democratic
 			}
 		}
 	}
@@ -2103,7 +2263,7 @@ country_event = {
 				add_compliance = 25
 			}
 			country_event = {
-				id = hon.17
+				id = hon.170
 				hours = 6
 			}
 		}
@@ -2126,9 +2286,9 @@ country_event = {
 
 ## [FROM.GetName] Hands Over [BLZ.GetName] but with a Price
 country_event = {
-	id = hon.17
-	title = hon.17.t 
-	desc = hon.17.d 
+	id = hon.170
+	title = hon.170.t 
+	desc = hon.170.d 
 
 	is_triggered_only = yes 
 
@@ -2145,6 +2305,290 @@ country_event = {
 				}
 			}
 			FROM = { EUYL_add_1_civilian = yes }
+		}
+	}
+}
+
+## [FROM.GetName] would like to Establish a Free Trade Agreement with Us 
+country_event = {
+	id = hon.18
+	title = hon.18.t 
+	desc = hon.18.d 
+	picture = GFX_report_event_peru_invest
+
+	is_triggered_only = yes 
+
+	option = { ## sure, we can both benefit from this
+		name = hon.18.a 
+		ai_chance = {
+			base = 50
+			modifier = {
+				factor = 2
+				has_opinion = {
+					target = FROM
+					value > 75
+				}
+			}
+		}
+
+		ROOT = {
+			add_opinion_modifier = { target = PRU modifier = PRU_free_trade_opi }		
+			add_opinion_modifier = { target = PRU modifier = PRU_free_trade_opinion }		
+		}	
+		FROM = {
+			add_opinion_modifier = { target = ROOT modifier = PRU_free_trade_opi }		
+			add_opinion_modifier = { target = ROOT modifier = PRU_free_trade_opinion }		
+		}
+		
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		add_ideas = CEA_free_trade_agreement
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		FROM = {
+			country_event = hon.19
+		}
+	}
+
+	option = {
+		name = hon.18.b 
+		ai_chance = {
+			base = 10
+			modifier = {
+				factor = 5
+				has_opinion = { ## brotha at least TRY to use political enticing to get yo shi
+					target = FROM
+					value < 11
+				}
+			}
+		}
+
+		FROM = {
+			country_event = hon.20 
+		}
+	}
+}
+
+## [FROM.GetName] has agreed to our Free Trade Agreement 
+country_event = {
+	id = hon.19
+	title = hon.19.t 
+	desc = hon.19.d 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = hon.19.a
+
+		custom_effect_tooltip = HON_profits_from_the_free_trade_agreement_ns_intro_tt
+		subtract_from_variable = {
+			HON_profits_consumer_goods_factor_var = -0.03
+			tooltip = consumer_goods_factor_tt
+		}
+		add_to_variable = {
+			HON_profits_production_speed_industrial_complex_factor_var = 0.02
+			tooltip = production_speed_industrial_complex_factor_tt
+		}
+		add_to_variable = {
+			HON_profits_production_speed_dockyard_factor_var = 0.01
+			tooltip = production_speed_dockyard_factor_tt
+		}
+		add_to_variable = {
+			HON_profits_global_building_slots_factor_var = 0.01
+			tooltip = global_building_slots_factor_tt
+		}
+		add_to_variable = {
+			HON_profits_production_speed_arms_factory_factor_var = 0.01
+			tooltip = production_speed_arms_factory_factor_tt
+		}
+		add_to_variable = {
+			HON_profits_industrial_capacity_factory_var = 0.01
+			tooltip = industrial_capacity_factory_tt
+		}
+		add_to_variable = {
+			HON_profits_local_resources_factor_var = 0.01
+			tooltip = local_resources_factor_tt
+		}
+	}
+}
+
+## [FROM.GetName] has Denied our Free Trade Agreement
+country_event = {
+	id = hon.20
+	title = hon.20.t
+	desc = hon.20.d 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = hon.20.a 
+	}
+}
+
+##### EASTER EGG #1: SAM ZEMURRAY PATH ##### 
+## Sam Zemurray Offers to Administrate the national Infrastructure
+country_event = {
+	id = hon.21
+	title = hon.21.t 
+	desc = hon.21.d 
+	picture = GFX_HON_sam_zemurray_img
+
+	fire_only_once = yes 
+
+	trigger = {
+		original_tag = HON 
+		NOT = { has_government = communism }
+		has_idea = free_trade
+		has_idea = HON_sam_zemurray_idea
+		312 = { has_dynamic_modifier = { modifier = CEA_state_owned_by_sam_zemurray } }
+		1052 = { has_dynamic_modifier = { modifier = CEA_state_owned_by_sam_zemurray } }
+		1053 = { has_dynamic_modifier = { modifier = CEA_state_owned_by_sam_zemurray } }
+		NOT = {
+			has_global_flag = HON_sam_zemurray_easter_egg_flag
+		}
+	}
+
+	option = { ## Sure, why not? (leads to second part of easter egg)
+		name = hon.21.a 
+		ai_chance = {
+			base = 10
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes 
+			}
+		}
+		add_stability = -0.01
+		add_political_power = -10
+		every_core_state = {
+			limit = { is_controlled_by = ROOT }
+			add_extra_state_shared_building_slots = 1
+		}
+
+		custom_effect_tooltip = EUYL_this_will_lead_to_something_unexpected_tt
+
+		hidden_effect = {
+			country_event = {
+				id = hon.22 ## Coup against current leader
+				days = 14
+				random_days = 14
+			}
+		}
+	}
+
+	option = { ## Nah, not interested
+		name = hon.21.b 
+		ai_chance = {
+			base = 2
+		}
+	}
+}
+
+## Sam Launches a Coup Against [ROOT.GetLeader]
+country_event = {
+	id = hon.22
+	title = hon.22.t 
+	desc = hon.22.d
+	picture = GFX_HON_sam_zemurray_img
+
+	is_triggered_only = yes 
+
+	option = { ## We don't have a choice
+		name = hon.22.a 
+		set_global_flag = HON_sam_zemurray_easter_egg_flag
+
+		hidden_effect = { drop_cosmetic_tag = yes }
+
+		if = {
+			limit = {
+				NOT = { has_government = democratic }
+			}
+			set_politics = {
+				ruling_party = democratic
+				elections_allowed = no
+			}
+		}
+
+		add_country_leader_role = {
+			character = HON_sam_zemurray
+			promote_leader = yes
+			country_leader = {
+				ideology = anarcho_capitalism
+				traits = { ECU_low_public_support HON_elite_businessman }
+				expire = "1965.3.1.1"
+			}
+		}
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		custom_effect_tooltip = ECU_focus_tree_changed_tt
+		
+		hidden_effect = {
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.5
+			}
+
+			if = {
+				limit = {
+					has_idea = CEA_league_of_central_american_dictators
+				}
+				remove_ideas = CEA_league_of_central_american_dictators
+			}
+
+			if = {
+				limit = {
+					tag = event_target:CENTRAL_AMERICAN_FACTION_CREATOR
+				}
+				CEA_basic_dismantle_faction = yes 
+			}
+			if = {
+				limit = {
+					is_faction_leader = yes 
+				}
+				dismantle_faction = yes
+			}
+			if = {
+				limit = {
+					is_in_faction = yes 
+				}
+				leave_faction = yes
+			}
+
+			mark_focus_tree_layout_dirty = yes
+
+			news_event = {
+				id = hon.23 
+				days = 2
+			}
+		}
+	}
+}
+
+## NEWS EVENT: Banana Administration Takes Control of Honduras 
+news_event = {
+	id = hon.23
+	title = hon.23.t 
+	desc = hon.23.d 
+	picture = GFX_ECU_banana_company_take_over_pic
+
+	is_triggered_only = yes 
+
+	major = yes 
+
+	option = {
+		name = ecu.23.a 
+		trigger = {
+			original_tag = HON
+		}
+	}
+
+	option = {
+		name = ecu.23.b 
+		trigger = {
+			NOT = {
+				original_tag = HON
+			}
 		}
 	}
 }

@@ -65,7 +65,7 @@ shared_focus = {
 	y = 0
 
 	ai_will_do = {
-		factor = 5
+		base = 15
 	}
 
 	available = {
@@ -236,6 +236,21 @@ shared_focus = {
 	allow_branch = {
 		NOT = {
 			original_tag = PAN
+		}
+	}
+
+	ai_will_do = {
+		base = 7
+		modifier = {
+			factor = 0
+			is_historical_focus_on = yes 
+		}
+		modifier = {
+			factor = 1.4
+			OR = {
+				has_government = fascism
+				has_government = communism
+			}
 		}
 	}
 
@@ -643,6 +658,10 @@ shared_focus = {
 		}
 	}
 
+	ai_will_do = {
+		base = 8
+	}
+
 	cost = 5
 
 	available = {
@@ -728,7 +747,17 @@ shared_focus = {
 
 		custom_effect_tooltip = CEA_you_can_allow_zemurray_to_acquisition_territory_tt
 
-		HON_level_up_american_owned_industry = yes
+		if = {
+			limit = {
+				NOT = {
+					has_country_leader = {
+						character = HON_sam_zemurray
+						ruling_only = yes 
+					}
+				}
+			}
+			HON_level_up_american_owned_industry = yes
+		}
 	}
 }
 
@@ -783,7 +812,17 @@ shared_focus = {
 			add_idea = CEA_united_fruit_company_2
 		}
 
-		HON_level_up_american_owned_industry = yes
+		if = {
+			limit = {
+				NOT = {
+					has_country_leader = {
+						character = HON_sam_zemurray
+						ruling_only = yes 
+					}
+				}
+			}
+			HON_level_up_american_owned_industry = yes
+		}
 	}
 }
 
@@ -852,6 +891,12 @@ shared_focus = {
 		if = {
 			limit = {
 				original_tag = HON
+				NOT = {
+					has_country_leader = {
+						character = HON_sam_zemurray
+						ruling_only = yes 
+					}
+				}
 			}
 			HON_level_up_american_owned_industry = yes
 		}
@@ -1014,7 +1059,17 @@ shared_focus = {
 	completion_reward = {
 		HON_remove_poor_banana_exports = yes 
 
-		HON_level_up_american_owned_industry = yes
+		if = {
+			limit = {
+				NOT = {
+					has_country_leader = {
+						character = HON_sam_zemurray
+						ruling_only = yes 
+					}
+				}
+			}
+			HON_level_up_american_owned_industry = yes
+		}
 	}
 }
 
@@ -1226,7 +1281,17 @@ shared_focus = {
 	completion_reward = {
 		EUYL_add_2_civilian = yes 
 
-		HON_level_up_american_owned_industry = yes
+		if = {
+			limit = {
+				NOT = {
+					has_country_leader = {
+						character = HON_sam_zemurray
+						ruling_only = yes 
+					}
+				}
+			}
+			HON_level_up_american_owned_industry = yes
+		}
 	}
 }
 
@@ -1249,7 +1314,7 @@ shared_focus = {
 	}
 
 	search_filters = {
-		FOCUS_FILTER_INDUSTRY
+		FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER
 	}
 
 	completion_reward = {
@@ -1861,10 +1926,30 @@ shared_focus = {
 	y = 0
 
 	offset = {
-		x = 6
+		x = 8
 		trigger = {
 			original_tag = HON
 		}
+	}
+
+	offset = {
+		x = -22
+		y = 0
+		trigger = {
+			has_game_rule = {
+				rule = obsolete_focus_branches_visibility
+				option = HIDE
+			}
+			original_tag = HON
+			OR = {
+				has_completed_focus = HON_no_more_re_elections
+				has_completed_focus = HON_the_mandate_of_tiburicio
+			}
+		}
+	}
+
+	ai_will_do = {
+		base = 2
 	}
 
 	cost = 2.9
@@ -1893,6 +1978,10 @@ shared_focus = {
 	relative_position_id = CEA_armed_forces
 	prerequisite = {
 		focus = CEA_armed_forces
+	}
+
+	ai_will_do = {
+		base = 2
 	}
 
 	search_filters = {
@@ -2008,6 +2097,10 @@ shared_focus = {
 	relative_position_id = CEA_modernize_our_infantry_equipment
 	prerequisite = {
 		focus = CEA_modernize_our_infantry_equipment
+	}
+
+	ai_will_do = {
+		base = 2
 	}
 
 	available = {
