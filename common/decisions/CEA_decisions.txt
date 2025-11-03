@@ -304,7 +304,7 @@ CEA_managing_the_banana_republic = {
 					AND = {
 						ic_ratio = {
 							tag = ROOT 
-							ratio < 0.9
+							ratio > 0.9
 						}
 						capital_scope = {
 							OR = {
@@ -492,7 +492,13 @@ CEA_managing_the_banana_republic = {
 
 		visible = {
 			has_completed_focus = CEA_improve_the_plantations
-			has_idea = CEA_the_banana_republic
+			OR = {
+				has_idea = CEA_the_banana_republic
+				has_country_leader = {
+					character = HON_sam_zemurray
+					ruling_only = yes
+				}
+			}
 			FROM = {
 				NOT = {
 					has_dynamic_modifier = {
@@ -505,7 +511,13 @@ CEA_managing_the_banana_republic = {
 		fire_only_once = yes 
 
 		available = {
-			has_idea = CEA_the_banana_republic
+			OR = {
+				has_idea = CEA_the_banana_republic
+				has_country_leader = {
+					character = HON_sam_zemurray
+					ruling_only = yes
+				}
+			}
 			NOT = {
 				has_idea = strikes_1
 				has_country_flag = CEA_recently_bolstered_banana_production_flag
@@ -654,12 +666,14 @@ CEA_managing_the_banana_republic = {
 		state_target = yes 
 		target_array = controlled_states
 		target_trigger = {
-			OR = {
-				has_dynamic_modifier = {
-					modifier = CEA_local_banana_production
-				}
-				has_dynamic_modifier = {
-					modifier = CEA_improved_banana_production
+			FROM = {
+				OR = {
+					has_dynamic_modifier = {
+						modifier = CEA_local_banana_production
+					}
+					has_dynamic_modifier = {
+						modifier = CEA_improved_banana_production
+					}
 				}
 			}
 		}
@@ -1780,6 +1794,9 @@ HON_el_cariato_cat = {
 				ruling_only = yes 
 			}
 			has_civil_war = no 
+			NOT = {
+				has_country_flag = HON_recently_deployed_private_police_flag
+			}
 		}
 
 		fire_only_once = yes
@@ -1791,6 +1808,7 @@ HON_el_cariato_cat = {
 		}
 
 		complete_effect = {
+			set_country_flag = HON_recently_deployed_private_police_flag
 			hidden_effect = {
 				add_command_power = -5
 				add_political_power = -25
@@ -1838,6 +1856,12 @@ HON_el_cariato_cat = {
 			else = {
 				add_manpower = 5000
 			}
+		}
+
+		days_remove = 90
+
+		remove_effect = {
+			clr_country_flag = HON_recently_deployed_private_police_flag
 		}
 	}
 
@@ -2491,15 +2515,9 @@ HON_the_world_beyond_our_borders = {
 					state = 1053
 					state = 1054
 					state = 1055
-					state = 317
-					state = 1056
 					state = 314
 					state = 313
 					state = 1050
-					state = 1051
-					state = 474
-					state = 475
-					state = 311
 				}
 			}
 		}
@@ -2510,15 +2528,9 @@ HON_the_world_beyond_our_borders = {
 			controls_state = 1053
 			controls_state = 1054
 			controls_state = 1055
-			controls_state = 317
-			controls_state = 1056
 			controls_state = 314
 			controls_state = 313
 			controls_state = 1050
-			controls_state = 1051
-			controls_state = 474
-			controls_state = 475
-			controls_state = 311
 		}
 
 		visible = {
@@ -2541,15 +2553,107 @@ HON_the_world_beyond_our_borders = {
 						state = 1053
 						state = 1054
 						state = 1055
-						state = 317
-						state = 1056
 						state = 314
 						state = 313
 						state = 1050
+					}
+					NOT = { is_core_of = ROOT }
+				}
+				add_core_of = ROOT
+			}
+		}
+	}
+
+	HON_integrate_the_yucatan_into_the_empire = {
+		icon = generic_form_nation
+
+		highlight_states = {
+			highlight_states_trigger = {
+				OR = {
+					state = 1051
+					state = 311
+					state = 475
+					state = 474
+				}
+			}
+		}
+
+		available = {
+			controls_state = 1051
+			controls_state = 311
+			controls_state = 475
+			controls_state = 474
+		}
+
+		visible = {
+			has_completed_focus = HON_honduras_above_all
+			has_cosmetic_tag = HON_GREATER
+		}
+
+		fire_only_once = yes 
+
+		ai_will_do = {
+			base = 250
+		}
+
+		complete_effect = {
+			every_controlled_state = {
+				limit = {
+					OR = {
 						state = 1051
-						state = 474
-						state = 475
 						state = 311
+						state = 475
+						state = 474
+					}
+					NOT = { is_core_of = ROOT }
+				}
+				add_core_of = ROOT
+			}
+		}
+	}
+
+	HON_integrate_southern_central_america_into_the_empire = {
+		icon = generic_form_nation
+
+		highlight_states = {
+			highlight_states_trigger = {
+				OR = {
+					state = 317
+					state = 1056
+					state = 316
+					state = 1057
+				}
+			}
+		}
+
+		available = {
+			controls_state = 317
+			controls_state = 1056
+			controls_state = 316
+			controls_state = 1057
+		}
+
+		visible = {
+			has_completed_focus = HON_honduras_above_all
+			has_cosmetic_tag = HON_GREATER
+		}
+
+		fire_only_once = yes 
+
+		ai_will_do = {
+			base = 250
+		}
+
+		complete_effect = {
+			every_controlled_state = {
+				limit = {
+					OR = {
+						state = 317
+						state = 1056
+						state = 316
+						state = 1057
+						state = 685
+						state = 304
 					}
 					NOT = { is_core_of = ROOT }
 				}
@@ -2590,9 +2694,9 @@ HON_the_world_beyond_our_borders = {
 			}
 		}
 
-		cost = 25
+		cost = 20
 
-		days_remove = 50
+		days_remove = 40
 
 		ai_will_do = {
 			base = 50

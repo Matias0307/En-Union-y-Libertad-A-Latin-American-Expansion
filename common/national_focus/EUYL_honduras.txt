@@ -390,7 +390,7 @@ focus_tree = {
 		cost = 5
 
 		search_filters = {
-			FOCUS_FILTER_POLITICAL
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY
 		}
 
 		completion_reward = {
@@ -404,6 +404,7 @@ focus_tree = {
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
 			custom_effect_tooltip = HON_unlock_war_plan_decisions_ban_tt
+			add_stability = 0.05
 		}
 	}
 
@@ -422,7 +423,7 @@ focus_tree = {
 
 		available = {
 			has_army_manpower = {
-				size > 64999
+				size > 59999
 			}
 		}
 
@@ -531,13 +532,13 @@ focus_tree = {
 
 		available = {
 			has_army_manpower = {
-				size > 119999
+				size > 109999
 			}
 			num_of_factories > 34
 		}
 
 		search_filters = {
-			FOCUS_FILTER_ANNEXATION FOCUS_FILTER_POLITICAL
+			FOCUS_FILTER_ANNEXATION FOCUS_FILTER_POLITICAL FOCUS_FILTER_RESEARCH
 		}
 
 		completion_reward = {
@@ -549,6 +550,7 @@ focus_tree = {
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
 			activate_mission = HON_entice_the_shareholders_mission
+			add_research_slot = 1
 
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
@@ -625,7 +627,13 @@ focus_tree = {
 		cost = 8
 
 		available = {
-			is_neighbor_of = BRA 
+			OR = {
+				has_army_manpower = {
+					size > 199999
+				}
+				num_of_controlled_states > 19
+				is_neighbor_of = BRA 
+			}
 		}
 
 		bypass = {
@@ -801,6 +809,10 @@ focus_tree = {
 				is_neighbor_of = ARG
 				is_neighbor_of = URG
 				is_neighbor_of = PAR
+				has_army_manpower = {
+					size > 199999
+				}
+				num_of_controlled_states > 19
 			}
 		}
 
@@ -3274,7 +3286,7 @@ focus_tree = {
 				idea = communism_banned
 				days = 720
 			}
-			add_political_power = 25
+			add_political_power = 50
 
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
@@ -3372,6 +3384,13 @@ focus_tree = {
 			}
 
 			custom_effect_tooltip = HON_you_can_only_deploy_up_to_10_private_police_divisions_tt
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			swap_ideas = {
+				remove_idea = HON_ley_de_policia
+				add_idea = HON_ley_de_policia_2
+			}
 		}
 	}
 
@@ -3386,7 +3405,7 @@ focus_tree = {
 			focus = HON_the_mandate_of_tiburicio
 		}
 
-		cost = 6
+		cost = 8
 
 		ai_will_do = {
 			base = 3
@@ -3424,7 +3443,7 @@ focus_tree = {
 			focus = HON_take_measures_to_reduce_foreign_debt
 		}
 
-		cost = 8
+		cost = 7.2
 
 		available = {
 			has_idea = HON_payed_off_debt
@@ -3435,7 +3454,7 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			EUYL_add_2_civilian = yes 
+			EUYL_add_1_civilian = yes 
 		}
 	}
 
@@ -3743,7 +3762,7 @@ focus_tree = {
 			focus = HON_shut_down_the_press
 		}
 
-		cost = 8
+		cost = 10
 
 		available = {
 			fascism > 0.6
@@ -3754,7 +3773,7 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = HON_modify_totalitarian_regime_intro_tt
 			add_to_variable = {
-				HON_tot_regime_pol_power_factor_var = 0.1
+				HON_tot_regime_pol_power_factor_var = 0.06
 				tooltip = political_power_factor_tt
 			}
 			add_to_variable = {
@@ -3833,7 +3852,7 @@ focus_tree = {
 				tooltip = army_attack_factor_tt
 			}
 			add_to_variable = {
-				HON_tot_regime_army_defense_var = 0.07
+				HON_tot_regime_army_defense_var = 0.05
 				tooltip = army_defence_factor_tt
 			}
 			add_to_variable = {
@@ -3867,7 +3886,7 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			EUYL_add_2_military = yes 
+			EUYL_add_1_military = yes 
 
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
@@ -3894,7 +3913,7 @@ focus_tree = {
 			focus = HON_shut_down_the_press
 		}
 
-		cost = 6
+		cost = 10
 
 		available = {
 			NOT = { 
@@ -4004,7 +4023,7 @@ focus_tree = {
 			focus = HON_el_cariato
 		}
 
-		cost = 6
+		cost = 7.2
 
 		available = {
 			has_civil_war = no 
@@ -4244,7 +4263,7 @@ focus_tree = {
 			focus = HON_tiburicio_shall_remain
 		}
 
-		cost = 7.2 
+		cost = 8 
 
 		available = {
 			USA = {
@@ -4401,7 +4420,7 @@ focus_tree = {
 			focus = HON_ascend_the_vice_president
 		}
 
-		cost = 7.2
+		cost = 8
 
 		available = {
 			custom_trigger_tooltip = {
@@ -5077,7 +5096,6 @@ focus_tree = {
 
 		completion_reward = {
 			EUYL_add_2_military = yes 
-			EUYL_add_1_military = yes 
 
 			custom_effect_tooltip = HON_unlock_exploit_resource_decisions_allowing_you_to_gain_1_military_factory_for_conquered_states_that_have_a_strong_industrial_base_tt
 		}
@@ -5112,9 +5130,14 @@ focus_tree = {
 		completion_reward = {
 			army_experience = 50
 
-			custom_effect_tooltip = CHL_skip_one_line_tt
+			if = {
+				limit = {
+					has_government = communism
+				}
+				custom_effect_tooltip = CHL_skip_one_line_tt
 
-			custom_effect_tooltip = HON_unlock_war_plan_decisions_na_tt
+				custom_effect_tooltip = HON_unlock_war_plan_decisions_na_tt
+			}
 		}
 	}
 
@@ -5144,9 +5167,14 @@ focus_tree = {
 		completion_reward = {
 			army_experience = 50
 
-			custom_effect_tooltip = CHL_skip_one_line_tt
+			if = {
+				limit = {
+					has_government = communism
+				}
+				custom_effect_tooltip = CHL_skip_one_line_tt
 
-			custom_effect_tooltip = HON_unlock_war_plan_decisions_sa_tt
+				custom_effect_tooltip = HON_unlock_war_plan_decisions_sa_tt
+			}
 		}
 	}
 
@@ -5614,7 +5642,7 @@ focus_tree = {
 			focus = HON_honduras_above_all
 		}
 
-		cost = 7.2
+		cost = 10
 
 		ai_will_do = {
 			base = 2
