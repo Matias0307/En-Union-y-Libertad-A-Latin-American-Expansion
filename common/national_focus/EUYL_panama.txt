@@ -31,6 +31,237 @@ focus_tree = {
 	shared_focus = CEA_the_defense_pact
 	shared_focus = CEA_armed_forces
 
+	### POLITICAL TREE ###
+	## Harmodio's Administration ##
+	focus = {
+		id = PAN_harmodios_administration
+		icon = GFX_PAN_harmadios_administration_icon
+		x = 46
+		y = 0
+
+		cost = 5
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_political_power = 25
+			add_stability = 0.02
+		}
+	}
+
+	## Establish Key Discussion Points in the Talks ##
+	focus = {
+		id = PAN_establish_key_discussion_points_in_the_talks
+		icon = GFX_PAN_panama_propaganda_icon
+		x = -2
+		y = 1
+		relative_position_id = PAN_harmodios_administration
+		prerequisite = {
+			focus = PAN_harmodios_administration
+		}
+
+		cost = 7.2
+
+		available = {
+			has_active_mission = PAN_outcome_of_the_treaty
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = PAN_increase_sovereignty_points_by_10_tt
+			add_to_variable = {
+				PAN_sovereignty_points = 10
+			}
+			clamp_variable = {
+				var = PAN_sovereignty_points
+				min = 0
+				max = 100
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_political_power = 20
+		}
+	}
+
+	## Founded the University of Panama ##
+	focus = {
+		id = PAN_founded_the_university_of_panama
+		icon = GFX_focus_generic_university_3
+		x = 5
+		y = 1
+		relative_position_id = PAN_harmodios_administration
+		prerequisite = {
+			focus = PAN_harmodios_administration
+		}
+
+		cost = 10
+
+		available = {
+			OR = {
+				has_stability > 0.7
+				num_of_factories > 14
+				has_full_control_of_state = 685
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_RESEARCH FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+
+	## Internal Affairs ##
+	focus = {
+		id = PAN_internal_affairs
+		icon = GFX_focus_AFG_parliamentary_democracy
+		x = 0
+		y = 2
+		relative_position_id = PAN_harmodios_administration
+		prerequisite = {
+			focus = PAN_harmodios_administration
+		}
+
+		cost = 6
+
+		available = {
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = PAN_socereignty_points_above_30_tt
+					check_variable = {
+						PAN_sovereignty_points > 30
+					}
+				}
+				NOT = {
+					has_active_mission = PAN_outcome_of_the_treaty
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_BALANCE_OF_POWER FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					has_any_power_balance = yes 
+				}
+				PAN_move_5_towards_panama = yes
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_political_power = 15
+			add_timed_idea = {
+				idea = PAN_internal_administration
+				days = 365
+			}
+		}
+	}
+
+	## Prepare for the GetYear Panamanian General Elections ##
+	focus = {
+		id = PAN_prepare_for_the_getyear_panamanian_general_elections
+		icon = GFX_PAN_prepare_for_elections
+		x = 0
+		y = 1
+		relative_position_id = PAN_internal_affairs
+		prerequisite = {
+			focus = PAN_internal_affairs
+		}
+		mutually_exclusive = {
+			focus = PAN_denounce_the_poor_administration
+		}
+
+		cost = 7.2
+
+		available = {
+			has_civil_war = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = PAN_if_you_have_idea_internal_administration_prolong_duration_by_120_days_tt
+			
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			add_political_power = 20
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.05
+			}
+
+			hidden_effect = {
+				if = {
+					limit = {
+						has_idea = PAN_internal_administration
+					}
+					modify_timed_idea = {
+						idea = PAN_internal_administration
+						days = 120
+					}
+				}
+			}
+		}
+	}
+
+	## The National Coalition ## (Historical)
+	focus = {
+		id = PAN_the_national_coalition
+		icon = GFX_ 
+		x = -8
+		y = 1
+		relative_position_id = PAN_prepare_for_the_getyear_panamanian_general_elections
+		prerequisite = {
+			focus = PAN_prepare_for_the_getyear_panamanian_general_elections
+		}
+		mutually_exclusive = {
+			focus = PAN_the_popular_front
+		}
+	}
+
+	## The Popular Front (A-Historical Democracy)
+	focus = {
+		id = PAN_the_popular_front
+		icon = GFX_ 
+		x = 1
+		y = 1
+		relative_position_id = PAN_prepare_for_the_getyear_panamanian_general_elections
+		prerequisite = {
+			focus = PAN_prepare_for_the_getyear_panamanian_general_elections
+		}
+		mutually_exclusive = {
+			focus = PAN_the_national_coalition
+		}
+	}
+
+	### COMMUNIST PATH ###
+	## Denounce the Poor Administration ##
+	focus = {
+		id = PAN_denounce_the_poor_administration
+		icon = GFX_
+		x = 12
+		y = 1
+		relative_position_id = PAN_internal_affairs
+		prerequisite = {
+			focus = PAN_internal_affairs
+		}
+		mutually_exclusive = {
+			focus = PAN_prepare_for_the_getyear_panamanian_general_elections
+		}
+	}
+
 	## Panamanian subtree for economy ##
 
 	# Significant Influx of US Dollars #

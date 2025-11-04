@@ -837,6 +837,26 @@ PAN_BoP_canal_control = {
 
 		complete_effect = {
 			PAN_move_5_towards_panama = yes
+
+			if = {
+				limit = {
+					has_active_mission = PAN_outcome_of_the_treaty
+				}
+				random_list = {
+					50 = {
+						custom_effect_tooltip = PAN_increase_sovereignty_points_by_5_tt
+						add_to_variable = {
+							PAN_sovereignty_points = 5
+						}
+						clamp_variable = {
+							var = PAN_sovereignty_points
+							min = 0
+							max = 100
+						}
+					}
+					50 = { add_political_power = 1 } ## I'm really just too kind 
+				}
+			}
 		}
 	}
 
@@ -3071,4 +3091,252 @@ HON_administrating_the_democracy = {
 			add_stability = 0.01
 		}
 	}
+}
+
+PAN_ongoing_talks_with_the_united_states = {
+	PAN_outcome_of_the_treaty = {
+		priority = 100
+		icon = generic_political_address
+
+		activation = {
+			always = no 
+		}
+
+		available = {
+			always = no 
+		}
+
+		days_mission_timeout = 190
+
+		cancel_trigger = {
+			OR = { 
+				USA = { exists = no } 
+				exists = no 
+			}
+		}
+
+		is_good = yes 
+
+		fire_only_once = yes
+
+		timeout_effect = {
+			if = {
+				limit = {
+					check_variable = {
+						PAN_sovereignty_points > 90
+					}
+				}
+				country_event = pan.1 
+			}
+			else_if = {
+				limit = {
+					check_variable = {
+						PAN_sovereignty_points > 60
+					}
+				}
+				country_event = pan.2 
+			}
+			else = {
+				country_event = pan.3 
+			}
+
+			hidden_effect = {
+				clear_variable = PAN_sovereignty_points
+			}
+		}
+	}
+
+	PAN_establish_political_boundaries = {
+		icon = generic_civil_support
+
+		cost = 15
+
+		available = {
+			has_active_mission = PAN_outcome_of_the_treaty
+		}
+
+		days_remove = 20 
+
+		modifier = {
+			political_power_gain = -0.05 
+		}
+
+		remove_effect = {
+			custom_effect_tooltip = PAN_increase_sovereignty_points_by_5_tt
+			add_to_variable = {
+				PAN_sovereignty_points = 5
+			}
+			clamp_variable = {
+				var = PAN_sovereignty_points
+				min = 0
+				max = 100
+			}
+		}
+	}
+
+	PAN_calm_the_american_fears_of_local_extremism = {
+		icon = generic_political_discourse
+
+		cost = 30
+
+		available = {
+			has_active_mission = PAN_outcome_of_the_treaty
+		}
+
+		days_remove = 15
+
+		modifier = {
+			political_power_factor = -0.1
+			democratic_drift = 0.02
+		}
+
+		remove_effect = {
+			custom_effect_tooltip = PAN_increase_sovereignty_points_by_10_tt
+			add_to_variable = {
+				PAN_sovereignty_points = 10
+			}
+			clamp_variable = {
+				var = PAN_sovereignty_points
+				min = 0
+				max = 100
+			}
+		}
+	}
+
+	PAN_promise_american_friendly_economic_policies = {
+		icon = generic_welfare
+
+		custom_cost_text = decision_cost_civ_factory_1
+		custom_cost_trigger = {
+			num_of_civilian_factories_available_for_projects > 0
+		}
+
+		available = {
+			has_active_mission = PAN_outcome_of_the_treaty
+		}
+
+		fire_only_once = yes 
+
+		days_remove = 50
+
+		cancel_trigger = {
+			NOT = {
+				has_active_mission = PAN_outcome_of_the_treaty
+			}
+		}
+
+		modifier = {
+			civilian_factory_use = 1
+			consumer_goods_factor = 0.1
+			political_power_gain = -0.05
+		}
+
+		remove_effect = {
+			custom_effect_tooltip = PAN_increase_sovereignty_points_by_10_tt
+			add_to_variable = {
+				PAN_sovereignty_points = 10
+			}
+			clamp_variable = {
+				var = PAN_sovereignty_points
+				min = 0
+				max = 100
+			}
+		}
+	}
+
+	PAN_display_our_military_strength = {
+		icon = generic_military
+
+		custom_cost_text = decision_cost_CP_5_pp_25
+		custom_cost_trigger = {
+			command_power > 4
+			has_political_power > 24
+		}
+
+		fire_only_once = yes 
+
+		available = {
+			has_active_mission = PAN_outcome_of_the_treaty
+		}
+
+		days_remove = 60
+
+		modifier = {
+			experience_gain_army_factor = -0.1
+			stability_weekly = -0.003
+			war_support_weekly = 0.002
+		}
+
+		complete_effect = {
+			hidden_effect = {
+				add_command_power = -5
+				add_political_power = -25
+			}
+		}
+
+		cancel_trigger = {
+			NOT = {
+				has_active_mission = PAN_outcome_of_the_treaty
+			}
+		}
+
+		remove_effect = {
+			custom_effect_tooltip = PAN_increase_sovereignty_points_by_10_tt
+			add_to_variable = {
+				PAN_sovereignty_points = 10
+			}
+			clamp_variable = {
+				var = PAN_sovereignty_points
+				min = 0
+				max = 100
+			}
+		}
+	}
+
+	PAN_embrace_americanism = {
+		icon = generic_USA_flag
+
+		cost = 10
+
+		available = {
+			has_active_mission = PAN_outcome_of_the_treaty
+		}
+
+		days_remove = 35
+
+		modifier = {
+			stability_weekly = -0.005
+		}
+
+		remove_effect = {
+			random_list = {
+				50 = {
+					custom_effect_tooltip = PAN_increase_sovereignty_points_by_5_tt
+					add_to_variable = {
+						PAN_sovereignty_points = 5
+					}
+					clamp_variable = {
+						var = PAN_sovereignty_points
+						min = 0
+						max = 100
+					}
+				}
+				50 = {
+					custom_effect_tooltip = PAN_increase_sovereignty_points_by_10_tt
+					add_to_variable = {
+						PAN_sovereignty_points = 10
+					}
+					clamp_variable = {
+						var = PAN_sovereignty_points
+						min = 0
+						max = 100
+					}
+				}
+			}
+		}
+	}
+}
+
+PAN_political_management = {
+	
 }

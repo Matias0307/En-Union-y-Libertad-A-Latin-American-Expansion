@@ -2608,3 +2608,118 @@ news_event = {
 	}
 }
 
+#### PANAMA ####
+## Complete Success in our Talks with the United States ##
+country_event = {
+	id = pan.1
+	title = pan.1.t 
+	desc = pan.1.d 
+	picture = GFX_report_event_generic_read_write
+
+	is_triggered_only = yes 
+
+	option = {
+		name = pan.1.a 
+		add_stability = 0.02 
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		remove_ideas = PAN_american_political_intervention
+		PAN_move_5_towards_panama = yes
+	}
+}
+
+## Partial Success in our Talks with the United States ##
+country_event = {
+	id = pan.2
+	title = pan.2.t 
+	desc = pan.2.d 	
+	picture = GFX_report_event_generic_read_write
+
+	is_triggered_only = yes 
+
+	option = {
+		name = pan.2.a 
+		swap_ideas = {
+			remove_idea = PAN_american_political_intervention
+			add_idea = PAN_overarching_american_shadow
+		}
+	}
+}
+
+## Total Failure in our Talks with the United States ##
+country_event = {
+	id = pan.3
+	title = pan.3.t 
+	desc = pan.3.d 
+	picture = GFX_report_event_generic_sign_treaty2
+
+	is_triggered_only = yes 
+
+	option = {
+		name = pan.3.a 
+		add_stability = -0.01
+		add_political_power = -10
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		PAN_move_5_towards_america = yes
+	}
+}
+
+## Breakdown in Talks with the United States ##
+country_event = {
+	id = pan.4
+	title = pan.4.t 
+	desc = pan.4.d 
+	picture = GFX_report_event_generic_riot
+
+	is_triggered_only = yes 
+
+	trigger = {
+		has_active_mission = PAN_outcome_of_the_treaty
+	}
+
+	option = {
+		name = pan.4.a 
+		custom_effect_tooltip = PAN_reduce_sovereignty_points_by_5_tt
+		add_to_variable = {
+			PAN_sovereignty_points = 5
+		}
+		clamp_variable = {
+			var = PAN_sovereignty_points
+			min = 0
+			max = 100
+		}
+		if = {
+			limit = {
+				has_any_power_balance = yes 
+			}
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			PAN_move_5_towards_america = yes
+		}
+	}
+}
+
+## Pro-Panamanian Points Pushed in the Discussions ##
+country_event = {
+	id = pan.5
+	title = pan.5.t 
+	desc = pan.5.d 
+	picture = GFX_report_event_hitler_handshake
+
+	is_triggered_only = yes 
+
+	option = {
+		name = pan.5.a 
+		custom_effect_tooltip = PAN_increase_sovereignty_points_by_5_tt
+		add_to_variable = {
+			PAN_sovereignty_points = 5
+		}
+		clamp_variable = {
+			var = PAN_sovereignty_points
+			min = 0
+			max = 100
+		}
+	}
+}
