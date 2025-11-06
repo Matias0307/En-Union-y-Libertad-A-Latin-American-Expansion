@@ -219,7 +219,7 @@ focus_tree = {
 	## The National Coalition ## (Historical)
 	focus = {
 		id = PAN_the_national_coalition
-		icon = GFX_ 
+		icon = GFX_PAN_national_coalition_victory_icon
 		x = -8
 		y = 1
 		relative_position_id = PAN_prepare_for_the_getyear_panamanian_general_elections
@@ -229,12 +229,382 @@ focus_tree = {
 		mutually_exclusive = {
 			focus = PAN_the_popular_front
 		}
+
+		cost = 5
+
+		available = {
+			NOT = { has_active_mission = PAN_outcome_of_the_treaty }
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_popularity = {
+				ideology = neutrality
+				popularity = 0.03
+			}
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.02
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			promote_character = PAN_juan_demostenes_arosemena
+
+			set_party_name = {
+				ideology = democratic
+				long_name = "Coalición Nacional"
+				name = "Coalición Nacional"
+			}
+		}
+	}
+
+	## Undermine Demostenes ##
+	focus = {
+		id = PAN_undermine_demostenes
+		icon = GFX_PAN_undermine_demostenes_icon
+		x = -3
+		y = 1
+		relative_position_id = PAN_the_national_coalition
+		prerequisite = {
+			focus = PAN_the_national_coalition
+		}
+		mutually_exclusive = {
+			focus = PAN_support_demostenes
+		}
+
+		cost = 7.2
+
+		available = {
+			has_country_leader = {
+				character = PAN_juan_demostenes_arosemena
+				ruling_only = yes 
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			add_popularity = {
+				ideology = democratic
+				popularity = -0.03
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = PAN_spread_misinformation_about_demostenes
+			unlock_decision_tooltip = PAN_undermine_demostenes_and_his_leadership
+		}
+	}
+
+	## Force Demostenes to Resign ##
+	focus = {
+		id = PAN_force_demostenes_to_resign
+		icon = GFX_focus_generic_military_dictatorship
+		x = 0
+		y = 3
+		relative_position_id = PAN_undermine_demostenes
+		prerequisite = {
+			focus = PAN_undermine_demostenes
+		}
+
+		cost = 8
+
+		available = {
+			democratic < 0.3
+			has_country_leader = {
+				character = PAN_juan_demostenes_arosemena
+				ruling_only = yes 
+			}
+		}
+
+		bypass = {
+			NOT = {
+				has_country_leader = {
+					character = PAN_juan_demostenes_arosemena
+					ruling_only = yes 
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT
+		}
+
+		completion_reward = {
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.05
+			}
+
+			add_war_support = 0.05
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			retire_character = PAN_juan_demostenes_arosemena
+			add_country_leader_role = {
+				character = PAN_interim_presidency
+				promote_leader = yes
+				country_leader = {
+					ideology = liberalism
+					expire = "1965.1.1.1"
+					traits = { BRA_disorganized_leadership }
+				}
+			}
+		}
+	}
+
+	## Support Demostenes ##
+	focus = {
+		id = PAN_support_demostenes
+		icon = GFX_PAN_support_demostenes_icon
+		x = 1
+		y = 1
+		relative_position_id = PAN_the_national_coalition
+		prerequisite = {
+			focus = PAN_the_national_coalition
+		}
+		mutually_exclusive = {
+			focus = PAN_undermine_demostenes
+		}
+
+		cost = 5
+
+		available = {
+			has_country_leader = {
+				character = PAN_juan_demostenes_arosemena
+				ruling_only = yes 
+			}
+		}
+
+		bypass = {
+			NOT = {
+				has_country_leader = {
+					character = PAN_juan_demostenes_arosemena
+					ruling_only = yes 
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_political_power = 20
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = PAN_less_likely_for_juan_to_die_early_tt
+		}
+	}
+
+	## The Demostenes Presidency ##
+	focus = {
+		id = PAN_the_demostenes_presidency
+		icon = GFX_PAN_demostenes_presidency_icon
+		x = 0
+		y = 1
+		relative_position_id = PAN_support_demostenes
+		prerequisite = {
+			focus = PAN_support_demostenes
+		}
+
+		cost = 10
+
+		available = {
+			has_idea = PAN_political_uncertainty_1
+			has_country_leader = {
+				character = PAN_juan_demostenes_arosemena
+				ruling_only = yes 
+			}
+		}
+
+		bypass = {
+			NOT = {
+				has_country_leader = {
+					character = PAN_juan_demostenes_arosemena
+					ruling_only = yes 
+				}
+			}
+		}
+
+		bypass_effect = {
+			swap_ideas = {
+				remove_idea = PAN_political_uncertainty_1
+				add_idea = PAN_political_uncertainty_2
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = PAN_political_uncertainty_1
+				add_idea = PAN_political_uncertainty_2
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_stability = 0.05
+			add_political_power = 50
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_trait = {
+				character = PAN_juan_demostenes_arosemena
+				ideology = conservatism
+				trait = ARG_governor_of_the_people
+			}
+		}
+	}
+
+	## Completion of the National Stadium ##
+	focus = {
+		id = PAN_completion_of_the_national_stadium
+		icon = GFX_goal_generic_construction2
+		x = 2
+		y = 1
+		relative_position_id = PAN_the_demostenes_presidency
+		prerequisite = {
+			focus = PAN_the_demostenes_presidency
+		}
+
+		cost = 6
+
+		available = {
+			any_core_state = {
+				is_controlled_by = ROOT
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			EUYL_add_1_civilian = yes
+		}
+	}
+
+	## Construct the Boyd-Roosevelt Highway ##
+	focus = {
+		id = PAN_construct_the_boyd_roosevelt_highway
+		icon = GFX_goal_generic_construction
+		x = -2
+		y = 1
+		relative_position_id = PAN_support_demostenes
+		prerequisite = {
+			focus = PAN_support_demostenes
+			focus = PAN_undermine_demostenes
+		}
+
+		cost = 7
+
+		available = {
+			any_core_state = {
+				is_controlled_by = ROOT 
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_political_power = 15
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			every_controlled_state = {
+				limit = {
+					infrastructure < 5
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	## Finding a Replacement ##
+	focus = {
+		id = PAN_finding_a_replacement
+		icon = GFX_PAN_leader_choose_icon
+		x = 0
+		y = 2
+		relative_position_id = PAN_the_demostenes_presidency
+		prerequisite = {
+			focus = PAN_the_demostenes_presidency
+		}
+
+		cost = 5
+
+		available = {
+			has_country_leader = {
+				character = PAN_interim_presidency
+				ruling_only = yes
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_stability = 0.01
+			add_political_power = 20
+		}
+	}
+
+	## Ricardo J. Alfaro ##
+	focus = {
+		id = PAN_ricardo_j_alfaro
+		icon = GFX_PAN_ricardo_alfaro_icon
+		x = 2
+		y = 1
+		relative_position_id = PAN_finding_a_replacement
+		prerequisite = {
+			focus = PAN_finding_a_replacement
+		}
+		mutually_exclusive = {
+			focus = PAN_arnulfo_arias_madrid_focus
+		}
+
+		cost = 5
+	}
+
+	## Arnulfo Arias Madrid ## (will trigger the looming coup event thingy, similar to Venezuela)
+	focus = {
+		id = PAN_arnulfo_arias_madrid_focus
+		icon = GFX_PAN_arnulfo_arias_icon
+		x = -3
+		y = 1
+		relative_position_id = PAN_force_demostenes_to_resign
+		prerequisite = {
+			focus = PAN_force_demostenes_to_resign
+			focus = PAN_finding_a_replacement
+		}
+		mutually_exclusive = {
+			focus = PAN_ricardo_j_alfaro
+		}
+
+		cost = 6
 	}
 
 	## The Popular Front (A-Historical Democracy)
 	focus = {
 		id = PAN_the_popular_front
-		icon = GFX_ 
+		icon = GFX_PAN_popular_front_victory_icon
 		x = 1
 		y = 1
 		relative_position_id = PAN_prepare_for_the_getyear_panamanian_general_elections
@@ -244,6 +614,182 @@ focus_tree = {
 		mutually_exclusive = {
 			focus = PAN_the_national_coalition
 		}
+
+		cost = 5
+
+		available = {
+			NOT = { has_active_mission = PAN_outcome_of_the_treaty }
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.03
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			promote_character = PAN_domingo_diaz_arosemena
+
+			set_party_name = {
+				ideology = democratic
+				long_name = "Frente Popular"
+				name = "Frente Popular"
+			}
+		}
+	}
+
+	## Re-Structuring the Administration ##
+	focus = {
+		id = PAN_restructuring_the_administration
+		icon = GFX_focus_generic_self_management
+		x = -3
+		y = 1
+		relative_position_id = PAN_the_popular_front
+		prerequisite = {
+			focus = PAN_the_popular_front
+			focus = PAN_the_national_coalition
+		}
+
+		cost = 6
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_BALANCE_OF_POWER
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					has_any_power_balance = yes 
+				}
+				PAN_move_5_towards_panama = yes 
+			}
+
+			custom_effect_tooltip = PAN_if_you_have_idea_internal_administration_prolong_duration_by_120_days_tt
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = {
+				decision = PAN_promote_our_ideals
+				show_effect_tooltip = yes 
+			}
+
+			hidden_effect = {
+				if = {
+					limit = {
+						has_idea = PAN_internal_administration
+					}
+					modify_timed_idea = {
+						idea = PAN_internal_administration
+						days = 120
+					}
+				}
+			}
+		}
+	}
+
+	## Reinforce the Civilian Industry ##
+	focus = {
+		id = PAN_reinforce_the_civilian_industry
+		icon = GFX_goal_generic_construct_civ_factory
+		x = -2
+		y = 1
+		relative_position_id = PAN_restructuring_the_administration
+		prerequisite = {
+			focus = PAN_restructuring_the_administration
+		}
+
+		cost = 8
+
+		available = {
+			OR = {
+				num_of_factories > 9
+				has_stability > 0.6
+			}
+		}
+		
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_1_civilian = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_timed_idea = {
+				idea = PAN_consumer_relief_efforts
+				days = 720
+			}
+		}
+	}
+
+	## Enforce Panamanian Conscription ##
+	focus = {
+		id = PAN_enforce_panamanian_conscription
+		icon = GFX_PAN_panamanian_military_icon
+		x = 0
+		y = 1
+		relative_position_id = PAN_restructuring_the_administration
+		prerequisite = {
+			focus = PAN_restructuring_the_administration
+		}
+
+		cost = 10
+
+		available = {
+			OR = {
+				has_defensive_war = yes 
+				threat > 0.05
+				has_war_support > 0.6 
+				any_controlled_state = {
+					NOT = { is_core_of = ROOT }
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_MANPOWER
+		}
+
+		completion_reward = {
+			EUYL_level_up_conscription_law = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_ideas = URG_expanded_consription
+		}
+	}
+
+	## Panamanian Heavy Military Industry ##
+	focus = {
+		id = PAN_panamanian_heavy_military_industry
+		icon = GFX_PAN_heavy_military_industry_icon
+		x = 1
+		y = 1
+		relative_position_id = PAN_enforce_panamanian_conscription
+		prerequisite = {
+			focus = PAN_enforce_panamanian_conscription
+		}
+
+		cost = 8
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_WAR_SUPPORT
+		}
+
+		completion_reward = {
+			add_war_support = 0.05 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			EUYL_add_1_military = yes
+			add_ideas = PAN_panamanian_heavy_military_industry_idea
+		}
 	}
 
 	### COMMUNIST PATH ###
@@ -251,7 +797,7 @@ focus_tree = {
 	focus = {
 		id = PAN_denounce_the_poor_administration
 		icon = GFX_
-		x = 12
+		x = 14
 		y = 1
 		relative_position_id = PAN_internal_affairs
 		prerequisite = {
@@ -259,6 +805,10 @@ focus_tree = {
 		}
 		mutually_exclusive = {
 			focus = PAN_prepare_for_the_getyear_panamanian_general_elections
+		}
+
+		available = {
+			has_country_flag = PAN_total_failure_in_talks_with_the_united_states_flag
 		}
 	}
 

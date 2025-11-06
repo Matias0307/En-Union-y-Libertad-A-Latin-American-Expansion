@@ -100,6 +100,66 @@ on_actions = {
         }
     }
 
+    on_monthly_PAN = {
+        effect = {
+            if = {
+                limit = {
+                    has_country_leader = {
+                        character = PAN_juan_demostenes_arosemena
+                        ruling_only = yes
+                    }
+                    NOT = { has_country_flag = PAN_juan_death_triggered_flag }
+                }
+                random_list = {
+                    1 = {
+                        modifier = {
+                            factor = 0
+                            OR = {
+                                has_country_flag = PAN_juan_death_triggered_flag
+                                AND = {
+                                    is_historical_focus_on = yes ## Historically died on December 16th, 1939
+                                    date < 1939.12.1
+                                }
+                            }
+                        }
+                        modifier = {
+                            factor = 0.5
+                            has_completed_focus = PAN_support_demostenes
+                        }
+                        modifier = {
+                            factor = 2
+                            date > 1937.1.11
+                        }
+                        modifier = {
+                            factor = 3
+                            date > 1937.11.1
+                        }
+                        modifier = {
+                            factor = 5
+                            date > 1938.4.1
+                        }
+                        modifier = {
+                            factor = 10
+                            date > 1938.11.1
+                        }
+                        set_country_flag = PAN_juan_death_triggered_flag
+                        country_event = {
+                            id = pan.6 
+                            days = 2
+                            random_days = 7
+                        }
+                    }
+                    99 = {
+                        modifier = {
+                            factor = 0
+                            date > 1940.1.1 ## sorry boss but he cant live for long
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     on_monthly_HON = {
         effect = {
             if = {

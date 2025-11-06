@@ -2664,6 +2664,10 @@ country_event = {
 		custom_effect_tooltip = CHL_skip_one_line_tt
 
 		PAN_move_5_towards_america = yes
+
+		hidden_effect = {
+			set_country_flag = PAN_total_failure_in_talks_with_the_united_states_flag
+		}
 	}
 }
 
@@ -2683,7 +2687,7 @@ country_event = {
 	option = {
 		name = pan.4.a 
 		custom_effect_tooltip = PAN_reduce_sovereignty_points_by_5_tt
-		add_to_variable = {
+		subtract_from_variable = {
 			PAN_sovereignty_points = 5
 		}
 		clamp_variable = {
@@ -2720,6 +2724,55 @@ country_event = {
 			var = PAN_sovereignty_points
 			min = 0
 			max = 100
+		}
+	}
+}
+
+## Juan Demostenes Found Dead ##
+country_event = {
+	id = pan.6
+	title = pan.6.t 
+	desc = pan.6.d 
+	picture = GFX_PAN_juan_demostenes_img
+
+	is_triggered_only = yes 
+
+	option = {
+		name = pan.6.a 
+		hidden_effect = {
+			retire_character = PAN_juan_demostenes_arosemena
+		}
+		kill_country_leader = yes 
+		add_country_leader_role = {
+			character = PAN_interim_presidency
+			promote_leader = yes
+			country_leader = {
+				ideology = liberalism
+				expire = "1965.1.1.1"
+				traits = { BRA_disorganized_leadership }
+			}
+		}
+	}
+}
+
+## Panamanian Political Outlook looks Certain ## (kinda historical kinda not, its very generalized)
+country_event = {
+	id = pan.7
+	title = pan.7.t 
+	desc = pan.7.d 
+	picture = GFX_PAN_uncertain_outlook_img
+
+	is_triggered_only = yes 
+
+	option = {
+		name = pan.7.a 
+		add_ideas = PAN_political_uncertainty_1
+
+		if = {
+			limit = {
+				has_any_power_balance = yes 
+			}
+			PAN_move_10_towards_america = yes
 		}
 	}
 }

@@ -281,6 +281,12 @@ CEA_managing_the_banana_republic = {
 
 		cost = 50
 
+		days_remove = 30
+
+		modifier = {
+			political_power_factor = -0.05
+		}
+
 		fire_only_once = yes 
 
 		complete_effect = {
@@ -536,12 +542,19 @@ CEA_managing_the_banana_republic = {
 						}
 					}
 				}
-				FROM = {
-					add_extra_state_shared_building_slots = 1
-					add_building_construction = {
-						type = arms_factory
-						level = 1
-						instant_build = yes
+				random_list = {
+					40 = {
+						FROM = {
+							add_extra_state_shared_building_slots = 1
+							add_building_construction = {
+								type = arms_factory
+								level = 1
+								instant_build = yes
+							}
+						}
+					}
+					60 = {
+
 					}
 				}
 			}
@@ -3123,7 +3136,7 @@ PAN_ongoing_talks_with_the_united_states = {
 			if = {
 				limit = {
 					check_variable = {
-						PAN_sovereignty_points > 90
+						PAN_sovereignty_points > 89
 					}
 				}
 				country_event = pan.1 
@@ -3131,7 +3144,7 @@ PAN_ongoing_talks_with_the_united_states = {
 			else_if = {
 				limit = {
 					check_variable = {
-						PAN_sovereignty_points > 60
+						PAN_sovereignty_points > 59
 					}
 				}
 				country_event = pan.2 
@@ -3142,6 +3155,11 @@ PAN_ongoing_talks_with_the_united_states = {
 
 			hidden_effect = {
 				clear_variable = PAN_sovereignty_points
+				country_event = {
+					id = pan.7 
+					days = 45
+					random_days = 45
+				}
 			}
 		}
 	}
@@ -3338,5 +3356,107 @@ PAN_ongoing_talks_with_the_united_states = {
 }
 
 PAN_political_management = {
-	
+	PAN_promote_our_ideals = {
+		icon = eng_propaganda_campaigns
+
+		cost = 20
+
+		visible = {
+			has_completed_focus = PAN_restructuring_the_administration
+			if = {
+				limit = {
+					has_completed_focus = PAN_undermine_demostenes
+				}
+				NOT = {
+					has_country_leader = {
+						character = PAN_juan_demostenes_arosemena
+						ruling_only = yes 
+					}
+				}
+			}
+		}
+
+		days_remove = 60
+
+		modifier = {
+			political_power_gain = -0.05 
+		}
+
+		remove_effect = {
+			add_stability = 0.01
+			add_popularity = {
+				ideology = ROOT
+				popularity = 0.02
+			}
+		}
+	}
+
+	PAN_undermine_demostenes_and_his_leadership = {
+		icon = generic_political_discourse
+
+		cost = 35
+
+		available = {
+			has_country_leader = {
+				character = PAN_juan_demostenes_arosemena
+				ruling_only = yes 
+			}
+		}
+
+		visible = {
+			has_completed_focus = PAN_undermine_demostenes
+			has_country_leader = {
+				character = PAN_juan_demostenes_arosemena
+				ruling_only = yes 
+			}
+		}
+
+		days_remove = 40
+
+		modifier = {
+			stability_weekly = -0.001
+			democratic_drift = -0.02
+		}
+
+		remove_effect = {
+			add_popularity = {
+				ideology = democratic
+				popularity = -0.05
+			}
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.01
+			}
+		}
+	}
+
+	PAN_spread_misinformation_about_demostenes = {
+		icon = eng_propaganda_campaigns
+
+		cost = 25
+
+		fire_only_once = yes 
+
+		available = {
+			has_country_leader = {
+				character = PAN_juan_demostenes_arosemena
+				ruling_only = yes 
+			}
+		}
+
+		visible = {
+			has_completed_focus = PAN_undermine_demostenes
+			has_country_leader = {
+				character = PAN_juan_demostenes_arosemena
+				ruling_only = yes 
+			}
+		}
+
+		complete_effect = {
+			add_popularity = {
+				ideology = democratic
+				popularity = -0.05
+			}
+		}
+	}
 }
