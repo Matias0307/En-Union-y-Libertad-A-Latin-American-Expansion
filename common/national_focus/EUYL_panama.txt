@@ -598,7 +598,184 @@ focus_tree = {
 			focus = PAN_ricardo_j_alfaro
 		}
 
-		cost = 6
+		cost = 10
+
+		available = {
+			has_country_leader = {
+				character = PAN_interim_presidency
+				ruling_only = yes 
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			set_temp_variable = {
+				PAN_democratic_pop = party_popularity@democratic
+			}
+			set_temp_variable = {
+				PAN_negative_democratic_pop = PAN_democratic_pop
+			}
+			multiply_temp_variable = {
+				PAN_negative_democratic_pop = -1
+			}
+			add_popularity = {
+				ideology = democratic
+				popularity = PAN_negative_democratic_pop
+			}
+			add_popularity = {
+				ideology = fascism
+				popularity = PAN_democratic_pop
+			}
+
+			set_politics = { ## yeah ik... its odd but this is literally Latinamerican politics
+				ruling_party = fascism
+				elections_allowed = yes 
+				election_frequency = 48
+			}
+
+			promote_character = PAN_arnulfo_arias_madrid
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_timed_idea = {
+				idea = nationalism
+				days = 365
+			}
+
+			add_political_power = 50
+
+			hidden_effect = {
+				country_event = {
+					id = pan.8 
+					days = 45
+					random_days = 20
+				}
+			}
+		}
+	}
+
+	## Panama solo para Panameños ##
+	focus = {
+		id = PAN_panama_solo_para_panamenos
+		icon = GFX_PAN_toda_panama_es_de_panama_icon
+		x = 0
+		y = 1
+		relative_position_id = PAN_arnulfo_arias_madrid_focus
+		prerequisite = {
+			focus = PAN_arnulfo_arias_madrid_focus
+		}
+
+		cost = 9
+
+		available = {
+			has_country_leader = {
+				character = PAN_arnulfo_arias_madrid
+				ruling_only = yes 
+			}
+			fascism > 0.5
+		}
+
+		search_filters = {
+			FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_stability = 0.05
+			add_war_support = 0.1 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.02
+			}
+		}
+	}
+
+	## Crack Down on the Coup ##
+	focus = {
+		id = PAN_crack_down_on_the_coup
+		icon = GFX_EUYL_generic_ban_press
+		x = -3
+		y = 1
+		relative_position_id = PAN_panama_solo_para_panamenos
+		prerequisite = {
+			focus = PAN_panama_solo_para_panamenos
+		}
+		mutually_exclusive = {
+			focus = PAN_support_the_coup
+		}
+
+		cost = 2.9
+
+		available = {
+			has_active_mission = PAN_lurking_coup_d_etat
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			unlock_decision_tooltip = PAN_forcefully_repress_the_opposition_in_FROM
+
+			custom_effect_tooltip = PAN_this_will_allow_to_avoid_coup_tt
+		}
+	}
+
+	## 
+
+	## Support the Coup ##
+	focus = {
+		id = PAN_support_the_coup
+		icon = GFX_PAN_support_coup_icon
+		x = 5
+		y = 1
+		relative_position_id = PAN_panama_solo_para_panamenos
+		prerequisite = {
+			focus = PAN_panama_solo_para_panamenos
+		}
+		mutually_exclusive = {
+			focus = PAN_crack_down_on_the_coup
+		}
+
+		cost = 5
+
+		available = {
+			has_active_mission = PAN_lurking_coup_d_etat
+		}
+
+		bypass = {
+			NOT = {
+				has_country_leader = {
+					character = PAN_arnulfo_arias_madrid
+					ruling_only = yes
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_popularity = {
+				ideology = neutrality
+				popularity = 0.03
+			}
+			add_popularity = {
+				ideology = fascism
+				popularity = -0.05
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			country_event = pan.9
+			remove_mission = PAN_lurking_coup_d_etat
+		}
 	}
 
 	## The Popular Front (A-Historical Democracy)
@@ -796,7 +973,7 @@ focus_tree = {
 	## Denounce the Poor Administration ##
 	focus = {
 		id = PAN_denounce_the_poor_administration
-		icon = GFX_
+		icon = GFX_PAN_denounce_poor_administration_icon
 		x = 14
 		y = 1
 		relative_position_id = PAN_internal_affairs

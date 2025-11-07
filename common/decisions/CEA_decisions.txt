@@ -3356,6 +3356,138 @@ PAN_ongoing_talks_with_the_united_states = {
 }
 
 PAN_political_management = {
+	PAN_lurking_coup_d_etat = {
+		icon = revolt 
+
+		activation = {
+			always = no 
+		}
+
+		fire_only_once = yes 
+
+		available = { ## gotta think of this
+			custom_trigger_tooltip = {
+				tooltip = PAN_opposition_shut_down_in_1057_and_304_tt
+				1057 = { has_state_flag = PAN_state_dealt_with_flag }
+				304 = { has_state_flag = PAN_state_dealt_with_flag }
+			}
+		}
+
+		days_mission_timeout = 235
+
+		cancel_trigger = {
+			NOT = {
+				has_country_leader = {
+					character = PAN_arnulfo_arias_madrid
+					ruling_only = yes 
+				}
+			}
+		}
+
+		complete_effect = {
+			add_stability = 0.02
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.03
+			}
+		}
+
+		timeout_effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_completed_focus = PAN_crack_down_on_the_coup
+					}
+				}
+				country_event = pan.9 ## Arnulfo Arias is Overthrown
+			}
+			else = {
+				every_controlled_state = {
+					limit = {
+						is_core_of = ROOT 
+					}
+					add_dynamic_modifier = {
+						modifier = ARG_anti_government_resistance
+					}
+				}
+				country_event = pan.10
+			}
+		}
+	}
+
+	PAN_forcefully_repress_the_opposition_in_FROM = {
+		icon = oppression
+
+		cost = 50
+
+		state_target = yes 
+		targets = { 1057 304 }
+
+		visible = {
+			has_completed_focus = PAN_crack_down_on_the_coup
+		}
+
+		on_map_mode = map_and_decisions_view
+
+		days_remove = 60
+
+		modifier = {
+			political_power_factor = -0.1
+			weekly_manpower = -100
+		}
+
+		fire_only_once = yes
+
+		remove_effect = {
+			custom_effect_tooltip = PAN_opposition_shut_down_in_FROM_tt
+			FROM = { set_state_flag = PAN_state_dealt_with_flag }
+		}
+	}
+
+	PAN_force_submission_of_the_opposition_in_FROM = {
+		icon = oppression
+		cost = 30
+
+		state_target = yes 
+		target_array = controlled_states
+		target_trigger = {
+			FROM = {
+				has_dynamic_modifier = {
+					modifier = ARG_anti_government_resistance
+				}
+			}
+		}
+
+		visible = {
+			NOT = {
+				has_active_mission = PAN_lurking_coup_d_etat
+			}
+			any_controlled_state = {
+				has_dynamic_modifier = {
+					modifier = ARG_anti_government_resistance
+				}
+			}
+		}
+
+		days_remove = 50
+
+		modifier = {
+			political_power_factor = -0.1
+		}
+
+		on_map_mode = map_only
+
+		fire_only_once = yes
+
+		complete_effect = {
+			FROM = {
+				remove_dynamic_modifier = {
+					modifier = ARG_anti_government_resistance
+				}
+			}
+		}
+	}
+
 	PAN_promote_our_ideals = {
 		icon = eng_propaganda_campaigns
 
