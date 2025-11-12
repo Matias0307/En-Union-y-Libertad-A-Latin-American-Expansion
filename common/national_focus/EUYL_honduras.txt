@@ -1009,12 +1009,25 @@ focus_tree = {
 			base = 5
 		}
 
+		offset = {
+			x = 2
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = HON_no_more_re_elections
+			}
+		}
+
 		available = {
 			has_country_leader = {
 				character = HON_tiburcio_carías_andino
 				ruling_only = yes 
 			}
 			has_civil_war = no 
+			NOT = { has_completed_focus = HON_no_more_re_elections }
 		}
 
 		search_filters = {
@@ -1161,6 +1174,10 @@ focus_tree = {
 			focus = HON_no_more_re_elections
 		}
 
+		mutually_exclusive = {
+			focus = HON_royal_exiles
+		}
+
 		cost = 10
 
 		ai_will_do = {
@@ -1185,6 +1202,1201 @@ focus_tree = {
 			HON_remove_5_control_over_nation = yes
 
 			custom_effect_tooltip = HON_start_of_civil_war_gain_2_brigada_de_infanteria_divisions_tt
+		}
+	}
+
+	## Royal Exiles ##
+	focus = {
+		id = HON_royal_exiles
+		icon = GFX_focus_NOR_our_royal_claims
+		x = 4
+		y = 1
+		relative_position_id = HON_no_more_re_elections
+		prerequisite = {
+			focus = HON_no_more_re_elections
+		}
+
+		cost = 10
+
+		mutually_exclusive = {
+			focus = HON_gain_control_of_the_armed_forces
+		}
+
+		available = {
+			has_active_mission = HON_looming_revolt_against_tiburicio
+			custom_trigger_tooltip = {
+				tooltip = HON_control_over_nation_below_20_tt
+				check_variable = {
+					HON_control_over_nation_var < 20
+				}
+			}
+			SPR = {
+				OR = {
+					exists = yes 
+					has_civil_war = yes
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_MANPOWER
+		}
+
+		completion_reward = {
+			add_popularity = {
+				ideology = neutrality
+				popularity = 0.1
+			}
+			custom_effect_tooltip = HON_royals_from_spain_will_come_to_honduras_and_can_appoint_carlos_pio_habsburgo_as_leader_tt
+			custom_effect_tooltip = EUYL_start_of_civil_war_gain_following_tt
+			effect_tooltip = {
+				add_ideas = HON_royal_exiles_civ_war
+			}
+		}
+	}
+
+	## The Kingdom of Honduras ##
+	focus = {
+		id = HON_the_kingdom_of_honduras
+		icon = GFX_HON_kingdom_of_honduras_icon
+		x = 0
+		y = 2
+		relative_position_id = HON_royal_exiles
+		prerequisite = {
+			focus = HON_royal_exiles
+		}
+
+		cost = 6
+
+		mutually_exclusive = {
+			focus = HON_libre_soberana_e_independiente
+		}
+
+		available = {
+			NOT = { has_active_mission = HON_looming_revolt_against_tiburicio }
+			has_civil_war = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		cancel_if_invalid = no
+		continue_if_invalid = yes
+
+		completion_reward = {
+			add_popularity = {
+				ideology = neutrality
+				popularity = 0.15
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			set_politics = {
+				ruling_party = neutrality
+				elections_allowed = no
+			}
+
+			set_party_name = {
+				ideology = neutrality
+				long_name = "Partido Real de Honduras"
+				name = "PRdH"
+			}
+
+			country_event = hon.24
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			set_cosmetic_tag = HON_KINGDOM
+
+			add_dynamic_modifier = {
+				modifier = HON_kingdom_of_honduras_modifier
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = ECU_focus_tree_changed_tt
+
+			hidden_effect = {
+				set_variable = { HON_kingdom_stability_var = -0.1 }
+				set_variable = { HON_kingdom_pol_power_factor_var = -0.05 }
+				set_variable = { HON_kingdom_conscription_var = 0 }
+				set_variable = { HON_kingdom_war_support_var = 0.05 }
+				set_variable = { HON_kingdom_army_attack_var = 0 }
+				set_variable = { HON_kingdom_army_defense_var = 0 }
+				set_variable = { HON_kingdom_consumer_goods_factor_var = 0.2 }
+				set_variable = { HON_kingdom_dockyard_output_var = 0 }
+				set_variable = { HON_kingdom_production_speed_arms_factory_var = 0 }
+
+				mark_focus_tree_layout_dirty = yes
+			}
+		}
+	}
+
+	#### SECOND EASTER EGG PATH | KINGDOM OF HONDURAS
+
+	## Establish an International Truck Trade ## | lil secret path
+	focus = {
+		id = HON_establish_an_international_truck_trade
+		icon = GFX_HON_international_truck_market
+		x = 6
+		y = 1
+		relative_position_id = HON_the_kingdom_of_honduras
+		prerequisite = {
+			focus = HON_the_kingdom_of_honduras
+		}
+
+		allow_branch = {
+			has_completed_focus = HON_the_kingdom_of_honduras
+			has_country_leader = {
+				character = HON_danielle_di_stable
+				ruling_only = yes
+			}
+		}
+
+		cost = 6
+
+		available = {
+			has_country_leader = {
+				character = HON_danielle_di_stable
+				ruling_only = yes 
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			add_ideas = HON_international_truck_trade
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			hidden_effect = {
+				366 = {
+					save_event_target_as = VEN_STATE_OCCUPIED
+					controller = {
+						if = {
+							limit = {
+								exists = yes 
+							}
+							country_event = {
+								id = venezuela.61 
+								hours = 6
+								random_hours = 8
+							}
+						}
+					}
+				}
+			}
+			transfer_state = 366
+			366 = { add_core_of = ROOT }
+		}
+	}
+
+	## Annhilate Haiti ##
+	focus = {
+		id = HON_annhilate_haiti
+		icon = GFX_focus_generic_attack_haiti
+		x = 0
+		y = 1
+		relative_position_id = HON_establish_an_international_truck_trade
+		prerequisite = {
+			focus = HON_establish_an_international_truck_trade
+		}
+
+		cost = 5
+
+		available = {
+			NOT = {
+				318 = { controls_or_subject_of = yes }
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			318 = {
+				controller = {
+					ROOT = {
+						create_wargoal = {
+							target = PREV
+							type = annex_everything
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					318 = {
+						NOT = {
+							is_core_of = ROOT 
+						}
+					}
+				}
+				add_state_core = 318
+			}
+		}
+	}
+
+	## Implore Industrial Growth in the Kingdom ##
+	focus = {
+		id = HON_implore_industrial_growth_in_the_kingdom
+		icon = GFX_goal_generic_construct_civilian
+		x = 2
+		y = 1
+		relative_position_id = HON_the_kingdom_of_honduras
+		prerequisite = {
+			focus = HON_the_kingdom_of_honduras
+		}
+
+		allow_branch = {
+			has_completed_focus = HON_the_kingdom_of_honduras
+		}
+
+		cost = 8
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_2_civilian = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = HON_modify_kingdom_of_honduras_by_tt
+			add_to_variable = {
+				HON_kingdom_consumer_goods_factor_var = -0.25
+				tooltip = consumer_goods_factor_tt
+			}
+		}
+	}
+
+	## The Imperial Military Industry ##
+	focus = {
+		id = HON_the_imperial_military_industry
+		icon = GFX_HON_imperial_industry_icon
+		x = 4
+		y = 1
+		relative_position_id = HON_the_kingdom_of_honduras
+		prerequisite = {
+			focus = HON_the_kingdom_of_honduras
+		}
+
+		allow_branch = {
+			has_completed_focus = HON_the_kingdom_of_honduras
+		}
+
+		cost = 10
+
+		available = {
+			OR = {
+				num_of_factories > 19
+				has_war_support > 0.8 
+				has_country_flag = HON_phase_1_complete_flag
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_2_military = yes
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = HON_modify_kingdom_of_honduras_by_tt
+			add_to_variable = {
+				HON_kingdom_production_speed_arms_factory_var = 0.1 
+				tooltip = production_speed_arms_factory_factor_tt
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = HON_establish_a_military_complex_in_FROM
+		}
+	}
+
+	## Building up the Imperial Navy ##
+	focus = {
+		id = HON_building_up_the_imperial_navy
+		icon = GFX_HON_imperial_navy_icon
+		x = 0
+		y = 1
+		relative_position_id = HON_the_imperial_military_industry
+		prerequisite = {
+			focus = HON_the_imperial_military_industry
+		}
+
+		cost = 10
+
+		available = {
+			any_controlled_state = {
+				is_coastal = yes 
+			}
+			has_country_flag = HON_phase_2_complete_flag
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER
+		}
+
+		completion_reward = {
+			EUYL_add_4_dockyard = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = HON_modify_kingdom_of_honduras_by_tt
+			add_to_variable = {
+				HON_kingdom_conscription_var = 0.02
+				tooltip = conscription_tt
+			}
+			add_to_variable = {
+				HON_kingdom_dockyard_output_var = 0.1
+				tooltip = industrial_capacity_dockyard_tt
+			}
+		}
+	}
+
+	## Pushing our Claims ##
+	focus = {
+		id = HON_pushing_our_claims
+		icon = GFX_goal_generic_position_armies
+		x = 0
+		y = 1
+		relative_position_id = HON_the_kingdom_of_honduras
+		prerequisite = {
+			focus = HON_the_kingdom_of_honduras
+		}
+
+		cost = 5
+
+		allow_branch = {
+			has_completed_focus = HON_the_kingdom_of_honduras
+		}
+
+		available = {
+			has_government = neutrality
+			has_civil_war = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = HON_gain_claims_on_all_central_american_states_tt
+			every_state = {
+				limit = {
+					NOT = {
+						OR = {
+							is_owned_by = ROOT 
+							is_claimed_by = ROOT 
+							is_core_of = ROOT 
+						}
+					}
+					OR = {
+						is_core_of = BLZ 
+						is_core_of = GUA 
+						is_core_of = NIC 
+						is_core_of = ELS 
+						is_core_of = COS 
+						is_core_of = PAN 
+					}
+				}
+				add_claim_by = ROOT
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = HON_modify_kingdom_of_honduras_by_tt
+			add_to_variable = {
+				HON_kingdom_army_attack_var = 0.05
+				tooltip = army_attack_factor_tt
+			}
+			add_to_variable = {
+				HON_kingdom_army_defense_var = 0.05
+				tooltip = army_defence_factor_tt
+			}
+		}
+	}
+
+	## The Imperial Army ##
+	focus = {
+		id = HON_the_imperial_army
+		icon = GFX_HON_army_kingdom_ioocn
+		x = -2
+		y = 1
+		relative_position_id = HON_pushing_our_claims
+		prerequisite = {
+			focus = HON_pushing_our_claims
+		}
+
+		cost = 10
+
+		available = {
+			num_of_controlled_states > 2
+		}
+
+		search_filters = {
+			FOCUS_FILTER_MANPOWER
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = HON_modify_kingdom_of_honduras_by_tt
+			add_to_variable = {
+				HON_kingdom_conscription_var = 0.05
+				tooltip = conscription_tt
+			}
+			add_to_variable = {
+				HON_kingdom_army_attack_var = 0.02
+				tooltip = army_attack_factor_tt
+			}
+			add_to_variable = {
+				HON_kingdom_army_defense_var = 0.02
+				tooltip = army_defence_factor_tt
+			}
+		}
+	}
+
+	## Conquer Central America ##
+	focus = {
+		id = HON_conquer_central_america
+		icon = GFX_ARG_conquer_america_central
+		x = 0
+		y = 1
+		relative_position_id = HON_pushing_our_claims
+		prerequisite = {
+			focus = HON_pushing_our_claims
+		}
+		will_lead_to_war_with = ELS 
+		will_lead_to_war_with = GUA 
+		will_lead_to_war_with = NIC 
+		will_lead_to_war_with = COS
+
+		cost = 7.2 
+
+		available = {
+			has_army_manpower = {
+				size > 49999
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = GUA 
+						original_tag = ELS 
+						original_tag = NIC 
+						original_tag = COS
+						original_tag = PAN
+					}
+					NOT = {
+						OR = {
+							has_war_with = ROOT 
+							is_in_faction_with = ROOT
+						}
+					}
+				}
+				hidden_effect = {
+					ROOT = {
+						create_wargoal = {
+							target = PREV 
+							type = annex_everything
+						}
+					}
+				}
+			}
+		}
+	}
+
+	## Conquer the Yucatan ##
+	focus = {
+		id = HON_conquer_the_yucatan
+		icon = GFX_focus_attack_mexico
+		x = -1
+		y = 1
+		relative_position_id = HON_conquer_central_america
+		prerequisite = {
+			focus = HON_conquer_central_america
+		}
+		will_lead_to_war_with = MEX
+
+		cost = 7.2
+
+		available = {
+			has_country_flag = HON_phase_1_complete_flag
+			1050 = { controls_or_subject_of = yes }
+			1051 = { controls_or_subject_of = yes }
+		}
+
+		bypass = {
+			MEX = {
+				OR = {
+					exists = no 
+					is_subject_of = ROOT 
+					is_in_faction_with = ROOT
+					all_core_state = {
+						is_controlled_by = ROOT
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			475 = { add_claim_by = ROOT }
+			474 = { add_claim_by = ROOT }
+
+			create_wargoal = {
+				target = MEX
+				type = annex_everything
+			}
+		}
+	}
+
+	## Extend our Kingdom into Colombia ##
+	focus = {
+		id = HON_extend_our_kingdom_into_colombia
+		icon = GFX_PRU_attack_colombia
+		x = 1
+		y = 1
+		relative_position_id = HON_conquer_central_america
+		prerequisite = {
+			focus = HON_conquer_central_america
+		}
+		will_lead_to_war_with = COL
+
+		cost = 7.2
+
+		available = {
+			has_country_flag = HON_phase_1_complete_flag
+			304 = { controls_or_subject_of = yes }
+		}
+
+		bypass = {
+			COL = {
+				OR = {
+					exists = no 
+					is_subject_of = ROOT 
+					is_in_faction_with = ROOT
+					all_core_state = {
+						is_controlled_by = ROOT
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			493 = { add_claim_by = ROOT }
+			1092 = { add_claim_by = ROOT }
+
+			create_wargoal = {
+				target = COL
+				type = annex_everything
+			}
+
+			custom_effect_tooltip = EUYL_enables_the_ability_to_cross_the_darien_gap_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						NOT = {
+							has_country_flag = EUYL_darien_crossing_enabled_flag
+						}
+					}
+					set_country_flag = EUYL_darien_crossing_enabled_flag
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = {
+				decision = COL_incidente_en_el_canal
+				show_effect_tooltip = yes 
+			}
+			custom_effect_tooltip = EUYL_when_decision_is_selected_tt
+			effect_tooltip = {
+				add_timed_idea = {
+					idea = HON_anything_for_the_canal
+					days = 90
+				}
+			}
+		}
+	}
+
+	## Demand the Submission of Belize ##
+	focus = {
+		id = HON_demand_the_submission_of_belize
+		icon = GFX_HON_demand_belize_icon
+		x = -4
+		y = 1
+		relative_position_id = HON_conquer_central_america
+		prerequisite = {
+			focus = HON_conquer_central_america
+		}
+
+		cost = 6
+
+		available = {
+			has_army_manpower = {
+				size > 99999
+			}
+			has_country_flag = HON_phase_2_complete_flag
+			NOT = { 
+				311 = {
+					controls_or_subject_of = yes
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					BLZ = {
+						exists = yes 
+					}
+				}
+				if = {
+					limit = {
+						BLZ = { is_subject = yes }
+					}
+					BLZ = {
+						OVERLORD = {
+							country_event = {
+								id = hon.16 
+								hours = 4
+								random_hours = 4
+							}
+						}
+					}
+					custom_effect_tooltip = ARG_iftheyaccept
+					effect_tooltip = {
+						annex_country = {
+							target = BLZ
+							transfer_troops = yes
+						}
+						311 = {
+							add_compliance = 25
+						}
+					}
+				}
+				else = {
+					BLZ = {
+						country_event = {
+							id = venezuela.49
+							hours = 6
+							random_hours = 6
+						}
+					}
+					custom_effect_tooltip = ARG_iftheyaccept
+					effect_tooltip = {
+						annex_country = {
+							target = BLZ
+							transfer_troops = yes
+						}
+						311 = {
+							add_compliance = 25
+						}
+					}
+				}
+			}
+			else = {
+				311 = {
+					CONTROLLER = {
+						country_event = {
+							id = hon.16 
+							hours = 4
+							random_hours = 4
+						}
+					}
+				}
+				custom_effect_tooltip = ARG_iftheyaccept
+				effect_tooltip = {
+					transfer_state = 311
+					311 = {
+						add_compliance = 25
+					}
+				}
+			}
+		}
+	}
+
+	## Declare the Viceroyalty of New Spain ##
+	focus = {
+		id = HON_declare_the_viceroyalty_of_new_spain
+		icon = GFX_HON_declare_viceroyalty_icon
+		x = 0
+		y = 2
+		relative_position_id = HON_conquer_central_america
+		prerequisite = {
+			focus = HON_conquer_the_yucatan
+		}
+		prerequisite = {
+			focus = HON_extend_our_kingdom_into_colombia
+		}
+
+		cost = 10
+
+		available = {
+			has_army_manpower = {
+				size > 149999
+			}
+			has_country_flag = HON_phase_3_complete_flag
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			hidden_effect = {
+				drop_cosmetic_tag = yes 
+			}
+			set_cosmetic_tag = HON_VICEROYALTY
+
+			custom_effect_tooltip = BRA_spacer_tt
+			custom_effect_tooltip = PRU_gain_claims_on_every_original_spanish_possesion_tt
+			every_state = {
+				limit = {
+					NOT = {
+						OR = {
+							is_core_of = ROOT 
+							is_claimed_by = ROOT 
+						}
+					}
+					OR = {
+						is_on_continent = south_america
+						is_core_of = MEX 
+						is_core_of = CUB 
+						is_core_of = HAI 
+						is_core_of = DOM 
+						is_core_of = PHI 
+						state = 366 
+						state = 686
+					}
+				}
+				add_claim_by = ROOT 
+			}
+			
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = HON_move_the_capital_to_madrid
+
+			every_other_country = {
+				limit = {
+					exists = yes
+					capital_scope = {
+						OR = {
+							is_on_continent = south_america 
+							is_on_continent = north_america 
+							is_on_continent = europe 
+						}
+					}
+				}
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = VEN_poses_serious_threat
+				}
+			}
+
+			hidden_effect = {
+				news_event = {
+					id = hon.25
+					days = 2
+				}
+			}
+		}
+	}
+
+	## Retake our Lands in South America #$#
+	focus = {
+		id = HON_retake_our_lands_in_south_america
+		icon = GFX_focus_generic_south_america
+		x = 1
+		y = 1
+		relative_position_id = HON_declare_the_viceroyalty_of_new_spain
+		prerequisite = {
+			focus = HON_declare_the_viceroyalty_of_new_spain
+		}
+		will_lead_to_war_with = VEN 
+		will_lead_to_war_with = ECU 
+		will_lead_to_war_with = PRU 
+		will_lead_to_war_with = CHL 
+		will_lead_to_war_with = ARG 
+		will_lead_to_war_with = BOL 
+		will_lead_to_war_with = URG
+		will_lead_to_war_with = PAR
+
+		cost = 10
+
+		available = {
+			has_army_manpower = {
+				size > 249999
+			}
+			num_of_factories > 49
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = HON_unlock_war_plan_decisions_sa_tt
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = VEN 
+						original_tag = ECU 
+						original_tag = PRU 
+						original_tag = CHL 
+						original_tag = BOL 
+						original_tag = ARG 
+						original_tag = URG 
+						original_tag = PAR
+					}
+					NOT = {
+						has_war_with = ROOT
+						is_in_faction_with = ROOT 
+					}
+				}
+				hidden_effect = {
+					ROOT = {
+						create_wargoal = {
+							target = PREV 
+							type = annex_everything
+						}
+					}
+				}
+			}
+		}
+	}
+
+	## Retake our Territories in North America ##
+	focus = {
+		id = HON_retake_our_terrritories_in_north_america
+		icon = GFX_CEA_take_north_america_icon
+		x = -1
+		y = 1
+		relative_position_id = HON_declare_the_viceroyalty_of_new_spain
+		prerequisite = {
+			focus = HON_declare_the_viceroyalty_of_new_spain
+		}
+
+		cost = 10
+
+		available = {
+			has_army_manpower = {
+				size > 349999
+			}
+			num_of_factories > 89
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = HON_unlock_war_plan_decisions_na_tt
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
+				limit = {
+					capital_scope = {
+						is_on_continent = north_america
+					}
+					NOT = {
+						has_war_with = ROOT
+						is_in_faction_with = ROOT 
+					}
+				}
+				hidden_effect = {
+					ROOT = {
+						create_wargoal = {
+							target = PREV 
+							type = annex_everything
+						}
+					}
+				}
+			}
+		}
+	}
+
+	## Establish our Spot Amongst the European Monarchies ##
+	focus = {
+		id = HON_establish_our_spot_amongst_the_european_monarchies
+		icon = GFX_focus_usa_focus_on_europe
+		x = -3
+		y = 1
+		relative_position_id = HON_declare_the_viceroyalty_of_new_spain
+		prerequisite = {
+			focus = HON_declare_the_viceroyalty_of_new_spain
+		}
+
+		cost = 10
+
+		available = {
+			has_army_manpower = {
+				size > 499999
+			}
+			has_navy_size = {
+				size > 49
+			}
+			num_of_factories > 119
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
+				limit = {
+					is_major = yes 
+					capital_scope = {
+						is_on_continent = europe
+					}
+					OR = {
+						has_government = fascism 
+						has_government = democratic
+						has_government = neutrality
+					}
+					NOT = {
+						OR = {
+							is_in_faction_with = ROOT 
+							has_war_with = ROOT 
+						}
+					}
+				}
+				hidden_effect = {
+					ROOT = {
+						create_wargoal = {
+							target = PREV 
+							type = annex_everything
+						}
+					}
+				}
+			}
+		}
+	}
+
+	## Dominance in the Caribbean ##
+	focus = {
+		id = HON_dominance_in_the_caribbean
+		icon = GFX_focus_CHL_liberate_the_caribbean
+		x = 3
+		y = 1
+		relative_position_id = HON_declare_the_viceroyalty_of_new_spain
+		prerequisite = {
+			focus = HON_declare_the_viceroyalty_of_new_spain
+		}
+		prerequisite = {
+			focus = HON_building_up_the_imperial_navy
+		}
+
+		cost = 6
+
+		available = {
+			has_navy_size = {
+				size > 19
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			689 = { add_core_of = ROOT }
+			686 = { add_core_of = ROOT }
+			694 = { add_core_of = ROOT }
+			308 = { add_core_of = ROOT }
+			692 = { add_core_of = ROOT }
+			690 = { add_core_of = ROOT }
+			693 = { add_core_of = ROOT }
+			695 = { add_core_of = ROOT }
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = CUB 
+						original_tag = DOM 
+						original_tag = HAI 
+					}
+					is_subject_of = ROOT 
+				}
+				ROOT = {
+					annex_country = {
+						target = PREV 
+						transfer_troops = yes 
+					}
+				}
+			}
+			if = {
+				limit = {
+					CUB = {
+						exists = yes 
+						NOT = {
+							capital_scope = {
+								controls_or_subject_of = yes 
+							}
+						}
+						NOT = {
+							has_war_with = ROOT
+						}
+					}
+				}
+				CUB = {
+					country_event = {
+						id = venezuela.49
+						hours = 6
+						random_hours = 6
+					}
+				}
+				custom_effect_tooltip = ARG_iftheyaccept
+				effect_tooltip = {
+					annex_country = {
+						target = CUB
+						transfer_troops = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					HAI = {
+						exists = yes 
+						NOT = {
+							capital_scope = {
+								controls_or_subject_of = yes 
+							}
+						}
+						NOT = {
+							has_war_with = ROOT
+						}
+					}
+				}
+				HAI = {
+					country_event = {
+						id = venezuela.49
+						hours = 6
+						random_hours = 6
+					}
+				}
+				custom_effect_tooltip = ARG_iftheyaccept
+				effect_tooltip = {
+					annex_country = {
+						target = HAI
+						transfer_troops = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					DOM = {
+						exists = yes 
+						NOT = {
+							capital_scope = {
+								controls_or_subject_of = yes 
+							}
+						}
+						NOT = {
+							has_war_with = ROOT
+						}
+					}
+				}
+				DOM = {
+					country_event = {
+						id = venezuela.49
+						hours = 6
+						random_hours = 6
+					}
+				}
+				custom_effect_tooltip = ARG_iftheyaccept
+				effect_tooltip = {
+					annex_country = {
+						target = DOM
+						transfer_troops = yes
+					}
+				}
+			}
+		}
+	}
+
+	## The Crown of the West ##
+	focus = {
+		id = HON_the_crown_of_the_west
+		icon = GFX_focus_spa_strengthen_the_supreme_reality_of_spain
+		x = 0
+		y = 2
+		relative_position_id = HON_declare_the_viceroyalty_of_new_spain
+		prerequisite = {
+			focus = HON_dominance_in_the_caribbean
+			focus = HON_establish_our_spot_amongst_the_european_monarchies
+			focus = HON_retake_our_lands_in_south_america
+			focus = HON_retake_our_terrritories_in_north_america
+		}
+
+		cost = 10
+
+		available = {
+			num_of_controlled_states > 79
+			num_of_factories > 199
+			41 = { controls_or_subject_of = yes }
+		}
+
+		search_filters = {
+			FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = HON_modify_kingdom_of_honduras_by_tt
+			add_to_variable = {
+				HON_kingdom_stability_var = 0.1
+				tooltip = stability_factor_tt
+			}
+			add_to_variable = {
+				HON_kingdom_war_support_var = 0.1
+				tooltip = war_support_factor_tt
+			}
+			if = {
+				limit = {
+					is_major = no 
+				}
+				set_major = yes 
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_ideas = HON_the_crown_of_the_west_idea
 		}
 	}
 
@@ -1227,6 +2439,9 @@ focus_tree = {
 		completion_reward = {
 			add_stability = -0.03
 			add_political_power = 50
+
+			HON_remove_5_control_over_nation = yes
+
 			HON_effects_from_current_control_over_nation = yes
 
 			custom_effect_tooltip = CHL_skip_one_line_tt
@@ -1285,6 +2500,9 @@ focus_tree = {
 		prerequisite = {
 			focus = HON_organize_the_resistance_groups
 		}
+		mutually_exclusive = {
+			focus = HON_the_kingdom_of_honduras
+		}
 
 		cost = 5
 
@@ -1303,6 +2521,9 @@ focus_tree = {
 					character = HON_tiburcio_carías_andino
 					ruling_only = yes
 				}
+			}
+			NOT = {
+				has_completed_focus = HON_royal_exiles
 			}
 		}
 
@@ -1431,6 +2652,24 @@ focus_tree = {
 
 		mutually_exclusive = {
 			focus = HON_the_future_belongs_to_the_working_class
+		}
+
+		allow_branch = {
+			NOT = {
+				has_global_flag = HON_sam_zemurray_easter_egg_flag
+				has_completed_focus = HON_the_kingdom_of_honduras
+			}
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					has_completed_focus = HON_the_mandate_of_tiburicio
+				}
+			}
 		}
 
 		cost = 6
@@ -2134,6 +3373,10 @@ focus_tree = {
 		prerequisite = {
 			focus = HON_improve_the_army
 		}
+		will_lead_to_war_with = ELS 
+		will_lead_to_war_with = NIC 
+		will_lead_to_war_with = GUA 
+		will_lead_to_war_with = COS
 
 		cost = 10
 
@@ -2543,6 +3786,24 @@ focus_tree = {
 
 		mutually_exclusive = {
 			focus = HON_no_compromise_on_our_freedom
+		}
+
+		allow_branch = {
+			NOT = {
+				has_global_flag = HON_sam_zemurray_easter_egg_flag
+				has_completed_focus = HON_the_kingdom_of_honduras
+			}
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					has_completed_focus = HON_the_mandate_of_tiburicio
+				}
+			}
 		}
 
 		cost = 6
@@ -3181,6 +4442,18 @@ focus_tree = {
 		}
 
 		cost = 10 
+
+		offset = {
+			x = -10
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = HON_no_more_re_elections
+			}
+		}
 
 		ai_will_do = {
 			base = 2
@@ -4773,6 +6046,7 @@ focus_tree = {
 		prerequisite = {
 			focus = HON_take_over_els
 		}
+		will_lead_to_war_with = NIC
 
 		cost = 6
 
@@ -4822,6 +6096,7 @@ focus_tree = {
 		prerequisite = {
 			focus = HON_annhilate_nicaragua
 		}
+		will_lead_to_war_with = COS
 
 		cost = 6.7 ## IOEFWJOWEIOFNWEUIO SIX SEVENNNNNNNNNNN
 
@@ -4999,6 +6274,7 @@ focus_tree = {
 		prerequisite = {
 			focus = HON_take_over_els
 		}
+		will_lead_to_war_with = GUA
 
 		cost = 6
 
@@ -5219,6 +6495,7 @@ focus_tree = {
 		prerequisite = {
 			focus = HON_the_north_american_campaign
 		}
+		will_lead_to_war_with = MEX
 
 		cost = 6
 
@@ -5262,6 +6539,9 @@ focus_tree = {
 		prerequisite = {
 			focus = HON_the_south_american_campaign
 		}
+		will_lead_to_war_with = ECU
+		will_lead_to_war_with = COL 
+		will_lead_to_war_with = VEN
 
 		cost = 7.2
 
@@ -5315,6 +6595,7 @@ focus_tree = {
 		prerequisite = {
 			focus = HON_honduras_bows_to_no_one
 		}
+		will_lead_to_war_with = USA
 
 		cost = 10 
 
@@ -5354,6 +6635,7 @@ focus_tree = {
 		prerequisite = {
 			focus = HON_honduras_bows_to_no_one
 		}
+		will_lead_to_war_with = BRA
 
 		cost = 10 
 
@@ -5556,7 +6838,7 @@ focus_tree = {
 
 		available = {
 			has_army_manpower = {
-				size > 39999
+				size > 49999
 			}
 		}
 
@@ -5731,6 +7013,9 @@ focus_tree = {
 		prerequisite = {
 			focus = HON_allocate_funds_to_our_naval_production
 		}
+		will_lead_to_war_with = CUB 
+		will_lead_to_war_with = HAI 
+		will_lead_to_war_with = DOM
 
 		cost = 10 
 
@@ -6136,7 +7421,10 @@ focus_tree = {
 				}
 				if = {
 					limit = {
-						BLZ = { is_subject = yes }
+						BLZ = { 
+							is_subject = yes
+							is_ai = yes ## if a player is playing blz, then this woudltn be fair
+						}
 					}
 					BLZ = {
 						OVERLORD = {

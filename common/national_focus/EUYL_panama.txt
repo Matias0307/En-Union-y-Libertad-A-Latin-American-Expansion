@@ -36,7 +36,7 @@ focus_tree = {
 	focus = {
 		id = PAN_harmodios_administration
 		icon = GFX_PAN_harmadios_administration_icon
-		x = 46
+		x = 49
 		y = 0
 
 		cost = 5
@@ -939,6 +939,14 @@ focus_tree = {
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
 			add_ideas = URG_expanded_consription
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = {
+				decision = PAN_push_conscription_even_further
+				show_effect_tooltip = yes 
+				show_modifiers = yes
+			}
 		}
 	}
 
@@ -996,7 +1004,7 @@ focus_tree = {
 		id = PAN_significant_influx_of_US_dollars
 		icon = GFX_focus_generic_american_investments
 		cost = 5
-		x = 0
+		x = 1
 		y = 1
 		relative_position_id = CEA_the_economy
 		prerequisite = {
@@ -1318,17 +1326,9 @@ focus_tree = {
 	focus = {
 		id = PAN_the_future_of_the_canal
 		icon = GFX_PAN_future_of_the_canal_icon
-		x = 8
-		y = 1
-		relative_position_id = CEA_the_economy
-		prerequisite = {
-			focus = CEA_the_economy
-		}
-
-		allow_branch = {
-			original_tag = PAN
-		}
-
+		x = 22
+		y = 0
+		
 		cost = 5
 
 		available = {
@@ -1415,12 +1415,15 @@ focus_tree = {
 	focus = {
 		id = PAN_reap_off_the_profits_of_the_canal
 		icon = GFX_focus_RAJ_special_economic_zones
-		x = -2
+		x = 4
 		y = 1
-		relative_position_id = PAN_a_militarist_approach
+		relative_position_id = CEA_the_economy
 		prerequisite = {
-			focus = PAN_a_militarist_approach
-			focus = PAN_a_diplomatic_approach
+			focus = CEA_the_economy
+		}
+
+		allow_branch = {
+			original_tag = PAN
 		}
 
 		cost = 10
@@ -1490,7 +1493,7 @@ focus_tree = {
 
 		available = {
 			has_army_manpower = {
-				size > 14999
+				size > 9999
 			}
 		}
 
@@ -1505,7 +1508,7 @@ focus_tree = {
 
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
-			PAN_move_5_towards_panama = yes
+			PAN_move_10_towards_panama = yes
 		}
 	}
 
@@ -1567,22 +1570,18 @@ focus_tree = {
 	focus = {
 		id = PAN_toda_panama_es_de_panama
 		icon = GFX_PAN_toda_panama_es_de_panama_icon
-		x = 0
+		x = 1
 		y = 1
-		relative_position_id = PAN_preemptive_measures
+		relative_position_id = PAN_take_the_canal_by_force
 		prerequisite = {
-			focus = PAN_preemptive_measures
+			focus = PAN_take_the_canal_by_force
+			focus = PAN_demand_control_over_the_canal
 		}
 
 		cost = 10
 
 		available = {
-			OR = {
-				has_army_manpower = {
-					size > 49999
-				}
-				has_full_control_of_state = 685
-			}
+			has_full_control_of_state = 685
 		}
 
 		search_filters = {
@@ -1590,25 +1589,24 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			PAN_move_20_towards_panama = yes 
+			PAN_move_5_towards_panama = yes 
 
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
 			add_war_support = 0.1
 			add_stability = 0.05
 			add_command_power = 25
+			add_political_power = 25
 
-			custom_effect_tooltip = PAN_if_you_control_the_panama_canal_following_will_occur_tt
-			effect_tooltip = {
-				685 = {
-					add_extra_state_shared_building_slots = 1
-					add_building_construction = {
-						type = arms_factory
-						level = 1
-						instant_build = yes 
-					}
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			685 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes 
 				}
-				add_political_power = 75
 			}
 		}
 	}
@@ -1727,12 +1725,559 @@ focus_tree = {
 		}
 	}
 
+	### EXPANSIONIST PATH ###
+
+	## This Time for Good ##
+	focus = {
+		id = PAN_this_time_for_good
+		icon = GFX_focus_generic_strike_at_democracy3
+		x = -1
+		y = 1
+		relative_position_id = PAN_take_the_canal_by_force
+		prerequisite = {
+			focus = PAN_demand_control_over_the_canal
+			focus = PAN_take_the_canal_by_force
+		}
+
+		cost = 10
+
+		available = {
+			NOT = { has_war_with = USA }
+			NOT = {
+				OR = {
+					has_idea = PAN_american_political_intervention
+					has_idea = PAN_overarching_american_shadow
+				}
+			}
+			has_army_manpower = {
+				size > 249999
+			}
+			num_of_factories > 64
+			USA = {
+				exists = yes 
+				NOT = {
+					is_subject_of = ROOT
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			create_wargoal = {
+				target = USA
+				type = annex_everything
+			}
+		}
+	}
+
+	## Push our Claim on San Jose
+	focus = {
+		id = PAN_push_our_claim_on_san_jose
+		icon = GFX_CEA_attack_costa_rica_icon
+		x = 0
+		y = 1
+		relative_position_id = PAN_toda_panama_es_de_panama
+		prerequisite = {
+			focus = PAN_toda_panama_es_de_panama
+		}
+		will_lead_to_war_with = COS
+
+		cost = 6
+
+		available = {
+			1057 = { is_fully_controlled_by = ROOT }
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		bypass = {
+			COS = {
+				OR = {
+					exists = no 
+					is_subject_of = ROOT 
+					is_in_faction_with = ROOT
+					all_core_state = {
+						is_controlled_by = ROOT
+					}
+				}
+			}
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					316 = {
+						NOT = { is_core_of = ROOT }
+					}
+				}
+				add_state_core = 316
+			}
+
+			create_wargoal = {
+				target = COS
+				type = annex_everything
+			}
+		}
+	}
+
+	## The March North ##
+	focus = {
+		id = PAN_the_march_north
+		icon = GFX_ARG_conquer_america_central
+		x = -1
+		y = 1
+		relative_position_id = PAN_push_our_claim_on_san_jose
+		prerequisite = {
+			focus = PAN_push_our_claim_on_san_jose
+		}
+		will_lead_to_war_with = GUA 
+		will_lead_to_war_with = ELS 
+		will_lead_to_war_with = NIC 
+		will_lead_to_war_with = HON
+
+		cost = 10
+
+		available = {
+			num_of_military_factories > 4
+			has_army_manpower = {
+				size > 49999
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = GUA 
+						original_tag = ELS 
+						original_tag = NIC 
+						original_tag = HON
+					}
+					NOT = {
+						OR = {
+							has_war_with = ROOT 
+							is_in_faction_with = ROOT
+						}
+					}
+				}
+				hidden_effect = {
+					ROOT = {
+						create_wargoal = {
+							target = PREV 
+							type = annex_everything
+						}
+					}
+				}
+			}
+		}
+	}
+
+	## The March Across the Darien ##
+	focus = {
+		id = PAN_the_march_across_the_darien
+		icon = GFX_ARG_push_past_gap
+		x = 2
+		y = 1
+		relative_position_id = PAN_push_our_claim_on_san_jose
+		prerequisite = {
+			focus = PAN_push_our_claim_on_san_jose
+		}
+		will_lead_to_war_with = COL
+
+		cost = 8
+
+		available = {
+			has_completed_focus = CEA_establish_jungle_regiments
+			has_army_manpower = {
+				size > 79999
+			}
+			num_of_factories > 19
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					1092 = {
+						NOT = { is_core_of = ROOT }
+					}
+				}
+				add_state_core = 1092
+			}
+
+			create_wargoal = {
+				target = COL
+				type = annex_everything
+			}
+		}
+	}
+
+	## Across the Sea ##
+	focus = {
+		id = PAN_across_the_sea
+		icon = GFX_VEN_el_mar_nuestro_icon
+		x = 0
+		y = 1
+		relative_position_id = PAN_the_march_across_the_darien
+		prerequisite = {
+			focus = PAN_the_march_across_the_darien
+		}
+
+		will_lead_to_war_with = CUB 
+		will_lead_to_war_with = HAI 
+		will_lead_to_war_with = DOM
+
+		cost = 10 
+
+		available = {
+			has_navy_size = {
+				size > 14
+			}
+			has_army_manpower = {
+				size > 69999
+			}
+			num_of_factories > 24
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = CUB 
+						original_tag = DOM 
+						original_tag = HAI 
+					}
+					is_subject_of = ROOT 
+				}
+				ROOT = {
+					annex_country = {
+						target = PREV 
+						transfer_troops = yes 
+					}
+				}
+			}
+			if = {
+				limit = {
+					CUB = {
+						exists = yes 
+						NOT = {
+							capital_scope = {
+								controls_or_subject_of = yes 
+							}
+						}
+						NOT = {
+							has_war_with = ROOT
+						}
+					}
+				}
+				CUB = {
+					country_event = {
+						id = venezuela.49
+						hours = 6
+						random_hours = 6
+					}
+				}
+				custom_effect_tooltip = ARG_iftheyaccept
+				effect_tooltip = {
+					annex_country = {
+						target = CUB
+						transfer_troops = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					HAI = {
+						exists = yes 
+						NOT = {
+							capital_scope = {
+								controls_or_subject_of = yes 
+							}
+						}
+						NOT = {
+							has_war_with = ROOT
+						}
+					}
+				}
+				HAI = {
+					country_event = {
+						id = venezuela.49
+						hours = 6
+						random_hours = 6
+					}
+				}
+				custom_effect_tooltip = ARG_iftheyaccept
+				effect_tooltip = {
+					annex_country = {
+						target = HAI
+						transfer_troops = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					DOM = {
+						exists = yes 
+						NOT = {
+							capital_scope = {
+								controls_or_subject_of = yes 
+							}
+						}
+						NOT = {
+							has_war_with = ROOT
+						}
+					}
+				}
+				DOM = {
+					country_event = {
+						id = venezuela.49
+						hours = 6
+						random_hours = 6
+					}
+				}
+				custom_effect_tooltip = ARG_iftheyaccept
+				effect_tooltip = {
+					annex_country = {
+						target = DOM
+						transfer_troops = yes
+					}
+				}
+			}
+		}
+	}
+
+	## Demand Belize ##
+	focus = {
+		id = PAN_demand_belize
+		icon = GFX_HON_demand_belize_icon
+		x = -1
+		y = 1
+		relative_position_id = PAN_the_march_north
+		prerequisite = {
+			focus = PAN_the_march_north
+		}
+		will_lead_to_war_with = BLZ
+
+		cost = 7.2
+
+		available = {
+			any_controlled_state = {
+				any_neighbor_state = {
+					state = 311
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					BLZ = {
+						exists = yes 
+					}
+				}
+				if = {
+					limit = {
+						BLZ = { 
+							is_subject = yes
+							is_ai = yes ## if a player is playing blz, then this woudltn be fair
+						}
+					}
+					BLZ = {
+						OVERLORD = {
+							country_event = {
+								id = hon.16 
+								hours = 4
+								random_hours = 4
+							}
+						}
+					}
+					custom_effect_tooltip = ARG_iftheyaccept
+					effect_tooltip = {
+						annex_country = {
+							target = BLZ
+							transfer_troops = yes
+						}
+						311 = {
+							add_compliance = 25
+						}
+					}
+				}
+				else = {
+					BLZ = {
+						country_event = {
+							id = venezuela.49
+							hours = 6
+							random_hours = 6
+						}
+					}
+					custom_effect_tooltip = ARG_iftheyaccept
+					effect_tooltip = {
+						annex_country = {
+							target = BLZ
+							transfer_troops = yes
+						}
+						311 = {
+							add_compliance = 25
+						}
+					}
+				}
+			}
+			else = {
+				311 = {
+					CONTROLLER = {
+						country_event = {
+							id = hon.16 
+							hours = 4
+							random_hours = 4
+						}
+					}
+				}
+				custom_effect_tooltip = ARG_iftheyaccept
+				effect_tooltip = {
+					transfer_state = 311
+					311 = {
+						add_compliance = 25
+					}
+				}
+			}
+		}
+	}
+
+	## Capture the Yucatan ##
+	focus = {
+		id = PAN_capture_the_yucatan
+		icon = GFX_focus_attack_mexico
+		x = 0
+		y = 2
+		relative_position_id = PAN_the_march_north
+		prerequisite = {
+			focus = PAN_the_march_north
+		}
+		will_lead_to_war_with = MEX
+
+		cost = 10
+
+		available = {
+			has_army_manpower = {
+				size > 99999
+			}
+			1050 = { controls_or_subject_of = yes }
+			1051 = { controls_or_subject_of = yes }
+		}
+
+		bypass = {
+			MEX = {
+				OR = {
+					exists = no 
+					is_subject_of = ROOT 
+					is_in_faction_with = ROOT
+					all_core_state = {
+						is_controlled_by = ROOT
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			create_wargoal = {
+				target = MEX
+				type = annex_everything
+			}
+		}
+	}
+
+	## Panama Above all Else ##
+	focus = {
+		id = PAN_panama_above_all_else
+		icon = GFX_PAN_panama_above_all_else_iconm
+		x = 2
+		y = 1
+		relative_position_id = PAN_capture_the_yucatan
+		prerequisite = {
+			focus = PAN_capture_the_yucatan
+		}
+		prerequisite = {
+			focus = PAN_the_march_across_the_darien
+		}
+
+		cost = 10
+
+		available = {
+			has_army_manpower = {
+				size > 199999
+			}
+			316 = { controls_or_subject_of = yes }
+			1056 = { controls_or_subject_of = yes }
+			317 = { controls_or_subject_of = yes }
+			1054 = { controls_or_subject_of = yes }
+			1055 = { controls_or_subject_of = yes }
+			313 = { controls_or_subject_of = yes }
+			312 = { controls_or_subject_of = yes }
+			1053 = { controls_or_subject_of = yes }
+			1052 = { controls_or_subject_of = yes }
+			314 = { controls_or_subject_of = yes }
+			1050 = { controls_or_subject_of = yes }
+			1051 = { controls_or_subject_of = yes }
+			474 = { controls_or_subject_of = yes }
+			311 = { controls_or_subject_of = yes }
+			1092 = { controls_or_subject_of = yes }
+		}
+
+		search_filters = {
+			FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT
+		}
+
+		completion_reward = {
+			add_war_support = 0.05
+			add_stability = 0.05
+			if = {
+				limit = {
+					is_major = no 
+				}
+				set_major = yes 
+			}
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			custom_effect_tooltip = ARG_unlock_integrate_territory
+			if = {
+				limit = {
+					NOT = { has_country_flag = EUYL_can_integrate }
+				}
+				set_country_flag = EUYL_can_integrate
+			}
+		}
+	}
+
 	## Aid in the Maintanance of the Canal ##
 	focus = {
 		id = PAN_aid_in_the_maintanance_of_the_canal
 		icon = GFX_focus_generic_public_works
 		x = 0
-		y = 2
+		y = 1
 		relative_position_id = PAN_a_diplomatic_approach
 		prerequisite = {
 			focus = PAN_a_diplomatic_approach
@@ -1845,9 +2390,9 @@ focus_tree = {
 		icon = GFX_focus_chi_mission_to_the_us
 		x = 0
 		y = 1
-		relative_position_id = PAN_improve_the_water_locks
+		relative_position_id = PAN_request_control_over_the_panama_canal
 		prerequisite = {
-			focus = PAN_improve_the_water_locks
+			focus = PAN_request_control_over_the_panama_canal
 		}
 
 		cost = 10

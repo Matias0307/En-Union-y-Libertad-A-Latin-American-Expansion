@@ -2578,7 +2578,7 @@ HON_the_world_beyond_our_borders = {
 
 		complete_effect = {
 			set_cosmetic_tag = HON_GREATER
-			every_controlled_state = {
+			every_state = {
 				limit = {
 					OR = {
 						state = 312
@@ -2630,7 +2630,7 @@ HON_the_world_beyond_our_borders = {
 		}
 
 		complete_effect = {
-			every_controlled_state = {
+			every_state = {
 				limit = {
 					OR = {
 						state = 1051
@@ -2678,7 +2678,7 @@ HON_the_world_beyond_our_borders = {
 		}
 
 		complete_effect = {
-			every_controlled_state = {
+			every_state = {
 				limit = {
 					OR = {
 						state = 317
@@ -3588,6 +3588,427 @@ PAN_political_management = {
 			add_popularity = {
 				ideology = democratic
 				popularity = -0.05
+			}
+		}
+	}
+
+	PAN_push_conscription_even_further = {
+		icon = generic_military
+
+		cost = 50
+
+		fire_only_once = yes 
+
+		visible = {
+			has_completed_focus = PAN_enforce_panamanian_conscription
+			has_idea = URG_expanded_consription
+		}
+
+		available = {
+			OR = {
+				num_of_factories > 19
+				num_of_controlled_states > 5
+			}
+		}
+
+		modifier = {
+			stability_weekly = -0.002
+			political_power_factor = -0.1
+		}
+
+		days_remove = 60
+
+		complete_effect = {
+			swap_ideas = {
+				remove_idea = URG_expanded_consription
+				add_idea = URG_expanded_consription_2
+			}
+		}
+	}
+}
+
+HON_the_kingdom_of_honduras_dec_cat = {
+	HON_kingdom_of_honduras_phase_1 = {
+		icon = generic_form_nation
+
+		highlight_states = {
+			highlight_states_trigger = {
+				OR = {
+					state = 312
+					state = 1052
+					state = 1053
+					state = 1054
+					state = 1055
+					state = 314
+					state = 313
+				}
+			}
+		}
+
+		available = {
+			controls_state = 312
+			controls_state = 1052
+			controls_state = 1053
+			controls_state = 1054
+			controls_state = 1055
+			controls_state = 314
+			controls_state = 313
+		}
+
+		visible = {
+			has_completed_focus = HON_the_kingdom_of_honduras
+		}
+
+		fire_only_once = yes 
+
+		ai_will_do = {
+			base = 250
+		}
+
+		complete_effect = {
+			every_state = {
+				limit = {
+					OR = {
+						state = 312
+						state = 1052
+						state = 1053
+						state = 1054
+						state = 1055
+						state = 314
+						state = 313
+					}
+					NOT = { is_core_of = ROOT }
+				}
+				add_core_of = ROOT
+			}
+			custom_effect_tooltip = HON_modify_kingdom_of_honduras_by_tt
+			add_to_variable = {
+				HON_kingdom_stability_var = 0.05
+				tooltip = stability_factor_tt
+			}
+			add_to_variable = {
+				HON_kingdom_pol_power_factor_var = 0.05
+				tooltip = political_power_factor_tt
+			}
+			add_to_variable = {
+				HON_kingdom_war_support_var = 0.05
+				tooltip = war_support_factor_tt
+			}
+
+			set_country_flag = HON_phase_1_complete_flag
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = HON_kingdom_of_honduras_phase_2
+		}
+	}
+
+	HON_kingdom_of_honduras_phase_2 = {
+		icon = generic_form_nation
+
+		highlight_states = {
+			highlight_states_trigger = {
+				OR = {
+					state = 312
+					state = 1052
+					state = 1053
+					state = 1054
+					state = 1055
+					state = 314
+					state = 313
+					state = 1050
+					state = 1051
+					state = 317
+					state = 1056
+					state = 316
+					state = 1057
+				}
+			}
+		}
+
+		available = {
+			controls_state = 312
+			controls_state = 1052
+			controls_state = 1053
+			controls_state = 1054
+			controls_state = 1055
+			controls_state = 314
+			controls_state = 313
+			controls_state = 1050
+			controls_state = 1051
+			controls_state = 317
+			controls_state = 1056
+			controls_state = 316
+			controls_state = 1057
+		}
+
+		visible = {
+			has_country_flag = HON_phase_1_complete_flag
+			has_completed_focus = HON_the_kingdom_of_honduras
+		}
+
+		fire_only_once = yes 
+
+		ai_will_do = {
+			base = 250
+		}
+
+		complete_effect = {
+			every_state = {
+				limit = {
+					OR = {
+						state = 1050
+						state = 1051
+						state = 317
+						state = 1056
+						state = 316
+						state = 1057
+					}
+					NOT = { is_core_of = ROOT }
+				}
+				add_core_of = ROOT
+			}
+			custom_effect_tooltip = HON_modify_kingdom_of_honduras_by_tt
+			add_to_variable = {
+				HON_kingdom_stability_var = 0.05
+				tooltip = stability_factor_tt
+			}
+			add_to_variable = {
+				HON_kingdom_pol_power_factor_var = 0.05
+				tooltip = political_power_factor_tt
+			}
+			add_to_variable = {
+				HON_kingdom_war_support_var = 0.05
+				tooltip = war_support_factor_tt
+			}
+			set_country_flag = HON_phase_2_complete_flag
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = HON_kingdom_of_honduras_phase_3
+		}
+	}
+
+	HON_kingdom_of_honduras_phase_3 = {
+		icon = generic_form_nation
+
+		highlight_states = {
+			highlight_states_trigger = {
+				OR = {
+					state = 312
+					state = 1052
+					state = 1053
+					state = 1054
+					state = 1055
+					state = 314
+					state = 313
+					state = 1050
+					state = 1051
+					state = 317
+					state = 1056
+					state = 316
+					state = 1057
+					state = 685
+					state = 304
+					state = 1097
+					state = 1092
+					state = 493
+					state = 475
+					state = 474
+					state = 311
+				}
+			}
+		}
+
+		available = {
+			controls_state = 312
+			controls_state = 1052
+			controls_state = 1053
+			controls_state = 1054
+			controls_state = 1055
+			controls_state = 314
+			controls_state = 313
+			controls_state = 1050
+			controls_state = 1051
+			controls_state = 317
+			controls_state = 1056
+			controls_state = 316
+			controls_state = 1057
+			controls_state = 304
+			controls_state = 1092
+			controls_state = 493
+			controls_state = 475
+			controls_state = 474
+		}
+
+		visible = {
+			has_country_flag = HON_phase_2_complete_flag
+			has_completed_focus = HON_the_kingdom_of_honduras
+		}
+
+		fire_only_once = yes 
+
+		ai_will_do = {
+			base = 250
+		}
+
+		complete_effect = {
+			every_state = {
+				limit = {
+					OR = {
+						state = 1057
+						state = 685
+						state = 304
+						state = 1097
+						state = 1092
+						state = 493
+						state = 475
+						state = 474
+						state = 311
+					}
+					NOT = { is_core_of = ROOT }
+				}
+				add_core_of = ROOT
+			}
+			custom_effect_tooltip = HON_modify_kingdom_of_honduras_by_tt
+			add_to_variable = {
+				HON_kingdom_stability_var = 0.05
+				tooltip = stability_factor_tt
+			}
+			add_to_variable = {
+				HON_kingdom_pol_power_factor_var = 0.05
+				tooltip = political_power_factor_tt
+			}
+			add_to_variable = {
+				HON_kingdom_war_support_var = 0.05
+				tooltip = war_support_factor_tt
+			}
+			set_country_flag = HON_phase_3_complete_flag
+		}
+	}
+
+	HON_establish_a_military_complex_in_FROM = {
+		icon = ger_military_buildup
+
+		state_target = yes 
+
+		target_array = core_states 
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+				OR = { 
+					arms_factory > 4
+					industrial_complex > 4
+				}
+			}
+		}
+
+		cost = 50
+
+		days_remove = 70
+
+		fire_only_once = yes 
+
+		available = {
+			has_completed_focus = HON_the_imperial_military_industry
+		}
+
+		cancel_trigger = {
+			NOT = {
+				FROM = { is_controlled_by = ROOT }
+			}
+		}
+
+		remove_effect = {
+			FROM = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	HON_integrate_the_state_of_FROM = {
+		icon = generic_nationalism
+
+		state_target = yes 
+
+		target_array = controlled_states
+
+		target_trigger = {
+			FROM = {
+				NOT = {
+					is_core_of = ROOT
+				}
+			}
+		}
+
+		on_map_mode = map_and_decisions_view
+
+		visible = {
+			has_completed_focus = HON_declare_the_viceroyalty_of_new_spain
+			FROM = {
+				any_neighbor_state = {
+					OR = {
+						is_core_of = ROOT 
+						is_owned_and_controlled_by = ROOT
+					}
+				}
+			}
+		}
+
+		cost = 35
+
+		available = {
+			FROM = {
+				compliance > 0.3 
+				resistance < 0.15
+			}
+		}
+
+		complete_effect = {
+			FROM = {
+				add_core_of = ROOT 
+			}
+		}
+
+		days_remove = 60
+
+		modifier = {
+			political_power_factor = -0.1
+		}
+	}
+
+	HON_move_the_capital_to_madrid = {
+		icon = generic_operation
+
+		state_target = yes 
+
+		targets = { 41 }
+
+		on_map_mode = map_and_decisions_view
+
+		fire_only_once = yes 
+
+		cost = 50
+
+		available = {
+			has_full_control_of_state = 41
+		}
+
+		visible = {
+			has_completed_focus = HON_declare_the_viceroyalty_of_new_spain
+		}
+
+		complete_effect = {
+			add_stability = 0.1
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			set_capital = {
+				state = 41
 			}
 		}
 	}

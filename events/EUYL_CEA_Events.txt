@@ -1412,7 +1412,7 @@ country_event = {
 		name = hon.6.a 
 		effect_tooltip = {
 			start_civil_war = {
-				ideology = communism
+				ideology = democratic
 			}
 		}
 		hidden_effect = {
@@ -1563,6 +1563,12 @@ country_event = {
 							count = 2
 						}
 					}
+				}
+				if = {
+					limit = {
+						has_completed_focus = HON_royal_exiles
+					}
+					add_ideas = HON_royal_exiles_civ_war
 				}
 				if = {
 					limit = {
@@ -2600,6 +2606,115 @@ news_event = {
 
 	option = {
 		name = ecu.23.b 
+		trigger = {
+			NOT = {
+				original_tag = HON
+			}
+		}
+	}
+}
+
+### HIDDEN EVENT FOR EASTER EGG ####
+country_event = {
+	id = hon.240 
+
+	fire_only_once = yes 
+
+	hidden = yes 
+
+	trigger = {
+		original_tag = HON 
+		has_civil_war = yes 
+		has_country_leader = {
+			character = HON_collective_liberal_resistance
+			ruling_only = yes 
+		}
+		ARG = {
+			has_opinion = {
+				target = ROOT
+				value > 79
+			}
+		}
+		TUR = {
+			has_opinion = {
+				target = ROOT
+				value > 79
+			}
+		}
+		has_idea = free_trade
+	}
+
+	immediate = {
+		set_global_flag = HON_daniel_flag
+	}
+}
+
+## Shall we promote a king? 
+country_event = {
+	id = hon.24 
+	title = peru.42.t 
+	desc = peru.42.d 
+	picture = GFX_PRU_elect_king
+
+	is_triggered_only = yes 
+
+	option = { ## Of course
+		name = peru.42.a 
+		ai_chance = {
+			base = 20
+		}
+		add_country_leader_role = {
+            character = HON_carlos_pio_habsburgo_borbon
+            promote_leader = yes
+            country_leader = {
+                ideology = despotism
+                expire = "1965.1.1.1"
+				desc = "POLITICS_CARLOS_PIO_DESC"
+				traits = {
+					BRA_heir_of_the_throne
+				}
+            }
+        }
+	}
+
+	option = { ## A Hodnuran shall be in charge!
+		name = peru.42.b
+		ai_chance = {
+			base = 16
+		}
+		add_war_support = 0.01
+	}
+	
+	option = { ## An Unknown man steps up
+		name = hon.24.c 
+		trigger = {
+			has_global_flag = HON_daniel_flag
+		}
+		promote_character = HON_danielle_di_stable
+		mark_focus_tree_layout_dirty = yes
+	}
+}
+
+## NEWS EVENT: The Viceroyalty of New Spain is Declared 
+news_event = {
+	id = hon.25
+	title = hon.25.t 
+	desc = hon.25.d 
+	picture = GFX_news_event_ANZAC_day
+
+	is_triggered_only = yes 
+
+	major = yes 
+
+	option = {
+		name = hon.25.a
+		trigger = {
+			original_tag = HON
+		}
+	}
+
+	option = {
+		name = hon.25.b
 		trigger = {
 			NOT = {
 				original_tag = HON
