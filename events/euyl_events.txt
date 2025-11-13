@@ -731,3 +731,344 @@ country_event = {
 		add_political_power = 25
 	}
 }
+
+## FROM is Requesting Control of DEMANDED_STATE.GetName
+country_event = {
+	id = EUYL.4
+	title = EUYL.4.t 
+	desc = EUYL.4.d 
+	picture = GFX_report_event_generic_army
+
+	is_triggered_only = yes 
+
+	option = { ## They may have it, sure
+		name = EUYL.4.a
+		ai_chance = {
+            base = 15
+            modifier = {
+                factor = 4
+                strength_ratio = {
+                    tag = FROM 
+                    ratio < 1
+                }
+            }
+            modifier = {
+                factor = 0
+                strength_ratio = {
+                    tag = FROM 
+                    ratio > 1
+                }
+            }
+            modifier = {
+                factor = 2
+                has_opinion = {
+                    target = FROM
+                    value > 79
+                }
+            }
+			modifier = {
+				factor = 3
+				is_in_faction_with = FROM
+			}
+            modifier = {
+                factor = 3
+                FROM = {
+                    num_of_factories > 49
+                }
+            }
+            modifier = {
+                factor = 2
+                num_of_factories < 19
+            }
+            modifier = {
+                factor = 2
+                has_army_manpower = {
+                    size < 99999
+                }
+            }
+            modifier = {
+                factor = 1.5
+                has_government = FROM
+            }
+        }
+		FROM = { 
+			transfer_state = event_target:DEMANDED_STATE 
+			country_event = {
+				id = peru.16
+				hours = 4
+			}
+		}
+	}
+
+	option = { ## Sure, but it comes at a price
+		name = EUYL.4.b
+		ai_chance = {
+            base = 20
+            modifier = {
+                factor = 3
+                strength_ratio = {
+                    tag = FROM 
+                    ratio < 1
+                }
+            }
+            modifier = {
+                factor = 0
+                strength_ratio = {
+                    tag = FROM 
+                    ratio > 1
+                }
+            }
+            modifier = {
+                factor = 2
+                has_opinion = {
+                    target = FROM
+                    value > 79
+                }
+            }
+			modifier = {
+				factor = 3
+				is_in_faction_with = FROM
+			}
+            modifier = {
+                factor = 4
+                FROM = {
+                    num_of_factories > 49
+                }
+            }
+            modifier = {
+                factor = 2
+                num_of_factories < 19
+            }
+            modifier = {
+                factor = 2
+                has_army_manpower = {
+                    size < 99999
+                }
+            }
+            modifier = {
+                factor = 1.5
+                has_government = FROM
+            }
+        }
+		FROM = { 
+			transfer_state = event_target:DEMANDED_STATE 
+			country_event = {
+				id = EUYL.5
+				hours = 4
+			}
+			add_timed_idea = {
+				idea = EUYL_payment_for_newly_acquired_land
+				days = 210
+			}
+		}
+		add_timed_idea = {
+			idea = EUYL_payments_for_transferred_land
+			days = 210
+		}
+	}
+
+	option = {
+		name = EUYL.4.c 
+		ai_chance = {
+            base = 25
+            modifier = {
+                factor = 3
+                FROM = {
+                    has_war = yes 
+                }
+            }
+            modifier = {
+                factor = 2
+                NOT = {
+                    has_government = FROM
+                }
+            }
+            modifier = {
+                factor = 0.5
+                has_war = yes
+            }
+            modifier = {
+                factor = 2
+                has_army_manpower = {
+                    size > 199999
+                }
+            }
+            modifier = {
+                factor = 0.5
+                FROM = {
+                    has_army_manpower = {
+                        size > 149999
+                    }
+                }
+            }
+            modifier = {
+                factor = 2
+                num_of_factories > 49
+            }
+            modifier = {
+				factor = 100
+				has_game_rule = {
+					rule = EUYL_chaos_mode
+					option = YES
+				}
+			}
+        }
+        FROM = {
+            country_event = {
+                id = peru.17 
+                hours = 4 
+                random_hours = 4
+            }
+        }
+	}
+}
+
+## FROM has agreed to Hand over DEMANDED_STATE.GetName with a Price
+country_event = {
+	id = EUYL.5
+	title = EUYL.5.t
+	desc = EUYL.5.d 
+	picture = GFX_report_event_generic_read_write
+
+	is_triggered_only = yes 
+
+	option = {
+		name = EUYL.5.a 
+		effect_tooltip = {
+			transfer_state = event_target:DEMANDED_STATE
+			add_timed_idea = {
+				idea = EUYL_payment_for_newly_acquired_land
+				days = 210
+			}
+			FROM = {
+				add_timed_idea = {
+					idea = EUYL_payments_for_transferred_land
+					days = 210
+				}
+			}
+		}
+	}
+}
+
+## FROM is demanding we hand over control of DEMANDED_STATE.GetName
+country_event = {
+	id = EUYL.6
+	title = EUYL.6.t 
+	desc = EUYL.6.d 
+	picture = GFX_report_event_generic_army
+
+	is_triggered_only = yes 
+
+	option = { ## We don't have a choice
+		name = EUYL.6.a 
+		ai_chance = {
+            base = 20
+            modifier = {
+                factor = 5
+                strength_ratio = {
+                    tag = FROM 
+                    ratio < 1
+                }
+            }
+            modifier = {
+                factor = 0
+                strength_ratio = {
+                    tag = FROM 
+                    ratio > 1
+                }
+            }
+            modifier = {
+                factor = 2
+                has_opinion = {
+                    target = FROM
+                    value > 79
+                }
+            }
+            modifier = {
+                factor = 3
+                FROM = {
+                    num_of_factories > 49
+                }
+            }
+            modifier = {
+                factor = 2
+                num_of_factories < 19
+            }
+            modifier = {
+                factor = 2
+                has_army_manpower = {
+                    size < 99999
+                }
+            }
+            modifier = {
+                factor = 3
+                OR = {
+                    is_in_faction_with = FROM 
+                    has_government = FROM
+                }
+            }
+        }
+		FROM = { 
+			transfer_state = event_target:DEMANDED_STATE 
+			country_event = {
+				id = peru.16
+				hours = 4
+			}
+		}
+	}
+
+	option = { ## Over our dead grave
+		name = EUYL.6.b
+		ai_chance = {
+            base = 25
+            modifier = {
+                factor = 3
+                FROM = {
+                    has_war = yes 
+                }
+            }
+            modifier = {
+                factor = 1.3
+                NOT = {
+                    has_government = FROM
+                }
+            }
+            modifier = {
+                factor = 0.5
+                has_war = yes
+            }
+            modifier = {
+                factor = 2
+                has_army_manpower = {
+                    size > 199999
+                }
+            }
+            modifier = {
+                factor = 0.5
+                FROM = {
+                    has_army_manpower = {
+                        size > 149999
+                    }
+                }
+            }
+            modifier = {
+                factor = 2
+                num_of_factories > 49
+            }
+            modifier = {
+				factor = 100
+				has_game_rule = {
+					rule = EUYL_chaos_mode
+					option = YES
+				}
+			}
+        }
+        FROM = {
+            country_event = {
+                id = peru.17 
+                hours = 4 
+                random_hours = 4
+            }
+        }
+	}
+}

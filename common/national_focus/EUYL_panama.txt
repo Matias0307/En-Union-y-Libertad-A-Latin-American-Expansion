@@ -398,8 +398,6 @@ focus_tree = {
 		completion_reward = {
 			add_political_power = 20
 
-			custom_effect_tooltip = CHL_skip_one_line_tt
-
 			custom_effect_tooltip = PAN_less_likely_for_juan_to_die_early_tt
 		}
 	}
@@ -608,7 +606,7 @@ focus_tree = {
 		}
 
 		search_filters = {
-			FOCUS_FILTER_POLITICAL
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL
 		}
 
 		completion_reward = {
@@ -679,7 +677,7 @@ focus_tree = {
 		}
 
 		search_filters = {
-			FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_HISTORICAL
+			FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_BALANCE_OF_POWER FOCUS_FILTER_HISTORICAL
 		}
 
 		completion_reward = {
@@ -687,6 +685,13 @@ focus_tree = {
 			add_war_support = 0.1 
 
 			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			if = {
+				limit = {
+					has_any_power_balance = yes 
+				}
+				PAN_move_5_towards_panama = yes 
+			}
 
 			add_popularity = {
 				ideology = fascism
@@ -726,13 +731,103 @@ focus_tree = {
 		}
 	}
 
-	## 
+	## Economic Mobilization ##
+	focus = {
+		id = PAN_economic_mobilization
+		icon = GFX_focus_generic_reorient_production
+		x = 2
+		y = 1
+		relative_position_id = PAN_crack_down_on_the_coup
+		prerequisite = {
+			focus = PAN_crack_down_on_the_coup
+		}
+
+		cost = 7.2
+
+		available = {
+			OR = {
+				has_army_manpower = {
+					size > 49999
+				}
+				threat > 0.1
+			}
+			NOT = { has_active_mission = PAN_lurking_coup_d_etat }
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_1_military = yes 
+
+			custom_effect_tooltip = CHL_slight_welfare_poor_tt
+
+			EUYL_level_up_mobilization_law = yes
+		}
+	}
+
+	## Consolidate Absolute Power ##
+	focus = {
+		id = PAN_consolidate_absolute_power
+		icon = GFX_focus_AUS_lawmaking_leniency
+		x = 0
+		y = 1
+		relative_position_id = PAN_crack_down_on_the_coup
+		prerequisite = {
+			focus = PAN_crack_down_on_the_coup
+		}
+
+		cost = 10
+
+		available = {
+			has_government = fascism 
+			NOT = { has_active_mission = PAN_lurking_coup_d_etat }
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = PAN_if_you_have_idea_internal_administration_prolong_duration_by_120_days_tt
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_stability = 0.05
+			add_political_power = 50
+			
+			set_politics = {
+				ruling_party = fascism 
+				elections_allowed = no
+			}
+
+			if = {
+				limit = {
+					has_idea = PAN_violent_protests
+				}
+				remove_ideas = PAN_violent_protests
+			}
+
+			hidden_effect = {
+				if = {
+					limit = {
+						has_idea = PAN_internal_administration
+					}
+					modify_timed_idea = {
+						idea = PAN_internal_administration
+						days = 120
+					}
+				}
+			}
+		}
+	}
 
 	## Support the Coup ##
 	focus = {
 		id = PAN_support_the_coup
 		icon = GFX_PAN_support_coup_icon
-		x = 5
+		x = 6
 		y = 1
 		relative_position_id = PAN_panama_solo_para_panamenos
 		prerequisite = {
@@ -775,6 +870,375 @@ focus_tree = {
 
 			country_event = pan.9
 			remove_mission = PAN_lurking_coup_d_etat
+		}
+	}
+
+	## Allign Ourselves with the Allies ##
+	focus = {
+		id = PAN_allign_ourselves_with_the_allies
+		icon = GFX_PAN_join_allies_icon
+		x = 6
+		y = 1
+		relative_position_id = PAN_support_the_coup
+		prerequisite = { ## this branch will be shared by historical and a-historical democracy
+			focus = PAN_support_the_coup
+		}
+		mutually_exclusive = { ## will be another mut exclusive on the other side to unite central america
+			focus = PAN_maintain_neutrality_in_global_affairs
+		}
+
+		cost = 6
+
+		available = {
+			any_other_country = {
+				OR = {
+					original_tag = ENG 
+					original_tag = USA 
+					original_tag = FRA 
+				}
+				has_government = democratic
+				NOT = { has_war_with = ROOT }
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
+		completion_reward = {	
+			if = {
+				limit = {
+					ENG = {
+						NOT = {
+							has_war_with = ROOT
+							has_government = communism
+						}
+						is_faction_leader = yes
+					}
+				}
+				ENG = {
+					country_event = generic.2
+				}
+			}
+			else_if = {
+				limit = {
+					FRA = {
+						NOT = {
+							has_war_with = ROOT
+							has_government = communism
+						}
+						is_faction_leader = yes
+					}
+				}
+				FRA = {
+					country_event = generic.2
+				}
+			}
+			else_if = {
+				limit = {
+					USA = {
+						NOT = {
+							has_war_with = ROOT
+							has_government = communism
+						}
+						is_faction_leader = yes
+					}
+				}
+				USA = {
+					country_event = generic.2
+				}
+			}
+		}
+	}
+
+	## Declare war on the Axis ##
+	focus = {
+		id = PAN_declare_war_on_the_axis
+		icon = GFX_HON_kill_axis_icon
+		x = 0
+		y = 1
+		relative_position_id = PAN_allign_ourselves_with_the_allies
+		prerequisite = {
+			focus = PAN_allign_ourselves_with_the_allies
+		}
+
+		cost = 7.2
+
+		available = {
+			any_other_country = {
+				is_major = yes
+				has_government = fascism 
+				any_allied_country = {
+					has_war_with = PREV
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = GER 
+						original_tag = ITA 
+						original_tag = JAP
+					}
+					NOT = {
+						OR = {
+							has_war_with = ROOT 
+							is_in_faction_with = ROOT
+						}
+					}
+					has_government = fascism
+				}
+				hidden_effect = {
+					ROOT = {
+						create_wargoal = {
+							target = PREV 
+							type = annex_everything
+						}
+					}
+				}
+			}
+		}
+	}
+
+	## The Fabrega-Wilson Agreement ##
+	focus = {
+		id = PAN_the_fabrega_wilson_agreement
+		icon = GFX_CEA_import_american_companies_icon
+		x = -1
+		y = 1
+		relative_position_id = PAN_declare_war_on_the_axis
+		prerequisite = {
+			focus = PAN_declare_war_on_the_axis
+		}
+
+		cost = 10
+
+		available = {
+			is_in_faction_with = USA 
+			USA = { exists = yes }
+			has_war = yes
+		}
+
+		search_filters = {
+			FOCUS_FILTER_HISTORICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_BALANCE_OF_POWER
+		}
+
+		completion_reward = {
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.05
+			}
+			if = {
+				limit = {
+					has_any_power_balance = yes 
+				}
+				PAN_move_10_towards_panama = yes 
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			give_military_access = USA 
+			add_opinion_modifier = {
+				target = USA
+				modifier = PAN_the_fabrega_wilson_agreement
+			}
+			USA = { 
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = PAN_the_fabrega_wilson_agreement
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = PAN_unlock_decisions_to_establish_american_military_bases_in_our_core_states_tt
+		}
+	}
+
+	## Counter Operation Pelikan ## (Historically was cancelled last minute)
+	focus = {
+		id = PAN_counter_operation_pelikan
+		icon = GFX_focus_ARG_study_the_battle_of_the_river_plate
+		x = 1
+		y = 1
+		relative_position_id = PAN_declare_war_on_the_axis
+		prerequisite = {
+			focus = PAN_declare_war_on_the_axis
+		}
+
+		cost = 7.2
+
+		available = {
+			has_war_with = GER 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_NAVY_XP FOCUS_FILTER_BALANCE_OF_POWER FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			EUYL_add_1_dockyard = yes 
+			navy_experience = 25
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			random_owned_controlled_state = {
+				limit = {
+					is_coastal = yes 
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 1
+					instant_build = yes
+					province = {
+						all_provinces = yes
+					}
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			if = {
+				limit = {
+					has_any_power_balance = yes 
+				}
+				PAN_move_5_towards_panama = yes 
+			}
+		}
+	}
+
+	## Summon the Constituent Assembly ##
+	focus = {
+		id = PAN_summon_the_constituent_assembly
+		icon = GFX_PAN_summon_the_national_assembly_icon
+		x = -3
+		y = 1
+		relative_position_id = PAN_support_the_coup
+		prerequisite = {
+			focus = PAN_support_the_coup
+		}
+
+		cost = 10
+
+		available = {
+			OR = {
+				has_stability > 0.5
+				date > 1945.1.1
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			country_event = pan.11 
+
+			custom_effect_tooltip = EUYL_effects_when_completed_tt
+
+			effect_tooltip = {
+				add_popularity = {
+					ideology = democratic
+					popularity = 0.4 
+				}
+
+				set_politics = {
+					ruling_party = democratic
+					elections_allowed = yes 
+					election_frequency = 48
+				}
+
+				promote_character = PAN_enrique_jimenez_brin
+			}
+		}
+	}
+
+	## Maintain Neutrality in Global Affairs ##
+	focus = {
+		id = PAN_maintain_neutrality_in_global_affairs
+		icon = GFX_goal_generic_position_armies
+		x = -1
+		y = 1
+		relative_position_id = PAN_support_the_coup
+		prerequisite = {
+			focus = PAN_support_the_coup
+		}
+		mutually_exclusive = {
+			focus = PAN_allign_ourselves_with_the_allies
+		}
+
+		cost = 5
+
+		available = {
+			is_in_faction = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			set_rule = {
+				can_send_volunteers = yes 
+				can_puppet = yes 
+				can_create_factions = yes
+			}
+
+			add_popularity = {
+				ideology = neutrality
+				popularity = 0.03
+			}
+		}
+	}
+
+	## The Central American Defense Pact ##
+	focus = {
+		id = PAN_the_central_american_defense_pact
+		icon = GFX_HON_central_america_defense_pact_icon
+		x = 0
+		y = 1
+		relative_position_id = PAN_maintain_neutrality_in_global_affairs
+		prerequisite = {
+			focus = PAN_maintain_neutrality_in_global_affairs
+		}
+
+		cost = 8
+
+		available = {
+			is_in_faction = no 
+			any_other_country = {
+				CEA_is_central_american = yes 
+				exists = yes
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			if = { ## not making a unique event, too lazy to do so
+				limit = {
+					has_global_flag = CEA_central_american_defense_pact_created_flag
+				}
+				event_target:CENTRAL_AMERICAN_FACTION_CREATOR = {
+					country_event = generic.2 
+				}
+			}
+			else = {
+				CEA_basic_create_faction = yes
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = ARG_iftheyaccept
+			effect_tooltip = {
+				unlock_national_focus = CEA_the_defense_pact
+			}
 		}
 	}
 
@@ -995,6 +1459,13 @@ focus_tree = {
 		available = {
 			has_country_flag = PAN_total_failure_in_talks_with_the_united_states_flag
 		}
+
+		cost = 5
+
+		cancel_if_invalid = no 
+		continue_if_invalid = yes
+
+
 	}
 
 	## Panamanian subtree for economy ##
@@ -1322,7 +1793,7 @@ focus_tree = {
 	}
 
 	### PANAMA CANAL SUBTREE ###
-
+## TODO: make this focus block out the commie/anarchy paths and vice versa
 	focus = {
 		id = PAN_the_future_of_the_canal
 		icon = GFX_PAN_future_of_the_canal_icon
@@ -1339,6 +1810,9 @@ focus_tree = {
 			}
 			is_subject = no
 		}
+
+		cancel_if_invalid = no
+		continue_if_invalid = yes 
 
 		search_filters = {
 			FOCUS_FILTER_POLITICAL FOCUS_FILTER_BALANCE_OF_POWER
@@ -1542,7 +2016,7 @@ focus_tree = {
 		}
 
 		search_filters = {
-			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER FOCUS_FILTER_BALANCE_OF_POWER
 		}
 
 		completion_reward = {
@@ -1581,7 +2055,7 @@ focus_tree = {
 		cost = 10
 
 		available = {
-			has_full_control_of_state = 685
+			685 = { is_fully_controlled_by = ROOT }
 		}
 
 		search_filters = {
@@ -2399,7 +2873,7 @@ focus_tree = {
 
 		available = {
 			OR = {
-				num_of_factories > 9
+				has_full_control_of_state = 685
 				power_balance_value = {
 					id = PAN_control_over_canal_bop
 					value > 0.35
@@ -2418,7 +2892,7 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			EUYL_add_1_civilian = yes 
+			EUYL_add_2_civilian = yes 
 
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
@@ -2426,7 +2900,7 @@ focus_tree = {
 
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
-			PAN_move_20_towards_panama = yes 
+			PAN_move_5_towards_panama = yes 
 
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
@@ -2439,6 +2913,149 @@ focus_tree = {
 			add_opinion_modifier = {
 				target = USA
 				modifier = BOL_improved_relations
+			}
+		}
+	}
+
+	## Military Cooperation with the Allies ##
+	focus = {
+		id = PAN_military_cooperation_with_the_allies
+		icon = GFX_focus_ARG_join_the_allies
+		x = 0
+		y = 1
+		relative_position_id = PAN_our_one_true_ally
+		prerequisite = {
+			focus = PAN_our_one_true_ally
+		}
+
+		cost = 10
+
+		available = {
+			any_other_country = {
+				is_major = yes 
+				has_government = democratic
+				is_in_faction_with = ROOT
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER FOCUS_FILTER_WAR_SUPPORT
+		}
+
+		completion_reward = {
+			add_ideas = PAN_military_cooperation_with_the_allies_idea
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_war_support = 0.05
+		}
+	}
+
+	## Naval Trainings with [ENG.GetName] ## 
+	focus = {
+		id = PAN_naval_trainings_with_britain
+		icon = GFX_british_navy
+		x = -4
+		y = 1
+		relative_position_id = PAN_military_cooperation_with_the_allies
+		prerequisite = {
+			focus = PAN_military_cooperation_with_the_allies
+		}
+
+		cost = 8
+
+		available = {
+			is_in_faction_with = ENG 
+			ENG = {
+				exists = yes 
+				has_civil_war = no 
+			}
+			any_controlled_state = {
+				is_coastal = yes
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_NAVY_XP FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			navy_experience = 50
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			EUYL_add_2_dockyard = yes
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_ideas = PAN_naval_trainings_with_britain_idea
+		}
+	}
+
+	## Request Control Over Jamaica ##
+	focus = {
+		id = PAN_request_control_over_jamaica
+		icon = GFX_EUYL_generic_ally_jamaica_icon
+		x = 0
+		y = 1
+		relative_position_id = PAN_naval_trainings_with_britain
+		prerequisite = {
+			focus = PAN_naval_trainings_with_britain
+		}
+
+		cost = 7.2
+
+		available = {
+			NOT = {
+				controls_state = 689
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			add_state_core = 689
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			if = {
+				limit = {
+					JAM = { 
+						exists = yes 
+					}
+				}
+				JAM = {
+					country_event = {
+						id = venezuela.49
+						hours = 4
+						random_hours = 4
+					}
+				}
+				custom_effect_tooltip = ARG_iftheyaccept
+				effect_tooltip = {
+					annex_country = {
+						target = JAM
+						transfer_troops = yes
+					}
+				}
+			}
+			else = {
+				689 = {
+					save_event_target_as = DEMANDED_STATE
+					CONTROLLER = {
+						country_event = {
+							id = EUYL.4
+							hours = 4
+							random_hours = 4
+						}
+					}
+				}
+				custom_effect_tooltip = ARG_iftheyaccept
+				effect_tooltip = {
+					transfer_state = 689
+				}
 			}
 		}
 	}
