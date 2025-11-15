@@ -764,6 +764,10 @@ focus_tree = {
 			custom_effect_tooltip = CHL_slight_welfare_poor_tt
 
 			EUYL_level_up_mobilization_law = yes
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = PAN_if_completed_focus_the_dream_of_a_greater_panama_unlock_decisions_to_exploit_resources_of_rich_controlled_states_to_gain_a_military_factory_tt
 		}
 	}
 
@@ -820,6 +824,115 @@ focus_tree = {
 					}
 				}
 			}
+		}
+	}
+
+	## The Dream of a Greater Panama ##
+	focus = {
+		id = PAN_the_dream_of_a_greater_panama
+		icon = GFX_PAN_ambition_of_panama_icon
+		x = -1
+		y = 1
+		relative_position_id = PAN_consolidate_absolute_power
+		prerequisite = {
+			focus = PAN_consolidate_absolute_power
+		}
+		mutually_exclusive = {
+			focus = PAN_succeed_where_they_failed
+		}
+
+		cost = 10
+
+		available = {
+			has_army_manpower = {
+				size > 34999
+			}
+			OR = {
+				has_war_support > 0.7
+				threat > 0.1
+				fascism > 0.65
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			add_ideas = PAN_empire_of_panama_1
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_category_tooltip = PAN_the_empire_of_panama_dec_cat
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			every_state = {
+				limit = {
+					NOT = {
+						is_controlled_by = ROOT 
+						is_claimed_by = ROOT 
+						is_core_of = ROOT
+					}
+					OR = {
+						state = 1092
+						state = 493
+						state = 316
+						state = 1056
+						state = 317
+						state = 1055
+						state = 1054
+						state = 312
+						state = 1053
+						state = 1052
+						state = 314
+						state = 313
+						state = 1050
+						state = 1051
+						state = 311
+						state = 474
+						state = 475
+					}
+				}
+				add_claim_by = ROOT
+			}
+		}
+	}
+
+	## Succeed where they Failed ##
+	focus = {
+		id = PAN_succeed_where_they_failed
+		icon = GFX_col_focus_gran_colombia
+		x = 1
+		y = 1
+		relative_position_id = PAN_consolidate_absolute_power
+		prerequisite = {
+			focus = PAN_consolidate_absolute_power
+		}
+		mutually_exclusive = {
+			focus = PAN_the_dream_of_a_greater_panama
+		}
+
+		cost = 10
+
+		available = {
+			has_army_manpower = {
+				size > 34999
+			}
+			OR = {
+				has_war_support > 0.7
+				threat > 0.1
+				fascism > 0.65
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			unlock_decision_category_tooltip = col_mandato_unificacion
+			unlock_decision_tooltip = col_formar_gran_colombia
 		}
 	}
 
@@ -1021,6 +1134,7 @@ focus_tree = {
 			is_in_faction_with = USA 
 			USA = { exists = yes }
 			has_war = yes
+			NOT = { has_completed_focus = PAN_a_militarist_approach }
 		}
 
 		search_filters = {
@@ -2743,6 +2857,10 @@ focus_tree = {
 				}
 				set_country_flag = EUYL_can_integrate
 			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_ideas = ARG_expansionist_policy
 		}
 	}
 
@@ -2858,6 +2976,56 @@ focus_tree = {
 		}
 	}
 
+	## Request Control over the Panama Canal ##
+	focus = {
+		id = PAN_request_control_over_the_panama_canal
+		icon = GFX_PAN_request_control_over_canal_icon
+		x = -2
+		y = 1
+		relative_position_id = PAN_a_diplomatic_approach
+		prerequisite = {
+			focus = PAN_a_diplomatic_approach
+		}
+
+		cost = 10
+
+		available = {
+			NOT = {
+				controls_state = 685 
+			}
+			power_balance_value = {
+				id = PAN_control_over_canal_bop
+				value > 0.05
+			}
+			any_controlled_state = {
+				any_neighbor_state = {
+					state = 685
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			hidden_effect = {
+				685 = {
+					controller = {
+						save_event_target_as = PANAMA_CANAL_CONTROLLER
+					}
+				}
+			}
+			event_target:PANAMA_CANAL_CONTROLLER = {
+				country_event = {
+					id = cea.11
+					hours = 4
+					random_hours = 6
+				}
+			}
+		}
+	}
+
 	## Our One True Ally
 	focus = {
 		id = PAN_our_one_true_ally
@@ -2948,6 +3116,104 @@ focus_tree = {
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
 			add_war_support = 0.05
+
+			set_rule = {
+				can_puppet = yes
+				can_declare_war_on_same_ideology = yes
+			}
+		}
+	}
+
+	## Extinguish Fascism in the Region ##
+	focus = {
+		id = PAN_extinguish_fascism_in_the_region
+		icon = GFX_ARG_rid_fascism
+		x = -1
+		y = 1
+		relative_position_id = PAN_military_cooperation_with_the_allies
+		prerequisite = {
+			focus = PAN_military_cooperation_with_the_allies
+		}
+
+		cost = 10
+
+		available = {
+			has_civil_war = no 
+			has_army_manpower = {
+				size > 49999
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = ARG_removefascismfromcontinent
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						capital_scope = { is_on_continent = south_america }
+						has_government = fascism
+						NOT = {
+							is_in_faction_with = ROOT 
+							has_war_with = ROOT
+						}
+					}
+					ROOT = {
+						create_wargoal = {
+							type = puppet_wargoal_focus
+							target = PREV
+						}
+					}
+				}
+			}
+		}
+	}
+
+	## Extinguish Communism in the Region ##
+	focus = {
+		id = PAN_extinguish_communism_in_the_region
+		icon = GFX_ARG_rid_communism
+		x = 1
+		y = 1
+		relative_position_id = PAN_military_cooperation_with_the_allies
+		prerequisite = {
+			focus = PAN_military_cooperation_with_the_allies
+		}
+		cost = 10
+
+		available = {
+			has_civil_war = no 
+			has_army_manpower = {
+				size > 49999
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = ARG_removecommunismfromcontinent
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						capital_scope = { is_on_continent = south_america }
+						has_government = communism
+						NOT = {
+							is_in_faction_with = ROOT 
+							has_war_with = ROOT
+						}
+					}
+					ROOT = {
+						create_wargoal = {
+							type = puppet_wargoal_focus
+							target = PREV
+						}
+					}
+				}
+			}
 		}
 	}
 
@@ -2955,7 +3221,7 @@ focus_tree = {
 	focus = {
 		id = PAN_naval_trainings_with_britain
 		icon = GFX_british_navy
-		x = -4
+		x = -3
 		y = 1
 		relative_position_id = PAN_military_cooperation_with_the_allies
 		prerequisite = {
@@ -3060,53 +3326,130 @@ focus_tree = {
 		}
 	}
 
-	## Request Control over the Panama Canal ##
+	## Settle our Claims with Costa Rica ##
 	focus = {
-		id = PAN_request_control_over_the_panama_canal
-		icon = GFX_PAN_request_control_over_canal_icon
-		x = -2
+		id = PAN_settle_our_claims_with_costa_rica
+		icon = GFX_CEA_attack_costa_rica_icon
+		x = 3
 		y = 1
-		relative_position_id = PAN_a_diplomatic_approach
+		relative_position_id = PAN_military_cooperation_with_the_allies
 		prerequisite = {
-			focus = PAN_a_diplomatic_approach
+			focus = PAN_military_cooperation_with_the_allies
+		}
+		will_lead_to_war_with = COS
+
+		cost = 7.2
+
+		available = {
+			1057 = { is_fully_controlled_by = ROOT }
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		bypass = {
+			COS = {
+				OR = {
+					exists = no 
+					is_subject_of = ROOT 
+					is_in_faction_with = ROOT
+					all_core_state = {
+						is_controlled_by = ROOT
+					}
+				}
+			}
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					316 = {
+						NOT = { is_core_of = ROOT }
+					}
+				}
+				add_state_core = 316
+			}
+
+			create_wargoal = {
+				target = COS
+				type = annex_everything
+			}
+		}
+	}
+
+	## Request Control over Northern Colombia ##
+	focus = {
+		id = PAN_request_control_over_northern_colombia
+		icon = GFX_ARG_inv_colombia
+		x = 0
+		y = 1
+		relative_position_id = PAN_settle_our_claims_with_costa_rica
+		prerequisite = {
+			focus = PAN_settle_our_claims_with_costa_rica
+		}
+		will_lead_to_war_with = COL
+
+		cost = 8
+		available = {
+			316 = { is_fully_controlled_by = ROOT }
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = PAN_unlock_decisions_to_request_control_over_1092_and_493_tt
+		}
+	}
+
+	## The Bastion of the West ##
+	focus = {
+		id = PAN_the_bastion_of_the_west
+		icon = GFX_PAN_bastion_of_the_west_icon
+		x = -1
+		y = 1
+		relative_position_id = PAN_extinguish_communism_in_the_region
+		prerequisite = {
+			focus = PAN_extinguish_communism_in_the_region
+		}
+		prerequisite = {
+			focus = PAN_extinguish_fascism_in_the_region
 		}
 
 		cost = 10
 
 		available = {
-			NOT = {
-				controls_state = 685 
+			OR = {
+				num_of_controlled_states > 19
+				num_subjects > 6
 			}
-			power_balance_value = {
-				id = PAN_control_over_canal_bop
-				value > 0.05
+			has_army_manpower = {
+				size > 119999
 			}
-			any_controlled_state = {
-				any_neighbor_state = {
-					state = 685
-				}
-			}
+			num_of_factories > 49
 		}
 
 		search_filters = {
-			FOCUS_FILTER_ANNEXATION FOCUS_FILTER_POLITICAL
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_RESEARCH FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER
 		}
 
 		completion_reward = {
-			hidden_effect = {
-				685 = {
-					controller = {
-						save_event_target_as = PANAMA_CANAL_CONTROLLER
-					}
+			if = {
+				limit = {
+					is_major = no 
 				}
+				set_major = yes
 			}
-			event_target:PANAMA_CANAL_CONTROLLER = {
-				country_event = {
-					id = cea.11
-					hours = 4
-					random_hours = 6
-				}
-			}
+            add_research_slot = 1
+            add_political_power = 100
+            add_stability = 0.1
+            add_war_support = 0.1
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_ideas = PAN_the_bastion_of_the_west_idea
 		}
 	}
 }

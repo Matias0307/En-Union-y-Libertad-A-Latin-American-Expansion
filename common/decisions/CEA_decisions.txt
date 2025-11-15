@@ -4065,3 +4065,252 @@ HON_the_kingdom_of_honduras_dec_cat = {
 		}
 	}
 }
+
+PAN_the_empire_of_panama_dec_cat = {
+	PAN_formally_declare_the_empire = {
+		icon = generic_form_nation
+
+		highlight_states = {
+			highlight_state_targets = {
+				state = 1057
+				state = 685
+				state = 304
+				state = 1097
+				state = 1092
+				state = 493
+				state = 316
+				state = 1056
+				state = 317
+				state = 1055
+				state = 1054
+				state = 312
+				state = 1053
+				state = 1052
+				state = 314
+				state = 313
+				state = 1050
+				state = 1051
+				state = 311
+				state = 474
+				state = 475
+			}
+		}
+
+		fire_only_once = yes 
+
+		ai_will_do = {
+			base = 350
+		}
+
+		available = {
+			controls_state = 1057
+			controls_state = 685
+			controls_state = 304
+			controls_state = 1097
+			controls_state = 1092
+			controls_state = 493
+			controls_state = 316
+			controls_state = 1056
+			controls_state = 317
+			controls_state = 1055
+			controls_state = 1054
+			controls_state = 312
+			controls_state = 1053
+			controls_state = 1052
+			controls_state = 314
+			controls_state = 313
+			controls_state = 1050
+			controls_state = 1051
+			controls_state = 311
+			controls_state = 474
+			controls_state = 475
+		}
+
+		complete_effect = {
+			every_state = {
+				limit = {
+					OR = {
+						state = 1092
+						state = 493
+						state = 316
+						state = 1056
+						state = 317
+						state = 1055
+						state = 1054
+						state = 312
+						state = 1053
+						state = 1052
+						state = 314
+						state = 313
+						state = 1050
+						state = 1051
+						state = 311
+						state = 474
+						state = 475
+					}
+					NOT = { is_core_of = ROOT }
+				}
+				add_core_of = ROOT
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			swap_ideas = {
+				remove_idea = PAN_empire_of_panama_1
+				add_idea = PAN_empire_of_panama_2
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			set_cosmetic_tag = PAN_EMPIRE
+
+			hidden_effect = {
+				news_event = {
+					id = pan.12 
+					days = 1
+				}
+			}
+		}
+	}
+
+	PAN_declare_FROM_as_a_panamanian_province = {
+		icon = generic_nationalism
+
+		state_target = yes 
+
+		targets = { 316 1056 317 1092 493 1054 }
+
+		cost = 40
+
+		on_map_mode = map_and_decisions_view
+
+		ai_will_do = {
+			base = 300
+		}
+
+		visible = {
+			FROM = {
+				NOT = { is_core_of = ROOT }
+			}
+		}
+
+		available = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+				resistance < 0.2
+			}
+		}
+
+		days_remove = 40
+
+		fire_only_once = yes
+
+		complete_effect = {
+			FROM = { add_core_of = ROOT }
+		}
+
+		modifier = {
+			political_power_factor = -0.1
+			weekly_manpower = -100
+		}
+	}
+
+	PAN_war_plan_FROM = {
+		icon = generic_tank
+
+		custom_cost_trigger = {
+			command_power > 24
+		}
+
+		custom_cost_text = decision_cost_CP_25
+
+		ai_will_do = {
+			base = 150
+		}
+
+		target_trigger = {
+			FROM = {
+				is_neighbor_of = ROOT 
+			}
+		}
+
+		available = {
+			exists = yes 
+			has_civil_war = no 
+			FROM = {
+				has_war_with = ROOT
+			}
+			hidden_trigger = { 
+				NOT = { has_country_flag = PAR_focusing_mil }
+			}
+		}
+
+		cancel_trigger = {
+			OR = {
+				FROM = {
+					NOT = { has_war_with = ROOT }
+				}
+				has_civil_war = yes 
+			}
+		}
+
+		complete_effect = { 
+			set_country_flag = PAR_focusing_mil
+			hidden_effect = {
+				add_command_power = -25
+			}
+		}
+
+		cancel_effect = {
+			clr_country_flag = PAR_focusing_mil
+		}
+
+		targeted_modifier = {
+			tag = FROM 
+			attack_bonus_against = 0.08
+			defense_bonus_against = 0.08
+		}
+
+		modifier = { political_power_factor = -0.1 }
+
+		days_remove = 75
+
+		remove_effect = { clr_country_flag = PAR_focusing_mil }
+	}
+
+	PAN_exploit_local_industry_for_military_expansion = {
+		icon = generic_factory 
+
+		state_target = yes 
+
+		target_array = controlled_states
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+				industrial_complex > 4
+			}
+		}
+
+		visible = {
+			has_completed_focus = PAN_economic_mobilization
+		}
+
+		on_map_mode = map_only
+
+		cost = 75
+
+		days_remove = 90
+
+		fire_only_once = yes
+
+		modifier = {
+			consumer_goods_factor = 0.1
+			production_speed_buildings_factor = -0.05
+		}
+
+		complete_effect = {
+			EUYL_add_1_military = yes
+		}
+	}
+}
