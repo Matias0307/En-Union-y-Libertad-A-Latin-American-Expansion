@@ -1393,6 +1393,41 @@ shared_focus = {
 }
 
 shared_focus = {
+	id = CEA_extract_coal
+	icon = GFX_focus_generic_coal_mining
+	cost = 5
+	x = -4
+	y = 1
+	relative_position_id = CEA_infraustrcure_investments
+	prerequisite = {
+		focus = CEA_infraustrcure_investments
+	}
+
+	available = {
+		num_of_controlled_states > 0
+	}
+
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY
+	}
+
+	completion_reward = {
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT 
+				NOT = {
+					has_state_category = wasteland
+				}
+			}
+			add_resource = {
+				type = coal
+				amount = 5
+			}
+		}
+	}
+}
+
+shared_focus = {
 	id = CEA_strengthen_the_local_industry
 	icon = GFX_goal_generic_construct_civ_factory
 	x = 2
@@ -1954,6 +1989,22 @@ shared_focus = {
 				has_completed_focus = HON_no_more_re_elections
 				has_completed_focus = HON_the_mandate_of_tiburicio
 				has_global_flag = HON_sam_zemurray_easter_egg_flag
+			}
+		}
+	}
+
+	offset = {
+		x = -16
+		y = 0
+		trigger = {
+			has_game_rule = {
+				rule = obsolete_focus_branches_visibility
+				option = HIDE
+			}
+			original_tag = PAN
+			OR = {
+				has_completed_focus = PAN_denounce_the_poor_administration
+				has_completed_focus = PAN_prepare_for_the_getyear_panamanian_general_elections
 			}
 		}
 	}
@@ -2687,7 +2738,7 @@ shared_focus = {
 			name = CEA_heavy_ship_effort
 			bonus = 0.75
 			uses = 2
-			category = cl_tech	
+			#category = cl_tech	
 			category = ca_tech	
 		}
 	}

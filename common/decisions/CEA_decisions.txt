@@ -2097,18 +2097,21 @@ HON_revolution_in_the_tropics = {
 		icon = eng_propaganda_campaigns
 
 		visible = {
-			has_completed_focus = HON_communism_to_the_masses
+			OR = {
+				has_completed_focus = HON_communism_to_the_masses
+				has_completed_focus = PAN_embrace_communism
+			}
 		}
 
 		ai_will_do = {
 			base = 150
 			modifier = {
 				factor = 0.5
-				communism > 0.6
+				communism > 0.5
 			}
 			modifier = {
-				factor = 0.2
-				communism > 0.8
+				factor = 0.1
+				communism > 0.7
 			}
 		}
 
@@ -2452,7 +2455,10 @@ HON_revolution_in_the_tropics = {
 		}
 
 		visible = {
-			has_completed_focus = HON_agitate_foreign_guerilla_groups
+			OR = {
+				has_completed_focus = HON_agitate_foreign_guerilla_groups
+				has_completed_focus = PAN_cooperate_with_foreign_guerilla_groups
+			}
 			NOT = {
 				has_war_with = FROM
 			}
@@ -2501,7 +2507,10 @@ HON_revolution_in_the_tropics = {
 		}
 
 		visible = {
-			has_completed_focus = HON_integrate_the_revolutionaries
+			OR = {
+				has_completed_focus = HON_integrate_the_revolutionaries
+				has_completed_focus = PAN_integrate_the_revolutionaries
+			}
 		}
 
 		available = {
@@ -3600,7 +3609,10 @@ PAN_political_management = {
 		fire_only_once = yes 
 
 		visible = {
-			has_completed_focus = PAN_enforce_panamanian_conscription
+			OR = {
+				has_completed_focus = PAN_enforce_panamanian_conscription
+				has_completed_focus = PAN_the_panamanian_communist_army
+			}
 			has_idea = URG_expanded_consription
 		}
 
@@ -3676,6 +3688,206 @@ PAN_political_management = {
 				}
 			}
 		}
+	}
+
+	PAN_conscript_emergency_recruits = {
+		icon = generic_military
+
+		visible = {
+			has_idea = PAN_panama_soberana_hoy_y_siempre_idea
+		}
+
+		cost = 50
+
+		available = {
+			has_war = yes 
+		}
+
+		fire_only_once = yes 
+
+		complete_effect = {
+			add_manpower = 75000
+			add_stability = -0.05
+			add_war_support = -0.05
+		}
+	}
+
+	PAN_hand_out_subsidies_in_FROM = {
+		icon = generic_consumer_goods
+
+		visible = {
+			has_idea = PAN_increased_social_spending
+		}
+
+		state_target = yes 
+
+		target_array = core_states 
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+			}
+		}
+
+		cancel_trigger = {
+			FROM = {
+				NOT = {
+					is_controlled_by = ROOT 
+				}
+			}
+		}
+
+		cost = 30
+
+		modifier = {
+			political_power_factor = 0.1
+			production_speed_buildings_factor = 0.05
+			industrial_capacity_factory = 0.1
+			consumer_goods_factor = 0.5
+		}
+
+		days_remove = 120
+
+		remove_effect = {
+			if = {
+				limit = {
+					NOT = {
+						FROM = {
+							has_dynamic_modifier = {
+								modifier = ARG_redirected_fundings_positive
+							}
+						}
+					}
+				}
+				FROM = {
+					add_dynamic_modifier = {
+						modifier = ARG_redirected_fundings_positive
+					}
+				}
+			}
+		}
+	}
+
+	PAN_panamanian_revolution = {
+		priority = 200
+		icon = revolt
+
+		activation = {
+			always = no
+		}
+
+		available = {
+			has_government = communism
+		}
+
+		is_good = no
+
+		days_mission_timeout = 320
+
+		cancel_trigger = {
+			USA = {
+				OR = {
+					exists = no 
+					has_war_with = ROOT
+				}
+			}
+		}
+
+		complete_effect = {
+			add_stability = 0.05
+			add_political_power = 25
+		}
+
+		timeout_effect = {
+			hidden_effect = {
+				685 = {
+					controller = {
+						save_global_event_target_as = PANAMA_CANAL_CONTROLLER_GLOBAL
+					}
+				}
+			}
+			USA = {
+				country_event = pan.13
+			}
+		}
+	}
+
+	PAN_support_the_proletariat_in_FROM = {
+		icon = GFX_EUYL_attract_refugees
+
+		state_target = yes 
+
+		target_array = core_states
+
+		target_trigger = {
+			FROM = {
+				NOT = {
+					has_state_category = wasteland
+				}
+			}
+		}
+
+		on_map_mode = map_and_decisions_view
+
+		visible = {
+			has_completed_focus = PAN_support_the_proletariat
+			NOT = { has_completed_focus = PAN_anarcho_syndicalist_panama }
+		}
+
+		fire_only_once = yes 
+
+		cost = 50
+
+		complete_effect = {
+			add_popularity = {
+				ideology = communism
+				popularity = 0.1
+			}
+		}
+	}
+
+	PAN_cooperate_with_the_anarchists = {
+		icon = generic_civil_support
+
+		visible = {
+			has_completed_focus = PAN_support_the_proletariat
+			has_active_mission = PAN_panamanian_revolution
+			NOT = { has_completed_focus = PAN_anarcho_syndicalist_panama }
+		}
+
+		available = {
+			has_active_mission = PAN_panamanian_revolution
+		}
+
+		cost = 25
+
+		complete_effect = {
+			add_stability = -0.03
+			add_popularity = {
+				ideology = communism
+				popularity = 0.02
+			}
+
+			set_country_flag = PAN_cooperated_with_the_anarchists_flag
+		}
+	}
+
+	PAN_promote_class_consciousness = {
+		icon = SOV_secure_the_administration
+
+		visible = {
+			has_completed_focus = PAN_denounce_the_poor_administration
+			NOT = { has_completed_focus = PAN_anarcho_syndicalist_panama }
+		}
+
+		cost = 25
+
+		modifier = {
+			political_power_factor = -0.05
+			communism_drift = 0.15
+		}
+
+		days_remove = 60
 	}
 }
 
@@ -4015,8 +4227,8 @@ HON_the_kingdom_of_honduras_dec_cat = {
 
 		available = {
 			FROM = {
-				compliance > 0.3 
-				resistance < 0.15
+				compliance > 30
+				resistance < 15
 			}
 		}
 
@@ -4197,7 +4409,7 @@ PAN_the_empire_of_panama_dec_cat = {
 		available = {
 			FROM = {
 				is_fully_controlled_by = ROOT 
-				resistance < 0.2
+				resistance < 20
 			}
 		}
 
@@ -4311,6 +4523,180 @@ PAN_the_empire_of_panama_dec_cat = {
 
 		complete_effect = {
 			EUYL_add_1_military = yes
+		}
+	}
+}
+
+PAN_anarcho_syndicalist_management = {
+	PAN_promote_anarcho_syndicalist_values = {
+		icon = eng_propaganda_campaigns
+
+		cost = 25
+
+		days_remove = 60
+
+		modifier = {
+			communism_drift = 0.1
+		}
+
+		remove_effect = {
+			random_list = {
+				50 = {
+					add_stability = 0.01 
+				}
+				50 = { }
+			}
+		}
+	}
+
+	PAN_ask_the_trade_unions_to_permit_civilian_factories = {
+		icon = generic_factory
+
+		cost = 50
+
+		available = {
+			has_completed_focus = PAN_establish_centralized_trade_unions
+		}
+
+		days_remove = 365
+
+		modifier = {
+			political_power_factor = -0.1
+			production_speed_industrial_complex_factor = 1.05
+		}
+	}
+
+	PAN_ask_the_trade_unions_to_permit_military_factories = {
+		icon = generic_factory
+
+		cost = 50
+
+		available = {
+			has_completed_focus = PAN_establish_centralized_trade_unions
+			OR = {
+				has_war_support > 0.6
+				threat > 0.05
+				has_war = yes
+			}
+		}
+
+		days_remove = 365
+
+		modifier = {
+			political_power_factor = -0.1
+			production_speed_arms_factory_factor = 1.05
+		}
+	}
+
+	PAN_ask_the_trade_unions_to_permit_dockyards = {
+		icon = generic_factory
+
+		cost = 50
+
+		available = {
+			has_completed_focus = PAN_establish_centralized_trade_unions
+			any_controlled_state = {
+				is_coastal = yes 
+			}
+		}
+
+		days_remove = 365
+
+		modifier = {
+			political_power_factor = -0.1
+			production_speed_dockyard_factor = 1.05
+		}
+	}
+
+	PAN_destabilize_FROM = {
+		icon = generic_confiscation
+
+		cost = 25
+
+		target_trigger = {
+			FROM = {
+				has_war_with = ROOT 
+			}
+		}
+
+		visible = {
+			has_completed_focus = PAN_dismantle_global_borders
+		}
+
+		days_remove = 90
+
+		modifier = {
+			political_power_factor = -0.1
+			industrial_capacity_factory = 0.01
+		}
+
+		targeted_modifier = {
+			tag = FROM 
+			attack_bonus_against = 0.07
+			defense_bonus_against = 0.07
+		}
+
+		remove_effect = {
+			FROM = {
+				add_stability = -0.03
+				add_war_support = -0.04
+			}
+		}
+	}
+
+	PAN_integrate_the_syndicates_in_FROM = {
+		icon = generic_nationalism
+
+		state_target = yes 
+
+		target_array = owned_states
+
+		target_trigger = {
+			FROM = {
+				any_neighbor_state = {
+					is_core_of = ROOT 
+				}
+				NOT = { is_core_of = ROOT }
+				is_fully_controlled_by = ROOT 
+			}
+		}
+
+		on_map_mode = map_only
+
+		available = {
+			has_civil_war = no 
+			FROM = {
+				compliance > 25
+				resistance < 15
+			}
+		}
+
+		visible = {
+			has_completed_focus = PAN_integrate_foreign_syndicates
+		}
+
+		ai_will_do = { factor = 190 }
+
+		cost = 25
+
+		days_remove = 70 
+
+		cancel_trigger = {
+			FROM = {
+				NOT = {
+					is_fully_controlled_by = ROOT 
+				}
+			}
+		}
+
+		cancel_effect = {
+			add_political_power = 20
+		}
+
+		remove_effect = {
+			FROM = {
+				add_core_of = ROOT 
+			}
 		}
 	}
 }

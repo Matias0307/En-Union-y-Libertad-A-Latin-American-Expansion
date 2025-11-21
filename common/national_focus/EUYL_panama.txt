@@ -36,8 +36,23 @@ focus_tree = {
 	focus = {
 		id = PAN_harmodios_administration
 		icon = GFX_PAN_harmadios_administration_icon
-		x = 49
+		x = 48
 		y = 0
+
+		offset = {
+			x = -5
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				OR = {
+					has_completed_focus = PAN_denounce_the_poor_administration
+					has_completed_focus = PAN_prepare_for_the_getyear_panamanian_general_elections
+				}
+			}
+		}
 
 		cost = 5
 
@@ -119,6 +134,32 @@ focus_tree = {
 		}
 	}
 
+	## Universal Education for Everyone ##
+	focus = {
+		id = PAN_universal_education_for_everyone
+		icon = GFX_focus_generic_university_1 
+		x = 0
+		y = 1
+		relative_position_id = PAN_founded_the_university_of_panama
+		prerequisite = {
+			focus = PAN_founded_the_university_of_panama
+		}
+
+		cost = 10
+
+		available = {
+			num_of_factories > 49
+		}
+
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+
 	## Internal Affairs ##
 	focus = {
 		id = PAN_internal_affairs
@@ -182,6 +223,20 @@ focus_tree = {
 			focus = PAN_denounce_the_poor_administration
 		}
 
+		allow_branch = {
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					has_completed_focus = PAN_denounce_the_poor_administration
+				}
+			}
+		}
+
 		cost = 7.2
 
 		available = {
@@ -212,6 +267,15 @@ focus_tree = {
 						days = 120
 					}
 				}
+				if = {
+					limit = {
+						has_game_rule = {
+							rule = obsolete_focus_branches_visibility
+							option = HIDE
+						}
+					}
+					mark_focus_tree_layout_dirty = yes
+				}
 			}
 		}
 	}
@@ -231,6 +295,18 @@ focus_tree = {
 		}
 
 		cost = 5
+
+		offset = {
+			x = 3
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = PAN_prepare_for_the_getyear_panamanian_general_elections
+			}
+		}
 
 		available = {
 			NOT = { has_active_mission = PAN_outcome_of_the_treaty }
@@ -293,6 +369,10 @@ focus_tree = {
 			add_popularity = {
 				ideology = democratic
 				popularity = -0.03
+			}
+			swap_ideas = {
+				remove_idea = PAN_political_uncertainty_1
+				add_idea = PAN_political_uncertainty_2
 			}
 
 			custom_effect_tooltip = CHL_skip_one_line_tt
@@ -504,7 +584,7 @@ focus_tree = {
 			focus = PAN_undermine_demostenes
 		}
 
-		cost = 7
+		cost = 7.2
 
 		available = {
 			any_core_state = {
@@ -579,6 +659,138 @@ focus_tree = {
 		}
 
 		cost = 5
+
+		available = {
+			has_country_leader = {
+				character = PAN_interim_presidency
+				ruling_only = yes 
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			promote_character = PAN_ricardo_j_alfaro
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_political_power = 75
+			add_command_power = 15
+			add_stability = 0.03
+		}
+	}
+
+	## Bolster Civil Rights ##
+	focus = {
+		id = PAN_bolster_civil_rights
+		icon = GFX_focus_generic_improve_the_administration
+		x = -1
+		y = 1
+		relative_position_id = PAN_ricardo_j_alfaro
+		prerequisite = {
+			focus = PAN_ricardo_j_alfaro
+		}
+
+		cost = 8
+
+		available = {
+			has_stability > 0.7
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			add_ideas = PAN_strengthened_civil_rights_movement
+			
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = PAN_if_you_have_idea_internal_administration_prolong_duration_by_120_days_tt
+
+			hidden_effect = {
+				if = {
+					limit = {
+						has_idea = PAN_internal_administration
+					}
+					modify_timed_idea = {
+						idea = PAN_internal_administration
+						days = 120
+					}
+				}
+			}
+		}
+	}
+
+	## No Compromise on Human Rights ##
+	focus = {
+		id = PAN_no_compromise_on_human_rights
+		icon = GFX_GENERIC_people_uprising
+		x = 3
+		y = 1
+		relative_position_id = PAN_ricardo_j_alfaro
+		prerequisite = {
+			focus = PAN_ricardo_j_alfaro
+		}
+
+		cost = 10
+
+		available = {
+			num_of_factories > 11
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			add_stability = 0.1
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			EUYL_add_1_civilian = yes
+		}
+	}
+
+	## Panama Soberana hoy y Siempre ##
+	focus = {
+		id = PAN_panama_soberana_hoy_y_siempre
+		icon = GFX_col_focus_ocupar_pan
+		x = 2
+		y = 2
+		relative_position_id = PAN_ricardo_j_alfaro
+		prerequisite = {
+			focus = PAN_ricardo_j_alfaro
+		}
+
+		cost = 10
+
+		available = {
+			has_army_manpower = {
+				size > 24999
+			}
+			OR = {
+				has_war_support > 0.6
+				threat > 0.05
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_MANPOWER FOCUS_FILTER_WAR_SUPPORT
+		}
+
+		completion_reward = {
+			set_rule = {
+				can_send_volunteers = yes 
+				can_declare_war_on_same_ideology = yes
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_ideas = PAN_panama_soberana_hoy_y_siempre_idea
+		}
 	}
 
 	## Arnulfo Arias Madrid ## (will trigger the looming coup event thingy, similar to Venezuela)
@@ -627,6 +839,8 @@ focus_tree = {
 				ideology = fascism
 				popularity = PAN_democratic_pop
 			}
+
+			remove_ideas = PAN_political_uncertainty_2
 
 			set_politics = { ## yeah ik... its odd but this is literally Latinamerican politics
 				ruling_party = fascism
@@ -995,9 +1209,12 @@ focus_tree = {
 		relative_position_id = PAN_support_the_coup
 		prerequisite = { ## this branch will be shared by historical and a-historical democracy
 			focus = PAN_support_the_coup
+			focus = PAN_panama_soberana_hoy_y_siempre
+			focus = PAN_restructure_our_foreing_policy
 		}
 		mutually_exclusive = { ## will be another mut exclusive on the other side to unite central america
 			focus = PAN_maintain_neutrality_in_global_affairs
+			focus = PAN_unite_central_america
 		}
 
 		cost = 6
@@ -1071,6 +1288,7 @@ focus_tree = {
 		prerequisite = {
 			focus = PAN_allign_ourselves_with_the_allies
 		}
+		will_lead_to_war_with = GER
 
 		cost = 7.2
 
@@ -1225,6 +1443,149 @@ focus_tree = {
 		}
 	}
 
+	## Unite Central America ## || ironic considering the focus right before this one is all about sovereignty lol
+	focus = {
+		id = PAN_unite_central_america
+		icon = GFX_HON_federal_republic_central_america_icon
+		x = 6
+		y = 1
+		relative_position_id = PAN_panama_soberana_hoy_y_siempre
+		prerequisite = {
+			focus = PAN_support_the_coup
+			focus = PAN_panama_soberana_hoy_y_siempre
+			focus = PAN_restructure_our_foreing_policy
+		}
+
+		cost = 10
+
+		will_lead_to_war_with = ELS 
+		will_lead_to_war_with = NIC 
+		will_lead_to_war_with = GUA 
+		will_lead_to_war_with = COS
+
+		available = {
+			has_army_manpower = {
+				size > 34999
+			}
+			num_of_factories > 15
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = ELS 
+						original_tag = NIC 
+						original_tag = GUA 
+						original_tag = COS
+					}
+					exists = yes 
+					NOT = { has_war_with = ROOT }
+				}
+				country_event = {
+					id = cea.20 
+					hours = 2
+					random_hours = 8
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			set_cosmetic_tag = USC_UNIFIED
+			313 = { add_core_of = ROOT }
+			314 = { add_core_of = ROOT }
+			312 = { add_core_of = ROOT }
+			317 = { add_core_of = ROOT }
+			316 = { add_core_of = ROOT }
+			311 = { add_core_of = ROOT }
+			1050 = { add_core_of = ROOT }
+			1051 = { add_core_of = ROOT }
+			1052 = { add_core_of = ROOT }
+			1053 = { add_core_of = ROOT }
+			1054 = { add_core_of = ROOT }
+			1055 = { add_core_of = ROOT }
+			1056 = { add_core_of = ROOT }
+			hidden_effect = {
+				news_event = { id = wtt_news.59 hours = 6 }
+				set_global_flag = form_united_central_america_flag
+			}
+		}
+	}
+
+	## Latin America Stands United ##
+	focus = {
+		id = PAN_latin_america_stands_united
+		icon = GFX_BRA_unite_hispanoamerica
+		x = 0
+		y = 1
+		relative_position_id = PAN_unite_central_america
+		prerequisite = {
+			focus = PAN_unite_central_america
+		}
+
+		cost = 10
+
+		available = {
+			has_civil_war = no 
+			num_of_factories > 99
+			has_stability > 0.7
+			has_army_manpower = { size > 499999 }
+			has_government = democratic
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			hidden_effect = {
+				drop_cosmetic_tag = yes
+			}
+			set_cosmetic_tag = HSPAM
+			custom_effect_tooltip = BRA_every_country_gets_unification_event_tt
+			custom_effect_tooltip = BRA_gain_claims_on_every_sa_state_tt
+			unlock_decision_category_tooltip = ARG_integrate_our_territories
+			hidden_effect = {
+				every_state = {
+					limit = {
+						is_on_continent = south_america
+						NOT = { is_core_of = ROOT }
+					}
+					add_claim_by = ROOT 
+				}
+				every_other_country = {
+					limit = {
+						capital_scope = { is_on_continent = south_america }
+						has_civil_war = no 
+						NOT = { has_war_with = ROOT }
+						is_subject = no 
+						has_capitulated = no 
+					}
+					country_event = { id = brazil.86 days = 1 random = 12 random_days = 3 }
+				}
+				every_other_country = {
+					limit = {
+						is_subject_of = ROOT 
+						has_civil_war = no 
+					}
+					ROOT = {
+						annex_country = {
+							target = PREV 
+							transfer_troops = yes 
+						}
+					}
+				}
+				if = {
+					limit = {
+						NOT = { has_country_flag = EUYL_can_integrate }
+					}
+					set_country_flag = EUYL_can_integrate
+				}
+			}
+		}
+	}
+
 	## Summon the Constituent Assembly ##
 	focus = {
 		id = PAN_summon_the_constituent_assembly
@@ -1246,7 +1607,7 @@ focus_tree = {
 		}
 
 		search_filters = {
-			FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL
 		}
 
 		completion_reward = {
@@ -1266,6 +1627,8 @@ focus_tree = {
 					election_frequency = 48
 				}
 
+				add_stability = 0.05
+
 				promote_character = PAN_enrique_jimenez_brin
 			}
 		}
@@ -1280,9 +1643,12 @@ focus_tree = {
 		relative_position_id = PAN_support_the_coup
 		prerequisite = {
 			focus = PAN_support_the_coup
+			focus = PAN_panama_soberana_hoy_y_siempre
+			focus = PAN_restructure_our_foreing_policy
 		}
 		mutually_exclusive = {
 			focus = PAN_allign_ourselves_with_the_allies
+			focus = PAN_unite_central_america
 		}
 
 		cost = 5
@@ -1356,7 +1722,7 @@ focus_tree = {
 		}
 	}
 
-	## The Popular Front (A-Historical Democracy)
+	## The Popular Front (A-Historical Democracy) ## THIS GUY HAS NOTHIGN NOTHINGGGGGGGGGGGG WTF
 	focus = {
 		id = PAN_the_popular_front
 		icon = GFX_PAN_popular_front_victory_icon
@@ -1368,6 +1734,18 @@ focus_tree = {
 		}
 		mutually_exclusive = {
 			focus = PAN_the_national_coalition
+		}
+
+		offset = {
+			x = 3
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = PAN_prepare_for_the_getyear_panamanian_general_elections
+			}
 		}
 
 		cost = 5
@@ -1395,6 +1773,239 @@ focus_tree = {
 				long_name = "Frente Popular"
 				name = "Frente Popular"
 			}
+
+			custom_effect_tooltip = PAN_elections_will_occur_in_4_years_tt
+
+			hidden_effect = {
+				country_event = {
+					id = pan.14
+					days = 1440
+					random_days = 35
+					random_hours = 12
+				}
+			}
+		}
+	}
+
+	## Reform Labor Laws ##
+	focus = {
+		id = PAN_reform_labor_laws
+		icon = GFX_focus_r56_goal_generic_stock_exchange
+		x = -1
+		y = 1
+		relative_position_id = PAN_the_popular_front
+		prerequisite = {
+			focus = PAN_the_popular_front
+		}
+
+		cost = 8
+
+		available = {
+			democratic > 0.6
+		}
+	}
+
+	## Increase Social Spending ##
+	focus = {
+		id = PAN_increase_social_spending
+		icon = GFX_ARG_subsidize_industry
+		x = 2
+		y = 1
+		relative_position_id = PAN_the_popular_front
+		prerequisite = {
+			focus = PAN_the_popular_front
+		}
+
+		cost = 8
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 0
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			add_ideas = PAN_increased_social_spending
+		}
+	}
+
+	## Strive for Economic Growth ##
+	focus = {
+		id = PAN_strive_for_economic_growth
+		icon = GFX_focus_mex_privatisation
+		x = 0
+		y = 1
+		relative_position_id = PAN_increase_social_spending
+		prerequisite = {
+			focus = PAN_increase_social_spending
+		}
+
+		cost = 10
+
+		available = {
+			OR = {
+				has_full_control_of_state = 685
+				power_balance_value = {
+					id = PAN_control_over_canal_bop
+					value > 0.5
+				}
+			}
+			any_controlled_state = {
+				has_dynamic_modifier = {
+					modifier = ARG_redirected_fundings_positive
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = PAN_for_every_state_you_gave_out_subsidies_you_will_receive_1_civilian_factory_tt
+			every_core_state = {
+				limit = {
+					is_controlled_by = ROOT
+					has_dynamic_modifier = {
+						modifier = ARG_redirected_fundings_positive
+					}
+				}
+				random_select_amount = 3
+				hidden_effect = {
+					ROOT = {
+						EUYL_add_1_civilian = yes
+					}
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = PAN_if_you_have_national_spirit_consumer_relief_efforts_active_following_will_occur_tt
+			effect_tooltip = {
+				add_ideas = PAN_strive_for_economic_growth_2
+			}
+			custom_effect_tooltip = PAN_if_you_DO_NOT_have_national_spirit_consumer_relief_efforts_active_following_will_occur_tt
+			effect_tooltip = {
+				add_ideas = PAN_strive_for_economic_growth_1
+			}
+
+			hidden_effect = {
+				if = {
+					limit = {
+						has_idea = PAN_consumer_relief_efforts
+					}
+					add_ideas = PAN_strive_for_economic_growth_2
+				}
+				else = {
+					add_ideas = PAN_strive_for_economic_growth_1
+				}
+			}
+		}
+	}
+
+	## Reform the Constitution ##
+	focus = {
+		id = PAN_reform_the_constitution
+		icon = GFX_PAN_rewrite_constitution_icon
+		x = 1
+		y = 4
+		relative_position_id = PAN_the_popular_front
+		prerequisite = {
+			focus = PAN_the_popular_front
+		}
+
+		cost = 10
+
+		available = {
+			democratic > 0.74
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			add_political_power = 100
+			swap_ideas = {
+				remove_idea = PAN_political_uncertainty_1
+				add_idea = PAN_political_uncertainty_2
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = PAN_if_you_have_idea_internal_administration_prolong_duration_by_120_days_tt
+
+			hidden_effect = {
+				if = {
+					limit = {
+						has_idea = PAN_internal_administration
+					}
+					modify_timed_idea = {
+						idea = PAN_internal_administration
+						days = 120
+					}
+				}
+			}
+		}
+	}
+
+	## Subsidize National Infrastructure ##
+	focus = {
+		id = PAN_subsidize_national_infrastructure
+		icon = GFX_goal_generic_construct_infrastructure
+		x = -1
+		y = 1
+		relative_position_id = PAN_reform_the_constitution
+		prerequisite = {
+			focus = PAN_reform_the_constitution
+		}
+
+		cost = 7.2
+
+		available = {
+			num_of_controlled_states > 0
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			add_ideas = ARG_improved_public_transport
+		}
+	}
+
+	## Restructure our Foreign Policy ##
+	focus = {
+		id = PAN_restructure_our_foreing_policy
+		icon = GFX_goal_generic_position_armies
+		x = 0
+		y = 3
+		relative_position_id = PAN_reform_the_constitution
+		prerequisite = {
+			focus = PAN_reform_the_constitution
+		}
+
+		cost = 5
+
+		available = {
+			OR = {
+				has_war_support > 0.5
+				threat > 0.05
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			add_war_support = 0.02
+			add_political_power = 25
+
+			remove_ideas = PAN_political_uncertainty_2
 		}
 	}
 
@@ -1410,7 +2021,7 @@ focus_tree = {
 			focus = PAN_the_national_coalition
 		}
 
-		cost = 6
+		cost = 10
 
 		search_filters = {
 			FOCUS_FILTER_POLITICAL FOCUS_FILTER_BALANCE_OF_POWER
@@ -1421,7 +2032,7 @@ focus_tree = {
 				limit = {
 					has_any_power_balance = yes 
 				}
-				PAN_move_5_towards_panama = yes 
+				PAN_move_10_towards_panama = yes 
 			}
 
 			custom_effect_tooltip = PAN_if_you_have_idea_internal_administration_prolong_duration_by_120_days_tt
@@ -1432,6 +2043,10 @@ focus_tree = {
 				decision = PAN_promote_our_ideals
 				show_effect_tooltip = yes 
 			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			PAN_improve_looming_shadow_of_america = yes
 
 			hidden_effect = {
 				if = {
@@ -1458,7 +2073,7 @@ focus_tree = {
 			focus = PAN_restructuring_the_administration
 		}
 
-		cost = 8
+		cost = 7.2
 
 		available = {
 			OR = {
@@ -1539,7 +2154,7 @@ focus_tree = {
 			focus = PAN_enforce_panamanian_conscription
 		}
 
-		cost = 8
+		cost = 7.2
 
 		search_filters = {
 			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_WAR_SUPPORT
@@ -1556,11 +2171,17 @@ focus_tree = {
 	}
 
 	### COMMUNIST PATH ###
+	## make mission countdown called the revolution ##
+	## player has to reach at least 50% commie support with a few deicisions and take a focus ##
+	## failure to do that will result in american intervention cuz it aint democratic and wtv
+	## once changing commie, branch out into proper communism or anarchism (wow, daring today arent we)
+	## basic build up stuff blah blah blah
+	## brutally kill countries with a rusty hammer :-D
 	## Denounce the Poor Administration ##
 	focus = {
 		id = PAN_denounce_the_poor_administration
 		icon = GFX_PAN_denounce_poor_administration_icon
-		x = 14
+		x = 15
 		y = 1
 		relative_position_id = PAN_internal_affairs
 		prerequisite = {
@@ -1570,8 +2191,35 @@ focus_tree = {
 			focus = PAN_prepare_for_the_getyear_panamanian_general_elections
 		}
 
+		allow_branch = {
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = {
+					has_completed_focus = PAN_prepare_for_the_getyear_panamanian_general_elections
+				}
+			}
+		}
+
+		offset = {
+			x = -15
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = PAN_denounce_the_poor_administration
+			}
+		}
+
 		available = {
 			has_country_flag = PAN_total_failure_in_talks_with_the_united_states_flag
+			NOT = { has_completed_focus = PAN_the_future_of_the_canal }
 		}
 
 		cost = 5
@@ -1579,7 +2227,1374 @@ focus_tree = {
 		cancel_if_invalid = no 
 		continue_if_invalid = yes
 
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
 
+		completion_reward = {
+			custom_effect_tooltip = PAN_taking_this_focus_locks_out_denounce_the_future_of_the_canal_branch_tt
+
+			remove_power_balance = {
+				id = PAN_control_over_canal_bop
+			}
+			PAN_remove_looning_shadow_of_america = yes
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			remove_ideas = PAN_american_political_intervention
+			activate_mission = PAN_panamanian_revolution
+
+			custom_effect_tooltip = PAN_failure_to_reach_majority_communism_will_lead_to_american_intervention_tt
+
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				mark_focus_tree_layout_dirty = yes
+			}
+		}
+	}
+
+	## Support the Proletariat ##
+	focus = {
+		id = PAN_support_the_proletariat
+		icon = GFX_PAN_support_worker_icon
+		x = 0
+		y = 1
+		relative_position_id = PAN_denounce_the_poor_administration
+		prerequisite = {
+			focus = PAN_denounce_the_poor_administration
+		}
+
+		cost = 5
+		available = {
+			has_active_mission = PAN_panamanian_revolution
+		}
+
+		bypass = {
+			NOT = {
+				has_active_mission = PAN_panamanian_revolution
+			}
+		}
+
+		completion_reward = {
+			add_popularity = {
+				ideology = communism
+				popularity = 0.03
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_political_power = 30
+
+			unlock_decision_tooltip = PAN_support_the_proletariat_in_FROM
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = PAN_diogenes_de_la_rosa
+		}
+	}
+
+	## A new Panamanian Future ##
+	focus = {
+		id = PAN_a_new_panamanian_future
+		icon = GFX_focus_generic_join_comintern
+		x = 0
+		y = 1
+		relative_position_id = PAN_support_the_proletariat
+		prerequisite = {
+			focus = PAN_support_the_proletariat
+		}
+
+		cost = 5
+
+		available = {
+			communism > 0.4
+		}
+
+		select_effect = {
+			add_ideas = EUYL_expansionist_path
+		}
+
+		cancel_if_invalid = no 
+		continue_if_invalid = yes
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			set_politics = {
+				ruling_party = communism
+				elections_allowed = no 
+			}
+
+			set_party_name = {
+				ideology = communism
+				long_name = "Partido Socialista de Panama"
+				name = "PS"
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			remove_ideas = PAN_political_uncertainty_1
+
+			hidden_effect = {
+				add_country_leader_trait = ECU_low_public_support
+			}
+		}
+	}
+
+	## The Canal or Nothing ##
+	focus = {
+		id = PAN_the_canal_or_nothing
+		icon = GFX_PAN_the_canal_or_nothing_icon
+		x = 0
+		y = 2
+		relative_position_id = PAN_a_new_panamanian_future
+		prerequisite = {
+			focus = PAN_embrace_communism
+			focus = PAN_anarcho_syndicalist_panama
+		}
+
+		cost = 1.5
+
+		available = {
+			OR = {
+				has_war_with = USA 
+				has_border_war_with = USA
+			}
+			685 = {
+				NOT = {
+					is_controlled_by = ROOT
+				}
+			}
+		}
+
+		bypass = {
+			685 = {
+				is_controlled_by = ROOT
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION FOCUS_FILTER_WAR_SUPPORT
+		}
+
+		completion_reward = {
+			add_timed_idea = {
+				idea = HON_anything_for_the_canal
+				days = 100
+			}
+		}
+	}
+
+	## Naval Buildup ##
+	focus = {
+		id = PAN_naval_buildup
+		icon = GFX_goal_generic_construct_naval_dockyard
+		x = 0
+		y = 1
+		relative_position_id = PAN_the_canal_or_nothing
+		prerequisite = {
+			focus = PAN_the_canal_or_nothing
+		}
+
+		cost = 10
+
+		available = {
+			has_full_control_of_state = 685
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_4_dockyard = yes
+		}
+	}
+
+	## Embrace Communism ##
+	focus = {
+		id = PAN_embrace_communism
+		icon = GFX_PAN_continue_with_communism_icon
+		x = -4
+		y = 1
+		relative_position_id = PAN_a_new_panamanian_future
+		prerequisite = {
+			focus = PAN_a_new_panamanian_future
+		}
+		mutually_exclusive = {
+			focus = PAN_anarcho_syndicalist_panama
+		}
+
+		cost = 6
+
+		available = {
+			has_government = communism
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			add_political_power = 50
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_popularity = {
+				ideology = communism
+				popularity = 0.03
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_category_tooltip = HON_revolution_in_the_tropics
+		}
+	}
+
+	## Take Full Control ##
+	focus = {
+		id = PAN_take_full_control
+		icon = GFX_focus_generic_annex_country_2
+		x = -1
+		y = 1
+		relative_position_id = PAN_embrace_communism
+		prerequisite = {
+			focus = PAN_embrace_communism
+		}
+		mutually_exclusive = {
+			focus = PAN_the_workers_above_all_else
+		}
+
+		cost = 6
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			add_political_power = 75
+			add_stability = 0.1
+			add_popularity = {
+				ideology = communism
+				popularity = 0.05
+			}
+		}
+	}
+
+	## The Workers Above all Else ##
+	focus = {
+		id = PAN_the_workers_above_all_else
+		icon = GFX_focus_GER_liberate_exploited_colonial_workers
+		x = 1
+		y = 1
+		relative_position_id = PAN_embrace_communism
+		prerequisite = {
+			focus = PAN_embrace_communism
+		}
+		mutually_exclusive = {
+			focus = PAN_take_full_control
+		}
+
+		cost = 7.2
+
+		available = {
+			num_of_controlled_states > 0
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			EUYL_add_1_civilian = yes 
+			EUYL_add_1_military = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_stability = -0.02
+		}
+	}
+
+	## The Syndicates Control the Means of Production ##
+	focus = {
+		id = PAN_the_syndicates_control_the_means_of_production
+		icon = GFX_focus_generic_communist_industry
+		x = 0
+		y = 1
+		relative_position_id = PAN_the_workers_above_all_else
+		prerequisite = {
+			focus = PAN_the_workers_above_all_else
+			focus = PAN_take_full_control
+		}
+		mutually_exclusive = {
+			focus = PAN_the_workers_control_the_means_of_production
+		}
+
+		cost = 8
+
+		available = {
+			num_of_factories > 9
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			add_ideas = PAN_syndicate_controlled_industry
+		}
+	}
+
+	## The Workers control the Means of Production ##
+	focus = {
+		id = PAN_the_workers_control_the_means_of_production
+		icon = GFX_focus_ICE_embrace_the_workers_revolution
+		x = 0
+		y = 1
+		relative_position_id = PAN_take_full_control
+		prerequisite = {
+			focus = PAN_take_full_control
+			focus = PAN_the_workers_above_all_else
+		}
+		mutually_exclusive = {
+			focus = PAN_the_syndicates_control_the_means_of_production
+		}
+
+		cost = 6
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			add_ideas = PAN_worker_controlled_industry
+		}
+	}
+
+	## The Panamanian Communist Army ##
+	focus = {
+		id = PAN_the_panamanian_communist_army
+		icon = GFX_PAN_commie_army_icon
+		x = -1
+		y = 1
+		relative_position_id = PAN_the_syndicates_control_the_means_of_production
+		prerequisite = {
+			focus = PAN_the_syndicates_control_the_means_of_production
+			focus = PAN_the_workers_control_the_means_of_production
+		}
+
+		cost = 10
+
+		available = {
+			communism > 0.75
+		}
+
+		search_filters = {
+			FOCUS_FILTER_MANPOWER FOCUS_FILTER_ARMY_XP FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			army_experience = 35
+			add_ideas = PAN_the_panamanian_communist_army_idea
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			EUYL_level_up_mobilization_law = yes
+
+			add_ideas = URG_expanded_consription
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = {
+				decision = PAN_push_conscription_even_further
+				show_effect_tooltip = yes 
+				show_modifiers = yes
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			remove_country_leader_trait = ECU_low_public_support
+		}
+	}
+
+	## Anarcho-Syndicalist Panama ##
+	focus = {
+		id = PAN_anarcho_syndicalist_panama
+		icon = GFX_PAN_anarcho_syndicalism_icon
+		x = 4
+		y = 1
+		relative_position_id = PAN_a_new_panamanian_future
+		prerequisite = {
+			focus = PAN_a_new_panamanian_future
+		}
+		mutually_exclusive = {
+			focus = PAN_embrace_communism
+		}
+
+		cost = 6
+
+		available = {
+			has_country_flag = PAN_cooperated_with_the_anarchists_flag
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+			FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			set_party_name = {
+				ideology = communism
+				long_name = "Sindicato General de Trabajadores"
+				name = "Sindicato General de Trabajadores"
+			}
+
+			set_cosmetic_tag = PAN_ANARCHISM
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_stability = 0.05
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_ideas = PAN_anarcho_syndicalism
+
+			unlock_decision_category_tooltip = PAN_anarcho_syndicalist_management
+		}
+	}
+
+	## Establish Centralized Trade Unions ##
+	focus = {
+		id = PAN_establish_centralized_trade_unions
+		icon = GFX_focus_eng_concessions_to_the_trade_unions
+		x = 0
+		y = 1
+		relative_position_id = PAN_anarcho_syndicalist_panama
+		prerequisite = {
+			focus = PAN_anarcho_syndicalist_panama
+		}
+
+		cost = 10
+
+		available = {
+			has_civil_war = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			add_ideas = PAN_centralized_trade_unions
+			custom_effect_tooltip = PAN_unlocks_decisions_to_ask_the_trade_unions_permission_to_contruct_factories_tt
+		}
+	}
+
+	## Military Preperations ##
+	focus = {
+		id = PAN_military_preperations
+		icon = GFX_focus_generic_military_industry
+		x = -1
+		y = 1
+		relative_position_id = PAN_establish_centralized_trade_unions
+		prerequisite = {
+			focus = PAN_establish_centralized_trade_unions
+		}
+
+		cost = 10
+
+		search_filters = {
+			FOCUS_FILTER_MANPOWER FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_2_military = yes 
+
+			if = {
+				limit = {
+					has_idea = PAN_anarcho_syndicalism
+				}
+				swap_ideas = {
+					remove_idea = PAN_anarcho_syndicalism
+					add_idea = PAN_anarcho_syndicalism_2
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = PAN_anarcho_syndicalism_3
+					add_idea = PAN_anarcho_syndicalism_4
+				}
+			}
+		}
+	}
+
+	## Extensive Cooperation with the Trade Unions ##
+	focus = {
+		id = PAN_extensive_cooperation_with_the_trade_unions
+		icon = GFX_focus_generic_currency_reforms
+		x = 1
+		y = 1
+		relative_position_id = PAN_establish_centralized_trade_unions
+		prerequisite = {
+			focus = PAN_establish_centralized_trade_unions
+		}
+
+		cost = 10
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_2_civilian = yes
+
+			if = {
+				limit = {
+					has_idea = PAN_anarcho_syndicalism
+				}
+				swap_ideas = {
+					remove_idea = PAN_anarcho_syndicalism
+					add_idea = PAN_anarcho_syndicalism_3
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = PAN_anarcho_syndicalism_2
+					add_idea = PAN_anarcho_syndicalism_4
+				}
+			}
+		}
+	}
+
+	## The International Syndicalist Movement ##
+	focus = {
+		id = PAN_the_international_syndicalist_movement
+		icon = GFX_goal_generic_attack_allies
+		x = 0
+		y = 2
+		relative_position_id = PAN_establish_centralized_trade_unions
+		prerequisite = {
+			focus = PAN_establish_centralized_trade_unions
+		}
+
+		cost = 7.2
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			set_rule = {
+				can_create_factions = yes 
+				can_send_volunteers = yes
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_ideas = ARG_expansionist_policy
+			add_political_power = 50
+			every_neighbor_country = {
+				add_stability = -0.02
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			remove_country_leader_trait = ECU_low_public_support
+
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						any_owned_state = {
+							is_on_continent = south_america
+						}
+					}
+					add_opinion_modifier = { target = ROOT modifier = CHL_anarchist_state_in_proximity }
+				}
+			}
+		}
+	}
+
+	## Dismantle Global Borders ##
+	focus = {
+		id = PAN_dismantle_global_borders
+		icon = GFX_focus_ARG_no_gods_no_masters
+		x = 1
+		y = 1
+		relative_position_id = PAN_the_international_syndicalist_movement
+		prerequisite = {
+			focus = PAN_the_international_syndicalist_movement
+		}
+
+		cost = 10
+
+		available = {
+			any_controlled_state = {
+				NOT = { is_core_of = ROOT }
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			add_ideas = ARG_anarchism_knows_no_borders
+
+			custom_effect_tooltip = PAN_unlock_decisions_to_destabilize_our_enemies_while_at_war_tt
+		}
+	}
+
+	## Global Syndicalist Recruitment ##
+	focus = {
+		id = PAN_global_syndicalist_recruitment
+		icon = GFX_focus_RAJ_to_shake_the_world
+		x = 0
+		y = 1
+		relative_position_id = PAN_dismantle_global_borders
+		prerequisite = {
+			focus = PAN_dismantle_global_borders
+		}
+
+		cost = 10
+
+		available = {
+			num_of_controlled_states > 49
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION FOCUS_FILTER_MANPOWER
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ARG_anarchism_knows_no_borders
+				add_idea = ARG_anarchism_knows_no_borders_2
+			}
+		}
+	}
+
+	## Integrate Foreign Syndicates ##
+	focus = {
+		id = PAN_integrate_foreign_syndicates
+		icon = GFX_focus_generic_annex_country_2
+		x = -1
+		y = 1
+		relative_position_id = PAN_the_international_syndicalist_movement
+		prerequisite = {
+			focus = PAN_the_international_syndicalist_movement
+		}
+
+		cost = 10
+
+		available = {
+			num_of_controlled_states > 7
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = PAN_unlocks_integration_decisions_tt
+		}
+	}
+
+	## March Over the Canal ##
+	focus = {
+		id = PAN_march_over_the_canal
+		icon = GFX_PAN_demand_control_over_the_canal_icon
+		x = -4
+		y = 2
+		relative_position_id = PAN_the_international_syndicalist_movement
+		prerequisite = {
+			focus = PAN_the_international_syndicalist_movement
+			focus = PAN_the_panamanian_communist_army
+		}
+		will_lead_to_war_with = USA
+
+		cost = 5
+
+		available = {
+			divisions_in_state = {
+				size > 2
+				state = 304
+			}
+		}
+
+		bypass = {
+			685 = { is_controlled_by = ROOT }
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			685 = {
+				controller = {
+					save_event_target_as = PANAMA_CANAL_CONTROLLER
+				}
+			}
+			if = {
+				limit = {
+					event_target:PANAMA_CANAL_CONTROLLER = {
+						divisions_in_state = {
+							size > 0
+							state = 685
+						}
+					}
+				}
+				start_border_war = {
+					change_state_after_war = no
+					attacker = {
+						state = 304
+						num_provinces = 1
+						on_win = colombia.77
+						on_lose = colombia.79
+						#on_cancel = 
+					}
+					
+					defender = {
+						state = 685
+						num_provinces = 1
+						on_win = colombia.80
+						on_lose = colombia.78
+						#on_cancel = 
+					}
+				}
+				
+				USA = {
+					add_opinion_modifier = {
+						target = ROOT
+						modifier = mexico_attack_on_panama_canal
+					}
+				}
+
+				effect_tooltip = {
+					unlock_national_focus = PAN_the_canal_or_nothing
+				}
+			}
+			else = { ## If the USA doesnt have any troops on the canal for some reason
+				declare_war_on = {
+					target = event_target:PANAMA_CANAL_CONTROLLER
+				}
+				activate_mission = PAN_capture_the_canal
+			}
+		}
+	}
+
+	## Push North ##
+	focus = {
+		id = PAN_liberate_the_costa_ricans
+		icon = GFX_CEA_attack_costa_rica_icon
+		x = 0
+		y = 1
+		relative_position_id = PAN_march_over_the_canal
+		prerequisite = {
+			focus = PAN_march_over_the_canal
+		}
+		will_lead_to_war_with = COS
+
+		cost = 6
+
+		available = {
+			OR = {
+				685 = { is_controlled_by = ROOT }
+				has_army_manpower = {
+					size > 49999
+				}
+				has_war_support > 0.8 
+				threat > 0.1
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		bypass = {
+			COS = {
+				OR = {
+					exists = no 
+					is_subject_of = ROOT 
+					is_in_faction_with = ROOT
+					all_core_state = {
+						is_controlled_by = ROOT
+					}
+				}
+			}
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					316 = {
+						NOT = { is_core_of = ROOT }
+					}
+				}
+				add_state_core = 316
+			}
+
+			create_wargoal = {
+				target = COS
+				type = annex_everything
+			}
+		}
+	}
+
+	## Conquer the Rest of Central America ##
+	focus = {
+		id = PAN_conquer_the_rest_of_central_america
+		icon = GFX_ARG_conquer_america_central
+		x = -2
+		y = 1
+		relative_position_id = PAN_liberate_the_costa_ricans
+		prerequisite = {
+			focus = PAN_liberate_the_costa_ricans
+		}
+
+		will_lead_to_war_with = GUA 
+		will_lead_to_war_with = ELS 
+		will_lead_to_war_with = NIC 
+		will_lead_to_war_with = HON
+
+		cost = 10
+
+		available = {
+			OR = {
+				AND = {
+					num_of_military_factories > 4
+					has_army_manpower = {
+						size > 49999
+					}
+				}
+				AND = {
+					has_full_control_of_state = 1056
+					has_full_control_of_state = 316
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = GUA 
+						original_tag = ELS 
+						original_tag = NIC 
+						original_tag = HON
+					}
+					NOT = {
+						OR = {
+							has_war_with = ROOT 
+							is_in_faction_with = ROOT
+						}
+					}
+				}
+				hidden_effect = {
+					ROOT = {
+						create_wargoal = {
+							target = PREV 
+							type = annex_everything
+						}
+					}
+				}
+			}
+		}
+	}
+
+	## The March South ##
+	focus = {
+		id = PAN_the_march_south
+		icon = GFX_PRU_attack_colombia
+		x = 2
+		y = 1
+		relative_position_id = PAN_liberate_the_costa_ricans
+		prerequisite = {
+			focus = PAN_liberate_the_costa_ricans
+		}
+		will_lead_to_war_with = COL
+
+		cost = 8
+
+		available = {
+			has_completed_focus = CEA_establish_jungle_regiments
+			has_army_manpower = {
+				size > 79999
+			}
+			num_of_factories > 19
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					1092 = {
+						NOT = { is_core_of = ROOT }
+					}
+				}
+				add_state_core = 1092
+			}
+
+			create_wargoal = {
+				target = COL
+				type = annex_everything
+			}
+		}
+	}
+
+	## The Revolution in South America ##
+	focus = {
+		id = PAN_the_revolution_in_south_america
+		icon = GFX_focus_GER_align_south_america
+		x = 3
+		y = 2
+		relative_position_id = PAN_liberate_the_costa_ricans
+		prerequisite = {
+			focus = PAN_the_march_south
+		}
+		will_lead_to_war_with = VEN 
+		will_lead_to_war_with = ECU 
+		will_lead_to_war_with = PRU 
+		will_lead_to_war_with = CHL 
+		will_lead_to_war_with = ARG 
+		will_lead_to_war_with = BOL 
+		will_lead_to_war_with = URG
+		will_lead_to_war_with = PAR
+
+		cost = 10
+
+		available = {
+			has_army_manpower = {
+				size > 199999
+			}
+			num_of_factories > 49
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = HON_unlock_war_plan_decisions_sa_tt
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = VEN 
+						original_tag = ECU 
+						original_tag = PRU 
+						original_tag = CHL 
+						original_tag = BOL 
+						original_tag = ARG 
+						original_tag = URG 
+						original_tag = PAR
+					}
+					NOT = {
+						has_war_with = ROOT
+						is_in_faction_with = ROOT 
+					}
+				}
+				hidden_effect = {
+					ROOT = {
+						create_wargoal = {
+							target = PREV 
+							type = annex_everything
+						}
+					}
+				}
+			}
+		}
+	}
+
+	## The Revolution in North America ##
+	focus = {
+		id = PAN_the_revolution_in_north_america
+		icon = GFX_CEA_take_north_america_icon
+		x = -3
+		y = 2
+		relative_position_id = PAN_liberate_the_costa_ricans
+		prerequisite = {
+			focus = PAN_conquer_the_rest_of_central_america
+		}
+
+		cost = 10
+
+		available = {
+			has_army_manpower = {
+				size > 249999
+			}
+			num_of_factories > 89
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = HON_unlock_war_plan_decisions_na_tt
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
+				limit = {
+					capital_scope = {
+						is_on_continent = north_america
+					}
+					NOT = {
+						has_war_with = ROOT
+						is_in_faction_with = ROOT 
+					}
+				}
+				hidden_effect = {
+					ROOT = {
+						create_wargoal = {
+							target = PREV 
+							type = annex_everything
+						}
+					}
+				}
+			}
+		}
+	}
+
+	## Crush the Imperialists ##
+	focus = {
+		id = PAN_crush_the_imperialists
+		icon = GFX_focus_usa_focus_on_europe
+		x = 1
+		y = 2
+		relative_position_id = PAN_liberate_the_costa_ricans
+		prerequisite = {
+			focus = PAN_the_march_south
+			focus = PAN_conquer_the_rest_of_central_america
+		}
+
+		cost = 10
+
+		available = {
+			has_army_manpower = {
+				size > 499999
+			}
+			has_navy_size = {
+				size > 49
+			}
+			num_of_factories > 119
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
+				limit = {
+					is_major = yes 
+					capital_scope = {
+						is_on_continent = europe
+					}
+					OR = {
+						has_government = fascism 
+						has_government = democratic
+						has_government = neutrality
+					}
+					NOT = {
+						OR = {
+							is_in_faction_with = ROOT 
+							has_war_with = ROOT 
+						}
+					}
+				}
+				hidden_effect = {
+					ROOT = {
+						create_wargoal = {
+							target = PREV 
+							type = annex_everything
+						}
+					}
+				}
+			}
+		}
+	}
+
+	## Revolution in the Caribbean ##
+	focus = {
+		id = PAN_revolution_in_the_caribbean
+		icon = GFX_focus_CHL_liberate_the_caribbean
+		x = -1
+		y = 2
+		relative_position_id = PAN_liberate_the_costa_ricans
+		prerequisite = {
+			focus = PAN_the_march_south
+			focus = PAN_conquer_the_rest_of_central_america
+		}
+		will_lead_to_war_with = CUB 
+		will_lead_to_war_with = DOM 
+		will_lead_to_war_with = HAI
+
+		cost = 6
+
+		available = {
+			has_navy_size = {
+				size > 19
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			689 = { add_core_of = ROOT }
+			686 = { add_core_of = ROOT }
+			694 = { add_core_of = ROOT }
+			308 = { add_core_of = ROOT }
+			692 = { add_core_of = ROOT }
+			690 = { add_core_of = ROOT }
+			693 = { add_core_of = ROOT }
+			695 = { add_core_of = ROOT }
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = CUB 
+						original_tag = DOM 
+						original_tag = HAI 
+					}
+					is_subject_of = ROOT 
+				}
+				ROOT = {
+					annex_country = {
+						target = PREV 
+						transfer_troops = yes 
+					}
+				}
+			}
+
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = CUB 
+						original_tag = DOM 
+						original_tag = HAI 
+					}
+					NOT = {
+						OR = {
+							has_war_with = ROOT 
+							is_in_faction_with = ROOT
+						}
+					}
+				}
+				hidden_effect = {
+					ROOT = {
+						create_wargoal = {
+							target = PREV 
+							type = annex_everything
+						}
+					}
+				}
+			}
+			
+		}
+	}
+
+	## Cooperate with Foreign Guerilla Groups ##
+	focus = {
+		id = PAN_cooperate_with_foreign_guerilla_groups
+		icon = GFX_HON_agitate_foreign_guerilla_groups_icon
+		x = 1
+		y = 1
+		relative_position_id = PAN_the_panamanian_communist_army
+		prerequisite = {
+			focus = PAN_the_panamanian_communist_army
+		}
+		cost = 5
+
+		available = {
+			communism > 0.6
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			add_political_power = 25 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = HON_unlock_agitate_guerillas_decisions_tt
+		}
+	}
+
+	## Integrate the Revolutionaries ##
+	focus = {
+		id = PAN_integrate_the_revolutionaries
+		icon = GFX_focus_AUS_danubian_socialist_communes
+		x = 0
+		y = 1
+		relative_position_id = PAN_cooperate_with_foreign_guerilla_groups
+		prerequisite = {
+			focus = PAN_cooperate_with_foreign_guerilla_groups
+		}
+
+		cost = 10
+
+		available = {
+			num_of_controlled_states > 9
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = HON_unlock_integration_decisions_tt
+		}
+	}
+
+	## Join the Soviets ##
+	focus = {
+		id = PAN_join_the_soviets
+		icon = GFX_focus_chi_mission_to_the_soviet_union
+		x = -3
+		y = 1
+		relative_position_id = PAN_the_panamanian_communist_army
+		prerequisite = {
+			focus = PAN_the_panamanian_communist_army
+		}
+		mutually_exclusive = {
+			focus = PAN_create_our_own_revolutionary_bloc
+		}
+
+		cost = 7.2
+		## copy pasting your own code again huh? 
+		## sorry guys im kinda in a rush :((((
+		available = {
+			is_in_faction = no 
+			SOV = {
+				exists = yes 
+				has_government = communism
+				NOT = { has_war_with = ROOT }
+				is_subject = no 
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			SOV = {
+				country_event = generic.2
+			}
+
+			custom_effect_tooltip = ARG_iftheyaccept
+
+			unlock_decision_tooltip = {
+				decision = HON_import_soviet_guns
+				show_effect_tooltip = yes
+			}
+		}
+	}
+
+	## Create our Own Revolutionary Bloc ##
+	focus = {
+		id = PAN_create_our_own_revolutionary_bloc
+		icon = GFX_focus_generic_spur_communist_revolutions
+		x = -1
+		y = 1
+		relative_position_id = PAN_the_panamanian_communist_army
+		prerequisite = {
+			focus = PAN_the_panamanian_communist_army
+		}
+		mutually_exclusive = {
+			focus = PAN_join_the_soviets
+		}
+
+		cost = 7.2
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			set_rule = {
+				can_create_factions = yes
+			}
+
+			add_political_power = 50
+		}
+	}
+
+	## The Global Union of Socialist Republics ##
+	focus = {
+		id = PAN_the_global_union_of_socialist_republics
+		icon = GFX_PAN_glonal_union_icon
+		x = -1
+		y = 1
+		relative_position_id = PAN_create_our_own_revolutionary_bloc
+		prerequisite = {
+			focus = PAN_join_the_soviets
+			focus = PAN_create_our_own_revolutionary_bloc
+		}
+
+		cost = 10
+
+		available = {
+			num_of_factories > 199
+			num_of_controlled_states > 49
+			has_army_manpower = {
+				size > 499999
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			hidden_effect = {
+				drop_cosmetic_tag = yes 
+			}
+			set_cosmetic_tag = GUOSR_UNIFIED
+
+			custom_effect_tooltip = PAN_we_will_demand_every_communist_nation_on_the_planet_to_subjegate_to_us_tt
+
+			every_other_country = {
+				limit = {
+					has_government = communism
+					NOT = {
+						is_subject_of = ROOT 
+						is_in_faction_with = ROOT 
+						has_war_with = ROOT
+					}
+				}
+				country_event = {
+					id = venezuela.49
+					hours = 4
+					random_hours = 16
+				}
+			}
+		}
 	}
 
 	## Panamanian subtree for economy ##
@@ -1917,6 +3932,7 @@ focus_tree = {
 		cost = 5
 
 		available = {
+			NOT = { has_completed_focus = PAN_denounce_the_poor_administration }
 			any_controlled_state = {
 				any_neighbor_state = {
 					state = 685
@@ -1933,6 +3949,7 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			custom_effect_tooltip = PAN_taking_this_focus_locks_out_denounce_the_poor_administration_branch_tt	
 			country_event = cea.7
 
 			custom_effect_tooltip = CHL_skip_one_line_tt

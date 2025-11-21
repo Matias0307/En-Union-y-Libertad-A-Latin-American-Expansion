@@ -1200,6 +1200,59 @@ country_event = {
 	}
 }
 
+## NEWS | American Intervention in Central America 
+news_event = {
+	id = cea.22 
+	title = cea.22.t 
+	desc = cea.22.d 
+	picture = GFX_CEA_american_intervention_in_central_america_pic
+
+	major = yes 
+
+	fire_only_once = yes 
+
+	trigger = {
+		USA = {
+			exists = yes 
+			any_other_country = {
+				OR = {
+					original_tag = HON 
+					original_tag = GUA 
+					original_tag = PAN 
+					original_tag = NIC 
+					original_tag = ELS 
+					original_tag = COS 
+				}
+				has_defensive_war_with = PREV
+			}
+		}
+	}
+
+	option = {
+		name = cea.22.a 
+		trigger = {
+			original_tag = USA 
+		}
+	}
+
+	option = {
+		name = cea.22.b 
+		trigger = {
+			CEA_is_central_american = yes 
+		}
+	}
+
+	option = {
+		name = cea.22.c 
+		trigger = {
+			NOT = {
+				original_tag = USA 
+				CEA_is_central_american = yes
+			}
+		}
+	}
+}
+
 ############# HONDURAS #############
 ### The Re-Election of Tiburicio by the Constituent Assembly ###
 country_event = {
@@ -2872,7 +2925,7 @@ country_event = {
 	}
 }
 
-## Panamanian Political Outlook looks Certain ## (kinda historical kinda not, its very generalized)
+## Panamanian Political Outlook looks Uncertain ## (kinda historical kinda not, its very generalized)
 country_event = {
 	id = pan.7
 	title = pan.7.t 
@@ -2975,6 +3028,8 @@ country_event = {
 			election_frequency = 48
 		}
 
+		add_stability = 0.05
+
 		promote_character = PAN_enrique_jimenez_brin
 	}
 }
@@ -3002,5 +3057,89 @@ news_event = {
 		trigger = {
 			NOT = { original_tag = PAN }
 		}
+	}
+}
+
+## FROM (Panama) Poses a threat to our Sovereignty over the Canal ##
+country_event = {
+	id = pan.13
+	title = pan.13.t
+	desc = pan.13.d 
+	picture = GFX_report_event_generic_army
+
+	is_triggered_only = yes 
+
+	option = { ## They shall be swiftly dealt with
+		name = pan.13.a 
+		ai_chance = {
+			base = 25
+			modifier = {
+				factor = 3
+				FROM = {
+					NOT = {
+						has_government = ROOT 
+					}
+				}
+			}
+		}
+		add_ai_strategy = {
+			type = prepare_for_war
+			id = FROM
+			value = 70
+		}
+		create_wargoal = {
+			target = FROM
+			type = puppet_wargoal_focus
+		}
+
+		hidden_effect = {
+			FROM = {
+				country_event = {
+					id = cea.4 ## USA invasion imminent
+					hours = 8
+					random_hours = 8
+				}
+			}
+		}
+	}
+
+	option = { ## we cant deal with that rn (registered nurse)
+		name = pan.13.b 
+		ai_chance = {
+			base = 2
+			modifier = {
+				factor = 250
+				has_civil_war = yes ## insane 
+			}
+		}
+		add_war_support = -0.04
+	}
+}
+
+## The [GetYear] Elections 
+country_event = {
+	id = pan.14
+	title = pan.14.t
+	desc = pan.14.d 
+	picture = GFX_report_event_election_vote
+
+	is_triggered_only = yes 
+
+	option = { ## Domingo Diaz Arosemena
+		name = pan.14.a 
+		trigger = {
+			has_character = PAN_domingo_diaz_arosemena
+		}
+
+		add_political_power = 10
+	}
+
+	option = { ## Ricardo J. Alfaro
+		name = pan.14.b 
+		trigger = {
+			has_character = PAN_ricardo_j_alfaro
+		}
+
+		add_stability = 0.01
 	}
 }

@@ -266,6 +266,23 @@ country_event = {
 		}
 		add_to_faction = FROM
 		FROM = { country_event = { id = generic.3 hours = 6 } }
+		IF = {
+			limit = {
+				has_dlc = "No Compromise, No Surrender"
+				ROOT = {
+					original_tag = SOV
+				}
+				FROM = {
+					original_tag = SIK
+					has_completed_focus = SIK_reaffirm_soviet_connections
+				}
+			}
+			SIK = {
+				every_enemy_country = {
+					white_peace = SIK
+				}
+			}
+		}
 		hidden_effect = {
 			set_country_flag = alliance_inviter@ROOT
 			FROM = { 
@@ -363,7 +380,7 @@ country_event = {
 	option = { #Reject
 		name = generic.2.f
 		ai_chance = {
-			factor = 50
+			base = 25
 			
 			modifier = {
 				factor = 0.5
@@ -437,6 +454,25 @@ country_event = {
 					has_completed_focus = wuw_HUN_join_the_comintern
 				}
 			}
+			
+			modifier = {
+				FROM = {
+					original_tag = RAJ
+					has_completed_focus = RAJ_tryst_with_destiny
+				}
+				factor = 0
+			}
+
+			modifier = { # It ruins the entire path if ENG says no so just don't
+				factor = 0
+				FROM = {
+					original_tag = JAP
+					OR = {
+						has_completed_focus = JAP_sea_rekindle_the_old_alliance
+						has_completed_focus = JAP_rekindle_the_old_alliance
+					}
+				}
+			}
 		}
 		FROM = { 
 			country_event = { id = generic.4 hours = 6 }
@@ -464,6 +500,19 @@ country_event = {
 				has_government = democratic
 			}
 		}
+		IF = {
+			limit = {
+				FROM = {
+					original_tag = ENG
+				}
+				ROOT = {
+					original_tag = GER
+					has_government = neutrality
+					has_completed_focus = GER_ally_the_shade
+				}
+			}
+			set_global_flag = ENG_accepted_GER_diplomatic_overtures
+		}
 	}
 	option = {
 		name = generic.3.b
@@ -475,7 +524,19 @@ country_event = {
 				has_government = fascism
 			}
 		}
-
+		IF = {
+			limit = {
+				FROM = {
+					original_tag = ENG
+				}
+				ROOT = {
+					original_tag = GER
+					has_government = neutrality
+					has_completed_focus = GER_ally_the_shade
+				}
+			}
+			set_global_flag = ENG_accepted_GER_diplomatic_overtures
+		}
 
 	}
 	option = {
@@ -488,6 +549,21 @@ country_event = {
 				has_government = communism
 			}
 		}
+
+		IF = {
+			limit = {
+				FROM = {
+					original_tag = ENG
+				}
+				ROOT = {
+					original_tag = GER
+					has_government = neutrality
+					has_completed_focus = GER_ally_the_shade
+				}
+			}
+			set_global_flag = ENG_accepted_GER_diplomatic_overtures
+		}
+
 	}
 	option = {
 		name = generic.3.e
@@ -513,6 +589,20 @@ country_event = {
 				}
 			}
 		}
+		IF = {
+			limit = {
+				FROM = {
+					original_tag = ENG
+				}
+				ROOT = {
+					original_tag = GER
+					has_government = neutrality
+					has_completed_focus = GER_ally_the_shade
+				}
+			}
+			set_global_flag = ENG_accepted_GER_diplomatic_overtures
+		}
+		
 	}
 }
 
@@ -803,9 +893,9 @@ country_event = {
 			is_in_faction = no
 			AND = {
 				FROM = {
-					has_government = fascism
+					has_government = communism
 				}
-				has_government = fascism
+				has_government = communism
 			}
 			#Lone Wolf Finland can't join any factions
 			FIN_is_lone_wolf_finland = no
@@ -883,13 +973,13 @@ country_event = {
 		ai_chance = {
 			base = 100
 			
-			#modifier = {
-			#	factor = 0.5
-			#	has_war = no
-			#	FROM = {
-			#		has_war = yes
-			#	}
-			#}
+			modifier = {
+				factor = 0.5
+				has_war = no
+				FROM = {
+					has_war = yes
+				}
+			}
 
 			modifier = {
 				factor = 2
@@ -954,6 +1044,7 @@ country_event = {
 			set_country_flag = alliance_applicant@ROOT
 			FROM = { set_country_flag = alliance_inviter@ROOT }
 			news_event = { id = news.289 hours = 12 }
+			GER_setup_faction_wide_aoe_effects_from = yes
 		}
 	}
 	
@@ -1059,6 +1150,19 @@ country_event = {
 					original_tag = SOV
 					has_completed_focus = SOV_covert_support_for_spanish_poum
 				}
+			}
+			
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+				FROM = { original_tag = JAP }
+				original_tag = SIA
+			}
+
+			modifier = {
+				factor = 0
+				FROM = { original_tag = JAP }
+				original_tag = ETH 
 			}
 		}
 		#Lone Wolf Finland can't join any factions - Tooltip for player
