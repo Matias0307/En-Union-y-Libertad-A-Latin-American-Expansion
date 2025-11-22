@@ -4,12 +4,31 @@ characters={
 		portraits={
 			civilian={
 				large="GFX_portrait_panama_harmodio_arias_madrid"
+				small = "GFX_idea_PAN_harmodio_arias_icon"
 			}
 		}
 		country_leader={
 			ideology=liberalism
 			expire="1965.1.1.1"
 			id=-1
+		}
+		advisor={
+			slot = political_advisor
+			idea_token = PAN_harmodio_arias_madrid
+			available = {
+				NOT = {
+					has_country_leader = {
+						character = PAN_harmodio_arias_madrid
+						ruling_only = yes
+					}
+				}
+			}
+			allowed  = {
+				original_tag = PAN
+			}
+			traits  = {
+				sharp_tongued_lawyer 
+			}
 		}
 	}
 
@@ -30,11 +49,11 @@ characters={
 		}
 	}
 
-	PAN_domingo_diaz_arosemena = { ## TODO: Portrait
+	PAN_domingo_diaz_arosemena = {
 		name = "Domingo Díaz Arosemena"
 		portraits = {
 			civilian = {
-				large = "gfx/leaders/South America/Portrait_South_America_Generic_2.dds"
+				large = "gfx/leaders/PAN/portrait_PAN_domingo_diaz_arosemena.png"
 			}
 		}
 		country_leader={
@@ -73,6 +92,7 @@ characters={
 		portraits={
 			civilian={
 				large="gfx/leaders/PAN/portrait_PAN_Arnulfo_Arias_Madrid.dds"
+				small = "GFX_idea_PAN_arnulfo_arias_madrid_icon"
 			}
 		}
 		country_leader={
@@ -81,13 +101,34 @@ characters={
 			expire="1965.1.1.12"
 			id=-1
 		}
+		advisor={
+			slot = political_advisor
+			idea_token = PAN_arnulfo_arias_madrid
+			cost = 125
+			available = {
+				NOT = {
+					has_country_leader = {
+						character = PAN_arnulfo_arias_madrid
+						ruling_only = yes
+					}
+				}
+				NOT = { has_government = communism }
+			}
+			allowed  = {
+				original_tag = PAN
+			}
+			traits  = {
+				nationalist_journalist 
+			}
+		}
 	}
 
-	PAN_ricardo_j_alfaro = { ## TODO: Portrait
+	PAN_ricardo_j_alfaro = { 
 		name = "Ricardo J. Alfaro"
 		portraits = {
 			civilian = {
-				large = "gfx/leaders/South America/Portrait_South_America_Generic_1.dds"
+				large = "gfx/leaders/PAN/portrait_PAN_ricardo_j_alfaro.png"
+				small = "GFX_idea_PAN_ricardo_j_alfaro_icon"
 			}
 		}
 		country_leader={
@@ -101,9 +142,11 @@ characters={
 			idea_token = PAN_ricardo_j_alfaro
 			cost = 75
 			available = {
-				has_country_leader = {
-					character = PAN_ricardo_j_alfaro
-					ruling_only = yes
+				NOT = {
+					has_country_leader = {
+						character = PAN_ricardo_j_alfaro
+						ruling_only = yes
+					}
 				}
 			}
 			allowed  = {
@@ -115,11 +158,12 @@ characters={
 		}
 	}
 
-	PAN_ricardo_adolfo_de_la_guardia = { ## TODO: Portrait
+	PAN_ricardo_adolfo_de_la_guardia = {
 		name = "Ricardo Adolfo de la Guardia"
 		portraits = {
 			civilian = {
-				large = "gfx/leaders/South America/Portrait_South_America_Generic_1.dds"
+				large = "gfx/leaders/PAN/portrait_PAN_ricardo_adolfo_de_la_guardia.png"
+				small = "GFX_idea_PAN_ricardo_adolfo_de_la_guardia_icon"
 			}
 		}
 		country_leader = {
@@ -130,18 +174,57 @@ characters={
 			expire="1965.1.1.1"
 			id=-1
 		}
+		advisor={
+			slot = political_advisor
+			idea_token = PAN_ricardo_adolfo_de_la_guardia
+			cost = 100
+			available = {
+				NOT = {
+					has_country_leader = {
+						character = PAN_ricardo_adolfo_de_la_guardia
+						ruling_only = yes
+					}
+				}
+			}
+			allowed  = {
+				original_tag = PAN
+			}
+			traits  = {
+				ARG_minister_of_interior 
+			}
+		}
 	}
 
 	PAN_enrique_jimenez_brin={
 		name="Enrique Jimenez Brín"
 		portraits={
 			civilian={
-				large="gfx/leaders/PAN/Portrait_PAN_Enrique_Adolfo_Jimenez_Brin.dds"				
+				large="gfx/leaders/PAN/Portrait_PAN_Enrique_Adolfo_Jimenez_Brin.dds"
+				small = "GFX_idea_PAN_enrique_adolfo_jimenez_icon"				
 			}
 			army={
 				small="gfx/interface/ideas/PAN_enrique_jimenez_brin_army.dds"
 			}
-		}		
+		}
+		advisor={
+			slot = political_advisor
+			idea_token = PAN_enrique_jimenez_brin
+			available = {
+				has_stability > 0.5
+				NOT = {
+					has_country_leader = {
+						character = PAN_enrique_jimenez_brin
+						ruling_only = yes
+					}
+				}
+			}
+			allowed  = {
+				original_tag = PAN
+			}
+			traits  = {
+				PAN_ambassador 
+			}
+		}	
 		advisor={
 			cost = 100		
 			slot = theorist
@@ -589,10 +672,13 @@ characters={
 				original_tag  = PAN
 			}
 			available = {
-				has_completed_focus = PAN_denounce_the_poor_administration
+				has_completed_focus = PAN_support_the_proletariat
 			}
 			traits  = {
 				socialist_writer
+			}
+			ai_will_do = {
+				factor = 500
 			}
 
 			on_add = {

@@ -832,6 +832,19 @@ PAN_BoP_canal_control = {
 					value < 0
 				}
 			}
+			modifier = {
+				factor = 0
+				OR = {
+					has_game_rule = {
+						rule = PAN_ai_behavior 
+						option = PAN_COMMUNISM
+					}
+					has_game_rule = {
+						rule = PAN_ai_behavior 
+						option = PAN_ANARCHO_SYNDICALISM
+					}
+				}
+			}
 		}
 
 		available = {
@@ -975,6 +988,10 @@ PAN_BoP_canal_control = {
 
 		ai_will_do = {
 			base = 15
+			modifier = {
+				factor = 5
+				threat > 0.1
+			}
 		}
 
 		on_map_mode = map_and_decisions_view
@@ -1019,6 +1036,10 @@ PAN_BoP_canal_control = {
 		state_target = yes 
 
 		targets = { 304 }
+
+		ai_will_do = {
+			base = 300
+		}
 
 		visible = {
 			has_completed_focus = PAN_a_militarist_approach
@@ -1102,6 +1123,10 @@ PAN_BoP_canal_control = {
 
 		targets = { 685 }
 
+		ai_will_do = {
+			base = 225
+		}
+
 		visible = {
 			has_completed_focus = PAN_a_diplomatic_approach
 		}
@@ -1154,11 +1179,16 @@ PAN_BoP_canal_control = {
 		}
 
 		available = {
-			has_completed_focus = PAN_our_one_true_ally
 			NOT = {
 				has_war_with = USA 
 			}
 			USA = { exists = yes }
+			USA = {
+				has_opinion = {
+					target = ROOT 
+					value > 9
+				}
+			}
 		}
 
 		cost = 50
@@ -3176,16 +3206,58 @@ PAN_ongoing_talks_with_the_united_states = {
 	PAN_establish_political_boundaries = {
 		icon = generic_civil_support
 
-		cost = 15
+		cost = 10
+
+		ai_will_do = {
+			base = 250
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes 
+				check_variable = {
+					PAN_sovereignty_points > 61
+				}
+			}
+			modifier = {
+				factor = 0.5
+				check_variable = {
+					PAN_sovereignty_points > 65
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = {
+					PAN_sovereignty_points > 91
+				}
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					has_game_rule = {
+						rule = PAN_ai_behavior 
+						option = PAN_COMMUNISM
+					}
+					has_game_rule = {
+						rule = PAN_ai_behavior 
+						option = PAN_ANARCHO_SYNDICALISM
+					}
+				}
+			}
+		}
 
 		available = {
 			has_active_mission = PAN_outcome_of_the_treaty
 		}
 
-		days_remove = 20 
+		days_remove = 15 
 
 		modifier = {
 			political_power_gain = -0.05 
+		}
+
+		cancel_trigger = {
+			NOT = {
+				has_active_mission = PAN_outcome_of_the_treaty
+			}
 		}
 
 		remove_effect = {
@@ -3204,13 +3276,55 @@ PAN_ongoing_talks_with_the_united_states = {
 	PAN_calm_the_american_fears_of_local_extremism = {
 		icon = generic_political_discourse
 
-		cost = 30
+		cost = 20
+
+		ai_will_do = {
+			base = 250
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes 
+				check_variable = {
+					PAN_sovereignty_points > 61
+				}
+			}
+			modifier = {
+				factor = 0.5
+				check_variable = {
+					PAN_sovereignty_points > 65
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = {
+					PAN_sovereignty_points > 91
+				}
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					has_game_rule = {
+						rule = PAN_ai_behavior 
+						option = PAN_COMMUNISM
+					}
+					has_game_rule = {
+						rule = PAN_ai_behavior 
+						option = PAN_ANARCHO_SYNDICALISM
+					}
+				}
+			}
+		}
 
 		available = {
 			has_active_mission = PAN_outcome_of_the_treaty
 		}
 
 		days_remove = 15
+
+		cancel_trigger = {
+			NOT = {
+				has_active_mission = PAN_outcome_of_the_treaty
+			}
+		}
 
 		modifier = {
 			political_power_factor = -0.1
@@ -3244,7 +3358,43 @@ PAN_ongoing_talks_with_the_united_states = {
 
 		fire_only_once = yes 
 
-		days_remove = 50
+		ai_will_do = {
+			base = 250
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes 
+				check_variable = {
+					PAN_sovereignty_points > 61
+				}
+			}
+			modifier = {
+				factor = 0.5
+				check_variable = {
+					PAN_sovereignty_points > 65
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = {
+					PAN_sovereignty_points > 91
+				}
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					has_game_rule = {
+						rule = PAN_ai_behavior 
+						option = PAN_COMMUNISM
+					}
+					has_game_rule = {
+						rule = PAN_ai_behavior 
+						option = PAN_ANARCHO_SYNDICALISM
+					}
+				}
+			}
+		}
+
+		days_remove = 30
 
 		cancel_trigger = {
 			NOT = {
@@ -3282,11 +3432,47 @@ PAN_ongoing_talks_with_the_united_states = {
 
 		fire_only_once = yes 
 
+		ai_will_do = {
+			base = 300
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes 
+				check_variable = {
+					PAN_sovereignty_points > 61
+				}
+			}
+			modifier = {
+				factor = 0.5
+				check_variable = {
+					PAN_sovereignty_points > 65
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = {
+					PAN_sovereignty_points > 91
+				}
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					has_game_rule = {
+						rule = PAN_ai_behavior 
+						option = PAN_COMMUNISM
+					}
+					has_game_rule = {
+						rule = PAN_ai_behavior 
+						option = PAN_ANARCHO_SYNDICALISM
+					}
+				}
+			}
+		}
+
 		available = {
 			has_active_mission = PAN_outcome_of_the_treaty
 		}
 
-		days_remove = 60
+		days_remove = 45
 
 		modifier = {
 			experience_gain_army_factor = -0.1
@@ -3325,11 +3511,47 @@ PAN_ongoing_talks_with_the_united_states = {
 
 		cost = 10
 
+		ai_will_do = {
+			base = 350
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes 
+				check_variable = {
+					PAN_sovereignty_points > 61
+				}
+			}
+			modifier = {
+				factor = 0.5
+				check_variable = {
+					PAN_sovereignty_points > 65
+				}
+			}
+			modifier = {
+				factor = 0
+				check_variable = {
+					PAN_sovereignty_points > 91
+				}
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					has_game_rule = {
+						rule = PAN_ai_behavior 
+						option = PAN_COMMUNISM
+					}
+					has_game_rule = {
+						rule = PAN_ai_behavior 
+						option = PAN_ANARCHO_SYNDICALISM
+					}
+				}
+			}
+		}
+
 		available = {
 			has_active_mission = PAN_outcome_of_the_treaty
 		}
 
-		days_remove = 35
+		days_remove = 25
 
 		modifier = {
 			stability_weekly = -0.005
@@ -3429,6 +3651,10 @@ PAN_political_management = {
 
 		cost = 50
 
+		ai_will_do = {
+			base = 250
+		}
+
 		state_target = yes 
 		targets = { 1057 304 }
 
@@ -3456,6 +3682,10 @@ PAN_political_management = {
 	PAN_force_submission_of_the_opposition_in_FROM = {
 		icon = oppression
 		cost = 30
+
+		ai_will_do = {
+			base = 250
+		}
 
 		state_target = yes 
 		target_array = controlled_states
@@ -3502,6 +3732,10 @@ PAN_political_management = {
 
 		cost = 20
 
+		ai_will_do = {
+			base = 25
+		}
+
 		visible = {
 			has_completed_focus = PAN_restructuring_the_administration
 			if = {
@@ -3536,6 +3770,14 @@ PAN_political_management = {
 		icon = generic_political_discourse
 
 		cost = 35
+
+		ai_will_do = {
+			base = 150
+			modifier = {
+				factor = 0
+				democratic < 0.29
+			}
+		}
 
 		available = {
 			has_country_leader = {
@@ -3576,6 +3818,14 @@ PAN_political_management = {
 
 		cost = 25
 
+		ai_will_do = {
+			base = 150
+			modifier = {
+				factor = 0
+				democratic < 0.29
+			}
+		}
+
 		fire_only_once = yes 
 
 		available = {
@@ -3605,6 +3855,10 @@ PAN_political_management = {
 		icon = generic_military
 
 		cost = 50
+
+		ai_will_do = {
+			base = 250
+		}
 
 		fire_only_once = yes 
 
@@ -3655,6 +3909,10 @@ PAN_political_management = {
 
 		cost = 30
 
+		ai_will_do = {
+			base = 250
+		}
+
 		visible = {
 			has_completed_focus = PAN_the_fabrega_wilson_agreement
 		}
@@ -3699,6 +3957,14 @@ PAN_political_management = {
 
 		cost = 50
 
+		ai_will_do = {
+			base = 2
+			modifier = {
+				factor = 10
+				has_manpower < 24999
+			}
+		}
+
 		available = {
 			has_war = yes 
 		}
@@ -3738,6 +4004,14 @@ PAN_political_management = {
 		}
 
 		cost = 30
+
+		ai_will_do = {
+			base = 10
+			modifier = {
+				factor = 5
+				num_of_factories < 19
+			}
+		}
 
 		modifier = {
 			political_power_factor = 0.1
@@ -3819,6 +4093,10 @@ PAN_political_management = {
 
 		target_array = core_states
 
+		ai_will_do = {
+			base = 250
+		}
+
 		target_trigger = {
 			FROM = {
 				NOT = {
@@ -3848,6 +4126,11 @@ PAN_political_management = {
 
 	PAN_cooperate_with_the_anarchists = {
 		icon = generic_civil_support
+
+		ai_will_do = { ## TODO: add anarcho game_rule_modifier_here
+			base = 25
+
+		}
 
 		visible = {
 			has_completed_focus = PAN_support_the_proletariat
@@ -3881,6 +4164,10 @@ PAN_political_management = {
 		}
 
 		cost = 25
+
+		ai_will_do = {
+			base = 250
+		}
 
 		modifier = {
 			political_power_factor = -0.05
@@ -4504,6 +4791,10 @@ PAN_the_empire_of_panama_dec_cat = {
 			}
 		}
 
+		ai_will_do = {
+			base = 125
+		}
+
 		visible = {
 			has_completed_focus = PAN_economic_mobilization
 		}
@@ -4535,6 +4826,18 @@ PAN_anarcho_syndicalist_management = {
 
 		days_remove = 60
 
+		ai_will_do = {
+			base = 10
+			modifier = {
+				factor = 10
+				communism < 0.6
+			}
+			modifier = {
+				factor = 0
+				communism > 0.8
+			}
+		}
+
 		modifier = {
 			communism_drift = 0.1
 		}
@@ -4554,6 +4857,17 @@ PAN_anarcho_syndicalist_management = {
 
 		cost = 50
 
+		ai_will_do = {
+			base = 225
+			modifier = {
+				factor = 0.1
+				OR = {
+					has_decision = PAN_ask_the_trade_unions_to_permit_military_factories
+					has_decision = PAN_ask_the_trade_unions_to_permit_dockyards
+				}
+			}
+		}
+
 		available = {
 			has_completed_focus = PAN_establish_centralized_trade_unions
 		}
@@ -4570,6 +4884,17 @@ PAN_anarcho_syndicalist_management = {
 		icon = generic_factory
 
 		cost = 50
+
+		ai_will_do = {
+			base = 225
+			modifier = {
+				factor = 0.1
+				OR = {
+					has_decision = PAN_ask_the_trade_unions_to_permit_civilian_factories
+					has_decision = PAN_ask_the_trade_unions_to_permit_dockyards
+				}
+			}
+		}
 
 		available = {
 			has_completed_focus = PAN_establish_centralized_trade_unions
@@ -4593,6 +4918,17 @@ PAN_anarcho_syndicalist_management = {
 
 		cost = 50
 
+		ai_will_do = {
+			base = 225
+			modifier = {
+				factor = 0.1
+				OR = {
+					has_decision = PAN_ask_the_trade_unions_to_permit_civilian_factories
+					has_decision = PAN_ask_the_trade_unions_to_permit_dockyards
+				}
+			}
+		}
+
 		available = {
 			has_completed_focus = PAN_establish_centralized_trade_unions
 			any_controlled_state = {
@@ -4612,6 +4948,10 @@ PAN_anarcho_syndicalist_management = {
 		icon = generic_confiscation
 
 		cost = 25
+
+		ai_will_do = {
+			base = 250
+		}
 
 		target_trigger = {
 			FROM = {
@@ -4650,6 +4990,10 @@ PAN_anarcho_syndicalist_management = {
 		state_target = yes 
 
 		target_array = owned_states
+
+		ai_will_do = {
+			base = 350
+		}
 
 		target_trigger = {
 			FROM = {

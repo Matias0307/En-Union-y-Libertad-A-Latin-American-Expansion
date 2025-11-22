@@ -433,6 +433,10 @@ shared_focus = {
 
 	cost = 5
 
+	ai_will_do = {
+		base = 4
+	}
+
 	available = {
 		is_subject = no 
 	}
@@ -465,6 +469,10 @@ shared_focus = {
 	}
 
 	cost = 10
+
+	ai_will_do = {
+		base = 4
+	}
 
 	available = {
 		is_subject = no 
@@ -595,6 +603,10 @@ shared_focus = {
 	}
 	prerequisite = {
 		focus = CEA_dismantle_the_plantation_monopoly
+	}
+
+	ai_will_do = {
+		base = 5
 	}
 
 	available = {
@@ -924,6 +936,10 @@ shared_focus = {
 		}
 	}
 
+	ai_will_do = {
+		base = 2
+	}
+
 	offset = {
 		x = 2
 		y = 0
@@ -1081,6 +1097,9 @@ shared_focus = {
 	icon = GFX_focus_generic_agricultural_subsidies
 
 	cost = 8
+	ai_will_do = {
+		base = 10
+	}
 
 	x = 0
 	y = 1
@@ -1401,6 +1420,14 @@ shared_focus = {
 	relative_position_id = CEA_infraustrcure_investments
 	prerequisite = {
 		focus = CEA_infraustrcure_investments
+	}
+
+	ai_will_do = {
+		base = 2
+		modifier = {
+			factor = 5
+			num_of_factories > 29
+		}
 	}
 
 	available = {
@@ -2819,6 +2846,19 @@ joint_focus = {
 		}
 	}
 
+	offset = {
+		x = 0
+		y = 2
+		trigger = {
+			OR = {
+				original_tag = GUA
+				original_tag = ELS
+				original_tag = NIC
+				original_tag = COS
+			}
+		}
+	}
+
 	cost = 2.9
 
 	text_icon = EUYL_CEA_focus_style
@@ -2826,7 +2866,6 @@ joint_focus = {
 	available = {
 		CEA_basic_available_trigger = yes
 	}
-
 
     cancel_if_invalid = yes
     continue_if_invalid = no
@@ -2908,6 +2947,17 @@ joint_focus = {
 
 	completion_reward_joint_originator = {
 		add_political_power = 15
+		if = {
+			limit = {
+				is_in_faction = yes 
+			}
+			event_target:CENTRAL_AMERICAN_FACTION_CREATOR = {
+				add_faction_goal_slot = {
+					category  = short_term
+					value = 1 
+				}
+			}
+		}
 		hidden_effect = {
 			add_to_variable = {
 				global.CEA_DEFENSE_PACT_political_drift_defence_factor = 0.2

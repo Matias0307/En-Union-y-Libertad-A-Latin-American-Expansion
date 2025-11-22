@@ -1101,6 +1101,10 @@ VEN_political_crisis = { ## need to make custom trigger tooltips for these :/
 
         cost = 40
 
+        ai_will_do = {
+            base = 400
+        }
+
         fire_only_once = yes 
 
         complete_effect = {
@@ -1109,6 +1113,23 @@ VEN_political_crisis = { ## need to make custom trigger tooltips for these :/
                     modifier = HON_state_occupied_by_salvador_cisnero
                 }
             }
+            custom_effect_tooltip = HON_this_will_get_us_closer_to_a_totalitarian_dictatorship_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						NOT = {
+							has_country_flag = HON_totalitarian_dictatorship_avail_flag
+						}
+					}
+					set_country_flag = HON_totalitarian_dictatorship_avail_flag
+				}
+                if = {
+                    limit = {
+                        is_ai = yes
+                    }
+                    add_political_power = 50
+                }
+			}
         }
     }
 }

@@ -1,0 +1,94 @@
+EUYL_faction_goal_defeat_paraguay = {
+	name = defeat_paraguay_goal_name
+	description = defeat_paraguay_goal_desc
+	category = short_term
+	group = FOCUS_FILTER_ANNEXATION
+	visible = {
+		FROM = {
+			OR = {
+				has_war_with = PAR
+				any_allied_country = {
+					has_war_with = PAR
+				}
+			}
+		}
+	}
+	cancel = { 
+		PAR = {
+			exists = no 
+		}
+	}
+	completed = {
+		any_country_with_original_tag = {
+			original_tag_to_check = PAR
+			exists = no 
+		}
+	}
+	complete_effect = {
+		add_faction_power_projection = 50
+		custom_effect_tooltip = THE_FACTION_LEADER
+		add_stability = 0.03
+		every_collection_element = {
+			input = {
+				input = game:scope
+				operators =  { 
+					faction_members 
+				}	
+				name = ALL_FACTION_MEMBERS
+			}
+			add_stability = 0.02
+			add_war_support = 0.05
+		}
+	}
+	ai_will_do = {
+		base = 10
+	}
+}
+
+EUYL_faction_goal_defeat_peru_bolivia = {
+	name = defeat_peru_bolivia_goal_name
+	description = defeat_peru_bolivia_goal_desc
+	category = short_term
+	group = FOCUS_FILTER_ANNEXATION
+	visible = {
+		FROM = {
+			has_country_flag = is_in_second_war_of_confederation
+		}
+	}
+	cancel = { 
+		FROM = { exists = no }
+	}
+	completed = {
+		any_other_country = {
+			OR = {
+				original_tag = BOL 
+				original_tag = PRU 
+			}
+			has_country_flag = is_PBC
+			OR = {
+				exists = no 
+				is_subject = no 
+				has_war = no 
+			}
+		}
+	}
+	complete_effect = {
+		add_faction_power_projection = 50
+		custom_effect_tooltip = THE_FACTION_LEADER
+		add_stability = 0.03
+		every_collection_element = {
+			input = {
+				input = game:scope
+				operators =  { 
+					faction_members 
+				}	
+				name = ALL_FACTION_MEMBERS
+			}
+			add_stability = 0.02
+			add_war_support = 0.05
+		}
+	}
+	ai_will_do = {
+		base = 10
+	}
+}
