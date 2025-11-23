@@ -2435,7 +2435,7 @@ focus_tree = {
 				name = ARG_focus_on_heavy_ships
 				bonus = 0.5
 				uses = 3
-				category = cl_tech	
+				#category = cl_tech	
 				category = ca_tech	
 			}
 			random_owned_controlled_state = {
@@ -9378,7 +9378,15 @@ focus_tree = {
 			}
 			else = {
 				set_rule = { can_create_factions = yes }
-				create_faction_from_template = EUYL_south_american_defense_pact
+				if = {
+					limit = {
+						has_dlc = "No Compromise, No Surrender"
+					}
+					create_faction_from_template = EUYL_south_american_defense_pact
+				}
+				else = {
+					create_faction = ARG_defense_council_faction
+				}
 				every_other_country = {
 					limit = {
 						OR = {
@@ -12219,17 +12227,17 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				bonus = 1.0
-				uses = 3
-				category = cl_tech
+				uses = 2
+				category = ca_tech
 			}		
 			add_tech_bonus = {
 				bonus = 1.0
-				uses = 3
+				uses = 2
 				category = shbb_tech
 			}	
 			add_tech_bonus = {
 				bonus = 1.0
-				uses = 3
+				uses = 2
 				category = bb_tech
 			}			
 			remove_ideas = PRU_naval_democratic_loyalties

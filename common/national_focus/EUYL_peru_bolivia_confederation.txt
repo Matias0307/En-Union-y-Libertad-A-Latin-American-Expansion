@@ -2097,7 +2097,7 @@ focus_tree = {
 				name = PBC_modernizing_the_light_cruisers
 				bonus = 1.0
 				uses = 2
-				category = cl_tech
+				category = ca_tech
 			}
 		}
 	}
@@ -2894,7 +2894,15 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
 		completion_reward = {
-			create_faction_from_template = faction_template_defensive_democratic
+			if = {
+				limit = {
+					has_dlc = "No Compromise, No Surrender"
+				}
+				create_faction_from_template = faction_template_defensive_democratic
+			}
+			else = {
+				create_faction = ARG_defense_council_faction
+			}
 			add_war_support = 0.05
 			every_other_country = {
 				limit = {

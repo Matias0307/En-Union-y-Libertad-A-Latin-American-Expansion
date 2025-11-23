@@ -201,6 +201,10 @@ focus_tree = {
 
 		cost = 6
 
+		ai_will_do = {
+			base = 15
+		}
+
 		available = {
 			OR = {
 				custom_trigger_tooltip = {
@@ -1145,9 +1149,30 @@ focus_tree = {
 			}
 		}
 
+		select_effect = {
+			add_ideas = EUYL_expansionist_path
+			every_other_country = {
+				limit = { 
+					any_controlled_state = {
+						is_claimed_by = ROOT
+					}
+				}
+				ROOT = {
+					add_ai_strategy = {
+						type = prepare_for_war
+						id = PREV
+						value = 70
+					}
+				}
+			}
+		}
+
 		search_filters = {
 			FOCUS_FILTER_ANNEXATION FOCUS_FILTER_INDUSTRY
 		}
+
+		cancel_if_invalid = no 
+		continue_if_invalid = yes
 
 		completion_reward = {
 			add_ideas = PAN_empire_of_panama_1
@@ -1216,6 +1241,27 @@ focus_tree = {
 				fascism > 0.65
 			}
 		}
+
+		select_effect = {
+			add_ideas = EUYL_expansionist_path
+			every_other_country = {
+				limit = { 
+					any_controlled_state = {
+						is_claimed_by = ROOT
+					}
+				}
+				ROOT = {
+					add_ai_strategy = {
+						type = prepare_for_war
+						id = PREV
+						value = 70
+					}
+				}
+			}
+		}
+
+		cancel_if_invalid = no 
+		continue_if_invalid = yes
 
 		search_filters = {
 			FOCUS_FILTER_ANNEXATION FOCUS_FILTER_INDUSTRY
@@ -1539,6 +1585,10 @@ focus_tree = {
 			focus = PAN_support_the_coup
 			focus = PAN_panama_soberana_hoy_y_siempre
 			focus = PAN_restructure_our_foreing_policy
+		}
+		mutually_exclusive = {
+			focus = PAN_allign_ourselves_with_the_allies
+			focus = PAN_maintain_neutrality_in_global_affairs
 		}
 
 		cost = 10
@@ -2475,6 +2525,20 @@ focus_tree = {
 
 		select_effect = {
 			add_ideas = EUYL_expansionist_path
+			every_other_country = {
+				limit = { 
+					any_controlled_state = {
+						is_claimed_by = ROOT
+					}
+				}
+				ROOT = {
+					add_ai_strategy = {
+						type = prepare_for_war
+						id = PREV
+						value = 70
+					}
+				}
+			}
 		}
 
 		cancel_if_invalid = no 
@@ -2510,12 +2574,11 @@ focus_tree = {
 	focus = {
 		id = PAN_the_canal_or_nothing
 		icon = GFX_PAN_the_canal_or_nothing_icon
-		x = 0
-		y = 2
-		relative_position_id = PAN_a_new_panamanian_future
+		x = 2
+		y = 1
+		relative_position_id = PAN_support_the_proletariat
 		prerequisite = {
-			focus = PAN_embrace_communism
-			focus = PAN_anarcho_syndicalist_panama
+			focus = PAN_support_the_proletariat
 		}
 
 		cost = 1.5
@@ -2559,10 +2622,11 @@ focus_tree = {
 		id = PAN_naval_buildup
 		icon = GFX_goal_generic_construct_naval_dockyard
 		x = 0
-		y = 1
-		relative_position_id = PAN_the_canal_or_nothing
+		y = 2
+		relative_position_id = PAN_a_new_panamanian_future
 		prerequisite = {
-			focus = PAN_the_canal_or_nothing
+			focus = PAN_embrace_communism
+			focus = PAN_anarcho_syndicalist_panama
 		}
 
 		cost = 10

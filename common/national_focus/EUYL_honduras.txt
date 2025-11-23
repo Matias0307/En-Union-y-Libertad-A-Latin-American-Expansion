@@ -1051,6 +1051,22 @@ focus_tree = {
 			}
 			HON_add_5_control_over_nation = yes
 			HON_effects_from_current_control_over_nation = yes
+
+			hidden_effect = {
+				if = {
+					limit = {
+						is_ai = yes 
+					}
+					add_to_variable = {
+						HON_control_over_nation_var = 20
+					}
+					clamp_variable = {
+						var = HON_control_over_nation_var
+						min = 0
+						max = 100
+					}
+				}
+			}
 		}
 	}
 
@@ -1173,6 +1189,22 @@ focus_tree = {
 					}
 				}
 				mark_focus_tree_layout_dirty = yes
+			}
+
+			hidden_effect = {
+				if = {
+					limit = {
+						is_ai = yes 
+					}
+					subtract_from_variable = {
+						HON_control_over_nation_var = 10
+					}
+					clamp_variable = {
+						var = HON_control_over_nation_var
+						min = 0
+						max = 100
+					}
+				}
 			}
 		}
 	}
@@ -1297,6 +1329,24 @@ focus_tree = {
 		available = {
 			NOT = { has_active_mission = HON_looming_revolt_against_tiburicio }
 			has_civil_war = no 
+		}
+
+		select_effect = {
+			add_ideas = EUYL_expansionist_path
+			every_other_country = {
+				limit = { 
+					any_controlled_state = {
+						is_claimed_by = ROOT
+					}
+				}
+				ROOT = {
+					add_ai_strategy = {
+						type = prepare_for_war
+						id = PREV
+						value = 70
+					}
+				}
+			}
 		}
 
 		search_filters = {
@@ -3308,6 +3358,10 @@ focus_tree = {
 
 		completion_reward = {
 			unlock_decision_category_tooltip = HON_administrating_the_democracy
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = HON_rafael_medina_raudales
 		}
 	}
 
@@ -3909,6 +3963,10 @@ focus_tree = {
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
 			unlock_decision_category_tooltip = HON_revolution_in_the_tropics
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = HON_alfonso_guillen_zelaya
 		}
 	}
 
@@ -4464,6 +4522,21 @@ focus_tree = {
 				}
 				mark_focus_tree_layout_dirty = yes
 			}
+			hidden_effect = {
+				if = {
+					limit = {
+						is_ai = yes 
+					}
+					add_to_variable = {
+						HON_control_over_nation_var = 10
+					}
+					clamp_variable = {
+						var = HON_control_over_nation_var
+						min = 0
+						max = 100
+					}
+				}
+			}
 		}
 	}
 
@@ -4702,8 +4775,13 @@ focus_tree = {
 				character = HON_tiburcio_carías_andino
 				ruling_only = yes
 			}
-			has_army_manpower = {
-				size > 19999
+			if = {
+				limit = {
+					is_ai = no 
+				}
+				has_army_manpower = {
+					size > 19999
+				}
 			}
 		}
 

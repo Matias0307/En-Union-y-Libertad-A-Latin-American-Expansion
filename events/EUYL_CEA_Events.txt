@@ -740,6 +740,13 @@ country_event = {
 					ratio > 1
 				}
 			}
+			modifier = { ## temporary for part 1 of central america
+				factor = 0
+				OR = {
+					original_tag = PAN 
+					original_tag = HON
+				}
+			}
 		}
 		event_target:CENTRAL_AMERICAN_FACTION_CREATOR = {
 			country_event = {
@@ -785,12 +792,12 @@ country_event = {
 			add_ai_strategy = {
 				type = alliance
 				id = FROM
-				value = 100
+				value = 1000
 			}
 			add_ai_strategy = {
 				type = support
 				id = FROM
-				value = 100
+				value = 1000
 			}
 		}
 	}
@@ -1556,6 +1563,12 @@ country_event = {
 					promote_character = HON_collective_liberal_resistance
 				}
 				add_ideas = HON_the_third_honduran_civil_war
+				if = {
+					limit = {
+						is_ai = yes
+					}
+					add_ideas = EUYL_chaos_civil_war_help
+				}
 				every_controlled_state = {
 					create_unit = {
                         division = "name = \"Milicias Hondureñas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
@@ -1616,6 +1629,12 @@ country_event = {
 				}
 				add_ideas = HON_the_third_honduran_civil_war
 				remove_ideas = CEA_league_of_central_american_dictators
+				if = {
+					limit = {
+						is_ai = yes
+					}
+					add_ideas = EUYL_chaos_civil_war_help
+				}
 				if = {
 					limit = {
 						has_completed_focus = HON_organize_the_resistance_groups
@@ -3182,5 +3201,24 @@ country_event = {
 		}
 
 		add_stability = 0.01
+	}
+}
+
+## Anastasio Takes Power ##
+country_event = {
+	id = nic.2
+	title = nic.2.t 
+	desc = nic.2.d 
+
+	is_triggered_only = yes
+
+	hidden = yes ## temporary
+
+	immediate = {
+		set_politics = {
+			ruling_party = neutrality
+			elections_allowed = no 
+		}
+		add_ideas = CEA_league_of_central_american_dictators
 	}
 }
