@@ -4309,25 +4309,27 @@ on_actions = {
                     add_ideas = limited_exports
                     add_ideas = EUYL_focus_on_army
 
-                    set_variable = { CHL_nacista_power = 3 }
-                    set_variable = { CHL_communists_power = 2 }
-                    set_variable = { CHL_control_over_nation = 95 }
-                    set_variable = { CHL_nacista_influence_days = 35 }
-                    set_variable = { CHL_communist_influence_days = 35 }
-                    set_variable = { CHL_fascist_drift = CHL_nacista_power }
-                    set_variable = { CHL_communist_drift = CHL_communists_power }
+                    ## -1 - Integrated | 0 - Excluded | 1 - Marginal | 2 - Influential | 3 - Major
+                    set_variable = { CHL_nacista_power = 2 }
+                    set_variable = { CHL_communists_power = 0 }
                     set_variable = { CHL_chance_of_communist = 50 }
                     set_variable = { CHL_chance_of_fascist = 50 }
                     set_variable = { CHL_days_for_people_to_calm_down = 210 }
-                    divide_variable = { CHL_fascist_drift = 450 }
-                    divide_variable = { CHL_communist_drift = 450 }
+                    set_variable = {
+                        CHL_nacista_bop_push_var = 0
+                    }
+                    set_variable = {
+                        CHL_communist_bop_push_var = 0
+                    }
                     hidden_effect = {	
                         add_dynamic_modifier = { modifier = CHL_political_instability }
                     }
 
-                    country_event = { id = chile.18 days = 1 }
+                    CHL_initiate_balance_of_power = yes
+                    CHL_set_up_nacista_bop_push = yes 
+
                     country_event = {
-                        id = chile.50 
+                        id = chile.50 ## Huelga Ferroviaria  
                         days = 35
                         random_days = 5
                         random_hours = 4
@@ -5171,17 +5173,32 @@ on_actions = {
                     }
                 }
                 random_list = {
-                    30 = {
+                    20 = {
                         modifier = {
                             factor = 0
                             has_country_flag = CHL_government_stopped
+                        }
+                        modifier = {
+                            factor = 0
+                            NOT = {
+                                has_country_flag = CHL_nacista_friendly
+                                has_country_flag = CHL_communists_friendly
+                            }
+                        }
+                        modifier = {
+                            factor = 0
+                            NOT = {
+                                has_dynamic_modifier = {
+                                    modifier = CHL_political_instability
+                                }
+                            }
                         }
                         country_event = {
                             id = chile.40 
                             days = 1
                         }
                     }
-                    70 = {
+                    80 = {
 
                     }
                 }
@@ -5196,8 +5213,9 @@ on_actions = {
                     20 = {
                         modifier = {
                             factor = 1.2
-                            check_variable = {
-                                CHL_nacista_power > 29
+                            power_balance_value = {
+                                id = CHL_nacista_communist_bop
+                                value > 0.4
                             }
                         }
                         modifier = {
@@ -5219,8 +5237,9 @@ on_actions = {
                     20 = {
                         modifier = {
                             factor = 1.2
-                            check_variable = {
-                                CHL_communists_power > 29
+                            power_balance_value = {
+                                id = CHL_nacista_communist_bop
+                                value < -0.4
                             }
                         }
                         modifier = {
@@ -5289,7 +5308,7 @@ on_actions = {
                             days = 4
                         }
                     }
-                    45 = {
+                    60 = {
 
                     }
                 }

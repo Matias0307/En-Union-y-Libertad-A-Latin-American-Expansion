@@ -1,0 +1,381 @@
+CHL_initiate_balance_of_power = {
+    set_power_balance = {
+        id = CHL_nacista_communist_bop
+        left_side = CHL_communist_side # will keep the last set side if not specified
+        right_side = CHL_nacista_side # will keep the last set side if not specified
+        set_value = 0.25 # if specified will set the value of the power balance, this option will override the effect of set_default so the two options should not be used together. if neither set_default or set_value is specified the current value of the power balance will not change
+    }
+}
+
+CHL_increase_5_nacista = {
+    add_power_balance_value = {
+        id = CHL_nacista_communist_bop
+        value = 0.05
+    }
+}
+
+CHL_increase_10_nacista = {
+    add_power_balance_value = {
+        id = CHL_nacista_communist_bop
+        value = 0.1
+    }
+}
+
+CHL_increase_15_nacista = {
+    add_power_balance_value = {
+        id = CHL_nacista_communist_bop
+        value = 0.15
+    }
+}
+CHL_increase_20_nacista = {
+    add_power_balance_value = {
+        id = CHL_nacista_communist_bop
+        value = 0.2
+    }
+}
+
+CHL_increase_30_nacista = {
+    add_power_balance_value = {
+        id = CHL_nacista_communist_bop
+        value = 0.3
+    }
+}
+
+CHL_increase_5_communists = {
+    add_power_balance_value = {
+        id = CHL_nacista_communist_bop
+        value = -0.05
+    }
+}
+
+CHL_increase_10_communists = {
+    add_power_balance_value = {
+        id = CHL_nacista_communist_bop
+        value = -0.1
+    }
+}
+
+CHL_increase_15_communists = {
+    add_power_balance_value = {
+        id = CHL_nacista_communist_bop
+        value = -0.15
+    }
+}
+
+CHL_increase_20_communists = {
+    add_power_balance_value = {
+        id = CHL_nacista_communist_bop
+        value = -0.2
+    }
+}
+
+CHL_increase_30_communists = {
+    add_power_balance_value = {
+        id = CHL_nacista_communist_bop
+        value = -0.3
+    }
+}
+
+CHL_nullify_communists = {
+    add_power_balance_value = {
+        id = CHL_nacista_communist_bop
+        value = 1
+    }
+}
+
+CHL_nullify_nacistas = {
+    add_power_balance_value = {
+        id = CHL_nacista_communist_bop
+        value = -1
+    }
+}
+
+CHL_bop_remove_bop_effect = {
+	remove_power_balance = { id = CHL_nacista_communist_bop }
+}
+
+CHL_set_up_nacista_bop_push = {
+	set_temp_variable = {
+		CHL_nacista_bop_push_temp = 0
+	}
+	if = {
+		limit = {
+			check_variable = {
+				CHL_nacista_power > 0
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_idea = CHL_slight_nacista_push_1
+				}
+			}
+			add_ideas = CHL_slight_nacista_push_1
+		}
+		add_to_temp_variable = {
+			CHL_nacista_bop_push_temp = 0.3
+		}
+	}
+	if = {
+		limit = {
+			check_variable = {
+				CHL_nacista_power > 1
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_idea = CHL_slight_nacista_push_2
+				}
+			}
+			add_ideas = CHL_slight_nacista_push_2
+		}
+		add_to_temp_variable = {
+			CHL_nacista_bop_push_temp = 0.5
+		}
+	}
+	if = {
+		limit = {
+			check_variable = {
+				CHL_nacista_power > 2
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_idea = CHL_slight_nacista_push_3
+				}
+			}
+			add_ideas = CHL_slight_nacista_push_3
+		}
+		add_to_temp_variable = {
+			CHL_nacista_bop_push_temp = 0.7
+		}
+	}
+	set_variable = {
+		CHL_nacista_bop_push_var = CHL_nacista_bop_push_temp
+	}
+}
+
+CHL_set_up_communist_bop_push = {
+	set_temp_variable = {
+		CHL_communist_bop_push_temp = 0
+	}
+	if = {
+		limit = {
+			check_variable = {
+				CHL_communists_power > 0
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_idea = CHL_slight_communist_push_1
+				}
+			}
+			add_ideas = CHL_slight_communist_push_1
+		}
+		add_to_temp_variable = {
+			CHL_communist_bop_push_temp = 0.5
+		}
+	}
+	if = {
+		limit = {
+			check_variable = {
+				CHL_communists_power > 1
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_idea = CHL_slight_communist_push_2
+				}
+			}
+			add_ideas = CHL_slight_communist_push_2
+		}
+		add_to_temp_variable = {
+			CHL_communist_bop_push_temp = 0.5
+		}
+	}
+	if = {
+		limit = {
+			check_variable = {
+				CHL_communists_power > 2
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_idea = CHL_slight_communist_push_3
+				}
+			}
+			add_ideas = CHL_slight_communist_push_3
+		}
+		add_to_temp_variable = {
+			CHL_communist_bop_push_temp = 0.5
+		}
+	}
+	set_variable = {
+		CHL_communist_bop_push_var = CHL_communist_bop_push_temp
+	}
+}
+
+CHL_increase_nacista_power_category_one_level = {
+	set_temp_variable = {
+		CHL_nacista_power_temp = CHL_nacista_power
+	}
+	add_to_temp_variable = {
+		CHL_nacista_power_temp = 1
+	}
+	clamp_temp_variable = {
+		var = CHL_nacista_power_temp
+		min = 0
+		max = 3
+	}
+
+	custom_effect_tooltip = CHL_nacista_power_category_change_tt
+
+	custom_effect_tooltip = CHL_skip_one_line_tt
+
+	CHL_increase_10_nacista = yes
+
+	hidden_effect = {
+		add_to_variable = {
+			CHL_nacista_power = 1
+		}
+		clamp_variable = {
+			var = CHL_nacista_power
+			min = 0
+			max = 3
+		}
+		CHL_set_up_nacista_bop_push = yes
+	}
+}
+
+CHL_increase_nacista_power_category_two_levels = {
+	set_temp_variable = {
+		CHL_nacista_power_temp = CHL_nacista_power
+	}
+	add_to_temp_variable = {
+		CHL_nacista_power_temp = 2
+	}
+	clamp_temp_variable = {
+		var = CHL_nacista_power_temp
+		min = 0
+		max = 3
+	}
+
+	custom_effect_tooltip = CHL_nacista_power_category_change_tt
+
+	custom_effect_tooltip = CHL_skip_one_line_tt
+
+	CHL_increase_20_nacista = yes
+
+	hidden_effect = {
+		add_to_variable = {
+			CHL_nacista_power = 2
+		}
+		clamp_variable = {
+			var = CHL_nacista_power
+			min = 0
+			max = 3
+		}
+		CHL_set_up_nacista_bop_push = yes
+	}
+}
+
+CHL_decrease_nacista_power_category_one_level = {
+	set_temp_variable = {
+		CHL_nacista_power_temp = CHL_nacista_power
+	}
+	subtract_from_temp_variable = {
+		CHL_nacista_power_temp = 1
+	}
+	clamp_temp_variable = {
+		var = CHL_nacista_power_temp
+		min = 0
+		max = 3
+	}
+
+	custom_effect_tooltip = CHL_nacista_power_category_change_tt
+
+	custom_effect_tooltip = CHL_skip_one_line_tt
+
+	CHL_increase_10_communists = yes
+
+	hidden_effect = {
+		subtract_from_variable = {
+			CHL_nacista_power = 1
+		}
+		clamp_variable = {
+			var = CHL_nacista_power
+			min = 0
+			max = 3
+		}
+		CHL_set_up_nacista_bop_push = yes
+	}
+}
+
+CHL_increase_communist_power_category_one_level = {
+	set_temp_variable = {
+		CHL_communists_power_temp = CHL_communists_power
+	}
+	add_to_temp_variable = {
+		CHL_communists_power_temp = 1
+	}
+	clamp_temp_variable = {
+		var = CHL_communists_power_temp
+		min = 0
+		max = 3
+	}
+
+	custom_effect_tooltip = CHL_communist_power_category_change_tt
+
+	custom_effect_tooltip = CHL_skip_one_line_tt
+
+	CHL_increase_10_communists = yes
+
+	hidden_effect = {
+		add_to_variable = {
+			CHL_communists_power = 1
+		}
+		clamp_variable = {
+			var = CHL_communists_power
+			min = 0
+			max = 3
+		}
+		CHL_set_up_communist_bop_push = yes
+	}
+}
+
+CHL_decrease_communist_power_category_one_level = {
+	set_temp_variable = {
+		CHL_communists_power_temp = CHL_communists_power
+	}
+	subtract_from_temp_variable = {
+		CHL_communists_power_temp = 1
+	}
+	clamp_temp_variable = {
+		var = CHL_communists_power_temp
+		min = 0
+		max = 3
+	}
+
+	custom_effect_tooltip = CHL_communist_power_category_change_tt
+
+	custom_effect_tooltip = CHL_skip_one_line_tt
+
+	CHL_increase_10_nacista = yes
+
+	hidden_effect = {
+		subtract_from_variable = {
+			CHL_communists_power = 1
+		}
+		clamp_variable = {
+			var = CHL_communists_power
+			min = 0
+			max = 3
+		}
+		CHL_set_up_communist_bop_push = yes
+	}
+}

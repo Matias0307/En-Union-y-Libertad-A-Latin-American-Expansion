@@ -1,0 +1,283 @@
+CHL_nacista_communist_bop = {
+	initial_value = 1
+	left_side = CHL_communist_side 
+	right_side = CHL_nacista_side
+	decision_category = CHL_nacista_communist_bop_dec_cat
+
+	range = { #Balanced Range, mid af
+		id = CHL_nacista_communist_bop_balanced 
+		min = -0.15
+		max = 0.15
+		modifier = {
+			democratic_drift = 0.05
+			political_power_factor = 0.03
+		}
+	}
+
+	side = {
+		id = CHL_nacista_side
+		icon = GFX_CHL_bop_nacista_side_icon
+		range = {
+			id = CHL_nacista_communist_bop_dominant_nacistas
+			min = 0.8
+			max = 1
+			modifier = {
+                production_speed_arms_factory_factor = 0.1
+				industrial_capacity_factory = 0.1
+                army_attack_factor = 0.05
+                army_defence_factor = 0.05
+				political_power_factor = -0.1
+				fascism_drift = 0.15
+				fascism_acceptance = 50
+                consumer_goods_factor = 0.2
+				production_speed_industrial_complex_factor = -0.1
+			}
+			on_activate = { ## TODO: make it so that siding with the nacistas prevents this
+				set_power_balance_gfx = { ## Change BOP icon
+					id = CHL_nacista_communist_bop
+					side = CHL_nacista_side
+					gfx = GFX_CHL_bop_nacista_side_max_icon
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_country_flag = CHL_nacista_friendly
+						}
+					}
+					activate_mission = CHL_nacistas_planning_a_rebellion
+					custom_effect_tooltip = BRA_effects_when_failed_tt
+					effect_tooltip = {
+						start_civil_war = {
+							ideology = fascism
+						}
+					}
+				}
+			}
+			on_deactivate = {
+				set_power_balance_gfx = { ## Change BOP icon
+					id = CHL_nacista_communist_bop
+					side = CHL_nacista_side
+					gfx = GFX_CHL_bop_nacista_side_icon
+				}
+			}
+		}
+		
+		range = {
+			id = CHL_nacista_communist_bop_significant_nacistas
+			min = 0.6
+			max = 0.8
+			modifier = {
+                production_speed_arms_factory_factor = 0.07
+				industrial_capacity_factory = 0.07
+                army_attack_factor = 0.03
+                army_defence_factor = 0.03
+				political_power_factor = -0.07
+				fascism_drift = 0.1
+				fascism_acceptance = 30
+                consumer_goods_factor = 0.15
+				production_speed_industrial_complex_factor = -0.07
+			}
+			on_activate = {
+				if = {
+					limit = {
+						NOT = {
+							has_country_flag = CHL_nacistas_demanded_closed_economy_flag
+						}
+					}
+					country_event = chile.31
+					set_country_flag = CHL_nacistas_demanded_closed_economy_flag
+				}
+				add_popularity = {
+					ideology = fascism
+					popularity = 0.1
+				}
+			}
+			on_deactivate = {
+				add_popularity = {
+					ideology = fascism
+					popularity = -0.1
+				}
+			}
+		}
+
+        range = {
+			id = CHL_nacista_communist_bop_influential_nacistas
+			min = 0.35
+			max = 0.6
+			modifier = {
+				production_speed_arms_factory_factor = 0.05
+				industrial_capacity_factory = 0.05
+				political_power_factor = -0.05
+				fascism_drift = 0.07
+				fascism_acceptance = 20
+                consumer_goods_factor = 0.12
+				production_speed_industrial_complex_factor = -0.05
+			}
+			on_activate = {
+				if = {
+					limit = {
+						NOT = {
+							has_country_flag = CHL_nacistas_demanded_representation_flag
+						}
+					}
+					country_event = chile.32
+					set_country_flag = CHL_nacistas_demanded_representation_flag
+				}
+				add_popularity = {
+					ideology = fascism
+					popularity = 0.05
+				}
+			}
+			on_deactivate = {
+				add_popularity = {
+					ideology = fascism
+					popularity = -0.05
+				}
+			}
+		}
+
+        range = {
+			id = CHL_nacista_communist_bop_marginal_nacistas
+			min = 0.15
+			max = 0.35
+			modifier = {
+				production_speed_arms_factory_factor = 0.03
+				industrial_capacity_factory = 0.03
+				political_power_factor = -0.03
+				fascism_drift = 0.05
+				fascism_acceptance = 15
+                consumer_goods_factor = 0.1
+				production_speed_industrial_complex_factor = -0.03
+			}
+			on_activate = {
+				add_popularity = {
+					ideology = fascism
+					popularity = 0.03
+				}
+			}
+			on_deactivate = {
+				add_popularity = {
+					ideology = fascism
+					popularity = -0.03
+				}
+			}
+		}
+	}
+
+	side = {
+		id = CHL_communist_side
+		icon = GFX_CHL_bop_communist_side_icon
+		range = {
+			id = CHL_nacista_communist_bop_dominant_communists
+			min = -1
+			max = -0.85
+			modifier = {
+                production_speed_arms_factory_factor = -0.1
+				industrial_capacity_factory = -0.1
+                army_attack_factor = -0.05
+                army_defence_factor = -0.05
+				political_power_factor = -0.1
+				communism_drift = 0.15
+				communism_acceptance = 50
+                consumer_goods_factor = -0.2
+				production_speed_industrial_complex_factor = 0.1
+			}
+			on_activate = { ## TODO: make it so that going anarchist/communist prevents this
+				set_power_balance_gfx = { ## Change BOP icon
+					id = CHL_nacista_communist_bop
+					side = CHL_communist_side
+					gfx = CHL_bop_communist_side_max_icon
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_country_flag = CHL_communists_friendly
+							has_completed_focus = CHL_support_the_radicals
+						}
+					}
+					activate_mission = CHL_communist_planning_a_rebellion
+					custom_effect_tooltip = BRA_effects_when_failed_tt
+					effect_tooltip = {
+						start_civil_war = {
+							ideology = communism
+						}
+					}
+				}
+			}
+			on_deactivate = {
+				set_power_balance_gfx = { ## Change BOP icon
+					id = CHL_nacista_communist_bop
+					side = CHL_communist_side
+					gfx = CHL_bop_communist_side_icon
+				}
+			}
+		}
+
+		range = {
+			id = CHL_nacista_communist_bop_influential_communists
+			min = -0.85
+			max = -0.45
+			modifier = {
+				production_speed_arms_factory_factor = -0.06
+				industrial_capacity_factory = -0.06
+                army_attack_factor = -0.03
+                army_defence_factor = -0.03
+				political_power_factor = -0.05
+				communism_drift = 0.1
+				communism_acceptance = 30
+                consumer_goods_factor = -0.1
+				production_speed_industrial_complex_factor = 0.05
+			}
+			on_activate = {
+				if = {
+					limit = {
+						NOT = {
+							has_country_flag = CHL_communists_demanded_welfare_flag
+						}
+					}
+					country_event = chile.34
+					set_country_flag = CHL_communists_demanded_welfare_flag
+				}
+				add_popularity = {
+					ideology = communism
+					popularity = 0.1
+				}
+			}
+			on_deactivate = {
+				add_popularity = {
+					ideology = communism
+					popularity = -0.1
+				}
+			}
+		}
+
+        range = {
+			id = CHL_nacista_communist_bop_marginal_communists
+			min = -0.45
+			max = -0.15
+			modifier = {
+				production_speed_arms_factory_factor = -0.03
+				industrial_capacity_factory = -0.03
+                army_attack_factor = -0.01
+                army_defence_factor = -0.01
+				political_power_factor = -0.03
+				communism_drift = 0.07
+				communism_acceptance = 20
+                consumer_goods_factor = -0.05
+				production_speed_industrial_complex_factor = 0.03
+			}
+			on_activate = {
+				add_popularity = {
+					ideology = communism
+					popularity = 0.05
+				}
+			}
+			on_deactivate = {
+				add_popularity = {
+					ideology = communism
+					popularity = -0.05
+				}
+			}
+		}
+	}
+} 
