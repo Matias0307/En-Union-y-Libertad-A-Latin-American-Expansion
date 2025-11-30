@@ -1326,6 +1326,9 @@ focus_tree = {
 				idea = communist_influence
 				days = 60
 			}
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = CHL_establish_an_anti_nacista_state_department
 			if = {
 				limit = {
 					has_game_rule = {
@@ -1348,7 +1351,7 @@ focus_tree = {
 		relative_position_id = CHL_communist_path
 		prerequisite = { focus = CHL_communist_path }
 
-		cost = 2.9
+		cost = 5
 
 		ai_will_do = {
 			factor = 50
@@ -1487,7 +1490,7 @@ focus_tree = {
 			}
 		}
 
-		cost = 3
+		cost = 2.9
 
 		ai_will_do = {
 			base = 10
@@ -1517,6 +1520,10 @@ focus_tree = {
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
 			custom_effect_tooltip = CHL_communists_dissolve_into_frente_tt
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_ideas = CHL_el_frente_popular
 		
 			if = {
 				limit = {
@@ -1790,7 +1797,7 @@ focus_tree = {
 			}
 		}
 
-		cost = 3
+		cost = 2.9
 
 		ai_will_do = {
 			base = 10
@@ -1899,7 +1906,7 @@ focus_tree = {
 			}
 		}
 
-		cost = 3 
+		cost = 2.9
 
 		ai_will_do = {
 			base = 10
@@ -1922,18 +1929,21 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
 		completion_reward = {
-			add_political_power = 20
+			add_political_power = 50
 			custom_effect_tooltip = CHL_pathcivilwar
 
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
 			custom_effect_tooltip = CHL_frente_popular_hostile_tt
 
-			CHL_increase_communist_power_category_one_level = yes
+			CHL_increase_5_nacista = yes
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = CHL_establish_an_anti_communist_state_department
 
 			add_stability = -0.03
 			hidden_effect = {
-				clr_country_flag = CHL_FP_player
 				if = {
 					limit = {
 						has_game_rule = {
@@ -1964,6 +1974,22 @@ focus_tree = {
 		}
 
 		cost = 5
+
+		offset = {
+			x = 2
+			y = 0
+			trigger = {
+				has_completed_focus = CHL_support_the_radicals
+			}
+		}
+
+		offset = {
+			x = -1
+			y = 0
+			trigger = {
+				has_completed_focus = CHL_return_to_the_pcch
+			}
+		}
 
 		bypass = {
 			has_civil_war = no
@@ -2238,10 +2264,6 @@ focus_tree = {
 
 		available = {
 			has_country_flag = CHL_established_anti_nacista_state_department_flag
-			power_balance_value = {
-				id = CHL_nacista_communist_bop
-				value < 0.05
-			}
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
@@ -3060,18 +3082,6 @@ focus_tree = {
 		prerequisite = { focus = CHL_seize_the_means_of_production }
 		prerequisite = { focus = CHL_arm_the_people }
 
-		offset = {
-			x = 2
-			y = 0
-			trigger = {
-				has_game_rule = {
-					rule = obsolete_focus_branches_visibility
-					option = HIDE
-				}
-				has_completed_focus = CHL_support_the_radicals
-			}
-		}
-		
 		cost = 8
 		
 		ai_will_do = {
@@ -3152,18 +3162,9 @@ focus_tree = {
 			add_stability = -0.25	
 			
 			hidden_effect = {
-				retire_country_leader = yes
-				create_country_leader = {
-					name = "Ministerio de Trabajadores"
-					desc = "POLITICS_CHILEAN_COUNCIL_DESC"
-					picture = "portrait_chl_anarchist_commune.dds" 
-					expire = "1965.1.1"
-					ideology = anarchism
-					traits = {
-						CHL_the_council_of_workers
-					}
-				}
+				promote_character = CHL_ministerio_de_trabajadores
 				remove_dynamic_modifier = { modifier = CHL_political_instability }
+				CHL_bop_remove_bop_effect = yes
 				clear_variable = CHL_nacista_power
 				clear_variable = CHL_communists_power
 				add_popularity = { ideology = neutrality popularity = 0.25 }
@@ -4582,7 +4583,7 @@ focus_tree = {
 			}
 		}
 
-		cost = 7.2
+		cost = 10
 
 		offset = {
 			x = -26
@@ -4704,8 +4705,8 @@ focus_tree = {
 			add_stability = 0.01
 			custom_effect_tooltip = CHL_government_stop_supression_tt
 			add_popularity = {
-				ideology = communism
-				popularity = 0.05
+				ideology = democratic
+				popularity = 0.03
 			}
 			hidden_effect = {
 				set_country_flag = {
@@ -4732,11 +4733,14 @@ focus_tree = {
 		}
 
 		available = {
-			custom_trigger_tooltip = {
-				tooltip = CHL_communists_are_at_least_influential_tt
-				check_variable = { CHL_communists_power > 1 }
+			is_power_balance_in_range = {
+				id = CHL_nacista_communist_bop
+				range = CHL_nacista_communist_bop_balanced
 			}
 		}
+
+		cancel_if_invalid = no 
+		continue_if_invalid = yes
 
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
@@ -4754,7 +4758,7 @@ focus_tree = {
 			}
 			add_popularity = {
 				ideology = communism
-				popularity = 0.02
+				popularity = 0.01
 			}
 		}
 	}
@@ -4776,9 +4780,14 @@ focus_tree = {
 
 		available = {
 			has_active_mission = CHL_the_1938_elections
-			custom_trigger_tooltip = {
-				tooltip = CHL_nacistas_are_in_excluded_power_category_tt
-				check_variable = { CHL_nacista_power = 0 }
+			if = {
+				limit = {
+					is_ai = no 
+				}
+				custom_trigger_tooltip = {
+					tooltip = CHL_nacistas_are_in_excluded_power_category_tt
+					check_variable = { CHL_nacista_power = 0 }
+				}
 			}
 		}
 
@@ -4821,7 +4830,7 @@ focus_tree = {
 			add_ideas = CHL_tax_revenue
 		}
 		relative_position_id = CHL_democracy_path
-		cost = 3
+		cost = 2.9
 		search_filters = {FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL FOCUS_FILTER_POLITICAL}		
 	}	
 
@@ -5002,7 +5011,7 @@ focus_tree = {
 		}
 
 		offset = {
-			x = 5
+			x = 7
 			y = 0
 			trigger = {
 				has_game_rule = {
@@ -5056,6 +5065,10 @@ focus_tree = {
 
 		cost = 7.2
 
+		ai_will_do = {
+			factor = 5
+		}
+
 		available = {
 			OR = {
 				is_power_balance_in_range = {
@@ -5066,6 +5079,7 @@ focus_tree = {
 					id = CHL_nacista_communist_bop
 					value > 0.5
 				}
+				has_any_power_balance = no
 			}
 		}
 
@@ -5076,7 +5090,12 @@ focus_tree = {
 		completion_reward = {
 			add_political_power = 50
 
-			remove_ideas = CHL_frente_popular_opposition
+			if = {
+				limit = {
+					has_idea = CHL_frente_popular_opposition
+				}
+				remove_ideas = CHL_frente_popular_opposition
+			}
 		}
 	}
 
@@ -6075,10 +6094,6 @@ focus_tree = {
 
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
-			add_research_slot = 1
-
-			custom_effect_tooltip = CHL_skip_one_line_tt
-
 			unlock_decision_category_tooltip = CHL_nacista_management
 
 			custom_effect_tooltip = CHL_skip_one_line_tt
@@ -6093,6 +6108,10 @@ focus_tree = {
 			1119 = { add_claim_by = ROOT }
 			512 = { add_claim_by = ROOT }
 			947 = { add_claim_by = ROOT } 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			CHL_increase_10_nacista = yes
 		}
 		#this focus unlocks the nacista management decisions 
 	}
@@ -6257,7 +6276,7 @@ focus_tree = {
 		}
 
 		search_filters = {
-			FOCUS_FILTER_ANNEXATION FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT
+			FOCUS_FILTER_ANNEXATION FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_RESEARCH
 		}
 
 		completion_reward = {
@@ -6275,6 +6294,10 @@ focus_tree = {
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
 			unlock_decision_category_tooltip = CHL_the_dream_of_lord_cochrane
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_research_slot = 1
 
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
@@ -6308,6 +6331,7 @@ focus_tree = {
 				limit = { has_dynamic_modifier = { modifier = CHL_political_instability } }
 				remove_dynamic_modifier = { modifier = CHL_political_instability }
 			}
+			CHL_bop_remove_bop_effect = yes
 		}
 	}
 	
@@ -6351,9 +6375,16 @@ focus_tree = {
 				remove_dynamic_modifier = { modifier = CHL_political_instability }
 			}
 
+			CHL_bop_remove_bop_effect = yes
+
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
 			custom_effect_tooltip = ARG_unlock_integrate_territory
+			
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_research_slot = 1
+
 			if = {
 				limit = {
 					NOT = { has_country_flag = EUYL_can_integrate }
@@ -8200,6 +8231,10 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = CHL_communists_dissolve_into_frente_tt
 
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_ideas = CHL_el_frente_popular
+
 			hidden_effect = {
 				set_variable = {
 					CHL_communists_power = -1
@@ -8239,12 +8274,15 @@ focus_tree = {
 		x = 1
 		y = 1
 		completion_reward = {
-			add_manpower = 31250
+			add_political_power = 25
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
 			add_ideas = CHL_fake_press
 		}		
 		relative_position_id = CHL_cooperate_with_el_frente
 		cost = 8		
-		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER }
+		search_filters = {FOCUS_FILTER_POLITICAL }
 	}
 
 	focus = {
@@ -9155,7 +9193,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			remove_dynamic_modifier = { modifier = CHL_political_instability }
-			
+			CHL_bop_remove_bop_effect = yes
 			hidden_effect = {
 				clear_variable = CHL_nacista_power
 				clear_variable = CHL_communists_power
@@ -10432,6 +10470,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
 			remove_dynamic_modifier = { modifier = CHL_political_instability }
+			CHL_bop_remove_bop_effect = yes
 			hidden_effect = {
 				clear_variable = CHL_nacista_power
 				clear_variable = CHL_communists_power
@@ -10826,10 +10865,6 @@ focus_tree = {
 
 		available = {
 			has_country_flag = CHL_established_anti_nacista_state_department_flag
-			power_balance_value = {
-				id = CHL_nacista_communist_bop
-				value < -0.05
-			}
 		}
 
 		ai_will_do = {
@@ -10919,7 +10954,7 @@ focus_tree = {
 		prerequisite = { focus = CHL_arrest_various_fascist_leaders }
 		prerequisite = { focus = CHL_expel_fascist_generals }
 
-		cost = 8
+		cost = 7.2
 
 		ai_will_do = {
 			factor = 5
@@ -11061,7 +11096,10 @@ focus_tree = {
 			factor = 100
 		}		
 		completion_reward = {
-			add_ideas = CHL_diff_approach
+			add_timed_idea = {
+				idea = CHL_diff_approach
+				days = 365
+			}
 			add_political_power = 35
 		}
 		relative_position_id = CHL_make_an_effort_to_stabilize_the_nation
@@ -12692,6 +12730,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
 			remove_dynamic_modifier = { modifier = CHL_political_instability }
+			CHL_bop_remove_bop_effect = yes
 			hidden_effect = {
 				set_variable = { CHL_nacista_power = 0 }
 				set_variable = { CHL_communists_power = 0 }

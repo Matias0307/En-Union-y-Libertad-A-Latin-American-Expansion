@@ -2644,6 +2644,13 @@ on_actions = {
                 set_variable = { EUYL_cost_some_immigrants = 80 }
                 set_variable = { EUYL_cost_few_immigrants = 50 }
                 set_variable =  { EUYL_cost_take_in_refugees = 75 } #will be used in Argentina and Brazil
+                if = {
+                    limit = {
+                        EUYL_is_latin_american = yes 
+                        is_ai = yes
+                    }
+                    add_ideas = EUYL_ai_political_help ## so that they can actually do the mechanics n stuff, should still be not too op
+                }
 			}
             CHL = {
                 remove_ideas = {
@@ -5191,13 +5198,32 @@ on_actions = {
                     date > 1936.2.1
                 }
                 random_list = {
-                    20 = {
+                    15 = {
                         modifier = {
                             factor = 1.2
-                            power_balance_value = {
-                                id = CHL_nacista_communist_bop
-                                value > 0.4
+                            OR = {
+                                power_balance_value = {
+                                    id = CHL_nacista_communist_bop
+                                    value > 0.4
+                                }
+                                has_completed_focus = CHL_continue_with_the_fp
+                                has_completed_focus = CHL_cooperate_with_el_frente
                             }
+                        }
+                        modifier = {
+                            factor = 1.1
+                            OR = {
+                                has_completed_focus = CHL_continue_with_the_fp
+                                has_completed_focus = CHL_cooperate_with_el_frente
+                            }
+                        }
+                        modifier = {
+                            factor = 0.5
+                            has_completed_focus = CHL_side_with_the_nacistas
+                        }
+                        modifier = {
+                            factor = 1.5
+                            has_completed_focus = CHL_return_to_the_pcch
                         }
                         modifier = {
                             factor = 0
@@ -5215,13 +5241,32 @@ on_actions = {
                             days = 2
                         }
                     }
-                    20 = {
+                    15 = {
                         modifier = {
                             factor = 1.2
-                            power_balance_value = {
-                                id = CHL_nacista_communist_bop
-                                value < -0.4
+                            OR = {
+                                power_balance_value = {
+                                    id = CHL_nacista_communist_bop
+                                    value < -0.4
+                                }
+                                has_completed_focus = CHL_continue_with_the_fp
+                                has_completed_focus = CHL_cooperate_with_el_frente
                             }
+                        }
+                        modifier = {
+                            factor = 1.1
+                            OR = {
+                                has_completed_focus = CHL_continue_with_the_fp
+                                has_completed_focus = CHL_cooperate_with_el_frente
+                            }
+                        }
+                        modifier = {
+                            factor = 1.5
+                            has_completed_focus = CHL_side_with_the_nacistas
+                        }
+                        modifier = {
+                            factor = 0.5
+                            has_completed_focus = CHL_return_to_the_pcch
                         }
                         modifier = {
                             factor = 0
@@ -5241,8 +5286,34 @@ on_actions = {
                     }
                     20 = {
                         modifier = {
-                            factor = 0.4 
+                            factor = 0.3
                             has_government = fascism 
+                        }
+                        modifier = {
+                            factor = 1.2
+                            OR = {
+                                power_balance_value = {
+                                    id = CHL_nacista_communist_bop
+                                    value > 0.4
+                                }
+                                has_completed_focus = CHL_continue_with_the_fp
+                                has_completed_focus = CHL_cooperate_with_el_frente
+                            }
+                        }
+                        modifier = {
+                            factor = 1.1
+                            OR = {
+                                has_completed_focus = CHL_continue_with_the_fp
+                                has_completed_focus = CHL_cooperate_with_el_frente
+                            }
+                        }
+                        modifier = {
+                            factor = 0.7
+                            has_completed_focus = CHL_side_with_the_nacistas
+                        }
+                        modifier = {
+                            factor = 1.2
+                            has_completed_focus = CHL_return_to_the_pcch
                         }
                         modifier = {
                             factor = 0
@@ -5259,8 +5330,34 @@ on_actions = {
                     }
                     20 = {
                         modifier = {
-                            factor = 0.4 
+                            factor = 0.3
                             has_government = communism 
+                        }
+                        modifier = {
+                            factor = 1.2
+                            OR = {
+                                power_balance_value = {
+                                    id = CHL_nacista_communist_bop
+                                    value < -0.4
+                                }
+                                has_completed_focus = CHL_continue_with_the_fp
+                                has_completed_focus = CHL_cooperate_with_el_frente
+                            }
+                        }
+                        modifier = {
+                            factor = 1.1
+                            OR = {
+                                has_completed_focus = CHL_continue_with_the_fp
+                                has_completed_focus = CHL_cooperate_with_el_frente
+                            }
+                        }
+                        modifier = {
+                            factor = 1.2
+                            has_completed_focus = CHL_side_with_the_nacistas
+                        }
+                        modifier = {
+                            factor = 0.7
+                            has_completed_focus = CHL_return_to_the_pcch
                         }
                         modifier = {
                             factor = 0

@@ -462,24 +462,31 @@ CHL_nacista_communist_bop_dec_cat = {
 		ai_will_do = {
 			base = 120
 			modifier = {
-				add = 30
+				factor = 1.2
 				power_balance_value = {
 					id = CHL_nacista_communist_bop
 					value > 0.35
 				}
 			}
 			modifier = {
-				add = 40
+				factor = 1.4
 				power_balance_value = {
 					id = CHL_nacista_communist_bop
 					value > 0.5
 				}
 			}
 			modifier = { 
-				add = 50 
+				factor = 1.6
 				power_balance_value = {
 					id = CHL_nacista_communist_bop
 					value > 0.8
+				}
+			}
+			modifier = {
+				factor = 0
+				is_power_balance_in_range = {
+					id = CHL_nacista_communist_bop
+					range = CHL_nacista_communist_bop_balanced
 				}
 			}
 		}
@@ -553,24 +560,31 @@ CHL_nacista_communist_bop_dec_cat = {
 		ai_will_do = {
 			base = 120
 			modifier = {
-				add = 30
+				factor = 1.2
 				power_balance_value = {
 					id = CHL_nacista_communist_bop
 					value < -0.35
 				}
 			}
 			modifier = {
-				add = 40
+				factor = 1.4
 				power_balance_value = {
 					id = CHL_nacista_communist_bop
 					value < -0.5
 				}
 			}
 			modifier = { 
-				add = 50 
+				factor = 1.6
 				power_balance_value = {
 					id = CHL_nacista_communist_bop
 					value < -0.8
+				}
+			}
+			modifier = {
+				factor = 0
+				is_power_balance_in_range = {
+					id = CHL_nacista_communist_bop
+					range = CHL_nacista_communist_bop_balanced
 				}
 			}
 		}
@@ -643,26 +657,33 @@ CHL_nacista_communist_bop_dec_cat = {
 		icon = GFX_CHL_opress_nacistas
 
 		ai_will_do = {
-			base = 140
+			base = 90
 			modifier = {
-				add = 30
+				factor = 2
 				power_balance_value = {
 					id = CHL_nacista_communist_bop
 					value > 0.35
 				}
 			}
 			modifier = {
-				add = 40
+				factor = 2
 				power_balance_value = {
 					id = CHL_nacista_communist_bop
 					value > 0.5
 				}
 			}
 			modifier = { 
-				add = 50 
+				factor = 2
 				power_balance_value = {
 					id = CHL_nacista_communist_bop
 					value > 0.8
+				}
+			}
+			modifier = {
+				factor = 0
+				is_power_balance_in_range = {
+					id = CHL_nacista_communist_bop
+					range = CHL_nacista_communist_bop_balanced
 				}
 			}
 		}
@@ -686,7 +707,7 @@ CHL_nacista_communist_bop_dec_cat = {
 
 		cost = 20
 
-		days_remove = 40
+		days_remove = 30
 
 		modifier = {
 			stability_weekly = -0.0014
@@ -742,26 +763,33 @@ CHL_nacista_communist_bop_dec_cat = {
 		icon = GFX_CHL_opress_communists
 
 		ai_will_do = {
-			base = 140
+			base = 90
 			modifier = {
-				add = 30
+				factor = 2
 				power_balance_value = {
 					id = CHL_nacista_communist_bop
-					value < -0.35
+					value < -0.3
 				}
 			}
 			modifier = {
-				add = 40
+				factor = 2
 				power_balance_value = {
 					id = CHL_nacista_communist_bop
 					value < -0.5
 				}
 			}
 			modifier = { 
-				add = 50 
+				factor = 2
 				power_balance_value = {
 					id = CHL_nacista_communist_bop
 					value < -0.8
+				}
+			}
+			modifier = {
+				factor = 0
+				is_power_balance_in_range = {
+					id = CHL_nacista_communist_bop
+					range = CHL_nacista_communist_bop_balanced
 				}
 			}
 		}
@@ -801,7 +829,7 @@ CHL_nacista_communist_bop_dec_cat = {
 
 		cost = 20
 
-		days_remove = 40
+		days_remove = 30
 
 		modifier = {
 			stability_weekly = -0.0014
@@ -939,7 +967,10 @@ CHL_internal_political_split = {
 		cost = 25
 
 		available = {
-			has_completed_focus = CHL_democracy_path
+			OR = {
+				has_completed_focus = CHL_democracy_path
+				has_completed_focus = CHL_support_the_radicals
+			}
 		}
 
 		visible = {
@@ -1296,7 +1327,7 @@ CHL_internal_political_split = {
 		icon = eng_propaganda_campaigns
 		
 		ai_will_do = {
-			base = 300
+			base = 100
 		}
 
 		allowed = {
@@ -1712,8 +1743,11 @@ CHL_the_1938_chilean_elections = {
 		}
 
 		cancel_trigger = {
-			NOT = {
-				has_government = democratic
+			OR = {
+				NOT = {
+					has_government = democratic
+				}
+				has_completed_focus = CHL_our_own_fate
 			}
 		}
 
@@ -1761,7 +1795,7 @@ CHL_the_1938_chilean_elections = {
 		}
 
 		ai_will_do = {
-			base = 120
+			base = 1
 		}
 
 		available = {
@@ -1814,11 +1848,7 @@ CHL_the_1938_chilean_elections = {
 		fire_only_once = yes 
 
 		activation = {
-			has_country_flag = CHL_nacista_coup
-			NOT = {
-				has_completed_focus = CHL_side_with_the_nacistas
-			}
-			is_subject = no 
+			always = no
 		}
 
 		cancel_trigger = {
@@ -1961,7 +1991,7 @@ CHL_the_1938_chilean_elections = {
 		fire_only_once = yes 
 
 		activation = {
-			has_country_flag = CHL_nacista_coup_player
+			always = no
 		}
 
 		timeout_effect = {
@@ -2195,7 +2225,18 @@ CHL_the_1938_chilean_elections = {
 			FROM = {
 				set_state_flag = CHL_won_support_in_province
 			}
-			add_popularity = { ideology = fascism popularity = 0.025 }
+			add_popularity = { ideology = fascism popularity = 0.02 }
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			random_list = {
+				50 = {
+					CHL_increase_5_nacista = yes 
+				}
+				50 = {
+					
+				}
+			}
 		}
 	}
 }
