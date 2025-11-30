@@ -1136,10 +1136,10 @@ country_event = {
 		}
 		add_political_power = -5
 		random_list = {
-			75 = {
+			60 = {
 				CHL_increase_nacista_power_category_one_level = yes
 			}
-			25 = {
+			40 = {
 				CHL_increase_10_nacista = yes 
 			}
 		}
@@ -1191,10 +1191,10 @@ country_event = {
 		}
 		add_political_power = -5
 		random_list = {
-			75 = {
+			60 = {
 				CHL_increase_communist_power_category_one_level = yes
 			}
-			25 = {
+			40 = {
 				CHL_increase_10_communists = yes
 			}
 		}
@@ -2315,7 +2315,7 @@ country_event = {
 			name = EUYL_CHL_pedro_aguirre_cerda
 			ruling_only = yes 
 		}
-		date > 1941.9.25
+		date > 1941.9.28
 		has_civil_war = no 
 		NOT = {
 			has_game_rule = {
@@ -2335,6 +2335,14 @@ country_event = {
 		}
 		add_stability = -0.02
 		promote_character = EUYL_CHL_jeronimo_mendez
+
+		hidden_effect = {
+			country_event = {
+				id = chile.52 
+				days = 190
+				random_days = 80
+			}
+		}
 	}
 }
 
@@ -2387,6 +2395,10 @@ country_event = {
 		}
 		ai_chance = {
 			base = 20
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
 		}
 		if = {
 			limit = {
@@ -2399,6 +2411,11 @@ country_event = {
 			}
 			promote_character = CHL_gustavo_ross
 		}
+		set_party_name = {
+			ideology = democratic
+			long_name = "Partido Liberal"
+			name = "Partido Liberal"
+		}
 	}
 	option = { #Carlos Ibanez
 		name = chile.49.c 
@@ -2407,9 +2424,14 @@ country_event = {
 		}
 		ai_chance = {
 			base = 5
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
 		}
 		set_politics = {
 			ruling_party = neutrality
+			elections_allowed = yes
 		}
 		add_country_leader_role = {
 			character = CHL_carlos_ibáñez_del_campo
@@ -2493,17 +2515,13 @@ country_event = {
 
 	fire_only_once = yes 
 
-	trigger = {
-		original_tag = CHL 
-		has_completed_focus = CHL_victory_for_the_fp
-		NOT = {
-			has_completed_focus = CHL_abandon_the_fp
-		}
-		date > 1941.3.14
-	}
+	is_triggered_only = yes
 
 	option = {
 		name = chile.52.a 
+		ai_chance = {
+			base = 2
+		}
 		set_party_name = {
 			ideology = democratic
 			long_name = CHL_democratic_alliance_party_long
@@ -2524,4 +2542,72 @@ country_event = {
 			}
 		}
 	}
+
+	option = { ## Alright, we'll heed their demands
+		name = chile.52.b 
+		trigger = {
+			has_country_leader = {
+				character = CHL_juan_antonio
+				ruling_only = yes
+			}
+		}
+		ai_chance = {
+			base = 2
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+		set_party_name = {
+			ideology = democratic
+			long_name = "Partido Democratico"
+			name = "Partido Democratico"
+		}
+		set_party_name = {
+			ideology = communism
+			long_name = CHL_frente_popular_long 
+			name = CHL_frente_popular 
+		}
+
+		set_country_flag = CHL_Communist_FP_formed_flag
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		add_popularity = {
+			ideology = communism
+			popularity = 0.15
+		}
+
+		set_politics = {
+			ruling_party = communism
+			elections_allowed = yes
+		}
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		set_rule = {
+			can_create_collaboration_government = no
+			can_declare_war_on_same_ideology = no
+			can_force_government = yes
+			can_send_volunteers = no
+			can_puppet = no
+			can_lower_tension = yes
+			can_only_justify_war_on_threat_country = yes
+			can_guarantee_other_ideologies = yes
+		}
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		set_cosmetic_tag = CHL_UNIFIED
+
+		add_country_leader_role = {
+			character = CHL_juan_antonio
+			promote_leader = yes
+			country_leader = {
+				ideology = social_democracy
+				expire = "1965.1.1.1"
+				traits = { ARG_expert_commercialist }
+			}
+		}
+	}	
 }

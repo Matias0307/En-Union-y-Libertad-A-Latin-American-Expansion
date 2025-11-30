@@ -25,7 +25,7 @@ focus_tree = {
 		x = 0
 	}
 
-	continuous_focus_position = { x = 100 y = 2050 }
+	continuous_focus_position = { x = 100 y = 3450 }
 	
 	default = no
 
@@ -1524,6 +1524,8 @@ focus_tree = {
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
 			add_ideas = CHL_el_frente_popular
+
+			custom_effect_tooltip = CHL_continuing_with_the_radicals_later_down_the_line_will_allow_you_to_form_a_communist_frente_popular_tt
 		
 			if = {
 				limit = {
@@ -2641,6 +2643,23 @@ focus_tree = {
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
 			CHL_increase_communist_power_category_one_level = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			random_owned_controlled_state = {
+				limit = {
+					NOT = {
+						has_dynamic_modifier = {
+							modifier = CHL_state_controlled_by_the_communists
+						}
+						has_state_flag = CHL_taking_control_of_FROM_flag
+					}
+				}
+				custom_effect_tooltip = CHL_gain_control_of_THIS_tt
+				add_dynamic_modifier = {
+					modifier = CHL_state_controlled_by_the_communists
+				}
+			}
 		}
 	}
 
@@ -3129,39 +3148,45 @@ focus_tree = {
 		available_if_capitulated = no
 		search_filters = {FOCUS_FILTER_POLITICAL}
 		completion_reward = {
-				
-			start_civil_war = {
-				ruling_party = neutrality
-				ideology = ROOT
-				size = 0.4
-				capital = 506
-				states = {
-					506 507 1076 949 1074
-				}
-				keep_all_characters = yes 
-				PREV = {
-					EUYL_CHL_arturo_alessandri = {
-						set_nationality = prev.PREV
-					}
-					EUYL_CHL_escudero_oscar_otárola = {
-						set_nationality = prev.PREV
-					}
-					EUYL_CHL_carlos_fuentes_rabe = {
-						set_nationality = prev.PREV
-					}
-					CHL_bartolomé_guillermo_blanche_espejo = {
-						set_nationality = prev.PREV
-					}
-					CHL_ramon_cañas_montalva = {
-						set_nationality = prev.PREV
-					}
-				}
-				promote_character = EUYL_CHL_arturo_alessandri
-			}
 
-			add_stability = -0.25	
+			effect_tooltip = {
+				start_civil_war = {
+					ideology = neutrality
+				}
+			}	
 			
 			hidden_effect = {
+				start_civil_war = {
+					ruling_party = neutrality
+					ideology = ROOT
+					size = 0.4
+					capital = 506
+					states = {
+						506 507 1076 949 1074
+					}
+					keep_all_characters = yes 
+					PREV = {
+						EUYL_CHL_arturo_alessandri = {
+							set_nationality = prev.PREV
+						}
+						EUYL_CHL_escudero_oscar_otárola = {
+							set_nationality = prev.PREV
+						}
+						EUYL_CHL_carlos_fuentes_rabe = {
+							set_nationality = prev.PREV
+						}
+						CHL_bartolomé_guillermo_blanche_espejo = {
+							set_nationality = prev.PREV
+						}
+						CHL_ramon_cañas_montalva = {
+							set_nationality = prev.PREV
+						}
+					}
+					promote_character = EUYL_CHL_arturo_alessandri
+				}
+
+				add_stability = -0.25
+
 				promote_character = CHL_ministerio_de_trabajadores
 				remove_dynamic_modifier = { modifier = CHL_political_instability }
 				CHL_bop_remove_bop_effect = yes
@@ -8235,6 +8260,8 @@ focus_tree = {
 
 			add_ideas = CHL_el_frente_popular
 
+			custom_effect_tooltip = CHL_continuing_with_the_radicals_later_down_the_line_will_allow_you_to_form_a_communist_frente_popular_tt
+
 			hidden_effect = {
 				set_variable = {
 					CHL_communists_power = -1
@@ -8307,13 +8334,6 @@ focus_tree = {
 				has_country_leader = {
 					character = EUYL_CHL_pedro_aguirre_cerda
 					ruling_only = yes
-				}
-			}
-			OR = {
-				has_completed_focus = CHL_spread_word_of_communism
-				AND = {
-					has_completed_focus = CHL_nationalize_key_industries
-					has_completed_focus = CHL_advocate_a_compromise_with_the_democrats
 				}
 			}
 		}
@@ -8427,22 +8447,22 @@ focus_tree = {
 
 		cost = 6
 
-		allow_branch = {
-			if = {
-				limit = {
-					has_game_rule = {
-						rule = obsolete_focus_branches_visibility
-						option = HIDE
-					}
-				}
-				NOT = {
-					OR = {
-						has_completed_focus = CHL_democracy_path
-						has_completed_focus = CHL_support_the_radicals
-					}
-				}
-			}
-		}
+		#allow_branch = {
+		#	if = {
+		#		limit = {
+		#			has_game_rule = {
+		#				rule = obsolete_focus_branches_visibility
+		#				option = HIDE
+		#			}
+		#		}
+		#		NOT = {
+		#			OR = {
+		#				has_completed_focus = CHL_democracy_path
+		#				has_completed_focus = CHL_support_the_radicals
+		#			}
+		#		}
+		#	}
+		#}
 
 		available = {
 			279 = {
@@ -8730,18 +8750,28 @@ focus_tree = {
 	focus = {
 		id = CHL_continue_with_the_compromise
 		icon = GFX_CHL_advocate_compromise
-		x = 3
+		x = -4
 		y = 1
-		relative_position_id = CHL_spread_propaganda_to_the_people
+		relative_position_id = CHL_join_the_comintern
 		prerequisite = { 
 			focus = CHL_spread_propaganda_to_the_people
 			focus = CHL_join_the_comintern
 			focus = CHL_our_commie_path
 		}
-		prerequisite = { focus = CHL_establish_plentiful_farmlands }
 		mutually_exclusive = { focus = CHL_abandon_the_compromise }
 
 		cost = 5
+
+		offset = {
+			x = 4
+			y = 0
+			trigger = {
+				OR = {
+					has_completed_focus = CHL_democracy_path
+					has_completed_focus = CHL_continue_with_the_fp
+				}
+			}
+		}
 
 		ai_will_do = {
 			factor = 5
@@ -9141,6 +9171,9 @@ focus_tree = {
 			has_completed_focus = CHL_victory_for_the_fp
 			NOT = {
 				has_country_flag = CHL_FP_dissolved
+			}
+			NOT = {
+				has_country_flag = CHL_Communist_FP_formed_flag
 			}
 		}
 
@@ -9602,6 +9635,38 @@ focus_tree = {
 		mutually_exclusive = { focus = CHL_destroy_paraguay }
 		
 		cost = 10
+
+		offset = {
+			x = -23
+			y = 0
+			trigger = {
+				has_completed_focus = CHL_democracy_path
+			}
+		}
+
+		offset = {
+			x = 5
+			y = 0
+			trigger = {
+				has_completed_focus = CHL_crush_the_nacistas
+			}
+		}
+
+		offset = {
+			x = 2
+			y = 0
+			trigger = {
+				has_completed_focus = CHL_cooperate_with_el_frente
+			}
+		}
+
+		offset = {
+			x = -4
+			y = 0
+			trigger = {
+				has_completed_focus = CHL_continue_with_the_fp
+			}
+		}
 		
 		ai_will_do = {
 			factor = 10
@@ -9693,6 +9758,14 @@ focus_tree = {
 
 		cost = 10
 
+		offset = {
+			x = 1
+			y = 0
+			trigger = {
+				has_completed_focus = CHL_democracy_path
+			}
+		}
+
 		available = {
 			OR = {
 				num_subjects > 4
@@ -9756,6 +9829,14 @@ focus_tree = {
 
 		cost = 10
 
+		offset = {
+			x = 1
+			y = 0
+			trigger = {
+				has_completed_focus = CHL_democracy_path
+			}
+		}
+
 		available = {
 			is_in_faction_with = PAR 
 			PAR = {
@@ -9789,6 +9870,38 @@ focus_tree = {
 
 		cost = 10
 
+		offset = {
+			x = -19
+			y = 0
+			trigger = {
+				has_completed_focus = CHL_democracy_path
+			}
+		}
+
+		offset = {
+			x = 5
+			y = 0
+			trigger = {
+				has_completed_focus = CHL_crush_the_nacistas
+			}
+		}
+
+		offset = {
+			x = 2
+			y = 0
+			trigger = {
+				has_completed_focus = CHL_cooperate_with_el_frente
+			}
+		}
+
+		offset = {
+			x = -4
+			y = 0
+			trigger = {
+				has_completed_focus = CHL_continue_with_the_fp
+			}
+		}
+
 		search_filters = { FOCUS_FILTER_WAR_SUPPORT }
 		completion_reward = {
 			add_war_support = 0.05
@@ -9808,6 +9921,14 @@ focus_tree = {
 		}
 
 		cost = 10
+
+		offset = {
+			x = 2
+			y = 0
+			trigger = {
+				has_completed_focus = CHL_democracy_path
+			}
+		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
@@ -9829,6 +9950,14 @@ focus_tree = {
 		will_lead_to_war_with = BRA
 		
 		cost = 10
+
+		offset = {
+			x = 1
+			y = 0
+			trigger = {
+				has_completed_focus = CHL_democracy_path
+			}
+		}
 		
 		ai_will_do = {
 			factor = 10
@@ -13541,6 +13670,13 @@ focus_tree = {
 			modifier = {
 				add = 40
 				has_civil_war = yes 
+			}
+		}
+
+		available = {
+			OR = {
+				has_completed_focus = CHL_democracy_path
+				has_completed_focus = CHL_communist_path
 			}
 		}
 		
