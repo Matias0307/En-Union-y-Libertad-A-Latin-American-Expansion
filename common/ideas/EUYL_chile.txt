@@ -2736,6 +2736,8 @@ ideas = {
 				}
 			}
 
+			removal_cost = -1 
+
 			modifier = {
 				political_power_factor = -0.2
 			}
@@ -2749,7 +2751,7 @@ ideas = {
 			}
 #
 			allowed_civil_war = {
-				always = yes 
+				always = no 
 			}
 #
 			available = {
@@ -2759,9 +2761,79 @@ ideas = {
 					}
 				}
 			}
+
+			removal_cost = -1 
 #
 			modifier = {
 				political_power_factor = -0.1
+			}
+		}
+
+		CHL_organized_train_resistance = {
+			picture = generic_train_tracks
+
+			allowed = {
+				always = no 
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			available = {
+				has_civil_war = yes
+			}
+
+			removal_cost = -1 
+
+			modifier = {
+				army_speed_factor = 0.1
+				supply_consumption_factor = -0.1
+
+				custom_modifier_tooltip = EUYL_this_national_spirit_will_only_be_active_as_long_as_you_are_in_a_civil_war_tt
+			}
+		}
+
+		CHL_the_ideal_of_the_agrarian_reform_idea = {
+			name = CHL_the_ideal_of_the_agrarian_reform
+			picture = generic_agrarian_society
+
+			allowed = {
+				always = no 
+			}
+
+			allowed_civil_war = {
+				always = yes 
+			}
+
+			removal_cost = -1 
+
+			modifier = {
+				global_building_slots_factor = 0.3
+				production_speed_industrial_complex_factor = -0.05
+				weekly_manpower = 75
+			}
+		}
+
+		CHL_the_bastion_against_opression_idea = {
+			name = CHL_the_bastion_against_opression
+			picture = RAJ_a_tiger_unchained
+
+			allowed = {
+				always = no 
+			}
+
+			allowed_civil_war = {
+				always = yes 
+			}
+
+			removal_cost = -1 
+
+			modifier = {
+				weekly_manpower = 150
+				army_core_defence_factor = 0.05
+				research_speed_factor = 0.05
+				monthly_population = 0.25
 			}
 		}
 	}
@@ -2857,7 +2929,7 @@ ideas = {
 			traits = { EUYL_central_bank } 
 		}
 
-		CHL_CORFO = {
+		CHL_CORFO_1 = {
 			name = "Corporación de Fomento de la Producción"
 
 			picture = CHL_corfo_icon
@@ -2865,8 +2937,8 @@ ideas = {
 			allowed = { original_tag = CHL }
 
 			available = {
-				has_completed_focus = CHL_the_ISI_model
 				OR = {
+					has_completed_focus = CHL_fund_CORFO
 					has_stability > 0.74
 					has_country_leader = {
 						character = EUYL_CHL_pedro_aguirre_cerda
@@ -2883,6 +2955,97 @@ ideas = {
 						option = DLC_CHL_TREE
 					}
 				}
+				NOT = {
+					has_idea = CHL_CORFO_2
+					has_idea = CHL_CORFO_3
+					has_idea = CHL_CORFO_4
+					has_idea = CHL_CORFO_5
+				}
+			}
+
+			on_add = {
+				set_country_flag = CHL_CORFO_hired_flag
+				activate_mission = CHL_expand_plan
+				custom_effect_tooltip = EUYL_decisions_will_be_available_in_economic_policy_tt
+			}
+
+			allowed_to_remove = {
+				always = no
+			}
+
+			research_bonus = {
+				industry = 0.1
+			}
+			
+			traits = { industrial_concern }
+
+			modifier = {
+				line_change_production_efficiency_factor = 0.05
+				production_factory_efficiency_gain_factor = 0.03
+				production_factory_max_efficiency_factor = 0.03
+			}
+		}
+
+		CHL_CORFO_2 = {
+			name = "Corporación de Fomento de la Producción"
+
+			picture = CHL_corfo_icon
+
+			allowed = { original_tag = CHL }
+
+			available = {
+				exists = yes
+			}
+			
+			visible = {
+				has_idea = CHL_CORFO_2
+				NOT = {
+					has_game_rule = {
+						rule = EUYL_CHL_choose_national_focus
+						option = DLC_CHL_TREE
+					}
+				}
+			}
+
+			allowed_to_remove = {
+				always = no
+			}
+
+			research_bonus = {
+				industry = 0.1
+			}
+			
+			traits = { industrial_concern }
+
+			modifier = {
+				line_change_production_efficiency_factor = 0.07
+				production_factory_efficiency_gain_factor = 0.05
+				production_factory_max_efficiency_factor = 0.05
+			}
+		}
+		CHL_CORFO_3 = {
+			name = "Corporación de Fomento de la Producción"
+
+			picture = CHL_corfo_icon
+
+			allowed = { original_tag = CHL }
+
+			available = {
+				exists = yes
+			}
+			
+			visible = {
+				has_idea = CHL_CORFO_3
+				NOT = {
+					has_game_rule = {
+						rule = EUYL_CHL_choose_national_focus
+						option = DLC_CHL_TREE
+					}
+				}
+			}
+
+			allowed_to_remove = {
+				always = no
 			}
 
 			research_bonus = {
@@ -2893,8 +3056,82 @@ ideas = {
 
 			modifier = {
 				line_change_production_efficiency_factor = 0.1
-				production_factory_efficiency_gain_factor = 0.05
-				production_factory_max_efficiency_factor = 0.05
+				production_factory_efficiency_gain_factor = 0.07
+				production_factory_max_efficiency_factor = 0.07
+			}
+		}
+		CHL_CORFO_4 = {
+			name = "Corporación de Fomento de la Producción"
+
+			picture = CHL_corfo_icon
+
+			allowed = { original_tag = CHL }
+
+			available = {
+				exists = yes
+			}
+			
+			visible = {
+				has_idea = CHL_CORFO_4
+				NOT = {
+					has_game_rule = {
+						rule = EUYL_CHL_choose_national_focus
+						option = DLC_CHL_TREE
+					}
+				}
+			}
+
+			allowed_to_remove = {
+				always = no
+			}
+
+			research_bonus = {
+				industry = 0.1
+			}
+			
+			traits = { industrial_concern }
+
+			modifier = {
+				line_change_production_efficiency_factor = 0.12
+				production_factory_efficiency_gain_factor = 0.1
+				production_factory_max_efficiency_factor = 0.1
+			}
+		}
+		CHL_CORFO_5 = {
+			name = "Corporación de Fomento de la Producción"
+
+			picture = CHL_corfo_icon
+
+			allowed = { original_tag = CHL }
+
+			available = {
+				exists = yes
+			}
+			
+			visible = {
+				has_idea = CHL_CORFO_5
+				NOT = {
+					has_game_rule = {
+						rule = EUYL_CHL_choose_national_focus
+						option = DLC_CHL_TREE
+					}
+				}
+			}
+
+			allowed_to_remove = {
+				always = no
+			}
+
+			research_bonus = {
+				industry = 0.1
+			}
+			
+			traits = { industrial_concern }
+
+			modifier = {
+				line_change_production_efficiency_factor = 0.15
+				production_factory_efficiency_gain_factor = 0.12
+				production_factory_max_efficiency_factor = 0.12
 			}
 		}
 	}
@@ -2902,6 +3139,7 @@ ideas = {
 	hidden_ideas = {
 
 		CHL_slight_nacista_push_1 = {
+			name = CHL_balance_of_power_influence_name
 			allowed = {
 				always = no 
 			}
@@ -2926,6 +3164,7 @@ ideas = {
 		}
 
 		CHL_slight_nacista_push_2 = {
+			name = CHL_balance_of_power_influence_name
 			allowed = {
 				always = no 
 			}
@@ -2950,6 +3189,7 @@ ideas = {
 		}
 
 		CHL_slight_nacista_push_3 = {
+			name = CHL_balance_of_power_influence_name
 			allowed = {
 				always = no 
 			}
@@ -2974,6 +3214,7 @@ ideas = {
 		}
 
 		CHL_slight_communist_push_1 = {
+			name = CHL_balance_of_power_influence_name
 			allowed = {
 				always = no 
 			}
@@ -2998,6 +3239,7 @@ ideas = {
 		}
 
 		CHL_slight_communist_push_2 = {
+			name = CHL_balance_of_power_influence_name
 			allowed = {
 				always = no 
 			}
@@ -3022,6 +3264,7 @@ ideas = {
 		}
 
 		CHL_slight_communist_push_3 = {
+			name = CHL_balance_of_power_influence_name
 			allowed = {
 				always = no 
 			}

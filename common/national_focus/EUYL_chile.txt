@@ -71,7 +71,7 @@ focus_tree = {
 		allow_branch = {
 			has_country_flag = is_in_second_war_of_the_pacific
 		}
-		x = -6
+		x = -10
 		y = 0
 
 		cost = 4
@@ -375,7 +375,7 @@ focus_tree = {
 	focus = {
 		id = CHL_aftermath_of_the_great_depression
 		icon = GFX_goal_generic_construction 
-		x = 6
+		x = 2
 		y = 0
 		
 		cost = 2
@@ -404,30 +404,6 @@ focus_tree = {
 		}
 	}
 
-	focus = {
-		id = CHL_the_ISI_model
-		icon = GFX_CHL_ISI_model
-		x = 0
-		y = 1
-		relative_position_id = CHL_aftermath_of_the_great_depression
-		prerequisite = { focus = CHL_aftermath_of_the_great_depression }
-
-		cost = 5
-
-		available = {
-			has_civil_war = no 
-			num_of_factories > 19
-			NOT = { has_idea = free_trade }
-		}	
-
-		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
-		completion_reward = {
-			add_ideas = CHL_ISI_1
-			custom_effect_tooltip = EUYL_available_as_industrial_concern_tt
-			show_ideas_tooltip = CHL_CORFO
-		}
-	}
-	
 	focus = {
 		id = CHL_maintain_the_stability_of_the_nation
 		icon = GFX_goal_generic_neutrality_focus 
@@ -467,11 +443,15 @@ focus_tree = {
 		cancel_if_invalid = yes
 		continue_if_invalid = no
 		available_if_capitulated = no
-		search_filters = { FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
+		search_filters = { FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER FOCUS_FILTER_BALANCE_OF_POWER }
 		completion_reward = {
 			add_political_power = 25
 			add_war_support = 0.05
-			add_manpower = 32500
+			add_manpower = 17500
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			CHL_increase_5_nacista = yes
 		}
 	}
 	
@@ -490,7 +470,7 @@ focus_tree = {
 		available_if_capitulated = no
 		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
 		completion_reward = {
-			EUYL_add_2_civilian = yes 
+			EUYL_add_1_civilian = yes 
 		}
 	}
 	
@@ -509,7 +489,7 @@ focus_tree = {
 		available_if_capitulated = no
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
-			EUYL_add_2_military = yes 
+			EUYL_add_1_military = yes 
 		}
 	}
 	
@@ -1338,15 +1318,13 @@ focus_tree = {
 					}
 				}
 				country_event = chile.46
+				set_country_flag = CHL_FP_formed
 			}
 			
 			add_political_power = 25
 			add_timed_idea = {
 				idea = communist_influence
-				days = 180
-			}
-			hidden_effect = {
-				set_country_flag = CHL_communists_friendly
+				days = 60
 			}
 			if = {
 				limit = {
@@ -1370,7 +1348,7 @@ focus_tree = {
 		relative_position_id = CHL_communist_path
 		prerequisite = { focus = CHL_communist_path }
 
-		cost = 3
+		cost = 2.9
 
 		ai_will_do = {
 			factor = 50
@@ -1378,7 +1356,7 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
-			add_political_power = 50
+			add_political_power = 25
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
 			random_list = {
@@ -1446,7 +1424,7 @@ focus_tree = {
 			CHL_increase_5_communists = yes 
 		}
 		relative_position_id = CHL_communist_path
-		cost = 2.8	
+		cost = 4	
 		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_BALANCE_OF_POWER }
 	}
 	
@@ -1525,6 +1503,7 @@ focus_tree = {
 		}
 
 		available = {
+			has_country_flag = CHL_FP_formed
 			NOT = {
 				has_government = communism
 			}
@@ -1557,6 +1536,7 @@ focus_tree = {
 					days = 14
 					random_days = 14
 				}
+				CHL_set_up_communist_bop_push = yes
 				if = {
 					limit = {
 						has_game_rule = {
@@ -1617,7 +1597,7 @@ focus_tree = {
 		}
 
 		available = {
-			has_country_flag = CHL_election_preperations
+			has_active_mission = CHL_the_1938_elections
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
@@ -1641,7 +1621,7 @@ focus_tree = {
 		}
 
 		available = {
-			has_country_flag = CHL_election_preperations
+			has_active_mission = CHL_the_1938_elections
 			OR = {
 				custom_trigger_tooltip = {
 					tooltip = CHL_gave_welfare_to_lower_class_tt
@@ -1662,7 +1642,8 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-			add_popularity = { ideology = communism popularity = 0.035 }
+			add_political_power = 20
+			add_popularity = { ideology = democratic popularity = 0.035 }
 		}
 	}
 
@@ -1681,7 +1662,7 @@ focus_tree = {
 		}
 
 		available = {
-			has_country_flag = CHL_election_preperations
+			has_active_mission = CHL_the_1938_elections
 			OR = {
 				custom_trigger_tooltip = {
 					tooltip = CHL_gave_welfare_to_middle_class_tt
@@ -1702,7 +1683,8 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-			add_popularity = { ideology = communism popularity = 0.035 }
+			add_political_power = 20
+			add_popularity = { ideology = democratic popularity = 0.035 }
 		}
 	}
 
@@ -1721,7 +1703,7 @@ focus_tree = {
 		}
 
 		available = {
-			has_country_flag = CHL_election_preperations
+			has_active_mission = CHL_the_1938_elections
 			OR = {
 				custom_trigger_tooltip = {
 					tooltip = CHL_offered_tax_cuts_to_upper_class_tt
@@ -1742,7 +1724,8 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-			add_popularity = { ideology = communism popularity = 0.035 }
+			add_political_power = 20
+			add_popularity = { ideology = democratic popularity = 0.035 }
 		}
 	}
 
@@ -1761,7 +1744,7 @@ focus_tree = {
 		cost = 5
 
 		available = {
-			has_country_flag = CHL_election_preperations
+			has_active_mission = CHL_the_1938_elections
 			custom_trigger_tooltip = {
 				tooltip = CHL_nacistas_are_in_excluded_power_category_tt
 				check_variable = { CHL_nacista_power = 0 }
@@ -1780,7 +1763,7 @@ focus_tree = {
 
 	focus = {
 		id = CHL_return_to_the_pcch
-		icon = GFX_goal_support_communism
+		icon = GFX_CHL_commie_icon
 		x = -1
 		y = 1
 		relative_position_id = CHL_strengthen_the_workers
@@ -1844,6 +1827,7 @@ focus_tree = {
 
 			custom_effect_tooltip = CHL_communists_friendly_tt
 			custom_effect_tooltip = CHL_frente_popular_hostile_tt
+			add_ideas = CHL_frente_popular_opposition
 
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
@@ -1877,7 +1861,7 @@ focus_tree = {
 	focus = {
 		id = CHL_support_the_radicals
 		icon = GFX_CHL_support_radicalism
-		x = -6
+		x = -9
 		y = 1
 		relative_position_id = CHL_legalize_labor_unions
 		prerequisite = { focus = CHL_legalize_labor_unions }
@@ -1904,7 +1888,7 @@ focus_tree = {
 		}
 
 		offset = {
-			x = 7
+			x = 10
 			y = 0
 			trigger = {
 				has_game_rule = {
@@ -1962,11 +1946,123 @@ focus_tree = {
 			}
 		}
 	}
+
+	## Attract the Railway Workers ##
+	focus = {
+		id = CHL_attract_the_railway_workers
+		icon = GFX_goal_generic_construct_infrastructure
+		x = -5
+		y = 1
+		relative_position_id = CHL_return_to_the_pcch
+		prerequisite = {
+			focus = CHL_return_to_the_pcch
+			focus = CHL_support_the_radicals
+		}
+
+		available = {
+			has_civil_war = yes 
+		}
+
+		cost = 5
+
+		bypass = {
+			has_civil_war = no
+			OR = {
+				has_government = communism
+				has_government = neutrality
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			add_ideas = CHL_organized_train_resistance
+		}
+	}
+
+	## The Ideal of the Agrarian Reform ##
+	focus = {
+		id = CHL_the_ideal_of_the_agrarian_reform
+		icon = GFX_focus_SOV_breadbasket_of_the_union
+		x = 0
+		y = 1
+		relative_position_id = CHL_attract_the_railway_workers
+		prerequisite = {
+			focus = CHL_attract_the_railway_workers
+		}
+
+		cost = 10
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER
+		}
+
+		completion_reward = {
+			add_ideas = CHL_the_ideal_of_the_agrarian_reform_idea
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = CHL_industrial_land_appropriation_in_FROM
+
+			custom_effect_tooltip = EUYL_decisions_will_be_available_in_economic_policy_tt
+		}
+	}
+
+	## International Solidarity ##
+	focus = {
+		id = CHL_international_solidarity
+		icon = GFX_focus_generic_befriend_republican_spain_focus
+		x = -2
+		y = 1
+		relative_position_id = CHL_the_ideal_of_the_agrarian_reform
+		prerequisite = {
+			focus = CHL_the_ideal_of_the_agrarian_reform
+		}
+
+		cost = 2.9
+
+		available = {
+			has_civil_war = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			add_timed_idea = { idea = ARG_send_volunteers days = 365 }
+			set_rule = { can_send_volunteers = yes }
+		}
+	}
+
+	## The Bastion Against Opression ##
+	focus = {
+		id = CHL_the_bastion_against_opression
+		icon = GFX_focus_generic_swooping_falcon
+		x = 0
+		y = 1
+		relative_position_id = CHL_the_ideal_of_the_agrarian_reform
+		prerequisite = {
+			focus = CHL_the_ideal_of_the_agrarian_reform
+		}
+
+		cost = 10
+
+		search_filters = {
+			FOCUS_FILTER_MANPOWER FOCUS_FILTER_RESEARCH
+		}
+
+		completion_reward = {
+			add_ideas = CHL_the_bastion_against_opression_idea
+		}
+	}
 	
 	focus = {
 		id = CHL_create_the_pan_american_highway
 		icon = GFX_CHL_pan_american
-		x = 4
+		x = 0
 		y = 1
 		ai_will_do = {
 			factor = 5
@@ -1985,24 +2081,24 @@ focus_tree = {
 				has_completed_focus = CHL_continue_with_the_fp
 			}
 		}
-		relative_position_id = CHL_return_to_the_pcch
+		relative_position_id = CHL_aftermath_of_the_great_depression
 		prerequisite = {
-			focus = CHL_return_to_the_pcch
-			focus = CHL_continue_with_the_fp
+			focus = CHL_aftermath_of_the_great_depression
 		}
 		cost = 10
 		search_filters = {FOCUS_FILTER_POLITICAL}		
 		search_filters = {FOCUS_FILTER_INDUSTRY}	
 		completion_reward = {
+			add_political_power = 25
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
 			custom_effect_tooltip = CHL_pan_highway_tooltip
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
 			add_ideas = CHL_the_pan_american_highway_complete
 			add_popularity = { ideology = communism popularity = 0.025 }
-			if = {
-				limit = { 
-					has_idea = CHL_CORFO
-				}
-				add_stability = 0.05
-			}
+			
 			hidden_effect = {
 				every_country = {
 					limit = {
@@ -2039,13 +2135,56 @@ focus_tree = {
 		}
 	}
 
+	## Fund CORFO ##
+	focus = {
+		id = CHL_fund_CORFO
+		icon = GFX_CHL_corfo_icon_focus
+		x = -5
+		y = 1
+		relative_position_id = CHL_continue_with_the_fp
+		prerequisite = {
+			focus = CHL_return_to_the_pcch
+			focus = CHL_continue_with_the_fp
+		}
+
+		cost = 4
+
+		available = {
+			date > 1938.7.1
+			has_civil_war = no
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			add_political_power = 25
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = EUYL_available_as_industrial_concern_tt
+			show_ideas_tooltip = CHL_CORFO_1
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			activate_mission = CHL_designate_CORFO_as_industrial_concern
+			custom_effect_tooltip = EUYL_decisions_will_be_available_in_economic_policy_tt
+
+			custom_effect_tooltip = CHL_failure_to_designate_CORFO_as_industrial_concern_will_result_in_loss_of_political_power_tt
+		}
+	}
+
 	focus = {
 		id = CHL_use_excess_money_to_afford_tax_cuts
 		icon = GFX_focus_mex_privatisation
 		x = 0
 		y = 1
-		relative_position_id = CHL_create_the_pan_american_highway
-		prerequisite = { focus = CHL_create_the_pan_american_highway }
+		relative_position_id = CHL_fund_CORFO
+		prerequisite = {
+			focus = CHL_fund_CORFO
+		}
+		
 
 		cost = 6
 
@@ -2083,10 +2222,13 @@ focus_tree = {
 	focus = {
 		id = CHL_spread_anti_fascist_propaganda
 		icon = GFX_goal_generic_propaganda
-		x = 0
+		x = -1
 		y = 1
 		relative_position_id = CHL_continue_with_the_fp
-		prerequisite = { focus = CHL_continue_with_the_fp }
+		prerequisite = { 
+			focus = CHL_continue_with_the_fp 
+			focus = CHL_return_to_the_pcch
+		}
 
 		cost = 5 
 
@@ -2098,12 +2240,15 @@ focus_tree = {
 			has_country_flag = CHL_established_anti_nacista_state_department_flag
 			power_balance_value = {
 				id = CHL_nacista_communist_bop
-				value < -0.05
+				value < 0.05
 			}
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
+			add_political_power = 25
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
 			CHL_increase_5_communists = yes
 		}
 	}
@@ -2148,11 +2293,14 @@ focus_tree = {
 				}
 				random_owned_controlled_state = {
 					limit = { 
-						is_demilitarized_zone = no 
+						NOT = {
+							has_dynamic_modifier = {
+								modifier = CHL_organized_nacista_rebellion
+							}
+						}
 						is_core_of = ROOT
 					}
-					set_demilitarized_zone = yes 
-					add_dynamic_modifier = { modifier = CHL_organized_communist_rebellion }
+					add_dynamic_modifier = { modifier = CHL_organized_nacista_rebellion }
 				}
 			}
 		}
@@ -2191,7 +2339,6 @@ focus_tree = {
 
 		available = {
 			has_active_mission = CHL_possible_coup_attempt
-			#has_country_flag = CHL_election_preperations
 			has_civil_war = no 
 		}
 
@@ -2225,12 +2372,13 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
-			activate_mission_tooltip = CHL_the_revolution
-			add_political_power = 25
+			custom_effect_tooltip = CHL_unlocks_decision_to_establish_communist_headquarters_tt
 
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
-			CHL_increase_communist_power_category_one_level = yes
+			add_political_power = 25
+
+			CHL_increase_5_communists = yes
 
 			279 = {
 				add_extra_state_shared_building_slots = 1
@@ -2262,7 +2410,6 @@ focus_tree = {
 		y = 1
 		relative_position_id = CHL_begin_preperations_for_uprising
 		prerequisite = { focus = CHL_begin_preperations_for_uprising }
-		prerequisite = { focus = CHL_create_the_pan_american_highway }
 
 		cost = 5
 
@@ -2285,6 +2432,9 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
+			add_political_power = 25
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
 			custom_effect_tooltip = CHL_middle_class_no_longer_ask_welfare_tt
 			add_popularity = { ideology = communism popularity = 0.01 }
 			add_days_mission_timeout = {
@@ -2300,7 +2450,7 @@ focus_tree = {
 		x = -1
 		y = 1
 		relative_position_id = CHL_begin_preperations_for_uprising
-		prerequisite = { focus = CHL_begin_preperations_for_uprising}
+		prerequisite = { focus = CHL_begin_preperations_for_uprising }
 
 		cost = 5
 
@@ -2310,6 +2460,10 @@ focus_tree = {
 
 		available = {
 			has_active_mission = CHL_the_revolution
+			power_balance_value = {
+				id = CHL_nacista_communist_bop
+				value < -0.4
+			}
 		}
 
 		bypass = {
@@ -2319,12 +2473,24 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
+			add_political_power = 25
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
 			custom_effect_tooltip = CHL_government_starts_with_stability_debuff_tt
 			add_popularity = { ideology = communism popularity = 0.01 }
 			add_days_mission_timeout = {
 				mission = CHL_the_revolution
 				days = 15
 			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			remove_ideas = CHL_frente_popular_opposition
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = CHL_agitate_the_bourgeoisie
 		}
 	}
 
@@ -2353,6 +2519,9 @@ focus_tree = {
 		continue_if_invalid = no 
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
+			add_political_power = 25
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
 			EUYL_add_1_civilian = yes 
 		}
 	}
@@ -2415,8 +2584,10 @@ focus_tree = {
 		x = -1
 		y = 1
 		relative_position_id = CHL_befriend_middle_class
-		prerequisite = { focus = CHL_befriend_middle_class }
-		prerequisite = { focus = CHL_de_stabilize_the_government }
+		prerequisite = { 
+			focus = CHL_befriend_middle_class 
+			focus = CHL_de_stabilize_the_government
+		}
 
 		cost = 6
 
@@ -2435,12 +2606,19 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_MANPOWER }
 		completion_reward = {
+			add_political_power = 25
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
 			custom_effect_tooltip = CHL_start_with_extra_militia_tt
 			add_popularity = { ideology = communism popularity = 0.01 }
 			add_days_mission_timeout = {
 				mission = CHL_the_revolution
-				days = 30
+				days = 10
 			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			CHL_increase_communist_power_category_one_level = yes 
 		}
 	}
 
@@ -2519,7 +2697,7 @@ focus_tree = {
 			has_active_mission = CHL_the_revolution
 			power_balance_value = {
 				id = CHL_nacista_communist_bop
-				value < -0.5
+				value < -0.6
 			}
 			all_owned_state = {
 				NOT = { 
@@ -2736,7 +2914,7 @@ focus_tree = {
 	focus = {
 		id = CHL_exploit_the_intellectuals
 		icon = GFX_focus_generic_socialist_science
-		x = -2
+		x = -3
 		y = 1
 		relative_position_id = CHL_establish_the_regime
 		prerequisite = { focus = CHL_establish_the_regime }
@@ -2764,8 +2942,8 @@ focus_tree = {
 		mutually_exclusive = { focus = CHL_join_the_comintern }
 
 		icon = GFX_focus_generic_little_entente
-		x = -3
-		y = 8
+		x = 6
+		y = 1
 	
 		available = {
 			is_subject = no 
@@ -2778,7 +2956,7 @@ focus_tree = {
 				set_politics = { ruling_party = communism }
 			}
 		}		
-		relative_position_id = CHL_create_the_pan_american_highway
+		relative_position_id = CHL_establish_the_regime
 		cost = 5	
 		search_filters = {FOCUS_FILTER_POLITICAL}		
 	}	
@@ -2786,23 +2964,11 @@ focus_tree = {
 	focus = {
 		id = CHL_a_new_idea
 		icon = GFX_CHL_new_idea
-		x = -6
-		y = 2
-		relative_position_id = CHL_legalize_labor_unions
+		x = 0
+		y = 1
+		relative_position_id = CHL_support_the_radicals
 		prerequisite = { focus = CHL_support_the_radicals }
 
-		offset = {
-			x = 7
-			y = 0
-			trigger = {
-				has_game_rule = {
-					rule = obsolete_focus_branches_visibility
-					option = HIDE
-				}
-				has_completed_focus = CHL_support_the_radicals
-			}
-		}
-		
 		ai_will_do = {
 			factor = 45
 		}
@@ -2888,7 +3054,7 @@ focus_tree = {
 	focus = {
 		id = CHL_seize_the_reserves
 		icon = GFX_goal_generic_military_sphere 
-		x = 0
+		x = 1
 		y = 1
 		relative_position_id = CHL_seize_the_means_of_production
 		prerequisite = { focus = CHL_seize_the_means_of_production }
@@ -3000,7 +3166,6 @@ focus_tree = {
 				remove_dynamic_modifier = { modifier = CHL_political_instability }
 				clear_variable = CHL_nacista_power
 				clear_variable = CHL_communists_power
-				clr_country_flag = CHL_election_preperations
 				add_popularity = { ideology = neutrality popularity = 0.25 }
 
 				add_ideas = EUYL_anarchist_ethos
@@ -3132,6 +3297,34 @@ focus_tree = {
 		}
 	}
 
+	## Consolidate our Leadership ##
+	focus = {
+		id = CHL_consolidate_our_leadership
+		icon = GFX_focus_SOV_organize_wreckers
+		x = 0
+		y = 1
+		relative_position_id = CHL_seize_the_means_of_transportation
+		prerequisite = {
+			focus = CHL_seize_the_means_of_transportation
+		}
+
+		cost = 5
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			add_political_power = 50
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = CHL_ernesto_miranda_rivas
+			show_ideas_tooltip = CHL_clotario_blest
+		}
+	}
+
 	focus = {
 		id = CHL_arm_the_civilians
 		icon = GFX_CHL_arm_civilian_anarchist
@@ -3242,7 +3435,7 @@ focus_tree = {
 		id = CHL_appropriate_the_means_of_production
 		icon = GFX_focus_generic_support_the_left_right 
 		x = -1
-		y = 2
+		y = 3
 		relative_position_id = CHL_our_own_fate
 		prerequisite = { focus = CHL_seize_the_means_of_transportation }
 		
@@ -3359,7 +3552,7 @@ focus_tree = {
 		id = CHL_seize_the_factories
 		icon = GFX_focus_eng_crush_the_dream 
 		x = 1
-		y = 2
+		y = 3
 		relative_position_id = CHL_our_own_fate
 		prerequisite = { focus = CHL_seize_the_means_of_transportation }
 		
@@ -3889,7 +4082,7 @@ focus_tree = {
 		id = CHL_anarchism_has_no_borders
 		icon = GFX_focus_spr_anarchism_knows_no_borders
 		x = 0
-		y = 4
+		y = 5
 		relative_position_id = CHL_argentine_anarchism
 		prerequisite = { focus = CHL_exploit_the_bolivian_tungsten }
 		prerequisite = { focus = CHL_the_future_of_anarchy }
@@ -4059,7 +4252,7 @@ focus_tree = {
 		id = CHL_the_future_of_anarchy
 		icon = GFX_focus_spr_crush_the_revolution
 		x = -1
-		y = 1
+		y = 2
 		relative_position_id = CHL_peruvian_anarchism
 		prerequisite = { focus = CHL_peruvian_anarchism }
 
@@ -4077,7 +4270,7 @@ focus_tree = {
 		id = CHL_exploit_the_bolivian_tungsten
 		icon = GFX_focus_generic_tungsten 
 		x = -3
-		y = 3
+		y = 4
 		relative_position_id = CHL_improve_the_infrastructure
 		prerequisite = { focus = CHL_bolivian_anarchism }
 		
@@ -4212,7 +4405,32 @@ focus_tree = {
 			add_research_slot = 1
 		}
 	}
-	
+
+	## Women in Aviation ##
+	focus = {
+		id = CHL_women_in_aviation
+		icon = GFX_focus_SOV_women_in_aviation
+		x = 0
+		y = 1
+		relative_position_id = CHL_exploit_the_intellects
+		prerequisite = {
+			focus = CHL_exploit_the_intellects
+		}
+
+		cost = 10
+
+		search_filters = {
+			FOCUS_FILTER_AIR_XP
+		}
+
+		completion_reward = {
+			air_experience = 50
+			add_ideas = ARG_women_in_skies
+			set_rule = {
+				can_generate_female_aces = yes
+			}
+		}
+	}	
 	
 	focus = {
 		id = CHL_democracy_path
@@ -4283,7 +4501,7 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			add_political_power = 75
+			add_political_power = 25
 			add_timed_idea = {
 				idea = democratic_influence
 				days = 90
@@ -4453,7 +4671,7 @@ focus_tree = {
 		}
 
 		available = {
-			has_country_flag = CHL_election_preperations
+			has_active_mission = CHL_the_1938_elections
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
@@ -4477,7 +4695,7 @@ focus_tree = {
 		}
 
 		available = {
-			has_country_flag = CHL_election_preperations
+			has_active_mission = CHL_the_1938_elections
 			has_civil_war = no 
 		}
 
@@ -4515,8 +4733,8 @@ focus_tree = {
 
 		available = {
 			custom_trigger_tooltip = {
-				tooltip = CHL_communist_power_over_25
-				check_variable = { CHL_communists_power > 24 }
+				tooltip = CHL_communists_are_at_least_influential_tt
+				check_variable = { CHL_communists_power > 1 }
 			}
 		}
 
@@ -4557,7 +4775,7 @@ focus_tree = {
 		}
 
 		available = {
-			has_country_flag = CHL_election_preperations
+			has_active_mission = CHL_the_1938_elections
 			custom_trigger_tooltip = {
 				tooltip = CHL_nacistas_are_in_excluded_power_category_tt
 				check_variable = { CHL_nacista_power = 0 }
@@ -4635,7 +4853,7 @@ focus_tree = {
 		}
 
 		offset = {
-			x = -9
+			x = -11
 			y = 0
 			trigger = {
 				has_game_rule = {
@@ -4646,7 +4864,7 @@ focus_tree = {
 			}
 		}
 
-		cost = 2.8
+		cost = 5
 
 		ai_will_do = {
 			base = 250
@@ -4684,6 +4902,10 @@ focus_tree = {
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
 			CHL_increase_5_nacista = yes 
+
+			hidden_effect = {
+				set_country_flag = CHL_nacista_friendly
+			}
 
 			if = {
 				limit = {
@@ -4732,8 +4954,15 @@ focus_tree = {
 		cancel_if_invalid = yes 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
+			add_political_power = 25
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
 			add_stability = -0.02
 			add_popularity = { ideology = fascism popularity = 0.02 }
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			CHL_increase_5_nacista = yes
 			279 = {
 				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
@@ -4745,7 +4974,7 @@ focus_tree = {
 			
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
-			CHL_increase_10_nacista = yes
+			unlock_decision_tooltip = CHL_bolster_nacista_political_representation
 		}
 	}
 
@@ -4828,9 +5057,15 @@ focus_tree = {
 		cost = 7.2
 
 		available = {
-			is_power_balance_in_range = {
-				id = CHL_nacista_communist_bop
-				range = CHL_nacista_communist_bop_balanced
+			OR = {
+				is_power_balance_in_range = {
+					id = CHL_nacista_communist_bop
+					range = CHL_nacista_communist_bop_balanced
+				}
+				power_balance_value = {
+					id = CHL_nacista_communist_bop
+					value > 0.5
+				}
 			}
 		}
 
@@ -4876,10 +5111,13 @@ focus_tree = {
 				
 				random_owned_controlled_state = {
 					limit = { 
-						is_demilitarized_zone = no 
+						NOT = {
+							has_dynamic_modifier = {
+								modifier = CHL_organized_communist_rebellion
+							}
+						}
 						is_core_of = ROOT
 					}
-					set_demilitarized_zone = yes 
 					add_dynamic_modifier = { modifier = CHL_organized_communist_rebellion }
 				}
 			}
@@ -4959,7 +5197,7 @@ focus_tree = {
 		}
 
 		available = {
-			has_country_flag = CHL_election_preperations
+			has_active_mission = CHL_the_1938_elections
 		}
 
 		cancel_if_invalid = yes 
@@ -5407,6 +5645,9 @@ focus_tree = {
 		cancel_if_invalid = yes 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
 		completion_reward = {
+			add_political_power = 25
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
 			custom_effect_tooltip = CHL_starts_uprising_mission_tt 
 			custom_effect_tooltip = available_political_advisor
 			show_ideas_tooltip = CHL_carlos_ibáñez_del_campo_idea
@@ -6005,6 +6246,14 @@ focus_tree = {
 			has_navy_size = {
 				size > 24
 			}
+			custom_trigger_tooltip = {
+				tooltip = CHL_communists_are_in_excluded_power_category_tt
+				check_variable = { CHL_communists_power = 0 }
+			}
+			power_balance_value = {
+				id = CHL_nacista_communist_bop
+				value > 0.5
+			}
 		}
 
 		search_filters = {
@@ -6072,7 +6321,18 @@ focus_tree = {
 			focus = CHL_world_oyster
 			focus = CHL_strenghthen_our_ties_with_peru
 		}
-		cost = 10
+		cost = 5
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = CHL_communists_are_in_excluded_power_category_tt
+				check_variable = { CHL_communists_power = 0 }
+			}
+			power_balance_value = {
+				id = CHL_nacista_communist_bop
+				value > 0.7
+			}
+		}
 		
 		ai_will_do = {
 			factor = 10
@@ -6113,7 +6373,11 @@ focus_tree = {
 		x = -3
 		y = 0
 		relative_position_id = CHL_maintain_the_fire
-		prerequisite = { focus = CHL_world_oyster }
+		prerequisite = { 
+			focus = CHL_world_oyster 
+			focus = CHL_the_american_counterweight
+			focus = CHL_strenghthen_our_ties_with_peru
+		}
 		
 		will_lead_to_war_with = ARG
 		
@@ -7829,7 +8093,7 @@ focus_tree = {
 			}
 		}
 
-		cost = 2.8
+		cost = 5
 
 		ai_will_do = {
 			base = 250
@@ -7945,6 +8209,7 @@ focus_tree = {
 					days = 14
 					random_days = 14
 				}
+				CHL_set_up_communist_bop_push = yes
 			}
 			if = {
 				limit = {
@@ -8028,9 +8293,32 @@ focus_tree = {
 	}
 
 	focus = {
+		id = CHL_the_ISI_model
+		icon = GFX_CHL_ISI_model
+		x = 3
+		y = 1
+		relative_position_id = CHL_victory_for_the_fp
+		prerequisite = { focus = CHL_victory_for_the_fp }
+
+		cost = 5
+
+		available = {
+			has_civil_war = no 
+			num_of_factories > 19
+			NOT = { has_idea = free_trade }
+		}	
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
+		completion_reward = {
+			add_ideas = CHL_ISI_1
+		}
+	}
+	
+
+	focus = {
 		id = CHL_approach_the_soviets
 		icon = GFX_focus_chi_mission_to_the_soviet_union
-		x = -8
+		x = -6
 		y = 1
 		relative_position_id = CHL_victory_for_the_fp
 		prerequisite = { 
@@ -8150,7 +8438,7 @@ focus_tree = {
 	focus = {
 		id = CHL_cave_to_the_rich
 		icon = GFX_ARG_go_to_the_rich
-		x = 4
+		x = 2
 		y = 1
 		relative_position_id = CHL_approach_the_soviets
 		prerequisite = { focus = CHL_focus_on_internal_politics }
@@ -8350,12 +8638,11 @@ focus_tree = {
 	focus = {
 		id = CHL_spread_propaganda_to_the_people
 		icon = GFX_goal_generic_propaganda
-		x = -1
+		x = 1
 		y = 1
-		relative_position_id = CHL_join_the_comintern
+		relative_position_id = CHL_establish_the_regime
 		prerequisite = {
-			focus = CHL_join_the_comintern
-			focus = CHL_our_commie_path
+			focus = CHL_establish_the_regime
 		}
 
 		cost = 6
@@ -8375,12 +8662,11 @@ focus_tree = {
 	focus = {
 		id = CHL_establish_plentiful_farmlands
 		icon = GFX_focus_prc_agrarian_socialism 
-		x = -4
+		x = -1
 		y = 1
-		relative_position_id = CHL_join_the_comintern
+		relative_position_id = CHL_establish_the_regime
 		prerequisite = { 
-			focus = CHL_our_commie_path
-			focus = CHL_join_the_comintern
+			focus = CHL_establish_the_regime
 		}
 
 		cost = 6
@@ -8406,16 +8692,18 @@ focus_tree = {
 	focus = {
 		id = CHL_continue_with_the_compromise
 		icon = GFX_CHL_advocate_compromise
-		x = 1
+		x = 3
 		y = 1
 		relative_position_id = CHL_spread_propaganda_to_the_people
 		prerequisite = { 
 			focus = CHL_spread_propaganda_to_the_people
+			focus = CHL_join_the_comintern
+			focus = CHL_our_commie_path
 		}
 		prerequisite = { focus = CHL_establish_plentiful_farmlands }
 		mutually_exclusive = { focus = CHL_abandon_the_compromise }
 
-		cost = 8
+		cost = 5
 
 		ai_will_do = {
 			factor = 5
@@ -8708,7 +8996,7 @@ focus_tree = {
 		id = CHL_the_final_nail_in_the_coffin
 		icon = GFX_focus_spa_the_war_of_vengeance
 		x = 0
-		y = 3
+		y = 4
 		relative_position_id = CHL_expand_communism_to_the_continent
 		prerequisite = { 
 			focus = CHL_expand_communism_to_the_continent 
@@ -8752,14 +9040,14 @@ focus_tree = {
 	focus = {
 		id = CHL_abandon_the_compromise
 		icon = GFX_CHL_break_compromise
-		x = -1
+		x = 0
 		y = 1
 		relative_position_id = CHL_establish_plentiful_farmlands
 		prerequisite = { focus = CHL_establish_plentiful_farmlands }
 		prerequisite = { focus = CHL_spread_propaganda_to_the_people }
 		mutually_exclusive = { focus = CHL_continue_with_the_compromise }
 
-		cost = 8
+		cost = 5
 
 		ai_will_do = {
 			factor = 5
@@ -8773,13 +9061,17 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = CHL_people_will_get_mad_tt
 			add_war_support = 0.05
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = CHL_unlock_war_plan_decisions_against_FROM_tt
 		}
 	}
 
 	focus = {
 		id = CHL_abandon_the_fp
 		icon = GFX_CHL_abandon_fp
-		x = -5
+		x = -3
 		y = 1
 		relative_position_id = CHL_victory_for_the_fp
 		prerequisite = {
@@ -8809,6 +9101,9 @@ focus_tree = {
 
 		available = {
 			has_completed_focus = CHL_victory_for_the_fp
+			NOT = {
+				has_country_flag = CHL_FP_dissolved
+			}
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
@@ -8837,11 +9132,11 @@ focus_tree = {
 	focus = {
 		id = CHL_stabilize_our_politics
 		icon = GFX_focus_generic_self_management
-		x = 3
+		x = 0
 		y = 1
-		relative_position_id = CHL_spread_propaganda_to_the_people
+		relative_position_id = CHL_exploit_the_intellectuals
 
-		prerequisite = { focus = CHL_spread_propaganda_to_the_people }
+		prerequisite = { focus = CHL_exploit_the_intellectuals }
 
 		cost = 10
 
@@ -8890,8 +9185,8 @@ focus_tree = {
 		id = CHL_create_a_mountaineer_korp
 		icon = GFX_focus_GRE_a_land_of_mountains
 		x = 0
-		y = 3
-		relative_position_id = CHL_our_commie_path	
+		y = 1
+		relative_position_id = CHL_abandon_the_compromise	
 		prerequisite = { focus = CHL_abandon_the_compromise }
 		
 		cost = 10
@@ -9346,6 +9641,73 @@ focus_tree = {
 		}
 	}
 
+	## Form the Hispanic People's Republic ##
+	focus = {
+		id = CHL_form_the_hispanic_peoples_republic
+		icon = GFX_focus_CHL_union_of_hispanic_republics
+		x = -3
+		y = 1
+		relative_position_id = CHL_invite_paraguay
+		prerequisite = {
+			focus = CHL_invite_paraguay
+			focus = CHL_destroy_paraguay
+		}
+
+		cost = 10
+
+		available = {
+			OR = {
+				num_subjects > 4
+				num_of_controlled_states > 29
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			set_cosmetic_tag = CHL_hispanic_union
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_category_tooltip = ARG_integrate_our_territories
+			custom_effect_tooltip = BRA_annex_every_subject_tt
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = BRA_gain_claims_on_every_sa_state_tt
+
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						is_subject_of = ROOT 
+						has_government = communism
+					}
+					ROOT = {
+						annex_country = {
+							target = PREV 
+							transfer_troops = yes 
+						}
+					}
+				}
+				every_state = {
+					limit = {
+						NOT = { is_owned_by = ROOT }
+						is_on_continent = south_america
+					}
+					add_claim_by = ROOT
+				}
+				set_country_flag = EUYL_can_integrate
+				news_event = { 
+					id = CHL_news_events.3 
+					days = 2
+					random_days = 5
+				}
+			}
+		}
+	}
+
 	focus = {
 		id = CHL_economic_cooperation_with_paraguay
 		icon = GFX_goal_generic_construct_civ_factory
@@ -9379,8 +9741,8 @@ focus_tree = {
 	focus = {
 		id = CHL_bolster_chilean_nationalism
 		icon = GFX_CHL_nationalism
-		x = 2
-		y = 1
+		x = 1
+		y = 2
 		relative_position_id = CHL_destroy_paraguay
 		prerequisite = {
 			focus = CHL_invite_paraguay
@@ -9399,8 +9761,8 @@ focus_tree = {
 	focus = {
 		id = CHL_calm_down_the_people
 		icon = GFX_ARG_commence_plans
-		x = -2
-		y = 1
+		x = -1
+		y = 2
 		relative_position_id = CHL_invite_paraguay
 		prerequisite = {
 			focus = CHL_destroy_paraguay
@@ -9421,7 +9783,7 @@ focus_tree = {
 	focus = {
 		id = CHL_go_for_brazil
 		icon = GFX_ARG_attack_brazil
-		x = -1
+		x = -2
 		y = 1
 		relative_position_id = CHL_calm_down_the_people
 		prerequisite = { focus = CHL_calm_down_the_people }
@@ -9521,6 +9883,13 @@ focus_tree = {
 		completion_reward = {
 			add_manpower = 64315
 			add_ideas = ARG_workers_in_the_armed_forces_2
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = {
+				decision = CHL_improve_our_conscription
+				show_effect_tooltip = yes
+			}
 		}
 	}
 	
@@ -9784,7 +10153,7 @@ focus_tree = {
 		cost = 10
 
 		available = {
-			has_government = communism
+			has_government = democratic
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_RESEARCH FOCUS_FILTER_HISTORICAL }
@@ -9792,13 +10161,13 @@ focus_tree = {
 			custom_effect_tooltip = CHL_depending_on_party_popularity_tt
 			if = {
 				limit = {
-					communism > 0.8
+					democratic > 0.8
 				}
 				add_ideas = CHL_the_literary_generation_idea_3
 			}
 			else_if = {
 				limit = {
-					communism > 0.6
+					democratic > 0.6
 				}
 				add_ideas = CHL_the_literary_generation_idea_2
 			}
@@ -10495,11 +10864,14 @@ focus_tree = {
 			hidden_effect = {
 				random_owned_controlled_state = {
 					limit = { 
-						is_demilitarized_zone = no 
+						NOT = {
+							has_dynamic_modifier = {
+								modifier = CHL_organized_nacista_rebellion
+							}
+						}
 						is_core_of = ROOT
 					}
-					set_demilitarized_zone = yes 
-					add_dynamic_modifier = { modifier = CHL_organized_communist_rebellion }
+					add_dynamic_modifier = { modifier = CHL_organized_nacista_rebellion }
 				}
 			}
 		}
@@ -10555,7 +10927,7 @@ focus_tree = {
 
 		available = {
 			has_government = democratic
-			has_country_flag = CHL_election_preperations
+			has_active_mission = CHL_the_1938_elections
 			has_civil_war = no 
 		}
 
@@ -10943,7 +11315,7 @@ focus_tree = {
 		}
 
 		available = {
-			has_country_flag = CHL_election_preperations
+			has_active_mission = CHL_the_1938_elections
 		}
 
 		bypass = {
@@ -10973,7 +11345,7 @@ focus_tree = {
 
 		available = {
 			has_civil_war = no 
-			has_country_flag = CHL_election_preperations
+			has_active_mission = CHL_the_1938_elections
 			has_government = democratic
 		}
 
@@ -11048,7 +11420,6 @@ focus_tree = {
 				has_government = democratic
 				has_government = communism
 			}
-			#has_country_flag = CHL_election_preperations
 			has_civil_war = no 
 		}
 

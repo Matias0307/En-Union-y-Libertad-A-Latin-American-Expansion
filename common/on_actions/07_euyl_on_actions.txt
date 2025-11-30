@@ -2244,23 +2244,22 @@ on_actions = {
                 remove_dynamic_modifier = { modifier = CHL_political_instability }
                 add_dynamic_modifier = { modifier = CHL_political_instability }
                 set_country_flag = CHL_communists_friendly
-                set_variable = { CHL_nacista_power = 7 }
-                set_variable = { CHL_communists_power = 29 }
-                set_variable = { CHL_nacista_influence_days = 35 }
-                set_variable = { CHL_communist_influencce_days = 35 }
-                set_variable = { CHL_fascist_drift = CHL_nacista_power }
-                set_variable = { CHL_communist_drift = CHL_communists_power }
+                ## -1 - Integrated | 0 - Excluded | 1 - Marginal | 2 - Influential | 3 - Major
+                set_variable = { CHL_nacista_power = 0 }
+                set_variable = { CHL_communists_power = 2 }
                 set_variable = { CHL_chance_of_communist = 50 }
                 set_variable = { CHL_chance_of_fascist = 50 }
                 set_variable = { CHL_days_for_people_to_calm_down = 210 }
-                divide_variable = { CHL_fascist_drift = 450 }
-                divide_variable = { CHL_communist_drift = 450 }
-                set_temp_variable = { CHL_100_per = 100 }
-                set_temp_variable = { CHL_combined_power = CHL_communists_power }
-                add_to_temp_variable = { CHL_combined_power = CHL_nacista_power }
-                subtract_from_temp_variable = { CHL_100_per = CHL_combined_power }
-                set_variable = { CHL_control_over_nation = CHL_100_per }
-                set_global_flag = end_civil_war_chile_commie
+                set_variable = {
+                    CHL_nacista_bop_push_var = 0
+                }
+                set_variable = {
+                    CHL_communist_bop_push_var = 0
+                }
+                
+                CHL_initiate_balance_of_power = yes
+                CHL_set_up_nacista_bop_push = yes 
+                CHL_increase_30_communists = yes
             }
         }
         effect = {
@@ -2306,23 +2305,21 @@ on_actions = {
                 remove_dynamic_modifier = { modifier = CHL_political_instability }
                 add_dynamic_modifier = { modifier = CHL_political_instability }
                 set_country_flag = CHL_nacista_friendly
-                set_variable = { CHL_communists_power = 7 }
-                set_variable = { CHL_nacista_power = 29 }
-                set_variable = { CHL_nacista_influence_days = 35 }
-                set_variable = { CHL_communist_influencce_days = 35 }
-                set_variable = { CHL_fascist_drift = CHL_nacista_power }
-                set_variable = { CHL_communist_drift = CHL_communists_power }
+                ## -1 - Integrated | 0 - Excluded | 1 - Marginal | 2 - Influential | 3 - Major
+                set_variable = { CHL_nacista_power = 2 }
+                set_variable = { CHL_communists_power = 0 }
                 set_variable = { CHL_chance_of_communist = 50 }
                 set_variable = { CHL_chance_of_fascist = 50 }
                 set_variable = { CHL_days_for_people_to_calm_down = 210 }
-                divide_variable = { CHL_fascist_drift = 450 }
-                divide_variable = { CHL_communist_drift = 450 }
-                set_temp_variable = { CHL_100_per = 100 }
-                set_temp_variable = { CHL_combined_power = CHL_communists_power }
-                add_to_temp_variable = { CHL_combined_power = CHL_nacista_power }
-                subtract_from_temp_variable = { CHL_100_per = CHL_combined_power }
-                set_variable = { CHL_control_over_nation = CHL_100_per }
-                set_global_flag = end_chile_civil_war_fash
+                set_variable = {
+                    CHL_nacista_bop_push_var = 0
+                }
+                set_variable = {
+                    CHL_communist_bop_push_var = 0
+                }
+                
+                CHL_initiate_balance_of_power = yes
+                CHL_set_up_nacista_bop_push = yes 
             }
         }
 		effect = {
@@ -4330,9 +4327,9 @@ on_actions = {
 
                     country_event = {
                         id = chile.50 ## Huelga Ferroviaria  
-                        days = 35
-                        random_days = 5
-                        random_hours = 4
+                        days = 50
+                        random_days = 25
+                        random_hours = 8
                     }
 
                     IF = {
@@ -5147,22 +5144,6 @@ on_actions = {
         effect = {
             if = {
                 limit = {
-                    has_country_flag = CHL_election_preperations
-                }
-                set_variable = { CHL_chance_of_f_winning = party_popularity@fascism }
-                set_variable = { CHL_chance_of_c_winning = party_popularity@communism }
-                set_variable = { CHL_chance_of_d_winning = party_popularity@democratic }
-                multiply_variable = { CHL_chance_of_f_winning = 100 }
-                multiply_variable = { CHL_chance_of_c_winning = 100 }
-                multiply_variable = { CHL_chance_of_d_winning = 100 }
-                round_variable = CHL_chance_of_f_winning
-                round_variable = CHL_chance_of_c_winning
-                round_variable = CHL_chance_of_d_winning
-            }
-        }
-        effect = {
-            if = {
-                limit = {
                     OR = {
                         has_country_flag = CHL_nacista_friendly
                         has_country_flag = CHL_communists_friendly
@@ -5294,7 +5275,7 @@ on_actions = {
                             days = 4
                         }
                     }
-                    5 = {
+                    10 = {
                         modifier = {
                             factor = 0
                             NOT = {

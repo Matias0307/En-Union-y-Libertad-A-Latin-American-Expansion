@@ -227,10 +227,13 @@ CHL_nacista_communist_bop_dec_cat = {
 					hidden_effect = {
 						random_owned_controlled_state = {
 							limit = { 
-								is_demilitarized_zone = no 
+								NOT = {
+									has_dynamic_modifier = {
+										modifier = CHL_organized_communist_rebellion
+									}
+								}
 								is_core_of = ROOT
 							}
-							set_demilitarized_zone = yes 
 							add_dynamic_modifier = { modifier = CHL_organized_communist_rebellion }
 						}
 					}
@@ -259,21 +262,7 @@ CHL_nacista_communist_bop_dec_cat = {
 		fire_only_once = no 
 
 		activation = {
-			is_subject = no
-			has_dynamic_modifier = { modifier = CHL_political_instability }
-			NOT = {
-				has_government = fascism 
-			}
-			NOT = {
-				has_country_flag = CHL_nacista_friendly
-			}
-			NOT = {
-				has_country_flag = CHL_nacista_coup
-			}
-			OR = {
-				check_variable = { CHL_nacista_power > 40 }
-				fascism > 0.45
-			}
+			always = no 
 		}
 
 		visible = {
@@ -283,6 +272,10 @@ CHL_nacista_communist_bop_dec_cat = {
 		cancel_trigger = {
 			OR = {
 				has_civil_war = yes 
+				has_government = fascism
+				NOT = {
+					has_country_flag = CHL_nacista_friendly
+				}
 				NOT = {
 					has_dynamic_modifier = {
 						modifier = CHL_political_instability
@@ -374,21 +367,7 @@ CHL_nacista_communist_bop_dec_cat = {
 		fire_only_once = no 
 
 		activation = {
-			is_subject = no 
-			has_dynamic_modifier = { modifier = CHL_political_instability }
-			NOT = {
-				has_government = communism
-			}
-			NOT = {
-				has_country_flag = CHL_communists_friendly
-			}
-			NOT = {
-				has_country_flag = CHL_balance_the_social_classes
-			}
-			OR = {
-				check_variable = { CHL_communists_power > 40 }
-				communism > 0.45
-			}
+			always = no 
 		}
 
 		visible = {
@@ -398,6 +377,10 @@ CHL_nacista_communist_bop_dec_cat = {
 		cancel_trigger = {
 			OR = {
 				has_civil_war = yes 
+				has_government = communism
+				NOT = {
+					has_country_flag = CHL_communists_friendly
+				}
 				NOT = {
 					has_dynamic_modifier = {
 						modifier = CHL_political_instability
@@ -536,7 +519,7 @@ CHL_nacista_communist_bop_dec_cat = {
 
 		cost = 10
 
-		days_remove = 20
+		days_remove = 15
 
 		modifier = {
 			political_power_factor = -0.05
@@ -548,14 +531,7 @@ CHL_nacista_communist_bop_dec_cat = {
 
 		remove_effect = {
 			clr_country_flag = CHL_political_action_in_progress
-			random_list = {
-				75 = {
-					CHL_increase_5_communists = yes 
-				}
-				25 = {
-					CHL_increase_10_communists = yes
-				}
-			}
+			CHL_increase_5_communists = yes 
 			custom_effect_tooltip = CHL_chance_of_rebellion_occuring_tt
 			hidden_effect = {
 				random_list = {
@@ -612,6 +588,9 @@ CHL_nacista_communist_bop_dec_cat = {
 
 		visible = {
 			has_civil_war = no
+			NOT = {
+				has_country_flag = CHL_communists_friendly
+			}
 		}
 
 		cancel_trigger = {
@@ -632,7 +611,7 @@ CHL_nacista_communist_bop_dec_cat = {
 
 		cost = 10
 
-		days_remove = 20
+		days_remove = 15
 
 		modifier = {
 			political_power_factor = -0.05
@@ -644,14 +623,7 @@ CHL_nacista_communist_bop_dec_cat = {
 
 		remove_effect = {
 			clr_country_flag = CHL_political_action_in_progress
-			random_list = {
-				75 = {
-					CHL_increase_5_nacista = yes 
-				}
-				25 = {
-					CHL_increase_10_nacista = yes
-				}
-			}
+			CHL_increase_5_nacista = yes 
 			custom_effect_tooltip = CHL_chance_of_rebellion_occuring_tt
 			hidden_effect = {
 				random_list = {
@@ -714,7 +686,7 @@ CHL_nacista_communist_bop_dec_cat = {
 
 		cost = 20
 
-		days_remove = 30
+		days_remove = 40
 
 		modifier = {
 			stability_weekly = -0.0014
@@ -744,10 +716,10 @@ CHL_nacista_communist_bop_dec_cat = {
 		remove_effect = {
 			clr_country_flag = CHL_political_action_in_progress
 			random_list = {
-				65 = {
+				75 = {
 					CHL_increase_10_communists = yes 
 				}
-				35 = {
+				25 = {
 					CHL_increase_15_communists = yes
 				}
 			}
@@ -829,7 +801,7 @@ CHL_nacista_communist_bop_dec_cat = {
 
 		cost = 20
 
-		days_remove = 30
+		days_remove = 40
 
 		modifier = {
 			stability_weekly = -0.0014
@@ -843,10 +815,10 @@ CHL_nacista_communist_bop_dec_cat = {
 		remove_effect = {
 			clr_country_flag = CHL_political_action_in_progress
 			random_list = {
-				65 = {
+				75 = {
 					CHL_increase_10_nacista = yes 
 				}
-				35 = {
+				25 = {
 					CHL_increase_15_nacista = yes
 				}
 			}
@@ -859,165 +831,6 @@ CHL_nacista_communist_bop_dec_cat = {
 					15 = {
 						country_event = { id = chile.23 hours = 10 }
 					}
-				}
-			}
-		}
-	}
-
-	CHL_support_the_nacistas = {
-		priority = 10
-		icon = GFX_CHL_cooperate_with_nacista
-		
-		ai_will_do = {
-			base = 90
-			modifier = {
-				add = 30
-				power_balance_value = {
-					id = CHL_nacista_communist_bop
-					value < 0.35
-				}
-			}
-			modifier = {
-				add = 40
-				power_balance_value = {
-					id = CHL_nacista_communist_bop
-					value < 0.5
-				}
-			}
-			modifier = { 
-				add = 50 
-				power_balance_value = {
-					id = CHL_nacista_communist_bop
-					value < 0.8
-				}
-			}
-		}
-
-		allowed = {
-			original_tag = CHL 
-		}
-
-		available = {
-			NOT = {
-				has_country_flag = CHL_political_action_in_progress
-			}
-		}
-
-		visible = {
-			has_government = democratic
-			has_country_flag = CHL_nacista_friendly
-		}
-
-		cancel_trigger = {
-			NOT = {
-				has_dynamic_modifier = {
-					modifier = CHL_political_instability
-				}
-			}
-		}
-
-		cancel_effect = {
-			clr_country_flag = CHL_political_action_in_progress
-		}
-
-		cost = 10
-
-		days_remove = 15
-
-		complete_effect = {
-			hidden_effect = {
-				set_country_flag = CHL_political_action_in_progress
-			}
-		}
-
-		remove_effect = {
-			clr_country_flag = CHL_political_action_in_progress
-			
-			random_list = {
-				50 = {
-					CHL_increase_5_nacista = yes 
-				}
-				50 = {
-					CHL_increase_10_nacista = yes
-				}
-			}
-		}
-	}
-
-	CHL_support_the_communists = {
-		priority = 10
-		icon = GFX_CHL_cooperate_with_comunista
-		
-		ai_will_do = {
-			base = 90
-			modifier = {
-				add = 30
-				power_balance_value = {
-					id = CHL_nacista_communist_bop
-					value > -0.15
-				}
-			}
-			modifier = {
-				add = 40
-				power_balance_value = {
-					id = CHL_nacista_communist_bop
-					value > -0.5
-				}
-			}
-			modifier = { 
-				add = 50 
-				power_balance_value = {
-					id = CHL_nacista_communist_bop
-					value > -0.8
-				}
-			}
-		}
-
-		allowed = {
-			original_tag = CHL 
-		}
-
-		available = {
-			NOT = {
-				has_country_flag = CHL_political_action_in_progress
-			}
-		}
-
-		visible = {
-			has_government = democratic
-			has_country_flag = CHL_communists_friendly
-		}
-
-		cancel_trigger = {
-			NOT = {
-				has_dynamic_modifier = {
-					modifier = CHL_political_instability
-				}
-			}
-		}
-
-		cancel_effect = {
-			clr_country_flag = CHL_political_action_in_progress
-		}
-
-		cost = 10
-
-		days_remove = 15
-
-		complete_effect = {
-			hidden_effect = {
-				set_country_flag = CHL_political_action_in_progress
-			}
-		}
-
-		remove_effect = {
-			clr_country_flag = CHL_political_action_in_progress
-			random_list = {
-				50 = {
-					CHL_increase_5_communists = yes 
-				}
-				50 = {
-					CHL_increase_10_communists = yes
 				}
 			}
 		}
@@ -1180,6 +993,12 @@ CHL_internal_political_split = {
 				id = CHL_nacista_communist_bop
 				value < 0.6
 			}
+			NOT = {
+				custom_trigger_tooltip = {
+					tooltip = CHL_nacistas_are_in_excluded_power_category_tt
+					check_variable = { CHL_nacista_power = 0 }
+				}
+			}
 		}
 
 		visible = {
@@ -1241,6 +1060,12 @@ CHL_internal_political_split = {
 				id = CHL_nacista_communist_bop
 				value > -0.6
 			}
+			NOT = {
+				custom_trigger_tooltip = {
+					tooltip = CHL_communists_are_in_excluded_power_category_tt
+					check_variable = { CHL_communists_power = 0 }
+				}
+			}
 		}
 
 		visible = {
@@ -1273,6 +1098,134 @@ CHL_internal_political_split = {
 		}
 	}
 
+	CHL_bolster_nacista_political_representation = {
+		icon = generic_confiscation
+
+		ai_will_do = {
+			base = 50
+			modifier = {
+				factor = 2
+				check_variable = {
+					CHL_nacista_power < 3
+				}
+			}
+			modifier = {
+				factor = 2
+				check_variable = {
+					CHL_nacista_power < 2
+				}
+			}
+		}
+
+		cost = 75
+
+		days_remove = 75
+
+		available = {
+			NOT = {
+				has_country_flag = CHL_political_action_in_progress
+			}
+			power_balance_value = {
+				id = CHL_nacista_communist_bop
+				value > 0
+			}
+			NOT = {
+				custom_trigger_tooltip = {
+					tooltip = CHL_nacistas_are_in_major_power_category_tt
+					check_variable = { CHL_nacista_power = 3 }
+				}
+			}
+		}
+
+		visible = {
+			has_completed_focus = CHL_take_over_various_government_positions
+		}
+
+		cancel_trigger = {
+			NOT = {
+				has_dynamic_modifier = {
+					modifier = CHL_political_instability
+				}
+			}
+		}
+
+		cancel_effect = {
+			clr_country_flag = CHL_political_action_in_progress
+		}
+
+		modifier = {
+			political_power_gain = -0.1
+		}
+
+		complete_effect = {
+			CHL_increase_nacista_power_category_one_level = yes
+		}
+	}
+
+	CHL_agitate_the_bourgeoisie = {
+		icon = generic_speech
+
+		ai_will_do = {
+			base = 50
+			modifier = {
+				factor = 2
+				check_variable = {
+					CHL_communists_power < 3
+				}
+			}
+			modifier = {
+				factor = 2
+				check_variable = {
+					CHL_communists_power < 2
+				}
+			}
+		}
+
+		cost = 75
+
+		days_remove = 75
+
+		available = {
+			NOT = {
+				has_country_flag = CHL_political_action_in_progress
+			}
+			power_balance_value = {
+				id = CHL_nacista_communist_bop
+				value < 0
+			}
+			NOT = {
+				custom_trigger_tooltip = {
+					tooltip = CHL_communists_are_in_major_power_category_tt
+					check_variable = { CHL_communists_power = 3 }
+				}
+			}
+		}
+
+		visible = {
+			has_completed_focus = CHL_de_stabilize_the_government
+		}
+
+		cancel_trigger = {
+			NOT = {
+				has_dynamic_modifier = {
+					modifier = CHL_political_instability
+				}
+			}
+		}
+
+		cancel_effect = {
+			clr_country_flag = CHL_political_action_in_progress
+		}
+
+		modifier = {
+			political_power_gain = -0.1
+		}
+
+		complete_effect = {
+			CHL_increase_communist_power_category_one_level = yes
+		}
+	}
+
 	CHL_deal_with_the_rebellion_in_FROM = {
 		icon = oppression
 
@@ -1288,7 +1241,6 @@ CHL_internal_political_split = {
 			FROM = {
 				is_fully_controlled_by = ROOT 
 				is_core_of = ROOT 
-				is_demilitarized_zone = yes 
 			}
 		}
 
@@ -1352,7 +1304,7 @@ CHL_internal_political_split = {
 		}
 
 		available = {
-			has_country_flag = CHL_election_preperations
+			has_active_mission = CHL_the_1938_elections
 		}
 
 		visible = {
@@ -1756,39 +1708,45 @@ CHL_the_1938_chilean_elections = {
 		fire_only_once = yes 
 
 		activation = {
-			has_country_flag = CHL_election_preperations
+			always = no
+		}
+
+		cancel_trigger = {
+			NOT = {
+				has_government = democratic
+			}
 		}
 
 		timeout_effect = {
-			if = {
+			if = { ## For the Nacistas
 				limit = { 
-					AND = {
-						check_variable = { CHL_chance_of_f_winning > CHL_chance_of_c_winning }
-						check_variable = { CHL_chance_of_f_winning > CHL_chance_of_d_winning }
+					OR = {
+						power_balance_value = {
+							id = CHL_nacista_communist_bop
+							value > 0.8
+						}
+						check_variable = {
+							CHL_nacista_power = 3
+						}
 					}
 				}
 				country_event = chile.36
 			}
-			else_if = {
-				limit = {
-					AND = {
-						check_variable = { CHL_chance_of_c_winning > CHL_chance_of_f_winning }
-						check_variable = { CHL_chance_of_c_winning > CHL_chance_of_d_winning }
+			else = { ## for the liberals/socialists
+				if = {
+					limit = {
+						OR = {
+							has_completed_focus = CHL_continue_with_the_fp
+							has_completed_focus = CHL_cooperate_with_el_frente
+						}
 					}
+					country_event = chile.37 
 				}
-				country_event = chile.37
-			}
-			else_if = {
-				limit = {
-					AND = {
-						check_variable = { CHL_chance_of_d_winning > CHL_chance_of_f_winning }
-						check_variable = { CHL_chance_of_d_winning > CHL_chance_of_c_winning }
-					}
+				else = {
+					country_event = chile.38
 				}
-				country_event = chile.38
 			}
 			hidden_effect = {
-				clr_country_flag = CHL_election_preperations
 				set_country_flag = CHL_post_elections
 			}
 		}
@@ -1904,7 +1862,6 @@ CHL_the_1938_chilean_elections = {
 				}
 				hidden_effect = {
 					clr_country_flag = CHL_nacista_coup
-					clr_country_flag = CHL_election_preperations
 					random_owned_controlled_state = {
 						create_unit = {
 							division = "name = \"Milicias\" division_template = \"Milicias\" start_experience_factor = 0.1 start_equipment_factor = 1.0" 
@@ -2019,7 +1976,6 @@ CHL_the_1938_chilean_elections = {
 					}
 					add_popularity = { ideology = fascism popularity = 0.05 }
 					clr_country_flag = CHL_nacista_coup_player
-					clr_country_flag = CHL_election_preperations
 					set_country_flag = CHL_nacista_coup_executed
 					news_event = {
 						id = chile.51 
@@ -2803,7 +2759,6 @@ CHL_balancing_out_the_social_classes = {
 		remove_effect = {
 			clr_country_flag = CHL_class_fix_in_progress
 			add_popularity = { ideology = communism popularity = 0.01 }
-			custom_effect_tooltip = CHL_increase_communist_by_2
 			if = {
 				limit = { has_idea = CHL_remnants_of_the_great_depression }
 				modify_timed_idea = {
@@ -2811,14 +2766,11 @@ CHL_balancing_out_the_social_classes = {
 					days = -35
 				}
 			}
-			hidden_effect = {
-				add_to_variable = { CHL_communists_power = 2 }
-				set_temp_variable = { CHL_temp_power = 100 }
-				set_temp_variable = { CHL_power_subtraction = CHL_communists_power }
-				add_to_temp_variable = { CHL_power_subtraction = CHL_nacista_power }
-				subtract_from_temp_variable = { CHL_temp_power = CHL_power_subtraction }
-				set_variable = { CHL_control_over_nation = CHL_temp_power }
-			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			CHL_increase_5_communists = yes
+
 			if = {
 				limit = { has_idea = CHL_highly_divided_social_classes_idea }
 				swap_ideas = {
@@ -2910,7 +2862,6 @@ CHL_balancing_out_the_social_classes = {
 		remove_effect = {
 			clr_country_flag = CHL_class_fix_in_progress
 			add_popularity = { ideology = communism popularity = 0.01 }
-			custom_effect_tooltip = CHL_increase_communist_by_2
 			if = {
 				limit = { has_idea = CHL_remnants_of_the_great_depression }
 				modify_timed_idea = {
@@ -2918,14 +2869,10 @@ CHL_balancing_out_the_social_classes = {
 					days = -15
 				}
 			}
-			hidden_effect = {
-				add_to_variable = { CHL_communists_power = 2 }
-				set_temp_variable = { CHL_temp_power = 100 }
-				set_temp_variable = { CHL_power_subtraction = CHL_communists_power }
-				add_to_temp_variable = { CHL_power_subtraction = CHL_nacista_power }
-				subtract_from_temp_variable = { CHL_temp_power = CHL_power_subtraction }
-				set_variable = { CHL_control_over_nation = CHL_temp_power }
-			}
+			
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			CHL_increase_5_communists = yes
 			if = {
 				limit = { has_idea = CHL_highly_divided_social_classes_idea }
 				swap_ideas = {
@@ -3017,7 +2964,6 @@ CHL_balancing_out_the_social_classes = {
 		remove_effect = {
 			clr_country_flag = CHL_class_fix_in_progress
 			add_popularity = { ideology = communism popularity = 0.01 }
-			custom_effect_tooltip = CHL_increase_communist_by_2
 			if = {
 				limit = { has_idea = CHL_remnants_of_the_great_depression }
 				modify_timed_idea = {
@@ -3025,14 +2971,10 @@ CHL_balancing_out_the_social_classes = {
 					days = -15
 				}
 			}
-			hidden_effect = {
-				add_to_variable = { CHL_communists_power = 2 }
-				set_temp_variable = { CHL_temp_power = 100 }
-				set_temp_variable = { CHL_power_subtraction = CHL_communists_power }
-				add_to_temp_variable = { CHL_power_subtraction = CHL_nacista_power }
-				subtract_from_temp_variable = { CHL_temp_power = CHL_power_subtraction }
-				set_variable = { CHL_control_over_nation = CHL_temp_power }
-			}
+			
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			CHL_increase_5_communists = yes
 			if = {
 				limit = { has_idea = CHL_highly_divided_social_classes_idea }
 				swap_ideas = {
@@ -3125,7 +3067,6 @@ CHL_balancing_out_the_social_classes = {
 		remove_effect = {
 			clr_country_flag = CHL_class_fix_in_progress
 			add_popularity = { ideology = communism popularity = 0.01 }
-			custom_effect_tooltip = CHL_increase_communist_by_2
 			if = {
 				limit = { has_idea = CHL_remnants_of_the_great_depression }
 				modify_timed_idea = {
@@ -3133,14 +3074,10 @@ CHL_balancing_out_the_social_classes = {
 					days = -35
 				}
 			}
-			hidden_effect = {
-				add_to_variable = { CHL_communists_power = 2 }
-				set_temp_variable = { CHL_temp_power = 100 }
-				set_temp_variable = { CHL_power_subtraction = CHL_communists_power }
-				add_to_temp_variable = { CHL_power_subtraction = CHL_nacista_power }
-				subtract_from_temp_variable = { CHL_temp_power = CHL_power_subtraction }
-				set_variable = { CHL_control_over_nation = CHL_temp_power }
-			}
+			
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			CHL_increase_5_communists = yes
 			if = {
 				limit = { has_idea = CHL_highly_divided_social_classes_idea }
 				swap_ideas = {
@@ -3272,6 +3209,7 @@ CHL_cooperating_with_the_social_classes = {
 					add_ideas = CHL_hostile_middle_class
 				}
 			}
+			CHL_increase_10_nacista = yes
 			CHL_clamp_social_class_variables = yes 
 		}
 	}
@@ -3352,6 +3290,7 @@ CHL_cooperating_with_the_social_classes = {
 					add_ideas = CHL_hostile_lower_class
 				}
 			}
+			CHL_increase_10_nacista = yes
 			CHL_clamp_social_class_variables = yes 
 		}
 	}
@@ -3428,6 +3367,7 @@ CHL_cooperating_with_the_social_classes = {
 					add_ideas = CHL_hostile_lower_class
 				}
 			}
+			CHL_increase_10_nacista = yes
 			CHL_clamp_social_class_variables = yes 
 		}
 	}
@@ -3985,7 +3925,136 @@ CHL_cooperating_with_the_social_classes = {
 
 CHL_the_great_revolution = {
 
+	CHL_establish_our_headquarters = {
+		icon = SOV_place_hq
+
+		state_target = yes
+
+		targets = { 1074 952 1076 }
+
+		on_map_mode = map_and_decisions_view
+
+		available = {
+			hidden_trigger = {
+				NOT = {
+					has_country_flag = CHL_hq_established_flag
+				}
+			}
+		}
+
+		visible = {
+			has_completed_focus = CHL_begin_preperations_for_uprising
+			has_government = democratic
+			NOT = {
+				has_country_flag = CHL_hq_established_flag
+			}
+		}
+
+		ai_will_do = {
+			base = 350
+		}
+
+		cost = 10
+
+		fire_only_once = yes
+
+		complete_effect = {
+			custom_effect_tooltip = CHL_hq_will_be_set_up_in_FROM_tt
+			FROM = {
+				add_dynamic_modifier = {
+					modifier = CHL_communist_headquarters
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			activate_mission = CHL_the_revolution
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = CHL_unlocks_decisions_to_take_control_of_states_prior_to_the_civil_war_tt
+
+			hidden_effect = {
+				set_country_flag = CHL_hq_established_flag
+				FROM = {
+					add_dynamic_modifier = {
+						modifier = CHL_state_controlled_by_the_communists
+					}
+				}
+			}
+		}
+	}
+
+	CHL_take_control_of_FROM = {
+		icon = generic_civil_support
+
+		state_target = yes 
+
+		target_array = core_states
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+			}
+		}
+
+		available = { has_active_mission = CHL_the_revolution }
+
+		visible = {
+			FROM = {
+				any_neighbor_state = {
+					has_dynamic_modifier = {
+						modifier = CHL_state_controlled_by_the_communists
+					}
+				}
+				NOT = {
+					has_dynamic_modifier = {
+						modifier = CHL_state_controlled_by_the_communists
+					}
+				}
+			}
+		}
+
+		cost = 25
+
+		days_remove = 75
+
+		ai_will_do = {
+			base = 400
+		}
+
+		fire_only_once = yes
+
+		modifier = { political_power_factor = -0.1 }
+
+		cancel_trigger = {
+			OR = {
+				NOT = {
+					has_active_mission = CHL_the_revolution
+				}
+				FROM = {
+					has_dynamic_modifier = {
+						modifier = CHL_state_controlled_by_the_communists
+					}
+				}
+			}
+		}
+
+		remove_effect = {
+			custom_effect_tooltip = CHL_we_will_start_the_civil_war_with_the_control_of_FROM_tt
+
+			hidden_effect = {
+				FROM = {
+					add_dynamic_modifier = {
+						modifier = CHL_state_controlled_by_the_communists
+					}
+				}
+			}
+		}
+	}
+
 	CHL_the_revolution = {
+		priority = 100
 		icon = generic_ignite_civil_war
 
 		allowed = { original_tag = CHL }
@@ -3995,12 +4064,14 @@ CHL_the_great_revolution = {
 		}
 
 		activation = {
-			has_completed_focus = CHL_begin_preperations_for_uprising
-			is_subject = no 
+			always = no
 		}
 
 		cancel_trigger = {
-			is_subject = yes 
+			OR = {
+				has_government = communism
+				has_civil_war = yes
+			}
 		}
 
 		days_mission_timeout = 225
@@ -4009,10 +4080,18 @@ CHL_the_great_revolution = {
 
 		timeout_effect = {
 			start_civil_war = {
-				ruling_party = communism
+				ruling_party = communism ## player is the commies
 				ideology = ROOT 
 				size = 0.4
 				keep_all_characters = yes 
+				states = all
+				states_filter = {
+					NOT = { ## breakaway is the NON communists
+						has_dynamic_modifier = {
+							modifier = CHL_state_controlled_by_the_communists
+						}
+					}
+				}
 				PREV = {
 					EUYL_CHL_arturo_alessandri = {
 						set_nationality = prev.PREV
@@ -4033,10 +4112,10 @@ CHL_the_great_revolution = {
 				promote_character = EUYL_CHL_arturo_alessandri
 			}
 			hidden_effect = {
-				remove_dynamic_modifier = { modifier = CHL_political_instability }
+				#remove_dynamic_modifier = { modifier = CHL_political_instability }
 				set_country_flag = CHL_revolution_has_started
 				country_event = { id = chile.45 days = 35 }
-				clr_country_flag = CHL_election_preperations
+				CHL_increase_30_nacista = yes
 				division_template = { 
 					name = "Comunistas" 
 					division_names_group = SPAN_INF_02 
@@ -4048,11 +4127,36 @@ CHL_the_great_revolution = {
 						infantry = { x = 0 y = 3 } 
 					}
 				}
-				random_owned_controlled_state = {
-					create_unit = {
-						division = "name = \"Comunistas\" division_template = \"Comunistas\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
-						owner = ROOT
+				if = {
+					limit = {
+						check_variable = {
+							CHL_communists_power > 1
+						}
 					}
+					random_owned_controlled_state = {
+						create_unit = {
+							division = "name = \"Comunistas\" division_template = \"Comunistas\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+							owner = ROOT
+							count = 3
+						}
+					}
+				}
+				if = {
+					limit = {
+						power_balance_value = {
+							id = CHL_nacista_communist_bop
+							value < -0.6
+						}
+					}
+					random_owned_controlled_state = {
+						create_unit = {
+							division = "name = \"Comunistas\" division_template = \"Comunistas\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
+							owner = ROOT
+							count = 3
+						}
+					}
+				}
+				every_controlled_state = {
 					create_unit = {
 						division = "name = \"Comunistas\" division_template = \"Comunistas\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
 						owner = ROOT
@@ -4062,20 +4166,7 @@ CHL_the_great_revolution = {
 					create_unit = {
 						division = "name = \"Comunistas\" division_template = \"Comunistas\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
 						owner = ROOT
-					}
-					create_unit = {
-						division = "name = \"Comunistas\" division_template = \"Comunistas\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
-						owner = ROOT
-					}
-				}
-				random_owned_controlled_state = {
-					create_unit = {
-						division = "name = \"Comunistas\" division_template = \"Comunistas\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
-						owner = ROOT
-					}
-					create_unit = {
-						division = "name = \"Comunistas\" division_template = \"Comunistas\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
-						owner = ROOT
+						count = 2
 					}
 				}
 				if = {
@@ -4177,6 +4268,101 @@ CHL_the_great_revolution = {
 				}
 			}
 		}
+	}
+
+	CHL_improve_our_conscription = {
+		icon = generic_military
+
+		cost = 50
+
+		fire_only_once = yes 
+
+		available = {
+			OR = {
+				has_war_support > 0.9
+				communism > 0.8
+				num_of_controlled_states > 19
+				num_subjects > 1
+			}
+		}
+
+		visible = {
+			has_completed_focus = CHL_an_army_against_fascism
+		}
+
+		complete_effect = {
+			swap_ideas = {
+				remove_idea = ARG_workers_in_the_armed_forces_2
+				add_idea = ARG_workers_in_the_armed_forces_3
+			}
+		}
+	}
+
+	CHL_war_plan_FROM = {
+		icon = generic_operation
+		
+		custom_cost_trigger = {
+			command_power > 24
+		}
+
+		custom_cost_text = decision_cost_CP_25
+
+		ai_will_do = {
+			base = 150
+		}
+
+		target_trigger = {
+			FROM = {
+				is_neighbor_of = ROOT 
+			}
+		}
+
+		visible = {
+			has_completed_focus = CHL_abandon_the_compromise
+		}
+
+		available = {
+			exists = yes 
+			has_civil_war = no 
+			FROM = {
+				has_war_with = ROOT
+			}
+			hidden_trigger = { 
+				NOT = { has_country_flag = PAR_focusing_mil }
+			}
+		}
+
+		cancel_trigger = {
+			OR = {
+				FROM = {
+					NOT = { has_war_with = ROOT }
+				}
+				has_civil_war = yes 
+			}
+		}
+
+		complete_effect = { 
+			set_country_flag = PAR_focusing_mil
+			hidden_effect = {
+				add_command_power = -25
+			}
+		}
+
+		cancel_effect = {
+			clr_country_flag = PAR_focusing_mil
+		}
+
+		targeted_modifier = {
+			tag = FROM 
+			attack_bonus_against = 0.08
+			defense_bonus_against = 0.08
+		}
+
+		modifier = { political_power_factor = -0.1 }
+
+		days_remove = 75
+
+		remove_effect = { clr_country_flag = PAR_focusing_mil }
 	}
 }
 

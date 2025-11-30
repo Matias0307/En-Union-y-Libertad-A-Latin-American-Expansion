@@ -477,9 +477,14 @@ defined_text = {
 	text = {
 		trigger = {
 			original_tag = CHL 
-			AND = {
-				check_variable = { CHL_chance_of_f_winning > CHL_chance_of_c_winning }
-				check_variable = { CHL_chance_of_f_winning > CHL_chance_of_d_winning }
+			OR = {
+				power_balance_value = {
+					id = CHL_nacista_communist_bop
+					value > 0.8
+				}
+				check_variable = {
+					CHL_nacista_power = 3
+				}
 			}
 		}
 		localization_key = CHL_nacista_victors
@@ -487,9 +492,16 @@ defined_text = {
 	text = {
 		trigger = {
 			original_tag = CHL 
-			AND = {
-				check_variable = { CHL_chance_of_c_winning > CHL_chance_of_f_winning }
-				check_variable = { CHL_chance_of_c_winning > CHL_chance_of_d_winning }
+			OR = {
+				has_completed_focus = CHL_continue_with_the_fp
+				has_completed_focus = CHL_cooperate_with_el_frente
+			}
+			power_balance_value = {
+				id = CHL_nacista_communist_bop
+				value < 0.81
+			}
+			check_variable = {
+				CHL_nacista_power < 3
 			}
 		}
 		localization_key = CHL_frente_popular_victors
@@ -497,9 +509,16 @@ defined_text = {
 	text = {
 		trigger = {
 			original_tag = CHL 
-			AND = {
-				check_variable = { CHL_chance_of_d_winning > CHL_chance_of_f_winning }
-				check_variable = { CHL_chance_of_d_winning > CHL_chance_of_c_winning }
+			NOT = {
+				has_completed_focus = CHL_continue_with_the_fp
+				has_completed_focus = CHL_cooperate_with_el_frente
+			}
+			power_balance_value = {
+				id = CHL_nacista_communist_bop
+				value < 0.81
+			}
+			check_variable = {
+				CHL_nacista_power < 3
 			}
 		}
 		localization_key = CHL_liberals_victors
