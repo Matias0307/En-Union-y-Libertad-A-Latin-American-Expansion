@@ -484,9 +484,25 @@ CHL_nacista_communist_bop_dec_cat = {
 			}
 			modifier = {
 				factor = 0
+				OR = {
+					has_completed_focus = CHL_cooperate_with_el_frente
+					has_completed_focus = CHL_continue_with_the_fp
+					has_completed_focus = CHL_crush_the_communists
+				}
 				is_power_balance_in_range = {
 					id = CHL_nacista_communist_bop
 					range = CHL_nacista_communist_bop_balanced
+				}
+			}
+			modifier = {
+				factor = 1.5
+				has_completed_focus = CHL_return_to_the_pcch
+			}
+			modifier = {
+				factor = 0
+				power_balance_value = {
+					id = CHL_nacista_communist_bop
+					value < -0.94
 				}
 			}
 		}
@@ -582,10 +598,26 @@ CHL_nacista_communist_bop_dec_cat = {
 			}
 			modifier = {
 				factor = 0
+				OR = {
+					has_completed_focus = CHL_cooperate_with_el_frente
+					has_completed_focus = CHL_continue_with_the_fp
+					has_completed_focus = CHL_crush_the_communists
+				}
 				is_power_balance_in_range = {
 					id = CHL_nacista_communist_bop
 					range = CHL_nacista_communist_bop_balanced
 				}
+			}
+			modifier = {
+				factor = 0
+				power_balance_value = {
+					id = CHL_nacista_communist_bop
+					value > 0.94
+				}
+			}
+			modifier = {
+				factor = 1.5
+				has_completed_focus = CHL_side_with_the_nacistas
 			}
 		}
 
@@ -681,10 +713,26 @@ CHL_nacista_communist_bop_dec_cat = {
 			}
 			modifier = {
 				factor = 0
+				OR = {
+					has_completed_focus = CHL_cooperate_with_el_frente
+					has_completed_focus = CHL_continue_with_the_fp
+					has_completed_focus = CHL_crush_the_communists
+				}
 				is_power_balance_in_range = {
 					id = CHL_nacista_communist_bop
 					range = CHL_nacista_communist_bop_balanced
 				}
+			}
+			modifier = {
+				factor = 0
+				power_balance_value = {
+					id = CHL_nacista_communist_bop
+					value < -0.94
+				}
+			}
+			modifier = {
+				factor = 1.5
+				has_completed_focus = CHL_return_to_the_pcch
 			}
 		}
 
@@ -787,10 +835,26 @@ CHL_nacista_communist_bop_dec_cat = {
 			}
 			modifier = {
 				factor = 0
+				OR = {
+					has_completed_focus = CHL_cooperate_with_el_frente
+					has_completed_focus = CHL_continue_with_the_fp
+					has_completed_focus = CHL_crush_the_communists
+				}
 				is_power_balance_in_range = {
 					id = CHL_nacista_communist_bop
 					range = CHL_nacista_communist_bop_balanced
 				}
+			}
+			modifier = {
+				factor = 0
+				power_balance_value = {
+					id = CHL_nacista_communist_bop
+					value > 0.94
+				}
+			}
+			modifier = {
+				factor = 1.5
+				has_completed_focus = CHL_side_with_the_nacistas
 			}
 		}
 
@@ -2005,7 +2069,6 @@ CHL_the_1938_chilean_elections = {
 						ruling_party = fascism
 					}
 					add_popularity = { ideology = fascism popularity = 0.05 }
-					clr_country_flag = CHL_nacista_coup_player
 					set_country_flag = CHL_nacista_coup_executed
 					news_event = {
 						id = chile.51 
@@ -2017,7 +2080,6 @@ CHL_the_1938_chilean_elections = {
 					add_popularity = { ideology = fascism popularity = -0.15}
 					custom_effect_tooltip = CHL_coup_failed_tt
 					news_event = { id = news.349 hours = 6 }
-					clr_country_flag = CHL_nacista_coup_player
 				}
 			}
 		}
@@ -2049,7 +2111,7 @@ CHL_the_1938_chilean_elections = {
 		fire_only_once = yes 
 
 		activation = {
-			has_country_flag = CHL_nacista_coup_player
+			has_active_mission = CHL_possible_coup_attempt_player
 		}
 
 		is_good = no 
@@ -2158,22 +2220,19 @@ CHL_the_1938_chilean_elections = {
 
 		remove_effect = {
 			custom_effect_tooltip = CHL_garnered_support_tt 
-			custom_effect_tooltip = CHL_increase_nacista_by_1_good
 			FROM = {
 				set_state_flag = CHL_state_supports_coup
 			}
 			add_to_variable = { CHL_number_of_states_garnered = 1 }
-			hidden_effect = {
-				add_to_variable = { CHL_nacista_power = 1 }
-				set_temp_variable = { CHL_temp_power = 100 }
-				set_temp_variable = { CHL_power_subtraction = CHL_nacista_power }
-				add_to_temp_variable = { CHL_power_subtraction = CHL_communists_power }
-				subtract_from_temp_variable = { CHL_temp_power = CHL_power_subtraction }
-				set_variable = { CHL_control_over_nation = CHL_temp_power }
-				set_variable = { CHL_fascist_drift = CHL_nacista_power }
-				set_variable = { CHL_communist_drift = CHL_communists_power }
-				divide_variable = { CHL_fascist_drift = 450 }
-				divide_variable = { CHL_communist_drift = 450 }
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			random_list = {
+				50 = {
+					CHL_increase_5_nacista = yes 
+				}
+				50 = {
+					
+				}
 			}
 		}
 	}
@@ -5498,7 +5557,7 @@ CHL_the_nacista_uprising = {
 					promote_character = EUYL_CHL_arturo_alessandri
 				}
 				hidden_effect = {
-					remove_dynamic_modifier = { modifier = CHL_political_instability }
+					#remove_dynamic_modifier = { modifier = CHL_political_instability }
 					random_owned_controlled_state = {
 						create_unit = {
 							division = "name = \"Militares\" division_template = \"Militares\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
@@ -5612,7 +5671,7 @@ CHL_the_nacista_uprising = {
 					promote_character = EUYL_CHL_arturo_alessandri
 				}
 				hidden_effect = {
-					remove_dynamic_modifier = { modifier = CHL_political_instability }
+					#remove_dynamic_modifier = { modifier = CHL_political_instability }
 					random_owned_controlled_state = {
 						create_unit = {
 							division = "name = \"Militares\" division_template = \"Militares\" start_experience_factor = 0.05 start_equipment_factor = 1.0" 
