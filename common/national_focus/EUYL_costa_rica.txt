@@ -15,10 +15,10 @@ focus_tree = {
 	country = {
 		factor = 0
 		
-		#modifier = {
-		#	add = 10
-		#	tag = COS
-		#}
+		modifier = {
+			add = 10
+			tag = COS
+		}
 	}
 	
 	initial_show_position = {
@@ -30,4 +30,325 @@ focus_tree = {
 	shared_focus = CEA_the_economy
 	shared_focus = CEA_the_defense_pact
 	shared_focus = CEA_armed_forces
+
+	## POLITICAL TREE ##
+
+	## HISTORICAL ##
+	focus = {
+		id = COS_the_1936_elections
+		icon = GFX_COS_1936_elections_icon
+		x = 51
+		y = 0
+		mutually_exclusive = {
+			focus = COS_tend_to_the_people_of_costa_rica
+		}
+
+		available = {
+			has_active_mission = COS_1936_elections_mis
+		}
+
+		cost = 5
+
+		select_effect = {
+			add_days_mission_timeout = {
+				mission = COS_1936_elections_mis
+				days = 35
+			}
+		}
+
+		cancel_if_invalid = no 
+		continue_if_invalid = yes 
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = COS_taking_this_focus_delays_1936_elections_mission_by_35_days_tt
+
+			add_political_power = 20
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			country_event = cos.2
+		}
+	}
+
+	## The Administration of Leon Cortes ## 
+	focus = {
+		id = COS_the_administration_of_leon_cortes
+		icon = GFX_COS_leon_cortes_administration_icon
+		x = 3
+		y = 1
+		relative_position_id = COS_the_1936_elections
+		prerequisite = {
+			focus = COS_the_1936_elections
+		}
+
+		cost = 5
+		
+		available = {
+			has_country_leader = {
+				character = COS_leon_cortes_castro
+				ruling_only = yes
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_political_power = 25
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_trait = {
+				character = COS_leon_cortes_castro
+				ideology = conservatism
+				trait = IRQ_nationalist_lawyer
+			}
+		}
+	}
+
+	## A-HISTORICAL COMMUNISM ## 
+	focus = {
+		id = COS_tend_to_the_people_of_costa_rica
+		icon = GFX_COS_tend_to_the_people_of_costa_rica_icon
+		x = 35
+		y = 0
+		mutually_exclusive = {
+			focus = COS_the_1936_elections
+		}
+
+		cost = 5
+
+		available = {
+			has_country_flag = COS_elections_cancelled_flag
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+	}
+
+	## MAX EFFINGER MINI SUB TREE ##
+	## Appoint Max Effinger ##
+	focus = {
+		id = COS_appoint_max_effinger
+		icon = GFX_COS_appoint_max_effinger_icon
+		x = 61
+		y = 0
+
+		cost = 5
+
+		available = {
+			has_civil_war = no 
+			NOT = {
+				has_war_with = GER 
+			}
+			NOT = {
+				has_active_mission = COS_1936_elections_mis
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_political_power = 20
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_manpower = 3750
+
+			every_controlled_state = {
+				add_manpower = 6500
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			GER = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = COS_pro_nazi_cabinet_member_positive
+				}
+			}
+			USA = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = COS_pro_nazi_cabinet_member_negative
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = COS_max_effinger
+			custom_effect_tooltip = EUYL_upon_hiring_tt
+			unlock_decision_category_tooltip = COS_max_effinger_administration
+		}
+	}
+	
+	## A Visit from the SMS Schleswig-Holstein ##
+	focus = {
+		id = COS_a_visit_from_the_SMS_schleswig_holstein
+		icon = GFX_focus_GER_seeherrschaft
+		x = -2
+		y = 1
+		relative_position_id = COS_appoint_max_effinger
+		prerequisite = {
+			focus = COS_appoint_max_effinger
+		}
+
+		cost = 7.2
+
+		available = {
+			has_idea = COS_max_effinger
+			GER = { 
+				exists = yes 
+				NOT = { has_war_with = ROOT }
+				is_subject = no
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_NAVY_XP FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			navy_experience = 25
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_popularity = {
+				ideology = fascism 
+				popularity = 0.01
+			}
+
+			add_timed_idea = {
+				idea = COS_a_visit_from_the_SMS_schleswig_holstein_idea
+				days = 510
+			}
+
+			custom_effect_tooltip = EUYL_effect_when_removed_tt
+			effect_tooltip = {
+				EUYL_add_1_dockyard = yes
+			}
+		}
+	}
+
+	## Bolster Public Works ##
+	focus = {
+		id = COS_bolster_public_works
+		icon = GFX_goal_generic_construction2
+		x = 1
+		y = 1
+		relative_position_id = COS_appoint_max_effinger
+		prerequisite = {
+			focus = COS_appoint_max_effinger
+		}
+
+		cost = 6
+
+		available = {
+			has_idea = COS_max_effinger
+			num_of_controlled_states > 0
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			every_controlled_state = {
+				limit = {
+					is_core_of = ROOT 
+					infrastructure < 5
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+				}
+				add_dynamic_modifier = {
+					modifier = PAR_railway_infrastructure_initiative
+					days = 720
+				}
+			}
+		}
+	}
+
+	## Ramp Up Military Production ##
+	focus = {
+		id = COS_ramp_up_military_production
+		icon = GFX_focus_generic_mass_production
+		x = 3
+		y = 1
+		relative_position_id = COS_appoint_max_effinger
+		prerequisite = {
+			focus = COS_appoint_max_effinger
+		}
+
+		cost = 10
+
+		available = {
+			has_idea = COS_max_effinger
+			OR = {
+				has_war_support > 0.74 
+				threat > 0.1
+				has_war = yes 
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER
+		}
+
+		completion_reward = {
+			EUYL_add_2_military = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_ideas = COS_ramp_up_military_production_idea
+		}
+	}
+
+	## Stir up Nazi Sympathies ##
+	focus = {
+		id = COS_stir_up_nazi_sympathies
+		icon = GFX_focus_GER_propaganda_master
+		x = 0
+		y = 2
+		relative_position_id = COS_appoint_max_effinger
+		prerequisite = {
+			focus = COS_appoint_max_effinger
+		}
+
+		cost = 5
+
+		available = {
+			has_idea = COS_max_effinger
+			NOT = { has_government = fascism }
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRIAL FOCUS_FILTER_MANPOWER FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.03
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_manpower = 5000
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = COS_promoting_local_migration_in_a_state_will_now_add_the_nazi_sympathizers_state_modifier_tt
+		}
+	}
 }

@@ -5140,6 +5140,187 @@ PAN_anarcho_syndicalist_management = {
 	}
 }
 
+COS_1936_elections = {
+	COS_1936_elections_mis = {
+		priority = 50
+		icon = eng_trade_unions_support
+
+		activation = {
+			always = no 
+		}
+
+		days_mission_timeout = 40
+
+		available = {
+			has_completed_focus = COS_the_1936_elections
+		}
+
+		is_good = no 
+
+		timeout_effect = {
+			custom_effect_tooltip = COS_elections_will_be_cancelled_tt
+			country_event = cos.1 
+
+			set_country_flag = COS_elections_cancelled_flag
+		}
+	}
+
+	COS_push_to_delay_elections = {
+		icon = generic_speech
+
+		visible = {
+			has_active_mission = COS_1936_elections_mis
+		}
+
+		fire_only_once = yes 
+
+		cost = 10
+
+		complete_effect = {
+			add_days_mission_timeout = {
+				mission = COS_1936_elections_mis
+				days = 20
+			}
+		}
+	}
+}
+
+COS_max_effinger_administration = {
+	COS_promote_local_migration_to_FROM = {
+		icon = GFX_EUYL_some_immigration
+
+		state_target = yes 
+
+		target_array = core_states
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+			}
+		}
+
+		available = {
+			has_idea = COS_max_effinger
+			has_civil_war = no 
+			NOT = {
+				has_decision = COS_promote_local_migration_to_FROM
+			}
+			hidden_trigger = {
+				NOT = {
+					has_country_flag = COS_promoting_migration_flag
+				}
+			}
+		}
+
+		on_map_mode = map_and_decisions_view
+
+		cost = 50
+
+		days_remove = 75
+
+		complete_effect = {
+			set_country_flag = COS_promoting_migration_flag
+		}
+
+		cancel_trigger = {
+			FROM = {
+				NOT = {
+					is_controlled_by = ROOT 
+				}
+			}
+		}
+
+		cancel_effect = {
+			clr_country_flag = COS_promoting_migration_flag
+		}
+
+		modifier = {
+			monthly_population = 0.3
+		}
+
+		remove_effect = {
+			clr_country_flag = COS_promoting_migration_flag
+			FROM = {
+				add_manpower = 15000
+			}
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.01
+			}
+
+			if = {
+				limit = {
+					has_completed_focus = COS_stir_up_nazi_sympathies
+					NOT = {
+						FROM = {
+							has_dynamic_modifier = {
+								modifier = COS_nazi_sympathizers_state_modifier
+							}
+						}
+					}
+				}
+				custom_effect_tooltip = CHL_skip_one_line_tt
+
+				FROM = {
+					add_dynamic_modifier = {
+						modifier = COS_nazi_sympathizers_state_modifier
+					}
+				}
+			}
+		}
+	}
+
+	COS_deport_the_undesirables_in_FROM = {
+		icon = generic_army_support
+
+		state_target = yes 
+
+		target_array = core_states
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT
+			}
+		}
+
+		available = {
+			has_idea = COS_max_effinger
+			has_civil_war = no 
+		}
+
+		cost = 25
+
+		days_remove = 70
+
+		on_map_mode = map_and_decisions_view
+
+		cancel_trigger = {
+			FROM = {
+				NOT = {
+					is_controlled_by = ROOT 
+				}
+			}
+		}
+
+		modifier = {
+			political_power_factor = 0.05
+			monthly_population = -0.15
+		}
+
+		remove_effect = {
+			FROM = {
+				add_manpower = -7500
+			}
+			random_list = {
+				25 = {
+					add_stability = -0.01
+				}
+				75 = { }
+			}
+		}
+	}
+}
+
 NIC_anastasios_coup = {
 	NIC_anastasios_coup_mission = {
 		priority = 50
