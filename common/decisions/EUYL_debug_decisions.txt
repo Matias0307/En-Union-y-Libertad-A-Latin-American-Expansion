@@ -42,13 +42,39 @@ debug_decisions = {
 		visible = { always = yes }
 
 		available = {
-			custom_trigger_tooltip = {
-				tooltip = PAR_switched_governments_4_times_tt
-				check_variable = { PAR.PAR_government_changes > 3 }
+			has_character = URG_gabriel_terra_c
+		}
+
+		complete_effect = { 
+			set_politics = {
+				ruling_party = neutrality
+				elections_allowed = no
+			}
+			promote_character = URG_gabriel_terra_c 
+		}
+	}
+
+	change_character_test = {
+		visible = {
+			always = yes 
+		}
+
+		available = {
+			NOT = {
+				has_character = URG_gabriel_terra_c
 			}
 		}
 
-		complete_effect = { custom_effect_tooltip = [ROOT.GetGUIType] }
+		complete_effect = {
+			random_other_country = {
+				limit = {
+					has_character = URG_gabriel_terra_c
+				}
+				URG_gabriel_terra_c = {
+					set_nationality = ROOT
+				}
+			}
+		}
 	}
 
 	test_request_control = {

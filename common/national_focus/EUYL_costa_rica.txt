@@ -15,10 +15,10 @@ focus_tree = {
 	country = {
 		factor = 0
 		
-		modifier = {
-			add = 10
-			tag = COS
-		}
+		#modifier = {
+		#	add = 10
+		#	tag = COS
+		#}
 	}
 	
 	initial_show_position = {
@@ -74,6 +74,37 @@ focus_tree = {
 		}
 	}
 
+	## Octavio Beeche Takes Power ##
+	focus = {
+		id = COS_octavio_beeche_takes_power
+		icon = GFX_
+		x = -5
+		y = 1
+		relative_position_id = COS_the_1936_elections
+		prerequisite = {
+			focus = COS_the_1936_elections
+		}
+
+		available = {
+			has_country_leader = {
+				character = COS_octavio_beeche_arguello
+				ruling_only = yes 
+			}
+		}
+
+		cost = 5
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			add_political_power = 10
+
+			add_stability = 0.01
+		}
+	}
+
 	## The Administration of Leon Cortes ## 
 	focus = {
 		id = COS_the_administration_of_leon_cortes
@@ -108,6 +139,162 @@ focus_tree = {
 				ideology = conservatism
 				trait = IRQ_nationalist_lawyer
 			}
+
+			custom_effect_tooltip = COS_choosing_cortes_castro_in_1940_elections_will_allow_you_to_establish_a_military_dictatorship_tt
+		}
+	}
+
+	## Nationalize the Banco Internacional de Costa Rica ##
+	focus = {
+		id = COS_nationalize_the_banco_internacional_de_costa_rica
+		icon = GFX_COS_nationalize_banco_nacional_icon
+		x = 0
+		y = 1
+		relative_position_id = COS_the_administration_of_leon_cortes
+		prerequisite = {
+			focus = COS_the_administration_of_leon_cortes
+		}
+
+		cost = 7.2
+
+		available = {
+			has_civil_war = no 
+			custom_trigger_tooltip = {
+				tooltip = VEN_there_are_no_protestors_tt
+				NOT = {
+					any_controlled_state = {
+						has_dynamic_modifier = {
+							modifier = BRA_protests
+						}
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			add_stability = 0.03
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = available_industrial_concern
+			show_ideas_tooltip = COS_banco_central_de_costa_rica
+		}
+	}
+
+	## Maintain the Republic ##
+	focus = {
+		id = COS_maintain_the_republic
+		icon = GFX_COS_maintain_the_republic_icon
+		x = 1
+		y = 1
+		relative_position_id = COS_nationalize_the_banco_internacional_de_costa_rica
+		prerequisite = {
+			focus = COS_nationalize_the_banco_internacional_de_costa_rica
+		}
+		mutually_exclusive = {
+			focus = COS_a_change_in_our_history
+		}
+
+		cost = 6
+
+		available = {
+			has_country_leader = {
+				character = COS_leon_cortes_castro
+				ruling_only = yes 
+			}
+			democratic > 0.3 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.05
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_political_power = 25
+		}
+	}
+
+	## A Change in our History ##
+	focus = {
+		id = COS_a_change_in_our_history
+		icon = GFX_COS_a_change_in_our_history_icon
+		x = 0
+		y = 1
+		relative_position_id = COS_stir_up_nazi_sympathies
+		prerequisite = {
+			focus = COS_stir_up_nazi_sympathies
+		}
+		mutually_exclusive = {
+			focus = COS_maintain_the_republic
+		}
+
+		cost = 10
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = COS_any_controlled_state_has_local_nazi_sympathizers_tt
+				any_controlled_state = {
+					has_dynamic_modifier = {
+						modifier = COS_nazi_sympathizers_state_modifier
+					}
+				}
+			}
+			fascism > 0.15 
+			has_country_leader = {
+				character = COS_leon_cortes_castro
+				ruling_only = yes 
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT
+		}
+
+		completion_reward = {
+			set_politics = {
+				ruling_party = fascism
+				elections_allowed = no 
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_country_leader_role = {
+				character = COS_leon_cortes_castro
+				promote_leader = yes
+				country_leader = {
+					ideology = gen_nazism
+					traits = { IRQ_nationalist_lawyer nazi_sympathizer ECU_low_public_support }
+					expire = "1965.3.1.1"
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_war_support = 0.03
+		}
+	}
+
+	## Public Works of Costa Rica ##
+	focus = {
+		id = COS_public_works_of_costa_rica
+		icon = GFX_focus_DEN_no_regulations
+		x = -4
+		y = 1
+		relative_position_id = COS_the_administration_of_leon_cortes
+		prerequisite = {
+			focus = COS_the_administration_of_leon_cortes
+			focus = COS_octavio_beeche_takes_power
 		}
 	}
 

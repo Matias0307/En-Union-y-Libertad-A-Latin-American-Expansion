@@ -2715,6 +2715,54 @@ ARG_political_crisis = {
 						amount = 1079
 					}
 				}
+				if = {
+					limit = {
+						NOT = { has_character = ARG_simon_radowitzky }
+					}
+					random_other_country = {
+						limit = { has_character = ARG_simon_radowitzky }
+						ARG_simon_radowitzky = { set_nationality = ROOT } 
+					}
+					if = {
+						limit = {
+							NOT = {
+								has_completed_focus = ARG_virginia_bolten_shall_lead
+								has_completed_focus = ARG_the_council_shall_lead
+							}
+						}
+						promote_character = ARG_simon_radowitzky
+					}
+				}
+				if = {
+					limit = {
+						NOT = { has_character = ARG_virginia_bolten }
+					}
+					random_other_country = {
+						limit = { has_character = ARG_virginia_bolten }
+						ARG_virginia_bolten = { set_nationality = ROOT } 
+					}
+					if = {
+						limit = {
+							has_completed_focus = ARG_virginia_bolten_shall_lead
+						}
+						promote_character = ARG_virginia_bolten
+					}
+				}
+				if = {
+					limit = {
+						NOT = { has_character = ARG_anarchist_council }
+					}
+					random_other_country = {
+						limit = { has_character = ARG_anarchist_council }
+						ARG_anarchist_council = { set_nationality = ROOT } 
+					}
+					if = {
+						limit = {
+							has_completed_focus = ARG_the_council_shall_lead
+						}
+						promote_character = ARG_anarchist_council
+					}
+				}
 			}
 		}
 	}
@@ -2786,18 +2834,6 @@ ARG_political_crisis = {
 					ARG_anarchist_council = {
 						set_nationality = AAR
 					}
-				}
-				if = {
-					limit = {
-						has_country_leader = {
-							character = EUYL_ARG_fanny_edelman
-							ruling_only = yes 
-						}
-					}
-					promote_character = ARG_fanny_edelman_official 
-					## actually insane that I have to do this
-					## when I NEVER transfer fanny to the Anarchists
-					## this highlights a deeper problem with the compiler of HOI4
 				}
 				transfer_units_fraction = { ## could it be this?
 					target = AAR
@@ -3021,6 +3057,36 @@ ARG_political_crisis = {
 					add_equipment_to_stockpile = { #Only bcuz im such a nice person 
 						type = infantry_equipment
 						amount = 1079
+					}
+				}
+				if = {
+					limit = {
+						NOT = { has_character = EUYL_ARG_fanny_edelman }
+					}
+					random_other_country = {
+						limit = { has_character = EUYL_ARG_fanny_edelman }
+						EUYL_ARG_fanny_edelman = { set_nationality = ROOT } 
+					}
+					if = {
+						limit = {
+							has_global_flag = ARG_fanny_was_chosen_to_lead
+						}
+						promote_character = EUYL_ARG_fanny_edelman
+					}
+				}
+				if = { ## Just in case
+					limit = {
+						NOT = { has_character = ARG_liborio_justo }
+					}
+					random_other_country = {
+						limit = { has_character = ARG_liborio_justo }
+						ARG_liborio_justo = { set_nationality = ROOT } 
+					}
+					if = {
+						limit = {
+							NOT = { has_global_flag = ARG_fanny_was_chosen_to_lead } 
+						}
+						promote_character = ARG_liborio_justo
 					}
 				}
 			}
@@ -4644,7 +4710,7 @@ ARG_the_great_revolution = {
 						promote_character = ARG_virginia_bolten
 					}
 					else = {
-						promote_character = ARG_simon_radowitzky_official
+						promote_character = ARG_simon_radowitzky
 					}
 					set_party_name = {
 						ideology = neutrality
@@ -4848,7 +4914,7 @@ ARG_the_great_revolution = {
 						promote_character = ARG_virginia_bolten
 					}
 					else = {
-						promote_character = ARG_simon_radowitzky_official
+						promote_character = ARG_simon_radowitzky
 					}
 					
 					if = {
@@ -6057,9 +6123,6 @@ ARG_the_great_revolution = {
 			add_to_variable = { ARG_anarchist_subversive_influence = 5 }
 			hidden_effect = {
 				ARG_simon_radowitzky = {
-					clr_character_flag = BRA_imprisoned
-				}
-				ARG_simon_radowitzky_official = {
 					clr_character_flag = BRA_imprisoned
 				}
 			}

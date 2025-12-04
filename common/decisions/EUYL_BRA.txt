@@ -492,13 +492,29 @@ BRA_political_crisis = {
 
     BRA_conquer_africa = {
         icon = generic_nationalism
+
+        highlight_states = {
+            highlight_states_trigger = {
+                is_on_continent = africa
+            }
+        }
+
         available = {
 			custom_trigger_tooltip = {
 				tooltip = BRA_conquered_every_african_state_tt
 				NOT = {
                     any_state = {
                         is_on_continent = africa 
-                        NOT = { is_controlled_by = ROOT } 
+                        NOT = { 
+                            OR = {
+                                is_controlled_by = ROOT
+                                ROOT = {
+                                    any_subject_country = {
+                                        controls_state = PREV.PREV
+                                    }
+                                }
+                            } 
+                        } 
                     }
                 }
 			}
@@ -4028,13 +4044,29 @@ BRA_imperial_management = {
 
     BRA_conquer_africa_empire = {
         icon = generic_nationalism
+
+        highlight_states = {
+            highlight_states_trigger = {
+                is_on_continent = africa
+            }
+        }
+
         available = {
 			custom_trigger_tooltip = {
 				tooltip = BRA_conquered_every_african_state_tt
 				NOT = {
                     any_state = {
                         is_on_continent = africa 
-                        NOT = { is_controlled_by = ROOT } 
+                        NOT = { 
+                            OR = {
+                                is_controlled_by = ROOT
+                                ROOT = {
+                                    any_subject_country = {
+                                        controls_state = PREV.PREV
+                                    }
+                                }
+                            } 
+                        }
                     }
                 }
 			}
