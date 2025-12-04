@@ -1824,6 +1824,13 @@ country_event = {
 			idea = CEA_post_civil_war_hardships
 			days = 365
 		}
+
+		hidden_effect = {
+			add_popularity = {
+				ideology = democratic
+				popularity = -0.25
+			}
+		}
     }
 }
 
@@ -2160,15 +2167,21 @@ country_event = {
 
 		remove_ideas = CEA_league_of_central_american_dictators
 
-		add_popularity = {
-			ideology = democratic
-			popularity = 0.2
-		}
-
-		set_politics = {
-			ruling_party = democratic
-			elections_allowed = yes 
-			election_frequency = 48
+		if = {
+			limit = {
+				NOT = {
+					has_government = democratic
+				}
+			}
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.2
+			}
+			set_politics = {
+				ruling_party = democratic
+				elections_allowed = yes 
+				election_frequency = 48
+			}
 		}
 
 		add_country_leader_role = {
