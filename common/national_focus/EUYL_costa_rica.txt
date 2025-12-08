@@ -15,10 +15,10 @@ focus_tree = {
 	country = {
 		factor = 0
 		
-		#modifier = {
-		#	add = 10
-		#	tag = COS
-		#}
+		modifier = {
+			add = 10
+			tag = COS
+		}
 	}
 	
 	initial_show_position = {
@@ -295,6 +295,110 @@ focus_tree = {
 		prerequisite = {
 			focus = COS_the_administration_of_leon_cortes
 			focus = COS_octavio_beeche_takes_power
+		}
+
+		cost = 6
+
+		available = {
+			num_of_controlled_states > 0
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_political_power = 50
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_category_tooltip = COS_public_works_of_costa_rica_dec_cat
+		}
+	}
+
+	## Administration of the Costa Rican Economy ##
+	focus = {
+		id = COS_administration_of_the_costa_rican_economy
+		icon = GFX_COS_costa_rican_economy_icon
+		x = 0
+		y = 1
+		relative_position_id = COS_public_works_of_costa_rica
+		prerequisite = {
+			focus = COS_public_works_of_costa_rica
+		}
+
+		cost = 10
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = COS_any_controlled_state_has_been_prepared_for_industrial_expansion_tt
+				any_controlled_state = {
+					has_state_flag = COS_land_prepared_flag
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = COS_for_every_state_prepared_for_industrial_expansion_gain_1_civilian_factory_up_to_three_tt
+			every_core_state = {
+				limit = {
+					is_controlled_by = ROOT
+					has_state_flag = COS_land_prepared_flag
+				}
+				random_select_amount = 3
+				hidden_effect = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = COS_promote_the_construction_of_a_civilian_factory_in_FROM
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_timed_idea = {
+				idea = COS_strained_economy
+				days = 365
+			}
+		}
+	}
+
+	## Promote Land Development ##
+	focus = {
+		id = COS_promote_land_development 
+		icon = GFX_COS_land_development_icon
+		x = -2
+		y = 1
+		relative_position_id = COS_administration_of_the_costa_rican_economy
+		prerequisite = { focus = COS_administration_of_the_costa_rican_economy }
+
+		cost = 8
+
+		available = {
+			num_of_factories > 9
+			NOT = {
+				has_idea = COS_strained_economy
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL }
+
+		completion_reward = {
+			EUYL_add_1_civilian = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = COS_unlocks_land_development_decisions_allowing_you_to_increase_state_categories_by_one_level_on_core_states_tt
 		}
 	}
 
