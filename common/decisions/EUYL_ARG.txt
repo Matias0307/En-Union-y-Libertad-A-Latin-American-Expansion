@@ -2203,6 +2203,15 @@ ARG_political_crisis = {
 					limit = { has_global_flag = ARG_fascist_civil_war }
 					clr_global_flag = ARG_fascist_civil_war
 				}
+				if = {
+					limit = {
+						has_global_flag = ARG_anarchy
+					}
+					news_event = {
+						id = EUYL_news.5
+						days = 1
+					}
+				}
 				set_global_flag = ARG_civil_war_concluded
 				add_country_leader_trait = ARG_hero_of_the_civil_war
 				every_controlled_state = { ##(Perdón mi hermosa Argentina, pero tengo que hacer esto)
@@ -3446,7 +3455,7 @@ ARG_forming_the_coalition = {
 					id = ARG_general_balance_of_power
 					left_side = ARG_political_enemies_side # will keep the last set side if not specified
 					right_side = ARG_coalition_side # will keep the last set side if not specified
-					set_value = 0.2 # if specified will set the value of the power balance, this option will override the effect of set_default so the two options should not be used together. if neither set_default or set_value is specified the current value of the power balance will not change
+					set_value = 0.3 # if specified will set the value of the power balance, this option will override the effect of set_default so the two options should not be used together. if neither set_default or set_value is specified the current value of the power balance will not change
 				}
 				if = {
 					limit = {
@@ -3455,6 +3464,20 @@ ARG_forming_the_coalition = {
 					add_political_power = 40
 					add_manpower = 25000
 					clr_country_flag = ARG_armed_catholics
+				}
+				if = {
+					limit = {
+						has_government = fascism
+						NOT = {
+							has_completed_focus = ARG_empower_the_independents
+							has_completed_focus = ARG_catholic_takeover
+						}
+					}
+					## add the political enemies idea that moves it to political enemies side weekly 
+					custom_effect_tooltip = ARG_political_enemies_begin_protesting_nationwide_tt
+					hidden_effect = {
+						add_ideas = ARG_active_political_enemies_1
+					}
 				}
 				if = {
 					limit = { has_country_flag = ARG_assasination_of_politicians }
@@ -3513,6 +3536,10 @@ ARG_forming_the_coalition = {
 								65 = { }
 							}
 						}
+					}
+					news_event = {
+						id = EUYL_news.1
+						days = 2
 					}
 				}
 			}

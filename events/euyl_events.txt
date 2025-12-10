@@ -6,6 +6,7 @@ add_namespace = conference
 add_namespace = conference_trigger
 add_namespace = EUYL_startupevent
 add_namespace = EUYL
+add_namespace = EUYL_news
 
 #USA calls the conference - trigger (HIDDEN)
 
@@ -1070,5 +1071,441 @@ country_event = {
                 random_hours = 4
             }
         }
+	}
+}
+
+### FROM makes preparations to Invade us
+country_event = {
+	id = EUYL.7
+	title = EUYL.7.t 
+	desc = EUYL.7.d 
+	picture = GFX_report_event_generic_army
+
+	is_triggered_only = yes 
+
+	option = {
+		name = EUYL.7.a 
+		add_war_support = 0.01
+	}
+}
+
+#### NEWS EVENTS ####
+## Fascist Coup in Argentina ##
+news_event = {
+	id = EUYL_news.1
+	title = EUYL_news.1.t 
+	desc = EUYL_news.1.d 
+	picture = GFX_news_event_argentina_fascist_coup
+
+	major = yes 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = EUYL_news.1.a
+		trigger = {
+			original_tag = ARG 
+		}
+	}
+
+	option = {
+		name = EUYL_news.1.b 
+		trigger = {
+			NOT = {
+				original_tag = ARG 
+			}
+		}
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = { ## If a nation wants, they can respond with hostility, highly unlikely tho
+		name = EUYL_news.1.c 
+		trigger = {
+			NOT = {
+				original_tag = ARG 
+			}
+			is_neighbor_of = ARG 
+		}
+		ai_chance = {
+			base = 1
+			modifier = {
+				factor = 2
+				threat > 0.2
+			}
+			modifier = {
+				factor = 4
+				threat > 0.4
+			}
+			modifier = {
+				factor = 8
+				threat > 0.8
+			}
+		}
+		add_ai_strategy = {
+			type = prepare_for_war
+			id = ARG
+			value = 70
+		}
+		create_wargoal = {
+			target = ARG
+			type = annex_everything
+			expire = 365
+		}
+
+		hidden_effect = {
+			ARG = {
+				country_event = {
+					id = EUYL.7 
+					hours = 2
+					random_hours = 4
+				}
+			}
+		}
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		add_stability = -0.1
+		add_political_power = -50
+	}
+}
+
+## Incan Empire Restored ##
+news_event = {
+	id = EUYL_news.2
+	title = EUYL_news.2.t 
+	desc = EUYL_news.2.d 
+	picture = GFX_news_event_inca_empire
+
+	major = yes 
+
+	is_triggered_only = yes
+
+	option = {
+		name = EUYL_news.2.a 
+		trigger = {
+			original_tag = PRU 
+		}
+	}
+
+	option = {
+		name = EUYL_news.2.b 
+		trigger = {
+			NOT = {
+				original_tag = PRU 
+			}
+		}
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = { ## If a nation wants, they can respond with hostility, highly unlikely tho
+		name = EUYL_news.1.c 
+		trigger = {
+			NOT = {
+				original_tag = PRU 
+			}
+			is_neighbor_of = PRU 
+		}
+		ai_chance = {
+			base = 1
+			modifier = {
+				factor = 3
+				original_tag = CHL ## :3
+			}
+			modifier = {
+				factor = 2
+				threat > 0.2
+			}
+			modifier = {
+				factor = 4
+				threat > 0.4
+			}
+			modifier = {
+				factor = 8
+				threat > 0.8
+			}
+		}
+		add_ai_strategy = {
+			type = prepare_for_war
+			id = PRU
+			value = 70
+		}
+		create_wargoal = {
+			target = PRU
+			type = annex_everything
+			expire = 365
+		}
+
+		hidden_effect = {
+			PRU = {
+				country_event = {
+					id = EUYL.7 
+					hours = 2
+					random_hours = 4
+				}
+			}
+		}
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		add_stability = -0.1
+		add_political_power = -50
+	}
+}
+
+## Guarani Uprising in Paraguay ##
+news_event = {
+	id = EUYL_news.3
+	title = EUYL_news.3.t
+	desc = EUYL_news.3.d 
+	picture = GFX_news_event_guarani_uprising
+
+	major = yes 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = EUYL_news.3.a 
+		trigger = {
+			original_tag = PAR
+		}
+	}
+
+	option = {
+		name = EUYL_news.3.b 
+		trigger = {
+			NOT = {
+				original_tag = PAR
+			}
+		}
+	}
+}
+
+## Anarchism Takes over in Uruguay ##
+news_event = {
+	id = EUYL_news.4
+	title = EUYL_news.4.t
+	desc = EUYL_news.4.d
+	picture = GFX_news_event_uruguay_anarchist
+
+	major = yes 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = EUYL_news.4.a 
+		trigger = {
+			original_tag = URG 
+		}
+	}
+
+	option = {
+		name = EUYL_news.4.b 
+		trigger = {
+			NOT = {
+				original_tag = URG
+			}
+		}
+	}
+}
+
+## Anarchism Takes Over in Argentina ##
+news_event = {
+	id = EUYL_news.5
+	title = EUYL_news.5.t 
+	desc = EUYL_news.5.d 
+	picture = GFX_news_event_argentina_anarchist
+
+	major = yes 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = EUYL_news.4.a
+		trigger = {
+			original_tag = ARG 
+		}
+	}
+
+	option = {
+		name = EUYL_news.4.b 
+		trigger = {
+			NOT = {
+				original_tag = ARG
+			}
+		}
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = { ## If a nation wants, they can respond with hostility, highly unlikely tho
+		name = EUYL_news.1.c 
+		trigger = {
+			NOT = {
+				original_tag = ARG 
+			}
+			is_neighbor_of = ARG 
+		}
+		ai_chance = {
+			base = 1
+			modifier = {
+				factor = 2
+				threat > 0.2
+			}
+			modifier = {
+				factor = 4
+				threat > 0.4
+			}
+			modifier = {
+				factor = 8
+				threat > 0.8
+			}
+		}
+		add_ai_strategy = {
+			type = prepare_for_war
+			id = ARG
+			value = 70
+		}
+		create_wargoal = {
+			target = ARG
+			type = annex_everything
+			expire = 365
+		}
+
+		hidden_effect = {
+			ARG = {
+				country_event = {
+					id = EUYL.7 
+					hours = 2
+					random_hours = 4
+				}
+			}
+		}
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		add_stability = -0.1
+		add_political_power = -50
+	}
+}
+
+## Anarcho-Syndicalist takeover in Panama ##
+news_event = {
+	id = EUYL_news.6
+	title = EUYL_news.6.t 
+	desc = EUYL_news.6.d 
+	picture = GFX_news_event_generic_silesian_rebels
+
+	major = yes 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = EUYL_news.6.a 
+		trigger = {
+			original_tag = PAN 
+		}
+	}
+
+	option = {
+		name = EUYL_news.6.b 
+		trigger = {
+			NOT = {
+				original_tag = PAN
+			}
+		}
+	}
+}
+
+## Honduras Declares itself a Kingdom ##
+news_event = {
+	id = EUYL_news.7
+	title = EUYL_news.7.t 
+	desc = EUYL_news.7.d 
+	picture = GFX_news_event_royal_visit
+
+	major = yes 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = EUYL_news.7.a 
+		trigger = {
+			original_tag = HON
+		}
+	}
+
+	option = {
+		name = EUYL_news.4.b 
+		trigger = {
+			NOT = {
+				original_tag = HON
+			}
+		}
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = { ## If a nation wants, they can respond with hostility, highly unlikely tho
+		name = EUYL_news.1.c 
+		trigger = {
+			NOT = {
+				original_tag = HON 
+			}
+			is_neighbor_of = HON 
+		}
+		ai_chance = {
+			base = 1
+			modifier = {
+				factor = 2
+				CEA_is_central_american = yes 
+			}
+			modifier = {
+				factor = 3
+				has_idea = CEA_league_of_central_american_dictators
+			}
+			modifier = {
+				factor = 2
+				threat > 0.2
+			}
+			modifier = {
+				factor = 4
+				threat > 0.4
+			}
+			modifier = {
+				factor = 8
+				threat > 0.8
+			}
+		}
+		add_ai_strategy = {
+			type = prepare_for_war
+			id = HON
+			value = 70
+		}
+		create_wargoal = {
+			target = HON
+			type = annex_everything
+			expire = 365
+		}
+
+		hidden_effect = {
+			HON = {
+				country_event = {
+					id = EUYL.7 
+					hours = 2
+					random_hours = 4
+				}
+			}
+		}
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		add_stability = -0.1
+		add_political_power = -50
 	}
 }
