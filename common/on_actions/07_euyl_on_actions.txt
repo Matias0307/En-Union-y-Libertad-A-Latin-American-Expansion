@@ -1800,6 +1800,38 @@ on_actions = {
         #    }
         #}
         effect = {
+            if = { ## end of Honduran civil war
+                limit = {
+                    FROM = { original_tag = HON }
+                    ROOT = {
+                        is_ai = yes ## just in case
+                        original_tag = HON 
+                        has_government = neutrality
+                        has_country_leader = {
+                            character = HON_tiburcio_carías_andino
+                            ruling_only = yes
+                        }
+                    }
+                }
+                FROM = {
+                    every_character = {
+                        set_nationality = ROOT
+                    }
+                }
+                ROOT = {
+                    load_focus_tree = {
+                        tree = honduran_focus
+                        keep_completed = no 
+                    }
+                    unlock_national_focus = HON_rewrite_the_honduran_constitution
+                    unlock_national_focus = HON_support_from_the_partido_nacional
+                    unlock_national_focus = HON_allegience_with_the_catholic_church
+                    unlock_national_focus = HON_the_mandate_of_tiburicio
+                    unlock_national_focus = HON_initiate_an_anti_communist_campaign
+                    unlock_national_focus = HON_apply_the_ley_de_policia
+                    complete_national_focus = HON_el_cariato
+                }
+            }
             if = {
                 limit = {
                     FROM = { original_tag = PRU }
@@ -2665,6 +2697,27 @@ on_actions = {
                     add_ideas = EUYL_ai_political_help ## so that they can actually do the mechanics n stuff, should still be not too op
                 }
 			}
+            PAN = {
+                random_list = {
+                    55 = {
+                        ## Breakdown in talks with the US
+                        country_event = {
+                            id = pan.4 
+                            days = 60
+                            random_days = 60
+                        }
+                        set_country_flag = PAN_go_commie_flag
+                    }
+                    45 = {
+                        ## Pro-Panamanian points Pushed in the Discussions
+                        country_event = {
+                            id = pan.5 
+                            days = 60
+                            random_days = 60
+                        }
+                    }
+                }
+            }
             CHL = {
                 remove_ideas = {
                     CHL_highly_divided_social_classes_idea
