@@ -3164,8 +3164,6 @@ BOL_taking_antofagasta = {
 			}
 		}
 
-        state_target = yes 
-
         ai_will_do = {
             base = 275
             modifier = {
@@ -3180,11 +3178,13 @@ BOL_taking_antofagasta = {
             }
         }
 
-        target_trigger = {
-            FROM = {
+        highlight_states = {
+            highlight_state_targets = {
                 state = 1074
             }
         }
+
+        on_map_mode = map_only
 
         available = {
             has_army_manpower = { size > 1078 }
@@ -3194,6 +3194,7 @@ BOL_taking_antofagasta = {
         }
 
         visible = {
+            has_active_mission = CHL_bolivia_time_until_execute_plan
             NOT = {
                 OR = {
                     has_war_with = CHL 
@@ -3206,8 +3207,6 @@ BOL_taking_antofagasta = {
             }
         }
 
-        on_map_mode = map_only
-
         cost = BOL_cost_to_claim_state
 
         days_remove = BOL_days_to_claim_state
@@ -3218,9 +3217,14 @@ BOL_taking_antofagasta = {
         }
 
         cancel_trigger = {
-            custom_trigger_tooltip = {
-                tooltip = CHL_countered_us_tt
-                has_country_flag = CHL_countered_us
+            OR = {
+                NOT = {
+                    has_active_mission = CHL_bolivia_time_until_execute_plan
+                }
+                custom_trigger_tooltip = {
+                    tooltip = CHL_countered_us_tt
+                    has_country_flag = CHL_countered_us
+                }
             }
         }
 
@@ -3459,8 +3463,6 @@ CHL_countering_bolivias_plan = {
             }
         }
 
-        cost = CHL_cost_to_counter_claim
-
         state_target = yes 
 
         target_trigger = {
@@ -3469,7 +3471,7 @@ CHL_countering_bolivias_plan = {
             }
         }
 
-        cost = 15
+        cost = 50
 
         days_remove = 20
 
