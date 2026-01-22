@@ -2558,7 +2558,8 @@ on_actions = {
         }
 	}
 	
-	on_capitulation_immediate = {
+    ## ROOT is loser, FROM is winner
+	on_capitulation_immediate = { ## Characters from other brazilian factions join back to main Brazil
         effect = {
             if = {
                 limit = {
@@ -2574,10 +2575,40 @@ on_actions = {
                 ROOT = {
                     every_character = {
                         random_list = {
-                            70 = {
+                            90 = {
                                 set_nationality = FROM 
                             }
-                            30 = {
+                            15 = {
+
+                            }
+                        }
+                    }
+                }
+                FROM = {
+                    country_event = { id = brazil.90 hours = 3 }
+                }
+            }
+            if = { ## People have been complaining about not having advisors, this should fix this
+                limit = { 
+                    OR = {
+                        has_global_flag = ARG_commie_civil_war
+                        has_global_flag = ARG_fascist_civil_war
+                    }
+                    ROOT = {
+                        original_tag = ARG 
+                    }
+                    FROM = {
+                        original_tag = ARG 
+                        exists = yes
+                    }
+                }
+                ROOT = {
+                    every_character = {
+                        random_list = {
+                            90 = {
+                                set_nationality = FROM 
+                            }
+                            15 = {
 
                             }
                         }
@@ -2684,22 +2715,26 @@ on_actions = {
     on_startup = {
 		effect = {
 			every_country = {
-                limit = { capital_scope = { is_on_continent = south_america } }
+                limit = { EUYL_is_latin_american = yes }
                 set_variable = { EUYL_cost_many_immigrants = 125 }
                 set_variable = { EUYL_cost_some_immigrants = 80 }
                 set_variable = { EUYL_cost_few_immigrants = 50 }
                 set_variable =  { EUYL_cost_take_in_refugees = 75 } #will be used in Argentina and Brazil
                 if = {
                     limit = {
-                        EUYL_is_latin_american = yes 
                         is_ai = yes
                     }
                     add_ideas = EUYL_ai_political_help ## so that they can actually do the mechanics n stuff, should still be not too op
                 }
+                add_ideas = EUYL_latin_american_isolationism
 			}
             PAN = {
                 random_list = {
                     55 = {
+                        modifier = {
+                            factor = 0
+                            is_historical_focus_on = yes
+                        }
                         ## Breakdown in talks with the US
                         country_event = {
                             id = pan.4 

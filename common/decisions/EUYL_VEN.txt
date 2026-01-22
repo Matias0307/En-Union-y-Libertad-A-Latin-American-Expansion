@@ -3924,9 +3924,6 @@ VEN_forming_greater_venezuela = {
                     state = 1094
                     state = 1106
                     state = 1124 
-                    state = 687 
-                    state = 309 
-                    state = 310 
 					has_state_flag = venezuelan_starting_state
 				}
 			}
@@ -3942,9 +3939,6 @@ VEN_forming_greater_venezuela = {
             has_full_control_of_state = 1094 ## Arauca (Colombia)
             has_full_control_of_state = 1106 ## Roraima (Brazil)
             has_full_control_of_state = 1124 ## Guayan Esequiba
-            has_full_control_of_state = 687 ## British Guyana
-            has_full_control_of_state = 309 ## Suriname
-            has_full_control_of_state = 310 ## French Guiana
 
             custom_trigger_tooltip = {
 				tooltip = form_grc_venezuela_required_states_tt
@@ -3977,9 +3971,84 @@ VEN_forming_greater_venezuela = {
             add_state_core = 1094
             add_state_core = 1106
             add_state_core = 1124 
-            add_state_core = 687 
-            add_state_core = 309 
-            add_state_core = 310 
+
+            custom_effect_tooltip = CHL_skip_one_line_tt
+
+            every_state = {
+                limit = {
+                    any_neighbor_state = {
+                        is_core_of = VEN 
+                    }
+                    NOT = {
+                        is_claimed_by = VEN 
+                        is_core_of = VEN
+                    }
+                }
+                add_claim_by = ROOT
+            }
+
+            custom_effect_tooltip = CHL_skip_one_line_tt
+
+            unlock_decision_tooltip = VEN_integrate_FROM_into_the_fatherland
+
+            hidden_effect = {
+                news_event = {
+                    id = EUYL_news.9
+                    days = 2
+                }
+            }
+        }
+    }
+
+    VEN_integrate_FROM_into_the_fatherland = {
+        icon = generic_nationalism
+
+        state_target = yes 
+
+        on_map_mode = map_and_decisions_view
+
+        targets = { 1092 306 486 1095 1098 1107 969 687 309 310 939 304 }
+
+        cost = 25
+
+        days_remove = 60
+
+        modifier = {
+            political_power_factor = -0.25
+        }
+
+        fire_only_once = yes
+
+        visible = {
+            has_cosmetic_tag = VEN_GREATER
+            FROM = {
+                NOT = {
+                    is_core_of = ROOT
+                }
+            }
+        }
+
+        available = {
+            FROM = {
+                is_fully_controlled_by = ROOT
+            }
+        }
+
+        cancel_trigger = {
+            FROM = {
+                OR = {
+                    NOT = {
+                        is_controlled_by = ROOT
+                    }
+                    is_core_of = ROOT
+                }
+            }
+        }
+
+        remove_effect = {
+            FROM = {
+                add_core_of = ROOT
+            }
         }
     }
 
