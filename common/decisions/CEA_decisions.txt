@@ -5330,6 +5330,512 @@ COS_public_works_of_costa_rica_dec_cat = {
 	}
 }
 
+COS_crackdown_on_fascism = {
+	COS_create_the_university_of_costa_rica = {
+		priority = 15
+		icon = generic_research
+
+		activation = {
+			always = no 
+		}
+
+		days_mission_timeout = 700
+
+		available = {
+			has_completed_focus = COS_founded_the_unviersity_of_costa_rica
+		}
+
+		complete_effect = {
+			add_stability = 0.02
+			add_political_power = 25
+		}
+
+		timeout_effect = {
+			add_stability = -0.03
+			add_political_power = -50
+		}
+	}
+
+	COS_create_the_ccss_mis = {
+		priority = 20
+		icon = generic_factory
+
+		activation = {
+			always = no 
+		}
+
+		days_mission_timeout = 500
+
+		available = {
+			has_completed_focus = COS_create_the_CCSS
+		}
+
+		complete_effect = {
+			add_stability = 0.02
+			add_political_power = 25
+			EUYL_add_1_civilian = yes
+		}
+
+		timeout_effect = {
+			add_stability = -0.03
+			add_political_power = -50
+		}
+	}
+
+	COS_establish_the_ley_de_trabajo = {
+		priority = 10
+		icon = generic_political_discourse
+
+		activation = {
+			always = no 
+		}
+
+		days_mission_timeout = 825
+
+		available = {
+			has_completed_focus = COS_pass_the_ley_de_trabajo
+		}
+
+		complete_effect = {
+			add_stability = 0.02
+			add_political_power = 25
+			EUYL_add_1_military = yes
+		}
+
+		timeout_effect = {
+			add_stability = -0.03
+			add_political_power = -50
+		}
+	}
+
+	COS_alleviate_the_protests_in_FROM = {
+		icon = generic_political_address
+
+		cost = 20
+
+		state_target = yes 
+
+		target_array = core_states 
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+			}
+		}
+
+		visible = {
+			FROM = {
+				has_dynamic_modifier = {
+					modifier = BRA_protests
+				}
+			}
+		}
+
+		days_remove = 40
+
+		modifier = {
+			weekly_manpower = -10
+		}
+
+		complete_effect = {
+			FROM = {
+				remove_dynamic_modifier = {
+					modifier = BRA_protests
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_stability = 0.01
+		}
+	}
+
+	COS_deport_max_effinger = {
+		icon = generic_break_treaty
+
+		cost = 50
+
+		visible = {
+			has_character = COS_max_effinger
+		}
+
+		days_remove = 70
+
+		modifier = {
+			political_power_factor = -0.05
+		}
+
+		fire_only_once = yes 
+
+		remove_effect = {
+			if = {
+				limit = {
+					has_idea = COS_max_effinger
+				}
+				remove_ideas = COS_max_effinger
+				custom_effect_tooltip = EUYL_people_will_take_up_the_streets_to_protest_tt
+				random_owned_controlled_state = {
+					limit = {
+						NOT = {
+							has_dynamic_modifier = {
+								modifier = BRA_protests
+							}
+						}
+					}
+					add_dynamic_modifier = {
+						modifier = BRA_protests
+						days = 180
+					}
+				}
+			}
+
+			retire_character = COS_max_effinger
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			if = {
+				limit = {
+					has_idea = COS_nazi_sympathizers
+				}
+				swap_ideas = {
+					remove_idea = COS_nazi_sympathizers
+					add_idea = COS_nazi_sympathizers_2
+				}
+			}
+			else = {
+				remove_ideas = COS_nazi_sympathizers_2
+			}
+		}
+	}
+
+	COS_push_investigations_and_deportations_on_pro_nazi_communities = {
+		icon = generic_confiscation
+
+		cost = 50
+
+		days_remove = 70
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 0
+		}
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+
+		remove_effect = {
+			every_core_state = {
+				limit = {
+					is_fully_controlled_by = ROOT 
+				}
+				add_manpower = -2000
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			if = {
+				limit = {
+					has_idea = COS_nazi_sympathizers
+				}
+				swap_ideas = {
+					remove_idea = COS_nazi_sympathizers
+					add_idea = COS_nazi_sympathizers_2
+				}
+			}
+			else = {
+				remove_ideas = COS_nazi_sympathizers_2
+			}
+		}
+	}
+}
+
+COS_looming_communist_revolution = {
+	COS_preparations_for_communist_uprising = {
+		priority = 5
+		icon = POL_organize_strike_two
+
+		activation = {
+			always = no 
+		}
+
+		is_good = no
+
+		days_mission_timeout = 180 
+
+		available = {
+			has_country_flag = COS_headquarters_located_flag
+		}
+
+		cancel_trigger = {
+			OR = {
+				has_civil_war = yes 
+				has_government = communism
+			}
+		}
+
+		complete_effect = {
+			country_event = cos.3
+			clr_country_flag = COS_headquarters_located_flag
+		}
+
+		timeout_effect = {
+			country_event = cos.4 
+		}
+	}
+
+	COS_looming_communist_uprising = {
+		priority = 6
+		icon = revolt
+
+		activation = {
+			always = no 
+		}
+
+		is_good = no
+
+		days_mission_timeout = 240 
+
+		available = {
+			has_country_flag = COS_headquarters_destroyed_flag
+		}
+
+		cancel_trigger = {
+			OR = {
+				has_civil_war = yes 
+				has_government = communism
+			}
+		}
+
+		complete_effect = {
+			country_event = cos.3
+		}
+
+		timeout_effect = {
+			country_event = cos.5
+		}
+	}
+
+	COS_attempt_to_locate_the_headquarters = {
+		icon = SOV_place_hq
+
+		state_target = yes 
+
+		targets = { 1056 }
+
+		cost = 25
+
+		days_remove = 30
+
+		on_map_mode = map_and_decisions_view
+
+		available = {
+			if = {
+				limit = {
+					has_dlc = "La Resistance"
+				}
+				OR = {
+					has_intelligence_agency = yes 
+					num_divisions > 2
+				}
+			}
+			else = {
+				num_divisions > 0
+			}
+		}
+
+		visible = {
+			OR = {
+				has_active_mission = COS_looming_communist_uprising
+				has_active_mission = COS_preparations_for_communist_uprising
+			}
+			FROM = {
+				is_fully_controlled_by = ROOT
+			}
+			NOT = {
+				has_country_flag = COS_headquarters_located_flag
+				has_country_flag = COS_headquarters_destroyed_flag
+			}
+		}
+
+		cancel_trigger = {
+			OR = {
+				has_civil_war = yes 
+				has_government = communism
+			}
+		}
+
+		remove_effect = {
+			custom_effect_tooltip = COS_chances_of_locating_will_improve_depending_on_number_of_divisions_present_in_state_tt
+			set_temp_variable = {
+				COS_chance_to_locate = 25
+			}
+			set_temp_variable = {
+				COS_chance_to_NOT_locate = 75
+			}
+			if = {
+				limit = {
+					divisions_in_state = {
+						size > 0
+						state = 1056
+					}
+				}
+				add_to_temp_variable = {
+					COS_chance_to_locate = 20
+				}
+				subtract_from_temp_variable = {
+					COS_chance_to_NOT_locate = 20
+				}
+			}
+			if = {
+				limit = {
+					divisions_in_state = {
+						size > 1
+						state = 1056
+					}
+				}
+				add_to_temp_variable = {
+					COS_chance_to_locate = 20
+				}
+				subtract_from_temp_variable = {
+					COS_chance_to_NOT_locate = 20
+				}
+			}
+			if = {
+				limit = {
+					divisions_in_state = {
+						size > 2
+						state = 1056
+					}
+				}
+				add_to_temp_variable = {
+					COS_chance_to_locate = 20
+				}
+				subtract_from_temp_variable = {
+					COS_chance_to_NOT_locate = 20
+				}
+			}
+			if = {
+				limit = {
+					divisions_in_state = {
+						size > 3
+						state = 1056
+					}
+				}
+				add_to_temp_variable = {
+					COS_chance_to_locate = 20
+				}
+				subtract_from_temp_variable = {
+					COS_chance_to_NOT_locate = 20
+				}
+			}
+			clamp_temp_variable = {
+				var = COS_chance_to_locate
+				min = 0
+				max = 100
+			}
+			clamp_temp_variable = {
+				var = COS_chance_to_NOT_locate
+				min = 0
+				max = 100
+			}
+
+			random_list = {
+				COS_chance_to_locate = {
+					country_event = cos.6
+				}
+				COS_chance_to_NOT_locate = {
+					country_event = cos.7
+				}
+			}
+
+			custom_effect_tooltip = COS_this_decision_can_be_taken_as_many_times_as_needed_tt
+		}
+	}
+
+	COS_destroy_the_communist_headquarters = {
+		icon = oppression
+
+		state_target = yes 
+
+		targets = {
+			1056
+		}
+
+		cost = 50
+
+		days_remove = 25
+
+		fire_only_once = yes
+
+		available = {
+			divisions_in_state = {
+				size > 0
+				state = FROM
+			}
+		}
+
+		visible = {
+			has_country_flag = COS_headquarters_located_flag
+			FROM = {
+				is_fully_controlled_by = ROOT
+			}
+		}
+
+		cancel_trigger = {
+			OR = {
+				has_civil_war = yes 
+				has_government = communism
+			}
+		}
+
+		remove_effect = {
+			set_country_flag = COS_headquarters_destroyed_flag
+			country_event = {
+				id = cos.8 
+				hours = 2
+			}
+		}
+	}
+
+	COS_disrupt_communist_planifications = {
+		icon = generic_operation
+
+		cost = 20
+
+		days_remove = 90
+
+		available = {
+			OR = {
+				has_active_mission = COS_looming_communist_uprising
+				has_active_mission = COS_preparations_for_communist_uprising
+			}
+		}
+
+		modifier = {
+			political_power_gain = -0.05
+			weekly_manpower = -10
+		}
+
+		complete_effect = {
+			if = {
+				limit = {
+					has_active_mission = COS_looming_communist_uprising
+				}
+				add_days_mission_timeout = {
+					mission = COS_looming_communist_uprising
+					days = 30
+				}
+			}
+			else = {
+				add_days_mission_timeout = {
+					mission = COS_preparations_for_communist_uprising
+					days = 30
+				}
+			}
+		}
+	}
+}
+
 COS_max_effinger_administration = {
 	COS_promote_local_migration_to_FROM = {
 		icon = GFX_EUYL_some_immigration

@@ -3298,6 +3298,232 @@ country_event = {
 	}
 }
 
+## Communists Succesfully Halted ##
+country_event = {
+	id = cos.3
+	title = cos.3.t 
+	desc = cos.3.d 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = cos.3.a 
+		add_stability = 0.01
+		add_political_power = 10
+
+		add_popularity = {
+			ideology = communism
+			popularity = -0.05
+		}
+	}
+}
+
+## Lurking Communist Revolution ##
+country_event = {
+	id = cos.4
+	title = cos.4.t 
+	desc = cos.4.d 
+	picture = GFX_COS_communists_img
+
+	is_triggered_only = yes 
+
+	option = {
+		name = cos.4.a 
+		activate_mission = COS_looming_communist_uprising
+	}
+}
+
+## Communist Uprising ##
+country_event = {
+	id = cos.5
+	title = cos.5.t 
+	desc = cos.5.d 
+	picture = GFX_report_event_generic_riot
+
+	is_triggered_only = yes 
+
+	option = {
+		name = cos.5.a 
+
+		effect_tooltip = {
+			start_civil_war = {
+				ideology = communism
+			}
+		}
+
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_template = "Milicias"
+					}
+				}
+				division_template = { 
+					name = "Milicias" 
+					division_names_group = SPAN_INF_02 
+					is_locked = yes 
+					regiments = { 
+						infantry = { x = 0 y = 0 }  
+						infantry = { x = 0 y = 1 } 
+						infantry = { x = 0 y = 2 } 
+					}
+				}
+			}
+			start_civil_war = {
+				ideology = communism 
+				capital = 1056
+				states = { 1056 }
+				keep_all_characters = yes
+				PREV = {  # Original country
+					COS_carmen_lyra = { # Character
+						set_nationality = PREV.PREV
+						# Transfers to breakaway
+					}
+					COS_manuel_mora_valverde = {
+						set_nationality = prev.PREV
+					}
+				}
+				promote_character = COS_carmen_lyra
+			}
+			if = {
+				limit = {
+					is_ai = yes
+				}
+				add_ideas = EUYL_chaos_civil_war_help
+			}
+			random_owned_controlled_state = {
+				create_unit = {
+                    division = "name = \"Lealistas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+                    owner = ROOT
+                    count = 2
+                }
+			}
+			random_other_country = {
+				limit = {
+					original_tag = COS 
+					has_government = communism
+				}
+				COS_manuel_mora_valverde = {
+                    add_corps_commander_role = {
+                        skill = 2
+                        attack_skill = 1
+                        defense_skill = 2
+                        planning_skill = 2
+                        logistics_skill = 2
+                    }
+                }
+				## TODO: add load_focus_tree to load the thingy mabob
+				every_controlled_state = {
+					create_unit = {
+						division = "name = \"Milicias Costariccenses\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+						owner = PREV
+						count = 4
+					}
+				}
+			}
+		}
+	}
+}
+
+## Communist Headquarters have Been Located 
+country_event = {
+	id = cos.6
+	title = cos.6.t
+	desc = cos.6.d 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = cos.6.a 
+		set_country_flag = COS_headquarters_located_flag
+		if = {
+			limit = {
+				has_active_mission = COS_preparations_for_communist_uprising
+			}
+			effect_tooltip = {
+				remove_mission = COS_preparations_for_communist_uprising
+			}
+			add_stability = 0.01
+			add_popularity = {
+				ideology = communism
+				popularity = -0.03
+			}
+		}
+		else = { ## uprising phase is ongoing
+			unlock_decision_tooltip = COS_destroy_the_communist_headquarters
+		}
+	}
+}
+
+## We have failed to Located the HQ
+country_event = {
+	id = cos.7
+	title = cos.7.t
+	desc = cos.7.d 
+
+	is_triggered_only = yes 
+
+	option = {
+		name = cos.7.a 
+		add_political_power = 5
+	}
+}
+
+## Communist Headquarters Destroyed ##
+country_event = {
+	id = cos.8
+	title = cos.8.t
+	desc = cos.8.d 
+	picture = GFX_report_event_generic_army
+
+	is_triggered_only = yes 
+
+	option = {
+		name = cos.8.a 
+		add_political_power = 15
+		add_popularity = {
+			ideology = communism
+			popularity = -0.07
+		}
+		effect_tooltip = {
+			remove_mission = COS_looming_communist_uprising
+		}
+		clr_country_flag = COS_headquarters_destroyed_flag
+		if = {
+			limit = {
+				has_country_flag = COS_headquarters_located_flag
+			}
+			clr_country_flag = COS_headquarters_located_flag
+		}
+	}
+}
+
+## Unusual Activity from the Communist Party ## || What starts everything lol
+country_event = {
+	id = cos.9
+	title = cos.9.t 
+	desc = cos.9.d 
+	picture = GFX_COS_communists_img
+
+	is_triggered_only = yes 
+
+	option = {
+		name = cos.9.a 
+		add_popularity = {
+			ideology = communism
+			popularity = 0.01
+		}
+		
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		activate_mission = COS_preparations_for_communist_uprising
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		unlock_decision_category_tooltip = COS_looming_communist_revolution
+	}
+}
+
 ## Anastasio Takes Power ##
 country_event = {
 	id = nic.2

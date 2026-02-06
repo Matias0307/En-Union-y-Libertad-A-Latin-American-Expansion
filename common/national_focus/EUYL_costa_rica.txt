@@ -31,6 +31,67 @@ focus_tree = {
 	shared_focus = CEA_the_defense_pact
 	shared_focus = CEA_armed_forces
 
+	## IN SHARED ECONOMY TREE ##
+	# Create the CCSS (Caja Costarricense de Seguro Social)
+	focus = {
+		id = COS_create_the_CCSS
+		icon = GFX_COS_ccss_icon
+		x = -4
+		y = 1
+		relative_position_id = CEA_the_economy
+		prerequisite = {
+			focus = CEA_the_economy
+		}
+
+		allow_branch = {
+			original_tag = COS
+		}
+
+		cost = 7.2
+
+		available = {
+			has_civil_war = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_political_power = 50
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_ideas = COS_ccss
+		}
+	}
+
+	## Pass the Ley de Trabajo ##
+	focus = {
+		id = COS_pass_the_ley_de_trabajo
+		icon = GFX_focus_generic_industrial_experts
+		x = 0
+		y = 1
+		relative_position_id = COS_create_the_CCSS
+		prerequisite = {
+			focus = COS_create_the_CCSS
+		}
+
+		cost = 10
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_stability = 0.03
+			
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			
+			EUYL_add_1_civilian = yes
+		}
+	}
+
 	## POLITICAL TREE ##
 
 	## HISTORICAL ##
@@ -78,11 +139,14 @@ focus_tree = {
 	focus = {
 		id = COS_octavio_beeche_takes_power
 		icon = GFX_
-		x = -5
+		x = -6
 		y = 1
 		relative_position_id = COS_the_1936_elections
 		prerequisite = {
 			focus = COS_the_1936_elections
+		}
+		mutually_exclusive = {
+			focus = COS_the_administration_of_leon_cortes
 		}
 
 		available = {
@@ -109,11 +173,14 @@ focus_tree = {
 	focus = {
 		id = COS_the_administration_of_leon_cortes
 		icon = GFX_COS_leon_cortes_administration_icon
-		x = 3
+		x = 4
 		y = 1
 		relative_position_id = COS_the_1936_elections
 		prerequisite = {
 			focus = COS_the_1936_elections
+		}
+		mutually_exclusive = {
+			focus = COS_octavio_beeche_takes_power
 		}
 
 		cost = 5
@@ -225,6 +292,908 @@ focus_tree = {
 		}
 	}
 
+	## Develop our Intelligence Agency ##
+	focus = {
+		id = COS_develop_our_intelligence_agency
+		icon = GFX_COS_develop_our_intelligence_agency_icon
+		x = 0
+		y = 1
+		relative_position_id = COS_maintain_the_republic
+		prerequisite = {
+			focus = COS_maintain_the_republic
+		}
+
+		cost = 8
+
+		available = {
+			num_of_factories > 6
+		}
+
+		search_filters = {
+			FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					has_dlc = "La Resistance"
+				}
+				create_intelligence_agency = yes 
+			}
+			else = {
+				add_political_power = 35
+			}
+		}
+	}
+
+	## Re-Elect Leon Cortes ##
+	focus = {
+		id = COS_re_elect_leon_cortes
+		icon = GFX_COS_leon_cortes_icon
+		x = 1
+		y = 1
+		relative_position_id = COS_develop_our_intelligence_agency
+		prerequisite = {
+			focus = COS_develop_our_intelligence_agency
+		}
+		mutually_exclusive = {
+			focus = COS_elect_rafael_angel_calderon
+		}
+
+		cost = 5
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = { ## If stability below 70, start the communist civil war (against player) mechanic
+			add_political_power = 25
+			add_stability = 0.03
+
+			custom_effect_tooltip = COS_the_communists_will_be_angered_by_this_tt
+
+			add_ideas = COS_agitated_communists_1
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			custom_effect_tooltip = COS_if_stability_below_70_communists_will_begin_plans_for_revolution_tt
+
+			if = {
+				limit = {
+					has_stability < 0.7
+				}
+				country_event = cos.9
+			}
+		}
+	}
+
+	## Persecute Communists ##
+	focus = {
+		id = COS_persecte_communists
+		icon = GFX_focus_GER_end_european_communism
+		x = 3
+		y = 1
+		relative_position_id = COS_re_elect_leon_cortes
+		prerequisite = {
+			focus = COS_re_elect_leon_cortes
+			focus = COS_a_change_in_our_history
+		}
+
+		cost = 7.2
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			add_timed_idea = {
+				idea = communism_banned
+				days = 720
+			}
+			add_political_power = 50
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_trait = {
+				character = COS_leon_cortes_castro
+				ideology = conservatism
+				trait = anti_communist
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			swap_ideas = {
+				remove_idea = COS_agitated_communists_1
+				add_idea = COS_agitated_communists_2
+			}
+
+			if = {
+				limit = {
+					OR = {
+						has_active_mission = COS_preparations_for_communist_uprising
+						has_active_mission = COS_looming_communist_uprising
+					}
+				}
+				if = {
+					limit = {
+						has_active_mission = COS_looming_communist_uprising
+					}
+					add_days_mission_timeout = {
+						mission = COS_looming_communist_uprising
+						days = 15
+					}
+				}
+				else = {
+					add_days_mission_timeout = {
+						mission = COS_preparations_for_communist_uprising
+						days = 15
+					}
+				}
+			}
+		}
+	}
+
+	## Appease the German Sympathizers ##
+	focus = {
+		id = COS_appease_the_german_sympathizers
+		icon = GFX_BRA_invite_german_architects
+		x = 1
+		y = 1
+		relative_position_id = COS_persecte_communists
+		prerequisite = {
+			focus = COS_persecte_communists
+		}
+
+		cost = 10
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = COS_does_not_have_national_spirit_agitated_communists_tt
+				NOT = {
+					has_idea = COS_agitated_communists_1
+					has_idea = COS_agitated_communists_2
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER
+		}
+
+		completion_reward = {
+			EUYL_add_1_civilian = yes 
+			EUYL_add_1_military = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			if = {
+				limit = {
+					has_idea = COS_nazi_sympathizers
+				}
+				swap_ideas = {
+					remove_idea = COS_nazi_sympathizers
+					add_idea = COS_nazi_sympathizers_3
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = COS_nazi_sympathizers_2
+					add_idea = COS_nazi_sympathizers_3
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_stability = 0.03
+			add_war_support = 0.05
+		}
+	}
+
+	## Clamp down even Further on Immigration ##
+	focus = {
+		id = COS_clamp_down_even_further_on_immigration
+		icon = GFX_COS_limit_immigration_icon
+		x = -1
+		y = 1
+		relative_position_id = COS_persecte_communists
+		prerequisite = {
+			focus = COS_persecte_communists
+		}
+
+		cost = 8
+
+		available = {
+			has_idea = COS_max_effinger
+		}
+
+		search_filters = {
+			FOCUS_FILTER_MANPOWER FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = { ## TODO: make this focus declare costa rica a military dictatorship IF you went with re_elect_leon_cortes | DONE
+			remove_ideas = COS_agitated_communists_2
+			
+			if = {
+				limit = {
+					has_completed_focus = COS_re_elect_leon_cortes
+				}
+				custom_effect_tooltip = COS_the_country_will_become_a_military_dictatorship_tt
+				set_politics = {
+					ruling_party = neutrality
+					elections_allowed = no 
+				}
+
+				add_country_leader_role = {
+					character = COS_leon_cortes_castro
+					promote_leader = yes
+					country_leader = {
+						ideology = despotism
+						traits = { IRQ_nationalist_lawyer nazi_sympathizer ECU_low_public_support }
+						expire = "1965.3.1.1"
+					}
+				}
+			}
+
+			if = {
+				limit = {
+					OR = {
+						has_active_mission = COS_preparations_for_communist_uprising
+						has_active_mission = COS_looming_communist_uprising
+					}
+				}
+				if = {
+					limit = {
+						has_active_mission = COS_looming_communist_uprising
+					}
+					add_days_mission_timeout = {
+						mission = COS_looming_communist_uprising
+						days = 25
+					}
+				}
+				else = {
+					add_days_mission_timeout = {
+						mission = COS_preparations_for_communist_uprising
+						days = 25
+					}
+				}
+			}
+		}
+	}
+
+	## Elect Rafael Angel Calderon ##
+	focus = {
+		id = COS_elect_rafael_angel_calderon
+		icon = GFX_COS_rafael_angel_icon
+		x = -1
+		y = 1
+		relative_position_id = COS_develop_our_intelligence_agency
+		prerequisite = {
+			focus = COS_develop_our_intelligence_agency
+		}
+		mutually_exclusive = {
+			focus = COS_re_elect_leon_cortes
+		}
+
+		cost = 5
+
+		search_filters = {
+			FOCUS_FILTER_HISTORICAL FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			promote_character = COS_rafael_angel_calderon
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_war_support = 0.01
+			add_popularity = {
+				ideology = communism
+				popularity = 0.01
+			}
+		}
+	}
+
+	## Cooperate with Manuel Mora ## (prolly unlocks manuel mora as advisor, and maybe some decisions not sure yet)
+	focus = {
+		id = COS_cooperate_with_manuel_mora
+		icon = GFX_COS_cooperate_with_manuel_mora_icon
+		x = -2
+		y = 1
+		relative_position_id = COS_elect_rafael_angel_calderon
+		prerequisite = {
+			focus = COS_elect_rafael_angel_calderon
+		}
+
+		cost = 8
+
+		available = {
+			NOT = {
+				has_completed_focus = COS_stir_up_nazi_sympathies
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_HISTORICAL FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			add_popularity = {
+				ideology = communism
+				popularity = 0.03
+			}
+
+			add_stability = 0.03
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = EUYL_people_will_take_up_the_streets_to_protest_tt
+			capital_scope = {
+				add_dynamic_modifier = {
+					modifier = BRA_protests
+					days = 180
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = COS_manuel_mora_valverde_idea
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_category_tooltip = COS_crackdown_on_fascism
+
+			custom_effect_tooltip = COS_these_decisions_will_allow_you_to_remove_nazi_sympathizers_from_the_country_tt
+		}
+	}
+
+	## Initiate the Social Gurantees ##
+	focus = {
+		id = COS_initiate_the_social_gurantees
+		icon = GFX_COS_social_gurantees_icon
+		x = 0
+		y = 1
+		relative_position_id = COS_cooperate_with_manuel_mora
+		prerequisite = {
+			focus = COS_cooperate_with_manuel_mora
+		}
+
+		cost = 5
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = COS_does_not_have_national_spirit_nazi_sympathizers_tt
+				NOT = {
+					has_idea = COS_nazi_sympathizers
+					has_idea = COS_nazi_sympathizers_2
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			add_stability = 0.05
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = COS_a_series_of_social_gurantees_will_be_impulsed_tt
+			activate_mission = COS_create_the_university_of_costa_rica
+			activate_mission = COS_create_the_ccss_mis
+			activate_mission = COS_establish_the_ley_de_trabajo
+
+			custom_effect_tooltip = COS_these_missions_will_be_displayed_under_the_crackdown_on_fascism_decision_category_tt
+		}
+	}
+
+	## Join the Allies ##
+	focus = {
+		id = COS_join_the_allies
+		icon = GFX_COS_join_allies_icon
+		x = -5
+		y = 2
+		relative_position_id = COS_cooperate_with_manuel_mora
+		prerequisite = {
+			focus = COS_cooperate_with_manuel_mora
+		}
+		mutually_exclusive = {
+			focus = COS_maintain_neutrality_in_foreign_affairs
+		}
+
+		cost = 10
+
+		available = {
+			is_in_faction = no
+			is_subject = no
+			has_civil_war = no
+			OR = {
+				ENG = {
+					NOT = {
+						has_war_with = ROOT
+						has_government = communism
+					}
+					is_faction_leader = yes
+				}
+				FRA = {
+					NOT = {
+						has_war_with = ROOT
+					}
+					has_government = democratic
+					is_faction_leader = yes
+				}
+				USA = {
+					NOT = {
+						has_war_with = ROOT
+					}
+					has_government = democratic
+					is_faction_leader = yes
+				}
+			}
+		}
+		
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+		
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL }
+		completion_reward = {	
+			if = {
+				limit = {
+					ENG = {
+						NOT = {
+							has_war_with = ROOT
+							has_government = communism
+						}
+						is_faction_leader = yes
+					}
+				}
+				ENG = {
+					country_event = generic.2
+				}
+			}
+			else_if = {
+				limit = {
+					FRA = {
+						NOT = {
+							has_war_with = ROOT
+							has_government = communism
+						}
+						is_faction_leader = yes
+					}
+				}
+				FRA = {
+					country_event = generic.2
+				}
+			}
+			else_if = {
+				limit = {
+					USA = {
+						NOT = {
+							has_war_with = ROOT
+							has_government = communism
+						}
+						is_faction_leader = yes
+					}
+				}
+				USA = {
+					country_event = generic.2
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			effect_tooltip = {
+				remove_ideas = EUYL_latin_american_isolationism
+			}
+			set_country_flag = EUYL_opened_up_foreign_policy_flag
+		}
+	}
+
+	## Joint Military Program ##
+	focus = {
+		id = COS_joint_military_program
+		icon = GFX_COS_joint_army_program_icon
+		x = -1
+		y = 1
+		relative_position_id = COS_join_the_allies
+		prerequisite = {
+			focus = COS_join_the_allies
+		}
+
+		cost = 10
+
+		available = {
+			any_allied_country = {
+				is_major = yes 
+				has_government = democratic
+			}
+			OR = {
+				has_war = yes 
+				has_war_support > 0.56
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER FOCUS_FILTER_ARMY_XP
+		}
+
+		completion_reward = {
+			add_ideas = COS_joint_military_program_idea_1
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			EUYL_add_1_military = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			army_experience = 25
+		}
+	}
+
+	## Tight Economic Cooperation ##
+	focus = {
+		id = COS_tight_economic_cooperation
+		icon = GFX_focus_generic_industry_3
+		x = -1
+		y = 1
+		relative_position_id = COS_joint_military_program
+		prerequisite = {
+			focus = COS_joint_military_program
+		}
+
+		cost = 10
+
+		available = {
+			is_in_faction = yes
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_2_civilian = yes 
+		}
+	}
+
+	## Naval Exercises from the Royal Navy ##
+	focus = {
+		id = COS_naval_exercises_from_the_royal_navy
+		icon = GFX_british_navy
+		x = 1
+		y = 1
+		relative_position_id = COS_joint_military_program
+		prerequisite = {
+			focus = COS_joint_military_program
+		}
+
+		cost = 8
+
+		available = {
+			is_in_faction_with = ENG 
+			ENG = {
+				OR = {
+					has_government = democratic
+					has_war_with = GER 
+					has_war_with = JAP 
+					has_war_with = ITA 
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_NAVY_XP FOCUS_FILTER_RESEARCH
+		}
+
+		completion_reward = {
+			navy_experience = 30
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			EUYL_add_1_dockyard = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_ideas = CEA_allied_naval_training
+			add_doctrine_cost_reduction = {
+				name = HON_allied_naval_training
+				cost_reduction = 0.5
+				uses = 2
+				category = naval_doctrine
+			}
+		}
+	}
+
+	## Costa Rica Does Not Stay Behind 
+	focus = {
+		id = COS_costa_rica_does_not_stay_behind
+		icon = GFX_COS_costa_rica_flag_icon
+		x = 0
+		y = 2
+		relative_position_id = COS_joint_military_program
+		prerequisite = {
+			focus = COS_joint_military_program
+		}
+
+		cost = 10
+
+		available = {
+			is_in_faction = yes
+			has_war_with_major = yes 
+			any_enemy_country = {
+				NOT = { has_government = democratic }
+			}
+			has_army_manpower = {
+				size > 84999
+			}
+			num_of_factories > 29
+		}
+
+		search_filters = {
+			FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			add_stability = 0.05
+			add_war_support = 0.1
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			swap_ideas = {
+				remove_idea = COS_joint_military_program_idea_1
+				add_idea = COS_joint_military_program_idea_2
+			}
+		}
+	}
+
+	## Request Control of British Honduras ##
+	focus = {
+		id = COS_request_control_of_british_honduras
+		icon = GFX_HON_ask_for_belize_icon
+		x = -3
+		y = 1
+		relative_position_id = COS_join_the_allies
+		prerequisite = {
+			focus = COS_join_the_allies
+		}
+
+		cost = 7.2
+
+		available = {
+			311 = {
+				controller = {
+					is_in_faction_with = ROOT
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					BLZ = { 
+						exists = yes 
+						is_subject_of = ENG
+					}
+				}
+				ENG = {
+					country_event = {
+						id = hon.17
+						hours = 4
+						random_hours = 4
+					}
+				}
+				custom_effect_tooltip = ARG_iftheyaccept
+				effect_tooltip = {
+					annex_country = {
+						target = BLZ
+						transfer_troops = yes
+					}
+					311 = {
+						add_compliance = 25
+					}
+				}
+			}
+			else = {
+				311 = {
+					CONTROLLER = {
+						country_event = {
+							id = hon.17
+							hours = 4
+							random_hours = 4
+						}
+					}
+				}
+				custom_effect_tooltip = ARG_iftheyaccept
+				effect_tooltip = {
+					transfer_state = 311
+					311 = {
+						add_compliance = 25
+					}
+				}
+			}
+		}
+	}
+
+	## Maintain Nuetrality in Foreign Affairs ##
+	focus = {
+		id = COS_maintain_neutrality_in_foreign_affairs
+		icon = GFX_COS_neutral_in_foreign_affairs_icon
+		x = -1
+		y = 3
+		relative_position_id = COS_re_elect_leon_cortes
+		prerequisite = {
+			focus = COS_re_elect_leon_cortes
+			focus = COS_elect_rafael_angel_calderon
+		}
+		mutually_exclusive = {
+			focus = COS_join_the_allies
+		}
+
+		cost = 10
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = COS_does_not_have_national_spirit_agitated_communists_tt
+				NOT = {
+					has_idea = COS_agitated_communists_1
+					has_idea = COS_agitated_communists_2
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_MANPOWER FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			add_ideas = CHL_armed_neutrality_idea
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			ENG = {
+				if = {
+					limit = {
+						has_government = democratic
+					}
+				}
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = CHL_stubbornly_maintaining_neutrality
+				}
+			}
+			GER = {
+				if = {
+					limit = {
+						has_government = fascism
+					}
+				}
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = CHL_stubbornly_maintaining_neutrality
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			effect_tooltip = {
+				remove_ideas = EUYL_latin_american_isolationism
+			}
+			set_country_flag = EUYL_opened_up_foreign_policy_flag
+		}
+	}
+
+	## The Central American Defense Pact ##
+	focus = {
+		id = COS_the_central_american_defense_pact
+		icon = GFX_HON_central_america_defense_pact_icon
+		x = 2
+		y = 1
+		relative_position_id = COS_maintain_neutrality_in_foreign_affairs
+		prerequisite = {
+			focus = COS_maintain_neutrality_in_foreign_affairs
+		}
+
+		cost = 10
+
+		available = {
+			is_in_faction = no 
+			any_other_country = {
+				CEA_is_central_american = yes 
+				exists = yes
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			if = { ## not making a unique event, too lazy to do so
+				limit = {
+					has_global_flag = CEA_central_american_defense_pact_created_flag
+				}
+				event_target:CENTRAL_AMERICAN_FACTION_CREATOR = {
+					country_event = generic.2 
+				}
+			}
+			else = {
+				CEA_basic_create_faction = yes
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = ARG_iftheyaccept
+			effect_tooltip = {
+				unlock_national_focus = CEA_the_defense_pact
+			}
+		}
+	}
+
+	## Purchase Foreign Equipment ##
+	focus = {
+		id = COS_purchase_foreign_equipment
+		icon = GFX_EUYL_global_arms_trade_icon
+		x = 0
+		y = 1
+		relative_position_id = COS_the_central_american_defense_pact
+		prerequisite = {
+			focus = COS_the_central_american_defense_pact
+		}
+
+		cost = 10
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_1_military = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			if = {
+				limit = {
+					has_dlc = "Arms Against Tyranny"
+				}
+				add_equipment_subsidy = {
+					cic = 1000
+					equipment_type = infantry_equipment
+					seller_tags = {
+						ENG FRA JAP USA GER ITA SOV
+					}
+				}
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 200
+				}
+			}
+			else = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 2000
+				}
+			}
+		}
+	}
+
+	## Assess our Local Regional Affairs ##
+	focus = {
+		id = COS_assess_our_local_regional_affairs
+		icon = GFX_CEA_political_reforms_icon
+		x = -4
+		y = 1
+		relative_position_id = COS_maintain_neutrality_in_foreign_affairs
+		prerequisite = {
+			focus = COS_join_the_allies
+			focus = COS_maintain_neutrality_in_foreign_affairs
+		}
+
+		cost = 5
+	}
+
 	## A Change in our History ##
 	focus = {
 		id = COS_a_change_in_our_history
@@ -250,7 +1219,6 @@ focus_tree = {
 					}
 				}
 			}
-			fascism > 0.15 
 			has_country_leader = {
 				character = COS_leon_cortes_castro
 				ruling_only = yes 
@@ -261,10 +1229,14 @@ focus_tree = {
 			FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT
 		}
 
-		completion_reward = {
+		completion_reward = { ## if fascism < 15%, start communist civil war (against player) mechanic
 			set_politics = {
 				ruling_party = fascism
 				elections_allowed = no 
+			}
+			add_timed_idea = {
+				idea = COS_a_change_in_our_history_idea
+				days = 720
 			}
 
 			custom_effect_tooltip = CHL_skip_one_line_tt
@@ -282,6 +1254,17 @@ focus_tree = {
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
 			add_war_support = 0.03
+			add_ideas = COS_agitated_communists_1
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			custom_effect_tooltip = COS_if_fascist_support_is_below_15_communists_will_begin_plans_tt
+
+			if = {
+				limit = {
+					fascism < 0.15
+				}
+				country_event = cos.9
+			}
 		}
 	}
 
@@ -289,7 +1272,7 @@ focus_tree = {
 	focus = {
 		id = COS_public_works_of_costa_rica
 		icon = GFX_focus_DEN_no_regulations
-		x = -4
+		x = -5
 		y = 1
 		relative_position_id = COS_the_administration_of_leon_cortes
 		prerequisite = {
@@ -373,6 +1356,76 @@ focus_tree = {
 		}
 	}
 
+	## Increase our Defense Budget ##
+	focus = {
+		id = COS_increase_our_defense_budget
+		icon = GFX_CEA_costa_rica_military_icon
+		x = 1
+		y = 2
+		relative_position_id = COS_administration_of_the_costa_rican_economy
+		prerequisite = {
+			focus = COS_administration_of_the_costa_rican_economy
+		}
+		
+		cost = 10 
+
+		available = {
+			any_controlled_state = {
+				infrastructure > 4
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_1_military = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			EUYL_level_up_conscription_law = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			EUYL_level_up_mobilization_law = yes
+		}
+	}
+
+	## Founded the University of Costa Rica ##
+	focus = {
+		id = COS_founded_the_unviersity_of_costa_rica
+		icon = GFX_focus_generic_university_1
+		x = 0
+		y = 1
+		relative_position_id = COS_administration_of_the_costa_rican_economy
+		prerequisite = {
+			focus = COS_administration_of_the_costa_rican_economy
+		}
+
+		cost = 10 
+
+		available = {
+			OR = {
+				num_of_factories > 9
+				custom_trigger_tooltip = {
+					tooltip = COS_does_not_have_national_spirit_nazi_sympathizers_tt
+					NOT = {
+						has_idea = COS_nazi_sympathizers
+						has_idea = COS_nazi_sympathizers_2
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+
 	## Promote Land Development ##
 	focus = {
 		id = COS_promote_land_development 
@@ -406,7 +1459,7 @@ focus_tree = {
 	focus = {
 		id = COS_tend_to_the_people_of_costa_rica
 		icon = GFX_COS_tend_to_the_people_of_costa_rica_icon
-		x = 35
+		x = 33
 		y = 0
 		mutually_exclusive = {
 			focus = COS_the_1936_elections
@@ -428,7 +1481,7 @@ focus_tree = {
 	focus = {
 		id = COS_appoint_max_effinger
 		icon = GFX_COS_appoint_max_effinger_icon
-		x = 61
+		x = 64
 		y = 0
 
 		cost = 5
@@ -621,6 +1674,10 @@ focus_tree = {
 		available = {
 			has_idea = COS_max_effinger
 			NOT = { has_government = fascism }
+			NOT = {
+				has_completed_focus = COS_cooperate_with_manuel_mora
+				has_completed_focus = COS_tend_to_the_people_of_costa_rica
+			}
 		}
 
 		search_filters = {
