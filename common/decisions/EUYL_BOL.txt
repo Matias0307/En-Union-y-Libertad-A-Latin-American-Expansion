@@ -3190,11 +3190,14 @@ BOL_taking_antofagasta = {
             has_army_manpower = { size > 1078 }
             hidden_trigger = {
                 NOT = { check_variable = { BOL_claim_strength = 3 } }
+                NOT = {
+                    has_country_flag = CHL_countered_us
+                }
             }
         }
 
         visible = {
-            has_active_mission = CHL_bolivia_time_until_execute_plan
+            has_active_mission = BOL_time_until_we_execute_the_plan
             NOT = {
                 OR = {
                     has_war_with = CHL 
@@ -3219,11 +3222,24 @@ BOL_taking_antofagasta = {
         cancel_trigger = {
             OR = {
                 NOT = {
-                    has_active_mission = CHL_bolivia_time_until_execute_plan
+                    has_active_mission = BOL_time_until_we_execute_the_plan
                 }
                 custom_trigger_tooltip = {
                     tooltip = CHL_countered_us_tt
                     has_country_flag = CHL_countered_us
+                }
+            }
+        }
+
+        cancel_effect = { ## so that the player can at least take it by force lol
+            1074 = {
+                controller = {
+                    ROOT = {
+                        create_wargoal = {
+                            target = PREV
+                            type = annex_everything
+                        }
+                    }
                 }
             }
         }
@@ -3264,15 +3280,16 @@ BOL_taking_antofagasta = {
         }
 
         available = {
-            hidden_trigger = {
-                always = no 
+            custom_trigger_tooltip = {
+                tooltip = BOL_chile_attempt_countered
+                has_country_flag = we_countered_chile
             }
         }
 
         cancel_trigger = {
-            custom_trigger_tooltip = {
-                tooltip = BOL_chile_attempt_countered
-                has_country_flag = we_countered_chile
+            OR = {
+                exists = no 
+                has_war_with = CHL
             }
         }
 
@@ -3289,7 +3306,7 @@ BOL_taking_antofagasta = {
         icon = oppression
 
         visible = {
-            has_country_flag = CHL_trying_to_counter
+            has_active_mission = BOL_chile_trying_to_counter_us
         }
 
         cost = 30
@@ -3304,13 +3321,13 @@ BOL_taking_antofagasta = {
                 CHL = {
                     set_country_flag = {
                         flag = BOL_countered_us
-                        days = 1
+                        days = 3
                         value = 1
                     }
                 }
                 set_country_flag = {
                     flag = we_countered_chile
-                    days = 1
+                    days = 3
                     value = 1
                 }
                 clr_country_flag = CHL_trying_to_counter
@@ -3325,7 +3342,7 @@ BOL_taking_antofagasta = {
             has_active_mission = BOL_time_until_we_execute_the_plan
         }
 
-        cost = 35
+        cost = 20
 
         ai_will_do = {
             base = 65
@@ -3334,6 +3351,8 @@ BOL_taking_antofagasta = {
                 check_variable = { BOL_claim_strength = 3 }
             }
         }
+
+        days_remove = 60
 
         complete_effect = {
             add_days_mission_timeout = {
@@ -3435,7 +3454,7 @@ CHL_countering_bolivias_plan = {
             }
         }
 
-        days_mission_timeout = CHL_bol_days_to_claim_state
+        days_mission_timeout = BOL.BOL_days_to_claim_state
 
         is_good = no 
 
@@ -3477,6 +3496,11 @@ CHL_countering_bolivias_plan = {
 
         available = {
             has_army_manpower = { size > 499 }
+            hidden_trigger = {
+                NOT = {
+                    has_country_flag = BOL_countered_us
+                }
+            }
         }
 
         cancel_trigger = {
@@ -3506,7 +3530,7 @@ CHL_countering_bolivias_plan = {
                 BOL = {
                     set_country_flag = {
                         flag = CHL_countered_us
-                        days = 1
+                        days = 3
                         value = 1
                     }
                     clr_country_flag = CHL_trying_to_counter

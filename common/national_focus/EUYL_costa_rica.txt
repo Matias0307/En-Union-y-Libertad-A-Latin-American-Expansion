@@ -340,7 +340,7 @@ focus_tree = {
 			focus = COS_elect_rafael_angel_calderon
 		}
 
-		cost = 5
+		cost = 10
 
 		search_filters = {
 			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY
@@ -392,6 +392,27 @@ focus_tree = {
 			add_political_power = 50
 
 			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			if = {
+				limit = {
+					has_completed_focus = COS_re_elect_leon_cortes
+				}
+				custom_effect_tooltip = COS_the_country_will_become_a_military_dictatorship_tt
+				set_politics = {
+					ruling_party = neutrality
+					elections_allowed = no 
+				}
+
+				add_country_leader_role = {
+					character = COS_leon_cortes_castro
+					promote_leader = yes
+					country_leader = {
+						ideology = despotism
+						traits = { IRQ_nationalist_lawyer nazi_sympathizer ECU_low_public_support }
+						expire = "1965.3.1.1"
+					}
+				}
+			}
 
 			add_trait = {
 				character = COS_leon_cortes_castro
@@ -511,27 +532,6 @@ focus_tree = {
 
 		completion_reward = { ## TODO: make this focus declare costa rica a military dictatorship IF you went with re_elect_leon_cortes | DONE
 			remove_ideas = COS_agitated_communists_2
-			
-			if = {
-				limit = {
-					has_completed_focus = COS_re_elect_leon_cortes
-				}
-				custom_effect_tooltip = COS_the_country_will_become_a_military_dictatorship_tt
-				set_politics = {
-					ruling_party = neutrality
-					elections_allowed = no 
-				}
-
-				add_country_leader_role = {
-					character = COS_leon_cortes_castro
-					promote_leader = yes
-					country_leader = {
-						ideology = despotism
-						traits = { IRQ_nationalist_lawyer nazi_sympathizer ECU_low_public_support }
-						expire = "1965.3.1.1"
-					}
-				}
-			}
 
 			if = {
 				limit = {
@@ -560,6 +560,7 @@ focus_tree = {
 	}
 
 	## Elect Rafael Angel Calderon ##
+	# TODO: FOR BOTH OF THEM, MAKE ELECTIONS OCCUR IN 4 YEARS, THEN AGAIN ANOTHER 4 YEARS, SECOND ONE DO THE HISTORICAL CIVIL WAr mechanic
 	focus = {
 		id = COS_elect_rafael_angel_calderon
 		icon = GFX_COS_rafael_angel_icon
@@ -573,7 +574,7 @@ focus_tree = {
 			focus = COS_re_elect_leon_cortes
 		}
 
-		cost = 5
+		cost = 10
 
 		search_filters = {
 			FOCUS_FILTER_HISTORICAL FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY
@@ -1145,12 +1146,20 @@ focus_tree = {
 
 		cost = 10
 
+		available = {
+			is_in_faction = yes 
+			any_other_country = {
+				CEA_is_central_american = yes 
+				is_in_faction_with = ROOT
+			}
+		}
+
 		search_filters = {
 			FOCUS_FILTER_INDUSTRY
 		}
 
 		completion_reward = {
-			EUYL_add_1_military = yes 
+			EUYL_add_2_military = yes 
 
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
@@ -1192,6 +1201,329 @@ focus_tree = {
 		}
 
 		cost = 5
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_manpower = 6500
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_political_power = 50
+		}
+	}
+
+	## The Echandi-Fernandez Treaty ## | boring path boooo (i deadass don kno what to do lololol))))))))))
+	focus = {
+		id = COS_the_echandi_fernandez_treaty
+		icon = GFX_EUYL_ally_panama
+		x = -1
+		y = 1
+		relative_position_id = COS_assess_our_local_regional_affairs
+		prerequisite = {
+			focus = COS_assess_our_local_regional_affairs
+		}
+		mutually_exclusive = {
+			focus = COS_revenge_for_the_coto_war
+		}
+
+		cost = 7.2
+
+		available = {
+			PAN = {
+				exists = yes 
+				NOT = {
+					has_war_with = ROOT 
+				}
+			}
+		}
+
+		bypass = {
+			PAN = {
+				OR = {
+					exists = no 
+					has_capitulated = yes 
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			PAN = {
+				country_event = {
+					id = venezuela.26 
+					hours = 6
+				}
+			}
+			custom_effect_tooltip = ARG_iftheyaccept
+			effect_tooltip = {
+				add_political_power = 50 
+				add_opinion_modifier = {
+					target = PAN 
+					modifier = VEN_frontline_treaty_signed
+				}
+				PAN = {
+					add_opinion_modifier = {
+						target = ROOT
+						modifier = VEN_frontline_treaty_signed
+					}
+				}
+				set_truce = {
+					target = PAN
+					days = 210
+				}
+			}
+		}
+	}
+
+	## Revenge for the Coto War ##
+	focus = {
+		id = COS_revenge_for_the_coto_war
+		icon = GFX_VEN_attack_panama
+		x = 1
+		y = 1
+		relative_position_id = COS_assess_our_local_regional_affairs
+		prerequisite = {
+			focus = COS_assess_our_local_regional_affairs
+		}
+
+		mutually_exclusive = {
+			focus = COS_the_echandi_fernandez_treaty
+		}
+
+		cost = 6
+
+		available = {
+			has_army_manpower = {
+				size > 24999
+			}
+			NOT = {
+				is_in_faction_with = PAN
+			}
+		}
+
+		bypass = {
+			has_war_with = PAN
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			add_state_core = 1057
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			1057 = {
+				controller = {
+					hidden_effect = {
+						ROOT = {
+							create_wargoal = {
+								target = PREV
+								type = annex_everything
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	## Officialize our Claim over Atlantico ##
+	focus = {
+		id = COS_officialize_our_claim_over_atlantico
+		icon = GFX_CEA_attack_nicaragua_icon
+		x = 1
+		y = 1
+		relative_position_id = COS_revenge_for_the_coto_war
+		prerequisite = {
+			focus = COS_revenge_for_the_coto_war
+		}
+
+		cost = 7.2
+
+		available = {
+			1057 = { is_controlled_by = ROOT }
+			NOT = {
+				is_in_faction_with = NIC
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			add_state_core = 317
+			add_state_core = 1054
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			1054 = {
+				controller = {
+					hidden_effect = {
+						ROOT = {
+							create_wargoal = {
+								target = PREV
+								type = annex_everything
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	## Integrate Northern Colombia ##
+	focus = {
+		id = COS_integrate_northern_colombia
+		icon = GFX_PRU_attack_colombia
+		x = 3
+		y = 1
+		relative_position_id = COS_revenge_for_the_coto_war
+		prerequisite = {
+			focus = COS_revenge_for_the_coto_war
+		}
+
+		cost = 10
+
+		available = {
+			has_army_manpower = {
+				size > 49999
+			}
+			NOT = {
+				is_in_faction_with = COL 
+			}
+		}
+
+		bypass = {
+			OR = {
+				has_war_with = COL 
+				COL = { is_subject_of = ROOT }
+				306 = { is_fully_controlled_by = ROOT }
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			add_state_core = 1092
+			add_state_core = 493
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			create_wargoal = {
+				target = COL
+				type = annex_everything
+			}
+		}
+	}
+
+	## The Crown of the Tropics ##
+	focus = {
+		id = COS_the_crown_of_the_tropics
+		icon = GFX_COS_the_crown_of_the_tropics_icon
+		x = -1
+		y = 1
+		relative_position_id = COS_integrate_northern_colombia
+		prerequisite = {
+			focus = COS_integrate_northern_colombia
+		}
+		prerequisite = {
+			focus = COS_officialize_our_claim_over_atlantico
+		}
+
+		cost = 10
+
+		available = {
+			has_full_control_of_state = 1054
+			has_full_control_of_state = 317
+			has_full_control_of_state = 1056 
+			has_full_control_of_state = 316
+			has_full_control_of_state = 1057
+			has_full_control_of_state = 1092
+			has_full_control_of_state = 493
+		}
+		
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION FOCUS_FILTER_MANPOWER
+		}
+
+		completion_reward = {
+			add_ideas = COS_crown_of_the_tropics_idea
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			set_rule = {
+				can_declare_war_on_same_ideology = yes
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_category_tooltip = COS_crown_of_the_tropics
+		}
+	}
+
+	## Declare War on the Axis Powers ##
+	focus = {
+		id = COS_declare_war_on_the_axis_powers
+		icon = GFX_EUYL_declare_war_axis_icon
+		x = 0
+		y = 4
+		relative_position_id = COS_assess_our_local_regional_affairs
+		prerequisite = {
+			focus = COS_revenge_for_the_coto_war
+			focus = COS_the_echandi_fernandez_treaty
+		}
+
+		cost = 10
+
+		available = {
+			any_allied_country = {
+				any_enemy_country = {
+					is_major = yes 
+					has_government = fascism
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_ARMY_XP FOCUS_FILTER_HISTORICAL 
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
+				limit = {
+					is_major = yes 
+					has_government = fascism 
+				}
+				hidden_effect = {
+					ROOT = {
+						create_wargoal = {
+							target = PREV 
+							type = annex_everything
+						}
+					}
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_war_support = 0.05
+			army_experience = 20
+
+		}
 	}
 
 	## A Change in our History ##

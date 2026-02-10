@@ -5836,6 +5836,100 @@ COS_looming_communist_revolution = {
 	}
 }
 
+COS_crown_of_the_tropics = {
+	COS_integrate_the_state_of_FROM = {
+		icon = generic_confiscation
+
+		state_target = yes 
+
+		target_array = controlled_states 
+
+		target_trigger = {
+			FROM = {
+				NOT = { 
+					is_core_of = ROOT
+				}
+			}
+		}
+
+		on_map_mode = map_and_decisions_view
+
+		visible = {
+			any_other_country = {
+				OR = {
+					original_tag = COL 
+					original_tag = PAN 
+					original_tag = NIC 
+					original_tag = HON 
+					original_tag = ELS 
+					original_tag = GUA 
+				}
+				FROM = {
+					is_core_of = PREV
+				}
+			}
+		}
+
+		cost = 75
+
+		fire_only_once = yes
+
+		complete_effect = {
+			FROM = {
+				add_core_of = ROOT
+			}
+		}
+	}
+
+	COS_employ_prisoners_of_war_from_FROM = {
+		icon = generic_military
+
+		custom_cost_trigger = {
+			command_power > 49
+		}
+
+		custom_cost_text = decision_cost_CP_50
+
+        ai_will_do = {
+            base = 95
+        }
+
+        fire_only_once = yes 
+
+        state_target = yes 
+
+        target_array = controlled_states
+
+        on_map_mode = decision_view_only
+
+        target_trigger = {
+            FROM = {
+                is_fully_controlled_by = ROOT 
+				NOT = {
+					state = 1056
+					state = 316
+				}
+            }
+        }
+
+        complete_effect = {
+            hidden_effect = {
+                add_command_power = -50 
+            }
+			add_manpower = 3000
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+            FROM = {
+                add_dynamic_modifier = {
+                    modifier = VEN_local_mobilization_active
+                    days = 1095
+                }
+            }
+        }
+	}
+}
+
 COS_max_effinger_administration = {
 	COS_promote_local_migration_to_FROM = {
 		icon = GFX_EUYL_some_immigration
