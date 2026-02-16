@@ -363,6 +363,8 @@ focus_tree = {
 				}
 				country_event = cos.9
 			}
+
+			custom_effect_tooltip = PAN_elections_will_occur_in_4_years_tt
 		}
 	}
 
@@ -379,6 +381,15 @@ focus_tree = {
 		}
 
 		cost = 7.2
+
+		available = {
+			NOT = {
+				has_country_leader = {
+					character = COS_rafael_angel_calderon
+					ruling_only = yes
+				}
+			}
+		}
 
 		search_filters = {
 			FOCUS_FILTER_POLITICAL
@@ -590,6 +601,8 @@ focus_tree = {
 				ideology = communism
 				popularity = 0.01
 			}
+
+			custom_effect_tooltip = PAN_elections_will_occur_in_4_years_tt
 		}
 	}
 
@@ -1212,6 +1225,9 @@ focus_tree = {
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
 			add_political_power = 50
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_ideas = COS_costa_rican_irredentism_idea_1
 		}
 	}
 
@@ -1281,6 +1297,72 @@ focus_tree = {
 		}
 	}
 
+	## Develop Coastal Defenses ##
+	focus = {
+		id = COS_develop_coastal_defences
+		icon = GFX_focus_FIN_coastal_defense
+		x = -1
+		y = 1
+		relative_position_id = COS_the_echandi_fernandez_treaty
+		prerequisite = {
+			focus = COS_the_echandi_fernandez_treaty
+		}
+
+		cost = 8
+
+		available = {
+			any_controlled_state = {
+				is_coastal = yes 
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY 
+		}
+
+		completion_reward = {
+			EUYL_add_1_dockyard = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_ideas = EUYL_strengthened_coastal_defences
+		}
+	}
+
+	## Offer Administration Over British Caribbean Territories ##
+	focus = {
+		id = COS_offer_administration_over_british_caribbean_territories
+		icon = GFX_COS_caribbean_administration_icon
+		x = 0
+		y = 1
+		relative_position_id = COS_develop_coastal_defences
+		prerequisite = {
+			focus = COS_develop_coastal_defences
+		}
+
+		cost = 10
+
+		available = {
+			has_navy_size = {
+				size > 14
+			}
+			OR = {
+				is_in_faction_with = ENG 
+				NOT = {
+					has_war_with = ENG
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = COS_unlocks_decisions_to_offer_administration_over_british_territories_in_the_caribbean_tt
+		}
+	}
+
 	## Revenge for the Coto War ##
 	focus = {
 		id = COS_revenge_for_the_coto_war
@@ -1321,6 +1403,11 @@ focus_tree = {
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
 			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			random_other_country = {
+				limit = {
+					controls_state = 1057
+				}
+			}
 			1057 = {
 				controller = {
 					hidden_effect = {
@@ -1367,6 +1454,11 @@ focus_tree = {
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
 			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			random_other_country = {
+				limit = {
+					controls_state = 1054
+				}
+			}
 			1054 = {
 				controller = {
 					hidden_effect = {
@@ -1464,12 +1556,6 @@ focus_tree = {
 
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
-			set_rule = {
-				can_declare_war_on_same_ideology = yes
-			}
-
-			custom_effect_tooltip = CHL_skip_one_line_tt
-
 			unlock_decision_category_tooltip = COS_crown_of_the_tropics
 		}
 	}
@@ -1486,7 +1572,7 @@ focus_tree = {
 			focus = COS_the_echandi_fernandez_treaty
 		}
 
-		cost = 10
+		cost = 8
 
 		available = {
 			any_allied_country = {
@@ -1522,7 +1608,50 @@ focus_tree = {
 
 			add_war_support = 0.05
 			army_experience = 20
+		}
+	}
 
+	## Extremism Isn't Welcome Here ##
+	focus = {
+		id = COS_extremism_isnt_welcome_here
+		icon = GFX_focus_generic_support_the_left_right
+		x = 0
+		y = 1
+		relative_position_id = COS_declare_war_on_the_axis_powers
+		prerequisite = {
+			focus = COS_declare_war_on_the_axis_powers
+		}
+
+		cost = 10
+
+		available = {
+			has_army_manpower = {
+				size > 64999
+			}
+			any_neighbor_country = {
+				NOT = {
+					has_government = fascism
+					has_government = communism
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = COS_costa_rican_irredentism_idea_1
+				add_idea = COS_costa_rican_irredentism_idea_2
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			set_rule = {
+				can_declare_war_on_same_ideology = yes 
+				can_puppet = yes
+			}
 		}
 	}
 
@@ -2013,7 +2142,7 @@ focus_tree = {
 		}
 
 		search_filters = {
-			FOCUS_FILTER_INDUSTRIAL FOCUS_FILTER_MANPOWER FOCUS_FILTER_POLITICAL
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER FOCUS_FILTER_POLITICAL
 		}
 
 		completion_reward = {
