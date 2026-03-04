@@ -1146,6 +1146,217 @@ VEN_political_crisis = { ## need to make custom trigger tooltips for these :/
 			}
         }
     }
+
+    COS_looming_civil_war = {
+        icon = revolt 
+
+        activation = {
+            always = no 
+        }
+
+        is_good = no 
+
+        days_mission_timeout = 135
+
+        available = {
+            NOT = { 
+				any_controlled_state = {
+                    has_dynamic_modifier = {
+                        modifier = BRA_protests
+                    }
+                }
+			}
+        }
+
+        cancel_trigger = {
+            exists = no 
+            has_civil_war = yes 
+        }
+
+        is_good = no 
+
+        complete_effect = {
+            add_stability = 0.01 
+        }
+
+        timeout_effect = {
+            effect_tooltip = {
+                start_civil_war = {
+                    ideology = democratic
+                }
+            }
+
+            if = {
+				limit = {
+					NOT = {
+						has_template = "Milicias"
+					}
+				}
+				hidden_effect = {
+					division_template = { 
+						name = "Milicias" 
+						division_names_group = SPAN_INF_02 
+						is_locked = yes 
+                        template_counter = 3
+						regiments = { 
+							infantry = { x = 0 y = 0 }  
+							infantry = { x = 0 y = 1 } 
+							infantry = { x = 0 y = 2 } 
+						}
+					}
+				}
+			}
+
+            COS_interim_presidency = {
+                set_character_name = "Junta Fundadora de la Segunda República"
+            }
+
+            set_global_flag = COS_the_1948_revolution_flag
+
+            hidden_effect = {
+                news_event = {
+                    id = cos.15
+                    hours = 8
+                    random_hours = 4
+                }
+                every_controlled_state = {
+                    if = {
+                        limit = {
+                            has_dynamic_modifier = {
+                                modifier = BRA_protests
+                            }
+                        }
+                        remove_dynamic_modifier = {
+                            modifier = BRA_protests
+                        }
+                    }
+                }
+                start_civil_war = {
+                    ideology = democratic 
+                    capital = 1056
+                    states = { 1056 }
+                    keep_all_characters = yes
+                    PREV = {  # Original country
+                        if = {
+                            limit = {
+                                has_country_flag = COS_historical_revolution_flag
+                            }
+                            COS_rafael_angel_calderon = {
+                                save_event_target_as = COS_leader_to_promote
+                                set_nationality = prev.PREV
+                            }
+                        }
+                        else = {
+                            COS_otilio_ulate_blanco = {
+                                save_event_target_as = COS_leader_to_promote
+                                set_nationality = prev.PREV
+                            }
+                        }
+                    }
+                    event_target:COS_leader_to_promote = {
+                        promote_character = yes
+                    }
+                }
+                if = {
+                    limit = {
+                        is_ai = yes
+                    }
+                    add_ideas = EUYL_chaos_civil_war_help
+                }
+                random_owned_controlled_state = {
+                    create_unit = {
+                        division = "name = \"Lealistas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+                        owner = ROOT
+                        count = 2
+                    }
+                }
+                random_other_country = {
+                    limit = {
+                        original_tag = COS 
+                        has_government = democratic
+                    }
+                    if = {
+                        limit = {
+                            has_character = COS_otilio_ulate_blanco
+                        }
+                        COS_otilio_ulate_blanco = {
+                            add_corps_commander_role = {
+                                skill = 2
+                                attack_skill = 1
+                                defense_skill = 2
+                                planning_skill = 2
+                                logistics_skill = 2
+                            }
+                        }
+                    }
+                    else = {
+                        COS_rafael_angel_calderon = {
+                            add_corps_commander_role = {
+                                skill = 2
+                                attack_skill = 1
+                                defense_skill = 2
+                                planning_skill = 2
+                                logistics_skill = 2
+                            }
+                        }
+                    }
+                    ## TODO: add load_focus_tree to load the thingy mabob
+                    every_controlled_state = {
+                        create_unit = {
+                            division = "name = \"Milicias Costariccenses\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+                            owner = PREV
+                            count = 4
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    COS_handle_the_protestors_in_FROM = {
+        icon = oppression
+
+        state_target = yes 
+
+        target_array = core_states
+
+        target_trigger = {
+            FROM = {
+                is_fully_controlled_by = ROOT 
+            }
+        }
+
+        visible = {
+            FROM = {
+                has_dynamic_modifier = {
+                    modifier = BRA_protests
+                }
+            }
+            has_active_mission = COS_looming_civil_war
+        }
+
+        available = { has_active_mission = COS_looming_civil_war }
+
+        cancel_trigger = {
+            has_civil_war = yes 
+        }
+
+        cost = 50
+
+        days_remove = 50
+
+        fire_only_once = yes
+
+        modifier = { weekly_manpower = -50 }
+
+        remove_effect = {
+            FROM = {
+                remove_dynamic_modifier = {
+                    modifier = BRA_protests
+                }
+            }
+        }
+    }
 }
 
 VEN_escalantes_advancing_dementia = {

@@ -3258,16 +3258,6 @@ country_event = {
 		}
 		promote_character = COS_leon_cortes_castro
 		add_ideas = CEA_league_of_central_american_dictators
-		custom_effect_tooltip = PAN_elections_will_occur_in_4_years_tt
-
-		hidden_effect = {
-			country_event = { ## TODO: Make 1940 election event
-				id = pan.14
-				days = 1440
-				random_days = 35
-				random_hours = 12
-			}
-		}
 	}
 
 	option = { ## Ahistorical -  Octavio Beeche Argüello
@@ -3284,16 +3274,6 @@ country_event = {
 			ideology = democratic
 			long_name = "Partido Nacional"
 			name = "PN"
-		}
-		custom_effect_tooltip = PAN_elections_will_occur_in_4_years_tt
-
-		hidden_effect = {
-			country_event = { ## TODO: Make 1940 election event
-				id = pan.14
-				days = 1440
-				random_days = 35
-				random_hours = 12
-			}
 		}
 	}
 }
@@ -3352,6 +3332,9 @@ country_event = {
 		}
 
 		hidden_effect = {
+			set_temp_variable = {
+				COS_sup_rev = COS_support_for_the_revolution_var
+			}
 			if = {
 				limit = {
 					NOT = {
@@ -3369,55 +3352,161 @@ country_event = {
 					}
 				}
 			}
-			start_civil_war = {
-				ideology = communism 
-				capital = 1056
-				states = { 1056 }
-				keep_all_characters = yes
-				PREV = {  # Original country
-					COS_carmen_lyra = { # Character
-						set_nationality = PREV.PREV
-						# Transfers to breakaway
-					}
-					COS_manuel_mora_valverde = {
-						set_nationality = prev.PREV
-					}
-				}
-				promote_character = COS_carmen_lyra
-			}
 			if = {
 				limit = {
-					is_ai = yes
+					NOT = {
+						has_country_flag = COS_player_initiated_communist_uprising_flag
+					}
 				}
-				add_ideas = EUYL_chaos_civil_war_help
-			}
-			random_owned_controlled_state = {
-				create_unit = {
-                    division = "name = \"Lealistas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
-                    owner = ROOT
-                    count = 2
-                }
-			}
-			random_other_country = {
-				limit = {
-					original_tag = COS 
-					has_government = communism
+				start_civil_war = {
+					ideology = communism 
+					capital = 1056
+					states = { 1056 }
+					keep_all_characters = yes
+					PREV = {  # Original country
+						COS_carmen_lyra = { # Character
+							set_nationality = PREV.PREV
+							# Transfers to breakaway
+						}
+						COS_manuel_mora_valverde = {
+							set_nationality = prev.PREV
+						}
+					}
+					promote_character = COS_carmen_lyra
 				}
-				COS_manuel_mora_valverde = {
-                    add_corps_commander_role = {
-                        skill = 2
-                        attack_skill = 1
-                        defense_skill = 2
-                        planning_skill = 2
-                        logistics_skill = 2
-                    }
-                }
-				## TODO: add load_focus_tree to load the thingy mabob
-				every_controlled_state = {
+				if = {
+					limit = {
+						is_ai = yes
+					}
+					add_ideas = EUYL_chaos_civil_war_help
+				}
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"Lealistas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+						owner = ROOT
+						count = 2
+					}
+				}
+				random_other_country = {
+					limit = {
+						original_tag = COS 
+						has_government = communism
+					}
+					COS_manuel_mora_valverde = {
+						add_corps_commander_role = {
+							skill = 2
+							attack_skill = 1
+							defense_skill = 2
+							planning_skill = 2
+							logistics_skill = 2
+						}
+					}
+					## TODO: add load_focus_tree to load the thingy mabob
+					every_controlled_state = {
+						create_unit = {
+							division = "name = \"Milicias Costariccenses\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+							owner = PREV
+							count = 4
+						}
+					}
+				}
+			}
+			else = { ## player-side civil war
+				start_civil_war = {
+					ideology = ROOT 
+					ruling_party = communism
+					capital = 316
+					states = { 316 }
+					keep_all_characters = yes
+					PREV = {  # Original country
+						COS_leon_cortes_castro = {
+							set_nationality = prev.PREV
+						}
+						COS_max_effinger = {
+							set_nationality = prev.PREV
+						}
+					}
+					promote_character = COS_leon_cortes_castro
+				}
+				if = {
+					limit = {
+						is_ai = yes
+					}
+					add_ideas = EUYL_chaos_civil_war_help
+				}
+				if = {
+					limit = {
+						has_completed_focus = COS_with_the_revolution
+						NOT = {
+							has_country_leader = {
+								character = COS_carmen_lyra
+								ruling_only = yes 
+							}
+						}
+					}
+					promote_character = COS_carmen_lyra
+				}
+				else = {
+					promote_character = COS_manuel_mora_valverde
+				}
+				1056 = {
 					create_unit = {
 						division = "name = \"Milicias Costariccenses\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
-						owner = PREV
-						count = 4
+						owner = ROOT
+						count = 2
+					}
+				}
+				if = {
+					limit = {
+						check_variable = {
+							COS_sup_rev > 64
+						}
+					}
+					1056 = {
+						create_unit = {
+							division = "name = \"Milicias Costariccenses\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+							owner = ROOT
+						}
+					}
+					add_equipment_to_stockpile = {
+						type = infantry_equipment
+						amount = 800
+					}
+				}
+				if = {
+					limit = {
+						1056 = {
+							has_state_flag = COS_trained_civilians_flag
+						}
+					}
+					1056 = {
+						create_unit = {
+							division = "name = \"Milicias Costariccenses\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+							owner = ROOT
+						}
+					}
+				}
+				random_other_country = {
+					limit = {
+						original_tag = COS 
+						NOT = { has_government = communism }
+					}
+					COS_max_effinger = {
+						add_corps_commander_role = {
+							skill = 2
+							attack_skill = 1
+							defense_skill = 2
+							planning_skill = 2
+							logistics_skill = 2
+						}
+					}
+					## TODO: add load_focus_tree to load the thingy mabob
+					316 = {
+						create_unit = {
+							division = "name = \"Lealistas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+							owner = PREV
+							count = 4
+						}
 					}
 				}
 			}
@@ -3524,6 +3613,7 @@ country_event = {
 	}
 }
 
+## These elections also occur if you go through the other side of the democratic tree. Why? cuz im a bit lazy i will admit
 ## [GetYear] Elections (Historically this is representing the 1944 elections)
 country_event = {
 	id = cos.10 
@@ -3532,6 +3622,16 @@ country_event = {
 	picture = GFX_report_event_election_vote
 
 	is_triggered_only = yes 
+
+	immediate = {
+		if = {
+			limit = {
+				has_completed_focus = COS_introduce_a_modern_electoral_code
+			}
+			add_stability = 0.03
+			add_political_power = 50
+		}
+	}
 
 	immediate = {
 		hidden_effect = {
@@ -3559,7 +3659,35 @@ country_event = {
 		}
 		promote_character = COS_teodoro_picado_michalski
 
+		set_country_flag = COS_chose_teodoro_flag
+
+		set_party_name = {
+			ideology = democratic
+			long_name = "Bloque de la Victoria"
+			name = "Bloque de la Victoria"
+		}
+
 		custom_effect_tooltip = PAN_elections_will_occur_in_4_years_tt
+
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_government = democratic
+					}
+				}
+				set_politics = {
+					ruling_party = democratic
+					elections_allowed = yes 
+					election_frequency = 48
+				}
+			}
+			country_event = {
+				id = cos.11 
+				days = 1290
+				random_days = 200
+			}
+		}
 	}
 
 	option = { ## Leon Cortes 
@@ -3583,6 +3711,13 @@ country_event = {
 				}
 			}
 			custom_effect_tooltip = PAN_elections_will_occur_in_4_years_tt
+			hidden_effect = {
+				country_event = {
+					id = cos.11 
+					days = 1290
+					random_days = 200
+				}
+			}
 		}
 	}
 
@@ -3596,7 +3731,55 @@ country_event = {
 		}
 		promote_character = COS_rafael_angel_calderon
 
+		set_party_name = {
+			ideology = democratic
+			long_name = "Bloque de la Victoria"
+			name = "Bloque de la Victoria"
+		}
+
 		custom_effect_tooltip = PAN_elections_will_occur_in_4_years_tt
+
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_government = democratic
+					}
+				}
+				set_politics = {
+					ruling_party = democratic
+					elections_allowed = yes 
+					election_frequency = 48
+				}
+			}
+			country_event = {
+				id = cos.11 
+				days = 1290
+				random_days = 200
+			}
+		}
+	}
+
+	option = { ## Manuel Mora Valverde
+		name = "Manuel Mora Valverde"
+		trigger = {
+			has_idea = COS_manuel_mora_valverde_idea
+		}
+
+		set_politics = {
+			ruling_party = communism
+			elections_allowed = yes 
+			election_frequency = 48
+		}
+
+		promote_character = COS_manuel_mora_valverde
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		add_popularity = {
+			ideology = communism
+			popularity = 0.15
+		}
 	}
 }
 
@@ -3609,8 +3792,315 @@ country_event = {
 
 	is_triggered_only = yes 
 
+	immediate = {
+		if = {
+			limit = {
+				has_completed_focus = COS_introduce_a_modern_electoral_code
+			}
+			add_stability = 0.03
+			add_political_power = 50
+		}
+	}
+
+	## BOTH OPTIONS LEAD TO VIOLENCE ESCALATIONS AND WILL HAVE GENERIC MECHANIC TO PREVENT CIVIL WAR
+
+	option = { ##  	Otilio Ulate Blanco || will trigger historical event of election results being overturned
+		name = "Otilio Ulate Blanco"
+		
+		promote_character = COS_otilio_ulate_blanco
+
+		set_party_name = {
+			ideology = democratic 
+			long_name = "Compactación Nacional"
+			name = "Compactación Nacional"
+		}
+
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_government = democratic
+					}
+				}
+				set_politics = {
+					ruling_party = democratic
+					elections_allowed = yes 
+					election_frequency = 48
+				}
+			}
+			country_event = {
+				id = cos.12 ## Overturned elections
+				days = 7
+				random_days = 21
+			}
+		}
+	}
+
+	option = { ## Rafael Angel Calderon || a-historical: will trigger event of opposition claiming electoral fraud
+		name = "Rafael Ángel Calderón"
+		trigger = {
+			NOT = {
+				has_country_leader = {
+					character = COS_rafael_angel_calderon
+					ruling_only = yes 
+				}
+			}
+		}
+
+		promote_character = COS_rafael_angel_calderon
+
+		set_party_name = {
+			ideology = democratic
+			long_name = "Bloque de la Victoria"
+			name = "Bloque de la Victoria"
+		}
+
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_government = democratic
+					}
+				}
+				set_politics = {
+					ruling_party = democratic
+					elections_allowed = yes 
+					election_frequency = 48
+				}
+			}
+			country_event = {
+				id = cos.13 ## claim frauiid
+				days = 7
+				random_days = 21
+			}
+		}
+	}
+
+	option = { ## Teodoro Picado Michalski || a-historical: will trigger event of opposition claiming electoral fraud
+		name = "Teodoro Picado Michalski"
+		trigger = {
+			NOT = {
+				has_country_flag = COS_chose_teodoro_flag
+			}
+		}
+		promote_character = COS_teodoro_picado_michalski
+
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_government = democratic
+					}
+				}
+				set_politics = {
+					ruling_party = democratic
+					elections_allowed = yes 
+					election_frequency = 48
+				}
+			}
+			country_event = {
+				id = cos.13 ## claim frauiid
+				days = 7
+				random_days = 21
+			}
+		}
+	}
+
+	option = { ## Manuel Mora Valverde (only available if he was selected in the previous elections
+		name = "Manuel Mora Valverde"
+		trigger = {
+			has_government = communism
+		}
+
+		add_popularity = {
+			ideology = communism
+			popularity = 0.02
+		}
+
+		hidden_effect = {
+			country_event = {
+				id = cos.13 ## claim frauiid
+				days = 7
+				random_days = 21
+			}
+		}
+	}
+}
+
+## Election Results Overturned ##
+country_event = {
+	id = cos.12
+	title = cos.12.t 
+	desc = cos.12.d 
+	picture = GFX_report_event_generic_conference
+
+	is_triggered_only = yes 
+
 	option = {
-		name = 
+		name = cos.12.a 
+
+		add_country_leader_role = {
+			character = COS_interim_presidency
+			promote_leader = yes
+			country_leader = {
+				ideology = liberalism
+				traits = { BRA_disorganized_leadership }
+				expire = "1965.3.1.1"
+			}
+		}
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		add_stability = -0.05
+
+		set_country_flag = COS_historical_revolution_flag
+
+		custom_effect_tooltip = COS_the_people_of_costa_rica_will_not_like_this_tt
+
+		hidden_effect = {
+			country_event = {
+				id = cos.14 ## Violence Erupts in Costa Rica
+				days = 7
+				random_days = 21
+			}
+		}
+	}
+}
+
+## Opposition Claims Electoral Fraud 
+country_event = {
+	id = cos.13
+	title = cos.13.t 
+	desc = cos.13.d 
+	picture = GFX_report_event_generic_parliament
+
+	is_triggered_only = yes 
+
+	option = {
+		name = cos.13.a 
+
+		add_political_power = -25
+
+		add_stability = -0.03 
+
+		set_country_flag = COS_a_historical_revolution_flag
+
+		custom_effect_tooltip = COS_the_people_of_costa_rica_will_not_like_this_tt
+
+		hidden_effect = {
+			country_event = {
+				id = cos.14 ## Violence Erupts in Costa Rica
+				days = 7
+				random_days = 21
+			}
+		}
+	}
+}
+
+## Violence Erupts in Costa Rica
+country_event = {
+	id = cos.14
+	title = cos.14.t 
+	desc = cos.14.d 
+	picture = GFX_report_event_generic_riot
+
+	is_triggered_only = yes 
+
+	option = {
+		name = cos.14.a 
+
+		add_stability = -0.15
+
+		custom_effect_tooltip = COS_protests_will_erupt_nationwide_failure_to_calm_the_people_will_result_in_a_civil_war_tt
+
+		activate_mission = COS_looming_civil_war
+
+		hidden_effect = {
+			every_core_state = {
+				add_dynamic_modifier = {
+					modifier = BRA_protests
+				}
+			}
+		}
+	}
+}
+
+## The Costa Rican Civil War of [GetYear] (historically the 1948) ##
+news_event = {
+	id = cos.15
+	title = cos.15.t 
+	desc = cos.15.d 
+	picture = GFX_COS_1948_civil_war_news_pic
+
+	major = yes 
+	is_triggered_only = yes 
+
+	option = {
+		name = cos.15.a 
+		trigger = {
+			original_tag = COS 
+		}
+	}
+
+	option = {
+		name = cos.15.b 
+		trigger = {
+			NOT = {
+				original_tag = COS
+			}
+		}
+	}
+}
+
+## Communist Party takes Control of the Country ##
+country_event = {
+	id = cos.16
+	title = cos.16.t 
+	desc = cos.16.d 
+	picture = GFX_COS_communists_img
+
+	is_triggered_only = yes 
+
+	option = {
+		name = cos.16.a 
+		if = {
+			limit = { ## this is Carmen Lyra's path basically
+				NOT = {
+					has_government = communism
+				}
+			}
+			set_politics = {
+				ruling_party = communism 
+				elections_allowed = no 
+			}
+
+			if = {
+				limit = {
+					NOT = {
+						has_country_leader = {
+							character = COS_carmen_lyra
+							ruling_only = yes 
+						}
+					}
+				}
+
+				promote_character = COS_carmen_lyra
+			}
+		}
+
+		add_popularity = {
+			ideology = communism
+			popularity = 0.04
+		}
+
+		add_political_power = 50
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		add_timed_idea = {
+			idea = COS_government_in_a_transitionary_phase
+			days = 365
+		}
 	}
 }
 

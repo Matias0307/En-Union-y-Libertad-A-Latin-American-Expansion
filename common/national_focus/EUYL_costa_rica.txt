@@ -138,7 +138,7 @@ focus_tree = {
 	## Octavio Beeche Takes Power ##
 	focus = {
 		id = COS_octavio_beeche_takes_power
-		icon = GFX_
+		icon = GFX_COS_octavio_beeche_takes_power_icon
 		x = -6
 		y = 1
 		relative_position_id = COS_the_1936_elections
@@ -166,6 +166,147 @@ focus_tree = {
 			add_political_power = 10
 
 			add_stability = 0.01
+
+			custom_effect_tooltip = PAN_elections_will_occur_in_4_years_tt
+
+			hidden_effect = {
+				country_event = {
+					id = cos.10 
+					days = 1380
+					random_days = 180
+				}
+			}
+		}
+	}
+
+	## Limit the Persecutions ##
+	focus = {
+		id = COS_limit_the_persecutions
+		icon = GFX_focus_generic_worker_administration
+		x = 0
+		y = 1
+		relative_position_id = COS_octavio_beeche_takes_power
+		prerequisite = {
+			focus = COS_octavio_beeche_takes_power
+		}
+
+		cost = 7.2
+
+		search_filters = {
+			FOCUS_FILTER_STABILITY FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			add_stability = 0.03
+
+			add_political_power = 50
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_popularity = {
+				ideology = fascism 
+				popularity = 0.05
+			}
+			add_popularity = {
+				ideology = communism
+				popularity = 0.07
+			}
+		}
+	}
+
+	## Work closely with the People's Vanguard Party 
+	focus = {
+		id = COS_work_closely_with_the_peoples_vanguard_party
+		icon = GFX_COS_cooperate_with_vanguard_icon
+		x = -1
+		y = 1
+		relative_position_id = COS_limit_the_persecutions
+		prerequisite = {
+			focus = COS_limit_the_persecutions
+		}
+
+		cost = 10
+
+		available = {
+			has_civil_war = no 
+			NOT = {
+				has_completed_focus = COS_stir_up_nazi_sympathies
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_STABILITY FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			add_popularity = {
+				ideology = communism
+				popularity = 0.05
+			}
+
+			add_stability = 0.05
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = EUYL_people_will_take_up_the_streets_to_protest_tt
+			capital_scope = {
+				add_dynamic_modifier = {
+					modifier = BRA_protests
+					days = 240
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = COS_manuel_mora_valverde_idea
+
+			custom_effect_tooltip = COS_appointing_manuel_mora_will_unlock_him_as_a_candidate_in_the_elections_tt
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_category_tooltip = COS_crackdown_on_fascism
+
+			custom_effect_tooltip = COS_these_decisions_will_allow_you_to_remove_nazi_sympathizers_from_the_country_tt
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = COS_a_series_of_social_gurantees_will_be_impulsed_tt
+			activate_mission = COS_create_the_university_of_costa_rica
+			activate_mission = COS_create_the_ccss_mis
+			activate_mission = COS_establish_the_ley_de_trabajo
+
+			custom_effect_tooltip = COS_these_missions_will_be_displayed_under_the_crackdown_on_fascism_decision_category_tt
+		}
+	}
+
+	## Introduce a Modern Electoral Code ##
+	focus = {
+		id = COS_introduce_a_modern_electoral_code
+		icon = GFX_COS_new_electoral_code_icon
+		x = 1
+		y = 3
+		relative_position_id = COS_limit_the_persecutions
+		prerequisite = {
+			focus = COS_limit_the_persecutions
+		}
+
+		cost = 8
+
+		available = {
+			has_civil_war = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = COS_each_election_will_give_you_stability_and_pp_tt
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_political_power = 20
 		}
 	}
 
@@ -668,6 +809,8 @@ focus_tree = {
 			custom_effect_tooltip = available_political_advisor
 			show_ideas_tooltip = COS_manuel_mora_valverde_idea
 
+			custom_effect_tooltip = COS_appointing_manuel_mora_will_unlock_him_as_a_candidate_in_the_elections_tt
+
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
 			unlock_decision_category_tooltip = COS_crackdown_on_fascism
@@ -717,18 +860,79 @@ focus_tree = {
 		}
 	}
 
-	## Join the Allies ##
+	## Ally with the Soviets ##
 	focus = {
-		id = COS_join_the_allies
-		icon = GFX_COS_join_allies_icon
-		x = -5
+		id = COS_ally_with_the_soviets
+		icon = GFX_focus_chi_mission_to_the_soviet_union
+		x = -11
 		y = 2
 		relative_position_id = COS_cooperate_with_manuel_mora
 		prerequisite = {
 			focus = COS_cooperate_with_manuel_mora
+			focus = COS_work_closely_with_the_peoples_vanguard_party
+		}
+		mutually_exclusive = {
+			focus = COS_join_the_allies
+			focus = COS_maintain_neutrality_in_foreign_affairs
+		}
+
+		cost = 5
+		
+		available = {
+			has_government = communism
+			NOT = {
+				has_idea = COS_max_effinger
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					SOV = {
+						exists = yes 
+						has_government = communism 
+					}
+				}
+				SOV = {
+					country_event = {
+						id = generic.2 
+						hours = 4
+					}
+				}
+			}
+			else = {
+				random_other_country = {
+					limit = {
+						is_major = yes 
+						has_government = communism 
+					}
+					country_event = {
+						id = generic.2 
+						hours = 4
+					}
+				}
+			}
+		}
+	}
+
+	## Join the Allies ##
+	focus = {
+		id = COS_join_the_allies
+		icon = GFX_COS_join_allies_icon
+		x = -4
+		y = 2
+		relative_position_id = COS_cooperate_with_manuel_mora
+		prerequisite = {
+			focus = COS_cooperate_with_manuel_mora
+			focus = COS_introduce_a_modern_electoral_code
 		}
 		mutually_exclusive = {
 			focus = COS_maintain_neutrality_in_foreign_affairs
+			focus = COS_ally_with_the_soviets
 		}
 
 		cost = 10
@@ -819,6 +1023,72 @@ focus_tree = {
 		}
 	}
 
+	## Labor Reform for Military Factory Workers ##
+	focus = {
+		id = COS_labor_reform_for_military_factory_workers
+		icon = GFX_focus_ICE_embrace_the_workers_revolution
+		x = -5
+		y = 1
+		relative_position_id = COS_ally_with_the_soviets
+		prerequisite = {
+			focus = COS_ally_with_the_soviets
+			#focus = COS_cooperate_with_manuel_mora other | focus here lol
+		}
+
+		cost = 10 
+
+		available = {
+			OR = {
+				has_war_support > 0.7 
+				has_war = yes 
+				AND = {
+					has_completed_focus = COS_founded_the_unviersity_of_costa_rica
+					has_completed_focus = COS_create_the_CCSS
+					has_completed_focus = COS_pass_the_ley_de_trabajo
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_MANPOWER FOCUS_FILTER_WAR_SUPPORT
+		}
+
+		completion_reward = {
+			add_war_support = 0.05
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = CEA_if_war_support_over_70_tt
+
+			effect_tooltip = {
+				EUYL_add_2_military = yes
+			}
+
+			custom_effect_tooltip = CEA_if_war_support_below_70_tt
+
+			effect_tooltip = {
+				EUYL_add_1_military = yes
+			}
+
+			hidden_effect = {
+				if = {
+					limit = {
+						has_war_support > 0.7
+					}
+					EUYL_add_2_military = yes
+				} else = {
+					EUYL_add_1_military = yes
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_ideas = COS_costa_rican_irredentism_idea_1
+		}
+	}
+
+	## 
+
 	## Joint Military Program ##
 	focus = {
 		id = COS_joint_military_program
@@ -840,6 +1110,9 @@ focus_tree = {
 			OR = {
 				has_war = yes 
 				has_war_support > 0.56
+			}
+			NOT = {
+				has_global_flag = COS_the_1948_revolution_flag
 			}
 		}
 
@@ -1061,6 +1334,7 @@ focus_tree = {
 		}
 		mutually_exclusive = {
 			focus = COS_join_the_allies
+			focus = COS_ally_with_the_soviets
 		}
 
 		cost = 10
@@ -1221,7 +1495,7 @@ focus_tree = {
 	focus = {
 		id = COS_assess_our_local_regional_affairs
 		icon = GFX_CEA_political_reforms_icon
-		x = -4
+		x = -3
 		y = 1
 		relative_position_id = COS_maintain_neutrality_in_foreign_affairs
 		prerequisite = {
@@ -1402,6 +1676,9 @@ focus_tree = {
 			}
 			NOT = {
 				is_in_faction_with = PAN
+			}
+			NOT = {
+				has_global_flag = COS_the_1948_revolution_flag
 			}
 		}
 
@@ -1706,7 +1983,7 @@ focus_tree = {
 			FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT
 		}
 
-		completion_reward = { ## if fascism < 15%, start communist civil war (against player) mechanic
+		completion_reward = { ## if fascism < 20%, start communist civil war (against player) mechanic
 			set_politics = {
 				ruling_party = fascism
 				elections_allowed = no 
@@ -1738,7 +2015,7 @@ focus_tree = {
 
 			if = {
 				limit = {
-					fascism < 0.15
+					fascism < 0.2
 				}
 				country_event = cos.9
 			}
@@ -1933,6 +2210,10 @@ focus_tree = {
 	}
 
 	## A-HISTORICAL COMMUNISM ## 
+	# Player has a year until revolution starts
+	# will have a var called % support for revolution
+	# Mora will focus on REDUCING this percent to get people to transition in a peaceful ordeal
+	# Lyra will focus on INCREASING this percent to get people to go through the revolution
 	focus = {
 		id = COS_tend_to_the_people_of_costa_rica
 		icon = GFX_COS_tend_to_the_people_of_costa_rica_icon
@@ -1950,6 +2231,297 @@ focus_tree = {
 
 		search_filters = {
 			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			add_popularity = {
+				ideology = communism 
+				popularity = 0.02
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			activate_mission = COS_the_great_leap_forward_mis
+
+			set_country_flag = COS_player_initiated_communist_uprising_flag
+		}
+	}
+
+	## With the Revolution ## || mut exclusive with manuel mora
+	focus = {
+		id = COS_with_the_revolution
+		icon = GFX_COS_carmen_lyra_leader_icon
+		x = -1
+		y = 1
+		relative_position_id = COS_tend_to_the_people_of_costa_rica
+		prerequisite = {
+			focus = COS_tend_to_the_people_of_costa_rica
+		}
+
+		mutually_exclusive = {
+			focus = COS_change_in_a_different_way
+		}
+
+		cost = 5
+
+		available = {
+			has_active_mission = COS_the_great_leap_forward_mis
+		}
+
+		bypass = {
+			has_civil_war = yes 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_POLITICAL_CHARACTER
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = COS_carmen_lyra_will_take_charge_of_the_revolution_tt
+
+			custom_effect_tooltip = COS_add_3_revolution_support_tt
+			add_to_variable = {
+				COS_support_for_the_revolution_var = 3
+			}
+			clamp_variable = {
+				var = COS_support_for_the_revolution_var
+				min = 0
+				max = 100
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = COS_disrupt_government_functionality_in_FROM
+			unlock_decision_tooltip = COS_arm_the_civilians_in_FROM
+			unlock_decision_tooltip = COS_establish_a_base_of_operations
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			promote_character = COS_carmen_lyra
+		}
+	}
+
+	## Change in a Different Way ##
+	focus = {
+		id = COS_change_in_a_different_way
+		icon = GFX_COS_manuel_mora_leader_icon
+		x = 1
+		y = 1
+		relative_position_id = COS_tend_to_the_people_of_costa_rica
+		prerequisite = {
+			focus = COS_tend_to_the_people_of_costa_rica
+		}
+
+		mutually_exclusive = {
+			focus = COS_with_the_revolution
+		}
+
+		cost = 5
+
+		available = {
+			has_active_mission = COS_the_great_leap_forward_mis
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_POLITICAL_CHARACTER
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = COS_manuel_mora_will_take_charge_of_revolution_tt
+
+			add_political_power = 25
+
+			add_popularity = {
+				ideology = communism
+				popularity = 0.02
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = COS_spread_support_in_FROM
+			unlock_decision_tooltip = COS_gain_traction_at_the_factories
+			unlock_decision_tooltip = COS_push_for_elections
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			effect_tooltip = {
+				promote_character = COS_manuel_mora_valverde
+			}
+		}
+	}
+
+	## Crush the Fascists ##
+	focus = {
+		id = COS_crush_the_fascists
+		icon = GFX_focus_generic_communism_anti_fascism
+		x = -1
+		y = 1
+		relative_position_id = COS_change_in_a_different_way
+		prerequisite = {
+			focus = COS_change_in_a_different_way
+			focus = COS_with_the_revolution
+		}
+
+		cost = 6
+
+		available = {
+			has_government = communism 
+			NOT = {
+				has_completed_focus = COS_stir_up_nazi_sympathies
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL 
+		}
+
+		completion_reward = {
+			add_political_power = 50
+
+			add_popularity = {
+				ideology = communism
+				popularity = 0.03
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = EUYL_people_will_take_up_the_streets_to_protest_tt
+			capital_scope = {
+				add_dynamic_modifier = {
+					modifier = BRA_protests
+					days = 180
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_category_tooltip = COS_crackdown_on_fascism
+
+			custom_effect_tooltip = COS_these_decisions_will_allow_you_to_remove_nazi_sympathizers_from_the_country_tt
+		}
+	}
+
+	## Centralize the Party ##
+	focus = {
+		id = COS_centralize_the_party
+		icon = GFX_focus_generic_communist
+		x = 0
+		y = 1
+		relative_position_id = COS_crush_the_fascists
+		prerequisite = {
+			focus = COS_crush_the_fascists
+		}
+
+		cost = 8
+
+		available = {
+			NOT = {
+				OR = {
+					has_idea = COS_nazi_sympathizers
+					has_idea = COS_nazi_sympathizers_2
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			add_stability = 0.05
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_ideas = COS_peoples_vanguard_party_1
+		}
+	}
+
+	## A Collectivized Society ##
+	focus = {
+		id = COS_a_collectivized_society
+		icon = GFX_focus_generic_communist_industry
+		x = -1
+		y = 1
+		relative_position_id = COS_centralize_the_party
+		prerequisite = {
+			focus = COS_centralize_the_party
+		}
+
+		cost = 10
+
+		available = {
+			NOT = {
+				has_idea = COS_government_in_a_transitionary_phase
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = COS_if_communist_support_is_over_65_tt
+
+			effect_tooltip = {
+				EUYL_add_2_civilian = yes
+			}
+
+			custom_effect_tooltip = COS_if_communist_support_is_below_65_tt
+
+			effect_tooltip = {
+				EUYL_add_1_civilian = yes 
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			swap_ideas = {
+				remove_idea = COS_peoples_vanguard_party_1
+				add_idea = COS_peoples_vanguard_party_2
+			}
+
+			hidden_effect = {
+				IF = {
+					limit = {
+						communism > 0.65 
+					}
+					EUYL_add_2_civilian = yes 
+				}
+				else = {
+					EUYL_add_1_civilian = yes 
+				}
+			}
+		}
+	}
+
+	## Intellectual Equality for All ##
+	focus = {
+		id = COS_intellectual_equality_for_all
+		icon = GFX_focus_generic_socialist_science
+		x = 1
+		y = 1
+		relative_position_id = COS_centralize_the_party
+		prerequisite = {
+			focus = COS_centralize_the_party
+		}
+
+		cost = 10
+
+		available = {
+			NOT = {
+				has_idea = COS_government_in_a_transitionary_phase
+			}
+			OR = {
+				communism > 0.7
+				num_of_factories > 11
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+
+		completion_reward = {
+			add_research_slot = 1
 		}
 	}
 
@@ -1971,6 +2543,7 @@ focus_tree = {
 			NOT = {
 				has_active_mission = COS_1936_elections_mis
 			}
+			has_character = COS_max_effinger
 		}
 
 		search_filters = {
@@ -2154,6 +2727,7 @@ focus_tree = {
 			NOT = {
 				has_completed_focus = COS_cooperate_with_manuel_mora
 				has_completed_focus = COS_tend_to_the_people_of_costa_rica
+				has_completed_focus = COS_work_closely_with_the_peoples_vanguard_party
 			}
 		}
 

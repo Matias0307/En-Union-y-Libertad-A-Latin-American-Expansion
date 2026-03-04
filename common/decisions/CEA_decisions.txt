@@ -5527,6 +5527,8 @@ COS_crackdown_on_fascism = {
 			civilian_factory_use = 1
 		}
 
+		fire_only_once = yes
+
 		remove_effect = {
 			every_core_state = {
 				limit = {
@@ -6065,6 +6067,429 @@ COS_max_effinger_administration = {
 					add_stability = -0.01
 				}
 				75 = { }
+			}
+		}
+	}
+}
+
+COS_the_leap_forward = {
+	COS_the_great_leap_forward_mis = {
+		priority = 50
+		icon = generic_prepare_civil_war
+
+		activation = {
+			always = no 
+		}
+
+		is_good = no
+
+		days_mission_timeout = 365
+
+		available = {
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = COS_revolution_support_at_100_tt
+					check_variable = {
+						COS_support_for_the_revolution_var > 99
+					}
+				}
+				has_country_flag = COS_communist_party_victorious_in_elections_flag
+			}
+		}
+
+		cancel_trigger = {
+			OR = {
+				has_civil_war = yes 
+				has_government = communism 
+			}
+		}
+
+		complete_effect = {
+			add_popularity = {
+				ideology = communism
+				popularity = 0.03
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			country_event = cos.16
+		}
+
+		timeout_effect = {
+			country_event = cos.5
+		}
+	}
+	## DECISION SET RELATED TO CARMEN LYRA (REVOLUTION)
+	COS_disrupt_government_functionality_in_FROM = {
+		icon = generic_confiscation
+
+		state_target = yes 
+
+		target_array = core_states 
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+			}
+		}
+
+		available = {
+			has_active_mission = COS_the_great_leap_forward_mis
+		}
+
+		on_map_mode = map_and_decisions_view
+
+		visible = {
+			has_completed_focus = COS_with_the_revolution ## Lyra path
+		}
+
+		cost = 25
+
+		days_remove = 70
+
+		cancel_trigger = {
+			OR = {
+				has_civil_war = yes 
+				has_government = communism
+			}
+		}
+
+		modifier = {
+			political_power_factor = -0.1
+		}
+
+		remove_effect = {
+			random_list = {
+				70 = {
+					custom_effect_tooltip = COS_add_5_revolution_support_tt
+					add_to_variable = {
+						COS_support_for_the_revolution_var = 5
+					}
+					clamp_variable = {
+						var = COS_support_for_the_revolution_var
+						min = 0
+						max = 100
+					}
+				}
+				30 = {
+					custom_effect_tooltip = COS_add_10_revolution_support_tt
+					add_to_variable = {
+						COS_support_for_the_revolution_var = 10
+					}
+					clamp_variable = {
+						var = COS_support_for_the_revolution_var
+						min = 0
+						max = 100
+					}
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_popularity = {
+				ideology = communism
+				popularity = 0.02
+			}
+		}
+	}
+
+	COS_arm_the_civilians_in_FROM = {
+		icon = generic_industry
+
+		state_target = yes 
+
+		targets = {
+			1056 
+		}
+
+		available = {
+			has_active_mission = COS_the_great_leap_forward_mis
+		}
+
+		on_map_mode = map_and_decisions_view
+
+		visible = {
+			has_completed_focus = COS_with_the_revolution ## Lyra path
+		}
+
+		custom_cost_text = BRA_pol_10_and_man_2500
+
+        custom_cost_trigger = {
+            has_manpower > 2499
+            has_political_power > 9
+        }
+
+        complete_effect = {
+            hidden_effect = {
+				add_manpower = -2500
+            	add_political_power = -10
+			}
+        }
+
+		fire_only_once = yes
+
+		days_remove = 30
+
+		cancel_trigger = {
+			OR = {
+				has_civil_war = yes 
+				has_government = communism
+			}
+		}
+
+		remove_effect = {
+			custom_effect_tooltip = COS_add_10_revolution_support_tt
+			add_to_variable = {
+				COS_support_for_the_revolution_var = 10
+			}
+			clamp_variable = {
+				var = COS_support_for_the_revolution_var
+				min = 0
+				max = 100
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = BRA_extra_militia_will_spawn_in_state_tt
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_popularity = {
+				ideology = communism
+				popularity = 0.03
+			}
+
+			hidden_effect = {
+				1056 = {
+					set_state_flag = COS_trained_civilians_flag
+				}
+			}
+		}
+	}
+
+	COS_establish_a_base_of_operations = {
+		icon = SOV_place_hq
+
+		visible = {
+			has_completed_focus = COS_with_the_revolution ## Lyra path
+			has_active_mission = COS_the_great_leap_forward_mis
+		}
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = COS_revolution_support_above_55_tt
+				check_variable = {
+					COS_support_for_the_revolution_var > 54
+				}
+			}
+		}
+
+		cost = 10
+
+		fire_only_once = yes 
+
+		complete_effect = {
+			add_popularity = {
+				ideology = communism 
+				popularity = 0.05
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = COS_add_5_revolution_support_tt
+			add_to_variable = {
+				COS_support_for_the_revolution_var = 5
+			}
+			clamp_variable = {
+				var = COS_support_for_the_revolution_var
+				min = 0
+				max = 100
+			}
+		}
+	}
+
+	## SET OF DECISIONS FOR PEACEFUL REVOLUTION (MANUEL MORA)
+
+	COS_spread_support_in_FROM = {
+		icon = eng_propaganda_campaigns
+
+		state_target = yes 
+
+		target_array = core_states 
+
+		target_trigger = {
+			FROM = {
+				is_fully_controlled_by = ROOT 
+			}
+		}
+
+		available = {
+			has_active_mission = COS_the_great_leap_forward_mis
+		}
+
+		on_map_mode = map_and_decisions_view
+
+		visible = {
+			has_completed_focus = COS_change_in_a_different_way ## Mora path
+		}
+
+		cost = 35
+
+		days_remove = 50
+
+		cancel_trigger = {
+			OR = {
+				has_civil_war = yes 
+				has_government = communism
+			}
+		}
+
+		modifier = {
+			political_power_factor = -0.05
+		}
+
+		remove_effect = {
+			random_list = {
+				70 = {
+					custom_effect_tooltip = COS_subtract_3_revolution_support_tt
+					subtract_from_variable = {
+						COS_support_for_the_revolution_var = 3
+					}
+					clamp_variable = {
+						var = COS_support_for_the_revolution_var
+						min = 0
+						max = 100
+					}
+				}
+				25 = {
+					custom_effect_tooltip = COS_subtract_5_revolution_support_tt
+					subtract_from_variable = {
+						COS_support_for_the_revolution_var = 5
+					}
+					clamp_variable = {
+						var = COS_support_for_the_revolution_var
+						min = 0
+						max = 100
+					}
+				}
+				5 = {
+					custom_effect_tooltip = COS_subtract_10_revolution_support_tt
+					subtract_from_variable = {
+						COS_support_for_the_revolution_var = 10
+					}
+					clamp_variable = {
+						var = COS_support_for_the_revolution_var
+						min = 0
+						max = 100
+					}
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_popularity = {
+				ideology = communism
+				popularity = 0.02
+			}
+		}
+	}
+
+	COS_push_for_elections = {
+		priority = 55
+		icon = eng_trade_unions_support
+
+		cost = 50
+
+		fire_only_once = yes 
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = COS_revolution_support_at_0_tt
+				check_variable = {
+					COS_support_for_the_revolution_var = 0
+				}
+			}
+		}
+
+		visible = {
+			has_completed_focus = COS_change_in_a_different_way ## Mora path
+			has_active_mission = COS_the_great_leap_forward_mis
+		}
+
+		complete_effect = {
+			set_politics = {
+				ruling_party = communism 
+				elections_allowed = yes 
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_popularity = {
+				ideology = communism
+				popularity = 0.05
+			}
+
+			set_country_flag = COS_communist_party_victorious_in_elections_flag
+		}
+	}
+
+	COS_gain_traction_at_the_factories = {
+		icon = generic_industry
+
+		cost = 25
+
+		fire_only_once = yes 
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = COS_revolution_support_below_30_tt
+				check_variable = {
+					COS_support_for_the_revolution_var < 29
+				}
+			}
+		}
+
+		visible = {
+			has_completed_focus = COS_change_in_a_different_way ## Mora path
+			has_active_mission = COS_the_great_leap_forward_mis
+		}
+
+		days_remove = 90
+
+		modifier = {
+			industrial_capacity_factory = -0.15
+			consumer_goods_factor = 0.25
+		}
+
+		complete_effect = {
+			25 = {
+				custom_effect_tooltip = COS_subtract_5_revolution_support_tt
+				subtract_from_variable = {
+					COS_support_for_the_revolution_var = 5
+				}
+				clamp_variable = {
+					var = COS_support_for_the_revolution_var
+					min = 0
+					max = 100
+				}
+			}
+			15 = {
+				custom_effect_tooltip = COS_subtract_10_revolution_support_tt
+				subtract_from_variable = {
+					COS_support_for_the_revolution_var = 10
+				}
+				clamp_variable = {
+					var = COS_support_for_the_revolution_var
+					min = 0
+					max = 100
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_popularity = {
+				ideology = communism 
+				popularity = 0.02
 			}
 		}
 	}
