@@ -3703,6 +3703,19 @@ country_event = {
 			}
 			promote_character = COS_leon_cortes_castro
 		}
+
+		if = {
+			limit = {
+				has_country_leader = {
+					character = COS_leon_cortes_castro
+					ruling_only = yes 
+				}
+				NOT = {
+					has_completed_focus = COS_restructure_the_costa_rican_constitution
+				}
+			}
+			activate_mission = COS_rewrite_the_constitution
+		}
 		
 		if = {
 			limit = {
@@ -3725,7 +3738,6 @@ country_event = {
 		name = "Rafael Ángel Calderón" 
 		trigger = {
 			NOT = {
-				has_completed_focus = COS_elect_rafael_angel_calderon
 				has_completed_focus = COS_persecte_communists
 			}
 		}
@@ -3738,6 +3750,19 @@ country_event = {
 		}
 
 		custom_effect_tooltip = PAN_elections_will_occur_in_4_years_tt
+
+		if = {
+			limit = {
+				has_country_leader = {
+					character = COS_rafael_angel_calderon
+					ruling_only = yes 
+				}
+				NOT = {
+					has_completed_focus = COS_restructure_the_costa_rican_constitution
+				}
+			}
+			activate_mission = COS_rewrite_the_constitution
+		}
 
 		hidden_effect = {
 			if = {
@@ -3839,11 +3864,14 @@ country_event = {
 	option = { ## Rafael Angel Calderon || a-historical: will trigger event of opposition claiming electoral fraud
 		name = "Rafael Ángel Calderón"
 		trigger = {
-			NOT = {
-				has_country_leader = {
-					character = COS_rafael_angel_calderon
-					ruling_only = yes 
+			OR = {
+				NOT = {
+					has_country_leader = {
+						character = COS_rafael_angel_calderon
+						ruling_only = yes 
+					}
 				}
+				has_completed_focus = COS_restructure_the_costa_rican_constitution
 			}
 		}
 
@@ -3879,8 +3907,11 @@ country_event = {
 	option = { ## Teodoro Picado Michalski || a-historical: will trigger event of opposition claiming electoral fraud
 		name = "Teodoro Picado Michalski"
 		trigger = {
-			NOT = {
-				has_country_flag = COS_chose_teodoro_flag
+			OR = {
+				NOT = {
+					has_country_flag = COS_chose_teodoro_flag
+				}
+				has_completed_focus = COS_restructure_the_costa_rican_constitution
 			}
 		}
 		promote_character = COS_teodoro_picado_michalski
@@ -3915,6 +3946,15 @@ country_event = {
 		add_popularity = {
 			ideology = communism
 			popularity = 0.02
+		}
+
+		if = {
+			limit = {
+				NOT = {
+					has_completed_focus = COS_restructure_the_costa_rican_constitution
+				}
+			}
+			activate_mission = COS_rewrite_the_constitution
 		}
 
 		hidden_effect = {
@@ -4100,6 +4140,28 @@ country_event = {
 		add_timed_idea = {
 			idea = COS_government_in_a_transitionary_phase
 			days = 365
+		}
+	}
+}
+
+## Coffee Oligarchs Appropriate [APPROPRIATED_STATE.GetName]
+country_event = {
+	id = cos.17
+	title = cos.17.t 
+	desc = cos.17.d 
+	picture = GFX_BRA_brazil_3
+
+	is_triggered_only = yes 
+
+	option = {
+		name = cos.17.a 
+		effect_tooltip = {
+			event_target:APPROPRIATED_STATE = {
+				add_dynamic_modifier = {
+                    modifier = COS_appropriated_land
+                    days = 75
+                }
+			}
 		}
 	}
 }

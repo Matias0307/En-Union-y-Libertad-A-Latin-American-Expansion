@@ -10,6 +10,16 @@ debug_decisions = {
 		}
 	}
 
+	add_tension = {
+		visible = {
+			always = yes 
+		}
+
+		complete_effect = {
+			add_threat = 50
+		}
+	}
+
 	test_dismantle_defense_pact = {
 		visible = {
 			always = yes 
@@ -41,16 +51,25 @@ debug_decisions = {
 	trigger_test = {
 		visible = { always = yes }
 
-		available = {
-			has_country_flag = PAN_go_commie_flag
-		}
-
+		
 		complete_effect = { 
-			set_politics = {
-				ruling_party = neutrality
-				elections_allowed = no
-			}
-			promote_character = URG_gabriel_terra_c 
+			random_owned_controlled_state = {
+                limit = {
+                    NOT = {
+                        has_dynamic_modifier = {
+                            modifier = COS_appropriated_land
+                        }
+                    }
+                }
+                add_dynamic_modifier = {
+                    modifier = COS_appropriated_land
+                    days = 75
+                }
+				save_event_target_as = APPROPRIATED_STATE
+                ROOT = {
+                    country_event = cos.17
+                }
+            }
 		}
 	}
 

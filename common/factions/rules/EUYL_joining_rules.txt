@@ -3,9 +3,48 @@ joining_rule_is_not_paraguay = {
 	ai_will_do = {
 		base = 0
 	}
+	visible = {
+		always = yes
+	}
 	trigger = {
 		NOT = {
 			original_tag = PAR
+		}
+	}
+}
+
+EUYL_dont_join_foreign_factions = {
+	type = joining_rules
+	ai_will_do = {
+		base = 0
+	}
+	visible = {
+		always = yes
+	}
+	trigger = {
+		if = {
+			limit = { EUYL_is_latin_american = yes }
+			OR = {
+				date > 1945.1.1
+				AND = {
+					NOT = { has_idea = EUYL_latin_american_isolationism }
+					date > 1943.6.1
+				}
+				AND = {
+					threat > 0.99
+					has_defensive_war = yes 
+					NOT = { has_idea = EUYL_latin_american_isolationism }
+					any_other_country = {
+						EUYL_is_latin_american = yes 
+						is_in_faction = yes 
+					}
+					date > 1941.7.12
+				}
+				AND = { ## for the player
+					is_ai = no 
+					threat > 0.5
+				}
+			}
 		}
 	}
 }

@@ -5198,6 +5198,76 @@ on_actions = {
         }
     }
 
+    on_monthly_COS = {
+        effect = {
+            if = {
+                limit = {
+                    OR = {
+                        has_idea = COS_conservative_coffee_oligarchy_support_1
+                        has_idea = COS_conservative_coffee_oligarchy_support_2
+                    }
+                    any_controlled_state = {
+                        NOT = {
+                            has_dynamic_modifier = {
+                                modifier = COS_appropriated_land
+                            }
+                        }
+                    }
+                }
+                random_list = {
+                    17 = {
+                        modifier = {
+                            factor = 0.5
+                            has_stability > 0.7
+                        }
+                        modifier = {
+                            factor = 1.2
+                            has_idea = COS_conservative_coffee_oligarchy_support_2
+                        }
+                        modifier = {
+                            factor = 0
+                            OR = {
+                                NOT = {
+                                    any_controlled_state = {
+                                        NOT = {
+                                            has_dynamic_modifier = {
+                                                modifier = COS_appropriated_land
+                                            }
+                                        }
+                                    }
+                                }
+                                NOT = {
+                                    has_idea = COS_conservative_coffee_oligarchy_support_1
+                                    has_idea = COS_conservative_coffee_oligarchy_support_2
+                                }
+                            }
+                        }
+                        random_owned_controlled_state = {
+                            limit = {
+                                NOT = {
+                                    has_dynamic_modifier = {
+                                        modifier = COS_appropriated_land
+                                    }
+                                }
+                            }
+                            add_dynamic_modifier = {
+                                modifier = COS_appropriated_land
+                                days = 75
+                            }
+                            save_event_target_as = APPROPRIATED_STATE
+                            ROOT = {
+                                country_event = cos.17
+                            }
+                        }
+                    }
+                    80 = {
+
+                    }
+                }
+            }
+        }
+    }
+
     on_monthly_COL = {
         effect = { #Check if Rojas Pinilla is going to rebel if the president is Laureano Gómez
             if = { 
