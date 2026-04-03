@@ -750,7 +750,7 @@ focus_tree = {
 			focus = PAN_arnulfo_arias_madrid_focus
 		}
 
-		cost = 5
+		cost = 6
 
 		ai_will_do = {
 			base = 2
@@ -1502,9 +1502,7 @@ focus_tree = {
 			any_other_country = {
 				is_major = yes
 				has_government = fascism 
-				any_allied_country = {
-					has_war_with = PREV
-				}
+				has_war = yes
 			}
 		}
 
@@ -1886,6 +1884,10 @@ focus_tree = {
 
 		available = {
 			is_in_faction = no 
+			threat > 0.2
+			has_army_manpower = {
+				size > 29999
+			}
 		}
 
 		search_filters = {
@@ -1917,7 +1919,7 @@ focus_tree = {
 			focus = PAN_maintain_neutrality_in_global_affairs
 		}
 
-		cost = 8
+		cost = 10
 
 		available = {
 			is_in_faction = no 
@@ -2250,7 +2252,7 @@ focus_tree = {
 			focus = PAN_reform_the_constitution
 		}
 
-		cost = 5
+		cost = 10
 
 		ai_will_do = {
 			base = 2
@@ -4964,6 +4966,21 @@ focus_tree = {
 
 		search_filters = {
 			FOCUS_FILTER_ANNEXATION
+		}
+
+		bypass = {
+			has_war_with = COL
+		}
+
+		bypass_effect = {
+			if = {
+				limit = {
+					1092 = {
+						NOT = { is_core_of = ROOT }
+					}
+				}
+				add_state_core = 1092
+			}
 		}
 
 		completion_reward = {

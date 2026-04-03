@@ -814,4 +814,306 @@ form_nueva_granada = {
 		}
 	}
 }
+
+EUYL_form_united_central_america_category = { ## Modified by EUYL
+
+	EUYL_form_united_central_america = {
+
+		icon = generic_form_nation
+		
+		highlight_states = {
+			highlight_states_trigger = {
+				OR = {
+					state = 313
+					state = 314
+					state = 312
+					state = 317
+					state = 316
+					state = 1050
+					state = 1051
+					state = 1052
+					state = 1053
+					state = 1054
+					state = 1055
+					state = 1056
+				}
+			}
+		}
+
+		allowed = {
+			OR = {
+				original_tag = GUA
+				original_tag = ELS
+				original_tag = HON
+				original_tag = NIC
+				original_tag = COS
+				original_tag = BLZ
+			}
+			has_dlc = "Waking the Tiger"
+		}
+
+		available = {
+			#is_subject = no
+			controls_state = 313
+			controls_state = 314
+			controls_state = 312
+			controls_state = 317
+			controls_state = 316
+			controls_state = 1050
+			controls_state = 1051
+			controls_state = 1052
+			controls_state = 1053
+			controls_state = 1054
+			controls_state = 1055
+			controls_state = 1056
+		}
+
+		on_map_mode = map_and_decisions_view
+
+		visible = {
+			OR = {
+				original_tag = GUA
+				original_tag = ELS
+				original_tag = HON
+				original_tag = NIC
+				original_tag = COS
+				original_tag = BLZ
+			}
+			NOT = { has_global_flag = form_united_central_america_flag }
+			if = {
+				limit = {
+					original_tag = HON 
+				}
+				OR = {
+					has_completed_focus = HON_unite_central_america
+					AND = {
+						has_completed_focus = HON_honduras_above_all
+						has_completed_focus = HON_the_revolution_in_the_tropics
+					}
+				}
+			}
+			if = {
+				limit = {
+					original_tag = COS 
+				}
+				OR = { ## will add more here
+					has_completed_focus = COS_the_crown_of_the_tropics
+					has_completed_focus = COS_communism_in_one_country
+					has_completed_focus = COS_the_permanent_revoltion
+				}
+			}
+		}
+
+		complete_effect = {
+			set_cosmetic_tag = USC_UNIFIED
+			313 = { add_core_of = ROOT }
+			314 = { add_core_of = ROOT }
+			312 = { add_core_of = ROOT }
+			317 = { add_core_of = ROOT }
+			316 = { add_core_of = ROOT }
+			311 = { add_core_of = ROOT }
+			1050 = { add_core_of = ROOT }
+			1051 = { add_core_of = ROOT }
+			1052 = { add_core_of = ROOT }
+			1053 = { add_core_of = ROOT }
+			1054 = { add_core_of = ROOT }
+			1055 = { add_core_of = ROOT }
+			1056 = { add_core_of = ROOT }
+			hidden_effect = {
+				news_event = { id = wtt_news.59 hours = 6 }
+				set_global_flag = form_united_central_america_flag
+			}
+		}
+
+		ai_will_do = {
+			factor = 200
+			modifier = {
+				factor = 0
+				is_subject_of = ECU
+			}
+			#modifier = {
+			#	factor = 0
+			#	is_historical_focus_on = yes
+			#}
+		}
+	}
+
+	COS_the_revolution_burns_in_FROM = {
+		icon = generic_tank
+
+        target_trigger = {
+            FROM = {
+                capital_scope = { 
+					OR = {
+						is_on_continent = south_america 
+						is_on_continent = north_america
+					}
+					is_fully_controlled_by = PREV 
+				}
+                exists = yes 
+				OR = {	
+					is_neighbor_of = ROOT
+					has_war_with = ROOT	
+				}
+            }
+        }
+
+		ai_will_do = {
+            base = 80
+			modifier = {
+				factor = 2.5
+				strength_ratio = {
+					tag = FROM
+					ratio < 1
+				}
+			}
+        }
+
+        available = {
+            has_capitulated = no 
+            FROM = {
+                has_war_with = ROOT 
+            }
+        }
+
+        visible = {
+            has_completed_focus = COS_the_permanent_revoltion
+        }
+
+        custom_cost_trigger = {
+			command_power > 24
+		}
+
+		custom_cost_text = decision_cost_CP_25
+
+        days_remove = 90
+
+        complete_effect = {
+			hidden_effect = {
+				add_command_power = -25
+			}
+        }
+
+        targeted_modifier = {
+            tag = FROM 
+            attack_bonus_against = 0.075
+            defense_bonus_against = 0.075
+        }
+
+        modifier = {
+            political_power_factor = -0.05
+			industrial_capacity_factory = -0.05
+        }
+	}
+
+	EUYL_integrate_northern_gran_colombia = {
+
+		icon = GFX_decision_eng_trade_unions_support
+
+		highlight_states = {
+			highlight_state_targets = {
+				state = 304
+				state = 1057
+				state = 1092
+				state = 493
+			}
+		}
+
+		allowed = {
+			OR = {
+				original_tag = GUA
+				original_tag = ELS
+				original_tag = HON
+				original_tag = NIC
+				original_tag = COS
+				original_tag = BLZ
+			}
+			has_dlc = "Waking the Tiger"
+		}
+
+		available = {
+			controls_state = 304
+			controls_state = 1057
+			controls_state = 1092
+			controls_state = 493
+		}
+
+		visible = {
+			OR = {
+				original_tag = GUA
+				original_tag = ELS
+				original_tag = HON
+				original_tag = NIC
+				original_tag = COS
+				original_tag = BLZ
+			}
+			has_global_flag = form_united_central_america_flag
+			NOT = { has_global_flag = integrated_panama_flag }
+		}
+
+		on_map_mode = map_and_decisions_view
+
+		complete_effect = {
+			304 = { add_core_of = ROOT }
+			685 = { add_core_of = ROOT }
+			1092 = { add_core_of = ROOT }
+			493 = { add_core_of = ROOT }
+			hidden_effect = {
+				set_global_flag = integrated_panama_flag
+			}
+		}
+
+		ai_will_do = {
+			factor = 500
+		}
+	}
+
+	EUYL_integrate_yucatan = {
+
+		icon = GFX_decision_eng_trade_unions_support
+
+		allowed = {
+			OR = {
+				original_tag = GUA
+				original_tag = ELS
+				original_tag = HON
+				original_tag = NIC
+				original_tag = COS
+				original_tag = BLZ
+			}
+			has_dlc = "Waking the Tiger"
+		}
+
+		available = {
+			controls_state = 474
+		}
+
+		visible = {
+			OR = {
+				original_tag = GUA
+				original_tag = ELS
+				original_tag = HON
+				original_tag = NIC
+				original_tag = COS
+				original_tag = BLZ
+			}
+			has_global_flag = form_united_central_america_flag
+			NOT = { has_global_flag = integrated_yucatan_flag }
+		}
+
+		on_map_mode = map_and_decisions_view
+
+		complete_effect = {
+			474 = { add_core_of = ROOT }
+			475 = { add_claim_by = ROOT }
+			hidden_effect = {
+				set_global_flag = integrated_yucatan_flag
+			}
+		}
+
+		ai_will_do = {
+			factor = 500
+		}
+	}
+}
 			

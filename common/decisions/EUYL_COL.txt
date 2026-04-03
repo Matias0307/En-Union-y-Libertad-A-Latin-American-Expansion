@@ -4041,6 +4041,7 @@ conflictos_fronterizos_col = {
 				original_tag = VEN
 				original_tag = ECU
 				original_tag = HON
+				original_tag = COS
 			}
 		}
 
@@ -4061,6 +4062,8 @@ conflictos_fronterizos_col = {
 				has_completed_focus = ECU_operation_americas
 				has_completed_focus = HON_take_the_canal_for_ourselves
 				has_completed_focus = HON_extend_our_kingdom_into_colombia
+				has_completed_focus = COS_liberate_panama
+				has_completed_focus = COS_revenge_for_the_coto_war
 				has_cosmetic_tag = GRC_UNIFIED
 			}
 			NOT = {
@@ -4087,11 +4090,21 @@ conflictos_fronterizos_col = {
 			NOT = {
 				is_in_faction_with = USA
 			}
-			controls_state = 304
-			divisions_in_border_state = {
-			    size > 0
-			    state = 304
-			    border_state = 685
+			OR = {
+				controls_state = 304
+				controls_state = 1057
+			}
+			OR = {
+				divisions_in_border_state = {
+					size > 0
+					state = 304
+					border_state = 685
+				}
+				divisions_in_border_state = {
+					size > 0
+					state = 1057
+					border_state = 685
+				}
 			}
 			USA = {
 				controls_state = 685
@@ -4114,22 +4127,52 @@ conflictos_fronterizos_col = {
 		fire_only_once = yes
 
 		complete_effect = {
-			start_border_war = {
-				change_state_after_war = no
-				attacker = {
-					state = 304
-					num_provinces = 1
-					on_win = colombia.77
-					on_lose = colombia.79
-					#on_cancel = 
+			if = {
+				limit = { ## has divisions in 1057
+					controls_state = 1057
+					divisions_in_border_state = {
+						size > 0
+						state = 1057
+						border_state = 685
+					}
 				}
-				
-				defender = {
-					state = 685
-					num_provinces = 1
-					on_win = colombia.80
-					on_lose = colombia.78
-					#on_cancel = 
+				start_border_war = {
+					change_state_after_war = no
+					attacker = {
+						state = 1057
+						num_provinces = 1
+						on_win = colombia.77
+						on_lose = colombia.79
+						#on_cancel = 
+					}
+					
+					defender = {
+						state = 685
+						num_provinces = 1
+						on_win = colombia.80
+						on_lose = colombia.78
+						#on_cancel = 
+					}
+				}
+			}
+			else = { ## default
+				start_border_war = {
+					change_state_after_war = no
+					attacker = {
+						state = 304
+						num_provinces = 1
+						on_win = colombia.77
+						on_lose = colombia.79
+						#on_cancel = 
+					}
+					
+					defender = {
+						state = 685
+						num_provinces = 1
+						on_win = colombia.80
+						on_lose = colombia.78
+						#on_cancel = 
+					}
 				}
 			}
 			
