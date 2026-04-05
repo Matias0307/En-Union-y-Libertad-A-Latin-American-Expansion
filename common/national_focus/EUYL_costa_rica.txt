@@ -205,7 +205,7 @@ focus_tree = {
 
 			add_timed_idea = {
 				idea = COS_hostile_coffee_oligarchs
-				days = 180
+				days = 240
 			}
 
 			custom_effect_tooltip = EUYL_effect_when_removed_tt
@@ -1852,6 +1852,7 @@ focus_tree = {
 		prerequisite = {
 			focus = COS_assess_our_local_regional_affairs
 		}
+		will_lead_to_war_with = PAN
 
 		mutually_exclusive = {
 			focus = COS_the_echandi_fernandez_treaty
@@ -1902,6 +1903,13 @@ focus_tree = {
 					}
 				}
 			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = {
+				decision = COL_incidente_en_el_canal
+				show_effect_tooltip = yes
+			}
 		}
 	}
 
@@ -1915,6 +1923,7 @@ focus_tree = {
 		prerequisite = {
 			focus = COS_revenge_for_the_coto_war
 		}
+		will_lead_to_war_with = NIC
 
 		cost = 7.2
 
@@ -1966,6 +1975,7 @@ focus_tree = {
 		prerequisite = {
 			focus = COS_revenge_for_the_coto_war
 		}
+		will_lead_to_war_with = COL
 
 		cost = 10
 
@@ -2714,6 +2724,59 @@ focus_tree = {
 		}
 	}
 
+	## A Workers Army ##
+	focus = {
+		id = COS_a_workers_army
+		icon = GFX_EUYL_generic_commie_army_icon
+		x = -1
+		y = 1
+		relative_position_id = COS_intellectual_equality_for_all
+		prerequisite = {
+			focus = COS_intellectual_equality_for_all
+			focus = COS_a_collectivized_society
+		}
+
+		cost = 10
+
+		available = {
+			has_civil_war = no 
+			NOT = {
+				has_idea = strikes_1
+				has_idea = strikes_2
+				has_idea = strikes_3
+			}
+			NOT = {
+				has_idea = COS_conservative_coffee_oligarchy_support_1
+				has_idea = COS_conservative_coffee_oligarchy_support_2
+				has_idea = COS_hostile_coffee_oligarchs
+			}
+			num_of_factories > 10
+		}
+
+		search_filters = {
+			FOCUS_FILTER_MANPOWER
+		}
+
+		completion_reward = {
+			add_ideas = URG_expanded_consription
+
+			custom_effect_tooltip = CEA_if_war_support_over_70_tt
+
+			effect_tooltip = {
+				EUYL_add_1_military = yes
+			}
+
+			hidden_effect = {
+				if = {
+					limit = {
+						has_war_support > 0.7
+					}
+					EUYL_add_1_military = yes
+				}
+			}
+		}
+	}
+
 	## A Red Future ##
 	focus = {
 		id = COS_a_red_future
@@ -2765,6 +2828,12 @@ focus_tree = {
 				swap_ruler_traits = {
 					remove = COS_communismo_a_la_tica_1
 					add = COS_communismo_a_la_tica_2
+				}
+
+				country_event = {
+					id = cos.18
+					days = 14
+					random_days = 28
 				}
 			}
 		}
@@ -2824,7 +2893,7 @@ focus_tree = {
 
 	## Appropriate the Coffee Barons ##
 	focus = {
-		id = COS_appropriated_the_coffee_barons
+		id = COS_appropriate_the_coffee_barons
 		icon = GFX_COS_appropriate_coffee_barons_icon
 		x = 0
 		y = 1
@@ -2987,6 +3056,274 @@ focus_tree = {
 			add_popularity = {
 				ideology = communism 
 				popularity = 0.04
+			}
+
+			hidden_effect = {
+				country_event = {
+					id = cos.18
+					days = 14
+					random_days = 28
+				}
+			}
+		}
+	}
+
+	## Communism in One Country ##
+	focus = {
+		id = COS_communism_in_one_country
+		icon = GFX_focus_commie_freedom
+		x = -2
+		y = 2
+		relative_position_id = COS_a_red_future
+		prerequisite = {
+			focus = COS_a_red_future
+			focus = COS_the_revolution_prevails
+		}
+		mutually_exclusive = {
+			focus = COS_the_permanent_revoltion
+		}
+
+		cost = 10
+
+		available = {
+			has_civil_war = no 
+			has_army_manpower = {
+				size > 29999
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER
+		}
+
+		completion_reward = {
+			add_ideas = COS_communism_in_one_country_idea
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_category_tooltip = EUYL_form_united_central_america_category
+		}
+	}
+
+	## The Permanent Revolution ##
+	focus = {
+		id = COS_the_permanent_revoltion
+		icon = GFX_focus_PRC_revolutionary_war_of_the_masses
+		cost = 5
+		x = 2
+		y = 2
+		relative_position_id = COS_the_revolution_prevails
+		prerequisite = {
+			focus = COS_the_revolution_prevails
+			focus = COS_a_red_future
+		}
+		mutually_exclusive = {
+			focus = COS_communism_in_one_country
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			add_ideas = ARG_expansionist_policy
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_category_tooltip = EUYL_form_united_central_america_category
+
+			custom_effect_tooltip = COS_unlocks_decisions_to_increase_attack_and_defense_against_enemy_countries_tt
+
+			if = {
+				limit = {
+					has_completed_focus = COS_a_red_future
+				}
+
+				custom_effect_tooltip = COS_permanent_revolution_goes_against_the_views_of_manuel_mora_tt
+
+				add_stability = -0.05
+				add_war_support = -0.15
+			}
+		}
+	}
+
+	## Liberate Panama ##
+	focus = {
+		id = COS_liberate_panama
+		icon = GFX_VEN_attack_panama
+		x = 0
+		y = 1
+		relative_position_id = COS_the_permanent_revoltion
+		prerequisite = {
+			focus = COS_the_permanent_revoltion
+			focus = COS_communism_in_one_country
+		}
+		will_lead_to_war_with = PAN
+
+		cost = 7.2
+
+		available = {
+			has_army_manpower = {
+				size > 24999
+			}
+			NOT = {
+				is_in_faction_with = PAN
+			}
+			NOT = {
+				has_global_flag = COS_the_1948_revolution_flag
+			}
+		}
+
+		bypass = {
+			has_war_with = PAN
+		}
+
+		bypass_effect = {
+			add_state_core = 1057
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			add_state_core = 1057
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			random_other_country = {
+				limit = {
+					controls_state = 1057
+				}
+			}
+			1057 = {
+				controller = {
+					hidden_effect = {
+						ROOT = {
+							create_wargoal = {
+								target = PREV
+								type = annex_everything
+							}
+						}
+					}
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = {
+				decision = COL_incidente_en_el_canal
+				show_effect_tooltip = yes
+			}
+		}
+	}
+
+	## Our Comrades Past the Darien ##
+	focus = {
+		id = COS_our_comrades_across_the_darien
+		icon = GFX_ARG_push_past_gap
+		x = -2
+		y = 1
+		relative_position_id = COS_liberate_panama
+		prerequisite = {
+			focus = COS_liberate_panama
+		}
+		will_lead_to_war_with = COL
+
+		cost = 10
+
+		available = {
+			has_completed_focus = CEA_establish_jungle_regiments
+			has_army_manpower = {
+				size > 79999
+			}
+			num_of_factories > 19
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					1092 = {
+						NOT = { is_core_of = ROOT }
+					}
+				}
+				add_state_core = 1092
+			}
+
+			create_wargoal = {
+				target = COL
+				type = annex_everything
+			}
+		}
+	}
+
+	## Liberate Nicaragua ##
+	focus = {
+		id = COS_liberate_nicaragua
+		icon = GFX_CEA_attack_nicaragua_icon
+		x = 0
+		y = 1
+		relative_position_id = COS_communism_in_one_country
+		prerequisite = {
+			focus = COS_communism_in_one_country
+		}
+		will_lead_to_war_with = NIC
+
+		cost = 7.2
+
+		available = {
+			OR = {
+				1057 = { is_controlled_by = ROOT }
+				has_army_manpower = {
+					size > 34999
+				}
+			}
+			NOT = {
+				is_in_faction_with = NIC
+			}
+		}
+
+		bypass = {
+			has_war_with = NIC 
+		}
+
+		bypass_effect = {
+			add_state_core = 317
+			add_state_core = 1054
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			add_state_core = 317
+			add_state_core = 1054
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			random_other_country = {
+				limit = {
+					controls_state = 1054
+				}
+			}
+			1054 = {
+				controller = {
+					hidden_effect = {
+						ROOT = {
+							create_wargoal = {
+								target = PREV
+								type = annex_everything
+							}
+						}
+					}
+				}
 			}
 		}
 	}

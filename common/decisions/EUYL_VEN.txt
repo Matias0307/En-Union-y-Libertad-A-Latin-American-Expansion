@@ -1375,6 +1375,28 @@ VEN_political_crisis = { ## need to make custom trigger tooltips for these :/
             add_stability = -0.15
         }
     }
+
+    COS_remove_the_conservative_coffee_oligarchs = {
+        icon = generic_consfiscation
+
+        activation = {
+            always = no 
+        }
+
+        available = {
+            has_completed_focus = COS_a_new_coffee_era
+        }
+
+        days_mission_timeout = 365
+
+        timeout_effect = {
+            add_stability = -0.1
+
+            custom_effect_tooltip = CHL_skip_one_line_tt
+
+            VEN_worsen_strikes = yes
+        }
+    }
 }
 
 VEN_escalantes_advancing_dementia = {
@@ -2754,9 +2776,6 @@ VEN_oil_management = {
 
         complete_effect = {
             set_country_flag = VEN_discussing_resource_selling_flag
-            FROM = {
-                save_event_target_as = VEN_RESOURCE_SELLING_TARGET_STATE
-            }
             event_target:VEN_TARGET_SELLER = {
                 country_event = {
                     id = venezuela.15 
@@ -2785,12 +2804,13 @@ VEN_oil_management = {
                     VEN_move_15_left = yes
                 }
             }
-            effect_tooltip = {
-                give_resource_rights = {
-                    receiver = event_target:VEN_TARGET_SELLER 
-                    state = FROM
-                }
+            give_resource_rights = {
+                receiver = event_target:VEN_TARGET_SELLER 
+                state = FROM
             }
+            clear_global_event_target = VEN_TARGET_SELLER ## to ensure theres no overlap
+            clr_country_flag = VEN_active_resource_right_decisions_flag
+            clr_country_flag = VEN_discussing_resource_selling_flag
         }
     }
 
