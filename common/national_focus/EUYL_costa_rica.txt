@@ -159,6 +159,12 @@ focus_tree = {
 			original_tag = COS
 		}
 
+		available = {
+			NOT = {
+				has_government = communism
+			}
+		}
+
 		cost = 8
 
 		search_filters = {
@@ -1215,6 +1221,7 @@ focus_tree = {
 	focus = {
 		id = COS_labor_reform_for_military_factory_workers
 		icon = GFX_focus_ICE_embrace_the_workers_revolution
+		overlay = GFX_focus_fast_overlay_generic_clock
 		x = -2
 		y = 1
 		relative_position_id = COS_ally_with_the_soviets
@@ -1224,7 +1231,7 @@ focus_tree = {
 			focus = COS_alone_well_prevail
 		}
 
-		cost = 10 
+		cost = 15
 
 		available = {
 			OR = {
@@ -1251,6 +1258,7 @@ focus_tree = {
 
 			effect_tooltip = {
 				EUYL_add_2_military = yes
+				EUYL_add_1_military = yes
 			}
 
 			custom_effect_tooltip = CEA_if_war_support_below_70_tt
@@ -1265,6 +1273,7 @@ focus_tree = {
 						has_war_support > 0.7
 					}
 					EUYL_add_2_military = yes
+					EUYL_add_1_military = yes
 				} else = {
 					EUYL_add_1_military = yes
 				}
@@ -2632,6 +2641,13 @@ focus_tree = {
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
 			add_ideas = COS_peoples_vanguard_party_1
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			reduce_focus_completion_cost = {
+				focus = { COS_universal_suffrage COS_foreign_political_administration }  
+				cost = 35
+			}
 		}
 	}
 
@@ -2843,6 +2859,7 @@ focus_tree = {
 	focus = {
 		id = COS_foreign_political_administration
 		icon = GFX_focus_SWE_socialist_reforms
+		overlay = GFX_focus_fast_overlay_generic_clock
 		x = 2
 		y = 1
 		relative_position_id = COS_a_red_future
@@ -2850,7 +2867,7 @@ focus_tree = {
 			focus = COS_a_red_future
 		}
 
-		cost = 10 
+		cost = 12
 
 		available = {
 			communism > 0.6
@@ -3068,11 +3085,126 @@ focus_tree = {
 		}
 	}
 
+	## The Factories Keep Running ##
+	focus = {
+		id = COS_the_factories_keep_running
+		icon = GFX_focus_generic_modernize_industry
+		x = 0
+		y = 1
+		relative_position_id = COS_the_revolution_prevails
+		prerequisite = {
+			focus = COS_the_revolution_prevails
+		}
+
+		cost = 10
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_2_military = yes 
+		}
+	}
+
+	## Universal Suffrage ##
+	focus = {
+		id = COS_universal_suffrage
+		icon = GFX_focus_ARG_women_in_industry
+		overlay = GFX_focus_fast_overlay_generic_clock
+		x = -2
+		y = 1
+		relative_position_id = COS_the_revolution_prevails
+		prerequisite = {
+			focus = COS_the_revolution_prevails
+		}
+
+		cost = 12
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER
+		}
+
+		completion_reward = {
+			add_ideas = COS_universal_suffrage_idea
+		}
+	}
+
+	## Maintaining the Fire ##
+	focus = {
+		id = COS_maintaining_the_fire
+		icon = GFX_focus_AFG_integrate_tajik_and_uzbek_republics
+		x = 0
+		y = 1
+		relative_position_id = COS_universal_suffrage
+		prerequisite = {
+			focus = COS_universal_suffrage
+		}
+
+		cost = 10
+
+		available = {
+			has_army_manpower = {
+				size > 49999
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			set_rule = {
+				can_create_factions = yes 
+				can_declare_war_without_wargoal_when_in_war = yes
+			}
+		}
+	}
+
+	## A Proletariat Navy ##
+	focus = {
+		id = COS_a_proletariat_navy
+		icon = GFX_focus_PHI_maritime_communism
+		overlay = GFX_focus_fast_overlay_generic_clock
+		x = 0
+		y = 1
+		relative_position_id = COS_a_workers_army
+		prerequisite = {
+			focus = COS_the_revolution_prevails
+			focus = COS_a_red_future
+		}
+
+		cost = 20
+
+		available = {
+			any_controlled_state = {
+				is_coastal = yes 
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_NAVY_XP FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_4_dockyard = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			navy_experience = 50
+
+			add_breakthrough_progress = {
+				specialization = specialization_naval
+				value = 0.2
+			}
+		}
+	}
+
 	## Communism in One Country ##
 	focus = {
 		id = COS_communism_in_one_country
 		icon = GFX_focus_commie_freedom
-		x = -2
+		x = -1
 		y = 2
 		relative_position_id = COS_a_red_future
 		prerequisite = {
@@ -3110,7 +3242,7 @@ focus_tree = {
 		id = COS_the_permanent_revoltion
 		icon = GFX_focus_PRC_revolutionary_war_of_the_masses
 		cost = 5
-		x = 2
+		x = 1
 		y = 2
 		relative_position_id = COS_the_revolution_prevails
 		prerequisite = {
@@ -3120,6 +3252,8 @@ focus_tree = {
 		mutually_exclusive = {
 			focus = COS_communism_in_one_country
 		}
+
+		cost = 7.2
 
 		search_filters = {
 			FOCUS_FILTER_ANNEXATION
@@ -3151,7 +3285,7 @@ focus_tree = {
 	focus = {
 		id = COS_liberate_panama
 		icon = GFX_VEN_attack_panama
-		x = 0
+		x = 1
 		y = 1
 		relative_position_id = COS_the_permanent_revoltion
 		prerequisite = {
@@ -3266,7 +3400,7 @@ focus_tree = {
 	focus = {
 		id = COS_liberate_nicaragua
 		icon = GFX_CEA_attack_nicaragua_icon
-		x = 0
+		x = -1
 		y = 1
 		relative_position_id = COS_communism_in_one_country
 		prerequisite = {
@@ -3327,6 +3461,253 @@ focus_tree = {
 			}
 		}
 	}
+
+	## The Costa Rican Revolutionary Army ##
+	focus = {
+		id = COS_the_costa_rican_revolutionary_army
+		icon = GFX_COS_revolutionary_army_icon
+		x = -1
+		y = 1
+		relative_position_id = COS_liberate_nicaragua
+		prerequisite = {
+			focus = COS_liberate_nicaragua
+			focus = COS_liberate_panama
+		}
+
+		cost = 10
+
+		available = {
+			1057 = { controls_or_subject_of = yes }
+			317 = { controls_or_subject_of = yes }
+			304 = { controls_or_subject_of = yes }
+			1055 = { controls_or_subject_of = yes }
+			1054 = { controls_or_subject_of = yes }
+		}
+
+		search_filters = {
+			FOCUS_FILTER_MANPOWER
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = URG_expanded_consription
+				add_idea = URG_expanded_consription_2
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			EUYL_add_1_military = yes 
+		}
+	}
+
+	## The Latin American Socialist Republics ##
+	focus = {
+		id = COS_the_latin_american_socialist_republics
+		icon = GFX_focus_CHL_union_of_hispanic_republics
+		x = 0
+		y = 1
+		relative_position_id = COS_the_costa_rican_revolutionary_army
+		prerequisite = {
+			focus = COS_the_costa_rican_revolutionary_army
+		}
+
+		cost = 10
+
+		available = {
+			OR = {
+				num_subjects > 9
+				num_of_controlled_states > 24
+			}
+			has_army_manpower = {
+				size > 149999
+			}
+			custom_trigger_tooltip = {
+				tooltip = COS_has_formed_USC_UNIFIED_tt
+				has_cosmetic_tag = USC_UNIFIED
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = { # TODO: Make news event
+			set_cosmetic_tag = BRA_union_of_latin_american_socialist_republics_cos_tag
+			
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_category_tooltip = ARG_integrate_our_territories
+			custom_effect_tooltip = BRA_annex_every_subject_tt
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = BRA_gain_claims_on_every_sa_state_tt
+
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						is_subject_of = ROOT 
+						has_government = communism
+					}
+					ROOT = {
+						annex_country = {
+							target = PREV 
+							transfer_troops = yes 
+						}
+					}
+				}
+				every_state = {
+					limit = {
+						NOT = { is_owned_by = ROOT }
+						is_on_continent = south_america
+					}
+					add_claim_by = ROOT
+				}
+				set_country_flag = EUYL_can_integrate
+			}
+		}
+	}
+
+	## The Global Revolution ##
+	focus = {
+		id = COS_the_global_revolution
+		icon = GFX_focus_SOV_proclaim_soviet_hegemony
+		x = 0
+		y = 1
+		relative_position_id = COS_the_latin_american_socialist_republics
+		prerequisite = {
+			focus = COS_the_latin_american_socialist_republics
+		}
+
+		cost = 10
+
+		available = {
+			has_army_manpower = {
+				size > 299999
+			}
+			num_of_factories > 99
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT
+		}
+
+		completion_reward = {
+			add_war_support = 0.1
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
+				limit = {
+					is_major = yes
+					NOT = { has_war_with = ROOT }
+					NOT = { is_in_faction_with = ROOT }
+				}
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						is_major = yes
+						NOT = { has_war_with = ROOT }
+						NOT = { is_in_faction_with = ROOT }
+					}
+					ROOT = {
+						create_wargoal = {
+							type = puppet_wargoal_focus
+							target = PREV 
+						}
+					}
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = COS_capturing_capitals_increases_global_compliance_by_5_tt
+
+			hidden_effect = {
+				if = {
+					limit = {
+						OR = {
+							361 = { is_controlled_by = ROOT }
+							126 = { is_controlled_by = ROOT }
+							219 = { is_controlled_by = ROOT }
+							282 = { is_controlled_by = ROOT }
+						}
+					}
+					every_controlled_state = {
+                        limit = {
+                            NOT = {
+                                is_core_of = ROOT 
+                            }
+                        }
+                        add_compliance = 5
+                    }
+				}
+			}
+		}
+	}
+
+	## Liberate the North ##
+	focus = {
+		id = COS_liberate_the_north
+		icon = GFX_ARG_central_america_curtain
+		x = 2
+		y = 1
+		relative_position_id = COS_liberate_nicaragua
+		prerequisite = {
+			focus = COS_liberate_nicaragua
+		}
+
+		cost = 10
+
+		available = {
+			1055 = { controls_or_subject_of = yes }
+			317 = { controls_or_subject_of = yes }
+			1054 = { controls_or_subject_of = yes }
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = HON 
+						original_tag = GUA
+						original_tag = ELS 
+						original_tag = MEX
+					}
+					NOT = { has_war_with = ROOT }
+					NOT = { is_in_faction_with = ROOT }
+				}
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						OR = {
+							original_tag = HON 
+							original_tag = GUA
+							original_tag = ELS 
+							original_tag = MEX
+						}
+						NOT = { has_war_with = ROOT }
+						NOT = { is_in_faction_with = ROOT }
+					}
+					ROOT = {
+						create_wargoal = {
+							type = puppet_wargoal_focus
+							target = PREV 
+						}
+					}
+				}
+			}
+		}
+	}
+
 
 	## MAX EFFINGER MINI SUB TREE ##
 	## Appoint Max Effinger ##

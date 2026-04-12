@@ -5268,6 +5268,45 @@ on_actions = {
         }
     }
 
+    #ROOT is new controller #FROM is old controller #FROM.FROM is state ID
+    on_state_control_changed = {
+		effect = {
+			if = {
+				limit = {
+                    original_tag = COS 
+                    has_completed_focus = COS_the_global_revolution
+                    FROM = {
+                        has_war_with = COS 
+                    }
+                    FROM.FROM = {
+                        OR = {
+                            state = 361 ## Washington D.C 
+                            state = 126 ## London
+                            state = 219 ## Moscow
+                            state = 282 ## Tokyo
+                        }
+                        NOT = {
+                            has_state_flag = COS_already_captured_flag
+                        }
+                    }
+                }
+                COS = {
+                    every_controlled_state = {
+                        limit = {
+                            NOT = {
+                                is_core_of = ROOT 
+                            }
+                        }
+                        add_compliance = 5
+                    }
+                }
+                FROM.FROM = { ## NO REPEATS!!
+                    set_state_flag = COS_already_captured_flag
+                }
+			}
+        }
+    }
+
     on_monthly_COL = {
         effect = { #Check if Rojas Pinilla is going to rebel if the president is Laureano Gómez
             if = { 
