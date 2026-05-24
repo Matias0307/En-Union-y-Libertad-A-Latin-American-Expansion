@@ -2230,6 +2230,91 @@ focus_tree = {
 		}
 	}
 
+	## Leon Cortes Shall Proceed ##
+	focus = {
+		id = COS_leon_cortes_shall_proceed
+		icon = GFX_COS_leon_cortes_icon
+		x = -1
+		y = 1
+		relative_position_id = COS_a_change_in_our_history
+		prerequisite = {
+			focus = COS_a_change_in_our_history
+		}
+		mutually_exclusive = {
+			focus = COS_carlos_federspiel_takes_charge
+		}
+
+		cost = 6
+
+		available = {
+			has_character = COS_leon_cortes_castro
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			add_political_power = 25
+		}
+	}
+
+	## Carlos Federspiel Takes Charge ##
+	focus = {
+		id = COS_carlos_federspiel_takes_charge
+		icon = GFX_COS_carlos_federspiel_ullman_icon
+		x = 1
+		y = 1
+		relative_position_id = COS_a_change_in_our_history
+		prerequisite = {
+			focus = COS_a_change_in_our_history
+		}
+		mutually_exclusive = {
+			focus = COS_leon_cortes_shall_proceed
+		}
+
+		cost = 6
+
+		available = {
+			has_character = COS_carlos_uribe_alpoveda
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			add_country_leader_role = {
+				character = COS_carlos_federspiel_ullman
+				promote_leader = yes
+				country_leader = {
+					ideology = nazism
+					traits = { ARG_devout_nazi }
+					expire = "1965.3.1.1"
+				}
+			}
+		}
+	}
+
+	## Rule with an Iron Fist ## || will add decisions and a national spirit that improves over time || 
+	focus = {
+		id = COS_rule_with_an_iron_fist
+		icon = GFX_focus_generic_military_dictatorship
+		x = 0
+		y = 2
+		relative_position_id = COS_a_change_in_our_history
+		prerequisite = {
+			focus = COS_leon_cortes_shall_proceed
+			focus = COS_carlos_federspiel_takes_charge
+		}
+
+		cost = 7.2
+
+		available = {
+			
+		}
+	}
+
 	## Public Works of Costa Rica ##
 	focus = {
 		id = COS_public_works_of_costa_rica
@@ -2840,6 +2925,10 @@ focus_tree = {
 				}
 			}
 
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			activate_mission = HON_dismantle_the_banana_plantations
+
 			hidden_effect = {
 				swap_ruler_traits = {
 					remove = COS_communismo_a_la_tica_1
@@ -3074,6 +3163,10 @@ focus_tree = {
 				ideology = communism 
 				popularity = 0.04
 			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			activate_mission = HON_dismantle_the_banana_plantations
 
 			hidden_effect = {
 				country_event = {
