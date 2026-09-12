@@ -1561,10 +1561,10 @@ focus_tree = {
 					limit = {
 						has_government = democratic
 					}
-				}
-				add_opinion_modifier = {
-					target = ROOT
-					modifier = CHL_stubbornly_maintaining_neutrality
+					add_opinion_modifier = {
+						target = ROOT
+						modifier = CHL_stubbornly_maintaining_neutrality
+					}
 				}
 			}
 			GER = {
@@ -1572,10 +1572,10 @@ focus_tree = {
 					limit = {
 						has_government = fascism
 					}
-				}
-				add_opinion_modifier = {
-					target = ROOT
-					modifier = CHL_stubbornly_maintaining_neutrality
+					add_opinion_modifier = {
+						target = ROOT
+						modifier = CHL_stubbornly_maintaining_neutrality
+					}
 				}
 			}
 
@@ -1836,8 +1836,11 @@ focus_tree = {
 			}
 			OR = {
 				is_in_faction_with = ENG 
-				NOT = {
-					has_war_with = ENG
+				ENG = {
+					has_opinion = {
+						target = ROOT
+						value > 49
+					}
 				}
 			}
 		}
@@ -2276,7 +2279,7 @@ focus_tree = {
 		cost = 6
 
 		available = {
-			has_character = COS_carlos_uribe_alpoveda
+			has_character = COS_carlos_federspiel_ullman
 		}
 
 		search_filters = {
@@ -2308,10 +2311,52 @@ focus_tree = {
 			focus = COS_carlos_federspiel_takes_charge
 		}
 
+		mutually_exclusive = {
+			focus = COS_subjegate_to_the_germans
+		}
+
 		cost = 7.2
 
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+			FOCUS_FILTER_WAR_SUPPORT
+		}
+
+		completion_reward = {
+			add_popularity = {
+				ideology = fascism 
+				popularity = 0.04
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_war_support = 0.03
+		}
+	}
+
+	## Subjegate to the Germans ##
+	focus = {
+		id = COS_subjegate_to_the_germans
+		icon = GFX_COS_subjegate_to_germans_icon
+		x = 6
+		y = 2
+		relative_position_id = COS_a_change_in_our_history
+		prerequisite = {
+			focus = COS_carlos_federspiel_takes_charge
+		}
+
+		mutually_exclusive = {
+			focus = COS_rule_with_an_iron_fist
+		}
+
 		available = {
-			
+			GER = {
+				exists = yes 
+				has_government = fascism
+				NOT = {
+					has_war_with = ROOT
+				}
+			}
 		}
 	}
 
@@ -2340,9 +2385,14 @@ focus_tree = {
 		completion_reward = {
 			add_political_power = 50
 
-			custom_effect_tooltip = CHL_skip_one_line_tt
+			if = {
+				limit = {
+					NOT = { has_completed_focus = COS_bolster_public_works }
+				}
+				custom_effect_tooltip = CHL_skip_one_line_tt
 
-			unlock_decision_category_tooltip = COS_public_works_of_costa_rica_dec_cat
+				unlock_decision_category_tooltip = COS_public_works_of_costa_rica_dec_cat
+			}
 		}
 	}
 
@@ -2859,7 +2909,18 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			add_ideas = URG_expanded_consription
+			if = {
+				limit = {
+					has_idea = URG_expanded_consription
+				}
+				swap_ideas = {
+					remove_idea = URG_expanded_consription
+					add_idea = URG_expanded_consription_2
+				}
+			}
+			else = {
+				add_ideas = URG_expanded_consription
+			}
 
 			custom_effect_tooltip = CEA_if_war_support_over_70_tt
 
@@ -3334,7 +3395,6 @@ focus_tree = {
 	focus = {
 		id = COS_the_permanent_revoltion
 		icon = GFX_focus_PRC_revolutionary_war_of_the_masses
-		cost = 5
 		x = 1
 		y = 2
 		relative_position_id = COS_the_revolution_prevails
@@ -3582,9 +3642,17 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			swap_ideas = {
-				remove_idea = URG_expanded_consription
-				add_idea = URG_expanded_consription_2
+			if = {
+				limit = {
+					has_idea = URG_expanded_consription
+				}
+				swap_ideas = {
+					remove_idea = URG_expanded_consription
+					add_idea = URG_expanded_consription_2
+				}
+			}
+			else = {
+				add_ideas = URG_expanded_consription
 			}
 
 			custom_effect_tooltip = CHL_skip_one_line_tt
@@ -3933,19 +4001,15 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			every_controlled_state = {
+			add_political_power = 50
+
+			if = {
 				limit = {
-					is_core_of = ROOT 
-					infrastructure < 5
+					NOT = { has_completed_focus = COS_public_works_of_costa_rica }
 				}
-				add_building_construction = {
-					type = infrastructure
-					level = 1
-				}
-				add_dynamic_modifier = {
-					modifier = PAR_railway_infrastructure_initiative
-					days = 720
-				}
+				custom_effect_tooltip = CHL_skip_one_line_tt
+
+				unlock_decision_category_tooltip = COS_public_works_of_costa_rica_dec_cat
 			}
 		}
 	}

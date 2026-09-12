@@ -4181,6 +4181,85 @@ country_event = {
 	}
 }
 
+## Costa Rica Wants to Become our Subject ##
+country_event = {
+	id = cos.19
+	title = cos.19.t 
+	desc = cos.19.d 
+	picture = GFX_ 
+
+	is_triggered_only = yes 
+
+	option = { ## Welcome
+		name = cos.19.a 
+		ai_chance = {
+			base = 20
+		}
+
+		puppet = FROM 
+		FROM = {
+			set_cosmetic_tag = COS_reichskommissariat_mittelamerika
+			## Buff/ Debuff limiters
+			set_variable = { COS_reichskommissariat_upper_limit = 0.1 }
+			set_variable = { COS_reichskommissariat_lower_limit = -0.05 }
+			## Variables
+			set_variable = { COS_reichskommissariat_consumer_goods_var = 0 }
+			set_variable = { COS_reichskommissariat_industrial_complex_factor_var = 0 }
+			set_variable = { COS_reichskommissariat_dockyard_factor_var = 0 }
+			set_variable = { COS_reichskommissariat_arms_factory_factor_var = 0 }
+			set_variable = { COS_reichskommissariat_industrial_capacity_var = 0 }
+			set_variable = { COS_reichskommissariat_army_attack_var = 0 }
+			set_variable = { COS_reichskommissariat_army_defence_var = 0 }
+
+			hidden_effect = {
+				add_dynamic_modifier = {
+					modifier = COS_the_reichskommissariat
+				}
+
+				country_event = {
+					id = cos.20 
+					hours = 2
+				}
+			}
+		}
+	}
+
+	option = { ## Sorry, but can't do that
+		name = cos.19.b 
+		ai_chance = {
+			base = 20
+			modifier = {
+				factor = 0
+				FROM = {
+					is_ai = no ## if its player, then never say no cuz that would lock out the branch
+				}
+			}
+		}
+
+		FROM = {
+			country_event = {
+				id = cos.21
+				hours = 2
+			}
+		}
+	}
+}
+
+## The Reichskommissariat Mittelamerika is Born ##
+country_event = {
+	id = cos.20
+	title = cos.20.t 
+	desc = cos.20.d 
+	
+}
+
+## Germany refuses to accept our terms ##
+country_event = {
+	id = cos.21
+	title = cos.21.t 
+	desc = cos.21.d 
+}
+
 ## Anastasio Takes Power ##
 country_event = {
 	id = nic.2
