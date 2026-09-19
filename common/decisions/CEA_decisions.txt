@@ -6524,6 +6524,7 @@ COS_the_leap_forward = {
 COS_the_reichskommissariat_dec_cat = {
 
 	COS_german_acquisition_of_our_domestic_production_mis = {
+		priority = 100
 		icon = generic_confiscation
 
 		activation = {
@@ -6571,6 +6572,13 @@ COS_the_reichskommissariat_dec_cat = {
 			}
 
 			COS_clamp_reichskommissariat_vars = yes
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_autonomy_score = {
+				value = -20
+				localization = COS_german_acquisition_of_products
+			}
 		}
 	}
 
@@ -6581,6 +6589,69 @@ COS_the_reichskommissariat_dec_cat = {
 
 		available = {
 			is_subject_of = GER
+		}
+
+		visible = {
+			is_subject_of = GER
+		}
+
+		days_remove = 60
+
+		modifier = {
+			political_power_factor = 0.15
+		}
+
+		remove_effect = {
+			custom_effect_tooltip = COS_modify_the_reichskommissariat_by_tt
+			add_to_variable = {
+				COS_reichskommissariat_industrial_complex_factor_var = -0.01
+				tooltip = production_speed_industrial_complex_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_dockyard_factor_var = -0.01
+				tooltip = production_speed_dockyard_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_arms_factory_factor_var = -0.02
+				tooltip = production_speed_arms_factory_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_industrial_capacity_var = -0.01
+				tooltip = industrial_capacity_factory_tt
+			}
+
+			COS_clamp_reichskommissariat_vars = yes
+		}
+	}
+
+	COS_request_shipment_of_weapons_from_the_reich = {
+		icon = generic_prepare_civil_war
+
+		cost = 50
+
+		available = {
+			is_subject_of = GER
+		}
+
+		visible = {
+			is_subject_of = GER
+		}
+
+		days_remove = 90
+
+		complete_effect = {
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 750
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = COS_modify_the_reichskommissariat_by_tt
+			add_to_variable = {
+				COS_reichskommissariat_consumer_goods_var = 0.01
+				tooltip = consumer_goods_factor_tt
+			}
 		}
 	}
 
