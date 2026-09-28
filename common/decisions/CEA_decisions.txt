@@ -6620,6 +6620,11 @@ COS_the_reichskommissariat_dec_cat = {
 				tooltip = industrial_capacity_factory_tt
 			}
 
+			subtract_from_variable = {
+				COS_reichskommissariat_reliability = 1
+			}
+
+			
 			COS_clamp_reichskommissariat_vars = yes
 		}
 	}
@@ -6652,6 +6657,152 @@ COS_the_reichskommissariat_dec_cat = {
 				COS_reichskommissariat_consumer_goods_var = 0.01
 				tooltip = consumer_goods_factor_tt
 			}
+
+			subtract_from_variable = {
+				COS_reichskommissariat_reliability = 1
+			}
+
+			
+			COS_clamp_reichskommissariat_vars = yes
+		}
+	}
+
+	COS_seize_the_assets_in_FROM = {
+		icon = generic_factory
+
+		on_map_mode = map_only
+
+		state_target = yes 
+		target_array = controlled_states
+		target_trigger = {
+			FROM = {
+				NOT = { is_core_of = ROOT }
+				industrial_complex > 2
+			}
+		}
+
+		cost = 20
+
+		fire_only_once = yes 
+
+		visible = {
+			has_dynamic_modifier = { modifier = COS_the_reichskommissariat }
+		}
+
+		available = { ## TODO: make this decision available via a focus (i need to pad out the focus tree im sorry :(( )
+
+		}
+
+		complete_effect = {
+			custom_effect_tooltip = COS_modify_the_reichskommissariat_by_tt
+			add_to_variable = {
+				COS_reichskommissariat_consumer_goods_var = -0.01
+				tooltip = consumer_goods_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_industrial_complex_factor_var = 0.01
+				tooltip = production_speed_industrial_complex_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_dockyard_factor_var = 0.01
+				tooltip = production_speed_dockyard_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_arms_factory_factor_var = 0.01
+				tooltip = production_speed_arms_factory_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_industrial_capacity_var = 0.01
+				tooltip = industrial_capacity_factory_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_army_attack_var = 0.01
+				tooltip = army_attack_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_army_defence_var = 0.01
+				tooltip = army_defence_factor_tt
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_autonomy_score = {
+				value = 10
+				localization = COS_german_acquisition_of_products
+			}
+
+			add_to_variable = {
+				COS_reichskommissariat_reliability = 3
+			}
+			
+			COS_clamp_reichskommissariat_vars = yes
+		}
+	}
+
+	COS_confiscate_the_gold_reserves_of_FROM = { ## TODO: also lock this behind a focus that allows the player to loan out their own gold reserves to the reich
+		icon = hol_attract_foreign_investors
+
+		on_map_mode = map_and_decisions_view
+
+		state_target = yes 
+
+		targets = { 306 1108 1121 303 500 501 1102 1090 279 302 1151 304 317 312 314 313 277 378 358 }
+
+		available = { ## also add focus requirement here
+			FROM = { is_fully_controlled_by = ROOT }
+		}
+
+		visible = {
+			has_dynamic_modifier = { modifier = COS_the_reichskommissariat }
+		}
+
+		cost = 40
+
+		fire_only_once = yes 
+
+		complete_effect = {
+			custom_effect_tooltip = COS_modify_the_reichskommissariat_by_tt
+			add_to_variable = {
+				COS_reichskommissariat_consumer_goods_var = -0.02
+				tooltip = consumer_goods_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_industrial_complex_factor_var = 0.02
+				tooltip = production_speed_industrial_complex_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_dockyard_factor_var = 0.02
+				tooltip = production_speed_dockyard_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_arms_factory_factor_var = 0.02
+				tooltip = production_speed_arms_factory_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_industrial_capacity_var = 0.01
+				tooltip = industrial_capacity_factory_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_army_attack_var = 0.01
+				tooltip = army_attack_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_army_defence_var = 0.01
+				tooltip = army_defence_factor_tt
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_autonomy_score = {
+				value = 20
+				localization = COS_german_acquisition_of_products
+			}
+
+			add_to_variable = {
+				COS_reichskommissariat_reliability = 5
+			}
+
+			COS_clamp_reichskommissariat_vars = yes
 		}
 	}
 

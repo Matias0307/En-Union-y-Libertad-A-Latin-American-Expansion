@@ -646,6 +646,67 @@ focus_tree = {
         }
     }
 
+    ## Establish La Paz as the Judiciary Capital ##
+    focus = {
+        id = BOL_establish_la_paz_as_the_judiciary_capital
+        icon = GFX_BOL_la_paz_capital_icon
+        x = -1
+        y = 1
+        relative_position_id = BOL_mobilize_the_economy
+        prerequisite = {
+            focus = BOL_mobilize_the_economy
+            focus = BOL_maintain_a_civilian_economy
+        }
+
+        cost = 10 
+
+        available = {
+            has_full_control_of_state = 302
+            302 = {
+                infrastructure > 3
+            }
+        }
+
+        search_filters = {
+            FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY
+        }
+
+        completion_reward = {
+            add_political_power = 25
+
+            custom_effect_tooltip = CHL_skip_one_line_tt
+            custom_effect_tooltip = BOL_move_capital_to_la_paz_and_add_10_vp_tt
+
+            hidden_effect = {
+				add_victory_points = {
+					province = 5230
+					value = 10
+				}
+				set_capital = { state = 302 }
+			}
+
+            custom_effect_tooltip = CHL_skip_one_line_tt
+
+            add_stability = 0.04
+
+            custom_effect_tooltip = CHL_skip_one_line_tt
+
+            302 = {
+                add_extra_state_shared_building_slots = 2
+                add_building_construction = {
+                    type = arms_factory
+                    level = 1
+                    instant_build = yes 
+                }
+                add_building_construction = {
+                    type = industrial_complex
+                    level = 1
+                    instant_build = yes 
+                }
+            }
+        }
+    }
+
     focus = {
         id = BOL_open_our_wheat_markets
         icon = GFX_BOL_export_wheat

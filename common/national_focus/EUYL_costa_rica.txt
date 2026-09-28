@@ -2392,9 +2392,26 @@ focus_tree = {
 				set_variable = { COS_reichskommissariat_industrial_capacity_var = 0 }
 				set_variable = { COS_reichskommissariat_army_attack_var = 0 }
 				set_variable = { COS_reichskommissariat_army_defence_var = 0 }
+				set_variable = { COS_reichskommissariat_conscription_var = 0 }
 
 				set_variable = { COS_german_acquisition_of_our_domestic_production_timeout = 90 } ## can be increased over time
+
+				## Hidden tracker that shows how reliable player is to German Reich
+				set_variable = { COS_reichskommissariat_reliability = 50 } # goes from 0 to 100
 			}
+		}
+	}
+
+	## Industrial Enhancements ##
+	focus = {
+		id = COS_confiscate_private_industry
+		icon = GFX_focus_generic_expropriate_industrialist
+		x = -3
+		y = 1
+		relative_position_id = COS_subjegate_to_the_germans
+		prerequisite = {
+			focus = COS_subjegate_to_the_germans
+			focus = COS_rule_with_an_iron_fist
 		}
 	}
 
@@ -2410,6 +2427,20 @@ focus_tree = {
 		}
 
 		cost = 10
+
+		available = {
+			has_army_manpower = {
+				size > 49999
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			
+		}
 	}
 
 	## Public Works of Costa Rica ##
