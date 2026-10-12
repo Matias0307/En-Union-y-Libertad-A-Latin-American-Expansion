@@ -4186,7 +4186,7 @@ country_event = {
 	id = cos.19
 	title = cos.19.t 
 	desc = cos.19.d 
-	picture = GFX_ 
+	picture = GFX_COS_request_for_german_takeover_pic
 
 	is_triggered_only = yes 
 
@@ -4199,19 +4199,9 @@ country_event = {
 		puppet = FROM 
 		FROM = {
 			set_cosmetic_tag = COS_reichskommissariat_mittelamerika
-			## Buff/ Debuff limiters
-			set_variable = { COS_reichskommissariat_upper_limit = 0.1 }
-			set_variable = { COS_reichskommissariat_lower_limit = -0.05 }
-			## Variables
-			set_variable = { COS_reichskommissariat_consumer_goods_var = 0 }
-			set_variable = { COS_reichskommissariat_industrial_complex_factor_var = 0 }
-			set_variable = { COS_reichskommissariat_dockyard_factor_var = 0 }
-			set_variable = { COS_reichskommissariat_arms_factory_factor_var = 0 }
-			set_variable = { COS_reichskommissariat_industrial_capacity_var = 0 }
-			set_variable = { COS_reichskommissariat_army_attack_var = 0 }
-			set_variable = { COS_reichskommissariat_army_defence_var = 0 }
 
 			hidden_effect = {
+				activate_mission = COS_german_acquisition_of_our_domestic_production_mis
 				add_dynamic_modifier = {
 					modifier = COS_the_reichskommissariat
 				}
@@ -4251,6 +4241,7 @@ country_event = {
 	title = cos.20.t 
 	desc = cos.20.d 
 	
+	is_triggered_only = yes
 }
 
 ## Germany refuses to accept our terms ##
@@ -4258,6 +4249,44 @@ country_event = {
 	id = cos.21
 	title = cos.21.t 
 	desc = cos.21.d 
+
+	is_triggered_only = yes
+}
+
+## Germans Displeased with our Efforts ##
+country_event = {
+	id = cos.22
+	title = cos.22.t 
+	desc = cos.22.d 
+	picture = GFX_ 
+
+	fire_only_once = no 
+	trigger = {
+		original_tag = COS 
+		has_dynamic_modifier = { modifier = COS_the_reichskommissariat }
+		check_variable = {
+			COS_reichskommissariat_reliability < 20 ## triggers if you are unreliable
+		}
+		NOT = {
+			has_active_mission = COS_impending_german_annexation
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			activate_mission = COS_impending_german_annexation
+		}
+	}
+
+	option = {
+		name = cos.22.a 
+		activate_mission_tooltip = COS_impending_german_annexation
+		subtract_from_variable = {
+			COS_reichskommissariat_reliability = 5
+		}
+
+		COS_clamp_reichskommissariat_vars = yes
+	}
 }
 
 ## Anastasio Takes Power ##

@@ -2608,6 +2608,57 @@ on_actions = {
                     country_event = { id = brazil.90 hours = 3 }
                 }
             }
+            if = { ## Increase Reliability and slightly improve reichskommissariat modifier
+                limit = {
+                    ROOT = {
+                        NOT = {
+                            original_tag = COS
+                        }
+                    }
+                    FROM = {
+                        original_tag = COS 
+                        has_dynamic_modifier = {
+                            modifier = COS_the_reichskommissariat
+                        }
+                    }
+                }
+                FROM = {
+                    add_to_variable = {
+                        COS_reichskommissariat_reliability = 5
+                    }
+
+                    add_to_variable = {
+                        COS_reichskommissariat_consumer_goods_var = -0.01
+                        tooltip = consumer_goods_factor_tt
+                    }
+                    add_to_variable = {
+                        COS_reichskommissariat_industrial_complex_factor_var = 0.01
+                        tooltip = production_speed_industrial_complex_factor_tt
+                    }
+                    add_to_variable = {
+                        COS_reichskommissariat_dockyard_factor_var = 0.01
+                        tooltip = production_speed_dockyard_factor_tt
+                    }
+                    add_to_variable = {
+                        COS_reichskommissariat_arms_factory_factor_var = 0.01
+                        tooltip = production_speed_arms_factory_factor_tt
+                    }
+                    add_to_variable = {
+                        COS_reichskommissariat_industrial_capacity_var = 0.01
+                        tooltip = industrial_capacity_factory_tt
+                    }
+                    add_to_variable = {
+                        COS_reichskommissariat_army_attack_var = 0.01
+                        tooltip = army_attack_factor_tt
+                    }
+                    add_to_variable = {
+                        COS_reichskommissariat_army_defence_var = 0.01
+                        tooltip = army_defence_factor_tt
+                    }
+
+                    COS_clamp_reichskommissariat_vars = yes
+                }
+            }
             if = { ## People have been complaining about not having advisors, this should fix this
                 limit = { 
                     OR = {
