@@ -4253,6 +4253,42 @@ country_event = {
 	is_triggered_only = yes
 }
 
+## Germans Displeased with our Efforts ##
+country_event = {
+	id = cos.22
+	title = cos.22.t 
+	desc = cos.22.d 
+	picture = GFX_ 
+
+	fire_only_once = no 
+	trigger = {
+		original_tag = COS 
+		has_dynamic_modifier = { modifier = COS_the_reichskommissariat }
+		check_variable = {
+			COS_reichskommissariat_reliability < 20 ## triggers if you are unreliable
+		}
+		NOT = {
+			has_active_mission = COS_impending_german_annexation
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			activate_mission = COS_impending_german_annexation
+		}
+	}
+
+	option = {
+		name = cos.22.a 
+		activate_mission_tooltip = COS_impending_german_annexation
+		subtract_from_variable = {
+			COS_reichskommissariat_reliability = 5
+		}
+
+		COS_clamp_reichskommissariat_vars = yes
+	}
+}
+
 ## Anastasio Takes Power ##
 country_event = {
 	id = nic.2

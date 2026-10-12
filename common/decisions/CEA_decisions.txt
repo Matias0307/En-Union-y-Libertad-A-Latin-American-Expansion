@@ -6522,6 +6522,37 @@ COS_the_leap_forward = {
 }
 
 COS_the_reichskommissariat_dec_cat = {
+	COS_impending_german_annexation = {
+		priority = 150
+		icon = generic_GER_flag
+
+		activation = {
+			always = no 
+		}
+
+		days_mission_timeout = 365
+
+		is_good = no 
+		fire_only_once = no 
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = COS_reliability_to_the_germans_is_at_least_unreliable_tt
+				check_variable = {
+					COS_reichskommissariat_reliability > 19
+				}
+			}
+		}
+
+		timeout_effect = {
+			custom_effect_tooltip = GAME_OVER_TT
+			GER = {
+				annex_country = {
+					target = ROOT
+				}
+			}
+		}
+	}
 
 	COS_german_acquisition_of_our_domestic_production_mis = {
 		priority = 100
@@ -6579,6 +6610,378 @@ COS_the_reichskommissariat_dec_cat = {
 				value = -20
 				localization = COS_german_acquisition_of_products
 			}
+		}
+	}
+
+	COS_operation_mittelamerika_phase_one = {
+		icon = generic_nationalism
+
+		visible = {
+			has_completed_focus = COS_operation_mittelamerika
+		}
+
+		highlight_states = {
+			highlight_states_trigger = {
+				OR = {
+					state = 1136
+					state = 1135
+					state = 317
+					state = 1137
+					state = 316
+				}
+			}
+		}
+
+		available = {
+			1136 = { controls_or_subject_of = yes }
+			1135 = { controls_or_subject_of = yes }
+			317 = { controls_or_subject_of = yes }
+			1137 = { controls_or_subject_of = yes }
+			316 = { controls_or_subject_of = yes }
+		}
+
+		fire_only_once = yes 
+
+		ai_will_do = {
+			base = 250
+		}
+
+		complete_effect = {
+			every_state = {
+				limit = {
+					OR = {
+						state = 1136
+						state = 1135
+						state = 317
+						state = 1137
+						state = 316
+					}
+					NOT = { is_core_of = ROOT }
+				}
+				add_core_of = ROOT
+				if = {
+					limit = {
+						NOT = {
+							is_controlled_by = ROOT 
+						}
+						ROOT = {
+							any_subject_country = {
+								controls_state = PREV.PREV
+							}
+						}
+					}
+					transfer_state_to = ROOT
+				}
+			}
+			custom_effect_tooltip = COS_reliability_to_the_germans_will_increase_tt
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = COS_modify_the_reichskommissariat_by_tt
+			add_to_variable = {
+				COS_reichskommissariat_consumer_goods_var = -0.02
+				tooltip = consumer_goods_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_industrial_complex_factor_var = 0.02
+				tooltip = production_speed_industrial_complex_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_dockyard_factor_var = 0.02
+				tooltip = production_speed_dockyard_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_arms_factory_factor_var = 0.02
+				tooltip = production_speed_arms_factory_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_industrial_capacity_var = 0.01
+				tooltip = industrial_capacity_factory_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_army_attack_var = 0.01
+				tooltip = army_attack_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_army_defence_var = 0.01
+				tooltip = army_defence_factor_tt
+			}
+
+			add_to_variable = {
+				COS_reichskommissariat_reliability = 5
+			}
+
+			COS_clamp_reichskommissariat_vars = yes
+
+			set_country_flag = COS_phase_one_complete_flag
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = COS_operation_mittelamerika_phase_two
+		}
+	}
+
+	COS_operation_mittelamerika_phase_two = {
+		icon = generic_nationalism
+
+		visible = {
+			has_completed_focus = COS_operation_mittelamerika
+			has_country_flag = COS_phase_one_complete_flag
+		}
+
+		highlight_states = {
+			highlight_states_trigger = {
+				OR = {
+					state = 1136
+					state = 1135
+					state = 317
+					state = 1137
+					state = 316
+					state = 312
+					state = 1133
+					state = 1134
+					state = 314
+					state = 1138
+				}
+			}
+		}
+
+		available = {
+			1136 = { controls_or_subject_of = yes }
+			1135 = { controls_or_subject_of = yes }
+			317 = { controls_or_subject_of = yes }
+			1137 = { controls_or_subject_of = yes }
+			316 = { controls_or_subject_of = yes }
+			312 = { controls_or_subject_of = yes }
+			1133 = { controls_or_subject_of = yes }
+			1134= { controls_or_subject_of = yes }
+			314 = { controls_or_subject_of = yes }
+			1138= { controls_or_subject_of = yes }
+		}
+
+		fire_only_once = yes 
+
+		ai_will_do = {
+			base = 250
+		}
+
+		complete_effect = {
+			every_state = {
+				limit = {
+					OR = {
+						state = 312
+						state = 1133
+						state = 1134
+						state = 314
+						state = 1138
+					}
+					NOT = { is_core_of = ROOT }
+				}
+				add_core_of = ROOT
+				if = {
+					limit = {
+						NOT = {
+							is_controlled_by = ROOT 
+						}
+						ROOT = {
+							any_subject_country = {
+								controls_state = PREV.PREV
+							}
+						}
+					}
+					transfer_state_to = ROOT
+				}
+			}
+			custom_effect_tooltip = COS_reliability_to_the_germans_will_increase_tt
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = COS_modify_the_reichskommissariat_by_tt
+			add_to_variable = {
+				COS_reichskommissariat_consumer_goods_var = -0.03
+				tooltip = consumer_goods_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_industrial_complex_factor_var = 0.02
+				tooltip = production_speed_industrial_complex_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_dockyard_factor_var = 0.02
+				tooltip = production_speed_dockyard_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_arms_factory_factor_var = 0.02
+				tooltip = production_speed_arms_factory_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_industrial_capacity_var = 0.01
+				tooltip = industrial_capacity_factory_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_army_attack_var = 0.02
+				tooltip = army_attack_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_army_defence_var = 0.02
+				tooltip = army_defence_factor_tt
+			}
+
+			add_to_variable = {
+				COS_reichskommissariat_reliability = 7
+			}
+
+			COS_clamp_reichskommissariat_vars = yes
+
+			set_country_flag = COS_phase_two_complete_flag
+			clr_country_flag = COS_phase_one_complete_flag
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = COS_operation_mittelamerika_phase_three
+		}
+	}
+
+	COS_operation_mittelamerika_phase_three = {
+		icon = generic_nationalism
+
+		visible = {
+			has_completed_focus = COS_operation_mittelamerika
+		}
+
+		highlight_states = {
+			highlight_states_trigger = {
+				OR = {
+					state = 1136
+					state = 1135
+					state = 317
+					state = 1137
+					state = 316
+					state = 312
+					state = 1133
+					state = 1134
+					state = 314
+					state = 1138
+					state = 313
+					state = 1131
+					state = 311
+					state = 1132
+					state = 475
+					state = 474
+					state = 304
+					state = 1092
+					state = 493
+					state = 1091
+				}
+			}
+		}
+
+		available = {
+			1136 = { controls_or_subject_of = yes }
+			1135 = { controls_or_subject_of = yes }
+			317 = { controls_or_subject_of = yes }
+			1137 = { controls_or_subject_of = yes }
+			316 = { controls_or_subject_of = yes }
+			312 = { controls_or_subject_of = yes }
+			1133 = { controls_or_subject_of = yes }
+			1134 = { controls_or_subject_of = yes }
+			314 = { controls_or_subject_of = yes }
+			1138 = { controls_or_subject_of = yes }
+			313 = { controls_or_subject_of = yes }
+			1131 = { controls_or_subject_of = yes }
+			311 = { controls_or_subject_of = yes }
+			1132 = { controls_or_subject_of = yes }
+			475 = { controls_or_subject_of = yes }
+			474 = { controls_or_subject_of = yes }
+			304 = { controls_or_subject_of = yes }
+			1092 = { controls_or_subject_of = yes }
+			493 = { controls_or_subject_of = yes }
+			1091 = { controls_or_subject_of = yes }
+		}
+
+		fire_only_once = yes 
+
+		ai_will_do = {
+			base = 250
+		}
+
+		complete_effect = {
+			every_state = {
+				limit = {
+					OR = {
+						state = 313
+						state = 1131
+						state = 311
+						state = 1132
+						state = 475
+						state = 474
+						state = 304
+						state = 1092
+						state = 493
+						state = 1091
+					}
+					NOT = { is_core_of = ROOT }
+				}
+				add_core_of = ROOT
+				if = {
+					limit = {
+						NOT = {
+							is_controlled_by = ROOT 
+						}
+						ROOT = {
+							any_subject_country = {
+								controls_state = PREV.PREV
+							}
+						}
+					}
+					transfer_state_to = ROOT
+				}
+			}
+			custom_effect_tooltip = COS_reliability_to_the_germans_will_increase_tt
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = COS_modify_the_reichskommissariat_by_tt
+			add_to_variable = {
+				COS_reichskommissariat_consumer_goods_var = -0.04
+				tooltip = consumer_goods_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_industrial_complex_factor_var = 0.03
+				tooltip = production_speed_industrial_complex_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_dockyard_factor_var = 0.03
+				tooltip = production_speed_dockyard_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_arms_factory_factor_var = 0.03
+				tooltip = production_speed_arms_factory_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_industrial_capacity_var = 0.02
+				tooltip = industrial_capacity_factory_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_army_attack_var = 0.02
+				tooltip = army_attack_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_army_defence_var = 0.02
+				tooltip = army_defence_factor_tt
+			}
+
+			add_to_variable = {
+				COS_reichskommissariat_reliability = 10
+			}
+
+			COS_clamp_reichskommissariat_vars = yes
+
+			set_country_flag = COS_phase_three_complete_flag
+			clr_country_flag = COS_phase_two_complete_flag
+
+			#custom_effect_tooltip = CHL_skip_one_line_tt
+			## I might program this, I'll have to see 
+			#unlock_decision_tooltip = COS_operation_amerika
 		}
 	}
 
