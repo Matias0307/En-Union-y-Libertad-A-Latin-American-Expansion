@@ -4289,6 +4289,155 @@ country_event = {
 	}
 }
 
+## Costa Rica Wants to Become Independent
+country_event = {
+	id = cos.23
+	title = cos.23.t
+	desc = cos.23.d 
+	picture = GFX_report_event_DEN_fascist_troops
+
+	is_triggered_only = yes 
+
+	option = { ## Sure, they've proved to be useful enough
+		name = cos.23.a 
+		ai_chance = {
+			base = 5
+			modifier = {
+				factor = 0 ##LOL HELL NAW
+				FROM = {
+					check_variable = {
+						COS_reichskommissariat_reliability < 20
+					}
+				}
+			}
+			modifier = {
+				factor = 3
+				FROM = {
+					check_variable = {
+						COS_reichskommissariat_reliability > 60
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				FROM = {
+					check_variable = {
+						COS_reichskommissariat_reliability > 40
+					}
+				}
+			}
+		}
+		FROM = {
+			country_event = {
+				id = cos.24 
+				hours = 3
+			}
+		}
+	}
+
+	option = { ## Nope, we can't just let you go like that
+		name = cos.23.b 
+		ai_chance = {
+			base = 5
+			modifier = {
+				factor = 0 ##Impossible to occur
+				FROM = {
+					check_variable = {
+						COS_reichskommissariat_reliability > 80
+					}
+				}
+			}
+		}
+		FROM = {
+			country_event = {
+				id = cos.25
+				hours = 4
+			}
+		}
+	}
+}
+
+## Germany Has Approved our Request for Independence
+country_event = {
+	id = cos.24
+	title = cos.24.t 
+	desc = cos.24.d 
+	picture = GFX_ARG_hitler_leader
+
+	is_triggered_only = yes 
+
+	option = { ## Wonderful
+		name = cos.24.a 
+		FROM = {
+			end_puppet = ROOT
+		}
+		add_ideas = COS_independence_achieved
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		add_stability = 0.05
+		add_war_support = 0.1
+	}
+}
+
+## Germany has Refused our Request for Independence
+country_event = {
+	id = cos.25
+	title = cos.25.t 
+	desc = cos.25.d 
+	picture = GFX_ARG_hitler_leader
+
+	is_triggered_only = yes 
+
+	option = { ## Then we'll break free by force!
+		name = cos.25.a 
+		ai_chance = {
+			base = 3
+		}
+		FROM = {
+			end_puppet = ROOT 
+		}
+		ROOT = {
+			declare_war_on = {
+				target = FROM
+				type = independence_wargoal
+			}
+		}
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		add_war_support = 0.15
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		add_ideas = COS_our_war_of_independence
+
+		FROM = {
+			country_event = {
+				id = cos.26 
+				hours = 5
+			}
+		}
+	}
+
+	option = { ## We'll back off for now (cuck option btw)
+		name = cos.25.b 
+	}
+}
+
+## [FROM.GetName] (Costa Rica) has Betrayed Us
+country_event = {
+	id = cos.26
+	title = cos.26.t
+	desc = cos.26.d 
+
+	is_triggered_only = yes 
+
+	option = { ## They shall pay with their blood
+		nmae = cos.26.a 
+	}
+}
+
 ## Anastasio Takes Power ##
 country_event = {
 	id = nic.2

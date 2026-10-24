@@ -496,6 +496,12 @@ focus_tree = {
 
 		cost = 7.2
 
+		available = {
+			NOT = {
+				has_government = fascism
+			}
+		}
+
 		search_filters = {
 			FOCUS_FILTER_POLITICAL
 		}
@@ -2334,6 +2340,86 @@ focus_tree = {
 		}
 	}
 
+	## Fund the Costa Rican Naval Forces ##
+	focus = {
+		id = COS_fund_the_costa_rican_naval_forces
+		icon = GFX_COS_naval_forces_of_costa_rica_icon
+		x = 1
+		y = 1
+		relative_position_id = COS_rule_with_an_iron_fist
+		prerequisite = {
+			focus = COS_rule_with_an_iron_fist
+		}
+
+		cost = 10
+
+		available = {
+			any_controlled_state = {
+				is_coastal = yes 
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_NAVY_XP
+		}
+
+		completion_reward = {
+			navy_experience = 50
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			EUYL_add_2_dockyard = yes 
+		}
+	}
+
+	## Ban Other Political Parties ##
+	focus = {
+		id = COS_ban_other_political_parties
+		icon = GFX_EUYL_generic_ban_press
+		x = -1
+		y = 1
+		relative_position_id = COS_rule_with_an_iron_fist
+		prerequisite = {
+			focus = COS_rule_with_an_iron_fist
+		}
+
+		cost = 7.2
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			add_stability = -0.1
+			add_political_power = 75
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_timed_idea = {
+				idea = COS_political_party_ban_active
+				days = 210
+			}
+		}
+	}
+
+	## Enforce Labor onto the Communist Prisoners ##
+	focus = {
+		id = COS_enforce_labor_onto_the_communist_prisoners
+		icon = GFX_focus_generic_public_works
+		x = -1
+		y = 2
+		relative_position_id = COS_ban_other_political_parties
+		prerequisite = {
+			focus = COS_ban_other_political_parties
+		}
+		prerequisite = {
+			focus = COS_appease_the_german_sympathizers
+		}
+
+		cost = 8
+
+	}
+
 	## Subjegate to the Germans ##
 	focus = {
 		id = COS_subjegate_to_the_germans
@@ -2402,6 +2488,207 @@ focus_tree = {
 		}
 	}
 
+	## Import German Machinery ##
+	focus = {
+		id = COS_import_german_machinery
+		icon = GFX_focus_GER_kdf_wagen
+		x = 4
+		y = 1
+		relative_position_id = COS_subjegate_to_the_germans
+		prerequisite = {
+			focus = COS_subjegate_to_the_germans
+		}
+
+		cost = 7.2
+
+		available = {
+			OR = {
+				is_subject = no 
+				custom_trigger_tooltip = {
+					tooltip = COS_reliability_to_the_germans_is_at_least_somewhat_reliable_tt
+					check_variable = {
+						COS_reichskommissariat_reliability > 39
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_1_civilian = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			if = {
+				limit = {
+					has_dynamic_modifier = {
+						modifier = COS_the_reichskommissariat
+					}
+				}
+				custom_effect_tooltip = COS_modify_the_reichskommissariat_by_tt
+				add_to_variable = {
+					production_speed_industrial_complex_factor = 0.05
+					tooltip = production_speed_industrial_complex_factor_tt
+				}
+				add_to_variable = {
+					industrial_capacity_factory = 0.05
+					tooltip = industrial_capacity_factory_tt
+				}
+				add_to_variable = {
+					consumer_goods_factor = -0.05
+					tooltip = consumer_goods_factor_tt
+				}
+
+				custom_effect_tooltip = COS_reliability_will_slightly_increase_tt 
+				add_to_variable = {
+					COS_reichskommissariat_reliability = 5
+				}
+
+				COS_clamp_reichskommissariat_vars = yes
+			}
+			else = {
+				EUYL_add_1_civilian = yes
+			}
+		}
+	}
+
+	## Adapt a Militarist Society ##
+	focus = {
+		id = COS_adapt_a_militarist_society
+		icon = GFX_focus_generic_military_industry
+		x = 6
+		y = 1
+		relative_position_id = COS_subjegate_to_the_germans
+		prerequisite = {
+			focus = COS_subjegate_to_the_germans
+		}
+
+		cost = 7.2
+
+		available = {
+			OR = {
+				is_subject = no 
+				custom_trigger_tooltip = {
+					tooltip = COS_reliability_to_the_germans_is_at_least_somewhat_reliable_tt
+					check_variable = {
+						COS_reichskommissariat_reliability > 39
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER
+		}
+
+		completion_reward = {
+			add_war_support = 0.05
+
+			custom_effect_tooltip = CHL_skip_one_line_tt 
+
+			EUYL_add_1_military = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			if = {
+				limit = {
+					has_dynamic_modifier = {
+						modifier = COS_the_reichskommissariat
+					}
+				}
+				custom_effect_tooltip = COS_modify_the_reichskommissariat_by_tt
+				add_to_variable = {
+					COS_reichskommissariat_conscription_var = 0.01
+					tooltip = conscription_tt
+				}
+				add_to_variable = {
+					production_speed_arms_factory_factor = 0.05
+					tooltip = production_speed_arms_factory_factor_tt
+				}
+
+				COS_clamp_reichskommissariat_vars = yes
+			}
+			else = {
+				EUYL_add_1_military = yes
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			reduce_focus_completion_cost = {
+				focus = { COS_seize_foreign_assets }  
+				cost = 35
+			}
+		}
+	}
+
+	## Mutual Cooperation with the Reich ##
+	focus = {
+		id = COS_mutual_cooperation_with_the_reich
+		icon = GFX_COS_mutual_cooperation_icon
+		x = -1
+		y = 1
+		relative_position_id = COS_adapt_a_militarist_society
+		prerequisite = {
+			focus = COS_adapt_a_militarist_society
+			focus = COS_import_german_machinery
+		}
+
+		cost = 8
+
+		available = {
+			OR = {
+				is_subject = no 
+				custom_trigger_tooltip = {
+					tooltip = COS_reliability_to_the_germans_is_at_least_reliable_tt
+					check_variable = {
+						COS_reichskommissariat_reliability > 59
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL 
+		}
+
+		completion_reward = {
+			add_political_power = 50
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = COS_add_30_days_to_mission_COS_german_acquisition_of_our_domestic_production_mis
+			hidden_effect = {
+				add_to_variable = {
+					COS_german_acquisition_of_our_domestic_production_timeout = 30
+				}
+			}
+
+			custom_effect_tooltip = COS_reliability_will_slightly_increase_tt 
+			add_to_variable = {
+				COS_reichskommissariat_reliability = 10
+			}
+
+			if = {
+				limit = {
+					is_subject = yes 
+				}
+				custom_effect_tooltip = CHL_skip_one_line_tt
+				add_autonomy_score = {
+					value = 100
+					localization = COS_mutual_cooperation_with_the_reich
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			reduce_focus_completion_cost = {
+				focus = { COS_seize_foreign_assets }  
+				cost = 15
+			}
+		}
+	}
+
 	## Learn from the Wehrmacht ##
 	focus = {
 		id = COS_learn_from_the_wehrmacht
@@ -2418,7 +2705,7 @@ focus_tree = {
 		available = {
 			is_in_faction_with = GER 
 			GER = {
-				num_of_military_factories > 24
+				num_of_military_factories > 29
 			}
 		}
 
@@ -2435,17 +2722,43 @@ focus_tree = {
 
 			add_doctrine_cost_reduction = {
 				name = COS_learn_from_the_wehrmacht
-				cost_reduction = 0.5
-				uses = 1
+				cost_reduction = 0.25
+				uses = 2
 				category = land_doctrine
 			}
 
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
-			custom_effect_tooltip = COS_modify_the_reichskommissariat_by_tt
-			add_to_variable = {
-				COS_reichskommissariat_conscription_var = 0.01
-				tooltip = conscription_tt
+			if = {
+				limit = {
+					has_dynamic_modifier = {
+						modifier = COS_the_reichskommissariat
+					}
+				}
+				custom_effect_tooltip = COS_modify_the_reichskommissariat_by_tt
+				add_to_variable = {
+					COS_reichskommissariat_conscription_var = 0.01
+					tooltip = conscription_tt
+				}
+				add_to_variable = {
+					army_attack_factor = 0.05
+					tooltip = army_attack_factor_tt
+				}
+				add_to_variable = {
+					army_defence_factor = 0.05
+					tooltip = army_defence_factor_tt
+				}
+
+				COS_clamp_reichskommissariat_vars = yes
+			}
+			else = {
+				EUYL_add_1_military = yes
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			reduce_focus_completion_cost = {
+				focus = { COS_seize_foreign_assets }  
+				cost = 35
 			}
 		}
 	}
@@ -2464,7 +2777,114 @@ focus_tree = {
 		cost = 10
 
 		available = {
-			
+			OR = {
+				is_subject = no 
+				custom_trigger_tooltip = {
+					tooltip = COS_reliability_to_the_germans_is_at_least_reliable_tt
+					check_variable = {
+						COS_reichskommissariat_reliability > 59
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					has_completed_focus = COS_carlos_federspiel_takes_charge
+					NOT = {
+						has_completed_focus = COS_public_works_of_costa_rica
+					}
+				}
+				add_research_slot = 1
+			}
+			add_breakthrough_progress = {
+				specialization = specialization_land
+				value = 0.75
+			}
+			add_doctrine_cost_reduction = {
+				name = COS_cooperate_with_german_research_facilities
+				cost_reduction = 1
+				uses = 1
+				category = land_doctrine
+			}
+
+			custom_effect_tooltip = COS_reliability_will_slightly_increase_tt 
+			add_to_variable = {
+				COS_reichskommissariat_reliability = 5
+			}
+		}
+	}
+
+	## Break free from the Reich ##
+	focus = {
+		id = COS_break_free_from_the_reich
+		icon = GFX_COS_break_free_from_germany_icon
+		x = 3
+		y = 3
+		relative_position_id = COS_subjegate_to_the_germans
+		prerequisite = {
+			focus = COS_subjegate_to_the_germans
+		}
+
+		cost = 10
+
+		available = {
+			NOT = {
+				has_war_with = GER 
+			}
+			GER = {
+				exists = yes 
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = COS_if_already_free_tt
+			effect_tooltip = {
+				add_war_support = 0.05
+				add_ideas = COS_independence_achieved
+			}
+			custom_effect_tooltip = COS_if_still_subjegated_tt
+			effect_tooltip = {
+				GER = { country_event = cos.23 }
+				custom_effect_tooltip = COS_chance_of_germans_letting_us_free_depends_on_our_reliability_to_them_tt
+				custom_effect_tooltip = ARG_iftheyaccept
+				GER = {
+					end_puppet = ROOT
+				}
+				add_ideas = COS_independence_achieved
+
+				custom_effect_tooltip = CHL_skip_one_line_tt
+
+				add_stability = 0.05
+				add_war_support = 0.1
+			}
+
+			hidden_effect = {
+				if = {
+					limit = {
+						is_subject = yes 
+					}
+					OVERLORD = {
+						country_event = {
+							id = cos.23
+							hours = 5
+						}
+					}
+				}
+				else = {
+					add_war_support = 0.05
+					add_ideas = COS_independence_achieved
+				}
+			}
 		}
 	}
 
@@ -2543,6 +2963,11 @@ focus_tree = {
 				COS_clamp_reichskommissariat_vars = yes
 			}
 			## TODO: think of something for rule with an iron fist path idk ##
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			reduce_focus_completion_cost = {
+				focus = { COS_seize_foreign_assets }  
+				cost = 35
+			}
 
 			custom_effect_tooltip = COS_failure_to_find_a_resolution_to_the_coffee_oligarchy_crisis_results_in_following_tt
 			effect_tooltip = {
@@ -2621,10 +3046,13 @@ focus_tree = {
 						modifier = COS_the_reichskommissariat
 					}
 				}
-				custom_trigger_tooltip = {
-					tooltip = COS_reliability_to_the_germans_is_at_least_somewhat_reliable_tt
-					check_variable = {
-						COS_reichskommissariat_reliability > 39
+				OR = {
+					is_subject = no 
+					custom_trigger_tooltip = {
+						tooltip = COS_reliability_to_the_germans_is_at_least_somewhat_reliable_tt
+						check_variable = {
+							COS_reichskommissariat_reliability > 39
+						}
 					}
 				}
 			}
@@ -2692,10 +3120,13 @@ focus_tree = {
 						modifier = COS_the_reichskommissariat
 					}
 				}
-				custom_trigger_tooltip = {
-					tooltip = COS_reliability_to_the_germans_is_at_least_reliable_tt
-					check_variable = {
-						COS_reichskommissariat_reliability > 59
+				OR = {
+					is_subject = no 
+					custom_trigger_tooltip = {
+						tooltip = COS_reliability_to_the_germans_is_at_least_reliable_tt
+						check_variable = {
+							COS_reichskommissariat_reliability > 59
+						}
 					}
 				}
 			}
@@ -2735,6 +3166,11 @@ focus_tree = {
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
 			add_war_support = 0.04
+
+			reduce_focus_completion_cost = {
+				focus = { COS_seize_foreign_assets }  
+				cost = 15
+			}
 		}
 	}
 
@@ -2765,6 +3201,222 @@ focus_tree = {
 			add_war_support = 0.05
 
 			custom_effect_tooltip = COS_unlocks_operation_mittelamerika_decisions_tt
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = COS_add_10_days_to_mission_COS_german_acquisition_of_our_domestic_production_mis
+			hidden_effect = {
+				add_to_variable = {
+					COS_german_acquisition_of_our_domestic_production_timeout = 10
+				}
+			}
+		}
+	}
+
+	## Push Into Nicaragua ##
+	focus = { 
+		id = COS_push_into_nicaragua
+		icon = GFX_CEA_attack_nicaragua_icon
+		x = -1
+		y = 1
+		relative_position_id = COS_operation_mittelamerika
+		prerequisite = {
+			focus = COS_operation_mittelamerika
+		}
+
+		will_lead_to_war_with = NIC
+
+		cost = 6
+
+		bypass = {
+			NIC = {
+				OR = {
+					exists = no 
+					is_subject_of = ROOT 
+					is_in_faction_with = ROOT
+					all_core_state = {
+						is_controlled_by = ROOT
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			create_wargoal = {
+				target = NIC
+				type = annex_everything
+			}
+		}
+	}
+
+	## Demand Panama's Subjegation to the Reichskommissariat ##
+	focus = {
+		id = COS_demand_panamas_subjegation_to_the_reichkommissariat
+		icon = GFX_VEN_attack_panama
+		x = 1
+		y = 1
+		relative_position_id = COS_operation_mittelamerika
+		prerequisite = {
+			focus = COS_operation_mittelamerika
+		}
+
+		will_lead_to_war_with = PAN 
+
+		cost = 7.2
+
+		available = {
+			PAN = { 
+				exists = yes 
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		bypass = {
+			PAN = {
+				OR = {
+					exists = no 
+					has_war_with = ROOT
+				}
+			}
+		}
+
+		completion_reward = {
+			unlock_decision_tooltip = { decision = COL_incidente_en_el_canal show_effect_tooltip = yes }
+			if = {
+				limit = {
+					PAN = {
+						is_subject_of = ROOT 
+					}
+				}
+				annex_country = {
+					target = PAN 
+					transfer_troops = yes 
+				}
+			}
+			else = {
+				custom_effect_tooltip = COS_if_phase_one_of_operation_mittelamerika_completed_tt
+				effect_tooltip = {
+					PAN = {
+						country_event = {
+							id = venezuela.49
+							hours = 6
+							random_hours = 6
+						}
+					}
+					custom_effect_tooltip = ARG_iftheyaccept
+					effect_tooltip = {
+						annex_country = {
+							target = PAN
+							transfer_troops = yes
+						}
+					}
+				}
+				custom_effect_tooltip = COS_if_phase_one_not_completed_tt
+				create_wargoal = {
+					target = PAN
+					type = annex_everything
+				}
+				hidden_effect = {
+					if = {
+						limit = { ## so long as any of them are complete, this will trigger
+							OR = {
+								has_country_flag = COS_phase_three_complete_flag
+								has_country_flag = COS_phase_two_complete_flag
+								has_country_flag = COS_phase_one_complete_flag
+							}
+						}
+						PAN = {
+							country_event = {
+								id = venezuela.49
+								hours = 6
+								random_hours = 6
+							}
+						}
+						custom_effect_tooltip = ARG_iftheyaccept
+						effect_tooltip = {
+							annex_country = {
+								target = PAN
+								transfer_troops = yes
+							}
+						}
+					}
+					else = {
+						create_wargoal = {
+							target = PAN
+							type = annex_everything
+						}
+					}
+				}
+			}
+		}
+	}
+
+	## Seize Foreign Assets ##
+	focus = {
+		id = COS_seize_foreign_assets
+		icon = GFX_COS_seize_assets_for_the_reich_icon
+		overlay = GFX_focus_fast_overlay_generic_clock
+		x = -1
+		y = 1
+		relative_position_id = COS_demand_panamas_subjegation_to_the_reichkommissariat
+		prerequisite = {
+			focus = COS_demand_panamas_subjegation_to_the_reichkommissariat
+			focus = COS_push_into_nicaragua
+		}
+
+		cost = 20
+
+		available = {
+			OR = {
+				num_of_factories > 29
+				has_country_flag = COS_phase_three_complete_flag
+				has_country_flag = COS_phase_two_complete_flag
+				has_country_flag = COS_phase_one_complete_flag
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = COS_unlocks_seize_foreign_assets_decisions_tt
+		}
+	}
+
+	## Steal Foreign Gold Reserves ##
+	focus = {
+		id = COS_steal_foreign_gold_reserves
+		icon = GFX_focus_usa_reestablish_the_gold_standard
+		x = 0
+		y = 1
+		relative_position_id = COS_seize_foreign_assets
+		prerequisite = {
+			focus = COS_seize_foreign_assets
+		}
+
+		cost = 10
+
+		available = {
+			OR = {
+				has_country_flag = COS_phase_two_complete_flag
+				has_country_flag = COS_phase_one_complete_flag
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = COS_unlocks_decision_confiscate_foreign_gold_reserves_tt
 		}
 	}
 
@@ -2919,6 +3571,9 @@ focus_tree = {
 						has_idea = COS_nazi_sympathizers_2
 					}
 				}
+			}
+			NOT = {
+				has_government = fascism
 			}
 		}
 
@@ -4476,7 +5131,7 @@ focus_tree = {
 			NOT = {
 				has_completed_focus = COS_cooperate_with_manuel_mora
 				has_completed_focus = COS_tend_to_the_people_of_costa_rica
-				has_completed_focus = COS_work_closely_with_the_peoples_vanguard_party
+				has_completed_focus = COS_octavio_beeche_takes_power
 			}
 		}
 
