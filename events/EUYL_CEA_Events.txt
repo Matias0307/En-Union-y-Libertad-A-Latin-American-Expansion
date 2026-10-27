@@ -4242,6 +4242,10 @@ country_event = {
 	desc = cos.20.d 
 	
 	is_triggered_only = yes
+
+	option = {
+		name = cos.20.a 
+	}
 }
 
 ## Germany refuses to accept our terms ##
@@ -4251,6 +4255,10 @@ country_event = {
 	desc = cos.21.d 
 
 	is_triggered_only = yes
+
+	option = {
+		name = cos.21.a 
+	}
 }
 
 ## Germans Displeased with our Efforts ##
@@ -4377,6 +4385,12 @@ country_event = {
 
 		add_stability = 0.05
 		add_war_support = 0.1
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		drop_cosmetic_tag = yes
+		set_cosmetic_tag = COS_NAZISM
+		set_global_flag = EUYL_COS_free_flag
 	}
 }
 
@@ -4434,7 +4448,57 @@ country_event = {
 	is_triggered_only = yes 
 
 	option = { ## They shall pay with their blood
-		nmae = cos.26.a 
+		name = cos.26.a 
+	}
+}
+
+## [FROM.GetName] (Costa Rica) Proposes a Pact of Mutual Cooperation with Us
+country_event = {
+	id = cos.27
+	title = cos.27.t 
+	desc = cos.27.d 
+	picture = GFX_report_event_generic_handshake
+
+	is_triggered_only = yes 
+
+	option = { ##Sounds good to me
+		name = cos.27.a
+		ai_chance = {
+			base = 5
+			modifier = {
+				factor = 3
+				has_opinion = {
+					target = FROM 
+					value > 49
+				}
+			}
+		}
+		FROM = { give_guarantee = ROOT }
+		give_guarantee = FROM
+
+		hidden_effect = {
+			FROM = {
+				country_event = {
+					id = peru.16 
+					hours = 4
+				}
+			}
+		}
+	}
+
+	option = {
+		name = cos.27.b 
+		ai_chance = {
+			base = 2
+		}
+		hidden_effect = {
+			FROM = {
+				country_event = {
+					id = peru.17 
+					hours = 5
+				}
+			}
+		}
 	}
 }
 
