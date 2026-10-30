@@ -5239,6 +5239,10 @@ COS_public_works_of_costa_rica_dec_cat = {
 
 		days_remove = 90
 
+		ai_will_do = {
+			base = 120
+		}
+
 		fire_only_once = yes
 
 		modifier = {
@@ -5293,6 +5297,10 @@ COS_public_works_of_costa_rica_dec_cat = {
 
 		days_remove = 120
 
+		ai_will_do = {
+			base = 20
+		}
+
 		fire_only_once = yes 
 
 		modifier = {
@@ -5336,6 +5344,14 @@ COS_public_works_of_costa_rica_dec_cat = {
 		cost = 30
 
 		days_remove = 60
+
+		ai_will_do = {
+			base = 10
+			modifier = {
+				add = 50
+				num_of_controlled_states < 11
+			}
+		}
 
 		fire_only_once = yes 
 
@@ -5463,6 +5479,10 @@ COS_crackdown_on_fascism = {
 
 		days_remove = 40
 
+		ai_will_do = {
+			base = 200
+		}
+
 		modifier = {
 			weekly_manpower = -10
 		}
@@ -5493,6 +5513,10 @@ COS_crackdown_on_fascism = {
 
 		modifier = {
 			political_power_factor = -0.05
+		}
+
+		ai_will_do = {
+			base = 200
 		}
 
 		fire_only_once = yes 
@@ -5551,6 +5575,10 @@ COS_crackdown_on_fascism = {
 
 		modifier = {
 			civilian_factory_use = 1
+		}
+
+		ai_will_do = {
+			base = 200
 		}
 
 		fire_only_once = yes
@@ -5659,6 +5687,10 @@ COS_looming_communist_revolution = {
 		days_remove = 30
 
 		on_map_mode = map_and_decisions_view
+
+		ai_will_do = {
+			base = 200
+		}
 
 		available = {
 			if = {
@@ -5797,6 +5829,10 @@ COS_looming_communist_revolution = {
 
 		days_remove = 25
 
+		ai_will_do = {
+			base = 250
+		}
+
 		fire_only_once = yes
 
 		available = {
@@ -5843,6 +5879,10 @@ COS_looming_communist_revolution = {
 			}
 		}
 
+		ai_will_do = {
+			base = 76
+		}
+
 		modifier = {
 			political_power_gain = -0.05
 			weekly_manpower = -10
@@ -5885,6 +5925,10 @@ COS_crown_of_the_tropics = {
 		}
 
 		on_map_mode = map_and_decisions_view
+
+		ai_will_do = {
+			base = 200
+		}
 
 		visible = {
 			any_other_country = {
@@ -5976,12 +6020,17 @@ COS_max_effinger_administration = {
 			}
 		}
 
+		ai_will_do = {
+			base = 5
+			modifier = {
+				add = 200
+				has_completed_focus = COS_stir_up_nazi_sympathies
+			}
+		}
+
 		available = {
 			has_idea = COS_max_effinger
 			has_civil_war = no 
-			NOT = {
-				has_decision = COS_promote_local_migration_to_FROM
-			}
 			hidden_trigger = {
 				NOT = {
 					has_country_flag = COS_promoting_migration_flag
@@ -6070,6 +6119,10 @@ COS_max_effinger_administration = {
 		days_remove = 70
 
 		on_map_mode = map_and_decisions_view
+
+		ai_will_do = {
+			base = 2
+		}
 
 		cancel_trigger = {
 			FROM = {
@@ -6169,6 +6222,10 @@ COS_the_leap_forward = {
 			has_completed_focus = COS_with_the_revolution ## Lyra path
 		}
 
+		ai_will_do = {
+			base = 250
+		}
+
 		cost = 25
 
 		days_remove = 70
@@ -6226,6 +6283,10 @@ COS_the_leap_forward = {
 
 		targets = {
 			1137 
+		}
+
+		ai_will_do = {
+			base = 250
 		}
 
 		available = {
@@ -6310,6 +6371,10 @@ COS_the_leap_forward = {
 			}
 		}
 
+		ai_will_do = {
+			base = 350
+		}
+
 		cost = 10
 
 		fire_only_once = yes 
@@ -6362,6 +6427,10 @@ COS_the_leap_forward = {
 		cost = 35
 
 		days_remove = 50
+
+		ai_will_do = {
+			base = 250
+		}
 
 		cancel_trigger = {
 			OR = {
@@ -6437,6 +6506,10 @@ COS_the_leap_forward = {
 			}
 		}
 
+		ai_will_do = {
+			base = 250
+		}
+
 		visible = {
 			has_completed_focus = COS_change_in_a_different_way ## Mora path
 			has_active_mission = COS_the_great_leap_forward_mis
@@ -6475,6 +6548,10 @@ COS_the_leap_forward = {
 			}
 		}
 
+		ai_will_do = {
+			base = 250
+		}
+
 		visible = {
 			has_completed_focus = COS_change_in_a_different_way ## Mora path
 			has_active_mission = COS_the_great_leap_forward_mis
@@ -6488,26 +6565,28 @@ COS_the_leap_forward = {
 		}
 
 		complete_effect = {
-			25 = {
-				custom_effect_tooltip = COS_subtract_5_revolution_support_tt
-				subtract_from_variable = {
-					COS_support_for_the_revolution_var = 5
+			random_list = {
+				25 = {
+					custom_effect_tooltip = COS_subtract_5_revolution_support_tt
+					subtract_from_variable = {
+						COS_support_for_the_revolution_var = 5
+					}
+					clamp_variable = {
+						var = COS_support_for_the_revolution_var
+						min = 0
+						max = 100
+					}
 				}
-				clamp_variable = {
-					var = COS_support_for_the_revolution_var
-					min = 0
-					max = 100
-				}
-			}
-			15 = {
-				custom_effect_tooltip = COS_subtract_10_revolution_support_tt
-				subtract_from_variable = {
-					COS_support_for_the_revolution_var = 10
-				}
-				clamp_variable = {
-					var = COS_support_for_the_revolution_var
-					min = 0
-					max = 100
+				15 = {
+					custom_effect_tooltip = COS_subtract_10_revolution_support_tt
+					subtract_from_variable = {
+						COS_support_for_the_revolution_var = 10
+					}
+					clamp_variable = {
+						var = COS_support_for_the_revolution_var
+						min = 0
+						max = 100
+					}
 				}
 			}
 
@@ -6522,6 +6601,180 @@ COS_the_leap_forward = {
 }
 
 COS_the_reichskommissariat_dec_cat = {
+	COS_prove_our_worth_to_the_reich = {
+		priority = 250
+		icon = generic_GER_flag
+
+		activation = {
+			always = no 
+		}
+
+		days_mission_timeout = 540
+
+		cancel_trigger = {
+			OR = {
+				NOT = { is_subject_of = GER }
+				GER = { exists = no }
+			}
+		}
+
+		is_good = no 
+		fire_only_once = yes 
+
+		available = {
+			num_of_military_factories > 7
+			has_army_manpower = {
+				size > 49999
+			}
+		}
+
+		complete_effect = {
+			add_war_support = 0.01
+			add_stability = 0.01
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = COS_reliability_will_slightly_increase_tt 
+			add_to_variable = {
+				COS_reichskommissariat_reliability = 6
+			}
+
+			COS_clamp_reichskommissariat_vars = yes
+		}
+
+		timeout_effect = {
+			custom_effect_tooltip = COS_modify_the_reichskommissariat_by_tt
+			add_to_variable = {
+				COS_reichskommissariat_consumer_goods_var = 0.02
+				tooltip = consumer_goods_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_industrial_complex_factor_var = -0.01
+				tooltip = production_speed_industrial_complex_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_dockyard_factor_var = -0.01
+				tooltip = production_speed_dockyard_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_arms_factory_factor_var = -0.01
+				tooltip = production_speed_arms_factory_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_industrial_capacity_var = -0.01
+				tooltip = industrial_capacity_factory_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_army_attack_var = -0.01
+				tooltip = army_attack_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_army_defence_var = -0.01
+				tooltip = army_defence_factor_tt
+			}
+
+			subtract_from_variable = {
+				COS_reichskommissariat_reliability = 10
+			}
+
+			COS_clamp_reichskommissariat_vars = yes
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_autonomy_score = {
+				value = -20
+				localization = COS_german_acquisition_of_products
+			}
+		}
+	}
+
+	COS_complete_operation_mittelamerika = {
+		priority = 250
+		icon = generic_GER_flag
+
+		activation = {
+			always = no 
+		}
+
+		cancel_trigger = {
+			OR = {
+				NOT = { is_subject_of = GER }
+				GER = { exists = no }
+			}
+		}
+
+		days_mission_timeout = 1225
+
+		is_good = no 
+		fire_only_once = yes 
+
+		available = {
+			has_country_flag = COS_phase_three_complete_flag
+		}
+
+		complete_effect = {
+			add_war_support = 0.02
+			add_stability = 0.03
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = COS_reliability_will_slightly_increase_tt 
+			add_to_variable = {
+				COS_reichskommissariat_reliability = 12
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			EUYL_add_1_military = yes
+
+			COS_clamp_reichskommissariat_vars = yes
+		}
+
+		timeout_effect = {
+			custom_effect_tooltip = COS_modify_the_reichskommissariat_by_tt
+			add_to_variable = {
+				COS_reichskommissariat_consumer_goods_var = 0.02
+				tooltip = consumer_goods_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_industrial_complex_factor_var = -0.01
+				tooltip = production_speed_industrial_complex_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_dockyard_factor_var = -0.01
+				tooltip = production_speed_dockyard_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_arms_factory_factor_var = -0.01
+				tooltip = production_speed_arms_factory_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_industrial_capacity_var = -0.01
+				tooltip = industrial_capacity_factory_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_army_attack_var = -0.01
+				tooltip = army_attack_factor_tt
+			}
+			add_to_variable = {
+				COS_reichskommissariat_army_defence_var = -0.01
+				tooltip = army_defence_factor_tt
+			}
+
+			subtract_from_variable = {
+				COS_reichskommissariat_reliability = 10
+			}
+
+			COS_clamp_reichskommissariat_vars = yes
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_autonomy_score = {
+				value = -20
+				localization = COS_german_acquisition_of_products
+			}
+		}
+	}
+
 	COS_impending_german_annexation = {
 		priority = 150
 		icon = generic_GER_flag
@@ -6603,6 +6856,10 @@ COS_the_reichskommissariat_dec_cat = {
 			add_to_variable = {
 				COS_reichskommissariat_army_defence_var = -0.01
 				tooltip = army_defence_factor_tt
+			}
+
+			subtract_from_variable = {
+				COS_reichskommissariat_reliability = 3
 			}
 
 			COS_clamp_reichskommissariat_vars = yes
@@ -6717,7 +6974,12 @@ COS_the_reichskommissariat_dec_cat = {
 				}
 
 				add_to_variable = {
-					COS_reichskommissariat_reliability = 5
+					COS_reichskommissariat_reliability = 7
+				}
+
+				custom_effect_tooltip = COS_bonus_limit_of_reichskommissariat_modifier_increases_by_2_tt
+				add_to_variable = {
+					COS_reichskommissariat_upper_limit = 0.02
 				}
 
 				COS_clamp_reichskommissariat_vars = yes
@@ -6768,9 +7030,9 @@ COS_the_reichskommissariat_dec_cat = {
 			316 = { controls_or_subject_of = yes }
 			312 = { controls_or_subject_of = yes }
 			1133 = { controls_or_subject_of = yes }
-			1134= { controls_or_subject_of = yes }
+			1134 = { controls_or_subject_of = yes }
 			314 = { controls_or_subject_of = yes }
-			1138= { controls_or_subject_of = yes }
+			1138 = { controls_or_subject_of = yes }
 		}
 
 		fire_only_once = yes 
@@ -6847,10 +7109,15 @@ COS_the_reichskommissariat_dec_cat = {
 				}
 
 				add_to_variable = {
-					COS_reichskommissariat_reliability = 7
+					COS_reichskommissariat_reliability = 10
 				}
 
 				COS_clamp_reichskommissariat_vars = yes
+
+				custom_effect_tooltip = COS_bonus_limit_of_reichskommissariat_modifier_increases_by_2_tt
+				add_to_variable = {
+					COS_reichskommissariat_upper_limit = 0.02
+				}
 			}
 			else = {
 				add_war_support = 0.05
@@ -6870,6 +7137,7 @@ COS_the_reichskommissariat_dec_cat = {
 
 		visible = {
 			has_completed_focus = COS_operation_mittelamerika
+			has_country_flag = COS_phase_two_complete_flag
 		}
 
 		highlight_states = {
@@ -7001,7 +7269,12 @@ COS_the_reichskommissariat_dec_cat = {
 				}
 
 				add_to_variable = {
-					COS_reichskommissariat_reliability = 10
+					COS_reichskommissariat_reliability = 15
+				}
+
+				custom_effect_tooltip = COS_bonus_limit_of_reichskommissariat_modifier_increases_by_2_tt
+				add_to_variable = {
+					COS_reichskommissariat_upper_limit = 0.02
 				}
 
 				COS_clamp_reichskommissariat_vars = yes
@@ -7079,6 +7352,16 @@ COS_the_reichskommissariat_dec_cat = {
 			is_subject_of = GER
 		}
 
+		ai_will_do = {
+			base = 20
+			modifier = {
+				add = 100
+				has_equipment = {
+					infantry_equipment < 0
+				}
+			}
+		}
+
 		days_remove = 90
 
 		complete_effect = {
@@ -7121,6 +7404,10 @@ COS_the_reichskommissariat_dec_cat = {
 		cost = 20
 
 		fire_only_once = yes 
+
+		ai_will_do = {
+			base = 200
+		}
 
 		visible = {
 			has_dynamic_modifier = { modifier = COS_the_reichskommissariat }
@@ -7175,7 +7462,7 @@ COS_the_reichskommissariat_dec_cat = {
 				}
 
 				add_to_variable = {
-					COS_reichskommissariat_reliability = 3
+					COS_reichskommissariat_reliability = 6
 				}
 				
 				COS_clamp_reichskommissariat_vars = yes
@@ -7211,6 +7498,10 @@ COS_the_reichskommissariat_dec_cat = {
 		cost = 40
 
 		fire_only_once = yes 
+
+		ai_will_do = {
+			base = 200
+		}
 
 		complete_effect = {
 			if = {
@@ -7257,7 +7548,7 @@ COS_the_reichskommissariat_dec_cat = {
 				}
 
 				add_to_variable = {
-					COS_reichskommissariat_reliability = 5
+					COS_reichskommissariat_reliability = 8
 				}
 
 				COS_clamp_reichskommissariat_vars = yes

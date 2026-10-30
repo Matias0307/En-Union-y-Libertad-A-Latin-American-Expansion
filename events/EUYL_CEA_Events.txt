@@ -3247,7 +3247,7 @@ country_event = {
 	id = cos.2
 	title = cos.2.t 
 	desc = cos.2.d 
-	picture = GFX_ ## TODO: make costa rica elections pic
+	picture = GFX_COS_1936_elections_pic
 
 	is_triggered_only = yes 
 
@@ -3266,7 +3266,17 @@ country_event = {
 			base = 2
 			modifier = {
 				factor = 0
-				is_historical_focus_on = yes 
+				OR = {
+					has_game_rule = {
+						rule = COS_ai_behavior 
+						option = COS_FASCISM
+					}
+					has_game_rule = {
+						rule = COS_ai_behavior 
+						option = COS_NAZISM
+					}
+					is_historical_focus_on = yes
+				}
 			}
 		}
 		promote_character = COS_octavio_beeche_arguello
@@ -3650,12 +3660,15 @@ country_event = {
 		}
 	}
 
-	option = { ## Teodoro Picado Michalski (historical, available 
+	option = { ## Teodoro Picado Michalski (historical, available)
 		name = "Teodoro Picado Michalski"
 		trigger = {
 			NOT = {
 				has_completed_focus = COS_persecte_communists
 			}
+		}
+		ai_chance = {
+			base = 2
 		}
 		promote_character = COS_teodoro_picado_michalski
 
@@ -3692,6 +3705,13 @@ country_event = {
 
 	option = { ## Leon Cortes 
 		name = "León Cortés Castro" 
+		ai_chance = {
+			base = 2
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
 		if = {
 			limit = {
 				NOT = {
@@ -3742,6 +3762,13 @@ country_event = {
 			}
 		}
 		promote_character = COS_rafael_angel_calderon
+		ai_chance = {
+			base = 2
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
 
 		set_party_name = {
 			ideology = democratic
@@ -3790,6 +3817,13 @@ country_event = {
 		trigger = {
 			has_idea = COS_manuel_mora_valverde_idea
 		}
+		ai_chance = {
+			base = 2
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
 
 		set_politics = {
 			ruling_party = communism
@@ -3811,8 +3845,8 @@ country_event = {
 ## [GetYear] Elections (Historically represents the 1948 elections)
 country_event = {
 	id = cos.11
-	title = cos.11.t 
-	desc = cos.11.d 
+	title = cos.10.t 
+	desc = cos.10.d 
 	picture = GFX_report_event_election_vote
 
 	is_triggered_only = yes 
@@ -3831,6 +3865,9 @@ country_event = {
 
 	option = { ##  	Otilio Ulate Blanco || will trigger historical event of election results being overturned
 		name = "Otilio Ulate Blanco"
+		ai_chance = {
+			base = 2
+		}
 		
 		promote_character = COS_otilio_ulate_blanco
 
@@ -3874,6 +3911,13 @@ country_event = {
 				has_completed_focus = COS_restructure_the_costa_rican_constitution
 			}
 		}
+		ai_chance = {
+			base = 2
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
 
 		promote_character = COS_rafael_angel_calderon
 
@@ -3915,6 +3959,13 @@ country_event = {
 			}
 		}
 		promote_character = COS_teodoro_picado_michalski
+		ai_chance = {
+			base = 2
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
 
 		hidden_effect = {
 			if = {
@@ -3941,6 +3992,13 @@ country_event = {
 		name = "Manuel Mora Valverde"
 		trigger = {
 			has_government = communism
+		}
+		ai_chance = {
+			base = 2
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
 		}
 
 		add_popularity = {
@@ -4017,7 +4075,7 @@ country_event = {
 	is_triggered_only = yes 
 
 	option = {
-		name = cos.13.a 
+		name = cos.12.a 
 
 		add_political_power = -25
 
@@ -4054,6 +4112,8 @@ country_event = {
 		custom_effect_tooltip = COS_protests_will_erupt_nationwide_failure_to_calm_the_people_will_result_in_a_civil_war_tt
 
 		activate_mission = COS_looming_civil_war
+
+		set_country_flag = COS_1948_revolution_flag
 
 		hidden_effect = {
 			every_core_state = {
@@ -4245,6 +4305,106 @@ country_event = {
 
 	option = {
 		name = cos.20.a 
+
+		hidden_effect = {
+			country_event = {
+				id = cos.28 
+				days = 21
+				random_days = 42
+			}
+
+			news_event = {
+				id = cos.200
+				hours = 14
+			}
+		}
+	}
+}
+
+news_event = {
+	id = cos.200
+	title = cos.200.t
+	desc = cos.200.d 
+	picture = GFX_COS_german_subject_news_event_pic
+
+	major = yes 
+	is_triggered_only = yes 
+
+	option = {
+		name = cos.200.a 
+		trigger = {
+			OR = {
+				original_tag = COS 
+				original_tag = GER
+			}
+		}
+	}
+
+	option = {
+		name = cos.200.b 
+		ai_chance = {
+			base = 100
+		}
+		trigger = {
+			NOT = {
+				original_tag = COS
+				original_tag = GER
+			}
+		}
+	}
+
+	option = { ## If a nation wants, they can respond with hostility, highly unlikely tho
+		name = EUYL_news.1.c 
+		trigger = {
+			NOT = {
+				original_tag = COS
+				original_tag = GER 
+			}
+			OR = {
+				CEA_is_central_american = yes 
+				original_tag = USA
+			}
+		}
+		ai_chance = {
+			base = 1
+			modifier = {
+				factor = 2
+				threat > 0.2
+			}
+			modifier = {
+				factor = 4
+				threat > 0.4
+			}
+			modifier = {
+				factor = 8
+				threat > 0.8
+			}
+		}
+		add_ai_strategy = {
+			type = prepare_for_war
+			id = COS
+			value = 70
+		}
+		create_wargoal = {
+			target = COS
+			type = annex_everything
+			expire = 365
+		}
+
+		hidden_effect = {
+			COS = {
+				country_event = {
+					id = EUYL.7 
+					hours = 2
+					random_hours = 4
+				}
+			}
+		}
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		add_stability = -0.1
+		add_political_power = -50
 	}
 }
 
@@ -4266,9 +4426,8 @@ country_event = {
 	id = cos.22
 	title = cos.22.t 
 	desc = cos.22.d 
-	picture = GFX_ 
+	picture = GFX_report_event_generic_army
 
-	fire_only_once = no 
 	trigger = {
 		original_tag = COS 
 		has_dynamic_modifier = { modifier = COS_the_reichskommissariat }
@@ -4289,7 +4448,7 @@ country_event = {
 	option = {
 		name = cos.22.a 
 		activate_mission_tooltip = COS_impending_german_annexation
-		subtract_from_variable = {
+		subtract_from_variable = { ##call me a dick all you want, this is to prevent an immediate clearance of the mission
 			COS_reichskommissariat_reliability = 5
 		}
 
@@ -4499,6 +4658,72 @@ country_event = {
 				}
 			}
 		}
+	}
+}
+
+## The Fuhrer Demands we Prove our Worth ##
+country_event = {
+	id = cos.28
+	title = cos.28.t
+	desc = cos.28.d 
+	picture = GFX_ARG_hitler_leader
+
+	is_triggered_only = yes 
+
+	option = {
+		name = cos.28.a 
+		activate_mission = COS_prove_our_worth_to_the_reich
+
+		custom_effect_tooltip = EUYL_effects_if_completed_succesfully_tt
+		effect_tooltip = {
+			add_war_support = 0.01
+			add_stability = 0.01
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = COS_reliability_will_slightly_increase_tt 
+		}
+	}
+}
+
+## The Fuhrer Demands we Complete Operation Mittelamerika ##
+country_event = {
+	id = cos.29
+	title = cos.29.t 
+	desc = cos.29.d 
+	picture = GFX_ARG_hitler_leader
+
+	is_triggered_only = yes 
+
+	option = {
+		name = cos.28.a 
+		activate_mission = COS_complete_operation_mittelamerika
+
+		custom_effect_tooltip = EUYL_effects_if_completed_succesfully_tt
+		effect_tooltip = {
+			add_war_support = 0.02
+			add_stability = 0.03
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = COS_reliability_will_slightly_increase_tt 
+			
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			EUYL_add_1_military = yes
+		}
+	}
+}
+
+## The Reich is Pleased with Us ##
+country_event = {
+	id = cos.30
+	title = cos.30.t
+	desc = cos.30.d 
+	
+	is_triggered_only = yes 
+
+	option = {
+		name = cos.30.a 
 	}
 }
 
