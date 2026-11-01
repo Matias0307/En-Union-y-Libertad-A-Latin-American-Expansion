@@ -1,0 +1,3592 @@
+focus_tree = {
+	id = belize_focus_tree
+
+	country = {
+		factor = 0
+		modifier = {
+			add = 10
+			original_tag = BLZ
+		}
+	}
+
+	default = no
+
+	###########################
+	### COLONIAL INDUSTRY ###
+	###########################
+
+	focus = {
+		id = BLZ_rebuild_belize_town
+		icon = GFX_focus_generic_low_cost_housing
+
+		x = 6
+		y = 0
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		prerequisite = {}
+
+		mutually_exclusive = {}
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 25
+			remove_ideas = BLZ_aftermath_of_the_1931_hurricane
+			add_timed_idea = { idea = BLZ_hurricane_reconstruction days = 365 }
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	#####################
+	### PUBLIC WORKS ###
+	#####################
+
+	focus = {
+		id = BLZ_the_baron_bliss_trust
+		icon = GFX_focus_generic_public_works
+
+		relative_position_id = BLZ_rebuild_belize_town
+
+		x = 0
+		y = 1
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		prerequisite = { focus = BLZ_rebuild_belize_town }
+
+		mutually_exclusive = {}
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_ideas = BLZ_bliss_bequest
+			random_owned_controlled_state = {
+				limit = { is_core_of = ROOT }
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_the_belize_harbour
+		icon = GFX_goal_generic_construct_naval_dockyard
+
+		relative_position_id = BLZ_rebuild_belize_town
+
+		x = -1
+		y = 2
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		prerequisite = { focus = BLZ_the_baron_bliss_trust }
+
+		mutually_exclusive = {}
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_ideas = BLZ_belize_harbour_works
+			random_owned_controlled_state = {
+				limit = { is_core_of = ROOT is_coastal = yes }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_the_colonial_development_fund
+		icon = GFX_focus_RAJ_british_investors
+
+		relative_position_id = BLZ_rebuild_belize_town
+
+		x = 1
+		y = 2
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		prerequisite = { focus = BLZ_the_baron_bliss_trust }
+
+		mutually_exclusive = {}
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 50
+			add_timed_idea = { idea = BLZ_colonial_development_grants days = 365 }
+			random_owned_controlled_state = {
+				limit = { is_core_of = ROOT }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			if = {
+				limit = { country_exists = ENG }
+				add_opinion_modifier = { target = ENG modifier = medium_increase }
+				ENG = { add_opinion_modifier = { target = ROOT modifier = medium_increase } }
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	######################
+	### FOREST PRODUCTS ###
+	######################
+
+	focus = {
+		id = BLZ_the_forest_department
+		icon = GFX_focus_CHL_expand_the_forestry
+
+		relative_position_id = BLZ_rebuild_belize_town
+
+		x = -5
+		y = 1
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		prerequisite = { focus = BLZ_rebuild_belize_town }
+
+		mutually_exclusive = {}
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 25
+			add_ideas = BLZ_forest_department
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_back_the_estate_company
+		icon = GFX_focus_generic_industrialists
+
+		relative_position_id = BLZ_rebuild_belize_town
+
+		x = -6
+		y = 2
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		prerequisite = { focus = BLZ_the_forest_department }
+
+		mutually_exclusive = { focus = BLZ_back_the_creole_timber_men }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_ideas = BLZ_estate_company_dominance
+			random_owned_controlled_state = {
+				limit = { is_core_of = ROOT }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			if = {
+				limit = { country_exists = ENG }
+				add_opinion_modifier = { target = ENG modifier = huge_increase }
+				ENG = { add_opinion_modifier = { target = ROOT modifier = huge_increase } }
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_back_the_creole_timber_men
+		icon = GFX_focus_INS_import_lumber
+
+		relative_position_id = BLZ_rebuild_belize_town
+
+		x = -4
+		y = 2
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		prerequisite = { focus = BLZ_the_forest_department }
+
+		mutually_exclusive = { focus = BLZ_back_the_estate_company }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 50
+			add_ideas = BLZ_creole_timber_interests
+			random_owned_controlled_state = {
+				limit = { is_core_of = ROOT }
+				add_extra_state_shared_building_slots = 1
+			}
+			if = {
+				limit = { country_exists = ENG }
+				add_opinion_modifier = { target = ENG modifier = small_decrease }
+				ENG = { add_opinion_modifier = { target = ROOT modifier = small_decrease } }
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_the_chicle_trade
+		icon = GFX_focus_generic_rubber
+
+		relative_position_id = BLZ_rebuild_belize_town
+
+		x = -5
+		y = 3
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		prerequisite = { focus = BLZ_back_the_estate_company focus = BLZ_back_the_creole_timber_men }
+
+		mutually_exclusive = {}
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 25
+			add_ideas = BLZ_chicle_for_wrigleys
+			if = {
+				limit = { country_exists = USA }
+				add_opinion_modifier = { target = USA modifier = huge_increase }
+				USA = { add_opinion_modifier = { target = ROOT modifier = huge_increase } }
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	######################
+	### THE NORTH & SOUTH ###
+	######################
+
+	focus = {
+		id = BLZ_the_pembroke_hall_mill
+		icon = GFX_focus_AFG_sugar_factory
+
+		relative_position_id = BLZ_rebuild_belize_town
+
+		x = 5
+		y = 1
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		prerequisite = { focus = BLZ_rebuild_belize_town }
+
+		mutually_exclusive = {}
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_ideas = BLZ_pembroke_hall_mill
+			random_owned_controlled_state = {
+				limit = { is_core_of = ROOT }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_the_citrus_growers
+		icon = GFX_focus_AFG_fruit_processing
+
+		relative_position_id = BLZ_rebuild_belize_town
+
+		x = 5
+		y = 2
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		prerequisite = { focus = BLZ_the_pembroke_hall_mill }
+
+		mutually_exclusive = {}
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_ideas = BLZ_stann_creek_citrus
+			random_owned_controlled_state = {
+				limit = { is_core_of = ROOT }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	
+
+	focus = {
+		id = BLZ_beyond_mahogany
+		icon = GFX_focus_generic_modernize_industry
+
+		relative_position_id = BLZ_rebuild_belize_town
+
+		x = 0
+		y = 4
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		prerequisite = { focus = BLZ_the_chicle_trade }
+		prerequisite = { focus = BLZ_the_belize_harbour }
+		prerequisite = { focus = BLZ_the_colonial_development_fund }
+		prerequisite = { focus = BLZ_the_citrus_growers }
+
+		mutually_exclusive = {}
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 75
+			add_ideas = BLZ_beyond_mahogany
+			add_tech_bonus = {
+				name = BLZ_colonial_industry
+				bonus = 0.5
+				uses = 1
+				category = industry
+			}
+			random_owned_controlled_state = {
+				limit = { is_core_of = ROOT }
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	###########################
+	### INDEPENDENT ECONOMY ###
+	###########################
+
+	focus = {
+		id = BLZ_a_free_belizean_economy
+		icon = GFX_focus_generic_economic_recovery
+
+		x = 19
+		y = 0
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		prerequisite = {}
+
+		mutually_exclusive = {}
+
+		available = {
+			is_subject = no
+		}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 50
+			add_ideas = BLZ_independent_treasury
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	#################
+	### CURRENCY ###
+	#################
+
+	focus = {
+		id = BLZ_hold_the_dollar_peg
+		icon = GFX_focus_usa_reestablish_the_gold_standard
+
+		relative_position_id = BLZ_a_free_belizean_economy
+
+		x = -5
+		y = 1
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		prerequisite = { focus = BLZ_a_free_belizean_economy }
+
+		mutually_exclusive = { focus = BLZ_join_the_sterling_area }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_ideas = BLZ_us_dollar_peg
+			if = {
+				limit = { country_exists = USA }
+				add_opinion_modifier = { target = USA modifier = huge_increase }
+				USA = { add_opinion_modifier = { target = ROOT modifier = huge_increase } }
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_join_the_sterling_area
+		icon = GFX_focus_generic_monetary_union
+
+		relative_position_id = BLZ_a_free_belizean_economy
+
+		x = -3
+		y = 1
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		prerequisite = { focus = BLZ_a_free_belizean_economy }
+
+		mutually_exclusive = { focus = BLZ_hold_the_dollar_peg }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_ideas = BLZ_sterling_area_member
+			if = {
+				limit = { country_exists = ENG }
+				add_opinion_modifier = { target = ENG modifier = huge_increase }
+				ENG = { add_opinion_modifier = { target = ROOT modifier = huge_increase } }
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_collect_the_land_tax
+		icon = GFX_focus_generic_land_redistribution
+
+		relative_position_id = BLZ_a_free_belizean_economy
+
+		x = -4
+		y = 2
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		prerequisite = { focus = BLZ_hold_the_dollar_peg focus = BLZ_join_the_sterling_area }
+
+		mutually_exclusive = {}
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 25
+			add_ideas = BLZ_land_tax_revenue
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	##################
+	### LABOUR ###
+	##################
+
+	focus = {
+		id = BLZ_end_the_commissary_tickets
+		icon = GFX_focus_generic_workers
+
+		relative_position_id = BLZ_a_free_belizean_economy
+
+		x = 0
+		y = 1
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		prerequisite = { focus = BLZ_a_free_belizean_economy }
+
+		mutually_exclusive = {}
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 25
+			add_ideas = BLZ_cash_wages
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_recognise_the_labourers_association
+		icon = GFX_focus_generic_workers_and_farmers_rise
+
+		relative_position_id = BLZ_a_free_belizean_economy
+
+		x = 0
+		y = 2
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
+
+		prerequisite = { focus = BLZ_end_the_commissary_tickets }
+
+		mutually_exclusive = {}
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 25
+			add_ideas = BLZ_recognised_unions
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	#########################
+	### LAND AND FOREST ###
+	#########################
+
+	focus = {
+		id = BLZ_review_the_forest_grant
+		icon = GFX_focus_generic_expropriate_industrialist
+
+		relative_position_id = BLZ_a_free_belizean_economy
+
+		x = 3
+		y = 1
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		prerequisite = { focus = BLZ_a_free_belizean_economy }
+
+		mutually_exclusive = {}
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_ideas = BLZ_public_forest_leases
+			random_owned_controlled_state = {
+				limit = { is_core_of = ROOT }
+				add_extra_state_shared_building_slots = 1
+			}
+			if = {
+				limit = { country_exists = ENG }
+				add_opinion_modifier = { target = ENG modifier = small_decrease }
+				ENG = { add_opinion_modifier = { target = ROOT modifier = small_decrease } }
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_grow_our_own_food
+		icon = GFX_focus_generic_farmland
+
+		relative_position_id = BLZ_a_free_belizean_economy
+
+		x = 3
+		y = 2
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		prerequisite = { focus = BLZ_review_the_forest_grant }
+
+		mutually_exclusive = {}
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_ideas = BLZ_home_grown_food
+			random_owned_controlled_state = {
+				limit = { is_core_of = ROOT }
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	#################
+	### TRADE ###
+	#################
+
+	focus = {
+		id = BLZ_trade_with_the_americas
+		icon = GFX_goal_generic_trade
+
+		relative_position_id = BLZ_a_free_belizean_economy
+
+		x = 6
+		y = 1
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		prerequisite = { focus = BLZ_a_free_belizean_economy }
+
+		mutually_exclusive = {}
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_ideas = BLZ_american_trade
+			random_owned_controlled_state = {
+				limit = { is_core_of = ROOT }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			if = {
+				limit = { country_exists = USA }
+				add_opinion_modifier = { target = USA modifier = huge_increase }
+				USA = { add_opinion_modifier = { target = ROOT modifier = huge_increase } }
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_our_own_capital
+		icon = GFX_focus_generic_industry_investment
+
+		relative_position_id = BLZ_a_free_belizean_economy
+
+		x = 1
+		y = 3
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		prerequisite = { focus = BLZ_collect_the_land_tax }
+		prerequisite = { focus = BLZ_recognise_the_labourers_association }
+		prerequisite = { focus = BLZ_grow_our_own_food }
+		prerequisite = { focus = BLZ_trade_with_the_americas }
+
+		mutually_exclusive = {}
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 75
+			add_ideas = BLZ_paying_our_own_way
+			add_tech_bonus = {
+				name = BLZ_independent_economy
+				bonus = 0.5
+				uses = 1
+				category = industry
+			}
+			random_owned_controlled_state = {
+				limit = { is_core_of = ROOT }
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			BLZ_change_capital_effect = yes
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	###########################
+	### DEFENCE FORCE ###
+	###########################
+
+	focus = {
+		id = BLZ_raise_the_defence_force
+		icon = GFX_focus_generic_home_defense
+
+		x = 30
+		y = 0
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_ARMY_XP }
+
+		prerequisite = {}
+
+		mutually_exclusive = {}
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			army_experience = 10
+			custom_effect_tooltip = BLZ_defence_force_dm_ns_intro
+			add_to_variable = { BLZ_bhdf_army_morale_factor = 0.15 tooltip = army_morale_factor_tt }
+			add_to_variable = { BLZ_bhdf_army_org_factor = 0.05 tooltip = army_org_factor_tt }
+			force_update_dynamic_modifier = yes
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_create_a_local_armory
+		icon = GFX_focus_generic_home_defense
+
+		x = 30
+		y = 1
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		prerequisite = {
+			focus = BLZ_raise_the_defence_force
+		}
+
+		mutually_exclusive = {}
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = { is_core_of = ROOT }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_train_the_volunteers
+		icon = GFX_focus_generic_military_academy
+
+		relative_position_id = BLZ_raise_the_defence_force
+
+		x = -2
+		y = 1
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_ARMY_XP }
+
+		prerequisite = { focus = BLZ_raise_the_defence_force }
+
+		mutually_exclusive = {}
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			army_experience = 10
+			custom_effect_tooltip = BLZ_defence_force_dm_ns_intro
+			add_to_variable = { BLZ_bhdf_army_morale_factor = 0.05 tooltip = army_morale_factor_tt }
+			add_to_variable = { BLZ_bhdf_army_org_factor = 0.05 tooltip = army_org_factor_tt }
+			add_to_variable = { BLZ_bhdf_training_time_factor = -0.15 tooltip = training_time_factor_tt }
+			force_update_dynamic_modifier = yes
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_learn_jungle_warfare
+		icon = GFX_focus_generic_jungle_training
+
+		relative_position_id = BLZ_raise_the_defence_force
+
+		x = -2
+		y = 2
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_ARMY_XP }
+
+		prerequisite = { focus = BLZ_train_the_volunteers }
+
+		mutually_exclusive = {}
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			army_experience = 10
+			custom_effect_tooltip = BLZ_defence_force_dm_ns_intro
+			add_to_variable = { BLZ_bhdf_army_defence_factor = 0.05 tooltip = army_defence_factor_tt }
+			add_to_variable = { BLZ_bhdf_org_loss_when_moving = -0.10 tooltip = org_loss_when_moving_tt }
+			add_to_variable = { BLZ_bhdf_supply_consumption_factor = -0.05 tooltip = supply_consumption_factor_tt }
+			force_update_dynamic_modifier = yes
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_guard_the_frontier
+		icon = GFX_goal_generic_defence
+
+		relative_position_id = BLZ_raise_the_defence_force
+
+		x = 2
+		y = 1
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_ARMY_XP }
+
+		prerequisite = { focus = BLZ_raise_the_defence_force }
+
+		mutually_exclusive = {}
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			custom_effect_tooltip = BLZ_defence_force_dm_ns_intro
+			add_to_variable = { BLZ_bhdf_army_core_defence_factor = 0.10 tooltip = army_core_defence_factor_tt }
+			add_to_variable = { BLZ_bhdf_dig_in_speed_factor = 0.10 tooltip = dig_in_speed_factor_tt }
+			add_to_variable = { BLZ_bhdf_max_dig_in = 2 tooltip = max_dig_in_tt }
+			force_update_dynamic_modifier = yes
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_arm_the_defence_force
+		icon = GFX_goal_generic_small_arms
+
+		relative_position_id = BLZ_raise_the_defence_force
+
+		x = 2
+		y = 2
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_MANPOWER }
+
+		prerequisite = { focus = BLZ_guard_the_frontier }
+
+		mutually_exclusive = {}
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 500
+				producer = ROOT
+			}
+			custom_effect_tooltip = BLZ_defence_force_dm_ns_intro
+			add_to_variable = { BLZ_bhdf_conscription_factor = 0.1 tooltip = conscription_factor_tt }
+			force_update_dynamic_modifier = yes
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	### QUALITY OR QUANTITY ###
+	focus = {
+		id = BLZ_a_nation_in_arms
+		icon = GFX_focus_generic_manpower
+
+		relative_position_id = BLZ_raise_the_defence_force
+
+		x = -1
+		y = 3
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_MANPOWER }
+
+		prerequisite = { focus = BLZ_learn_jungle_warfare }
+		prerequisite = { focus = BLZ_arm_the_defence_force }
+
+		mutually_exclusive = { focus = BLZ_a_picked_force }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_ideas = BLZ_levy_the_people
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_rifles_for_every_man
+		icon = GFX_goal_generic_small_arms
+
+		relative_position_id = BLZ_raise_the_defence_force
+
+		x = -1
+		y = 4
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_MANPOWER }
+
+		prerequisite = { focus = BLZ_a_nation_in_arms }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_ideas = BLZ_cheap_service_rifles
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_the_militia_rolls
+		icon = GFX_focus_generic_soldier_salute
+
+		relative_position_id = BLZ_raise_the_defence_force
+
+		x = -1
+		y = 5
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_MANPOWER }
+
+		prerequisite = { focus = BLZ_rifles_for_every_man }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = BLZ_levy_the_people
+				add_idea = BLZ_the_militia_rolls_idea
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_a_picked_force
+		icon = GFX_focus_generic_commission
+
+		relative_position_id = BLZ_raise_the_defence_force
+
+		x = 1
+		y = 3
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_ARMY_XP }
+
+		prerequisite = { focus = BLZ_learn_jungle_warfare }
+		prerequisite = { focus = BLZ_arm_the_defence_force }
+
+		mutually_exclusive = { focus = BLZ_a_nation_in_arms }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			custom_effect_tooltip = BLZ_defence_force_dm_ns_intro
+			add_to_variable = { BLZ_bhdf_army_morale_factor = 0.1 tooltip = army_morale_factor_tt }
+			add_to_variable = { BLZ_bhdf_army_org_factor = 0.1 tooltip = army_org_factor_tt }
+			force_update_dynamic_modifier = yes
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_marksmen_of_the_bush
+		icon = GFX_focus_generic_army_doctrines_2
+
+		relative_position_id = BLZ_raise_the_defence_force
+
+		x = 1
+		y = 4
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_ARMY_XP }
+
+		prerequisite = { focus = BLZ_a_picked_force }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			custom_effect_tooltip = BLZ_defence_force_dm_ns_intro
+			add_to_variable = { BLZ_bhdf_army_infantry_attack_factor = 0.1 tooltip = army_infantry_attack_factor_tt }
+			add_to_variable = { BLZ_bhdf_army_defence_factor = 0.1 tooltip = army_defence_factor_tt }
+			force_update_dynamic_modifier = yes
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_the_forest_rangers
+		icon = GFX_goal_generic_special_forces
+
+		relative_position_id = BLZ_raise_the_defence_force
+
+		x = 1
+		y = 5
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_ARMY_XP }
+
+		prerequisite = { focus = BLZ_marksmen_of_the_bush }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			custom_effect_tooltip = BLZ_defence_force_dm_ns_intro
+			add_to_variable = { BLZ_bhdf_army_infantry_attack_factor = 0.1 tooltip = army_infantry_attack_factor_tt }
+			force_update_dynamic_modifier = yes
+			army_experience = 25
+			set_technology = {
+				rangers_tech = 1
+			}
+			division_template = {
+				name = "Forestry Rangers"
+				is_locked = yes
+				regiments = {
+					ranger_battalion = { x = 0 y = 0 }
+					ranger_battalion = { x = 0 y = 1 }
+					ranger_battalion = { x = 1 y = 0 }
+					ranger_battalion = { x = 1 y = 1 }
+				}
+				support = {
+					recon = { x = 0 y = 0 }
+				}
+			}
+			random_owned_controlled_state = {
+				limit = { is_core_of = ROOT }
+				create_unit = {
+					division = "name = \"Forestry Rangers\" division_template = \"Forestry Rangers\" start_experience_factor = 0.5"
+					owner = ROOT
+				}
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	###########################
+	### COAST GUARD ###
+	###########################
+
+	focus = {
+		id = BLZ_create_a_coast_guard
+		icon = GFX_goal_generic_build_navy
+
+		x = 38
+		y = 0
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_NAVY_XP FOCUS_FILTER_INDUSTRY }
+
+		prerequisite = {}
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_dynamic_modifier = { modifier = BLZ_coast_guard_dm }
+			navy_experience = 10
+			set_technology = { early_ship_hull_light = 1 }
+			set_technology = { basic_battery = 1 }
+			create_ship = {
+				type = ship_hull_light_1
+				equipment_variant = "V/W Class"
+				creator = ENG
+				name = "HMBHS Belize City"
+			}
+			random_owned_controlled_state = {
+				limit = { is_core_of = ROOT is_coastal = yes }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+			}
+			custom_effect_tooltip = BLZ_coast_guard_dm_ns_intro
+			add_to_variable = { BLZ_cg_navy_org_factor = 0.05 tooltip = navy_org_factor_tt }
+			add_to_variable = { BLZ_cg_naval_detection = 0.1 tooltip = naval_detection_tt }
+			force_update_dynamic_modifier = yes
+			if = {
+				limit = { country_exists = ENG }
+				add_opinion_modifier = { target = ENG modifier = medium_increase }
+				ENG = { add_opinion_modifier = { target = ROOT modifier = medium_increase } }
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_hunters_of_the_cays
+		icon = GFX_focus_generic_destroyer
+
+		relative_position_id = BLZ_create_a_coast_guard
+
+		x = -1
+		y = 1
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_NAVY_XP }
+
+		prerequisite = { focus = BLZ_create_a_coast_guard }
+
+		mutually_exclusive = { focus = BLZ_dream_of_a_belizean_navy }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_equipment_production = {
+				equipment = {
+					type = ship_hull_light_1
+					creator = "ENG"
+					version_name = "V/W Class"
+				}
+				name = "HMBHS El Cayo"
+				requested_factories = 1
+				progress = 0.9
+				amount = 1
+			}
+			custom_effect_tooltip = BLZ_coast_guard_dm_ns_intro
+			add_to_variable = { BLZ_cg_naval_torpedo_hit_chance_factor = 0.1 tooltip = naval_torpedo_hit_chance_factor_tt }
+			add_to_variable = { BLZ_cg_naval_detection = 0.1 tooltip = naval_detection_tt }
+			force_update_dynamic_modifier = yes
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_convoy_and_customs_patrol
+		icon = GFX_focus_generic_escort_efficiency
+
+		relative_position_id = BLZ_create_a_coast_guard
+
+		x = -1
+		y = 2
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_NAVY_XP }
+
+		prerequisite = { focus = BLZ_hunters_of_the_cays }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			navy_experience = 10
+			custom_effect_tooltip = BLZ_coast_guard_dm_ns_intro
+			add_to_variable = { BLZ_cg_convoy_escort_efficiency = 0.2 tooltip = convoy_escort_efficiency_tt }
+			add_to_variable = { BLZ_cg_repair_speed_factor = 0.1 tooltip = repair_speed_factor_tt }
+			force_update_dynamic_modifier = yes
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_dream_of_a_belizean_navy
+		icon = GFX_focus_generic_large_navy
+
+		relative_position_id = BLZ_create_a_coast_guard
+
+		x = 1
+		y = 1
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_NAVY_XP FOCUS_FILTER_POLITICAL }
+
+		prerequisite = { focus = BLZ_create_a_coast_guard }
+
+		mutually_exclusive = { focus = BLZ_hunters_of_the_cays }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 50
+			set_technology = { early_ship_hull_cruiser = 1 }
+			custom_effect_tooltip = BLZ_coast_guard_dm_ns_intro
+			add_to_variable = { BLZ_cg_experience_gain_navy_unit_factor = 0.25 tooltip = experience_gain_navy_unit_factor_tt }
+			add_to_variable = { BLZ_cg_navy_org_factor = 0.05 tooltip = navy_org_factor_tt }
+			force_update_dynamic_modifier = yes
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_a_cruiser_for_the_colony
+		icon = GFX_goal_generic_navy_cruiser
+
+		relative_position_id = BLZ_create_a_coast_guard
+
+		x = 1
+		y = 2
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_NAVY_XP }
+
+		prerequisite = { focus = BLZ_dream_of_a_belizean_navy }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_equipment_production = {
+				equipment = {
+					type = ship_hull_cruiser_2
+					creator = "ENG"
+					version_name = "Emerald Class"
+				}
+				name = "HMBHS Dragon"
+				requested_factories = 1
+				progress = 0.75
+				amount = 1
+			}
+			custom_effect_tooltip = BLZ_coast_guard_dm_ns_intro
+			add_to_variable = { BLZ_cg_navy_max_range_factor = 0.15 tooltip = navy_max_range_factor_tt }
+			add_to_variable = { BLZ_cg_navy_org_factor = 0.1 tooltip = navy_org_factor_tt }
+			force_update_dynamic_modifier = yes
+			if = {
+				limit = { country_exists = ENG }
+				add_opinion_modifier = { target = ENG modifier = small_increase }
+				ENG = { add_opinion_modifier = { target = ROOT modifier = small_increase } }
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	###########################
+	### AIR WING ###
+	###########################
+
+	focus = {
+		id = BLZ_form_the_air_wing
+		icon = GFX_goal_generic_build_airforce
+
+		x = 46
+		y = 0
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_AIR_XP }
+
+		prerequisite = {}
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_dynamic_modifier = { modifier = BLZ_air_wing_dm }
+			air_experience = 10
+			if = {
+				limit = { has_dlc = "By Blood Alone" }
+				set_technology = {
+					aa_lmg = 1
+					engines_1 = 1
+					iw_small_airframe = 1
+				}
+				add_equipment_to_stockpile = {
+					type = small_plane_airframe_0
+					amount = 25
+					producer = ENG
+				}
+			}
+			else = {
+				set_technology = {
+					early_fighter = 1
+				}
+				add_equipment_to_stockpile = {
+					type = early_fighter
+					amount = 25
+					producer = ENG
+				}
+			}
+			311 = {
+				add_building_construction = {
+					type = air_base
+					level = 1
+					instant_build = yes
+				}
+			}
+			custom_effect_tooltip = BLZ_air_wing_dm_ns_intro
+			add_to_variable = { BLZ_aw_air_defence_factor = 0.05 tooltip = air_defence_factor_tt }
+			add_to_variable = { BLZ_aw_air_mission_efficiency = 0.05 tooltip = air_mission_efficiency_tt }
+			force_update_dynamic_modifier = yes
+			if = {
+				limit = { country_exists = ENG }
+				add_opinion_modifier = { target = ENG modifier = medium_increase }
+				ENG = { add_opinion_modifier = { target = ROOT modifier = medium_increase } }
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_train_the_pilots
+		icon = GFX_focus_generic_pilot_training
+
+		relative_position_id = BLZ_form_the_air_wing
+
+		x = -1
+		y = 1
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_AIR_XP }
+
+		prerequisite = { focus = BLZ_form_the_air_wing }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			air_experience = 25
+			custom_effect_tooltip = BLZ_air_wing_dm_ns_intro
+			add_to_variable = { BLZ_aw_air_wing_xp_loss_when_killed_factor = -0.2 tooltip = air_wing_xp_loss_when_killed_factor_tt }
+			add_to_variable = { BLZ_aw_air_accidents_factor = -0.1 tooltip = air_accidents_factor_tt }
+			force_update_dynamic_modifier = yes
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_build_a_proper_airfield
+		icon = GFX_focus_generic_air_bases
+
+		relative_position_id = BLZ_form_the_air_wing
+
+		x = 1
+		y = 1
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_AIR_XP FOCUS_FILTER_INDUSTRY }
+
+		prerequisite = { focus = BLZ_form_the_air_wing }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = { is_core_of = ROOT }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = air_base
+					level = 1
+					instant_build = yes
+				}
+			}
+			custom_effect_tooltip = BLZ_air_wing_dm_ns_intro
+			add_to_variable = { BLZ_aw_air_range_factor = 0.1 tooltip = air_range_factor_tt }
+			force_update_dynamic_modifier = yes
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_patrol_the_coast
+		icon = GFX_goal_generic_air_fighter
+
+		relative_position_id = BLZ_form_the_air_wing
+
+		x = -1
+		y = 2
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_AIR_XP }
+
+		prerequisite = { focus = BLZ_train_the_pilots }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			custom_effect_tooltip = BLZ_air_wing_dm_ns_intro
+			add_to_variable = { BLZ_aw_air_mission_efficiency = 0.1 tooltip = air_mission_efficiency_tt }
+			add_to_variable = { BLZ_aw_air_defence_factor = 0.1 tooltip = air_defence_factor_tt }
+			force_update_dynamic_modifier = yes
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_the_belizean_air_wing
+		icon = GFX_focus_generic_air_defense
+
+		relative_position_id = BLZ_form_the_air_wing
+
+		x = 0
+		y = 3
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_AIR_XP }
+
+		prerequisite = { focus = BLZ_patrol_the_coast }
+		prerequisite = { focus = BLZ_build_a_proper_airfield }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			air_experience = 25
+			custom_effect_tooltip = BLZ_air_wing_dm_ns_intro
+			add_to_variable = { BLZ_aw_air_escort_efficiency = 0.1 tooltip = air_escort_efficiency_tt }
+			add_to_variable = { BLZ_aw_air_cas_efficiency = 0.1 tooltip = air_cas_efficiency_tt }
+			force_update_dynamic_modifier = yes
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	###########################
+	### POLITICS: A LOYAL COLONY ###
+	###########################
+
+	focus = {
+		id = BLZ_his_majestys_loyal_colony
+		icon = GFX_focus_generic_monarchy_1
+
+		x = 54
+		y = 0
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = {}
+
+		mutually_exclusive = { focus = BLZ_belize_act }
+
+		available = {
+			is_subject_of = ENG
+		}
+
+		bypass = {}
+
+		completion_reward = {
+			add_dynamic_modifier = { modifier = BLZ_loyal_colony_dm }
+			add_political_power = 50
+			add_stability = 0.05
+			custom_effect_tooltip = BLZ_loyal_colony_dm_ns_intro
+			add_to_variable = { BLZ_lc_political_power_factor = 0.05 tooltip = political_power_factor_tt }
+			force_update_dynamic_modifier = yes
+
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_the_constitution_of_1935
+		icon = GFX_focus_generic_improve_the_administration
+
+		relative_position_id = BLZ_his_majestys_loyal_colony
+
+		x = -4
+		y = 1
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
+
+		prerequisite = { focus = BLZ_his_majestys_loyal_colony }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 25
+			custom_effect_tooltip = BLZ_loyal_colony_dm_ns_intro
+			add_to_variable = { BLZ_lc_political_power_factor = 0.05 tooltip = political_power_factor_tt }
+			add_to_variable = { BLZ_lc_stability_factor = 0.03 tooltip = stability_factor_tt }
+			force_update_dynamic_modifier = yes
+
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_the_elections_of_1936
+		icon = GFX_focus_generic_election
+
+		relative_position_id = BLZ_his_majestys_loyal_colony
+
+		x = -4
+		y = 2
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
+
+		prerequisite = { focus = BLZ_the_constitution_of_1935 }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 25
+			custom_effect_tooltip = BLZ_loyal_colony_dm_ns_intro
+			add_to_variable = { BLZ_lc_democratic_drift = 0.02 tooltip = democratic_drift_tt }
+			add_to_variable = { BLZ_lc_party_popularity_stability_factor = 0.05 tooltip = party_popularity_stability_factor_tt }
+			force_update_dynamic_modifier = yes
+
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_rule_by_reserve_powers
+		icon = GFX_focus_generic_improve_the_administration_2
+
+		relative_position_id = BLZ_his_majestys_loyal_colony
+
+		x = -5
+		y = 3
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_the_elections_of_1936 }
+
+		mutually_exclusive = { focus = BLZ_consult_the_elected_members }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			if = {
+				limit = { is_subject_of = ENG }
+				add_autonomy_score = {
+					value = -25
+					localization = BLZ_rule_by_reserve_powers
+				}
+			}
+			custom_effect_tooltip = BLZ_loyal_colony_dm_ns_intro
+			add_to_variable = { BLZ_lc_political_power_factor = 0.1 tooltip = political_power_factor_tt }
+			add_to_variable = { BLZ_lc_democratic_drift = -0.03 tooltip = democratic_drift_tt }
+			force_update_dynamic_modifier = yes
+
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_consult_the_elected_members
+		icon = GFX_focus_generic_public_meetings
+
+		relative_position_id = BLZ_his_majestys_loyal_colony
+
+		x = -3
+		y = 3
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_the_elections_of_1936 }
+
+		mutually_exclusive = { focus = BLZ_rule_by_reserve_powers }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			if = {
+				limit = { is_subject_of = ENG }
+				add_autonomy_score = {
+					value = 25
+					localization = BLZ_consult_the_elected_members
+				}
+			}
+			custom_effect_tooltip = BLZ_loyal_colony_dm_ns_intro
+			add_to_variable = { BLZ_lc_political_power_factor = 0.05 tooltip = political_power_factor_tt }
+			add_to_variable = { BLZ_lc_stability_factor = 0.05 tooltip = stability_factor_tt }
+			add_to_variable = { BLZ_lc_democratic_drift = 0.05 tooltip = democratic_drift_tt }
+			force_update_dynamic_modifier = yes
+
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_the_council_of_thirteen
+		icon = GFX_focus_generic_vote
+
+		relative_position_id = BLZ_his_majestys_loyal_colony
+
+		x = -4
+		y = 4
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
+
+		prerequisite = { focus = BLZ_rule_by_reserve_powers focus = BLZ_consult_the_elected_members }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_stability = 0.05
+			custom_effect_tooltip = BLZ_loyal_colony_dm_ns_intro
+			add_to_variable = { BLZ_lc_political_power_factor = 0.05 tooltip = political_power_factor_tt }
+			add_to_variable = { BLZ_lc_party_popularity_stability_factor = 0.1 tooltip = party_popularity_stability_factor_tt }
+
+			if = {
+				limit = { has_completed_focus = BLZ_consult_the_elected_members }
+				add_to_variable = { BLZ_lc_stability_factor = 0.03 tooltip = stability_factor_tt }
+			}
+			force_update_dynamic_modifier = yes
+
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_court_the_opposition
+		icon = GFX_focus_generic_freedom_council
+
+		relative_position_id = BLZ_his_majestys_loyal_colony
+
+		x = -6
+		y = 5
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_the_council_of_thirteen }
+
+		mutually_exclusive = { focus = BLZ_sideline_the_opposition }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			custom_effect_tooltip = BLZ_loyal_colony_dm_ns_intro
+			add_to_variable = { BLZ_lc_stability_factor = 0.05 tooltip = stability_factor_tt }
+			add_to_variable = { BLZ_lc_democratic_drift = 0.03 tooltip = democratic_drift_tt }
+			add_to_variable = { BLZ_lc_political_power_factor = -0.03 tooltip = political_power_factor_tt }
+			force_update_dynamic_modifier = yes
+
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_sideline_the_opposition
+		icon = GFX_focus_generic_strike_at_democracy1
+
+		relative_position_id = BLZ_his_majestys_loyal_colony
+
+		x = -2
+		y = 5
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_the_council_of_thirteen }
+
+		mutually_exclusive = { focus = BLZ_court_the_opposition }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			custom_effect_tooltip = BLZ_loyal_colony_dm_ns_intro
+			add_to_variable = { BLZ_lc_political_power_factor = 0.08 tooltip = political_power_factor_tt }
+			add_to_variable = { BLZ_lc_stability_factor = -0.02 tooltip = stability_factor_tt }
+			add_to_variable = { BLZ_lc_democratic_drift = -0.03 tooltip = democratic_drift_tt }
+			add_to_variable = { BLZ_lc_communism_drift = 0.03 tooltip = communism_drift_tt }
+			force_update_dynamic_modifier = yes
+
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_the_belize_town_board
+		icon = GFX_focus_generic_social_democracy
+
+		relative_position_id = BLZ_his_majestys_loyal_colony
+
+		x = -5
+		y = 6
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
+
+		prerequisite = { focus = BLZ_court_the_opposition focus = BLZ_sideline_the_opposition }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 25
+			custom_effect_tooltip = BLZ_loyal_colony_dm_ns_intro
+			add_to_variable = { BLZ_lc_democratic_drift = 0.03 tooltip = democratic_drift_tt }
+			add_to_variable = { BLZ_lc_stability_factor = 0.02 tooltip = stability_factor_tt }
+			force_update_dynamic_modifier = yes
+
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_votes_for_women
+		icon = GFX_focus_generic_universal_suffrage
+
+		relative_position_id = BLZ_his_majestys_loyal_colony
+
+		x = -3
+		y = 6
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
+
+		prerequisite = { focus = BLZ_court_the_opposition focus = BLZ_sideline_the_opposition }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_stability = 0.03
+			custom_effect_tooltip = BLZ_loyal_colony_dm_ns_intro
+			add_to_variable = { BLZ_lc_democratic_drift = 0.03 tooltip = democratic_drift_tt }
+			add_to_variable = { BLZ_lc_political_power_factor = 0.02 tooltip = political_power_factor_tt }
+			force_update_dynamic_modifier = yes
+
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_a_wider_franchise
+		icon = GFX_focus_generic_the_council_of_europe
+
+		relative_position_id = BLZ_his_majestys_loyal_colony
+
+		x = -4
+		y = 7
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_the_belize_town_board }
+		prerequisite = { focus = BLZ_votes_for_women }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 50
+			add_stability = 0.05
+			custom_effect_tooltip = BLZ_loyal_colony_dm_ns_intro
+			add_to_variable = { BLZ_lc_democratic_drift = 0.05 tooltip = democratic_drift_tt }
+			add_to_variable = { BLZ_lc_party_popularity_stability_factor = 0.1 tooltip = party_popularity_stability_factor_tt }
+			force_update_dynamic_modifier = yes
+
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_confer_with_the_colonial_office
+		icon = GFX_focus_generic_diplomatic_treaty
+
+		relative_position_id = BLZ_his_majestys_loyal_colony
+
+		x = 0
+		y = 1
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_his_majestys_loyal_colony }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 25
+			if = {
+				limit = { country_exists = ENG }
+				add_opinion_modifier = { target = ENG modifier = medium_increase }
+				ENG = { add_opinion_modifier = { target = ROOT modifier = medium_increase } }
+			}
+			custom_effect_tooltip = BLZ_loyal_colony_dm_ns_intro
+			add_to_variable = { BLZ_lc_stability_factor = 0.03 tooltip = stability_factor_tt }
+			force_update_dynamic_modifier = yes
+
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_hold_the_line_with_guatemala
+		icon = GFX_focus_generic_coastal_fort
+
+		relative_position_id = BLZ_his_majestys_loyal_colony
+
+		x = -1
+		y = 2
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_confer_with_the_colonial_office }
+
+		mutually_exclusive = { focus = BLZ_leave_it_to_london }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 25
+			if = {
+				limit = { country_exists = GUA }
+				add_opinion_modifier = { target = GUA modifier = small_decrease }
+				GUA = { add_opinion_modifier = { target = ROOT modifier = small_decrease } }
+			}
+			custom_effect_tooltip = BLZ_loyal_colony_dm_ns_intro
+			add_to_variable = { BLZ_lc_war_support_factor = 0.03 tooltip = war_support_factor_tt }
+			add_to_variable = { BLZ_lc_stability_factor = 0.02 tooltip = stability_factor_tt }
+			force_update_dynamic_modifier = yes
+
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_leave_it_to_london
+		icon = GFX_focus_generic_treaty
+
+		relative_position_id = BLZ_his_majestys_loyal_colony
+
+		x = 1
+		y = 2
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_confer_with_the_colonial_office }
+
+		mutually_exclusive = { focus = BLZ_hold_the_line_with_guatemala }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			if = {
+				limit = { is_subject_of = ENG }
+				add_autonomy_score = {
+					value = -15
+					localization = BLZ_leave_it_to_london
+				}
+			}
+			if = {
+				limit = { country_exists = ENG }
+				add_opinion_modifier = { target = ENG modifier = small_increase }
+				ENG = { add_opinion_modifier = { target = ROOT modifier = small_increase } }
+			}
+			custom_effect_tooltip = BLZ_loyal_colony_dm_ns_intro
+			add_to_variable = { BLZ_lc_stability_factor = 0.04 tooltip = stability_factor_tt }
+			force_update_dynamic_modifier = yes
+
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_stand_with_britain
+		icon = GFX_goal_generic_alliance
+
+		relative_position_id = BLZ_his_majestys_loyal_colony
+
+		x = 0
+		y = 3
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_hold_the_line_with_guatemala focus = BLZ_leave_it_to_london }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 25
+			if = {
+				limit = { country_exists = ENG }
+				add_opinion_modifier = { target = ENG modifier = medium_increase }
+				ENG = { add_opinion_modifier = { target = ROOT modifier = medium_increase } }
+			}
+			custom_effect_tooltip = BLZ_loyal_colony_dm_ns_intro
+			add_to_variable = { BLZ_lc_war_support_factor = 0.05 tooltip = war_support_factor_tt }
+			force_update_dynamic_modifier = yes
+
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_volunteers_for_the_empire
+		icon = GFX_focus_generic_soldier_salute
+
+		relative_position_id = BLZ_his_majestys_loyal_colony
+
+		x = 0
+		y = 4
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_stand_with_britain }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 50
+			if = {
+				limit = { country_exists = ENG }
+				add_opinion_modifier = { target = ENG modifier = huge_increase }
+				ENG = { add_opinion_modifier = { target = ROOT modifier = huge_increase } }
+			}
+			add_war_support = 0.05
+			custom_effect_tooltip = BLZ_loyal_colony_dm_ns_intro
+			add_to_variable = { BLZ_lc_stability_factor = 0.03 tooltip = stability_factor_tt }
+			force_update_dynamic_modifier = yes
+
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_devalue_the_dollar
+		icon = GFX_focus_generic_currency_reforms
+
+		relative_position_id = BLZ_his_majestys_loyal_colony
+
+		x = 2
+		y = 5
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
+
+		prerequisite = { focus = BLZ_volunteers_for_the_empire }
+		prerequisite = { focus = BLZ_the_employers_and_workers_bill }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 25
+			custom_effect_tooltip = BLZ_loyal_colony_dm_ns_intro
+			add_to_variable = { BLZ_lc_stability_factor = -0.05 tooltip = stability_factor_tt }
+			add_to_variable = { BLZ_lc_communism_drift = 0.03 tooltip = communism_drift_tt }
+			add_to_variable = { BLZ_lc_democratic_drift = 0.02 tooltip = democratic_drift_tt }
+			force_update_dynamic_modifier = yes
+
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_answer_the_unemployed
+		icon = GFX_focus_generic_workers
+
+		relative_position_id = BLZ_his_majestys_loyal_colony
+
+		x = 4
+		y = 1
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_his_majestys_loyal_colony }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 25
+			custom_effect_tooltip = BLZ_loyal_colony_dm_ns_intro
+			add_to_variable = { BLZ_lc_stability_factor = 0.02 tooltip = stability_factor_tt }
+			force_update_dynamic_modifier = yes
+
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_enforce_the_sedition_law
+		icon = GFX_focus_generic_court
+
+		relative_position_id = BLZ_his_majestys_loyal_colony
+
+		x = 3
+		y = 2
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
+
+		prerequisite = { focus = BLZ_answer_the_unemployed }
+
+		mutually_exclusive = { focus = BLZ_relief_works_for_the_unemployed }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			custom_effect_tooltip = BLZ_loyal_colony_dm_ns_intro
+			add_to_variable = { BLZ_lc_communism_drift = -0.1 tooltip = communism_drift_tt }
+			add_to_variable = { BLZ_lc_stability_factor = 0.05 tooltip = stability_factor_tt }
+			add_to_variable = { BLZ_lc_political_power_factor = 0.05 tooltip = political_power_factor_tt }
+			force_update_dynamic_modifier = yes
+
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_relief_works_for_the_unemployed
+		icon = GFX_focus_generic_public_works
+
+		relative_position_id = BLZ_his_majestys_loyal_colony
+
+		x = 5
+		y = 2
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_answer_the_unemployed }
+
+		mutually_exclusive = { focus = BLZ_enforce_the_sedition_law }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = { is_core_of = ROOT }
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			custom_effect_tooltip = BLZ_loyal_colony_dm_ns_intro
+			add_to_variable = { BLZ_lc_stability_factor = 0.05 tooltip = stability_factor_tt }
+			add_to_variable = { BLZ_lc_consumer_goods_factor = 0.03 tooltip = consumer_goods_factor_tt }
+			add_to_variable = { BLZ_lc_communism_drift = 0.03 tooltip = communism_drift_tt }
+			force_update_dynamic_modifier = yes
+
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_legalise_the_trade_unions
+		icon = GFX_focus_generic_worker_administration
+
+		relative_position_id = BLZ_his_majestys_loyal_colony
+
+		x = 4
+		y = 3
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
+
+		prerequisite = { focus = BLZ_enforce_the_sedition_law focus = BLZ_relief_works_for_the_unemployed }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_stability = 0.05
+			custom_effect_tooltip = BLZ_loyal_colony_dm_ns_intro
+			add_to_variable = { BLZ_lc_communism_drift = -0.05 tooltip = communism_drift_tt }
+			add_to_variable = { BLZ_lc_consumer_goods_factor = 0.02 tooltip = consumer_goods_factor_tt }
+
+			if = {
+				limit = { has_completed_focus = BLZ_relief_works_for_the_unemployed }
+				add_to_variable = { BLZ_lc_stability_factor = 0.03 tooltip = stability_factor_tt }
+			}
+			force_update_dynamic_modifier = yes
+
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_the_employers_and_workers_bill
+		icon = GFX_focus_generic_sympathetic_judges
+
+		relative_position_id = BLZ_his_majestys_loyal_colony
+
+		x = 4
+		y = 4
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
+
+		prerequisite = { focus = BLZ_legalise_the_trade_unions }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 25
+			custom_effect_tooltip = BLZ_loyal_colony_dm_ns_intro
+			add_to_variable = { BLZ_lc_stability_factor = 0.03 tooltip = stability_factor_tt }
+			add_to_variable = { BLZ_lc_communism_drift = -0.03 tooltip = communism_drift_tt }
+			force_update_dynamic_modifier = yes
+
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_register_the_general_workers_union
+		icon = GFX_focus_generic_workers_and_farmers_rise
+
+		relative_position_id = BLZ_his_majestys_loyal_colony
+
+		x = 6
+		y = 5
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
+
+		prerequisite = { focus = BLZ_the_employers_and_workers_bill }
+		prerequisite = { focus = BLZ_protect_the_maya_villagers }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 25
+			custom_effect_tooltip = BLZ_loyal_colony_dm_ns_intro
+			add_to_variable = { BLZ_lc_communism_drift = -0.02 tooltip = communism_drift_tt }
+			add_to_variable = { BLZ_lc_stability_factor = 0.03 tooltip = stability_factor_tt }
+			add_to_variable = { BLZ_lc_consumer_goods_factor = 0.02 tooltip = consumer_goods_factor_tt }
+			force_update_dynamic_modifier = yes
+
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_the_land_tax_dispute
+		icon = GFX_focus_generic_land_redistribution
+
+		relative_position_id = BLZ_his_majestys_loyal_colony
+
+		x = 8
+		y = 1
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_his_majestys_loyal_colony }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 25
+			custom_effect_tooltip = BLZ_loyal_colony_dm_ns_intro
+			add_to_variable = { BLZ_lc_stability_factor = 0.02 tooltip = stability_factor_tt }
+			force_update_dynamic_modifier = yes
+
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_cancel_the_tax_arrears
+		icon = GFX_focus_generic_welfare
+
+		relative_position_id = BLZ_his_majestys_loyal_colony
+
+		x = 7
+		y = 2
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
+
+		prerequisite = { focus = BLZ_the_land_tax_dispute }
+
+		mutually_exclusive = { focus = BLZ_keep_the_higher_tax }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 25
+			custom_effect_tooltip = BLZ_loyal_colony_dm_ns_intro
+			add_to_variable = { BLZ_lc_stability_factor = 0.05 tooltip = stability_factor_tt }
+			add_to_variable = { BLZ_lc_political_power_factor = -0.03 tooltip = political_power_factor_tt }
+			force_update_dynamic_modifier = yes
+
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_keep_the_higher_tax
+		icon = GFX_focus_generic_currency_reforms
+
+		relative_position_id = BLZ_his_majestys_loyal_colony
+
+		x = 9
+		y = 2
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_the_land_tax_dispute }
+
+		mutually_exclusive = { focus = BLZ_cancel_the_tax_arrears }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			custom_effect_tooltip = BLZ_loyal_colony_dm_ns_intro
+			add_to_variable = { BLZ_lc_political_power_factor = 0.08 tooltip = political_power_factor_tt }
+			add_to_variable = { BLZ_lc_stability_factor = -0.03 tooltip = stability_factor_tt }
+			add_to_variable = { BLZ_lc_communism_drift = 0.02 tooltip = communism_drift_tt }
+			force_update_dynamic_modifier = yes
+
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_inquire_into_the_commissary_system
+		icon = GFX_focus_generic_expropriate_industrialist
+
+		relative_position_id = BLZ_his_majestys_loyal_colony
+
+		x = 8
+		y = 3
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_cancel_the_tax_arrears focus = BLZ_keep_the_higher_tax }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 25
+			custom_effect_tooltip = BLZ_loyal_colony_dm_ns_intro
+			add_to_variable = { BLZ_lc_stability_factor = 0.03 tooltip = stability_factor_tt }
+			add_to_variable = { BLZ_lc_communism_drift = -0.02 tooltip = communism_drift_tt }
+			add_to_variable = { BLZ_lc_consumer_goods_factor = 0.02 tooltip = consumer_goods_factor_tt }
+			force_update_dynamic_modifier = yes
+
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_protect_the_maya_villagers
+		icon = GFX_focus_generic_farmland
+
+		relative_position_id = BLZ_his_majestys_loyal_colony
+
+		x = 8
+		y = 4
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_inquire_into_the_commissary_system }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 25
+			custom_effect_tooltip = BLZ_loyal_colony_dm_ns_intro
+			add_to_variable = { BLZ_lc_stability_factor = 0.03 tooltip = stability_factor_tt }
+			add_to_variable = { BLZ_lc_political_power_factor = -0.02 tooltip = political_power_factor_tt }
+			force_update_dynamic_modifier = yes
+
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_a_loyal_crown_colony
+		icon = GFX_focus_generic_monarchy_2
+
+		relative_position_id = BLZ_his_majestys_loyal_colony
+
+		x = 0
+		y = 8
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_a_wider_franchise }
+		prerequisite = { focus = BLZ_register_the_general_workers_union }
+		prerequisite = { focus = BLZ_devalue_the_dollar }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 100
+			add_stability = 0.05
+			if = {
+				limit = { country_exists = ENG }
+				add_opinion_modifier = { target = ENG modifier = medium_increase }
+				ENG = { add_opinion_modifier = { target = ROOT modifier = medium_increase } }
+			}
+			custom_effect_tooltip = BLZ_loyal_colony_dm_ns_intro
+			add_to_variable = { BLZ_lc_political_power_factor = 0.05 tooltip = political_power_factor_tt }
+			add_to_variable = { BLZ_lc_stability_factor = 0.05 tooltip = stability_factor_tt }
+			add_to_variable = { BLZ_lc_war_support_factor = 0.05 tooltip = war_support_factor_tt }
+			force_update_dynamic_modifier = yes
+			set_country_flag = BLZ_loyal_colony_path_complete
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	###########################
+	### POLITICS: THE BELIZE ACT ###
+	###########################
+
+	focus = {
+		id = BLZ_belize_act
+		icon = GFX_focus_RAJ_the_dominion_of_india
+
+		x = 74
+		y = 0
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_TFV_AUTONOMY }
+
+		prerequisite = {}
+
+		mutually_exclusive = { focus = BLZ_his_majestys_loyal_colony }
+
+		available = {
+			is_subject_of = ENG
+		}
+
+		bypass = {}
+
+		completion_reward = {
+			if = {
+				limit = { is_subject_of = ENG }
+				ENG = {
+					set_autonomy = {
+						target = ROOT
+						autonomy_state = autonomy_dominion
+					}
+				}
+			}
+			add_political_power = 50
+			set_country_flag = BLZ_dominion_requested
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_an_elected_majority
+		icon = GFX_focus_generic_election
+
+		relative_position_id = BLZ_belize_act
+
+		x = -2
+		y = 1
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_TFV_AUTONOMY }
+
+		prerequisite = { focus = BLZ_belize_act }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			if = {
+				limit = { is_subject_of = ENG }
+				add_autonomy_score = {
+					value = 25
+					localization = BLZ_an_elected_majority
+				}
+			}
+			add_ideas = BLZ_elected_majority
+			add_political_power = 25
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_ministerial_government
+		icon = GFX_focus_generic_public_meetings
+
+		relative_position_id = BLZ_belize_act
+
+		x = 0
+		y = 1
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_TFV_AUTONOMY }
+
+		prerequisite = { focus = BLZ_belize_act }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			if = {
+				limit = { is_subject_of = ENG }
+				add_autonomy_score = {
+					value = 25
+					localization = BLZ_ministerial_government
+				}
+			}
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.1
+			}
+			add_political_power = 25
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_a_belizean_civil_service
+		icon = GFX_focus_generic_improve_the_administration
+
+		relative_position_id = BLZ_belize_act
+
+		x = 2
+		y = 1
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_TFV_AUTONOMY }
+
+		prerequisite = { focus = BLZ_belize_act }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			if = {
+				limit = { is_subject_of = ENG }
+				add_autonomy_score = {
+					value = 25
+					localization = BLZ_a_belizean_civil_service
+				}
+			}
+			add_ideas = BLZ_belizean_civil_service
+			add_political_power = 25
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_sovereign_belize
+		icon = GFX_focus_INS_the_declaration_of_independence
+
+		relative_position_id = BLZ_belize_act
+
+		x = 0
+		y = 2
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_an_elected_majority }
+		prerequisite = { focus = BLZ_ministerial_government }
+		prerequisite = { focus = BLZ_a_belizean_civil_service }
+
+		mutually_exclusive = {  }
+
+		available = {
+			democratic > 0.5
+		}
+
+		bypass = {}
+
+		completion_reward = {
+			if = {
+				limit = { is_subject_of = ENG }
+				ENG = {
+					set_autonomy = {
+						target = ROOT
+						autonomy_state = autonomy_free
+					}
+				}
+			}
+			add_political_power = 100
+			add_stability = 0.05
+			if = {
+				limit = { country_exists = ENG }
+				add_opinion_modifier = { target = ENG modifier = small_increase }
+				ENG = { add_opinion_modifier = { target = ROOT modifier = small_increase } }
+			}
+			set_country_flag = BLZ_sovereign_path_complete
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_remain_in_the_commonwealth
+		icon = GFX_focus_AST_the_australian_commonwealth
+
+		relative_position_id = BLZ_sovereign_belize
+
+		x = -6
+		y = 1
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_sovereign_belize }
+
+		mutually_exclusive = { focus = BLZ_declare_neutrality focus = BLZ_lead_the_democratic_cause }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_ideas = BLZ_commonwealth_member
+			add_to_tech_sharing_group = commonwealth_research
+			if = {
+				limit = { country_exists = ENG }
+				add_opinion_modifier = { target = ENG modifier = huge_increase }
+				ENG = { add_opinion_modifier = { target = ROOT modifier = huge_increase } }
+			}
+			add_political_power = 25
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_imperial_preference
+		icon = GFX_focus_generic_monetary_union
+
+		relative_position_id = BLZ_sovereign_belize
+
+		x = -7
+		y = 2
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_remain_in_the_commonwealth }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_ideas = BLZ_imperial_preference_idea
+			if = {
+				limit = { country_exists = ENG }
+				add_opinion_modifier = { target = ENG modifier = small_increase }
+				ENG = { add_opinion_modifier = { target = ROOT modifier = small_increase } }
+			}
+			add_political_power = 25
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_the_british_garrison
+		icon = GFX_focus_generic_coastal_fort
+
+		relative_position_id = BLZ_sovereign_belize
+
+		x = -5
+		y = 2
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_remain_in_the_commonwealth }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_ideas = BLZ_british_garrison
+			if = {
+				limit = { country_exists = ENG }
+				ENG = { give_guarantee = ROOT }
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 300
+				producer = ENG
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_the_commonwealth_conference
+		icon = GFX_focus_generic_diplomatic_treaty
+
+		relative_position_id = BLZ_sovereign_belize
+
+		x = -6
+		y = 3
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_imperial_preference }
+		prerequisite = { focus = BLZ_the_british_garrison }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 50
+			add_stability = 0.05
+			add_tech_bonus = {
+				name = BLZ_commonwealth_conference
+				bonus = 0.5
+				uses = 1
+				category = industry
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_crown_and_commonwealth
+		icon = GFX_focus_PHI_commonwealth_of_the_philippines
+
+		relative_position_id = BLZ_sovereign_belize
+
+		x = -6
+		y = 4
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_the_commonwealth_conference }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_ideas = BLZ_crown_and_commonwealth
+			add_political_power = 75
+			if = {
+				limit = { country_exists = ENG }
+				add_opinion_modifier = { target = ENG modifier = medium_increase }
+				ENG = { add_opinion_modifier = { target = ROOT modifier = medium_increase } }
+			}
+			set_country_flag = BLZ_commonwealth_path_complete
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_declare_neutrality
+		icon = GFX_focus_FIN_finnish_neutrality
+
+		relative_position_id = BLZ_sovereign_belize
+
+		x = 0
+		y = 1
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_sovereign_belize }
+
+		mutually_exclusive = { focus = BLZ_remain_in_the_commonwealth focus = BLZ_lead_the_democratic_cause }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_ideas = BLZ_neutral_belize
+			if = {
+				limit = { country_exists = ENG }
+				add_opinion_modifier = { target = ENG modifier = small_decrease }
+				ENG = { add_opinion_modifier = { target = ROOT modifier = small_decrease } }
+			}
+			add_political_power = 25
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_armed_neutrality
+		icon = GFX_goal_generic_defence
+
+		relative_position_id = BLZ_sovereign_belize
+
+		x = -1
+		y = 2
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_declare_neutrality }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_ideas = BLZ_armed_neutrality_idea
+			army_experience = 10
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_free_ports_for_all
+		icon = GFX_goal_generic_trade
+
+		relative_position_id = BLZ_sovereign_belize
+
+		x = 1
+		y = 2
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_declare_neutrality }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_ideas = BLZ_free_ports
+			if = {
+				limit = { country_exists = USA }
+				add_opinion_modifier = { target = USA modifier = small_increase }
+				USA = { add_opinion_modifier = { target = ROOT modifier = small_increase } }
+			}
+			add_political_power = 25
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_a_neutral_meeting_place
+		icon = GFX_focus_ARG_bastion_of_peace
+
+		relative_position_id = BLZ_sovereign_belize
+
+		x = 0
+		y = 3
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_armed_neutrality }
+		prerequisite = { focus = BLZ_free_ports_for_all }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_political_power = 50
+			add_stability = 0.05
+			if = {
+				limit = { country_exists = GUA }
+				add_opinion_modifier = { target = GUA modifier = medium_increase }
+				GUA = { add_opinion_modifier = { target = ROOT modifier = medium_increase } }
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_switzerland_of_the_isthmus
+		icon = GFX_focus_BEL_independent_neutral_and_loyal
+
+		relative_position_id = BLZ_sovereign_belize
+
+		x = 0
+		y = 4
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_a_neutral_meeting_place }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_ideas = BLZ_isthmian_switzerland
+			add_political_power = 75
+			set_country_flag = BLZ_neutral_path_complete
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_lead_the_democratic_cause
+		icon = GFX_focus_ITA_democratic_leadership
+
+		relative_position_id = BLZ_sovereign_belize
+
+		x = 6
+		y = 1
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_sovereign_belize }
+
+		mutually_exclusive = { focus = BLZ_remain_in_the_commonwealth focus = BLZ_declare_neutrality }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_ideas = BLZ_democratic_standard_bearer
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.05
+			}
+			add_political_power = 25
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_a_haven_for_exiles
+		icon = GFX_focus_AUS_pardon_political_exiles
+
+		relative_position_id = BLZ_sovereign_belize
+
+		x = 5
+		y = 2
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_lead_the_democratic_cause }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_ideas = BLZ_haven_for_exiles
+			if = {
+				limit = { country_exists = GUA }
+				add_opinion_modifier = { target = GUA modifier = small_decrease }
+				GUA = { add_opinion_modifier = { target = ROOT modifier = small_decrease } }
+			}
+			if = {
+				limit = { country_exists = HON }
+				add_opinion_modifier = { target = HON modifier = small_decrease }
+				HON = { add_opinion_modifier = { target = ROOT modifier = small_decrease } }
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_a_central_american_conference
+		icon = GFX_focus_ARG_pan_american_cooperation
+
+		relative_position_id = BLZ_sovereign_belize
+
+		x = 7
+		y = 2
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_lead_the_democratic_cause }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			if = {
+				limit = { country_exists = COS }
+				add_opinion_modifier = { target = COS modifier = medium_increase }
+				COS = { add_opinion_modifier = { target = ROOT modifier = medium_increase } }
+			}
+			if = {
+				limit = { country_exists = PAN }
+				add_opinion_modifier = { target = PAN modifier = medium_increase }
+				PAN = { add_opinion_modifier = { target = ROOT modifier = medium_increase } }
+			}
+			if = {
+				limit = { country_exists = USA }
+				add_opinion_modifier = { target = USA modifier = small_increase }
+				USA = { add_opinion_modifier = { target = ROOT modifier = small_increase } }
+			}
+			add_political_power = 25
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_stand_by_our_neighbours
+		icon = GFX_focus_AST_a_democratic_bulwark
+
+		relative_position_id = BLZ_sovereign_belize
+
+		x = 6
+		y = 3
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_a_haven_for_exiles }
+		prerequisite = { focus = BLZ_a_central_american_conference }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			if = {
+				limit = {
+					country_exists = COS
+					COS = { has_government = democratic }
+				}
+				give_guarantee = COS
+			}
+			if = {
+				limit = {
+					country_exists = PAN
+					PAN = { has_government = democratic }
+				}
+				give_guarantee = PAN
+			}
+			add_political_power = 50
+			add_war_support = 0.05
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = BLZ_the_isthmian_democratic_league
+		icon = GFX_focus_BRA_create_faction
+
+		relative_position_id = BLZ_sovereign_belize
+
+		x = 6
+		y = 4
+
+		cost = 10
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+
+		prerequisite = { focus = BLZ_stand_by_our_neighbours }
+
+		mutually_exclusive = {  }
+
+		available = {}
+
+		bypass = {}
+
+		completion_reward = {
+			add_ideas = BLZ_isthmian_democratic_league_idea
+			add_political_power = 75
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.05
+			}
+			set_country_flag = BLZ_democratic_path_complete
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+}
