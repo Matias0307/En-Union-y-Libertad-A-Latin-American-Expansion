@@ -4075,6 +4075,111 @@ focus_tree = {
 		}
 	}
 
+	## Via Force ##
+	focus = {
+		id = ECU_via_force
+		icon = GFX_goal_generic_major_war
+		x = 3
+		y = 1
+		relative_position_id = ECU_review_our_foreign_policy
+		prerequisite = {
+			focus = ECU_review_our_foreign_policy
+		}
+		mutually_exclusive = {
+			focus = ECU_via_diplomacy
+		}
+
+		cost = 5
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			every_other_country = {
+                limit = {
+                    capital_scope = { is_on_continent = south_america }
+                    NOT = {
+                        has_war_with = ROOT 
+                    }
+                }
+                add_opinion_modifier = { modifier = BOL_chose_path_of_force target = ROOT }
+                ROOT = {
+                    add_opinion_modifier = { modifier = BOL_chose_path_of_force target = PREV }
+                }
+            }
+		}
+	}
+
+	## Adopt an Imperialist Foreign Policy ##
+	focus = {
+		id = ECU_adopt_an_imperialist_foreign_policy
+		icon = GFX_VEN_generic_militarism
+		x = 1
+		y = 1
+		relative_position_id = ECU_via_force
+		prerequisite = {
+			focus = ECU_via_force
+			focus = ECU_increase_funding_to_the_military
+			focus = ECU_looking_outwards
+		}
+		mutually_exclusive = {
+			focus = ECU_recovering_what_was_forgotten
+			focus = ECU_revive_a_lost_idea
+		}
+
+		ai_will_do = {
+			base = 5
+		}
+
+		cost = 5
+
+		offset = {
+			x = 4
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ECU_the_paez_dictatorship
+			}
+		}
+
+		available = {
+			NOT = {
+				has_idea = ECU_aftermath_of_4_day_civil_war_1
+			}
+			OR = {
+				has_army_manpower = {
+					size > 69999
+				}
+				threat > 0.1
+				has_war_support > 0.6
+			}
+		}
+
+		offset = {
+			x = -28
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = ECU_the_paez_dictatorship
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			add_ideas = ARG_expansionist_policy
+		}
+	}
+
 	## Pushing our Claims ##
 	focus = {
 		id = ECU_pushing_our_claims
@@ -4229,6 +4334,153 @@ focus_tree = {
 					level = 1
 					instant_build = yes 
 				}
+			}
+		}
+	}
+
+	## Push our Sphere of Influence South ##
+	focus = {
+		id = ECU_push_our_sphere_of_influence_south
+		icon = GFX_col_focus_attack_south
+		x = 0
+		y = 3
+		relative_position_id = ECU_pushing_our_claims
+		prerequisite = {
+			focus = ECU_pushing_our_claims
+		}
+		will_lead_to_war_with = CHL 
+		will_lead_to_war_with = ARG 
+		will_lead_to_war_with = URG
+
+		ai_will_do = {
+			base = 2
+		}
+
+		cost = 10
+
+		available = {
+			OR = {
+				CHL = { exists = yes }
+				ARG = { exists = yes }
+				URG = { exists = yes }
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = ECU_gain_claims_on_all_rio_de_la_plata_states_tt
+			every_state = {
+				limit = {
+					NOT = {
+						OR = {
+							is_core_of = ROOT 
+							is_claimed_by = ROOT 
+							is_fully_controlled_by = ROOT 
+						}
+					}
+					OR = {
+						has_state_flag = uruguayan_starting_state
+						has_state_flag = chilean_starting_state
+						has_state_flag = argentine_starting_state
+					}
+				}
+				add_claim_by = ROOT 
+			}
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = ARG 
+						original_tag = CHL 
+						original_tag = URG
+						original_tag = PAR
+						original_tag = BOL
+					}
+					NOT = { has_war_with = ROOT }
+					NOT = { is_in_faction_with = ROOT }
+				}
+			}
+			hidden_effect = {
+				every_other_country = {
+					limit = {
+						OR = {
+							original_tag = ARG 
+							original_tag = CHL 
+							original_tag = URG
+							original_tag = PAR
+							original_tag = BOL
+						}
+						NOT = { has_war_with = ROOT }
+						NOT = { is_in_faction_with = ROOT }
+					}
+					ROOT = {
+						create_wargoal = {
+							type = annex_everything
+							target = PREV 
+						}
+					}
+				}
+			}
+		}
+	}
+
+	## A Major Power Is Born ##
+	focus = {
+		id = ECU_a_major_power_is_born
+		icon = GFX_ECU_major_power_icon
+		x = 1
+		y = 1
+		relative_position_id = ECU_push_our_sphere_of_influence_south
+		prerequisite = {
+			focus = ECU_demand_oil_rights_in_venezuela
+			focus = ECU_push_our_sphere_of_influence_south
+		}
+
+		ai_will_do = {
+			base = 5
+		}
+
+		cost = 10
+
+		available = {
+			303 = { controls_or_subject_of = yes }
+			any_controlled_state = {
+				is_core_of = COL 
+			}
+			num_of_factories > 74
+			has_army_manpower = {
+				size > 199999
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ARG_expansionist_policy
+				add_idea = ARG_expansionist_policy_2
+			}
+			add_war_support = 0.05
+			add_stability = 0.05
+			if = {
+				limit = {
+					is_major = no 
+				}
+				set_major = yes 
+			}
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			custom_effect_tooltip = ARG_unlock_integrate_territory
+			if = {
+				limit = {
+					NOT = { has_country_flag = EUYL_can_integrate }
+				}
+				set_country_flag = EUYL_can_integrate
 			}
 		}
 	}
@@ -4851,258 +5103,6 @@ focus_tree = {
 					}
 				}
 			}
-		}
-	}
-
-	## Push our Sphere of Influence South ##
-	focus = {
-		id = ECU_push_our_sphere_of_influence_south
-		icon = GFX_col_focus_attack_south
-		x = 0
-		y = 3
-		relative_position_id = ECU_pushing_our_claims
-		prerequisite = {
-			focus = ECU_pushing_our_claims
-		}
-		will_lead_to_war_with = CHL 
-		will_lead_to_war_with = ARG 
-		will_lead_to_war_with = URG
-
-		ai_will_do = {
-			base = 2
-		}
-
-		cost = 10
-
-		available = {
-			OR = {
-				CHL = { exists = yes }
-				ARG = { exists = yes }
-				URG = { exists = yes }
-			}
-		}
-
-		search_filters = {
-			FOCUS_FILTER_ANNEXATION
-		}
-
-		completion_reward = {
-			custom_effect_tooltip = ECU_gain_claims_on_all_rio_de_la_plata_states_tt
-			every_state = {
-				limit = {
-					NOT = {
-						OR = {
-							is_core_of = ROOT 
-							is_claimed_by = ROOT 
-							is_fully_controlled_by = ROOT 
-						}
-					}
-					OR = {
-						has_state_flag = uruguayan_starting_state
-						has_state_flag = chilean_starting_state
-						has_state_flag = argentine_starting_state
-					}
-				}
-				add_claim_by = ROOT 
-			}
-			custom_effect_tooltip = CHL_skip_one_line_tt
-			custom_effect_tooltip = URG_gain_wargoals_on_every_neighbor_tt
-			every_other_country = {
-				limit = {
-					OR = {
-						original_tag = ARG 
-						original_tag = CHL 
-						original_tag = URG
-						original_tag = PAR
-						original_tag = BOL
-					}
-					NOT = { has_war_with = ROOT }
-					NOT = { is_in_faction_with = ROOT }
-				}
-			}
-			hidden_effect = {
-				every_other_country = {
-					limit = {
-						OR = {
-							original_tag = ARG 
-							original_tag = CHL 
-							original_tag = URG
-							original_tag = PAR
-							original_tag = BOL
-						}
-						NOT = { has_war_with = ROOT }
-						NOT = { is_in_faction_with = ROOT }
-					}
-					ROOT = {
-						create_wargoal = {
-							type = annex_everything
-							target = PREV 
-						}
-					}
-				}
-			}
-		}
-	}
-
-	## A Major Power Is Born ##
-	focus = {
-		id = ECU_a_major_power_is_born
-		icon = GFX_ECU_major_power_icon
-		x = 1
-		y = 1
-		relative_position_id = ECU_push_our_sphere_of_influence_south
-		prerequisite = {
-			focus = ECU_demand_oil_rights_in_venezuela
-			focus = ECU_push_our_sphere_of_influence_south
-		}
-
-		ai_will_do = {
-			base = 5
-		}
-
-		cost = 10
-
-		available = {
-			303 = { controls_or_subject_of = yes }
-			any_controlled_state = {
-				is_core_of = COL 
-			}
-			num_of_factories > 74
-			has_army_manpower = {
-				size > 199999
-			}
-		}
-
-		search_filters = {
-			FOCUS_FILTER_POLITICAL FOCUS_FILTER_MANPOWER FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT
-		}
-
-		completion_reward = {
-			swap_ideas = {
-				remove_idea = ARG_expansionist_policy
-				add_idea = ARG_expansionist_policy_2
-			}
-			add_war_support = 0.05
-			add_stability = 0.05
-			if = {
-				limit = {
-					is_major = no 
-				}
-				set_major = yes 
-			}
-			custom_effect_tooltip = CHL_skip_one_line_tt
-			custom_effect_tooltip = ARG_unlock_integrate_territory
-			if = {
-				limit = {
-					NOT = { has_country_flag = EUYL_can_integrate }
-				}
-				set_country_flag = EUYL_can_integrate
-			}
-		}
-	}
-
-	## Via Force ##
-	focus = {
-		id = ECU_via_force
-		icon = GFX_goal_generic_major_war
-		x = 3
-		y = 1
-		relative_position_id = ECU_review_our_foreign_policy
-		prerequisite = {
-			focus = ECU_review_our_foreign_policy
-		}
-		mutually_exclusive = {
-			focus = ECU_via_diplomacy
-		}
-
-		cost = 5
-
-		search_filters = {
-			FOCUS_FILTER_POLITICAL
-		}
-
-		completion_reward = {
-			every_other_country = {
-                limit = {
-                    capital_scope = { is_on_continent = south_america }
-                    NOT = {
-                        has_war_with = ROOT 
-                    }
-                }
-                add_opinion_modifier = { modifier = BOL_chose_path_of_force target = ROOT }
-                ROOT = {
-                    add_opinion_modifier = { modifier = BOL_chose_path_of_force target = PREV }
-                }
-            }
-		}
-	}
-
-	## Adopt an Imperialist Foreign Policy ##
-	focus = {
-		id = ECU_adopt_an_imperialist_foreign_policy
-		icon = GFX_VEN_generic_militarism
-		x = 1
-		y = 1
-		relative_position_id = ECU_via_force
-		prerequisite = {
-			focus = ECU_via_force
-			focus = ECU_increase_funding_to_the_military
-			focus = ECU_looking_outwards
-		}
-		mutually_exclusive = {
-			focus = ECU_recovering_what_was_forgotten
-			focus = ECU_revive_a_lost_idea
-		}
-
-		ai_will_do = {
-			base = 5
-		}
-
-		cost = 5
-
-		offset = {
-			x = 4
-			y = 0
-			trigger = {
-				has_game_rule = {
-					rule = obsolete_focus_branches_visibility
-					option = HIDE
-				}
-				has_completed_focus = ECU_the_paez_dictatorship
-			}
-		}
-
-		available = {
-			NOT = {
-				has_idea = ECU_aftermath_of_4_day_civil_war_1
-			}
-			OR = {
-				has_army_manpower = {
-					size > 69999
-				}
-				threat > 0.1
-				has_war_support > 0.6
-			}
-		}
-
-		offset = {
-			x = -28
-			y = 0
-			trigger = {
-				has_game_rule = {
-					rule = obsolete_focus_branches_visibility
-					option = HIDE
-				}
-				has_completed_focus = ECU_the_paez_dictatorship
-			}
-		}
-
-		search_filters = {
-			FOCUS_FILTER_ANNEXATION
-		}
-
-		completion_reward = {
-			add_ideas = ARG_expansionist_policy
 		}
 	}
 

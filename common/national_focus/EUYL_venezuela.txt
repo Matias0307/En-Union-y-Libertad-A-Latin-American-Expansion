@@ -1169,64 +1169,6 @@ focus_tree = {
 		}
 	}
 
-	### El Pais de los Trabajadores ###
-	focus = {
-		id = VEN_el_pais_de_los_trabajadores
-		icon = GFX_VEN_country_of_worker
-		x = 1
-		y = 2
-		relative_position_id = VEN_promise_worker_condition_improvements
-		prerequisite = {
-			focus = VEN_promise_worker_condition_improvements
-		}
-		prerequisite = {
-			focus = VEN_agricultural_investments
-		}
-
-		cost = 10
-
-		available = {
-			has_civil_war = no
-			AND = {
-				has_country_flag = VEN_improved_worker_salaries_flag
-                has_country_flag = VEN_reduced_work_hours_flag
-                has_country_flag = VEN_improved_worker_conditions_flag
-			}
-			custom_trigger_tooltip = {
-				tooltip = VEN_strikes_arent_active_tt
-				NOT = {
-					OR = {
-						has_idea = strikes_1
-						has_idea = strikes_2 
-						has_idea = strikes_3
-					}
-				}
-			}
-			custom_trigger_tooltip = {
-				tooltip = VEN_there_are_no_protestors_tt
-				NOT = {
-					any_controlled_state = {
-						has_dynamic_modifier = {
-							modifier = BRA_protests
-						}
-					}
-				}
-			}
-		}
-
-		cancel_if_invalid = yes 
-		continue_if_invalid = no
-
-		search_filters = {
-			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL
-		}
-
-		completion_reward = {
-			EUYL_add_2_civilian = yes 
-			add_ideas = VEN_el_pais_de_los_trabajadores_idea
-		}
-	}
-
 	### Demand Foreign Subsidies ###
 	focus = {
 		id = VEN_demand_foreign_subsidies
@@ -1332,6 +1274,64 @@ focus_tree = {
 				decision = VEN_improved_worker_conditions
 				show_effect_tooltip = yes 
 			}
+		}
+	}
+
+	### El Pais de los Trabajadores ###
+	focus = {
+		id = VEN_el_pais_de_los_trabajadores
+		icon = GFX_VEN_country_of_worker
+		x = 1
+		y = 2
+		relative_position_id = VEN_promise_worker_condition_improvements
+		prerequisite = {
+			focus = VEN_promise_worker_condition_improvements
+		}
+		prerequisite = {
+			focus = VEN_agricultural_investments
+		}
+
+		cost = 10
+
+		available = {
+			has_civil_war = no
+			AND = {
+				has_country_flag = VEN_improved_worker_salaries_flag
+                has_country_flag = VEN_reduced_work_hours_flag
+                has_country_flag = VEN_improved_worker_conditions_flag
+			}
+			custom_trigger_tooltip = {
+				tooltip = VEN_strikes_arent_active_tt
+				NOT = {
+					OR = {
+						has_idea = strikes_1
+						has_idea = strikes_2 
+						has_idea = strikes_3
+					}
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = VEN_there_are_no_protestors_tt
+				NOT = {
+					any_controlled_state = {
+						has_dynamic_modifier = {
+							modifier = BRA_protests
+						}
+					}
+				}
+			}
+		}
+
+		cancel_if_invalid = yes 
+		continue_if_invalid = no
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL
+		}
+
+		completion_reward = {
+			EUYL_add_2_civilian = yes 
+			add_ideas = VEN_el_pais_de_los_trabajadores_idea
 		}
 	}
 
@@ -9612,112 +9612,6 @@ focus_tree = {
 		}
 	}
 
-	### El Mar Nuestro ###
-	focus = {
-		id = VEN_our_ambition_in_the_caribbean
-		icon = GFX_VEN_el_mar_nuestro_icon
-		x = 2
-		y = 2
-		relative_position_id = VEN_la_marcha_al_norte
-		prerequisite = {
-			focus = VEN_la_marcha_al_norte
-		}
-		will_lead_to_war_with = CUB
-
-		cost = 7.2
-
-		available = {
-			has_navy_size = {
-				size > 19
-			}
-		}
-
-		bypass = {
-			CUB = {
-				OR = {
-					is_subject_of = ROOT 
-					has_war_with = ROOT 
-					capital_scope = {
-						is_fully_controlled_by = ROOT 
-					}
-					AND = {
-						is_in_faction_with = ROOT 
-						has_government = ROOT
-					}
-				}
-			}
-		}
-
-		search_filters = {
-			FOCUS_FILTER_ANNEXATION
-		}
-
-		completion_reward = {
-			every_state = {
-				limit = {
-					NOT = {
-						is_core_of = ROOT 
-					}
-					OR = {
-						state = 316
-						state = 685
-						state = 317
-						state = 312
-						state = 314
-						state = 315 
-						state = 319
-						state = 318
-						state = 313
-						state = 1131
-						state = 1132
-						state = 1133
-						state = 1134
-						state = 1135
-						state = 1136
-						state = 1137
-					}
-				}
-				add_core_of = ROOT
-			}
-			create_wargoal = {
-				target = CUB
-				type = annex_everything
-			}
-			if = {
-				limit = {
-					HAI = {
-						exists = yes 
-						NOT = {
-							capital_scope = {
-								controls_or_subject_of = yes 
-							}
-						}
-					}
-				}
-				create_wargoal = {
-					target = HAI
-					type = annex_everything
-				}
-			}
-			if = {
-				limit = {
-					DOM = {
-						exists = yes 
-						NOT = {
-							capital_scope = {
-								controls_or_subject_of = yes 
-							}
-						}
-					}
-				}
-				create_wargoal = {
-					target = DOM
-					type = annex_everything
-				}
-			}
-		}
-	}
-
 	### Nuestra por Derecho ###
 	focus = {
 		id = VEN_nuestra_por_derecho
@@ -9852,6 +9746,112 @@ focus_tree = {
 							target = PREV 
 						}
 					}
+				}
+			}
+		}
+	}
+
+	### El Mar Nuestro ###
+	focus = {
+		id = VEN_our_ambition_in_the_caribbean
+		icon = GFX_VEN_el_mar_nuestro_icon
+		x = 2
+		y = 2
+		relative_position_id = VEN_la_marcha_al_norte
+		prerequisite = {
+			focus = VEN_la_marcha_al_norte
+		}
+		will_lead_to_war_with = CUB
+
+		cost = 7.2
+
+		available = {
+			has_navy_size = {
+				size > 19
+			}
+		}
+
+		bypass = {
+			CUB = {
+				OR = {
+					is_subject_of = ROOT 
+					has_war_with = ROOT 
+					capital_scope = {
+						is_fully_controlled_by = ROOT 
+					}
+					AND = {
+						is_in_faction_with = ROOT 
+						has_government = ROOT
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+
+		completion_reward = {
+			every_state = {
+				limit = {
+					NOT = {
+						is_core_of = ROOT 
+					}
+					OR = {
+						state = 316
+						state = 685
+						state = 317
+						state = 312
+						state = 314
+						state = 315 
+						state = 319
+						state = 318
+						state = 313
+						state = 1131
+						state = 1132
+						state = 1133
+						state = 1134
+						state = 1135
+						state = 1136
+						state = 1137
+					}
+				}
+				add_core_of = ROOT
+			}
+			create_wargoal = {
+				target = CUB
+				type = annex_everything
+			}
+			if = {
+				limit = {
+					HAI = {
+						exists = yes 
+						NOT = {
+							capital_scope = {
+								controls_or_subject_of = yes 
+							}
+						}
+					}
+				}
+				create_wargoal = {
+					target = HAI
+					type = annex_everything
+				}
+			}
+			if = {
+				limit = {
+					DOM = {
+						exists = yes 
+						NOT = {
+							capital_scope = {
+								controls_or_subject_of = yes 
+							}
+						}
+					}
+				}
+				create_wargoal = {
+					target = DOM
+					type = annex_everything
 				}
 			}
 		}

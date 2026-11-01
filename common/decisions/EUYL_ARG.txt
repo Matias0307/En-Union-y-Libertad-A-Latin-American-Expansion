@@ -12963,6 +12963,78 @@ ARG_integrate_our_territories = {
 			}
 		}
 	}
+
+	COS_demand_the_state_of_FROM = {
+		icon = generic_operation
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				add = 100
+				OR = {
+					has_government = fascism
+					has_government = neutrality
+					has_government = communism
+				}
+			}
+			modifier = {
+				factor = 1
+				is_historical_focus_on = yes
+			}
+		}
+
+		state_target = yes
+
+		on_map_mode = map_and_decisions_view
+
+		targets = {
+			689
+			691
+			692
+			308
+			693
+			690
+			686
+			694
+		}
+
+		visible = {
+			original_tag = COS
+			has_completed_focus = COS_demand_subjegation_of_the_caribbean
+			FROM = {
+				is_controlled_by_ROOT_or_subject = no
+			}
+		}
+
+		available = {
+			FROM = {
+				CONTROLLER = {
+					NOT = {
+						has_war_with = ROOT
+					}
+				}
+			}
+		}
+
+		cost = 25
+
+		complete_effect = {
+			FROM = {
+				save_event_target_as = DEMANDED_STATE
+				CONTROLLER = {
+					country_event = {
+						id = EUYL.4
+						hours = 4
+						random_hours = 4
+					}
+				}
+			}
+			custom_effect_tooltip = ARG_iftheyaccept
+			effect_tooltip = {
+				transfer_state = FROM
+			}
+		}
+	}
 }
 
 ## NEW DLC CONTENT ##

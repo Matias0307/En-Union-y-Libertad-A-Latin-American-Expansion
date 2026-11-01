@@ -4,12 +4,34 @@ characters={
 		portraits={
 			civilian={
 				large="GFX_portrait_costa_rica_ricardo_jiminez_oreamuno"
+				small = "GFX_COS_ricardo_jimenez_idea_icon"
 			}
 		}
 		country_leader={
 			ideology=liberalism
 			expire="1965.1.1.1"
 			id=-1
+		}
+		advisor={
+			slot = political_advisor
+			idea_token = COS_ricardo_jiménez_oreamuno_idea
+			available = {
+				date > 1940.1.1
+				has_stability > 0.7
+				num_of_factories > 14
+				NOT = {
+					has_country_leader = {
+						character = COS_ricardo_jiménez_oreamuno
+						ruling_only = yes
+					}
+				}
+			}
+			allowed  = {
+				original_tag = COS
+			}
+			traits  = {
+				JUNO_popular_lawyer 
+			}
 		}
 	}
 	COS_carlos_federspiel_ullman = {
@@ -48,8 +70,10 @@ characters={
 			available = {
 				OR = {
 					has_completed_focus = COS_cooperate_with_manuel_mora
-					## TODO: Add bloody revolution focus here too
+					has_completed_focus = COS_with_the_revolution
+					has_completed_focus = COS_work_closely_with_the_peoples_vanguard_party
 				}
+				NOT = { has_active_mission = COS_the_great_leap_forward_mis }
 				NOT = {
 					has_country_leader = {
 						character = COS_manuel_mora_valverde
@@ -72,7 +96,7 @@ characters={
 			}
 		}
 	}
-	COS_carmen_lyra = { ## TODO: portrait
+	COS_carmen_lyra = { ## TODO: portrait | DONE
 		country_leader={
 			ideology=marxism
 			traits = {
@@ -85,10 +109,34 @@ characters={
 		portraits = {
 			civilian = {
 				large = "gfx/leaders/COS/COS_carmen_lyra_leader.png"
+				small = "GFX_COS_carmen_lyra_idea_icon"
+			}
+		}
+		advisor={
+			slot = political_advisor
+			idea_token = COS_carmen_lyra_idea
+			cost = 100
+			available = {
+				NOT = {
+					has_government = fascism
+					has_active_mission = COS_the_great_leap_forward_mis
+				}
+				NOT = {
+					has_country_leader = {
+						character = COS_carmen_lyra
+						ruling_only = yes
+					}
+				}
+			}
+			allowed  = {
+				original_tag = COS
+			}
+			traits  = {
+				ARG_feminist_revolutionary 
 			}
 		}
 	}
-	COS_otilio_ulate_blanco = { ## TODO: portrait
+	COS_otilio_ulate_blanco = { ## TODO: portrait || DONE
 		country_leader={
 			ideology=socialism
 			expire="1953.1.1.12"
@@ -97,7 +145,27 @@ characters={
 		name = "Otilio Ulate Blanco"
 		portraits = {
 			civilian = {
-				large = ""
+				large = "gfx/leaders/COS/Portrait_COS_Otilio_Ulate_Blanco.png"
+				small = "GFX_COS_otilio_ulate_blanco_idea_icon"
+			}
+		}
+		advisor = {
+			slot = political_advisor
+			idea_token = COS_otilio_ulate_blanco_idea
+			available = {
+				NOT = { has_country_flag = COS_1948_revolution_flag }
+				NOT = {
+					has_country_leader = {
+						character = COS_otilio_ulate_blanco
+						ruling_only = yes
+					}
+				}
+			}
+			allowed  = {
+				original_tag = COS
+			}
+			traits  = {
+				economic_reformer 
 			}
 		}
 	}
@@ -182,6 +250,40 @@ characters={
 			legacy_id=-1
 		}
 	}
+	COS_rene_picado_michalski = {
+		name = "René Picado Michalski"
+		portraits = {
+			army = {
+				large = "gfx/leaders/COS/COS_Rene_Picado_Michalski_Ptr.png"
+			}
+			civilian = {
+				small = "GFX_COS_rene_picardo_michalski_idea_icon"
+			}
+		}
+		advisor = {
+			slot = army_chief
+			idea_token = COS_rene_picado_michalski
+			allowed = {
+				original_tag = COS
+			}
+			traits = {
+				army_chief_offensive_2
+			}
+			cost = 100
+			ai_will_do = {
+				factor = 1.000
+			}
+		}
+		corps_commander={
+			traits={ search_pattern_expert }
+			skill=1
+			attack_skill=1
+			defense_skill=1
+			planning_skill=1
+			logistics_skill=2
+			legacy_id=-1
+		}
+	}
 	COS_lisandro_barillas={
 		name="Lisandro Barillas"
 		portraits={
@@ -220,7 +322,7 @@ characters={
 			ideology=conservatism
 			expire="1965.1.1.1"
 			traits = {
-				nazi_sympathizer
+				COS_nazi_sympathizer
 			}
 			id=-1
 		}
@@ -244,7 +346,7 @@ characters={
 		advisor={
 			slot = political_advisor
 			idea_token = COS_rafael_angel_calderon_idea
-			cost = 100
+			cost = 125
 			available = {
 				NOT = {
 					has_country_leader = {
@@ -257,7 +359,7 @@ characters={
 				original_tag = COS
 			}
 			traits  = {
-				pragmatic_socialist 
+				GER_staunch_socialist 
 			}
 		}
 	}
@@ -343,7 +445,24 @@ characters={
 				COS_head_of_immigration 
 			}
 			on_add = {
-				unlock_decision_category_tooltip = COS_max_effinger_administration
+				ROOT = { unlock_decision_category_tooltip = COS_max_effinger_administration }
+			}
+			ai_will_do = {
+				factor = 1
+				modifier = {
+					factor = 500
+					OR = {
+						has_game_rule = {
+							rule = COS_ai_behavior 
+							option = COS_FASCISM
+						}
+						has_game_rule = {
+							rule = COS_ai_behavior 
+							option = COS_NAZISM
+						}
+						is_historical_focus_on = yes 
+					}
+				}
 			}
 		}
 	}
@@ -471,32 +590,7 @@ characters={
 			}
 		}
 	}
-	COS_jorge_volio_jimenez={
-		advisor={
-			
-			
-			slot = army_chief
-			idea_token = COS_jorge_volio_jimenez
-			allowed = {
-					original_tag = COS
-				}
-				traits = {
-					army_chief_offensive_2
-				}
-				cost = 100
-				ai_will_do = {
-					factor = 1.000
-				}
-		}
-# TODO[ PORTRAIT LARGE ]: Missing large portrait please check!
-		name="Jorge Volio Jimenéz"
-		portraits={
-			army={
-				small="GFX_idea_generic_army_south_america_2"
-			}
-		}
-	}
-	
+
 	COS_carlos_uribe_alpoveda={
 		advisor={
 			
@@ -559,7 +653,7 @@ characters={
 					original_tag = COS
 				}
 				traits = {
-					army_logistics_2
+					army_artillery_1
 				}
 				cost = 100
 				ai_will_do = {
@@ -648,25 +742,7 @@ characters={
 			}
 		}
 	}
-	COS_otto_cortes_fernandez={
-		advisor={
-			slot = political_advisor
-			idea_token = COS_otto_cortes_fernandez
-			allowed  = {
-					original_tag  = COS
-				}
-				traits  = {
-					silent_workhorse 
-				}
-		}
-# TODO[ PORTRAIT LARGE ]: Missing large portrait please check!
-		name="Otto Cortes Fernandez"
-		portraits={
-			army={
-				small="GFX_idea_generic_political_advisor_south_america_3"
-			}
-		}
-	}
+
 	COS_jose_figueres_ferrer={
 		advisor={
 			slot = political_advisor
