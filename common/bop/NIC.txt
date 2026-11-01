@@ -1,0 +1,132 @@
+NIC_control_over_the_guardia_nacional_bop = {
+	initial_value = 1
+	left_side = NIC_autonomous_guardia_nacional_side
+	right_side = NIC_controlling_guardia_nacional_side
+	decision_category = NIC_BoP_guardia_nacional
+	range = {
+		id = NIC_indifferent_control
+		min = -0.15
+		max = 0.15
+		modifier = {
+			experience_gain_army_factor = 0.03
+			army_speed_factor = -0.03
+			stability_factor = 0.01
+		}
+	}
+	side = {
+		id = NIC_autonomous_guardia_nacional_side
+		icon = GFX_bop_CZE_army_readiness_bad_side
+		range = {
+			id = NIC_completely_autonomous
+			min = -1
+			max = -0.8
+			modifier = {
+				army_attack_factor = -0.1
+				army_defence_factor = -0.1
+				army_speed_factor = -0.25
+				stability_factor = 0.1
+				political_power_gain = 0.1
+				production_speed_industrial_complex_factor = 0.05
+				consumer_goods_factor = -0.03
+			}
+
+			on_activate = {
+				set_power_balance_gfx = { ## Change BOP icon
+					id = NIC_control_over_the_guardia_nacional_bop
+					side = NIC_autonomous_guardia_nacional_side
+					gfx = GFX_bop_CZE_army_readiness_bad_improved_side
+				}
+			}
+
+			on_deactivate = {
+				set_power_balance_gfx = { ## Change BOP icon
+					id = NIC_control_over_the_guardia_nacional_bop
+					side = NIC_autonomous_guardia_nacional_side
+					gfx = GFX_bop_CZE_army_readiness_bad_side
+				}
+			}
+		}
+        range = {
+			id = NIC_autonomous
+			min = -0.8
+			max = -0.45
+			modifier = {
+				army_attack_factor = -0.07
+				army_defence_factor = -0.07
+				army_speed_factor = -0.2
+				stability_factor = 0.07
+				political_power_gain = 0.07
+				production_speed_industrial_complex_factor = 0.03
+			}
+		}
+		range = {
+			id = NIC_slightly_autonomous
+			min = -0.45
+			max = -0.15
+			modifier = {
+				army_attack_factor = -0.04
+				army_defence_factor = -0.04
+				army_speed_factor = -0.1
+				stability_factor = 0.05
+				political_power_gain = 0.05
+			}
+		}
+	}
+	side = {
+		id = NIC_controlling_guardia_nacional_side
+		icon = GFX_NIC_BoP_army_control_side
+		range = {
+			id = NIC_complete_control
+			min = 0.8
+			max = 1
+			modifier = {
+				army_attack_factor = 0.1
+				army_defence_factor = 0.1
+				production_speed_arms_factory_factor = 0.05
+				industrial_capacity_factory = 0.03
+				stability_factor = -0.1
+				political_power_gain = -0.2
+			}
+
+			on_activate = {
+				set_power_balance_gfx = { ## Change BOP icon
+					id = NIC_control_over_the_guardia_nacional_bop
+					side = NIC_controlling_guardia_nacional_side
+					gfx = GFX_NIC_BoP_army_control_max_side
+				}
+			}
+
+			on_deactivate = {
+				set_power_balance_gfx = { ## Change BOP icon
+					id = NIC_control_over_the_guardia_nacional_bop
+					side = NIC_controlling_guardia_nacional_side
+					gfx = GFX_NIC_BoP_army_control_side
+				}
+			}
+		}
+        range = {
+			id = NIC_significant_control
+			min = 0.45
+			max = 0.8
+			modifier = {
+                army_attack_factor = 0.07
+				army_defence_factor = 0.07
+				production_speed_arms_factory_factor = 0.03
+				stability_factor = -0.07
+				political_power_gain = -0.15
+			}
+		}
+		range = {
+			id = NIC_slight_control
+			min = 0.15
+			max = 0.45
+			modifier = {
+                army_attack_factor = 0.04
+				army_defence_factor = 0.04
+				stability_factor = -0.05
+				political_power_gain = -0.07
+			}
+		}
+	}
+}
+
