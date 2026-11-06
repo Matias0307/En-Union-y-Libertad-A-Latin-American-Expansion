@@ -608,6 +608,7 @@ NIC_reset_balance_of_power = {
 	    right_side = NIC_controlling_guardia_nacional_side
         set_value = 0 # if specified will set the value of the power balance, this option will override the effect of set_default so the two options should not be used together. if neither set_default or set_value is specified the current value of the power balance will not change
     }
+    NIC_determine_bop_weekly = yes
 }
 
 NIC_move_5_towards_control = {
@@ -665,5 +666,25 @@ NIC_move_100_towards_control = {
     add_power_balance_value = {
         id = NIC_control_over_the_guardia_nacional_bop
         value = 1
+    }
+}
+
+NIC_determine_bop_weekly = {
+    if = {
+        limit = {
+            NOT = {
+                NIC_army_is_loyal_to_current_government = yes
+            }
+        }
+        custom_effect_tooltip = NIC_due_to_misaligned_army_government_loyalties_bop_trend_weekly_1_percent_to_autonomy_tt
+        set_variable = {
+            NIC_guardia_nacional_bop_weekly_var = -0.01
+        }
+    }
+    else = {
+        custom_effect_tooltip = NIC_due_to_aligned_army_government_loyalties_bop_will_remain_stationary_tt
+        set_variable = {
+            NIC_guardia_nacional_bop_weekly_var = 0
+        }
     }
 }

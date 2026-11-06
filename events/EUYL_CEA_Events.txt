@@ -4727,21 +4727,296 @@ country_event = {
 	}
 }
 
+## Sacasa Forced to Resign ##
+country_event = {
+	id = nic.1
+	title = nic.1.t 
+	desc = nic.1.d 
+	picture = GFX_NIC_sacasa_resigns_pic
+
+	is_triggered_only = yes 
+
+	option = { ## Historical
+		trigger = {
+			NOT = {
+				has_completed_focus = NIC_by_any_means_necessary
+				has_completed_focus = NIC_abandon_the_guardia_nacional
+			}
+		}
+		name = nic.1.a 
+		add_country_leader_role = {
+			character = NIC_interim_presidency
+			promote_leader = yes
+			country_leader = {
+				ideology = conservatism
+				expire = "1965.1.1.1"
+				traits = { BRA_disorganized_leadership }
+			}
+		}
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		add_stability = -0.03
+		if = {
+			limit = {
+				has_any_power_balance = yes 
+			}
+			NIC_move_5_towards_autonomy = yes
+		}
+
+		custom_effect_tooltip = NIC_legislative_assembly_will_elect_a_succesor_tt
+		effect_tooltip = {
+			set_politics = {
+				ruling_party = neutrality
+				elections_allowed = yes 
+			}
+			promote_character = NIC_carlos_brenes_jarquin
+		}
+
+		if = {
+			limit = {
+				NOT = {
+					has_completed_focus = NIC_con_el_tacho
+				}
+			}
+			unlock_national_focus = NIC_con_el_tacho
+		}
+
+		NIC_reset_balance_of_power = yes
+
+		hidden_effect = {
+			country_event = {
+				id = nic.100 
+				days = 3
+			}
+		}
+	}
+
+	option = { ## We'll resist no matter what| a-historical || TODO: make civil war here (just ctrl c ctrl v costa rica's lol)
+		trigger = {
+			OR = {
+				has_completed_focus = NIC_by_any_means_necessary
+				has_completed_focus = NIC_abandon_the_guardia_nacional
+			}
+		}
+		name = nic.1.b 
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_template = "Milicias"
+					}
+				}
+				division_template = { 
+					name = "Milicias" 
+					division_names_group = SPAN_INF_02 
+					is_locked = yes 
+					regiments = { 
+						infantry = { x = 0 y = 0 }  
+						infantry = { x = 0 y = 1 } 
+						infantry = { x = 0 y = 2 } 
+					}
+				}
+			}
+		}
+		## Will add more conditions as I work on the alt-history paths, but for now this will stay like this ##
+		if = {
+			limit = {
+				has_country_flag = NIC_weaker_cw_flag
+			}
+			start_civil_war = {
+				ideology = ROOT 
+				ruling_party = democratic
+				capital = 1135
+				states = { 1135 }
+				keep_all_characters = yes
+				PREV = {  # Original country
+					NIC_anastasio_somoza_garcía = {
+						set_nationality = prev.PREV
+					}
+				}
+				promote_character = NIC_anastasio_somoza_garcía
+			}
+		}
+		else = {
+			start_civil_war = { 
+				ideology = ROOT 
+				ruling_party = democratic
+				capital = 1136
+				states = { 1136 1135 }
+				keep_all_characters = yes
+				PREV = {  # Original country
+					NIC_anastasio_somoza_garcía = {
+						set_nationality = prev.PREV
+					}
+				}
+				promote_character = NIC_anastasio_somoza_garcía
+			}
+		}
+		if = {
+			limit = {
+				is_ai = yes
+			}
+			add_ideas = EUYL_chaos_civil_war_help
+		}
+		every_controlled_state = {
+			create_unit = {
+				division = "name = \"Milicias Nicaraguenses\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+				owner = ROOT
+				count = 2
+			}
+		}
+		random_other_country = {
+			limit = {
+				original_tag = NIC 
+				NOT = { has_government = democratic }
+			}
+			NIC_anastasio_somoza_garcía = {
+				add_corps_commander_role = {
+					skill = 2
+					attack_skill = 1
+					defense_skill = 2
+					planning_skill = 2
+					logistics_skill = 2
+				}
+			}
+			## TODO: add load_focus_tree to load the thingy mabob
+			every_controlled_state = {
+				create_unit = {
+					division = "name = \"Lealistas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+					owner = PREV
+					count = 2
+				}
+			}
+		}
+	}
+}
+
+## hidden event to promote carlos brenes
+country_event = {
+	id = nic.100
+
+	hidden = yes 
+	is_triggered_only = yes 
+
+	immediate = {
+		set_politics = {
+			ruling_party = neutrality
+			elections_allowed = yes 
+		}
+		promote_character = NIC_carlos_brenes_jarquin
+
+		if = { ## TODO: add timed idea for transiitionary government or som shi lik that idk tho
+			limit = {
+				has_country_flag = NIC_historical_failed_autonomy_gn_flag
+			}
+
+		}
+
+		custom_effect_tooltip = NIC_anastasio_will_take_control_in_120_days_tt
+		hidden_effect = {
+			country_event = {
+				id = nic.2
+				days = 110
+				random_days = 20
+			}
+		}
+	}
+}
+
 ## Anastasio Takes Power ##
 country_event = {
 	id = nic.2
 	title = nic.2.t 
 	desc = nic.2.d 
+	picture = GFX_NIC_anastasio_takes_power_pic
 
 	is_triggered_only = yes
 
-	hidden = yes ## temporary
-
 	immediate = {
-		set_politics = {
-			ruling_party = neutrality
-			elections_allowed = no 
-		}
+		promote_character = NIC_anastasio_somoza_garcía
 		add_ideas = CEA_league_of_central_american_dictators
+
+		hidden_effect = { ## he IS the national spirit atp lol
+			remove_ideas = NIC_anastasio_somoza_garcía_idea
+		}
+	}
+}
+
+## Guardia Nacional Defies the President ##
+country_event = {
+	id = nic.3
+	title = nic.3.t 
+	desc = nic.3.d 
+	picture = GFX_NIC_GN_convention_pic
+
+	is_triggered_only = yes 
+
+	option = {
+		name = nic.3.a 
+		add_stability = -0.01
+		NIC_move_5_towards_autonomy = yes 
+	}
+}
+
+## Somoza Forces Succesfully Captured at Acosaco
+country_event = {
+	id = nic.4
+	title = nic.4.t 
+	desc = nic.4.d 
+	picture = GFX_report_event_generic_army
+
+	is_triggered_only = yes 
+
+	option = {
+		name = nic.4.a 
+		add_stability = 0.03
+		NIC_move_15_towards_control = yes
+	}
+}
+
+## The May Crisis
+country_event = {
+	id = nic.5
+	title = nic.5.t 
+	desc = nic.5.d
+	picture = GFX_report_event_gre_city_siege
+
+	is_triggered_only = yes 
+
+	option = {
+		name = nic.5.a
+		add_stability = -0.01
+		NIC_move_10_towards_autonomy = yes
+	}
+}
+
+## Somoza Captured || TODO: add the temp transitionary phase idea for both options and add some small buffs
+country_event = {
+	id = nic.6
+	title = nic.6.t 
+	desc = nic.6.d 
+	picture = GFX_NIC_anastasio_captured_pic
+
+	is_triggered_only = yes 
+
+	option = { ## Imprison him ##
+		name = nic.6.a 
+		add_political_power = 10
+		effect_tooltip = {
+			retire_character = NIC_anastasio_somoza_garcía
+		}
+		hidden_effect = {
+			remove_ideas = NIC_anastasio_somoza_garcía_idea
+			NIC_anastasio_somoza_garcía = {
+				set_character_flag = BRA_imprisoned
+			}
+		}
+	}
+
+	option = { ## Ehh whatever, let him stay who gaf
+		name = nic.6.b 
+		add_stability = -0.03
+		add_political_power = -20
 	}
 }

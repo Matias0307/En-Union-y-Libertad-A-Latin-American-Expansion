@@ -7587,25 +7587,112 @@ NIC_anastasios_coup = {
 			always = no 
 		}
 
-		days_mission_timeout = 175
+		days_mission_timeout = 164
 
 		is_good = no 
 
 		fire_only_once = yes
 
 		available = {
-			always = no ## TODO: add the anti-anastasio focus here
+			power_balance_value = {
+				id = NIC_control_over_the_guardia_nacional_bop
+				value > 0.5
+			}
+			NOT = { has_completed_focus = NIC_abandon_the_guardia_nacional }
 		}
 
-		timeout_effect = { ## TODO: make the event for Carlos Alberto Taking power, and then for Anastasio taking power 5 months later
-			promote_character = NIC_carlos_brenes_jarquin
-			hidden_effect = {
-				country_event = {
-					id = nic.2 
-					days = 150
-					random_days = 50
+		timeout_effect = { 
+			country_event = nic.1
+			if = {
+				limit = {
+					NOT = {
+						has_completed_focus = NIC_by_any_means_necessary
+						has_completed_focus = NIC_abandon_the_guardia_nacional
+					}
+					NOT = {
+						power_balance_value = {
+							id = NIC_control_over_the_guardia_nacional_bop
+							value < -0.8
+						}
+					}
 				}
+				set_country_flag = NIC_historical_failed_autonomy_gn_flag
 			}
+		}
+
+		complete_effect = {
+			country_event = nic.6 ## Somoza captured
+		}
+	}
+
+	NIC_planned_siege_of_acosasco = {
+		priority = 45
+		icon = revolt 
+
+		highlight_states = {
+			highlight_state_targets = {
+				state = 1136
+			}
+		}
+
+		activation = {
+			always = no 
+		}
+
+		days_mission_timeout = 113
+
+		is_good = no 
+
+		available = {
+			num_divisions_in_states = {
+				count > 1
+				states = { 1136 }
+			}
+			power_balance_value = {
+				id = NIC_control_over_the_guardia_nacional_bop
+				value > 0.1
+			}
+		}
+
+		complete_effect = { ## succesfully halted siege (for coup path to democracy) || also makes cw easier
+			country_event = nic.4 
+			set_country_flag = NIC_weaker_cw_flag
+		}
+
+		timeout_effect = {
+			country_event = nic.5
+		}
+	}
+}
+
+NIC_BoP_guardia_nacional = {
+	debug_move_to_autonomy = {
+		visible = {
+			is_debug = yes 
+		}
+
+		complete_effect = {
+			NIC_move_100_towards_autonomy = yes
+		}
+	}
+
+	debug_move_to_control = {
+		visible = {
+			is_debug = yes 
+		}
+
+		complete_effect = {
+			NIC_move_100_towards_control = yes
+		}
+	}
+
+	debug_reset_BOP = {
+		visible = {
+			is_debug = yes 
+		}
+
+		complete_effect = {
+			NIC_reset_balance_of_power = yes
 		}
 	}
 }
