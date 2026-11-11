@@ -7695,4 +7695,40 @@ NIC_BoP_guardia_nacional = {
 			NIC_reset_balance_of_power = yes
 		}
 	}
+
+	NIC_rally_the_soldiers = {
+		icon = GFX_EUYL_some_immigration
+
+		custom_cost_trigger = {
+			command_power > 4
+			has_political_power > 4
+		}
+
+		custom_cost_text = decision_cost_CP_5_PP_5
+
+		visible = {
+			has_completed_focus = NIC_con_el_tacho
+		}
+
+		days_re_enable = 90
+
+		complete_effect = {
+			if = {
+				limit = {
+					has_active_mission = NIC_anastasios_coup_mission
+				}
+				NIC_move_5_towards_autonomy = yes 
+			}
+			else = {
+				NIC_move_5_towards_control = yes
+			}
+
+			custom_effect_tooltip = EUYL_decision_will_reappear_in_90_days_tt
+
+			hidden_effect = {
+				add_political_power = -5
+				add_command_power = -5
+			}
+		}
+	}
 }

@@ -215,7 +215,7 @@ focus_tree = {
 	}
 
 	### POLITICAL TREE ###
-	## Con el Tacho ##
+	## Con el Tacho ## || HISTORICAL
 	focus = {
 		id = NIC_con_el_tacho
 		icon = GFX_NIC_el_tacho_icon
@@ -232,14 +232,280 @@ focus_tree = {
 			has_active_mission = NIC_anastasios_coup_mission
 		}
 
+		bypass = {
+			OR = {
+				has_country_leader = {
+					character = NIC_anastasio_somoza_garcía
+					ruling_only = yes 
+				}
+				has_country_leader = {
+					character = NIC_interim_presidency
+					ruling_only = yes 
+				}
+				has_country_leader = { ## he was a puppet of somoza
+					character = NIC_carlos_brenes_jarquin
+					ruling_only = yes 
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_BALANCE_OF_POWER
+		}
+
+		completion_reward = {
+			add_political_power = 25
+			
+			unlock_decision_tooltip = NIC_rally_the_soldiers
+
+			custom_effect_tooltip = NIC_play_as_somoza_to_overthrow_sacasas_government_tt
+		}
+	}
+
+	## Coordinate with the Guardia Nacional ##
+	focus = {
+		id = NIC_coordinate_with_the_guardia_nacional
+		icon = GFX_focus_INS_evacuate_soldiers_to_australia
+		x = 0
+		y = 1
+		relative_position_id = NIC_con_el_tacho
+		prerequisite = {
+			focus = NIC_con_el_tacho
+		}
+
+		cost = 6
+
+		available = {
+			has_civil_war = no 
+		}
+
+		search_filters = {
+			FOCUS_FILTER_BALANCE_OF_POWER FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = NIC_the_guardia_nacional_ns_intro
+			add_to_variable = {
+				NIC_guardia_nacional_stability_factor_var = 0.02
+				tooltip = stability_factor_tt
+			}
+
+			add_political_power = 10
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			if = {
+				limit = {
+					has_active_mission = NIC_anastasios_coup_mission
+				}
+				country_event = nic.3
+			}
+			else = {
+				NIC_move_5_towards_control = yes
+			}
+		}
+	}
+
+	## Pressure the Press ##
+	focus = {
+		id = NIC_pressure_the_press
+		icon = GFX_focus_generic_printing_press
+		x = 5
+		y = 1
+		relative_position_id = NIC_con_el_tacho
+		prerequisite = { focus = NIC_con_el_tacho }
+
+		cost = 7.2
+
+		available = {
+			has_civil_war = no 
+			OR = {
+				AND = {
+					has_active_mission = NIC_anastasios_coup_mission
+					power_balance_value = {
+						id = NIC_control_over_the_guardia_nacional_bop
+						value < -0.5
+					}
+				}
+				AND = {
+					NOT = { has_active_mission = NIC_anastasios_coup_mission }
+					power_balance_value = {
+						id = NIC_control_over_the_guardia_nacional_bop
+						value > 0.2
+					}
+				}
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		completion_reward = {
+			add_political_power = 25
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = NIC_the_guardia_nacional_ns_intro
+			add_to_variable = {
+				NIC_guardia_nacional_political_power_gain_var = 0.05
+				tooltip = political_power_gain_tt
+			}
+		}
+	}
+
+	## High Rise by the Coast ##
+	focus = {
+		id = NIC_high_rise_by_the_coast
+		icon = GFX_focus_generic_industral_devlopment_bucket
+		x = 3
+		y = 1
+		relative_position_id = NIC_con_el_tacho
+		prerequisite = {
+			focus = NIC_con_el_tacho
+		}
+
+		cost = 8
+
+		available = {
+			1135 = {
+				is_fully_controlled_by = ROOT 
+				NOT = {
+					has_dynamic_modifier = { modifier = BOL_underdeveloped_province }
+				}
+			}
+			power_balance_value = {
+				id = NIC_control_over_the_guardia_nacional_bop
+				value > 0.5
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			1135 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes 
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = NIC_the_guardia_nacional_ns_intro
+			add_to_variable = {
+				NIC_guardia_nacional_industrial_capacity_factory_var = 0.03
+				tooltip = industrial_capacity_factory_tt
+			}
+		}
+	}
+
+	## Support from the Camisas Azules ## || historically a very small group, effects should reflect the small size of this
+	focus = {
+		id = NIC_support_from_the_camisas_azules
+		icon = GFX_NIC_support_from_the_camisas_azules_icon
+		x = -2
+		y = 1
+		relative_position_id = NIC_con_el_tacho
+		prerequisite = {
+			focus = NIC_con_el_tacho
+		}
+
+		cost = 5
+
+		available = {
+			has_civil_war = no 
+		}
+
 		search_filters = {
 			FOCUS_FILTER_POLITICAL
 		}
 
 		completion_reward = {
-			
+			add_popularity = {
+				ideology = fascism 
+				popularity = 0.03
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			if = {
+				limit = {
+					has_active_mission = NIC_anastasios_coup_mission
+				}
+				NIC_move_3_towards_autonomy = yes 
+			}
+			else = {
+				NIC_move_3_towards_control = yes
+			}
 		}
 	}
+
+	## The Elections that Can't be Lost ##
+	focus = {
+		id = NIC_the_elections_that_cant_be_lost
+		icon = GFX_NIC_rigged_elections_icon
+		x = 0
+		y = 1
+		relative_position_id = NIC_coordinate_with_the_guardia_nacional
+		prerequisite = {
+			focus = NIC_coordinate_with_the_guardia_nacional
+		}
+
+		cost = 5.8
+
+		available = {
+			has_country_leader = {
+				character = NIC_carlos_brenes_jarquin
+				ruling_only = yes 
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_BALANCE_OF_POWER
+		}
+
+		completion_reward = {
+			country_event = nic.2 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			NIC_move_5_towards_control = yes
+		}
+	}
+	
+	## Target the Remaining Sandinistas ##
+	# Will unlock decisions to searcht the core states with a chance to find sandinistas and crush them
+	# will slowly improve the dynamic modifier and eventually remove it (but never make it a buff lol)
+	# this will also be the precursos to the fascist path
+	focus = {
+		id = NIC_target_the_remaining_sandinistas
+		icon = GFX_NIC_target_sandinistas_icon
+		x = -3
+		y = 1
+		relative_position_id = NIC_the_elections_that_cant_be_lost
+		prerequisite = {
+			focus = NIC_the_elections_that_cant_be_lost
+		}
+		prerequisite = {
+			focus = NIC_support_from_the_camisas_azules
+		}
+
+		cost = 7.2
+
+		available = {
+			has_army_manpower = {
+				size > 9999
+			}
+			power_balance_value = {
+				id = NIC_control_over_the_guardia_nacional_bop
+				value > 0.25
+			}
+		}
+	}
+
 
 	## By Any Means Necessary ##
 	focus = {

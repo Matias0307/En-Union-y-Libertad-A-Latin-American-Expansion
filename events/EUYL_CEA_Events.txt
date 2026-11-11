@@ -4825,10 +4825,11 @@ country_event = {
 				has_country_flag = NIC_weaker_cw_flag
 			}
 			start_civil_war = {
-				ideology = ROOT 
-				ruling_party = democratic
+				ideology = neutrality 
+				ruling_party = ROOT
 				capital = 1135
 				states = { 1135 }
+				size = 0.8
 				keep_all_characters = yes
 				PREV = {  # Original country
 					NIC_anastasio_somoza_garcía = {
@@ -4840,10 +4841,11 @@ country_event = {
 		}
 		else = {
 			start_civil_war = { 
-				ideology = ROOT 
-				ruling_party = democratic
+				ideology = neutrality 
+				ruling_party = ROOT
 				capital = 1136
 				states = { 1136 1135 }
+				size = 0.8
 				keep_all_characters = yes
 				PREV = {  # Original country
 					NIC_anastasio_somoza_garcía = {
@@ -4853,6 +4855,7 @@ country_event = {
 				promote_character = NIC_anastasio_somoza_garcía
 			}
 		}
+		NIC_reset_balance_of_power = yes
 		if = {
 			limit = {
 				is_ai = yes
@@ -4871,21 +4874,26 @@ country_event = {
 				original_tag = NIC 
 				NOT = { has_government = democratic }
 			}
-			NIC_anastasio_somoza_garcía = {
-				add_corps_commander_role = {
-					skill = 2
-					attack_skill = 1
-					defense_skill = 2
-					planning_skill = 2
-					logistics_skill = 2
+			## TODO: add load_focus_tree to load the thingy mabob
+			if = {
+				limit = {
+					num_of_controlled_states > 1
+				}
+				every_controlled_state = {
+					create_unit = {
+						division = "name = \"Lealistas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+						owner = PREV
+						count = 2
+					}
 				}
 			}
-			## TODO: add load_focus_tree to load the thingy mabob
-			every_controlled_state = {
-				create_unit = {
-					division = "name = \"Lealistas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
-					owner = PREV
-					count = 2
+			else = {
+				every_controlled_state = {
+					create_unit = {
+						division = "name = \"Lealistas\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+						owner = PREV
+						count = 3
+					}
 				}
 			}
 		}
@@ -4906,19 +4914,14 @@ country_event = {
 		}
 		promote_character = NIC_carlos_brenes_jarquin
 
-		if = { ## TODO: add timed idea for transiitionary government or som shi lik that idk tho
+		if = {
 			limit = {
 				has_country_flag = NIC_historical_failed_autonomy_gn_flag
 			}
-
-		}
-
-		custom_effect_tooltip = NIC_anastasio_will_take_control_in_120_days_tt
-		hidden_effect = {
-			country_event = {
-				id = nic.2
-				days = 110
-				random_days = 20
+			clr_country_flag = NIC_historical_failed_autonomy_gn_flag
+			add_timed_idea = {
+				idea = COS_government_in_a_transitionary_phase
+				days = 365 
 			}
 		}
 	}
@@ -4954,12 +4957,19 @@ country_event = {
 
 	option = {
 		name = nic.3.a 
-		add_stability = -0.01
+		if = {
+			limit = {
+				NOT = {
+					has_completed_focus = NIC_con_el_tacho
+				}
+			}
+			add_stability = -0.01
+		}
 		NIC_move_5_towards_autonomy = yes 
 	}
 }
 
-## Somoza Forces Succesfully Captured at Acosaco
+## Somoza Forces Succesfully Captured at Acosasco
 country_event = {
 	id = nic.4
 	title = nic.4.t 
@@ -5018,5 +5028,45 @@ country_event = {
 		name = nic.6.b 
 		add_stability = -0.03
 		add_political_power = -20
+	}
+}
+
+## People take up the Streets to Protest
+country_event = {
+	id = nic.7
+	title = nic.7.t
+	desc = nic.7.d 
+	picture = GFX_report_event_generic_riot
+
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_government = communism }
+		any_controlled_state = {
+			NOT = {
+				has_dynamic_modifier = {
+					modifier = BRA_protests
+				}
+			}
+		}
+	}
+
+	option = { ## TODO: might also make it affect BoP but will think about it
+		name = nic.7.a
+		random_owned_controlled_state = {
+			limit = {
+				NOT = {
+					has_dynamic_modifier = {
+						modifier = BRA_protests
+					}
+				}
+			}
+			add_dynamic_modifier = {
+				modifier = BRA_protests
+				days = 110
+			}
+		}
+		add_political_power = -5
+		add_stability = -0.01
 	}
 }
