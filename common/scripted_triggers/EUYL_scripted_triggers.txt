@@ -453,3 +453,44 @@ EUYL_majors_not_at_war_with_ROOT = {
 	is_major = yes 
 	NOT = { has_war_with = ROOT }
 }
+
+## Nicaragua
+
+NIC_army_is_loyal_to_current_government = {
+	custom_trigger_tooltip = {
+		tooltip = NIC_army_is_loyal_to_current_government_tt
+		OR = {
+			AND = { ## Somoza
+				OR = {
+					has_country_leader = {
+						character = NIC_anastasio_somoza_garcía
+						ruling_only = yes 
+					}
+					has_country_leader = {
+						character = NIC_interim_presidency
+						ruling_only = yes 
+					}
+					has_country_leader = { ## he was a puppet of somoza
+						character = NIC_carlos_brenes_jarquin
+						ruling_only = yes 
+					}
+				}
+				check_variable = {
+					NIC_army_loyalty_var = 0 
+				}
+			}
+			AND = { ## Democrats
+				has_government = democratic 
+				check_variable = {
+					NIC_army_loyalty_var = 1
+				}
+			}
+			AND = { ## Communists
+				has_government = communism 
+				check_variable = {
+					NIC_army_loyalty_var = 2
+				}
+			}
+		}
+	}
+}

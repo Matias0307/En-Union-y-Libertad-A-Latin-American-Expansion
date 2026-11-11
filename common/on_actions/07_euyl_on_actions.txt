@@ -171,6 +171,77 @@ on_actions = {
         }
     }
 
+    on_monthly_NIC = {
+        effect = {
+            if = {
+                limit = {
+                    has_country_flag = HON_active_protests_flag
+                    has_civil_war = no 
+                    NOT = { has_government = communism }
+                }
+                random_list = {
+                    20 = {
+                        modifier = {
+                            factor = 0.5
+                            power_balance_value = {
+                                id = NIC_control_over_the_guardia_nacional_bop
+                                value > 0.5
+                            }
+                        }
+                        modifier = {
+                            factor = 0.7
+                            has_stability > 0.6
+                        }
+                        modifier = {
+                            factor = 1.5 
+                            has_stability < 0.24
+                        }
+                        modifier = {
+                            factor = 0.8
+                            has_defensive_war = yes 
+                        }
+                        modifier = {
+                            factor = 1.5
+                            power_balance_value = {
+                                id = NIC_control_over_the_guardia_nacional_bop
+                                value < -0.5
+                            }
+                        }
+                        modifier = {
+                            factor = 1.5
+                            USA = {
+                                has_opinion = {
+                                    target = ROOT 
+                                    value > 49
+                                }
+                            }
+                        }
+                        modifier = {
+                            factor = 1.1
+                            has_completed_focus = CEA_depend_further_on_the_united_states
+                        }
+                        modifier = { ## just in case
+                            factor = 0
+                            OR = {
+                                NOT = { has_country_flag = HON_active_protests_flag }
+                                has_government = communism
+                                has_civil_war = yes
+                            }
+                        }
+                        country_event = { ## Protests
+                            id = nic.7 
+                            random_days = 3
+                            random_hours = 8
+                        }
+                    }
+                    85 = {
+
+                    }
+                }
+            }
+        }
+    }
+
     on_monthly_HON = {
         effect = {
             if = {
@@ -1858,6 +1929,25 @@ on_actions = {
                 ROOT = {
                     country_event = {
                         id = cos.16 
+                        hours = 8
+                    }
+                }
+            }
+            if = {
+                limit = { ## End of Nicaraguan Rican Civil War (Democratic Victory || Player initiated)
+                    FROM = { original_tag = NIC }
+                    ROOT = {
+                        original_tag = NIC 
+                        has_government = democratic 
+                        OR = {
+                            has_completed_focus = NIC_by_any_means_necessary
+				            has_completed_focus = NIC_abandon_the_guardia_nacional
+                        }
+                    }
+                }
+                ROOT = {
+                    country_event = {
+                        id = nic.6 
                         hours = 8
                     }
                 }
