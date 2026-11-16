@@ -214,6 +214,56 @@ focus_tree = {
 		}
 	}
 
+	## ARMED FORCES BRANCH || ONLY NICARAGUA ##
+	focus = {
+		id = NIC_american_heavy_shipbuilding_techniques
+		icon = GFX_focus_USA_fleet
+		x = 0
+		y = 1
+		relative_position_id = CEA_naval_production
+		prerequisite = {
+			focus = CEA_naval_production
+		}
+
+		cost = 10
+
+		allow_branch = {
+			original_tag = NIC
+		}
+
+		available = {
+			USA = {
+				exists = yes 
+				NOT = { has_war_with = ROOT }
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_NAVY_XP FOCUS_FILTER_RESEARCH
+		}
+
+		completion_reward = {
+			navy_experience = 25
+
+			add_tech_bonus = {
+				name = NIC_american_heavy_shipbuilding_techniques
+				bonus = 1.0
+				uses = 1
+				category = bb_tech
+			}
+			add_tech_bonus = {
+				name = NIC_american_heavy_shipbuilding_techniques
+				bonus = 1.0
+				uses = 2
+				category = ca_tech	
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			EUYL_add_1_dockyard = yes
+		}
+	}
+
 	### POLITICAL TREE ###
 	## Con el Tacho ## || HISTORICAL
 	focus = {
@@ -259,6 +309,42 @@ focus_tree = {
 			unlock_decision_tooltip = NIC_rally_the_soldiers
 
 			custom_effect_tooltip = NIC_play_as_somoza_to_overthrow_sacasas_government_tt
+		}
+	}
+
+	## Establish Price Controls ##
+	focus = {
+		id = NIC_establish_price_controls
+		icon = GFX_focus_generic_price_controls
+		x = 8
+		y = 1
+		relative_position_id = NIC_con_el_tacho
+		prerequisite = {
+			focus = NIC_con_el_tacho
+			focus = NIC_by_any_means_necessary
+		}
+
+		cost = 7.2
+
+		available = {
+			has_civil_war = no 
+			num_of_available_civilian_factories > 0
+		}
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			add_timed_idea = {
+				idea = NIC_establish_price_controls_idea
+				days = 365
+			}
+
+			custom_effect_tooltip = EUYL_effect_when_removed_tt
+			effect_tooltip = {
+				EUYL_add_2_civilian = yes
+			}
 		}
 	}
 
@@ -346,7 +432,7 @@ focus_tree = {
 
 			custom_effect_tooltip = NIC_the_guardia_nacional_ns_intro
 			add_to_variable = {
-				NIC_guardia_nacional_political_power_gain_var = 0.05
+				NIC_guardia_nacional_political_power_gain_var = 0.1
 				tooltip = political_power_gain_tt
 			}
 		}
@@ -473,6 +559,19 @@ focus_tree = {
 			custom_effect_tooltip = CHL_skip_one_line_tt
 
 			NIC_move_5_towards_control = yes
+			add_political_power = 50
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = NIC_perform_a_national_speech
+
+			hidden_effect = {
+				country_event = {
+					id = nic.9 
+					days = 60
+					random_days = 60
+				}
+			}
 		}
 	}
 	
@@ -493,7 +592,7 @@ focus_tree = {
 			focus = NIC_support_from_the_camisas_azules
 		}
 
-		cost = 7.2
+		cost = 10
 
 		available = {
 			has_army_manpower = {
@@ -504,8 +603,492 @@ focus_tree = {
 				value > 0.25
 			}
 		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_BALANCE_OF_POWER
+		}
+
+		completion_reward = {
+			unlock_decision_tooltip = NIC_perform_a_search_in_FROM_to_eliminate_sandinistas
+
+			custom_effect_tooltip = NIC_removing_sandinistas_in_all_three_starting_nicaraguan_states_will_remove_sandinista_ns_tt
+
+			custom_effect_tooltip = NIC_effects_that_will_take_place_once_all_sandinistas_removed_tt
+			effect_tooltip = {
+				remove_dynamic_modifier = {
+					modifier = NIC_the_spirit_of_sandino
+				}
+				add_popularity = {
+					ideology = communism
+					popularity = -0.1
+				}
+				custom_effect_tooltip = NIC_the_guardia_nacional_ns_intro
+				add_to_variable = {
+					NIC_guardia_nacional_stability_factor_var = 0.1
+					tooltip = stability_factor_tt
+				}
+				add_to_variable = {
+					NIC_guardia_nacional_political_power_gain_var = 0.1
+					tooltip = political_power_gain_tt
+				}
+				custom_effect_tooltip = CHL_skip_one_line_tt
+
+				NIC_move_15_towards_control = yes
+			}
+		}
 	}
 
+	## Tighter control over the country ## || increases pp gain and bop
+	focus = {
+		id = NIC_tighter_control_over_the_country
+		icon = GFX_NIC_control_over_country_icon
+		x = 0
+		y = 1
+		relative_position_id = NIC_target_the_remaining_sandinistas
+		prerequisite = {
+			focus = NIC_target_the_remaining_sandinistas
+		}
+
+		cost = 7.2
+
+		available = {
+			NOT = {
+				has_dynamic_modifier = {
+					modifier = NIC_the_spirit_of_sandino
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_BALANCE_OF_POWER FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_popularity = {
+				ideology = neutrality
+				popularity = 0.05
+			}
+			add_political_power = 40
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			NIC_move_10_towards_control = yes
+		}
+	}
+
+	## Develop New Training Programs ## || unlocks the local training programs (under GN dec cat) and push bop slightly lol
+	focus = {
+		id = NIC_develop_new_training_programs
+		icon = GFX_NIC_develop_GN_icon
+		x = 1
+		y = 1
+		relative_position_id = NIC_the_elections_that_cant_be_lost
+		prerequisite = {
+			focus = NIC_the_elections_that_cant_be_lost
+		}
+
+		cost = 7.2
+
+		available = {
+			num_divisions > 2
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ARMY_XP FOCUS_FILTER_INDUSTRY FOCUS_FILTER_BALANCE_OF_POWER FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			NIC_move_5_towards_control = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = NIC_the_guardia_nacional_ns_intro
+			add_to_variable = {
+				NIC_guardia_nacional_army_attack_factor_var = 0.01
+				tooltip = army_attack_factor_tt
+			}
+			add_to_variable = {
+				NIC_guardia_nacional_army_defence_factor_var = 0.01
+				tooltip = army_defence_factor_tt
+			}
+			add_to_variable = {
+				NIC_guardia_nacional_conscription_var = 0.005
+				tooltip = conscription_tt
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = NIC_unlock_decisions_to_deploy_local_military_training_programs_tt
+		}
+	}
+
+	## Expand the Guardia Nacional ##
+	focus = {
+		id = NIC_expand_the_guardia_nacional
+		icon = GFX_focus_generic_full_social_mobilization
+		x = 0
+		y = 1
+		relative_position_id = NIC_develop_new_training_programs
+		prerequisite = {
+			focus = NIC_develop_new_training_programs
+		}
+
+		cost = 10
+
+		available = {
+			power_balance_value = {
+				id = NIC_control_over_the_guardia_nacional_bop
+				value > 0.5
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_MANPOWER FOCUS_FILTER_BALANCE_OF_POWER
+		}
+
+		completion_reward = {
+			NIC_move_5_towards_control = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = NIC_the_guardia_nacional_ns_intro
+			add_to_variable = {
+				NIC_guardia_nacional_conscription_var = 0.05
+				tooltip = conscription_tt
+			}
+		}
+	}
+
+	## The Nicaraguan Military industry ##
+	focus = {
+		id = NIC_the_nicaraguan_military_industry
+		icon = GFX_focus_generic_military_industry
+		x = 2
+		y = 1
+		relative_position_id = NIC_develop_new_training_programs
+		prerequisite = {
+			focus = NIC_develop_new_training_programs
+		}
+
+		cost = 10
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY FOCUS_FILTER_BALANCE_OF_POWER
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = NIC_effects_of_this_focus_are_determined_by_your_control_over_the_GN_tt
+			if = {
+				limit = {
+					power_balance_value = {
+						id = NIC_control_over_the_guardia_nacional_bop
+						value > 0.8
+					}
+				}
+				EUYL_add_2_military = yes 
+				EUYL_add_1_military = yes 
+			}
+			else_if = {
+				limit = {
+					power_balance_value = {
+						id = NIC_control_over_the_guardia_nacional_bop
+						value > 0.45
+					}
+				}
+				EUYL_add_2_military = yes 
+			}
+			else = {
+				EUYL_add_1_military = yes 
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			NIC_move_10_towards_control = yes
+		}
+	}
+
+	## Seek Closer Ties with [USA.GetName] ##
+	focus = {
+		id = NIC_seek_closer_ties_to_usa
+		icon = GFX_focus_chi_mission_to_the_us
+		x = 6
+		y = 1
+		relative_position_id = NIC_the_elections_that_cant_be_lost
+		prerequisite = {
+			focus = NIC_the_elections_that_cant_be_lost
+		}
+
+		cost = 5
+
+		available = {
+			NOT = { has_war_with = USA }
+			USA = { exists = yes }
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL FOCUS_FILTER_BALANCE_OF_POWER
+		}
+
+		completion_reward = {
+			add_political_power = 30
+
+			NIC_move_5_towards_control = yes
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			USA = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = small_increase
+				}
+			}
+			add_opinion_modifier = {
+				target = USA
+				modifier = small_increase
+			}
+		}
+	}
+
+	## A Visit from [USA.GetLeader] (Franlkin Delano Roosevelt) ##
+	focus = {
+		id = NIC_a_visit_from_usa_getleader
+		icon = GFX_focus_USA_uncle_sam
+		x = 0
+		y = 2
+		relative_position_id = NIC_seek_closer_ties_to_usa
+		prerequisite = {
+			focus = NIC_seek_closer_ties_to_usa
+		}
+
+		cost = 8
+
+		available = {
+			USA = {
+				exists = yes 
+				has_government = democratic
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = NIC_the_guardia_nacional_ns_intro
+			add_to_variable = {
+				NIC_guardia_nacional_political_power_gain_var = 0.03
+				tooltip = political_power_gain_tt
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			country_event = uruguay.6
+		}
+	}
+
+	## Assist the Civilian Economy ##
+	focus = {
+		id = NIC_assist_the_civilian_economy
+		icon = GFX_focus_generic_industry_3
+		x = -1
+		y = 1
+		relative_position_id = NIC_seek_closer_ties_to_usa
+		prerequisite = {
+			focus = NIC_seek_closer_ties_to_usa
+		}
+
+		cost = 8
+
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+
+		completion_reward = {
+			EUYL_add_1_civilian = yes 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			custom_effect_tooltip = NIC_the_guardia_nacional_ns_intro
+			add_to_variable = {
+				NIC_guardia_nacional_industrial_capacity_factory_var = 0.05
+				tooltip = industrial_capacity_factory_tt
+			}
+		}
+	}
+
+	## Amend the Constitution ##
+	focus = {
+		id = NIC_amend_the_constitution
+		icon = GFX_NIC_amend_constitution_icon
+		x = 0
+		y = 3
+		relative_position_id = NIC_the_elections_that_cant_be_lost
+		prerequisite = {
+			focus = NIC_the_elections_that_cant_be_lost
+		}
+
+		cost = 8
+
+		available = {
+			power_balance_value = {
+				id = NIC_control_over_the_guardia_nacional_bop
+				value > 0.4
+			}
+			custom_trigger_tooltip = {
+				tooltip = NIC_guardia_nacional_is_loyal_to_our_government_tt
+				check_variable = {
+					NIC_army_loyalty_var = 0
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_BALANCE_OF_POWER FOCUS_FILTER_HISTORICAL
+		}
+
+		completion_reward = {
+			add_political_power = 50 
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+			
+			custom_effect_tooltip = NIC_the_guardia_nacional_ns_intro
+			add_to_variable = {
+				NIC_guardia_nacional_stability_factor_var = 0.07
+				tooltip = stability_factor_tt
+			}
+			add_to_variable = {
+				NIC_guardia_nacional_political_power_gain_var = 0.05
+				tooltip = political_power_gain_tt
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			unlock_decision_tooltip = NIC_oversee_the_guardia_nacional
+
+			set_politics = {
+				ruling_party = ROOT 
+				elections_allowed = yes 
+				last_election = "1936.05.01"
+				election_frequency = 132
+			}
+		}
+	}
+
+	## El Territorio es Nuestro ##
+	focus = {
+		id = NIC_el_territorio_es_nuestro
+		icon = GFX_EUYL_attack_honduras
+		x = -1
+		y = 1
+		relative_position_id = NIC_amend_the_constitution
+		prerequisite = {
+			focus = NIC_amend_the_constitution
+		}
+		mutually_exclusive = {
+			focus = NIC_sign_a_peace_pact_with_honduras
+		}
+
+		cost = 7.2
+
+		available = {
+			OR = {
+				has_army_manpower = {
+					size > 44999
+				}
+				num_divisions > 6
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+
+		completion_reward = {
+			if = {
+				limit = {
+					HON = {
+						exists = yes 
+						NOT = { is_subject_of = ROOT }
+					}
+				}
+				create_wargoal = {
+					target = HON 
+					type = annex_everything
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			312 = { add_core_of = ROOT }
+			1134 = { add_core_of = ROOT }
+		}
+	}
+
+	## Sign a Peace Pact with Honduras ##
+	focus = {
+		id = NIC_sign_a_peace_pact_with_honduras
+		icon = GFX_EUYL_ally_honduras
+		x = 1
+		y = 1
+		relative_position_id = NIC_amend_the_constitution
+		prerequisite = {
+			focus = NIC_amend_the_constitution
+		}
+		mutually_exclusive = {
+			focus = NIC_el_territorio_es_nuestro
+		}
+
+		cost = 7.2
+
+		available = {
+			HON = {
+				exists = yes 
+				NOT = {
+					has_war_with = ROOT
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT
+		}
+
+		completion_reward = {
+			add_war_support = 0.03
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			add_opinion_modifier = {
+				target = HON
+				modifier = CHL_strengthened_ties
+			}
+			HON = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = CHL_strengthened_ties
+				}
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			give_guarantee = HON 
+
+			custom_effect_tooltip = NIC_if_HON_is_in_league_of_cea_dictators_wont_intervene_tt
+		}
+	}
+
+	## Benemerito de la Patria ## || FASCIST PATH || personality cult basically
+	focus = {
+		id = NIC_benemerito_de_la_patria
+		icon = GFX_NIC_fasicst_tacho_icon
+		x = -6
+		y = 1
+		relative_position_id = NIC_el_territorio_es_nuestro
+		prerequisite = {
+			focus = NIC_el_territorio_es_nuestro
+		}
+		prerequisite = {
+			focus = NIC_tighter_control_over_the_country
+		}
+	}
 
 	## By Any Means Necessary ##
 	focus = {
