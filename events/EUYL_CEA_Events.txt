@@ -910,6 +910,14 @@ country_event = {
 				}
 				original_tag = GUA
 			}
+			modifier = {
+				factor = 0
+				FROM = {
+					original_tag = NIC 
+					has_completed_focus = NIC_sign_a_peace_pact_with_honduras
+				}
+				original_tag = HON
+			}
 		}
 		add_war_support = 0.03
 		create_wargoal = {
@@ -5051,7 +5059,7 @@ country_event = {
 		}
 	}
 
-	option = { ## TODO: might also make it affect BoP but will think about it
+	option = {
 		name = nic.7.a
 		random_owned_controlled_state = {
 			limit = {
@@ -5068,5 +5076,366 @@ country_event = {
 		}
 		add_political_power = -5
 		add_stability = -0.01
+
+		if = {
+			limit = {
+				has_country_flag = NIC_worsened_protests_flag
+			}
+			NIC_move_5_towards_autonomy = yes
+		}
+	}
+}
+
+## Sandinista Guerrilla Base located 
+country_event = {
+	id = nic.700
+	title = nic.700.t 
+	desc = nic.700.d 
+	picture = GFX_VEN_revolutionaries_arming_up
+
+	is_triggered_only = yes 
+
+	option = {
+		name = nic.700.a 
+
+		add_popularity = {
+			ideology = communism 
+			popularity = -0.01
+		}
+
+		custom_effect_tooltip = NIC_the_spirit_of_sandino_ns_intro
+		add_to_variable = {
+			NIC_the_spirit_of_sandino_consumer_goods_factor_var = -0.02
+			tooltip = consumer_goods_factor_tt
+		}
+		add_to_variable = {
+			NIC_the_spirit_of_sandino_bop_weekly_var = 0.003
+			tooltip = power_balance_weekly_tt
+		}
+
+		custom_effect_tooltip = NIC_the_guardia_nacional_ns_intro
+		add_to_variable = {
+			NIC_guardia_nacional_stability_factor_var = 0.01
+			tooltip = stability_factor_tt
+		}
+		add_to_variable = {
+			NIC_guardia_nacional_political_power_gain_var = 0.01
+			tooltip = political_power_gain_tt
+		}
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		NIC_move_3_towards_control = yes 
+		add_political_power = 10
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		if = {
+			limit = {
+				NOT = {
+					any_controlled_state = {
+						has_state_flag = NIC_starting_state_flag
+						NOT = { has_state_flag = NIC_sandinistas_already_eliminated_here_flag }
+					}
+				}
+			}
+			remove_dynamic_modifier = {
+				modifier = NIC_the_spirit_of_sandino
+			}
+			add_popularity = {
+				ideology = communism
+				popularity = -0.1
+			}
+
+			custom_effect_tooltip = NIC_the_guardia_nacional_ns_intro
+			add_to_variable = {
+				NIC_guardia_nacional_stability_factor_var = 0.1
+				tooltip = stability_factor_tt
+			}
+			add_to_variable = {
+				NIC_guardia_nacional_political_power_gain_var = 0.1
+				tooltip = political_power_gain_tt
+			}
+
+			custom_effect_tooltip = CHL_skip_one_line_tt
+
+			NIC_move_15_towards_control = yes
+		}
+	}
+}
+
+## Failed Search in [FROM.FROM.GetName] 
+country_event = {
+	id = nic.8
+	title = nic.8.t 
+	desc = nic.8.d 
+	picture = GFX_PAR_agitated_right_wing_event
+
+	is_triggered_only = yes 
+
+	option = {
+		name = nic.8.a 
+
+		add_political_power = -5
+
+		if = {
+			limit = {
+				FROM.FROM = {
+					NOT = {
+						has_dynamic_modifier = { modifier = BRA_protests }
+					}
+				}
+			}
+			FROM.FROM = {
+				add_dynamic_modifier = {
+					modifier = BRA_protests
+					days = 60
+				}
+			}
+		}
+	}
+}
+
+## Agitated Opposition ## || opposition gets mad at current government
+country_event = {
+	id = nic.9
+	title = nic.9.t 
+	desc = nic.9.d 
+	picture = GFX_report_event_generic_riot
+
+	is_triggered_only = yes 
+
+	option = {
+		name = nic.9.a 
+
+		set_country_flag = NIC_worsened_protests_flag ## also used as trigger for event
+
+		add_political_power = -5
+		add_stability = -0.01
+
+		custom_effect_tooltip = CHL_skip_one_line_tt
+
+		if = {
+			limit = {
+				OR = {
+					has_country_leader = {
+						character = NIC_anastasio_somoza_garcía
+						ruling_only = yes 
+					}
+					has_country_leader = {
+						character = NIC_interim_presidency
+						ruling_only = yes 
+					}
+					has_country_leader = { ## he was a puppet of somoza
+						character = NIC_carlos_brenes_jarquin
+						ruling_only = yes 
+					}
+				}
+			}
+			NIC_move_5_towards_autonomy = yes
+
+			custom_effect_tooltip = NIC_the_spirit_of_sandino_ns_intro
+			add_to_variable = {
+				NIC_the_spirit_of_sandino_bop_weekly_var = -0.009
+				tooltip = power_balance_weekly_tt
+			}
+		}
+
+		custom_effect_tooltip = NIC_if_stability_drops_below_10_GN_loyalty_will_be_towards_the_liberals_tt
+	}
+}
+
+## GN displeased with our Administration ##
+country_event = {
+	id = nic.10
+	title = nic.10.t
+	desc = nic.10.d 
+
+	is_triggered_only = yes 
+
+	trigger = { NIC_army_is_loyal_to_current_government = yes }
+
+	option = {
+		name = nic.10.a 
+
+		set_country_flag = NIC_GN_displeased_flag
+
+		custom_effect_tooltip = NIC_GN_will_now_be_loyal_to_the_liberals_tt
+		if = {
+			limit = {
+				OR = {
+					has_country_leader = {
+						character = NIC_anastasio_somoza_garcía
+						ruling_only = yes 
+					}
+					has_country_leader = {
+						character = NIC_interim_presidency
+						ruling_only = yes 
+					}
+					has_country_leader = { ## he was a puppet of somoza
+						character = NIC_carlos_brenes_jarquin
+						ruling_only = yes 
+					}
+				}
+			}
+			set_variable = { NIC_army_loyalty_var = 1 } ## Liberals = 1
+		}
+		else = {
+			set_variable = { NIC_army_loyalty_var = 0 } ## Somoza = 0
+		}
+		NIC_determine_bop_weekly = yes
+	}
+}
+
+## Nicaraguan Civil war ##
+country_event = {
+	id = nic.11
+	title = nic.11.t 
+	desc = nic.11.d 
+	picture = GFX_NIC_nicaraguan_army
+
+	is_triggered_only = yes 
+
+	option = {
+		name = nic.11.a 
+
+		effect_tooltip = {
+			if = {
+				limit = {
+					OR = {
+						has_government = neutrality
+						has_government = fascism
+					}
+				}
+				start_civil_war = {
+					ideology = democratic
+				}
+			}
+			else = {
+				start_civil_war = {
+					ideology = neutrality
+				}
+			}
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_template = "Milicias"
+					}
+				}
+				division_template = { 
+					name = "Milicias" 
+					division_names_group = SPAN_INF_02 
+					template_counter = 3
+					is_locked = yes 
+					regiments = { 
+						infantry = { x = 0 y = 0 }  
+						infantry = { x = 0 y = 1 } 
+						infantry = { x = 0 y = 2 } 
+					}
+				}
+			}
+			hidden_effect = {
+				clr_country_flag = HON_active_protests_flag ## to remove protests, a civil war is the epiphany of that lol
+                every_controlled_state = {
+                    limit = {
+                        has_dynamic_modifier = {
+                            modifier = BRA_protests
+                        }
+                    }
+                    remove_dynamic_modifier = {
+                        modifier = BRA_protests
+                    }
+                }
+            }
+			if = {
+				limit = {
+					OR = {
+						has_government = neutrality
+						has_government = fascism 
+					}
+				}
+				add_country_leader_role = {
+					character = NIC_guardia_nacional
+					promote_leader = no
+					country_leader = {
+						ideology = liberalism
+						expire = "1965.1.1.1"
+					}
+				}
+				start_civil_war = {
+					ideology = democratic 
+					size = 0.4
+					keep_all_characters = yes 
+					PREV = {
+						NIC_guardia_nacional = {
+							set_nationality = prev.PREV 
+						}
+					}
+					promote_character = NIC_guardia_nacional
+				}
+			}
+			else = {
+				add_country_leader_role = {
+					character = NIC_guardia_nacional
+					promote_leader = no
+					country_leader = {
+						ideology = despotism
+						expire = "1965.1.1.1"
+					}
+				}
+				start_civil_war = {
+					ideology = neutrality 
+					size = 0.4
+					keep_all_characters = yes 
+					PREV = {
+						NIC_guardia_nacional = {
+							set_nationality = prev.PREV 
+						}
+					}
+					promote_character = NIC_guardia_nacional
+				}
+			}
+			if = {
+				limit = {
+					is_ai = yes
+				}
+				add_ideas = EUYL_chaos_civil_war_help
+			}
+			random_owned_controlled_state = {
+				create_unit = {
+                    division = "name = \"Milicias\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+                    owner = ROOT
+                    count = 2
+                }
+			}
+			NIC_reset_balance_of_power = yes
+			random_other_country = {
+				limit = {
+					original_tag = NIC 
+					has_country_leader = {
+						character = NIC_guardia_nacional
+						ruling_only = yes
+					}
+				}
+				NIC_guardia_nacional = {
+                    add_corps_commander_role = {
+                        skill = 2
+                        attack_skill = 1
+                        defense_skill = 2
+                        planning_skill = 2
+                        logistics_skill = 2
+                    }
+                }
+				every_controlled_state = {
+					create_unit = {
+						division = "name = \"Milicias\" division_template = \"Milicias\" start_experience_factor = 0.02 start_equipment_factor = 0.9" 
+						owner = PREV
+						count = 4
+					}
+				}
+			}
+		}
 	}
 }

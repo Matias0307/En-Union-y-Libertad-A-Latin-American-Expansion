@@ -5579,6 +5579,10 @@ COS_crackdown_on_fascism = {
 
 		ai_will_do = {
 			base = 200
+			modifier = {
+				factor = 2
+				has_completed_focus = COS_crush_the_fascists
+			}
 		}
 
 		fire_only_once = yes
@@ -6198,6 +6202,38 @@ COS_the_leap_forward = {
 			country_event = cos.5
 		}
 	}
+
+	CEA_delay_the_revolution  = {
+		icon = generic_operation
+
+		cost = 10
+
+		available = {
+			has_active_mission = COS_the_great_leap_forward_mis
+		}
+
+		visible = {
+			OR = {
+				has_completed_focus = COS_with_the_revolution
+				has_completed_focus = COS_change_in_a_different_way
+			}
+		}
+
+		ai_will_do = {
+			base = 125
+		}
+
+		days_re_enable = 90
+
+		complete_effect = {
+			add_days_mission_timeout = {
+				mission = COS_the_great_leap_forward_mis
+				days = 35
+			}
+			custom_effect_tooltip = EUYL_decision_will_reappear_in_90_days_tt
+		}
+	}
+
 	## DECISION SET RELATED TO CARMEN LYRA (REVOLUTION)
 	COS_disrupt_government_functionality_in_FROM = {
 		icon = generic_confiscation
@@ -6543,7 +6579,7 @@ COS_the_leap_forward = {
 			custom_trigger_tooltip = {
 				tooltip = COS_revolution_support_below_30_tt
 				check_variable = {
-					COS_support_for_the_revolution_var < 29
+					COS_support_for_the_revolution_var < 30
 				}
 			}
 		}
@@ -7729,6 +7765,242 @@ NIC_BoP_guardia_nacional = {
 				add_political_power = -5
 				add_command_power = -5
 			}
+		}
+	}
+
+	NIC_perform_a_national_speech = {
+		icon = generic_speech 
+
+		cost = 15
+
+		visible = {
+			has_completed_focus = NIC_the_elections_that_cant_be_lost
+		}
+
+		days_re_enable = 90 
+
+		complete_effect = {
+			NIC_move_5_towards_control = yes 
+
+			custom_effect_tooltip = EUYL_decision_will_reappear_in_90_days_tt
+		}
+	}
+
+	NIC_oversee_the_guardia_nacional = {
+		icon = generic_military
+
+		custom_cost_text = decision_cost_15_army_xp
+
+		custom_cost_trigger = {
+			has_army_experience > 14
+		}
+
+		visible = {
+			has_completed_focus = NIC_amend_the_constitution
+		}
+
+		days_re_enable = 90
+
+		complete_effect = {
+			NIC_move_5_towards_control = yes 
+
+			custom_effect_tooltip = EUYL_decision_will_reappear_in_90_days_tt
+			
+			hidden_effect = {
+				army_experience = -15
+			}
+		}
+	}
+
+	NIC_develop_a_local_military_training_program_in_FROM = {
+		icon = generic_military
+
+		state_target = yes 
+
+		target_array = controlled_states 
+
+		target_trigger = {
+			FROM = {
+				state_population_k > 250
+			}
+		}
+
+		visible = {
+			has_completed_focus = NIC_develop_new_training_programs
+		}
+
+		fire_only_once = yes 
+
+		on_map_mode = map_and_decisions_view
+
+		cost = 35
+
+		complete_effect = {
+			FROM = {
+				add_dynamic_modifier = {
+					modifier = NIC_military_training_program_state_modifier
+					days = 1265
+				}
+			}
+			NIC_move_5_towards_control = yes
+		}
+	}
+}
+
+NIC_what_sandino_left_behind = {
+	NIC_perform_a_search_in_FROM_to_eliminate_sandinistas = {
+		icon = GFX_decisions_generic_counter_infiltration
+
+		custom_cost_text = decision_cost_CP_5_pp_25
+
+		custom_cost_trigger = {
+			command_power > 4
+			has_political_power > 24
+		}
+
+		visible = {
+			has_completed_focus = NIC_target_the_remaining_sandinistas
+		}
+
+		state_target = yes 
+
+		target_array = controlled_states 
+
+		target_trigger = {
+			FROM = {
+				has_state_flag = NIC_starting_state_flag
+				NOT = {
+					has_state_flag = NIC_sandinistas_already_eliminated_here_flag
+				}
+			}
+		}
+
+		available = {
+			FROM = {
+				NOT = {
+					has_state_flag = NIC_sandinistas_already_eliminated_here_flag
+				}
+			}
+		}
+
+		days_re_enable = 60
+
+		complete_effect = {
+			hidden_effect = {
+				add_command_power = -5
+				add_political_power = -25
+			}
+
+			set_temp_variable = { NIC_chance_locate_var = 20 }
+			set_temp_variable = { NIC_chance_NOT_locate_var = 80 }
+
+			custom_effect_tooltip = NIC_chances_of_locating_the_sandinistas_here_are_determined_by_the_following_tt
+
+			if = {
+				limit = {
+					power_balance_value = {
+						id = NIC_control_over_the_guardia_nacional_bop
+						value > 0.4
+					}
+				}
+				add_to_temp_variable = { NIC_chance_locate_var = 10 }
+				subtract_from_temp_variable = { NIC_chance_NOT_locate_var = 10 }
+			}
+			if = {
+				limit = {
+					power_balance_value = {
+						id = NIC_control_over_the_guardia_nacional_bop
+						value > 0.8
+					}
+				}
+				add_to_temp_variable = { NIC_chance_locate_var = 15 }
+				subtract_from_temp_variable = { NIC_chance_NOT_locate_var = 15 }
+			}
+			if = {
+				limit = {
+					has_intelligence_agency = yes
+				}
+				add_to_temp_variable = { NIC_chance_locate_var = 15 }
+				subtract_from_temp_variable = { NIC_chance_NOT_locate_var = 15 }
+			}
+			if = {
+				limit = {
+					divisions_in_state = {
+						size > 1
+						state = FROM
+					}
+				}
+				add_to_temp_variable = { NIC_chance_locate_var = 10 }
+				subtract_from_temp_variable = { NIC_chance_NOT_locate_var = 10 }
+			}
+			
+			if = {
+				limit = {
+					divisions_in_state = {
+						size > 3
+						state = FROM
+					}
+				}
+				add_to_temp_variable = { NIC_chance_locate_var = 15 }
+				subtract_from_temp_variable = { NIC_chance_NOT_locate_var = 15 }
+			}
+
+			if = {
+				limit = {
+					FROM = {
+						has_dynamic_modifier = {
+							modifier = NIC_military_training_program_state_modifier
+						}
+					}
+				}
+				add_to_temp_variable = { NIC_chance_locate_var = 15 }
+				subtract_from_temp_variable = { NIC_chance_NOT_locate_var = 15 }
+			}
+
+			random_list = {
+				NIC_chance_locate_var = {
+					country_event = nic.700
+					hidden_effect = {
+						FROM = {
+							set_state_flag = NIC_sandinistas_already_eliminated_here_flag
+						}
+					}
+				}
+				NIC_chance_NOT_locate_var = {
+					country_event = nic.8
+				}
+			}
+
+			custom_effect_tooltip = EUYL_decision_will_reappear_in_60_days_tt
+		}
+	}
+}
+
+NIC_loyalty_of_the_guardia_nacional = {
+	NIC_looming_guardia_nacional_revolt = {
+		icon = generic_ignite_civil_war
+
+		activation = { always = no }
+
+		days_mission_timeout = 365
+
+		cancel_trigger = { has_civil_war = yes }
+
+		available = {
+			is_power_balance_in_range = {
+				id = NIC_control_over_the_guardia_nacional_bop
+				range > NIC_slightly_autonomous
+			}
+		}
+
+		complete_effect = {
+			add_stability = 0.03
+			add_political_power = 20
+			NIC_move_3_towards_control = yes 
+		}
+
+		timeout_effect = {
+			country_event = nic.11 ## Civil war
 		}
 	}
 }

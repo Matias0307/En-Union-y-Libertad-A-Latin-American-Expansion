@@ -36,6 +36,15 @@ NIC_control_over_the_guardia_nacional_bop = {
 					side = NIC_autonomous_guardia_nacional_side
 					gfx = GFX_bop_CZE_army_readiness_bad_improved_side
 				}
+				## Generic civil war
+				if = {
+					limit = {
+						NOT = { NIC_army_is_loyal_to_current_government = yes }
+						NOT = { has_active_mission = NIC_looming_guardia_nacional_revolt }
+						has_civil_war = no
+					}
+					activate_mission = NIC_looming_guardia_nacional_revolt
+				}
 			}
 
 			on_deactivate = {
@@ -93,6 +102,29 @@ NIC_control_over_the_guardia_nacional_bop = {
 					id = NIC_control_over_the_guardia_nacional_bop
 					side = NIC_controlling_guardia_nacional_side
 					gfx = GFX_NIC_BoP_army_control_max_side
+				}
+
+				if = {
+					limit = {
+						has_country_flag = NIC_GN_displeased_flag
+						OR = {
+							has_country_leader = {
+								character = NIC_anastasio_somoza_garcía
+								ruling_only = yes 
+							}
+							has_country_leader = {
+								character = NIC_interim_presidency
+								ruling_only = yes 
+							}
+							has_country_leader = { ## he was a puppet of somoza
+								character = NIC_carlos_brenes_jarquin
+								ruling_only = yes 
+							}
+						}
+					}
+					set_variable = { NIC_army_loyalty_var = 0 } ## Somoza = 0
+					clr_country_flag = NIC_GN_displeased_flag
+					NIC_determine_bop_weekly = yes
 				}
 			}
 
